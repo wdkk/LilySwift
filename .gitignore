@@ -1,0 +1,13 @@
+.DS_Store
+
+html/
+
+build/
+_build/
+_lib/
+_app/
+
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcworkspace/contents.xcworkspacedata
+UserInterfaceState.xcuserstate
