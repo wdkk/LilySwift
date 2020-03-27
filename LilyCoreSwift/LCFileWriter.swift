@@ -174,8 +174,9 @@ public func LCFileWriterWriteChars( _ writer:LCFileWriterSmPtr, _ chars:LLConstC
 /// - Returns: true = 成功, false = 失敗
 @discardableResult
 public func LCFileWriterWriteText( _ writer:LCFileWriterSmPtr, _ cstr:LCStringSmPtr ) -> Bool {
-    let opaque_ptr = OpaquePointer( LCStringToCChars( cstr ) )
-    let nnui8ptr = LLNonNullUInt8Ptr( opaque_ptr )
+    //let opaque_ptr = OpaquePointer( LCStringToCChars( cstr ) )
+    //let nnui8ptr = LLNonNullUInt8Ptr( opaque_ptr )
+    let nnui8ptr = unsafeBitCast( LCStringToCChars( cstr ), to: LLNonNullUInt8Ptr.self )
     return writer.fwi.write( nnui8ptr, LCStringByteLength( cstr ).i64 )
 }
 

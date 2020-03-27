@@ -98,7 +98,7 @@ public extension LCImageLoaderInternal
         var tga_x = (x_origin > 0) ? 0 : wid - 1
         var tga_y = (y_origin > 0) ? 0 : hgt - 1
         // x方向ループスキャンごとに用いるx初期値
-        var tga_xs = tga_x
+        let tga_xs = tga_x
         
         // 色深度のチェック
         if depth == 32 {
@@ -121,7 +121,7 @@ public extension LCImageLoaderInternal
                 LCFileReaderRead( fr, tga_mem, (wid * hgt * 4).i64 )    
             }
             
-            var tga_ptr = tga_mem
+            let tga_ptr = tga_mem
             for y in 0 ..< hgt {
                 tga_x = tga_xs
                 for x in 0 ..< wid {
@@ -151,7 +151,7 @@ public extension LCImageLoaderInternal
                 LCFileReaderRead( fr, tga_mem, (wid * hgt * 3).i64 )    
             }
             
-            var tga_ptr = tga_mem
+            let tga_ptr = tga_mem
             for y in 0 ..< hgt {
                 tga_x = tga_xs
                 for x in 0 ..< wid {

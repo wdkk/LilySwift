@@ -34,7 +34,7 @@ public final class LBTriangleDecoration : LBDecoration, LBDecorationCustomizable
             obj.me.updateDeltaParams( &(obj.me.storage.params), count:obj.me.storage.params.count )
             
             guard let mtlbuf_params = LLMetalManager.device?.makeBuffer(
-                bytes: UnsafeMutablePointer( mutating: obj.me.storage.params ),
+                bytes: &obj.me.storage.params,
                 length: MemoryLayout<LBTriangleParam>.stride * obj.me.storage.params.count ) else { return }
             
             let encoder = obj.args

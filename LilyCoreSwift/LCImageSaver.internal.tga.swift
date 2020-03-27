@@ -59,7 +59,7 @@ public extension LCImageSaverInternal
         var tga_x  = (x_origin > 0) ? 0 : wid - 1
         var tga_y  = (y_origin > 0) ? 0 : hgt - 1
         // x方向ループスキャンごとに用いるx初期値
-        var tga_xs = tga_x
+        let tga_xs = tga_x
 
         // [32bit 無圧縮]
         if channel == 4 {

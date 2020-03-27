@@ -45,7 +45,7 @@ open class LBDecorationManager
             // 描画
             encoder.use( deco.pipeline ) {
                 // 共通のプロジェクション行列
-                $0.setVertexBytes( UnsafeRawPointer( &proj_matrix ), length: 64, index: 0 )
+                $0.setVertexBytes( &proj_matrix, length: 64, index: 0 )
                 // デコレーションのドローを行う
                 deco.draw( $0 )
             }

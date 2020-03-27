@@ -50,7 +50,7 @@ public class LLMetalAllocatedBuffer : LLMetalBufferAllocatable, LLMetalBufferSha
     // 指定したオブジェクト配列で確保＆初期化
     public init<T>( elements:[T] ) {
         _length = MemoryLayout<T>.stride * elements.count
-        _mtlbuf = self.allocate( UnsafeMutablePointer( mutating: elements ), length:_length )
+        _mtlbuf = self.allocate( elements, length:_length )
     }
     // 指定したバイト数を確保（初期化はなし）
     public init( length:Int ) {
@@ -80,7 +80,7 @@ public class LLMetalAllocatedBuffer : LLMetalBufferAllocatable, LLMetalBufferSha
         let sz:Int = MemoryLayout<T>.stride * elements.count
         if _length != sz { _mtlbuf = self.allocate( sz ) }
         if sz == 0 { return }
-        memcpy( _mtlbuf!.contents(), UnsafeMutablePointer( mutating: elements ), sz )
+        memcpy( _mtlbuf!.contents(), elements, sz )
     }
     
     public func update( _ buf:UnsafeRawPointer?, length:Int ) {
