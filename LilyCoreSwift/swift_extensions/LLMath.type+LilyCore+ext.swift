@@ -19,8 +19,8 @@ public extension LLAngle
     static func radians( _ rad:LLDouble ) -> LLAngle { return LLAngleMakeWithRadians( rad ) } 
     
     static var random:LLAngle { return LLAngle.radians( LLRandomd( LL_2_PI ) ) }
-  
-    init( _ radians:LLDouble ) { self.init( value:radians ) }
+      
+    init( degrees:LLDouble ) { self.init( radians:LLAngleMakeWithDegrees( degrees ).radians ) }
     
     var degrees:LLDouble { return LLAngleDegrees( self ) }
     
@@ -28,73 +28,73 @@ public extension LLAngle
 }
 
 public func + ( left:LLAngle, right:LLAngle ) -> LLAngle {
-    return LLAngle( left.value + right.value )
+    return LLAngle( radians: left.radians + right.radians )
 }
 
 public func + <T:BinaryInteger>( left:LLAngle, right:T ) -> LLAngle {
-    return LLAngle( left.value + Double( right ) )
+    return LLAngle( radians: left.radians + Double( right ) )
 }
 
 public func + <T:BinaryFloatingPoint>( left:LLAngle, right:T ) -> LLAngle {
-    return LLAngle( left.value + Double( right ) )
+    return LLAngle( radians: left.radians + Double( right ) )
 }
 
 public func - ( left:LLAngle, right:LLAngle ) -> LLAngle {
-    return LLAngle( left.value - right.value )
+    return LLAngle( radians: left.radians - right.radians )
 }
 
 public func - <T:BinaryInteger>( left:LLAngle, right:T ) -> LLAngle {
-    return LLAngle( left.value - Double( right ) )
+    return LLAngle( radians: left.radians - Double( right ) )
 }
 
 public func - <T:BinaryFloatingPoint>( left:LLAngle, right:T ) -> LLAngle {
-    return LLAngle( left.value - Double( right ) )
+    return LLAngle( radians: left.radians - Double( right ) )
 }
 
 public func * ( left:LLAngle, right:LLAngle ) -> LLAngle {
-    return LLAngle( left.value * right.value )
+    return LLAngle( radians: left.radians * right.radians )
 }
 
 public func * <T:BinaryInteger>( left:LLAngle, right:T ) -> LLAngle {
-    return LLAngle( left.value * Double( right ) )
+    return LLAngle( radians: left.radians * Double( right ) )
 }
 
 public func * <T:BinaryFloatingPoint>( left:LLAngle, right:T ) -> LLAngle {
-    return LLAngle( left.value * Double( right ) )
+    return LLAngle( radians: left.radians * Double( right ) )
 }
 
 public func / ( left:LLAngle, right:LLAngle ) -> LLAngle {
-    return LLAngle( left.value / right.value )
+    return LLAngle( radians: left.radians / right.radians )
 }
 
 public func / <T:BinaryInteger>( left:LLAngle, right:T ) -> LLAngle {
-    return LLAngle( left.value / Double( right ) )
+    return LLAngle( radians: left.radians / Double( right ) )
 }
 
 public func / <T:BinaryFloatingPoint>( left:LLAngle, right:T ) -> LLAngle {
-    return LLAngle( left.value / Double( right ) )
+    return LLAngle( radians: left.radians / Double( right ) )
 }
 
 public func == ( left:LLAngle, right:LLAngle ) -> Bool {
-    return left.value == right.value
+    return left.radians == right.radians
 }
 
 public func != ( left:LLAngle, right:LLAngle ) -> Bool {
-    return left.value != right.value
+    return left.radians != right.radians
 }
 
 public func > ( left:LLAngle, right:LLAngle ) -> Bool {
-    return left.value > right.value
+    return left.radians > right.radians
 }
 
 public func < ( left:LLAngle, right:LLAngle ) -> Bool {
-    return left.value < right.value
+    return left.radians < right.radians
 }
 
 public func >= ( left:LLAngle, right:LLAngle ) -> Bool {
-    return left.value >= right.value
+    return left.radians >= right.radians
 }
 
 public func <= ( left:LLAngle, right:LLAngle ) -> Bool {
-    return left.value <= right.value
+    return left.radians <= right.radians
 }

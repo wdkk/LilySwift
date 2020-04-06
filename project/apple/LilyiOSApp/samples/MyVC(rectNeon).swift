@@ -25,7 +25,7 @@ class MyViewController : LBViewController
         // 背景色の設定
         self.clearColor = .darkGrey
     }
-    z
+    
     // 設計関数
     override func designBoard() {
         panels.removeAll()

@@ -32,15 +32,15 @@ public func LLRandomu( _ v_:LLUInt32 ) -> LLUInt32 {
 }
 
 public func LLAngleZero() -> LLAngle {
-    return LLAngle(value:0)
+    return LLAngle( radians:0 )
 }
 
 public func LLAngleMakeWithDegrees( _ deg_:LLDouble ) -> LLAngle {
-    return LLAngle( value: deg_ * LL_PI / 180.0 )
+    return LLAngle( radians:deg_ * LL_PI / 180.0 )
 }
 
 public func LLAngleMakeWithRadians( _ rad_:LLDouble ) -> LLAngle {
-    return LLAngle( value: rad_ )
+    return LLAngle( radians:rad_ )
 }
 
 public func LLAngleDegrees( _ angle_:LLAngle ) -> LLDouble {

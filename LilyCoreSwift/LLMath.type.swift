@@ -12,4 +12,8 @@
 public struct LLAngle
 {
     public var value:LLDouble
+    
+    init( radians:LLDouble ) {
+        self.value = radians
+    }
 }

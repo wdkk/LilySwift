@@ -13,7 +13,7 @@
 		5DA0815923C2287D005E877C /* supportFiles in Resources */ = {isa = PBXBuildFile; fileRef = 5DA0815823C2287D005E877C /* supportFiles */; };
 		5DB4690A238E6D01002A8FF7 /* LilySwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */; };
 		5DB4690B238E6D01002A8FF7 /* LilySwift.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5DE44FF8241BDBAF008419B6 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE44FF7241BDBAF008419B6 /* MyViewController.swift */; };
+		5DE90A93243ADC0A006D268C /* MyVC(rectNeon).swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE46EDD2428CF6F00008F2A /* MyVC(rectNeon).swift */; };
 		5DFA0D6B23FFB83D0025A756 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFA0D5A23FFB83D0025A756 /* AppDelegate.swift */; };
 		5DFA0D6C23FFB83D0025A756 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFA0D5B23FFB83D0025A756 /* main.swift */; };
 		5DFA0D6D23FFB83D0025A756 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFA0D5C23FFB83D0025A756 /* SceneDelegate.swift */; };
@@ -210,8 +210,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5DE44FF8241BDBAF008419B6 /* MyViewController.swift in Sources */,
 				5DFA0D6B23FFB83D0025A756 /* AppDelegate.swift in Sources */,
+				5DE90A93243ADC0A006D268C /* MyVC(rectNeon).swift in Sources */,
 				5DFA0D6D23FFB83D0025A756 /* SceneDelegate.swift in Sources */,
 				5DFA0D6C23FFB83D0025A756 /* main.swift in Sources */,
 			);

@@ -435,13 +435,13 @@ public extension LBTriangle
     
     @discardableResult
     func angle<T:BinaryInteger>( _ calc:( LBTriangle )->T ) -> Self {
-        angle = LLAngle( value: Double( calc( self ) ) )
+        angle = LLAngle( radians:Double( calc( self ) ) )
         return self
     }
     
     @discardableResult
     func angle<T:BinaryFloatingPoint>( _ calc:( LBTriangle )->T ) -> Self {
-        angle = LLAngle( value: Double( calc( self ) ) )
+        angle = LLAngle( radians:Double( calc( self ) ) )
         return self
     }
 }
@@ -705,13 +705,13 @@ public extension LBTriangle
     
     @discardableResult
     func deltaAngle<T:BinaryInteger>( _ calc:( LBTriangle )->T ) -> Self {
-        deltaAngle = LLAngle( value: Double( calc( self ) ) )
+        deltaAngle = LLAngle( radians:Double( calc( self ) ) )
         return self
     }
     
     @discardableResult
     func deltaAngle<T:BinaryFloatingPoint>( _ calc:( LBTriangle )->T ) -> Self {
-        deltaAngle = LLAngle( value: Double( calc( self ) ) )
+        deltaAngle = LLAngle( radians:Double( calc( self ) ) )
         return self
     }
 }
