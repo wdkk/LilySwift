@@ -55,10 +55,10 @@ open class LBPanelShader : LBShader
             .add( "float", "deltaAngle" )
             .add( "float", "zindex" )  
             .add( "float", "array_index" )
-            .add( "float", "state" )
-            .add( "float", "_reserved2" )
-            .add( "float", "enabled" )
             .add( "float", "life" )
+            .add( "float", "deltaLife" )
+            .add( "float", "enabled" )
+            .add( "float", "state" )
         }
         
         self.vertexFunction { $0 }

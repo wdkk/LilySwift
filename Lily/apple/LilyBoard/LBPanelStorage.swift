@@ -15,6 +15,7 @@ open class LBPanelStorage : LBActorStorage
 {
     public var quads = LLMetalQuadrangles<LBPanelVertex>()
     public var params = [LBPanelParam]()
+    public var deltas = [LBPanelDelta]()
     public var atlas:LBTextureAtlas?    // .pictureのみで利用
     public var texture:MTLTexture?      // .textureのみで利用
     
@@ -49,6 +50,7 @@ open class LBPanelStorage : LBActorStorage
         quads.drawFunc = self.draw
         
         var pp = LBPanelParam()
+        let pd = LBPanelDelta()
 
         if let reuse_idx = reuse() {
             pp.arrayIndex = reuse_idx
@@ -56,6 +58,7 @@ open class LBPanelStorage : LBActorStorage
             // 再利用
             quads.vertice[reuse_idx] = quad_v
             params[reuse_idx] = pp
+            deltas[reuse_idx] = pd
             return reuse_idx
         }
         
@@ -65,6 +68,7 @@ open class LBPanelStorage : LBActorStorage
         // 追加
         quads.append( quad_v )
         params.append( pp )
+        deltas.append( pd )
         
         return new_index
     }

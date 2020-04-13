@@ -683,7 +683,7 @@ public extension LBTriangle
     
     @discardableResult
     func deltaAngle( _ ang:LLAngle ) -> Self {
-        angle = ang 
+        deltaAngle = ang 
         return self
     }
     
@@ -694,7 +694,7 @@ public extension LBTriangle
     
     @discardableResult
     func deltaAngle( degrees deg:LLFloatConvertable ) -> Self {
-        return deltaAngle( LLAngle.radians( deg.f.d ) )
+        return deltaAngle( LLAngle.degrees( deg.f.d ) )
     }
     
     @discardableResult

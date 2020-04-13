@@ -38,6 +38,11 @@ open class LBPanel : LBActor<LBPanelDecoration>
         get { return _storage.params[index] }
         set { withUnsafeMutablePointer(to: &(_storage.params[index]) ) { $0.pointee = newValue } }
     }
+    
+    public var deltas:LBPanelDelta {
+        get { return _storage.deltas[index] }
+        set { withUnsafeMutablePointer(to: &(_storage.deltas[index]) ) { $0.pointee = newValue } }
+    }
 }
 
 // MARK: -
@@ -438,6 +443,12 @@ public extension LBPanel
         params.deltaPosition = LLFloatv2( Float(pos.0), Float(pos.1) )
         return self
     }
+    
+    @discardableResult
+    func deltaPositionStep( df:@escaping ( LBPanelParam )->LLFloatv2 ) -> Self {
+        deltas.deltaPosition = df
+        return self
+    }
 }
 
 // MARK: -
@@ -515,7 +526,7 @@ public extension LBPanel
     
     @discardableResult
     func deltaAngle( _ ang:LLAngle ) -> Self {
-        angle = ang 
+        deltaAngle = ang 
         return self
     }
     
@@ -526,7 +537,7 @@ public extension LBPanel
     
     @discardableResult
     func deltaAngle( degrees deg:LLFloatConvertable ) -> Self {
-        return deltaAngle( LLAngle.radians( deg.f.d ) )
+        return deltaAngle( LLAngle.degrees( deg.f.d ) )
     }
     
     @discardableResult

@@ -30,15 +30,19 @@ public struct LBParticleParam : LLMetalBufferAllocatable
     public var deltaScale:LLFloat
     // 内部パラメータ
     fileprivate var indices:LLFloatv2    // zindex & arrayindex
-    fileprivate var lifes:LLFloatv2      // enabled & life
-    fileprivate var states:LLFloatv2     // trush & (reserved)
+    fileprivate var lifes:LLFloatv2      // life & deltaLife
+    fileprivate var states:LLFloatv2     // enabled & trash
     //-- メモリアラインメント範囲END --//
     
     // アクセサ
+    public var zindex:LLFloat { get { indices.x } set { indices.x = newValue } }
     public var arrayIndex:Int { get { indices.y.i! } set { indices.y = newValue.f } }
-    public var state:LBState { get { LBState( rawValue: states.x )! } set { states.x = newValue.rawValue } }
-    public var enabled:Bool { get { lifes.x > 0.0 } set { lifes.x = newValue ? 1.0 : 0.0 } }
-    public var life:LLFloat { get { lifes.y } set { lifes.y = newValue } }
+
+    public var life:LLFloat { get { lifes.x } set { lifes.x = newValue } }
+    public var deltaLife:LLFloat { get { lifes.y } set { lifes.y = newValue } }
+
+    public var enabled:Bool { get { states.x > 0.0 } set { states.x = newValue ? 1.0 : 0.0 } }
+    public var state:LBState { get { LBState( rawValue: states.y )! } set { states.y = newValue.rawValue } }
     
     public init() {
         matrix = .identity
@@ -63,12 +67,12 @@ public struct LBParticleParam : LLMetalBufferAllocatable
             0.0     // arrayIndex
         )
         states = LLFloatv2(
-            LBState.active.rawValue,    // state = active
-            0.0                         // reserved
+            1.0,                      // enabled = true
+            LBState.active.rawValue   // state = .active      
         )
         lifes = LLFloatv2(
-            1.0,    // enabled = true
-            1.0     // life = 1.0
+            1.0,    // life = 1.0
+            0.0     // deltaLife = 0.0
         )
     }
 }

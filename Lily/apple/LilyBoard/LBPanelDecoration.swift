@@ -30,8 +30,9 @@ public final class LBPanelDecoration : LBDecoration, LBDecorationCustomizable
             if obj.me.storage.params.count == 0 { return }
             
             // delta値の加算
-            // TODO: コンピュートシェーダに写し変えたい
+            // TODO: コンピュートシェーダに写し変えたい 
             obj.me.updateDeltaParams( &(obj.me.storage.params),
+                                      &(obj.me.storage.deltas),
                                       count:obj.me.storage.params.count )
             
             guard let mtlbuf_params = LLMetalManager.device?.makeBuffer(
@@ -45,12 +46,24 @@ public final class LBPanelDecoration : LBDecoration, LBDecorationCustomizable
         }
     }
     
-    public func updateDeltaParams( _ params:UnsafeMutablePointer<LBPanelParam>, count:Int ) {
+    public func updateDeltaParams(
+                                   _ params:UnsafeMutablePointer<LBPanelParam>,
+                                   _ deltas:UnsafeMutablePointer<LBPanelDelta>,
+                                   count:Int ) 
+    {
         // delta値の加算
         // TODO: コンピュートシェーダに写し変えたい
         let ptr = params
+        let delta_ptr = deltas
         for idx in 0 ..< count {
             let p = ptr + idx
+            let d = delta_ptr + idx
+            
+            if let dp = d.pointee.deltaPosition {
+                let param = p.pointee
+                p.pointee.deltaPosition = dp( param )
+            }
+            
             p.pointee.position += p.pointee.deltaPosition
             p.pointee.scale += p.pointee.deltaScale
             p.pointee.angle += p.pointee.deltaAngle

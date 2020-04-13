@@ -69,18 +69,18 @@ public extension LLSizev3
 
 public typealias LLFloatv2 = vector_float2
 public typealias LLCoordUV = vector_float2
-public extension LLFloatv2 
+extension LLFloatv2
 {
-    init( _ x:Float = 0.0, _ y:Float = 0.0 ) { 
+    public init( _ x:Float = 0.0, _ y:Float = 0.0 ) { 
         self.init( x:x, y:y ) 
     }
     
-    static var zero:Self { return Self() }
-    var normalize:Self { return simd_normalize( self ) }
+    public static var zero:Self { return Self() }
+    public var normalize:Self { return simd_normalize( self ) }
     
     // uvでのアクセサ
-    var u:Float { get { self.x } set { self.x = newValue } }
-    var v:Float { get { self.y } set { self.y = newValue } }
+    public var u:Float { get { self.x } set { self.x = newValue } }
+    public var v:Float { get { self.y } set { self.y = newValue } }
 }
 
 public typealias LLFloatv3 = vector_float3
