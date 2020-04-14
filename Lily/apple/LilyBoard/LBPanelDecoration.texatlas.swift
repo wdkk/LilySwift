@@ -47,7 +47,7 @@ public extension LBPanelDecoration
             // delta値の加算
             // TODO: コンピュートシェーダに写し変えたい
             obj.me.updateDeltaParams( &(obj.me.storage.params),
-                                      &(obj.me.storage.deltas),
+                                      &(obj.me.storage.steps),
                                       count:obj.me.storage.params.count )
             
             guard let mtlbuf_params = LLMetalManager.device?.makeBuffer(

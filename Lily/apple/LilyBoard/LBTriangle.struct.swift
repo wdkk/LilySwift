@@ -18,6 +18,11 @@ public struct LBTriangleVertex
     var tex_uv = LLFloatv2() // 0.0 ~ 1.0 アトラス内の座標
 }
 
+public struct LBTriangleStep
+{
+    public var step:(( inout LBTriangleParam )->Void)?
+}
+
 public struct LBTriangleParam : LLMetalBufferAllocatable
 {
     //-- メモリアラインメント範囲START --//

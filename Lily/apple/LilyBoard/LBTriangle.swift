@@ -719,6 +719,60 @@ public extension LBTriangle
 // MARK: -
 public extension LBTriangle
 {
+    var deltaLife:Float {
+        get { return params.deltaLife }
+        set { params.deltaLife = newValue }
+    }
+    
+    @discardableResult
+    func deltaLife( _ v:Float ) -> Self {
+        params.deltaLife = v
+        return self
+    }
+    
+    @discardableResult
+    func deltaLife( _ v:LLFloatConvertable ) -> Self {
+        params.deltaLife = v.f
+        return self
+    }
+
+    @discardableResult
+    func deltaLife( _ calc:( LBTriangle )->Float ) -> Self {
+        params.deltaLife = calc( self )
+        return self
+    }
+}
+
+// MARK: -
+public extension LBTriangle
+{
+    var deltaAlpha:Float {
+        get { return params.deltaColor.w }
+        set { params.deltaColor.w = newValue }
+    }
+    
+    @discardableResult
+    func deltaAlpha( _ v:Float ) -> Self {
+        params.deltaColor.w = v
+        return self
+    }
+    
+    @discardableResult
+    func deltaAlpha( _ v:LLFloatConvertable ) -> Self {
+        params.deltaColor.w = v.f
+        return self
+    }
+
+    @discardableResult
+    func deltaAlpha( _ calc:( LBTriangle )->Float ) -> Self {
+        params.deltaColor.w = calc( self )
+        return self
+    }
+}
+
+// MARK: -
+public extension LBTriangle
+{
     @discardableResult
     func texture( _ tex:MTLTexture? ) -> Self {
         guard let tex = tex else {

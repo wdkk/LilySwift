@@ -24,6 +24,11 @@ public struct LBPanelVertex
     var tex_uv = LLFloatv2() // 0.0 ~ 1.0 アトラス内の座標
 }
 
+public struct LBPanelStep
+{
+    public var step:(( inout LBPanelParam )->Void)?
+}
+
 public struct LBPanelParam : LLMetalBufferAllocatable
 {
     //-- メモリアラインメント範囲START --//
@@ -93,10 +98,24 @@ public struct LBPanelParam : LLMetalBufferAllocatable
     }
 }
 
-public struct LBPanelDelta
-{
-    //public var deltaColor: (( LBPanelParam )->LLFloatv4)?
-    public var deltaPosition:(( LBPanelParam )->LLFloatv2)?
-    //public var deltaScale: (( LBPanelParam )->LLFloatv2)?
-    //public var deltaAngle: (( LBPanelParam )->LLFloat)?
+// MARK: -
+public extension LBPanelParam
+{    
+    @discardableResult
+    mutating func deltaPosition( _ p:LLPointFloat ) -> Self {
+        deltaPosition = LLFloatv2( p.x, p.y )
+        return self
+    }
+
+    @discardableResult
+    mutating func deltaPosition( dx:LLFloat, dy:LLFloat ) -> Self {
+        deltaPosition = LLFloatv2( dx, dy )
+        return self
+    }
+    
+    @discardableResult
+    mutating func deltaPosition( dx:LLFloatConvertable, dy:LLFloatConvertable ) -> Self {
+        deltaPosition = LLFloatv2( dx.f, dy.f )
+        return self
+    }
 }

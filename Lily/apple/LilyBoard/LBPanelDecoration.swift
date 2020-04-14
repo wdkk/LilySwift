@@ -27,12 +27,11 @@ public final class LBPanelDecoration : LBDecoration, LBDecorationCustomizable
         
         // デフォルトのフィールドを用意
         self.drawField { obj in 
-            if obj.me.storage.params.count == 0 { return }
+            if obj.me.storage.params.filter({ $0.state == .active }).count == 0 { return }
             
             // delta値の加算
-            // TODO: コンピュートシェーダに写し変えたい 
             obj.me.updateDeltaParams( &(obj.me.storage.params),
-                                      &(obj.me.storage.deltas),
+                                      &(obj.me.storage.steps),
                                       count:obj.me.storage.params.count )
             
             guard let mtlbuf_params = LLMetalManager.device?.makeBuffer(
@@ -48,26 +47,27 @@ public final class LBPanelDecoration : LBDecoration, LBDecorationCustomizable
     
     public func updateDeltaParams(
                                    _ params:UnsafeMutablePointer<LBPanelParam>,
-                                   _ deltas:UnsafeMutablePointer<LBPanelDelta>,
+                                   _ steps:UnsafeMutablePointer<LBPanelStep>,
                                    count:Int ) 
     {
         // delta値の加算
-        // TODO: コンピュートシェーダに写し変えたい
         let ptr = params
-        let delta_ptr = deltas
+        let step_ptr = steps
         for idx in 0 ..< count {
             let p = ptr + idx
-            let d = delta_ptr + idx
-            
-            if let dp = d.pointee.deltaPosition {
-                let param = p.pointee
-                p.pointee.deltaPosition = dp( param )
+            let s = step_ptr + idx
+         
+            if let sp = s.pointee.step {
+                var param = p.pointee
+                sp( &param )
+                p.pointee = param
             }
             
             p.pointee.position += p.pointee.deltaPosition
             p.pointee.scale += p.pointee.deltaScale
             p.pointee.angle += p.pointee.deltaAngle
             p.pointee.color += p.pointee.deltaColor
+            p.pointee.life += p.pointee.deltaLife
         }
     }
     

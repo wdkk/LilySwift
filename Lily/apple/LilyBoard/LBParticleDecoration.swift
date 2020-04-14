@@ -54,6 +54,7 @@ public final class LBParticleDecoration : LBDecoration, LBDecorationCustomizable
             p.pointee.position += p.pointee.deltaPosition
             p.pointee.scale += p.pointee.deltaScale
             p.pointee.color += p.pointee.deltaColor
+            p.pointee.life += p.pointee.deltaLife
         }
     }
     

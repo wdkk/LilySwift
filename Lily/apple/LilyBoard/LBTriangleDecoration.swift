@@ -27,7 +27,7 @@ public final class LBTriangleDecoration : LBDecoration, LBDecorationCustomizable
         
         // デフォルトのフィールドを用意
         self.drawField { obj in 
-            if obj.me.storage.params.count == 0 { return }
+            if obj.me.storage.params.filter({ $0.state == .active }).count == 0 { return }
             
             // delta値の加算
             // TODO: コンピュートシェーダに写し変えたい
@@ -54,6 +54,7 @@ public final class LBTriangleDecoration : LBDecoration, LBDecorationCustomizable
             p.pointee.scale += p.pointee.deltaScale
             p.pointee.angle += p.pointee.deltaAngle
             p.pointee.color += p.pointee.deltaColor
+            p.pointee.life += p.pointee.deltaLife
         }
     }
     

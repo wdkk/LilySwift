@@ -39,9 +39,9 @@ open class LBPanel : LBActor<LBPanelDecoration>
         set { withUnsafeMutablePointer(to: &(_storage.params[index]) ) { $0.pointee = newValue } }
     }
     
-    public var deltas:LBPanelDelta {
-        get { return _storage.deltas[index] }
-        set { withUnsafeMutablePointer(to: &(_storage.deltas[index]) ) { $0.pointee = newValue } }
+    public var steps:LBPanelStep {
+        get { return _storage.steps[index] }
+        set { withUnsafeMutablePointer(to: &(_storage.steps[index]) ) { $0.pointee = newValue } }
     }
 }
 
@@ -443,12 +443,6 @@ public extension LBPanel
         params.deltaPosition = LLFloatv2( Float(pos.0), Float(pos.1) )
         return self
     }
-    
-    @discardableResult
-    func deltaPositionStep( df:@escaping ( LBPanelParam )->LLFloatv2 ) -> Self {
-        deltas.deltaPosition = df
-        return self
-    }
 }
 
 // MARK: -
@@ -519,6 +513,33 @@ public extension LBPanel
 // MARK: -
 public extension LBPanel
 {
+    var deltaAlpha:Float {
+        get { return params.deltaColor.w }
+        set { params.deltaColor.w = newValue }
+    }
+    
+    @discardableResult
+    func deltaAlpha( _ v:Float ) -> Self {
+        params.deltaColor.w = v
+        return self
+    }
+    
+    @discardableResult
+    func deltaAlpha( _ v:LLFloatConvertable ) -> Self {
+        params.deltaColor.w = v.f
+        return self
+    }
+
+    @discardableResult
+    func deltaAlpha( _ calc:( LBPanel )->Float ) -> Self {
+        params.deltaColor.w = calc( self )
+        return self
+    }
+}
+
+// MARK: -
+public extension LBPanel
+{
     var deltaAngle:LLAngle {
         get { return LLAngle.radians( params.deltaAngle.d ) }
         set { params.deltaAngle = newValue.radians.f }
@@ -555,6 +576,33 @@ public extension LBPanel
     @discardableResult
     func deltaAngle<T:BinaryFloatingPoint>( _ calc:( LBPanel )->T ) -> Self {
         deltaAngle = LLAngle( radians:Double( calc( self ) ) )
+        return self
+    }
+}
+
+// MARK: -
+public extension LBPanel
+{
+    var deltaLife:Float {
+        get { return params.deltaLife }
+        set { params.deltaLife = newValue }
+    }
+    
+    @discardableResult
+    func deltaLife( _ v:Float ) -> Self {
+        params.deltaLife = v
+        return self
+    }
+    
+    @discardableResult
+    func deltaLife( _ v:LLFloatConvertable ) -> Self {
+        params.deltaLife = v.f
+        return self
+    }
+
+    @discardableResult
+    func deltaLife( _ calc:( LBPanel )->Float ) -> Self {
+        params.deltaLife = calc( self )
         return self
     }
 }
@@ -613,3 +661,11 @@ public extension LBPanel
     } 
 }
 
+public extension LBPanel
+{
+    @discardableResult
+    func step( _ sf:@escaping ( inout LBPanelParam )->Void ) -> Self {
+        steps.step = sf
+        return self
+    }
+}
