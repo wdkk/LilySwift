@@ -16,43 +16,43 @@ public func LDImageLoadFileWithOption( _ file_path_:LCStringSmPtr, _ option_:LLI
         return LCImageZero()
     }
     
-    var opt = option_
+    var opt:LLImageLoadOption = option_
     
-    let splits = LCStringSplit( file_path_, LCStringMakeWithCChars( "." ) )
-    let split_count = LCStringArrayCount( splits )
+    let splits:LCStringArraySmPtr = LCStringSplit( file_path_, LCStringMakeWithCChars( "." ) )
+    let split_count:Int = LCStringArrayCount( splits )
     
     if split_count <= 1 { return LCImageZero() }
     
     // extract extension
-    let ext = LCStringArrayAt( splits, split_count-1 )
+    let ext:LCStringSmPtr = LCStringArrayAt( splits, split_count-1 )
     // join path without extension
-    let path_without_ext = LCStringArrayAt( splits, 0 )
-    for i in 1 ..< split_count-1 {
+    let path_without_ext:LCStringSmPtr = LCStringArrayAt( splits, 0 )
+    for i:Int in 1 ..< split_count-1 {
         LCStringAppend( path_without_ext, LCStringMakeWithCChars( "." ) )
         LCStringAppend( path_without_ext, LCStringArrayAt( splits, i ) )
     }
     
     // Retina
-    var scale = LCSystemGetRetinaScale()
-    var new_path = LCStringZero()
+    var scale:LLDouble = LCSystemGetRetinaScale()
+    var new_path:LCStringSmPtr = LCStringZero()
     
     // @3x
     if scale > 2.0 {
-        let path = LCStringJoin( LCStringJoin( path_without_ext, LCStringMakeWithCChars( "@3x." ) ), ext )
+        let path:LCStringSmPtr = LCStringJoin( LCStringJoin( path_without_ext, LCStringMakeWithCChars( "@3x." ) ), ext )
         if LCFileExists( path ) { new_path = LCStringMake( path ) }
         scale = 3.0
     }
     
     // @2x
     if scale > 1.0 && LCStringIsEmpty( new_path ) {
-        let path = LCStringJoin( LCStringJoin( path_without_ext, LCStringMakeWithCChars( "@2x." ) ), ext )
+        let path:LCStringSmPtr = LCStringJoin( LCStringJoin( path_without_ext, LCStringMakeWithCChars( "@2x." ) ), ext )
         if LCFileExists( path ) { new_path = LCStringMake( path ) }
         scale = 2.0
     }
     
     // default
     if LCStringIsEmpty( new_path ) {
-        let path = LCStringJoin( LCStringJoin( path_without_ext, LCStringMakeWithCChars( "." ) ), ext )
+        let path:LCStringSmPtr = LCStringJoin( LCStringJoin( path_without_ext, LCStringMakeWithCChars( "." ) ), ext )
         if LCFileExists( path ) { new_path = LCStringMake( path ) }
         scale = 1.0
     }
@@ -61,8 +61,8 @@ public func LDImageLoadFileWithOption( _ file_path_:LCStringSmPtr, _ option_:LLI
         opt.type = LCImageCheckLoadTypeByExtension( opt, ext )
     }
     
-    let loader = LCImageLoaderMake()
-    let result = LCImageLoaderLoadWithOption( loader, new_path, opt )
+    let loader:LCImageLoaderSmPtr = LCImageLoaderMake()
+    let result:LCImageSmPtr = LCImageLoaderLoadWithOption( loader, new_path, opt )
     if LCImageGetType( result ) != .none { LCImageChangeScale( result, scale.f ) }
     return result
 }
@@ -74,13 +74,13 @@ public func LDImageSaveFileWithOption( _ img_:LCImageSmPtr, _ file_path_:LCStrin
          return false
      }
     
-    let ext = LCPathPickExtension( file_path_ )    
-    var opt = option_
+    let ext:LCStringSmPtr = LCPathPickExtension( file_path_ )    
+    var opt:LLImageSaveOption = option_
 
     if opt.type == .auto {
         opt.type = LCImageCheckSaveTypeByExtension( opt, ext )
     }
     
-    let saver = LCImageSaverMake()
+    let saver:LCImageSaverSmPtr = LCImageSaverMake()
     return LCImageSaverSaveWithOption( saver, img_, file_path_, opt )
 }

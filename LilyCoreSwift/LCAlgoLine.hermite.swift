@@ -48,7 +48,7 @@ private struct __LCAlgoLineHermite
 public class LCAlgoLineHermiteSmPtr
 {
     /// 内部実装オブジェクト
-    fileprivate var lh = __LCAlgoLineHermite()
+    fileprivate var lh:__LCAlgoLineHermite = __LCAlgoLineHermite()
     
     fileprivate init() {}
 }
@@ -63,16 +63,16 @@ public class LCAlgoLineHermiteSmPtr
 /// - Returns: 指定したdevで得られた座標値
 private func __LCAlgoLineHermiteGetCurve( _ pp0:LLPoint, _ vv0:LLPoint, _ pp1:LLPoint, _ vv1:LLPoint, _ dev:LLDouble ) 
 -> LLPoint {
-    let d1 = dev
-    let d2 = d1 * d1
-    let d3 = d1 * d1 * d1
+    let d1:LLDouble = dev
+    let d2:LLDouble = d1 * d1
+    let d3:LLDouble = d1 * d1 * d1
 
-    let mp0 =  2.0 * d3 - 3.0 * d2 + 1.0
-    let mv0 =        d3 - 2.0 * d2 + d1
-    let mp1 = -2.0 * d3 + 3.0 * d2
-    let mv1 =        d3 -       d2
+    let mp0:LLDouble =  2.0 * d3 - 3.0 * d2 + 1.0
+    let mv0:LLDouble =        d3 - 2.0 * d2 + d1
+    let mp1:LLDouble = -2.0 * d3 + 3.0 * d2
+    let mv1:LLDouble =        d3 -       d2
 
-    let v = LLPoint( 
+    let v:LLPoint = LLPoint( 
         pp0.x * mp0 + vv0.x * mv0 + pp1.x * mp1 + vv1.x * mv1,
         pp0.y * mp0 + vv0.y * mv0 + pp1.y * mp1 + vv1.y * mv1
     )

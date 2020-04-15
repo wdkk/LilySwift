@@ -25,19 +25,19 @@ public final class LPImpIOCraft : LPCraft, LPCraftCustomizable
         super.init()
         
         // デフォルトのフィールドを用意
-        self.fireField { obj in 
-            guard let in_img = obj.me.impio?.inImage,
-                  let out_img = obj.me.impio?.outImage,
-                  let in_memory = in_img.memory,
-                  let out_memory = out_img.memory,
-                  var flex = obj.me.impio?.flex
+        self.fireField { (obj:LLSoloField<Me, MTLComputeCommandEncoder>.Object) in 
+            guard let in_img:LLImage = obj.me.impio?.inImage,
+                  let out_img:LLImage = obj.me.impio?.outImage,
+                  let in_memory:LLBytePtr = in_img.memory,
+                  let out_memory:LLBytePtr = out_img.memory,
+                  var flex:LPFlexibleFloat16 = obj.me.impio?.flex
             else {
                 return
             }
            
-            let encoder = obj.args
+            let encoder:MTLComputeCommandEncoder = obj.args
             
-            var size = LLSizev2( in_img.width.i32!, in_img.height.i32! )
+            var size:LLSizev2 = LLSizev2( in_img.width.i32!, in_img.height.i32! )
             
             encoder.setBytes( &flex, length: 64, index: 0 )
             encoder.setBytes( &size, length: MemoryLayout<LLSizev2>.stride, index: 1 )

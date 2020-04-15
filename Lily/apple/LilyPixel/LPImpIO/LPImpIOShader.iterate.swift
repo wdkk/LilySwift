@@ -16,7 +16,7 @@ open class LPImpIOIterateShader : LPShader
     public private(set) var iterator_func_name:String
  
     public convenience init() {
-        let uid = UUID().labelString
+        let uid:String = UUID().labelString
         self.init( computeFuncName: "LPImpKernel_" + uid )
     }
     

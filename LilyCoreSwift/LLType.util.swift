@@ -195,7 +195,7 @@ public func LLRegionExpand( _ reg:LLRegion, _ ex_val:LLDouble ) -> LLRegion {
 /// - Parameter str: 対象文字列
 /// - Returns: 文字数
 public func LLCharUTF8Count( _ str:LLConstCCharsPtr ) -> Int {
-    let s = String( cString: str )
+    let s:String = String( cString: str )
     return s.count
 }
 

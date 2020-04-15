@@ -56,7 +56,7 @@ fileprivate class LCFileWriterInternal
     /// 書き込み状態を返す
     /// - Description: true = 書き込み中, false = 停止中
     var isActive:Bool {
-        guard let ostrm = _ostream else { return false }
+        guard let ostrm:OutputStream = _ostream else { return false }
         return ostrm.streamStatus == .open || ostrm.streamStatus == .opening || ostrm.streamStatus == .writing
     }
     
@@ -101,7 +101,7 @@ fileprivate class LCFileWriterInternal
     func write( _ bin:LLNonNullUInt8Ptr, _ length:LLInt64 ) -> Bool {
         if !isActive { return false }
         if length < 1 { return false }
-        guard let leng = length.i else { return false }
+        guard let leng:Int = length.i else { return false }
         
         _ostream?.write( bin, maxLength: leng )
         return true
@@ -158,12 +158,12 @@ public func LCFileWriterWrite( _ writer:LCFileWriterSmPtr, _ bin:LLNonNullUInt8P
 /// - Returns: true = 成功, false = 失敗
 @discardableResult
 public func LCFileWriterWriteChars( _ writer:LCFileWriterSmPtr, _ chars:LLConstCharPtr ) -> Bool {
-    let opaque_ptr = OpaquePointer( chars )
-    guard let cchars_ptr = LLConstCCharsPtr( opaque_ptr ) else { return false }
-    let str = LCStringMakeWithCChars( cchars_ptr )
-    let length = LCStringByteLength( str )
+    let opaque_ptr:OpaquePointer? = OpaquePointer( chars )
+    guard let cchars_ptr:LLConstCCharsPtr = LLConstCCharsPtr( opaque_ptr ) else { return false }
+    let str:LCStringSmPtr = LCStringMakeWithCChars( cchars_ptr )
+    let length:Int = LCStringByteLength( str )
     
-    guard let nnui8ptr = LLNonNullUInt8Ptr( opaque_ptr ) else { return false }
+    guard let nnui8ptr:LLNonNullUInt8Ptr = LLNonNullUInt8Ptr( opaque_ptr ) else { return false }
     return writer.fwi.write( nnui8ptr, length.i64 )
 }
 
@@ -176,7 +176,7 @@ public func LCFileWriterWriteChars( _ writer:LCFileWriterSmPtr, _ chars:LLConstC
 public func LCFileWriterWriteText( _ writer:LCFileWriterSmPtr, _ cstr:LCStringSmPtr ) -> Bool {
     //let opaque_ptr = OpaquePointer( LCStringToCChars( cstr ) )
     //let nnui8ptr = LLNonNullUInt8Ptr( opaque_ptr )
-    let nnui8ptr = unsafeBitCast( LCStringToCChars( cstr ), to: LLNonNullUInt8Ptr.self )
+    let nnui8ptr:LLNonNullUInt8Ptr = unsafeBitCast( LCStringToCChars( cstr ), to: LLNonNullUInt8Ptr.self )
     return writer.fwi.write( nnui8ptr, LCStringByteLength( cstr ).i64 )
 }
 

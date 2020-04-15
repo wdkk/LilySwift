@@ -51,9 +51,9 @@ public func LL2DAffineScale( _ scx:Double, _ scy:Double ) -> LL2DAffine {
 /// - Parameter degree: 回転角(360度法)
 /// - Returns: 回転の2Dアフィン変換係数
 public func LL2DAffineRotate( _ degree:Double ) -> LL2DAffine {
-    let rad = degree * LL_PI / 180.0
-    let cosv = cos( rad )
-    let sinv = sin( rad )
+    let rad:LLDouble = degree * LL_PI / 180.0
+    let cosv:LLDouble = cos( rad )
+    let sinv:LLDouble = sin( rad )
     return LL2DAffine( a:cosv, b:-sinv, c:0.0, d:sinv, e:cosv, f:0.0 )
 }
 
@@ -76,7 +76,7 @@ public func LL2DAffineMultiply( _ af1:LL2DAffine, _ af2:LL2DAffine ) -> LL2DAffi
 /// - Parameter af: 元となるアフィン変換係数
 /// - Returns: 逆アフィン変換係数
 public func LL2DAffineInverse( _ af:LL2DAffine ) -> LL2DAffine {
-    let work = af.a * af.e - af.b * af.d
+    let work:LLDouble = af.a * af.e - af.b * af.d
     return LL2DAffine(
         a: af.e / work,
         b: -af.b / work,

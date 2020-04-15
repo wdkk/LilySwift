@@ -15,7 +15,7 @@ import Foundation
 //! @param type : 画像タイプ
 //! @return ピクセルあたりのバイト数
 public func LLImageTypeGetByte( _ type:LLImageType ) -> Int {
-    switch( type ) {
+    switch type {
     case .none:   return 1
     case .grey8:  return MemoryLayout<LLUInt8>.stride
     case .grey16: return MemoryLayout<LLUInt16>.stride
@@ -149,9 +149,9 @@ public func LLHSVitof( _ hsvi:LLHSVi ) -> LLHSVf {
 }
 // RGB(float) -> HSV(float)変換
 public func LLColorftoHSVf( _ color:LLColor ) -> LLHSVf {
-    var hsv = LLHSVf()
-    let maxv = LLMax( color.R, LLMax( color.G, color.B ) )
-    let minv = LLMin( color.R, LLMin( color.G, color.B ) )
+    var hsv:LLHSVf = LLHSVf()
+    let maxv:Float = LLMax( color.R, LLMax( color.G, color.B ) )
+    let minv:Float = LLMin( color.R, LLMin( color.G, color.B ) )
     hsv.V = maxv  // 明度(V)を計算
     hsv.S = 0.0   // 彩度(S)を計算
     // 小さすぎる値で割るとオーバーフローするので0.001とする
@@ -246,23 +246,23 @@ public func LLColorftoGreyf( _ color:LLColor ) -> LLFloat {
 
 // HSV(float) -> RGB(float)変換
 public func LLHSVftoColorf( _ hsv:LLHSVf ) -> LLColor {
-    var Hv = hsv.H
-    let Sv = LLWithin( min: 0.0, hsv.S, max: 1.0 )
-    let Vv = LLWithin( min: 0.0, hsv.V, max: 1.0 )
+    var Hv:Float = hsv.H
+    let Sv:Float = LLWithin( min: 0.0, hsv.S, max: 1.0 )
+    let Vv:Float = LLWithin( min: 0.0, hsv.V, max: 1.0 )
     
     while Hv < 0.0 || 360.0 <= Hv {
         if Hv < 0.0  { Hv += 360.0 }
         if Hv >= 360.0 { Hv -= 360.0 }
     }
     
-    let c = Vv * Sv
-    let Hf = Hv / 60.0
-    let Hp = LLInt32( Hf )
-    let x = c * ( 1.0 - LLFloat( abs( fmod( Hf, 2.0 ) - 1.0 ) ) )
+    let c:Float = Vv * Sv
+    let Hf:Float = Hv / 60.0
+    let Hp:LLInt32 = LLInt32( Hf )
+    let x:Float = c * ( 1.0 - LLFloat( abs( fmod( Hf, 2.0 ) - 1.0 ) ) )
     
-    let m = Vv - c
+    let m:Float = Vv - c
 
-    switch( Hp ) {
+    switch Hp {
     case 0: return LLColorMake( c+m, x+m,   m, 1.0 )
     case 1: return LLColorMake( x+m, c+m,   m, 1.0 )
     case 2: return LLColorMake(   m, c+m, x+m, 1.0 )
@@ -360,19 +360,19 @@ public func LLGreyfto16( _ grey:LLFloat ) -> LLUInt16 {
 
 // グレー(8bit)変換 -> RGB(8bit) (RGBに同じ値)
 public func LLGrey8toColor8( _ grey:LLUInt8 ) -> LLColor8 {
-    let g8 = grey
+    let g8:LLUInt8 = grey
     return LLColor8( R: g8, G: g8, B: g8, A: LLColor8_MaxValue )
 }
 
 // グレー(8bit)変換 -> RGB(16bit) (RGBに同じ値)
 public func LLGrey8toColor16( _ grey:LLUInt8 ) -> LLColor16 {
-    let g16 = LLUInt16( grey ) >> 8
+    let g16:LLUInt16 = LLUInt16( grey ) >> 8
     return LLColor16( R: g16, G: g16, B: g16, A: LLColor16_MaxValue )
 }
 
 // グレー(8bit)変換 -> RGB(float) (RGBに同じ値)
 public func LLGrey8toColorf( _ grey:LLUInt8 ) -> LLColor {
-    let gf = LLFloat( grey ) / LLFloat( LLColor8_MaxValue )
+    let gf:LLFloat = LLFloat( grey ) / LLFloat( LLColor8_MaxValue )
     return LLColor( R: gf, G: gf, B: gf, A: LLColor_MaxValue )
 }
 
@@ -388,19 +388,19 @@ public func LLGrey8toHSVi( _ grey:LLUInt8 ) -> LLHSVi {
 
 // グレー(16bit)変換 -> RGB(8bit) (RGBに同じ値)
 public func LLGrey16toColor8( _ grey:LLUInt16 ) -> LLColor8 {
-    let g8 = LLUInt8( grey >> 8 )
+    let g8:LLUInt8 = LLUInt8( grey >> 8 )
     return LLColor8( R: g8, G: g8, B: g8, A: LLColor8_MaxValue )
 }
 
 // グレー(16bit)変換 -> RGB(16bit) (RGBに同じ値)
 public func LLGrey16toColor16( _ grey:LLUInt16 ) -> LLColor16 {
-    let g16 = grey
+    let g16:LLUInt16 = grey
     return LLColor16( R: g16, G: g16, B: g16, A: LLColor16_MaxValue )
 }
 
 // グレー(16bit)変換 -> RGB(float) (RGBに同じ値)
 public func LLGrey16toColorf( _ grey:LLUInt16 ) -> LLColor {
-    let g = LLFloat( grey ) / LLFloat( LLColor16_MaxValue )
+    let g:LLFloat = LLFloat( grey ) / LLFloat( LLColor16_MaxValue )
     return LLColor( R: g, G: g, B: g, A: LLColor_MaxValue )
 }
 
@@ -416,19 +416,19 @@ public func LLGrey16toHSVi( _ grey:LLUInt16 ) -> LLHSVi {
 
 // グレー(float)変換 -> RGB(8bit) (RGBに同じ値)
 public func LLGreyftoColor8( _ grey:LLFloat ) -> LLColor8 {
-    let g8 = LLUInt8( grey * LLFloat( LLColor8_MaxValue ) )
+    let g8:LLUInt8 = LLUInt8( grey * LLFloat( LLColor8_MaxValue ) )
     return LLColor8( R: g8, G: g8, B: g8, A: LLColor8_MaxValue )
 }
 
 // グレー(float)変換 -> RGB(16bit) (RGBに同じ値)
 public func LLGreyftoColor16( _ grey:LLFloat ) -> LLColor16 {
-    let g16 = LLUInt16( grey * LLFloat( LLColor16_MaxValue ) )
+    let g16:LLUInt16 = LLUInt16( grey * LLFloat( LLColor16_MaxValue ) )
     return LLColor16( R: g16, G: g16, B: g16, A: LLColor16_MaxValue )
 }
 
 // グレー(float)変換 -> RGB(float) (RGBに同じ値)
 public func LLGreyftoColorf( _ grey:LLFloat ) -> LLColor {
-    let g = grey
+    let g:LLFloat = grey
     return LLColor( R: g, G: g, B: g, A: LLColor_MaxValue )
 }
 
@@ -444,7 +444,7 @@ public func LLGreyftoHSVi( _ grey:LLFloat ) -> LLHSVi {
 
 // 画像ロードオプションの標準設定を返す関数
 public func LLImageLoadOptionDefault() -> LLImageLoadOption {
-    let option = LLImageLoadOption(
+    let option:LLImageLoadOption = LLImageLoadOption(
         type: .auto,
         depth: .uint8 )
     return option
@@ -452,7 +452,7 @@ public func LLImageLoadOptionDefault() -> LLImageLoadOption {
 
 // 画像セーブオプションの標準設定を返す関数
 public func LLImageSaveOptionDefault() -> LLImageSaveOption {
-    let option = LLImageSaveOption(
+    let option:LLImageSaveOption = LLImageSaveOption(
         type: .auto,
         jpeg_quality: 0.85,
         png_compress: 2.0,
@@ -464,33 +464,33 @@ public func LLImageSaveOptionDefault() -> LLImageSaveOption {
 }
 
 public func LLHextoColor8( _ hex_:LCStringSmPtr ) -> LLColor8 {
-    var upper_hex = LCStringUppercased( hex_ )
+    var upper_hex:LCStringSmPtr = LCStringUppercased( hex_ )
     upper_hex = LCStringReplace( upper_hex, LCStringMakeWithCChars( "#" ),  LCStringZero() )
     upper_hex = LCStringReplace( upper_hex, LCStringMakeWithCChars( "0X" ), LCStringZero() )
-    let length = LCStringByteLength( upper_hex )
+    let length:Int = LCStringByteLength( upper_hex )
     
     var R:UInt8 = 0
     var G:UInt8 = 0
     var B:UInt8 = 0
     var A:UInt8 = 255
     
-    let parts = LCStringToCChars( upper_hex )
-    var parts_u8 = [LLUInt8]()
-    for p in parts {
-        guard let u = p.u8 else { LLLogWarning( "Hexの文字列が変換できません." ); return LLColor8_Black }
+    let parts:LLCChars = LCStringToCChars( upper_hex )
+    var parts_u8:[LLUInt8] = [LLUInt8]()
+    for p:CChar in parts {
+        guard let u:LLUInt8 = p.u8 else { LLLogWarning( "Hexの文字列が変換できません." ); return LLColor8_Black }
         parts_u8.append( u )
     }
     
     switch length {
         // #RGB
         case 3:
-            guard let str_R = String( bytes: [ parts_u8[0], parts_u8[0] ], encoding: .utf8 ) else {
+            guard let str_R:String = String( bytes: [ parts_u8[0], parts_u8[0] ], encoding: .utf8 ) else {
                 LLLogWarning( "正しくないHex指定です" ); return LLColor8_Black
             }
-            guard let str_G = String( bytes: [ parts_u8[1], parts_u8[1] ], encoding: .utf8 ) else {
+            guard let str_G:String = String( bytes: [ parts_u8[1], parts_u8[1] ], encoding: .utf8 ) else {
                 LLLogWarning( "正しくないHex指定です" ); return LLColor8_Black
             }
-            guard let str_B = String( bytes: [ parts_u8[2], parts_u8[2] ], encoding: .utf8 ) else {
+            guard let str_B:String = String( bytes: [ parts_u8[2], parts_u8[2] ], encoding: .utf8 ) else {
                 LLLogWarning( "正しくないHex指定です" ); return LLColor8_Black
             }
             R = UInt8(str_R, radix: 16) ?? 0
@@ -500,13 +500,13 @@ public func LLHextoColor8( _ hex_:LCStringSmPtr ) -> LLColor8 {
             return LLColor8Make( R, G, B, A )
         // #RRGGBB
         case 6:
-            guard let str_R = String( bytes: [ parts_u8[0], parts_u8[1] ], encoding: .utf8 ) else {
+            guard let str_R:String = String( bytes: [ parts_u8[0], parts_u8[1] ], encoding: .utf8 ) else {
                 LLLogWarning( "正しくないHex指定です" ); return LLColor8_Black
             }
-            guard let str_G = String( bytes: [ parts_u8[2], parts_u8[3] ], encoding: .utf8 ) else {
+            guard let str_G:String = String( bytes: [ parts_u8[2], parts_u8[3] ], encoding: .utf8 ) else {
                 LLLogWarning( "正しくないHex指定です" ); return LLColor8_Black
             }
-            guard let str_B = String( bytes: [ parts_u8[4], parts_u8[5] ], encoding: .utf8 ) else {
+            guard let str_B:String = String( bytes: [ parts_u8[4], parts_u8[5] ], encoding: .utf8 ) else {
                 LLLogWarning( "正しくないHex指定です" ); return LLColor8_Black
             }
             R = UInt8(str_R, radix: 16) ?? 0
@@ -516,16 +516,16 @@ public func LLHextoColor8( _ hex_:LCStringSmPtr ) -> LLColor8 {
             return LLColor8Make( R, G, B, A )
         // #RRGGBBAA
         case 8: 
-            guard let str_R = String( bytes: [ parts_u8[0], parts_u8[1] ], encoding: .utf8 ) else {
+            guard let str_R:String = String( bytes: [ parts_u8[0], parts_u8[1] ], encoding: .utf8 ) else {
                 LLLogWarning( "正しくないHex指定です" ); return LLColor8_Black
             }
-            guard let str_G = String( bytes: [ parts_u8[2], parts_u8[3] ], encoding: .utf8 ) else {
+            guard let str_G:String = String( bytes: [ parts_u8[2], parts_u8[3] ], encoding: .utf8 ) else {
                 LLLogWarning( "正しくないHex指定です" ); return LLColor8_Black
             }
-            guard let str_B = String( bytes: [ parts_u8[4], parts_u8[5] ], encoding: .utf8 ) else {
+            guard let str_B:String = String( bytes: [ parts_u8[4], parts_u8[5] ], encoding: .utf8 ) else {
                 LLLogWarning( "正しくないHex指定です" ); return LLColor8_Black
             }
-            guard let str_A = String( bytes: [ parts_u8[6], parts_u8[7] ], encoding: .utf8 ) else {
+            guard let str_A:String = String( bytes: [ parts_u8[6], parts_u8[7] ], encoding: .utf8 ) else {
                 LLLogWarning( "正しくないHex指定です" ); return LLColor8_Black
             }
             R = UInt8(str_R, radix: 16) ?? 0

@@ -49,18 +49,18 @@ public struct LLAlgoStylusParamStep
 private struct __LCAlgoStylusParam
 {
     /// 開始点(1つ前のターゲット)ステップ情報
-    var start = LLAlgoStylusParamStep()
+    var start:LLAlgoStylusParamStep = LLAlgoStylusParamStep()
     /// 現在のステップ情報
-    var now = LLAlgoStylusParamStep()
+    var now:LLAlgoStylusParamStep = LLAlgoStylusParamStep()
     /// 次のターゲットステップ情報
-    var target = LLAlgoStylusParamStep()
+    var target:LLAlgoStylusParamStep = LLAlgoStylusParamStep()
 } 
 
 /// スタイラスステップ情報モジュール
 public class LCAlgoStylusParamSmPtr
 {
     /// 内部実装オブジェクト
-    fileprivate var p = __LCAlgoStylusParam()
+    fileprivate var p:__LCAlgoStylusParam = __LCAlgoStylusParam()
     
     fileprivate init() {}
 }
@@ -76,7 +76,7 @@ public func LCAlgoStylusParamMake() -> LCAlgoStylusParamSmPtr {
 ///   - lsp: スタイラスステップ情報オブジェクト
 ///   - start_step: 開始ステップ情報
 public func LCAlgoStylusParamStart( _ lsp:LCAlgoStylusParamSmPtr, _ start_step:LLAlgoStylusParamStep ) {
-    var p = lsp.p
+    var p:__LCAlgoStylusParam = lsp.p
     p.start = start_step
     p.now = start_step
     p.target = start_step
@@ -89,7 +89,7 @@ public func LCAlgoStylusParamStart( _ lsp:LCAlgoStylusParamSmPtr, _ start_step:L
 ///   - lsp: スタイラスステップ情報オブジェクト
 ///   - retarget_step: 次のターゲットになるステップ情報
 public func LCAlgoStylusParamRetarget( _ lsp:LCAlgoStylusParamSmPtr, _ retarget_step:LLAlgoStylusParamStep ) {
-    var p = lsp.p
+    var p:__LCAlgoStylusParam = lsp.p
     // nowの値をstartの値に更新
     p.start = p.now
     // 目標値の更新
@@ -104,12 +104,12 @@ public func LCAlgoStylusParamRetarget( _ lsp:LCAlgoStylusParamSmPtr, _ retarget_
 ///   - k: 進捗率(0.0 ~ 1.0)
 /// - Returns: 進捗率のスタイラスステップ情報
 public func LCAlgoStylusParamProgress( _ lsp:LCAlgoStylusParamSmPtr, _ k:LLDouble ) -> LLAlgoStylusParamStep {
-    var p = lsp.p
-    var step = LLAlgoStylusParamStep()
+    var p:__LCAlgoStylusParam = lsp.p
+    var step:LLAlgoStylusParamStep = LLAlgoStylusParamStep()
     
     // アルファ係数
-    let k1 = LLWithin( min: 0.0, k, max: 1.0 )
-    let k2 = (1.0 - k1)
+    let k1:LLDouble = LLWithin( min: 0.0, k, max: 1.0 )
+    let k2:LLDouble = (1.0 - k1)
     
     // アルファ計算
     step.force = p.start.force * k2 + p.target.force * k1

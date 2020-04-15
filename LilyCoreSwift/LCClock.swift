@@ -17,8 +17,8 @@ public func LCClockInit() {
 /// システムの現在時間をミリ秒の値で取得
 /// - Returns: システム現在時間(ミリ秒)
 public func LCClockNow() -> LLInt64 {
-    var now_time = timeval()
-    var tzp = timezone()
+    var now_time:timeval = timeval()
+    var tzp:timezone = timezone()
     gettimeofday( &now_time, &tzp )
     return LLInt64( now_time.tv_sec * 1000 ) + LLInt64( now_time.tv_usec / 1000 )  
 }

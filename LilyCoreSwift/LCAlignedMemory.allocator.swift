@@ -53,7 +53,7 @@ public class LCAlignedMemoryAllocator
     
     // アラインメントを含んだメモリ確保量を計算
     public func requestAlignedLength( from length:Int ) -> Int {
-        let mod = length % self.alignment
+        let mod:Int = length % self.alignment
         return length + ( mod > 0 ? self.alignment - mod : 0 )
     }
     
@@ -69,7 +69,7 @@ public class LCAlignedMemoryAllocator
             return
         }
         
-        let old_length = self.length
+        let old_length:Int = self.length
         self.length = length
         self.allocatedLength = requestAlignedLength( from:length )
         
@@ -81,10 +81,10 @@ public class LCAlignedMemoryAllocator
             memcpy( self.memory, LCDataPointer( tmp_data ), copy_length )
             */
             
-            let tmp_mem = LLBytePtr( OpaquePointer( malloc( old_length ) ) )
+            let tmp_mem:LLBytePtr = LLBytePtr( OpaquePointer( malloc( old_length ) ) )
             memcpy( tmp_mem, self.memory, old_length )
             alignedAllocate( alignment: self.alignment, length: self.allocatedLength )
-            let copy_length = min( self.length, old_length )
+            let copy_length:Int = min( self.length, old_length )
             memcpy( self.memory, tmp_mem, copy_length )
             free( tmp_mem )
         }

@@ -16,7 +16,7 @@ private let LCDataOffsetByte:Int = 16
 public class LCDataSmPtr
 {
     /// 内部実装オブジェクト(ここではSwiftのDataを援用)
-    fileprivate var dt = Data()
+    fileprivate var dt:Data = Data()
 }
 
 /// データオブジェクトを作成
@@ -29,8 +29,8 @@ public func LCDataMake() -> LCDataSmPtr {
 /// - Parameter length: 初期に確保するバイト数
 /// - Returns: データ量lengthバイトのデータオブジェクト
 public func LCDataMakeWithSize( _ length:LLInt64 ) -> LCDataSmPtr {
-    let d = LCDataSmPtr()
-    guard let leng = length.i else { return d }
+    let d:LCDataSmPtr = LCDataSmPtr()
+    guard let leng:Int = length.i else { return d }
     
     // FIXME: Data型が16バイト未満だとポインタをまともに作成できないため下駄を履かせる(Swift5.1). 
     d.dt = Data( repeating: 0, count: leng + LCDataOffsetByte )     // ゼロクリア
@@ -43,10 +43,10 @@ public func LCDataMakeWithSize( _ length:LLInt64 ) -> LCDataSmPtr {
 ///   - length: データの長さ
 /// - Returns: ポインタからの値をコピーしたデータ量lengthバイトのデータオブジェクト
 public func LCDataMakeWithBytes( _ bin:LLBytePtr?, _ length:LLInt64 ) -> LCDataSmPtr {
-    let d = LCDataMakeWithSize( length )
-    guard let nonnull_bin = bin else { LLLogWarning( "引数binがnilです." ); return d }
-    guard let leng = length.i else { return d }
-    let ptr = LCDataPointer( d )
+    let d:LCDataSmPtr = LCDataMakeWithSize( length )
+    guard let nonnull_bin:LLBytePtr = bin else { LLLogWarning( "引数binがnilです." ); return d }
+    guard let leng:Int = length.i else { return d }
+    let ptr:LLUInt8Ptr = LCDataPointer( d )
     memcpy( ptr, nonnull_bin, leng )
     return d
 }
@@ -56,9 +56,9 @@ public func LCDataMakeWithBytes( _ bin:LLBytePtr?, _ length:LLInt64 ) -> LCDataS
 ///   - chars: 元になるデータのポインタ
 /// - Returns: ポインタからの値をコピーしたデータ量lengthバイトのデータオブジェクト
 public func LCDataMakeWithCChars( _ chars:LLConstCCharsPtr ) -> LCDataSmPtr {
-    let d = LCDataMake()
-    let str = String( cString: chars )
-    let length = str.lengthOfBytes( using: .utf8 )
+    let d:LCDataSmPtr = LCDataMake()
+    let str:String = String( cString: chars )
+    let length:Int = str.lengthOfBytes( using: .utf8 )
     d.dt.append( unsafeBitCast( chars, to: LLUInt8Ptr.self )!, count:length )
     return d
 } 
@@ -68,8 +68,8 @@ public func LCDataMakeWithCChars( _ chars:LLConstCCharsPtr ) -> LCDataSmPtr {
 ///   - chars: LilyCore文字列オブジェクト
 /// - Returns: 文字列をデータ列に変換したデータオブジェクト
 public func LCDataMakeWithString( _ str:LCStringSmPtr ) -> LCDataSmPtr {
-    let d = LCDataMake()
-    let ptr = LCStringToCChars( str )
+    let d:LCDataSmPtr = LCDataMake()
+    let ptr:LLCChars = LCStringToCChars( str )
     LCDataAppendChars( d, ptr )
     return d
 } 
@@ -89,13 +89,13 @@ public func LCDataMakeWithFile( _ path:LCStringSmPtr ) -> LCDataSmPtr {
     */
  
     // LilyCore実装
-    let fr = LCFileReaderMake( path )
+    let fr:LCFileReaderSmPtr = LCFileReaderMake( path )
     if !LCFileReaderIsActive( fr ) { return LCDataMake() }
     
-    let length = LCFileGetSize( path )
+    let length:LLInt64 = LCFileGetSize( path )
     
-    let d = LCDataMakeWithSize( length )
-    guard let ptr = LCDataPointer( d ) else { return LCDataMake() }
+    let d:LCDataSmPtr = LCDataMakeWithSize( length )
+    guard let ptr:UnsafeMutablePointer<UInt8> = LCDataPointer( d ) else { return LCDataMake() }
     
     LCFileReaderRead( fr, ptr, length )
     
@@ -106,8 +106,8 @@ public func LCDataMakeWithFile( _ path:LCStringSmPtr ) -> LCDataSmPtr {
 /// - Parameters:
 ///   - data: 対象のデータオブジェクト
 public func LCDataMakeWithData( _ data:LCDataSmPtr ) -> LCDataSmPtr {
-    let d = LCDataMake()
-    guard let ptr = LCDataPointer( data ) else { 
+    let d:LCDataSmPtr = LCDataMake()
+    guard let ptr:UnsafeMutablePointer<UInt8> = LCDataPointer( data ) else { 
         LLLogWarning( "dataのポインタを取得できませんでした. サイズ0のLCDataを返します." )
         return d 
     }
@@ -122,7 +122,7 @@ public func LCDataPointer( _ data:LCDataSmPtr ) -> LLUInt8Ptr {
     // 下駄分より下回っていたら無しと捉える
     if data.dt.count <= LCDataOffsetByte { return nil }
 
-    guard let ptr = data.dt.withUnsafeMutableBytes( { $0.baseAddress } ) else {
+    guard let ptr:UnsafeMutableRawPointer = data.dt.withUnsafeMutableBytes( { $0.baseAddress } ) else {
         LLLogWarning( "LCDataのポインタを取得できませんでした." )
         return nil
     }
@@ -157,7 +157,7 @@ public func LCDataAppendBytes( _ data:LCDataSmPtr, _ bin:LLUInt8Ptr, _ length:LL
         LLLogWarning( "LCDataのポインタを取得できませんでした." )
         return
     }
-    guard let leng = length.i else { return }
+    guard let leng:Int = length.i else { return }
     
     data.dt.append( ptr, count: leng )
 }
@@ -167,9 +167,9 @@ public func LCDataAppendBytes( _ data:LCDataSmPtr, _ bin:LLUInt8Ptr, _ length:LL
 ///   - data: 対象のデータオブジェクト
 ///   - chars: 追加する文字列データの先頭ポインタ
 public func LCDataAppendChars( _ data:LCDataSmPtr, _ chars:LLConstCCharsPtr ) {
-    let optr = OpaquePointer( chars )
-    let uint8_ptr = LLNonNullUInt8Ptr( optr )
-    let length = strlen( chars )
+    let optr:OpaquePointer = OpaquePointer( chars )
+    let uint8_ptr:LLNonNullUInt8Ptr = LLNonNullUInt8Ptr( optr )
+    let length:Int = strlen( chars )
     data.dt.append( uint8_ptr, count: length )
 }
 

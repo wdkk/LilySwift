@@ -20,7 +20,7 @@ fileprivate class LCFileReaderInternal
     /// - Parameter path: ファイルパス
     /// - Description: 読み込みに失敗した場合ストリームを閉じたオブジェクトを返す
     init( path:LCStringSmPtr ) {
-        guard let istream = InputStream( fileAtPath: String( path ) ) else {
+        guard let istream:InputStream = InputStream( fileAtPath: String( path ) ) else {
             LLLogWarning( "ファイルの読み込みに失敗しました. (\(path))" )
             _istream = nil
             return
@@ -38,14 +38,14 @@ fileprivate class LCFileReaderInternal
     /// 読み込み状態を返す
     /// - Description: true = 読み込み中, false = 停止中
     var isActive:Bool {
-        guard let istrm = _istream else { return false }
+        guard let istrm:InputStream = _istream else { return false }
         return istrm.streamStatus == .open || istrm.streamStatus == .opening || istrm.streamStatus == .reading
     }
 
     /// ストリームがファイル終端にたどり着いたかを返す
     /// - Description: true = 終端 or 閉じている or 開いていない, false = 終端ではない
     var isEOF:Bool { 
-        guard let istrm = _istream else { return true }
+        guard let istrm:InputStream = _istream else { return true }
         return istrm.streamStatus == .atEnd || istrm.streamStatus == .closed || istrm.streamStatus == .notOpen
     }
 
@@ -64,9 +64,9 @@ fileprivate class LCFileReaderInternal
     /// - Returns: true = 成功, false = 失敗
     func read( _ bin:LLNonNullUInt8Ptr, _ length:LLInt64 ) -> Bool {
         if !isActive { return false }
-        guard let leng = length.i else { return false }
+        guard let leng:Int = length.i else { return false }
         
-        let result = _istream?.read( bin, maxLength: leng )
+        let result:Int? = _istream?.read( bin, maxLength: leng )
         if result == -1 {
             LLLogWarning( "InputStreamエラー" )
             return false

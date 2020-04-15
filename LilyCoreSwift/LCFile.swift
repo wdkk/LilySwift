@@ -34,11 +34,11 @@ public func LCFileIsDirectory( _ path:LCStringSmPtr ) -> Bool {
 public func LCFileGetSize( _ path:LCStringSmPtr ) -> LLInt64 {
     if !LCFileExists( path ) {
         LLLogWarning( "ファイルがみつかりませんでした. \(String( path ))" )
-        return 0;
+        return 0
     }
     
     do {
-        let attr = try FileManager.default.attributesOfItem( atPath: String( path ) )
+        let attr:[FileAttributeKey : Any] = try FileManager.default.attributesOfItem( atPath: String( path ) )
          return attr[FileAttributeKey.size] as! LLInt64
     }
     catch {
@@ -142,11 +142,11 @@ public func LCFileRemoveDirectory( _ path:LCStringSmPtr ) -> Bool {
     }
     
     do {
-        var ret = true
-        let files = LCPathEnumerateFiles( path, LCStringArrayMake() )
+        var ret:Bool = true
+        let files:LCStringArraySmPtr = LCPathEnumerateFiles( path, LCStringArrayMake() )
         
-        for i in 0 ..< LCStringArrayCount( files ) {
-            let file_name = LCStringArrayAt( files, i )
+        for i:Int in 0 ..< LCStringArrayCount( files ) {
+            let file_name:LCStringSmPtr = LCStringArrayAt( files, i )
             if !LCFileRemove( LCStringJoin( LCStringJoin( path, LCStringMakeWithCChars( "/" ) ), file_name ) ) {
                 ret = false
                 break
@@ -154,9 +154,9 @@ public func LCFileRemoveDirectory( _ path:LCStringSmPtr ) -> Bool {
         }
         
         // remove directories (recersive process)
-        let directories = LCPathEnumerateDirectories( path )
-        for i in 0 ..< LCStringArrayCount( directories ) {
-            let dir_path = LCStringArrayAt( directories, i )
+        let directories:LCStringArraySmPtr = LCPathEnumerateDirectories( path )
+        for i:Int in 0 ..< LCStringArrayCount( directories ) {
+            let dir_path:LCStringSmPtr = LCStringArrayAt( directories, i )
             if !LCFileRemoveDirectory( LCStringJoin( LCStringJoin( path, dir_path ), LCStringMakeWithCChars( "/" ) ) ) {
                 ret = false
                 break
@@ -165,7 +165,7 @@ public func LCFileRemoveDirectory( _ path:LCStringSmPtr ) -> Bool {
         
         if !ret { return false }
         
-        try FileManager.default.removeItem(atPath: String( path ) )
+        try FileManager.default.removeItem( atPath: String( path ) )
         return true
     }
     catch {

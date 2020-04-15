@@ -14,7 +14,7 @@ import Foundation
 private struct __LCAlgoLineBresenham
 {
     /// ステップ情報
-    var ls = LLAlgoLineStep()
+    var ls:LLAlgoLineStep = LLAlgoLineStep()
 
     /// 停止確認フラグ
     var is_stopped:Bool = true
@@ -48,7 +48,7 @@ private struct __LCAlgoLineBresenham
 public class LCAlgoLineBresenhamSmPtr
 {
     /// 内部実装オブジェクト
-    fileprivate var lb = __LCAlgoLineBresenham()
+    fileprivate var lb:__LCAlgoLineBresenham = __LCAlgoLineBresenham()
     
     fileprivate init() {}
 }
@@ -65,7 +65,7 @@ public func LCAlgoLineBresenhamMake() -> LCAlgoLineBresenhamSmPtr {
 ///   - pt: 初期座標(x,y)
 ///   - span: 初期プロット距離
 public func LCAlgoLineBresenhamStart( _ line:LCAlgoLineBresenhamSmPtr, _ pt:LLPoint, _ span:LLDouble ) {
-    var lb = line.lb
+    var lb:__LCAlgoLineBresenham = line.lb
     
     lb.is_stopped = true
     lb.now_span = span
@@ -92,27 +92,27 @@ public func LCAlgoLineBresenhamStart( _ line:LCAlgoLineBresenhamSmPtr, _ pt:LLPo
 /// - Description: spanは前のターゲットで指定した値で線形に変化していく
 @discardableResult
 public func LCAlgoLineBresenhamRetarget( _ line:LCAlgoLineBresenhamSmPtr, _ pt:LLPoint, _ span:LLDouble ) -> LLRegion {
-    var lb = line.lb
+    var lb:__LCAlgoLineBresenham = line.lb
     
-    if( span < 0.01 ) {
+    if span < 0.01 {
         lb.is_stopped = true
         // 状態オブジェクトを上書き
         line.lb = lb
         return LLRegionZero()
     }
     
-    let dx = pt.x - lb.now_point.x
-    let dy = pt.y - lb.now_point.y
+    let dx:LLDouble = pt.x - lb.now_point.x
+    let dy:LLDouble = pt.y - lb.now_point.y
     
     // 移動距離よりスパンの方が長い場合プロットできないので、ストップさせる
-    if( dx*dx + dy*dy < span * span ) {
+    if dx*dx + dy*dy < span * span {
         lb.is_stopped = true
         // 状態オブジェクトを上書き
         line.lb = lb
         return LLRegionZero()   
     }
     
-    var reg = LLRegionZero()
+    var reg:LLRegion = LLRegionZero()
     reg.left   = LLMin(pt.x, line.lb.now_point.x) - 2.0
     reg.top    = LLMin(pt.y, line.lb.now_point.y) - 2.0
     reg.right  = LLMax(pt.x, line.lb.now_point.x) + 2.0
@@ -130,7 +130,7 @@ public func LCAlgoLineBresenhamRetarget( _ line:LCAlgoLineBresenhamSmPtr, _ pt:L
     
     // calculate internal parameters
     lb.length = sqrt( lb.dx * lb.dx + lb.dy * lb.dy )
-    if( lb.length <= 0.0 ) {
+    if lb.length <= 0.0 {
         lb.is_stopped = true
         // 状態オブジェクトを上書き
         line.lb = lb
@@ -141,10 +141,10 @@ public func LCAlgoLineBresenhamRetarget( _ line:LCAlgoLineBresenhamSmPtr, _ pt:L
     lb.sinv = lb.dy / lb.length
 
     // linear step calculation.
-    let calc_leng1 = lb.length / lb.now_span
-    let calc_leng2 = lb.length / span
+    let calc_leng1:LLDouble = lb.length / lb.now_span
+    let calc_leng2:LLDouble = lb.length / span
     lb.step_all = (calc_leng1 + calc_leng2) / 2.0
-    if( lb.step_all < 1 ) {
+    if lb.step_all < 1 {
         lb.is_stopped = true
         // 状態オブジェクトを上書き
         line.lb = lb;
@@ -174,11 +174,11 @@ public func LCAlgoLineBresenhamRetarget( _ line:LCAlgoLineBresenhamSmPtr, _ pt:L
 /// - Parameter line: Bresenhamラインステップアルゴリズムオブジェクト
 /// - Returns: ラインステップ情報
 public func LCAlgoLineBresenhamNext( _ line:LCAlgoLineBresenhamSmPtr ) -> LLAlgoLineStep {
-    var lb = line.lb
+    var lb:__LCAlgoLineBresenham = line.lb
     
     // 停止のチェック
     lb.is_stopped = (lb.step_all <= lb.step)
-    if( lb.is_stopped ) {
+    if lb.is_stopped {
         // 状態オブジェクトを上書き
         line.lb = lb
         return line.lb.ls;

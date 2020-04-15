@@ -55,10 +55,10 @@ class LCAlignedMemoryInternal
     }
     
     func append( _ src:LCAlignedMemoryInternal ) {
-        let old_length = self.length
-        let new_length = old_length + src.length
+        let old_length:Int = self.length
+        let new_length:Int = old_length + src.length
         self.allocate( length: new_length )
-        guard let offset_ptr = self.pointer?.advanced(by: old_length ) else {
+        guard let offset_ptr:LLBytePtr = self.pointer?.advanced(by: old_length ) else {
             LLLogWarning( "新たに取得したメモリのポインタを取得できませんでした." )
             return
         }
@@ -66,10 +66,10 @@ class LCAlignedMemoryInternal
     }
     
     func append( _ bin:LLUInt8Ptr, _ length:Int ) {
-        let old_length = self.allocator.length
-        let new_length = old_length + length
+        let old_length:Int = self.allocator.length
+        let new_length:Int = old_length + length
         self.allocate( length: new_length )
-        guard let offset_ptr = self.pointer?.advanced(by: old_length ) else {
+        guard let offset_ptr:LLBytePtr = self.pointer?.advanced(by: old_length ) else {
             LLLogWarning( "新たに取得したメモリのポインタを取得できませんでした." )
             return
         }
