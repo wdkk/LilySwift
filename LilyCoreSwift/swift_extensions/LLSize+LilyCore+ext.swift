@@ -59,4 +59,9 @@ public extension LLSize
     var cgSize:CGSize { 
         return CGSize( self )
     }
+    
+    /// 0~指定した値のランダムサイズ値
+    var randomize:LLSize { 
+        return LLSize( LLRandomd( self.width ), LLRandomd( self.height ) )  
+    }
 }

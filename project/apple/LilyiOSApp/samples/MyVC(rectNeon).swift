@@ -9,7 +9,7 @@
 //
 
 import Foundation
-import LilySwift
+import Lily
 
 class MyViewController : LBViewController
 {   
@@ -38,12 +38,10 @@ class MyViewController : LBViewController
                 
         // パネルを四角形デコレーションで作成
         for p in panels {
-            let px = (self.coordMinX...self.coordMaxX).randomize
-            let py = (self.coordMinY...self.coordMaxY).randomize
             let size = 40.0 + ( 120.0 ).randomize
 
             p
-            .position( cx: px, cy: py )
+            .position( coordRegion.randomPoint )
             .scale( width:size, height:size )
             .angle( .random )
             .life( .random )
@@ -64,10 +62,8 @@ class MyViewController : LBViewController
             .alpha { sin( $0.life * Float.pi ) * 0.75 }
             
             if p.life <= 0.0 {
-                let px = (self.coordMinX...self.coordMaxX).randomize
-                let py = (self.coordMinY...self.coordMaxY).randomize
-                
-                p.position( cx: px, cy: py )
+                p
+                .position( coordRegion.randomPoint )
                 .scale( .zero )
                 .angle( .random )
                 .life( 1.0 )

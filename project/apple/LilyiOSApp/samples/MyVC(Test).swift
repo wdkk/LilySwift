@@ -9,7 +9,7 @@
 //
 
 import Foundation
-import LilySwift
+import Lily
 
 class MyViewController : LBViewController
 {    
@@ -110,8 +110,8 @@ class MyViewController : LBViewController
 
         // パネルの位置や色を設定
         for p in panels {
-            let px = (self.coordMinX...self.coordMaxX).randomize
-            let py = (self.coordMinY...self.coordMaxY).randomize
+            let px = (coordMinX...coordMaxX).randomize
+            let py = (coordMinY...coordMaxY).randomize
             let size = 40.0 + ( 120.0 ).randomize
 
             p
@@ -147,8 +147,8 @@ class MyViewController : LBViewController
             .alpha { sin( $0.life * Float.pi ) * 0.75 }
             
             if p.life <= 0.0 {
-                let px = (self.coordMinX...self.coordMaxX).randomize
-                let py = (self.coordMinY...self.coordMaxY).randomize
+                let px = (coordMinX...coordMaxX).randomize
+                let py = (coordMinY...coordMaxY).randomize
                 
                 p.position( cx: px, cy: py )
                 .scale( .zero )

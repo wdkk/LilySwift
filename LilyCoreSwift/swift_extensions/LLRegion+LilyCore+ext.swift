@@ -62,4 +62,10 @@ public extension LLRegion
     func and( _ reg:LLRegion ) -> LLRegion {
         return LLRegionAnd( self, reg )
     }
+    
+    /// 指定した値の範囲のランダム頂点を取得する
+    var randomPoint:LLPoint { 
+        return LLPoint( ( LLMin(left, right)...LLMax(left, right) ).randomize,
+                        ( LLMin(top, bottom)...LLMax(top, bottom) ).randomize )
+    }
 }

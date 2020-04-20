@@ -33,6 +33,13 @@ open class LBViewController : LLViewController
     public var coordMinY:Double { -(metalView.height * 0.5) }
     public var coordMaxY:Double { metalView.height * 0.5 }
     
+    public var screenSize:LLSizeFloat { LLSizeFloat( width, height ) }
+    
+    public var coordRegion:LLRegion { LLRegion( left:coordMinX,
+                                                top:coordMaxY,
+                                                right:coordMaxX,
+                                                bottom:coordMinY ) }
+    
     final public override func setup() {
         super.setup()
         

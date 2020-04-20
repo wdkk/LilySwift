@@ -60,6 +60,12 @@ public extension LBPanel
     }
     
     @discardableResult
+    func position( _ p:LLPoint ) -> Self {
+        params.position = LLFloatv2( p.x.f, p.y.f )
+        return self
+    }
+    
+    @discardableResult
     func position( cx:Float, cy:Float ) -> Self {
         params.position = LLFloatv2( cx, cy )
         return self
@@ -143,7 +149,7 @@ public extension LBPanel
         params.scale = LLFloatv2( sz.width, sz.height )
         return self
     }
-    
+        
     @discardableResult
     func scale( width:Float, height:Float ) -> Self {
         params.scale = LLFloatv2( width, height )
@@ -159,6 +165,18 @@ public extension LBPanel
     func scale( _ calc:( LBPanel )->LLSizeFloat ) -> Self {
         let sz = calc( self )
         params.scale = LLFloatv2( sz.width, sz.height )
+        return self
+    }
+    
+    @discardableResult
+    func scale( square sz:Float ) -> Self {
+        params.scale = LLFloatv2( sz, sz )
+        return self
+    }
+    
+    @discardableResult
+    func scale( square sz:LLFloatConvertable ) -> Self {
+        params.scale = LLFloatv2( sz.f, sz.f )
         return self
     }
 }

@@ -106,4 +106,9 @@ public extension LLPointInt
     func dist( _ p:LLPointInt ) -> CGFloat {
         return sqrt( dist2( p ) )
     }
+    
+    /// 0~指定した値のランダムサイズ値
+    var randomize:LLPointInt { 
+        return LLPointInt( LLRandomi( self.x ).i, LLRandomi( self.y ).i )  
+    }
 }

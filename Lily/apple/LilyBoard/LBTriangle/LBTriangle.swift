@@ -55,6 +55,12 @@ public extension LBTriangle
     }
     
     @discardableResult
+    func p1( _ p:LLPoint ) -> Self {
+        p1 = p.llPointFloat
+        return self
+    }
+    
+    @discardableResult
     func p1( x:Float, y:Float ) -> Self {
         p1 = LLPointFloat( x, y )
         return self
@@ -87,6 +93,12 @@ public extension LBTriangle
     }
     
     @discardableResult
+    func p2( _ p:LLPoint ) -> Self {
+        p2 = p.llPointFloat
+        return self
+    }
+    
+    @discardableResult
     func p2( x:Float, y:Float ) -> Self {
         p2 = LLPointFloat( x, y )
         return self
@@ -115,6 +127,12 @@ public extension LBTriangle
     @discardableResult
     func p3( _ p:LLPointFloat ) -> Self {
         p3 = p
+        return self
+    }
+    
+    @discardableResult
+    func p3( _ p:LLPoint ) -> Self {
+        p3 = p.llPointFloat
         return self
     }
     
@@ -248,6 +266,12 @@ public extension LBTriangle
     }
     
     @discardableResult
+    func position( _ p:LLPoint ) -> Self {
+        params.position = LLFloatv2( p.x.f, p.y.f )
+        return self
+    }
+    
+    @discardableResult
     func position( cx:Float, cy:Float ) -> Self {
         params.position = LLFloatv2( cx, cy )
         return self
@@ -347,6 +371,18 @@ public extension LBTriangle
     func scale( _ calc:( LBTriangle )->LLSize ) -> Self {
         let sz = calc( self )
         params.scale = LLFloatv2( sz.width.f, sz.height.f )
+        return self
+    }
+    
+    @discardableResult
+    func scale( square sz:Float ) -> Self {
+        params.scale = LLFloatv2( sz, sz )
+        return self
+    }
+    
+    @discardableResult
+    func scale( square sz:LLFloatConvertable ) -> Self {
+        params.scale = LLFloatv2( sz.f, sz.f )
         return self
     }
 }

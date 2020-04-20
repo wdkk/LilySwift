@@ -9,7 +9,7 @@
 //
 
 import Foundation
-import LilySwift
+import Lily
 
 class MyViewController : LBViewController
 {    
@@ -35,8 +35,8 @@ class MyViewController : LBViewController
 
         // パネルの位置や色を設定
         for p in particles {
-            let px = (self.coordMinX...self.coordMaxX).randomize
-            let py = (self.coordMinY...self.coordMaxY).randomize
+            let px = (coordMinX...coordMaxX).randomize
+            let py = (coordMinY...coordMaxY).randomize
             let size = 20.0 + ( 40.0 ).randomize
 
             p
@@ -55,8 +55,8 @@ class MyViewController : LBViewController
             .alpha { sin( $0.life * Float.pi ) * 0.75 }
             
             if p.life <= 0.0 {
-                let px = (self.coordMinX...self.coordMaxX).randomize
-                let py = (self.coordMinY...self.coordMaxY).randomize
+                let px = (coordMinX...coordMaxX).randomize
+                let py = (coordMinY...coordMaxY).randomize
                 
                 p.position( cx: px, cy: py )
                 .scale( 20.0 + 140.0.randomize )

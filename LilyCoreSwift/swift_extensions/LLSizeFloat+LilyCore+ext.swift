@@ -59,4 +59,9 @@ public extension LLSizeFloat
     var cgSize:CGSize { 
         return CGSize( self )
     }
+    
+    /// 0~指定した値のランダムサイズ値
+    var randomize:LLSizeFloat { 
+        return LLSizeFloat( LLRandomf( self.width ), LLRandomf( self.height ) )  
+    }
 }

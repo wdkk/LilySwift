@@ -53,6 +53,12 @@ public extension LBParticle
         params.position = LLFloatv2( p.x, p.y )
         return self
     }
+
+    @discardableResult
+    func position( _ p:LLPoint ) -> Self {
+        params.position = LLFloatv2( p.x.f, p.y.f )
+        return self
+    }
     
     @discardableResult
     func position( cx:Float, cy:Float ) -> Self {
@@ -135,14 +141,13 @@ public extension LBParticle
     }
     
     @discardableResult
-    func scale( _ sz:LLFloat ) -> Self {
+    func scale( square sz:LLFloat ) -> Self {
         params.scale = sz
         return self
     }
     
-    
     @discardableResult
-    func scale( _ fc:LLFloatConvertable ) -> Self {
+    func scale( square fc:LLFloatConvertable ) -> Self {
         params.scale = fc.f
         return self
     }
