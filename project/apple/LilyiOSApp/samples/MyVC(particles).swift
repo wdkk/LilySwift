@@ -9,7 +9,7 @@
 //
 
 import Foundation
-import Lily
+import LilySwift
 
 class MyViewController : LBViewController
 {    

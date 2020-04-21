@@ -460,7 +460,7 @@ public extension LBTriangle
     
     @discardableResult
     func angle( degrees deg:LLFloatConvertable ) -> Self {
-        return angle( LLAngle.radians( deg.f.d ) )
+        return angle( LLAngle.degrees( deg.f.d ) )
     }
     
     @discardableResult

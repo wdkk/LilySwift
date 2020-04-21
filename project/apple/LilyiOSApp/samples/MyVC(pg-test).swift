@@ -25,7 +25,10 @@ class MyViewController : LBViewController
     }
     
     func design() {
-        PGCircle()
+        PGRectangle()
+        .color( .blue )
+        .scale( width:200, height:200 )
+        .angle( degrees: 45.0 )
     }
 }
 
