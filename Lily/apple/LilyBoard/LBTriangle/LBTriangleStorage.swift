@@ -40,9 +40,9 @@ open class LBTriangleStorage : LBActorStorage
     // トライアングルデータを要求する
     public func request() -> Int {        
         let tri_v = LLTriple<LBTriangleVertex>(
-            LBTriangleVertex( xy:LLFloatv2(  0.0,  1.0 ), uv:LLFloatv2(  0.0,  1.0 ) ),
-            LBTriangleVertex( xy:LLFloatv2( -1.0, -1.0 ), uv:LLFloatv2( -1.0,  1.0 ) ),
-            LBTriangleVertex( xy:LLFloatv2(  1.0, -1.0 ), uv:LLFloatv2(  1.0, -1.0 ) )
+            LBTriangleVertex( xy:LLFloatv2(  0.0,  1.15470053838 ), uv:LLFloatv2(  0.0,  1.0 ) ),
+            LBTriangleVertex( xy:LLFloatv2( -1.0, -0.57735026919 ), uv:LLFloatv2( -1.0,  1.0 ) ),
+            LBTriangleVertex( xy:LLFloatv2(  1.0, -0.57735026919 ), uv:LLFloatv2(  1.0, -1.0 ) )
         )
         // Trianglesの描画処理を書き換え
         tris.drawFunc = self.draw

@@ -17,6 +17,9 @@ public enum LLMetalBlendType : Int
     case none
     case alphaBlend
     case add
+    case sub
+    case max
+    case min
 }
 
 public struct LLMetalDepthState

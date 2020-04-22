@@ -8,15 +8,61 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-import UIKit
+import Metal
 
-public class PGCircle : PGShape
+public class PGCircle : PGPanelBase
 {
-    static let deco = LBPanelDecoration.circle()
+    static private var deco = [Int:LBPanelDecoration]()
+    
+    static private func create( index:Int ) -> LBPanelDecoration {
+        if let d = deco[index] { return d }
+        deco[index] = LBPanelDecoration.circle()
+            .layer( index:index )
+        return deco[index]!
+    }
     
     @discardableResult
-    public init() {
-        super.init( decoration:PGCircle.deco )
-        PGViewController.shared.shapes.insert( self )
+    public init( index:Int = 0 ) {
+        super.init( decoration:PGCircle.create( index: index ) )
+        PGViewController.shared.panels.insert( self )
     }
 }
+
+public class PGAddCircle : PGPanelBase
+{
+    static private var deco = [Int:LBPanelDecoration]()
+    
+    static private func create( index:Int ) -> LBPanelDecoration {
+        if let d = deco[index] { return d }
+        deco[index] = LBPanelDecoration.circle()
+            .blendType( .add )
+            .layer( index:index )
+        return deco[index]!
+    }
+    
+    @discardableResult
+    public init( index:Int = 0 ) {
+        super.init( decoration:PGAddCircle.create( index: index ) )
+        PGViewController.shared.panels.insert( self )
+    }
+}
+
+public class PGSubCircle : PGPanelBase
+{
+    static private var deco = [Int:LBPanelDecoration]()
+    
+    static private func create( index:Int ) -> LBPanelDecoration {
+        if let d = deco[index] { return d }
+        deco[index] = LBPanelDecoration.circle()
+            .blendType( .sub )
+            .layer( index:index )
+        return deco[index]!
+    }
+    
+    @discardableResult
+    public init( index:Int = 0 ) {
+        super.init( decoration:PGSubCircle.create( index: index ) )
+        PGViewController.shared.panels.insert( self )
+    }
+}
+

@@ -8,10 +8,13 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if LILY
+#if os(iOS)
 import UIKit
-#else
-import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
+
+#if !LILY
 import PlaygroundSupport
 #endif
 
@@ -37,11 +40,13 @@ open class PGViewController: PGBaseViewController
         fatalError("init(coder:) has not been implemented")
     }
     
-    public var shapes = Set<PGShape>()
+    public var panels = Set<PGPanelBase>()
+    public var triangles = Set<PGTriangleBase>()
+    public var textures = [String:LLMetalTexture]()
     
     public var designBoardHandler:(()->Void)?
     public var updateBoardHandler:(()->Void)?
-    
+
     // 準備関数
     override open func setupBoard() {
         super.setupBoard()
@@ -78,16 +83,31 @@ open class PGViewController: PGBaseViewController
         // 終了したShapeに対する処理を行う
         checkCompletedShapes()
     }
-    
+        
     func checkCompletedShapes() {
-        for s in shapes {
-            if s.life <= 0.0 {
-                s.completionCallBack( s )
+        for p in panels {
+            if p.life <= 0.0 {
+                p.completionCallBack( p )
+            }
+        }
+        
+        for t in triangles {
+            if t.life <= 0.0 {
+                t.completionCallBack( t )
             }
         }
     }
     
     func removeAllShapes() {
-        shapes.removeAll()
+        panels.removeAll()
+        triangles.removeAll()
+    }
+    
+    public func getTexture( _ path:String ) -> LLMetalTexture {
+        guard let tex = textures[path] else {
+            textures[path] = LLMetalTexture( named: path )
+            return textures[path]!
+        }
+        return tex
     }
 }

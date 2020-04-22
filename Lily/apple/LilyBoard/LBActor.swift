@@ -13,14 +13,13 @@ import Metal
 
 open class LBActor<TDecoration:LBDecoration> : Hashable
 {
-    public let uuid = UUID().hashValue
     // Hashableの実装
     public static func == (lhs: LBActor<TDecoration>, rhs: LBActor<TDecoration>) -> Bool {
-        lhs.hashValue == rhs.hashValue
+        lhs === rhs
     }
     // Hashableの実装
     public func hash(into hasher: inout Hasher) {
-        hasher.combine( uuid )
+        ObjectIdentifier(self).hash(into: &hasher)
     }
     
     public weak var decoration:TDecoration?

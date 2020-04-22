@@ -10,58 +10,70 @@
 
 import Metal
 
-public class PGRectangle : PGPanelBase
+public class PGPicture : PGPanelBase
 {
     static private var deco = [Int:LBPanelDecoration]()
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.rectangle()
+        deco[index] = LBPanelDecoration.texture()
             .layer( index:index )
         return deco[index]!
     }
     
     @discardableResult
-    public init( index:Int = 0 ) {
-        super.init( decoration:PGRectangle.create( index: index ) )
+    public init( _ name:String, index:Int = 0 ) {
+        let tex = PGViewController.shared.getTexture( name )
+        
+        super.init( decoration:PGPicture.create( index: index ) )
+        self.texture( tex )
+        
         PGViewController.shared.panels.insert( self )
     }
 }
 
-public class PGAddRectangle : PGPanelBase
+public class PGAddPicture : PGPanelBase
 {
     static private var deco = [Int:LBPanelDecoration]()
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.rectangle()
+        deco[index] = LBPanelDecoration.texture()
             .blendType( .add )
             .layer( index:index )
         return deco[index]!
     }
     
     @discardableResult
-    public init( index:Int = 0 ) {
-        super.init( decoration:PGAddRectangle.create( index: index ) )
+    public init( _ name:String, index:Int = 0 ) {
+        let tex = PGViewController.shared.getTexture( name )
+        
+        super.init( decoration:PGAddPicture.create( index: index ) )
+        self.texture( tex )
+        
         PGViewController.shared.panels.insert( self )
     }
 }
 
-public class PGSubRectangle : PGPanelBase
+public class PGSubPicture : PGPanelBase
 {
     static private var deco = [Int:LBPanelDecoration]()
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.rectangle()
+        deco[index] = LBPanelDecoration.texture()
             .blendType( .sub )
             .layer( index:index )
         return deco[index]!
     }
     
     @discardableResult
-    public init( index:Int = 0 ) {
-        super.init( decoration:PGSubRectangle.create( index: index ) )
+    public init( _ name:String, index:Int = 0 ) {
+        let tex = PGViewController.shared.getTexture( name )
+        
+        super.init( decoration:PGSubPicture.create( index: index ) )
+        self.texture( tex )
+        
         PGViewController.shared.panels.insert( self )
     }
 }
