@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 
 public class LCImageSaverInternal
@@ -24,3 +26,5 @@ public class LCImageSaverSmPtr
     /// 初期化
     init() { saver = LCImageSaverInternal() }
 }
+
+#endif

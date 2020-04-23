@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 
 /// ファイル書き込みの内部実装クラス
@@ -188,3 +190,5 @@ public func LCFileWriterWriteText( _ writer:LCFileWriterSmPtr, _ cstr:LCStringSm
 public func LCFileWriterEnd( _ writer:LCFileWriterSmPtr ) -> Bool {
     return writer.fwi.end()
 }
+
+#endif

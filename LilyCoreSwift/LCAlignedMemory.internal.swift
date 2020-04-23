@@ -20,17 +20,6 @@ class LCAlignedMemoryInternal
     
     // メモリの追加
     private func allocate( length newleng:Int ) {
-        /*
-        let new_aligned_length = self.allocator.requestAlignedLength( from: newleng )
-        // もし余分も含めてオーバーした場合メモリの再確保
-        var next_allocated_length = LLMax( self.allocator.allocatedLength, 1 )
-        while true {
-            if new_aligned_length <= next_allocated_length { break }
-            next_allocated_length *= 2
-        }
-        
-        self.allocator.allocate( length: next_allocated_length )
-        */
         self.allocator.allocate( length: newleng )
     }
     

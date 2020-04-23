@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 
 /// Hermiteラインステップアルゴリズムの内部実装クラス
@@ -310,3 +312,5 @@ public func LCAlgoLineHermiteNow( _ line:LCAlgoLineHermiteSmPtr ) -> LLAlgoLineS
 public func LCAlgoLineHermiteIsStopped( _ line:LCAlgoLineHermiteSmPtr ) -> Bool {
     return line.lh.is_stopped
 }
+
+#endif

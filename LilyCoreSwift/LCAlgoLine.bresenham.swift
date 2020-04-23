@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 
 /// Bresenhamラインステップアルゴリズムの内部実装クラス
@@ -218,3 +220,5 @@ public func LCAlgoLineBresenhamNow( _ line:LCAlgoLineBresenhamSmPtr ) -> LLAlgoL
 public func LCAlgoLineBresenhamIsStopped( _ line:LCAlgoLineBresenhamSmPtr ) -> Bool {
     return line.lb.is_stopped
 }
+
+#endif

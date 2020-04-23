@@ -110,6 +110,7 @@ public func LCFileCopy( _ from_path:LCStringSmPtr, _ to_path:LCStringSmPtr ) -> 
     }
 }
 
+#if LILY_FULL
 /// ディレクトリを作成する
 /// - Parameter path: 作成するディレクトリのパス
 /// - Returns: true = 成功 or すでに存在する, false = 失敗
@@ -227,3 +228,4 @@ public func LCFileCopyDirectory( _ from_path:LCStringSmPtr, _ to_path:LCStringSm
         return false
     }
 }
+#endif

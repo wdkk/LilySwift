@@ -10,19 +10,6 @@
 
 import Foundation
 
-/// 起動位置のパスを取得
-/// - Parameter filename: パスに追加するファイル名
-/// - Returns: 起動位置のパス文字列
-/// - Description: 最後にスラッシュがつく. filenameはその最後尾に付与される
-public func LCPathGetLaunching( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
-    #if os(iOS)
-    return LCStringMakeWithCChars( (NSHomeDirectory() + "/" + String( filename )).cChar )
-    #elseif os(macOS)
-    let dir = LCStringMakeWithCChars( Bundle.main.bundlePath.url.deletingLastPathComponent().relativePath.cChar )
-    return LCStringJoin( dir, LCStringJoin( LCStringMakeWithCChars( "/" ), filename ) )
-    #endif    
-}
-
 /// バンドルのパスを取得
 /// - Parameter filename: パスに追加するファイル名
 /// - Returns: バンドルパス文字列
@@ -39,6 +26,20 @@ public func LCPathGetBundle( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
     #endif
     
     return LCStringMakeWithCChars( full_path.cChar )
+}
+
+#if LILY_FULL
+/// 起動位置のパスを取得
+/// - Parameter filename: パスに追加するファイル名
+/// - Returns: 起動位置のパス文字列
+/// - Description: 最後にスラッシュがつく. filenameはその最後尾に付与される
+public func LCPathGetLaunching( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
+    #if os(iOS)
+    return LCStringMakeWithCChars( (NSHomeDirectory() + "/" + String( filename )).cChar )
+    #elseif os(macOS)
+    let dir = LCStringMakeWithCChars( Bundle.main.bundlePath.url.deletingLastPathComponent().relativePath.cChar )
+    return LCStringJoin( dir, LCStringJoin( LCStringMakeWithCChars( "/" ), filename ) )
+    #endif    
 }
 
 /// ドキュメントディレクトリのパスを取得
@@ -82,33 +83,6 @@ public func LCPathGetCache( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
     let path = "\(paths[0])/\(String(filename))"
     #endif
     
-    return LCStringMakeWithCChars( path.cChar )
-}
-
-/// パスからファイル名(拡張子なし)を抽出する
-/// - Parameter filename: パス文字列
-/// - Returns: ファイル名文字列
-/// - Description: ex: /aaa/bbb/ccc.jpg -> ccc が得られる
-public func LCPathPickFilename( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
-    let path = String( filename ).url.deletingPathExtension().lastPathComponent
-    return LCStringMakeWithCChars( path.cChar )
-}
-
-/// パスからファイル名 + 拡張子を抽出する
-/// - Parameter filename: パス文字列
-/// - Returns: ファイル名文字列
-/// - Description: ex: /aaa/bbb/ccc.jpg -> ccc.jpg が得られる
-public func LCPathPickFilenameFull( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
-    let path = String( filename ).url.lastPathComponent
-    return LCStringMakeWithCChars( path.cChar )
-}
-
-/// パスから拡張子を抽出する
-/// - Parameter filename: パス文字列
-/// - Returns: ファイル名文字列
-/// - Description: ex: /aaa/bbb/ccc.jpg -> jpg が得られる
-public func LCPathPickExtension( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
-    let path = String( filename ).url.pathExtension
     return LCStringMakeWithCChars( path.cChar )
 }
 
@@ -275,4 +249,33 @@ public func LCPathIsMatchFilter( _ path_:LCStringSmPtr, _ filter_:LCStringSmPtr 
     
     // ここまで通ってきたものはフィルタ対象になるのでtrue
     return true
+}
+
+#endif
+
+/// パスからファイル名(拡張子なし)を抽出する
+/// - Parameter filename: パス文字列
+/// - Returns: ファイル名文字列
+/// - Description: ex: /aaa/bbb/ccc.jpg -> ccc が得られる
+public func LCPathPickFilename( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
+    let path = String( filename ).url.deletingPathExtension().lastPathComponent
+    return LCStringMakeWithCChars( path.cChar )
+}
+
+/// パスからファイル名 + 拡張子を抽出する
+/// - Parameter filename: パス文字列
+/// - Returns: ファイル名文字列
+/// - Description: ex: /aaa/bbb/ccc.jpg -> ccc.jpg が得られる
+public func LCPathPickFilenameFull( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
+    let path = String( filename ).url.lastPathComponent
+    return LCStringMakeWithCChars( path.cChar )
+}
+
+/// パスから拡張子を抽出する
+/// - Parameter filename: パス文字列
+/// - Returns: ファイル名文字列
+/// - Description: ex: /aaa/bbb/ccc.jpg -> jpg が得られる
+public func LCPathPickExtension( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
+    let path = String( filename ).url.pathExtension
+    return LCStringMakeWithCChars( path.cChar )
 }

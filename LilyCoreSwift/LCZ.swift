@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 import zlib
 import Compression
@@ -187,3 +189,5 @@ public func LCZDeflate( _ ptr:LLNonNullUInt8Ptr, _ length:Int, _ type:LLZCompres
     deflateEnd( &strm )
     return new_data
 }
+
+#endif

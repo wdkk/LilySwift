@@ -74,13 +74,6 @@ public class LCAlignedMemoryAllocator
         self.allocatedLength = requestAlignedLength( from:length )
         
         if self.memory != nil {
-            /*
-            let tmp_data = LCDataMakeWithBytes( self.memory, self.length )
-            alignedAllocate( alignment: self.alignment, length: self.allocatedLength )
-            let copy_length = min( self.length, LCDataLength( tmp_data ).i! )
-            memcpy( self.memory, LCDataPointer( tmp_data ), copy_length )
-            */
-            
             let tmp_mem:LLBytePtr = LLBytePtr( OpaquePointer( malloc( old_length ) ) )
             memcpy( tmp_mem, self.memory, old_length )
             alignedAllocate( alignment: self.alignment, length: self.allocatedLength )

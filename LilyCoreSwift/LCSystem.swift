@@ -26,6 +26,8 @@ public func LCSystemInit() {
     //print( "[ Lily build ]" )
 }
 
+#if LILY_FULL
+
 /// 空きメモリの取得
 /// - Returns: メガバイト数, 取得失敗した場合 = 0.0
 public func LCSystemGetFreeMemory() -> LLDouble {
@@ -57,6 +59,8 @@ public func LCSystemGetFreeStorage( _ root_path:LLConstCharPtr ) -> LLDouble {
     else { return 0.0 }
     return size / 1000000.0
 }
+
+#endif
 
 /// Retinaスケールを返す
 /// - Returns: 解像度倍率

@@ -8,6 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
 
 import Foundation
 
@@ -51,3 +52,5 @@ public func LCAlignedMemory16AppendBytes( _ mem_:LCAlignedMemory16SmPtr, _ bin_:
 public func LCAlignedMemory16Clear( _ mem_:LCAlignedMemory16SmPtr ) {
     mem_.amemory.clear()
 }
+
+#endif

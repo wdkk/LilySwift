@@ -102,7 +102,8 @@ open class LLImage
     open func resize( wid:Int, hgt:Int, type:LLImageType ) { LCImageResizeWithType( self._imgc, wid, hgt, type ) }
     
     open func convertType( to type:LLImageType ) { LCImageConvertType( self._imgc, type ) }
-      
+    
+    #if LILY_FULL
     @discardableResult
     open func save( to path:String ) -> Bool {
         return LCImageSaveFile( self._imgc, path.lcStr )
@@ -112,4 +113,5 @@ open class LLImage
     open func save( to path:String, option:LLImageSaveOption ) -> Bool {
         return LCImageSaveFileWithOption( self._imgc, path.lcStr, option )
     }
+    #endif
 }

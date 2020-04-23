@@ -85,4 +85,3 @@ public func LL2DAffineInverse( _ af:LL2DAffine ) -> LL2DAffine {
         e: af.a / work,
         f: (af.c * af.d - af.a * af.f) / work )
 }
-

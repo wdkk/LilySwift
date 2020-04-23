@@ -61,6 +61,8 @@ public func LCImageMakeWithFileAndOption( _ file_path_:LCStringSmPtr, _ option_:
     return LDImageLoadFileWithOption( file_path_, option_ )
 }
 
+#if LILY_FULL
+
 public func LCImageSaveFile( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr ) -> Bool {
     return LDImageSaveFileWithOption( img_, file_path_, LLImageSaveOptionDefault() )
 }
@@ -69,6 +71,8 @@ public func LCImageSaveFileWithOption( _ img_:LCImageSmPtr, _ file_path_:LCStrin
                                        _ option_:LLImageSaveOption ) -> Bool {
     return LDImageSaveFileWithOption( img_, file_path_, option_ )
 }
+
+#endif
 
 public func LCImageClone( _ img_src_:LCImageSmPtr ) -> LCImageSmPtr {
     let lcimg:LCImageSmPtr = LCImageSmPtr()

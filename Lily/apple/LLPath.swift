@@ -13,18 +13,19 @@ import Foundation
 /// ファイルパス管理モジュール
 open class LLPath
 {
-    /// 起動時パスを取得する(.appの位置)
-    /// - Parameter filename: 基準パスに追加する相対ファイルパス
-    /// - Returns: パス文字列 ( ex:(Mac) /Users/xxx/Desktop/LilyApp.appの場合 -> /Users/xxx/Desktop/ )
-    static public func launching( _ filename:LLString = "" ) -> LLString {
-        return LLString( LCPathGetLaunching( filename.lcStr ) )
-    }
-    
     /// バンドルパスを取得する(ビルドに含めたバンドルファイルの保管位置)
     /// - Parameter filename: 基準パスに追加する相対ファイルパス
     /// - Returns: パス文字列 ( ex:(Mac) /Users/xxx/Desktop/LilyApp.app/Contents/Resources/ )
     static public func bundle( _ filename:LLString = "" ) -> LLString {
         return LLString( LCPathGetBundle( filename.lcStr ) )
+    }
+ 
+    #if LILY_FULL
+    /// 起動時パスを取得する(.appの位置)
+    /// - Parameter filename: 基準パスに追加する相対ファイルパス
+    /// - Returns: パス文字列 ( ex:(Mac) /Users/xxx/Desktop/LilyApp.appの場合 -> /Users/xxx/Desktop/ )
+    static public func launching( _ filename:LLString = "" ) -> LLString {
+        return LLString( LCPathGetLaunching( filename.lcStr ) )
     }
     
     /// ドキュメントフォルダのパスを取得する(Documentsの位置)
@@ -48,27 +49,6 @@ open class LLPath
         return LLString( LCPathGetCache( filename.lcStr ) )
     }
     
-    /// パスからファイル名を抽出する(拡張子なし)
-    /// - Parameter path: ファイル名を含む対象のパス
-    /// - Returns: ファイル名 ( ex: /Users/xxx/Documents/abc.jpg -> abc )
-    static public func pickFilename( _ path:LLString ) -> LLString {
-        return LLString( LCPathPickFilename( path.lcStr ) )
-    }
-
-    /// パスからファイル名を抽出する(拡張子あり)
-    /// - Parameter path: ファイル名を含む対象のパス
-    /// - Returns: ファイル名 ( ex: /Users/xxx/Documents/abc.jpg -> abc.jpg )
-    static public func pickFilenameFull( _ path:LLString ) -> LLString {
-        return LLString( LCPathPickFilenameFull( path.lcStr ) )
-    }
-
-    /// パスから拡張子を抽出する
-    /// - Parameter path: ファイル名を含む対象のパス
-    /// - Returns: ファイル名 ( ex: /Users/xxx/Documents/abc.jpg -> jpg )
-    static public func pickExtension( _ path:LLString ) -> LLString {
-        return LLString( LCPathPickExtension( path.lcStr ) )
-    }
-
     /// 指定したディレクトリのファイル名を列挙する
     /// - Parameters:
     ///   - dir_path: 対象のディレクトリパス
@@ -102,6 +82,28 @@ open class LLPath
             pp.append( LLString( lcStr ) )
         }
         return pp
+    }
+    #endif
+    
+    /// パスからファイル名を抽出する(拡張子なし)
+    /// - Parameter path: ファイル名を含む対象のパス
+    /// - Returns: ファイル名 ( ex: /Users/xxx/Documents/abc.jpg -> abc )
+    static public func pickFilename( _ path:LLString ) -> LLString {
+        return LLString( LCPathPickFilename( path.lcStr ) )
+    }
+
+    /// パスからファイル名を抽出する(拡張子あり)
+    /// - Parameter path: ファイル名を含む対象のパス
+    /// - Returns: ファイル名 ( ex: /Users/xxx/Documents/abc.jpg -> abc.jpg )
+    static public func pickFilenameFull( _ path:LLString ) -> LLString {
+        return LLString( LCPathPickFilenameFull( path.lcStr ) )
+    }
+
+    /// パスから拡張子を抽出する
+    /// - Parameter path: ファイル名を含む対象のパス
+    /// - Returns: ファイル名 ( ex: /Users/xxx/Documents/abc.jpg -> jpg )
+    static public func pickExtension( _ path:LLString ) -> LLString {
+        return LLString( LCPathPickExtension( path.lcStr ) )
     }
 }
 

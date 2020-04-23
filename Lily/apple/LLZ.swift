@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 
 /// zlibモジュール
@@ -44,3 +46,5 @@ open class LLZ
         }
     }
 }
+
+#endif

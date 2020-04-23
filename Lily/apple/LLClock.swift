@@ -18,8 +18,10 @@ open class LLClock
         return LCClockNow()
     }
     
+    #if LILY_FULL
     /// くりかえす呼び出すことでframe per secondをコンソールに出力する
 	static public func fps() {
         return LCClockFPS()
     }
+    #endif
 }

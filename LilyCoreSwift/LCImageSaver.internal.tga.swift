@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 
 public extension LCImageSaverInternal
@@ -341,6 +343,6 @@ public extension LCImageSaverInternal
 
         return true;
     }
-    
-    
 }
+
+#endif

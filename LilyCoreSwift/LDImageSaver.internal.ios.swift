@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 #if os(iOS)
 
 import UIKit
@@ -181,3 +183,4 @@ public extension LCImageSaverInternal
 
 #endif
 
+#endif

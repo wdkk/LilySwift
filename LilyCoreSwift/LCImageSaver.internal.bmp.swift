@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 
 struct LLBitmapInfo
@@ -357,3 +359,5 @@ public extension LCImageSaverInternal
         return LCFileWriterWrite( fw, buffer, info.file_size.i64 )
     }
 }
+
+#endif
