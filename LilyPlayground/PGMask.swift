@@ -12,20 +12,21 @@ import Metal
 
 public class PGMask : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco = [String:LBPanelDecoration]()
     
-    static private func create( index:Int ) -> LBPanelDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.maskTex()
+    static private func create( name:String, index:Int ) -> LBPanelDecoration {
+        let id = name + "\(index)"
+        if let d = deco[id] { return d }
+        deco[id] = LBPanelDecoration.maskTex()
             .layer( index:index )
-        return deco[index]!
+        return deco[id]!
     }
     
     @discardableResult
     public init( _ name:String, index:Int = 0 ) {
         let tex = PGViewController.shared.getTexture( name )
         
-        super.init( decoration:PGMask.create( index: index ) )
+        super.init( decoration:PGMask.create( name:name, index:index ) )
         self.texture( tex )
         
         PGViewController.shared.panels.insert( self )
