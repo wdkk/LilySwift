@@ -10,10 +10,10 @@
 		5D2973DA1F5E70D2005F1CBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D2973D31F5E70D2005F1CBA /* Assets.xcassets */; };
 		5D37A34B20E791A40084C4E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D37A34A20E791A40084C4E6 /* LaunchScreen.storyboard */; };
 		5D8DF91B1F5EBBC500108334 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D8DF91A1F5EBBC500108334 /* Default-568h@2x.png */; };
+		5D93BEC624595056008C807C /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE44FF7241BDBAF008419B6 /* MyViewController.swift */; };
 		5DA0815923C2287D005E877C /* supportFiles in Resources */ = {isa = PBXBuildFile; fileRef = 5DA0815823C2287D005E877C /* supportFiles */; };
 		5DB4690A238E6D01002A8FF7 /* LilySwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */; };
 		5DB4690B238E6D01002A8FF7 /* LilySwift.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5DF2AC172451872F005467D9 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE44FF7241BDBAF008419B6 /* MyViewController.swift */; };
 		5DFA0D6B23FFB83D0025A756 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFA0D5A23FFB83D0025A756 /* AppDelegate.swift */; };
 		5DFA0D6C23FFB83D0025A756 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFA0D5B23FFB83D0025A756 /* main.swift */; };
 		5DFA0D6D23FFB83D0025A756 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFA0D5C23FFB83D0025A756 /* SceneDelegate.swift */; };
@@ -212,7 +212,7 @@
 			files = (
 				5DFA0D6B23FFB83D0025A756 /* AppDelegate.swift in Sources */,
 				5DFA0D6D23FFB83D0025A756 /* SceneDelegate.swift in Sources */,
-				5DF2AC172451872F005467D9 /* MyViewController.swift in Sources */,
+				5D93BEC624595056008C807C /* MyViewController.swift in Sources */,
 				5DFA0D6C23FFB83D0025A756 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

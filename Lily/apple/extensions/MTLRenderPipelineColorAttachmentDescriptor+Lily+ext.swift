@@ -42,10 +42,10 @@ public extension MTLRenderPipelineColorAttachmentDescriptor
             self.alphaBlendOperation = .add
             // 入力データ = α
             self.sourceRGBBlendFactor = .sourceAlpha
-            self.sourceAlphaBlendFactor = .sourceAlpha
+            self.sourceAlphaBlendFactor = .one
             // 合成先データ = 1+(1-α)
             self.destinationRGBBlendFactor = .one
-            self.destinationAlphaBlendFactor = .oneMinusSourceAlpha
+            self.destinationAlphaBlendFactor = .one
             break
         // 減算合成
         case .sub:
@@ -55,10 +55,10 @@ public extension MTLRenderPipelineColorAttachmentDescriptor
             self.alphaBlendOperation = .add
             // 入力データ = α
             self.sourceRGBBlendFactor = .sourceAlpha
-            self.sourceAlphaBlendFactor = .sourceAlpha
-            // 合成先データ = 1-α
+            self.sourceAlphaBlendFactor = .one
+            // 合成先データ = 1-(1-α)
             self.destinationRGBBlendFactor = .one
-            self.destinationAlphaBlendFactor = .oneMinusSourceAlpha
+            self.destinationAlphaBlendFactor = .one
             break
         // 最大値合成
         case .max:
@@ -68,10 +68,10 @@ public extension MTLRenderPipelineColorAttachmentDescriptor
             self.alphaBlendOperation = .add
             // 入力データ = α
             self.sourceRGBBlendFactor = .sourceAlpha
-            self.sourceAlphaBlendFactor = .sourceAlpha
+            self.sourceAlphaBlendFactor = .one
             // 合成先データ = 1-α
             self.destinationRGBBlendFactor = .one
-            self.destinationAlphaBlendFactor = .oneMinusSourceAlpha
+            self.destinationAlphaBlendFactor = .one
             break
         // 最小値合成
         case .min:
@@ -81,10 +81,10 @@ public extension MTLRenderPipelineColorAttachmentDescriptor
             self.alphaBlendOperation = .add
             // 入力データ = α
             self.sourceRGBBlendFactor = .sourceAlpha
-            self.sourceAlphaBlendFactor = .sourceAlpha
+            self.sourceAlphaBlendFactor = .one
             // 合成先データ = 1-α
             self.destinationRGBBlendFactor = .one
-            self.destinationAlphaBlendFactor = .oneMinusSourceAlpha
+            self.destinationAlphaBlendFactor = .one
             break
         }
     }
