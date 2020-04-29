@@ -17,7 +17,14 @@ import Foundation
 public func LCPathGetBundle( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
     var full_path = Bundle.main.bundlePath
     
-    #if targetEnvironment(macCatalyst)
+    #if !LILY   // Playground
+    let name = LLPath.pickFilename( LLString( filename ) )
+    let ext  = LLPath.pickExtension( LLString( filename ) )
+    guard let path = Bundle.main.path(forResource: name, ofType: ext ) else {
+        return LCStringMakeWithCChars( "" )
+    }
+    full_path = path
+    #elseif targetEnvironment(macCatalyst)
     full_path = "\(full_path)/Contents/Resources/\(String(filename))"
     #elseif os(iOS)
     full_path = "\(full_path)/\(String(filename))"
