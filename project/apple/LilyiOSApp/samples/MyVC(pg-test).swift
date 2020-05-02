@@ -22,13 +22,34 @@ class MyViewController : LBViewController
         super.setupBoard()
         vc.designBoardHandler = design
         vcm.transition(to: vc )
+        
+        vc.clearColor = .black
     }
     
     func design() {
-        PGRectangle()
-        .color( .blue )
-        .scale( width:200, height:200 )
-        .angle( degrees: 45.0 )
+        PGAddCircle( index:0 )
+        .scale( square:200 )
+        .position( cx: 0, cy: 100 ) 
+        .color( red:0.5, green:0.0, blue:0.0 )
+
+        PGAddCircle( index:0 )
+        .scale( square:200 )
+        .position( cx: 0, cy: -100 ) 
+        .color( red:0.5, green:0.0, blue:0.0 )
+
+        PGAddCircle( index:0 )
+        .scale( square:200 )
+        .position( cx: 100, cy: 0 ) 
+        .color( red:0.5, green:0.0, blue:0.0 )
+
+        PGAddCircle( index:0 )
+        .scale( square:200 )
+        .position( cx: -100, cy: 0 ) 
+        .color( red:0.5, green:0.0, blue:0.0 )
+
+        PGAddRectangle( index:1 )
+        .scale( square:200 )
+        .color( red:0.0, green:0.0, blue:0.5 )
     }
 }
 

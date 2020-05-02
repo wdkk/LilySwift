@@ -127,15 +127,15 @@ public func LLColorftof( _ color:LLColor ) -> LLColor {
 }
 
 public func LLColor8Equal( _ c1:LLColor8, _ c2:LLColor8 ) -> Bool {
-    return (c1.R == c2.R && c1.G == c2.G && c1.B == c2.B)
+    return (c1.R == c2.R && c1.G == c2.G && c1.B == c2.B && c1.A == c2.A)
 }
 
 public func LLColor16Equal( _ c1:LLColor16, _ c2:LLColor16 ) -> Bool {
-    return (c1.R == c2.R && c1.G == c2.G && c1.B == c2.B)
+    return (c1.R == c2.R && c1.G == c2.G && c1.B == c2.B && c1.A == c2.A)
 }
 
 public func LLColorEqual( _ c1:LLColor, _ c2:LLColor ) -> Bool {
-    return (c1.R == c2.R && c1.G == c2.G && c1.B == c2.B)
+    return (c1.R == c2.R && c1.G == c2.G && c1.B == c2.B && c1.A == c2.A)
 }
 
 // HSV(float) -> HSV(16,8,8)変換
