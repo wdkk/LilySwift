@@ -22,7 +22,7 @@ class MyViewController : LBViewController
     // 初期化準備関数
     override func setupBoard() {
         // 背景色の設定
-        self.clearColor = .lightGrey
+        clearColor = .lightGrey
     }
     
     // 設計関数

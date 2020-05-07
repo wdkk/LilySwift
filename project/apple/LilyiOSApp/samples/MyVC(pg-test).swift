@@ -21,36 +21,39 @@ class MyViewController : LBViewController
     override func setupBoard() {
         super.setupBoard()
         vc.designBoardHandler = design
+        vc.updateBoardHandler = update
         vcm.transition(to: vc )
-        
-        vc.clearColor = .black
-    }
-    
-    func design() {
-        PGAddCircle( index:0 )
-        .scale( square:200 )
-        .position( cx: 0, cy: 100 ) 
-        .color( red:0.5, green:0.0, blue:0.0 )
-
-        PGAddCircle( index:0 )
-        .scale( square:200 )
-        .position( cx: 0, cy: -100 ) 
-        .color( red:0.5, green:0.0, blue:0.0 )
-
-        PGAddCircle( index:0 )
-        .scale( square:200 )
-        .position( cx: 100, cy: 0 ) 
-        .color( red:0.5, green:0.0, blue:0.0 )
-
-        PGAddCircle( index:0 )
-        .scale( square:200 )
-        .position( cx: -100, cy: 0 ) 
-        .color( red:0.5, green:0.0, blue:0.0 )
-
-        PGAddRectangle( index:1 )
-        .scale( square:200 )
-        .color( red:0.0, green:0.0, blue:0.5 )
     }
 }
 
+func design() {
+    clearColor = .black
+    
+    PGAddCircle( index:0 )
+    .scale( square:200 )
+    .position( cx: 0, cy: 100 ) 
+    .color( red:0.5, green:0.0, blue:0.0 )
 
+    PGAddCircle( index:0 )
+    .scale( square:200 )
+    .position( cx: 0, cy: -100 ) 
+    .color( red:0.5, green:0.0, blue:0.0 )
+
+    PGAddCircle( index:0 )
+    .scale( square:200 )
+    .position( cx: 100, cy: 0 ) 
+    .color( red:0.5, green:0.0, blue:0.0 )
+
+    PGAddCircle( index:0 )
+    .scale( square:200 )
+    .position( cx: -100, cy: 0 ) 
+    .color( red:0.5, green:0.0, blue:0.0 )
+
+    PGAddRectangle( index:1 )
+    .scale( square:200 )
+    .color( red:0.0, green:0.0, blue:0.5 )
+}
+
+func update() {
+
+}
