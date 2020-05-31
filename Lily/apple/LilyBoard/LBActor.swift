@@ -9,7 +9,6 @@
 //
 
 import Foundation
-import Metal
 
 open class LBActor<TDecoration:LBDecoration> : Hashable
 {
@@ -28,3 +27,5 @@ open class LBActor<TDecoration:LBDecoration> : Hashable
         decoration = deco
     }
 }
+
+

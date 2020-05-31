@@ -36,7 +36,12 @@ open class LLImage
         _imgc = LCImageClone( imgptr ) 
     }
     
+    public init( _ cgImage:CGImage ) {
+        _imgc = CGImage2LCImage( cgImage )
+    }
+    
     public convenience init?( _ texture:MTLTexture ) {
+        // TODO: もう少しテクスチャのパターンに対応したい
         if texture.pixelFormat == .rgba16Unorm {
             self.init( wid: texture.width, hgt: texture.height, type: .rgba16 )
         }
@@ -63,6 +68,8 @@ open class LLImage
     
     #if os(iOS)
     open var uiImage:UIImage? { return LCImage2UIImage( self._imgc ) }
+    #elseif os(macOS)
+    open var nsImage:NSImage? { return LCImage2NSImage( self._imgc ) }
     #endif
         
     open var rgba8Matrix:LLColor8Matrix? { return LCImageRGBA8Matrix( self._imgc ) }

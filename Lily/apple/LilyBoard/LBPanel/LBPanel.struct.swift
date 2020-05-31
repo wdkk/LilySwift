@@ -21,7 +21,7 @@ public struct LBPanelVertex
 {
     var xy = LLFloatv2()    // -1.0 ~ 1.0, 中央が0.0のローカル座標系
     var uv = LLFloatv2()    // 0.0 ~ 1.0, 左上が0.0のラスタ座標系
-    var tex_uv = LLFloatv2() // 0.0 ~ 1.0 アトラス内の座標
+    var tex_uv = LLFloatv2() // 0.0 ~ 1.0 テクスチャのuv座標
 }
 
 public struct LBPanelStep
@@ -34,6 +34,7 @@ public struct LBPanelParam : LLMetalBufferAllocatable
     //-- メモリアラインメント範囲START --//
     // 公開パラメータ
     public var matrix:LLMatrix4x4
+    public var atlasUV:LLFloatv4
     public var color:LLFloatv4
     public var deltaColor:LLFloatv4
     public var position:LLFloatv2
@@ -60,6 +61,8 @@ public struct LBPanelParam : LLMetalBufferAllocatable
     
     public init() {
         matrix = .identity
+        
+        atlasUV = LLFloatv4( 0.0, 0.0, 1.0, 1.0 )
         
         color = LLColor.black.floatv4
         

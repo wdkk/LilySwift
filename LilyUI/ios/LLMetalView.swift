@@ -17,6 +17,7 @@ open class LLMetalView : LLViewBase
 {
     /// Metalレイヤー
     public private(set) lazy var metalLayer = CAMetalLayer()
+    public private(set) var lastDrawable:CAMetalDrawable?
 
     open override var bounds:CGRect {
         didSet { metalLayer.frame = self.bounds }
@@ -43,7 +44,8 @@ open class LLMetalView : LLViewBase
     
     open var drawable:CAMetalDrawable? {
         if metalLayer.bounds.width < 1 || metalLayer.bounds.height < 1 { return nil }
-        return metalLayer.nextDrawable()
+        lastDrawable = metalLayer.nextDrawable()
+        return lastDrawable
     }
 }
 

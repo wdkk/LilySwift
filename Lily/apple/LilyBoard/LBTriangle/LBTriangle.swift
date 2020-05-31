@@ -11,7 +11,7 @@
 import Foundation
 import Metal
 
-open class LBTriangle : LBActor<LBTriangleDecoration>
+open class LBTriangle : LBActor<LBTriangleDecoration>, LBActorAccessor
 {
     public private(set) var index:Int
     private var _storage:LBTriangleStorage
@@ -72,7 +72,7 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func p1( _ calc:( LBTriangle )->LLPointFloat ) -> Self {
+    func p1( _ calc:( LBActorAccessor )->LLPointFloat ) -> Self {
         p1 = calc( self )
         return self
     }
@@ -110,7 +110,7 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func p2( _ calc:( LBTriangle )->LLPointFloat ) -> Self {
+    func p2( _ calc:( LBActorAccessor )->LLPointFloat ) -> Self {
         p2 = calc( self )
         return self
     }
@@ -148,8 +148,42 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func p3( _ calc:( LBTriangle )->LLPointFloat ) -> Self {
+    func p3( _ calc:( LBActorAccessor )->LLPointFloat ) -> Self {
         p3 = calc( self )
+        return self
+    }
+}
+
+// MARK: -
+public extension LBTriangle
+{
+    var p4:LLPointFloat { 
+        get { return .zero }
+        set { }
+    }
+    
+    @discardableResult
+    func p4( _ p:LLPointFloat ) -> Self {
+        return self
+    }
+    
+    @discardableResult
+    func p4( _ p:LLPoint ) -> Self {
+        return self
+    }
+    
+    @discardableResult
+    func p4( x:Float, y:Float ) -> Self {
+        return self
+    }
+    
+    @discardableResult
+    func p4( x:LLFloatConvertable, y:LLFloatConvertable ) -> Self {
+        return self
+    }
+    
+    @discardableResult
+    func p4( _ calc:( LBActorAccessor )->LLPointFloat ) -> Self {
         return self
     }
 }
@@ -180,7 +214,7 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func uv1( _ calc:( LBTriangle )->LLPointFloat ) -> Self {
+    func uv1( _ calc:( LBActorAccessor )->LLPointFloat ) -> Self {
         uv1 = calc( self )
         return self
     }
@@ -212,7 +246,7 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func uv2( _ calc:( LBTriangle )->LLPointFloat ) -> Self {
+    func uv2( _ calc:( LBActorAccessor )->LLPointFloat ) -> Self {
         uv2 = calc( self )
         return self
     }
@@ -244,8 +278,37 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func uv3( _ calc:( LBTriangle )->LLPointFloat ) -> Self {
+    func uv3( _ calc:( LBActorAccessor )->LLPointFloat ) -> Self {
         uv3 = calc( self )
+        return self
+    }
+}
+
+// MARK: -
+public extension LBTriangle
+{
+    var uv4:LLPointFloat { 
+        get { return .zero }
+        set { }
+    }
+    
+    @discardableResult
+    func uv4( _ uv:LLPointFloat ) -> Self {
+        return self
+    }
+    
+    @discardableResult
+    func uv4( u:Float, v:Float ) -> Self {
+        return self
+    }
+    
+    @discardableResult
+    func uv4( u:LLFloatConvertable, v:LLFloatConvertable ) -> Self {
+        return self
+    }
+    
+    @discardableResult
+    func uv4( _ calc:( LBActorAccessor )->LLPointFloat ) -> Self {
         return self
     }
 }
@@ -283,7 +346,7 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func position( _ calc:( LBTriangle )->LLPointFloat ) -> Self {
+    func position( _ calc:( LBActorAccessor )->LLPointFloat ) -> Self {
         let pos = calc( self )
         params.position = LLFloatv2( pos.x, pos.y )
         return self
@@ -310,7 +373,7 @@ public extension LBTriangle
     }
 
     @discardableResult
-    func cx( _ calc:( LBTriangle )->LLFloat ) -> Self {
+    func cx( _ calc:( LBActorAccessor )->LLFloat ) -> Self {
         params.position.x = calc( self )
         return self
     }
@@ -336,7 +399,7 @@ public extension LBTriangle
     }
 
     @discardableResult
-    func cy( _ calc:( LBTriangle )->LLFloat ) -> Self {
+    func cy( _ calc:( LBActorAccessor )->LLFloat ) -> Self {
         params.position.y = calc( self )
         return self
     }
@@ -345,14 +408,14 @@ public extension LBTriangle
 // MARK: -
 public extension LBTriangle
 {
-    var scale:LLSize {
-        get { return LLSize( params.scale.x, params.scale.y ) }
-        set { params.scale = LLFloatv2( newValue.width.f, newValue.height.f ) }
+    var scale:LLSizeFloat {
+        get { return LLSizeFloat( params.scale.x, params.scale.y ) }
+        set { params.scale = LLFloatv2( newValue.width, newValue.height ) }
     }
     
     @discardableResult
-    func scale( _ sz:LLSize ) -> Self {
-        params.scale = LLFloatv2( sz.width.f, sz.height.f )
+    func scale( _ sz:LLSizeFloat ) -> Self {
+        params.scale = LLFloatv2( sz.width, sz.height )
         return self
     }
     
@@ -368,9 +431,9 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func scale( _ calc:( LBTriangle )->LLSize ) -> Self {
+    func scale( _ calc:( LBActorAccessor )->LLSizeFloat ) -> Self {
         let sz = calc( self )
-        params.scale = LLFloatv2( sz.width.f, sz.height.f )
+        params.scale = LLFloatv2( sz.width, sz.height )
         return self
     }
     
@@ -407,7 +470,7 @@ public extension LBTriangle
     }
 
     @discardableResult
-    func width( _ calc:( LBTriangle )->Float ) -> Self {
+    func width( _ calc:( LBActorAccessor )->Float ) -> Self {
         params.scale.x = calc( self )
         return self
     }
@@ -433,7 +496,7 @@ public extension LBTriangle
     }
 
     @discardableResult
-    func height( _ calc:( LBTriangle )->Float ) -> Self {
+    func height( _ calc:( LBActorAccessor )->Float ) -> Self {
         params.scale.y = calc( self )
         return self
     }
@@ -464,24 +527,49 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func angle( _ calc:( LBTriangle )->LLAngle ) -> Self {
+    func angle( _ calc:( LBActorAccessor )->LLAngle ) -> Self {
         angle = calc( self )
         return self
     }
     
     @discardableResult
-    func angle<T:BinaryInteger>( _ calc:( LBTriangle )->T ) -> Self {
+    func angle<T:BinaryInteger>( _ calc:( LBActorAccessor )->T ) -> Self {
         angle = LLAngle( radians:Double( calc( self ) ) )
         return self
     }
     
     @discardableResult
-    func angle<T:BinaryFloatingPoint>( _ calc:( LBTriangle )->T ) -> Self {
+    func angle<T:BinaryFloatingPoint>( _ calc:( LBActorAccessor )->T ) -> Self {
         angle = LLAngle( radians:Double( calc( self ) ) )
         return self
     }
 }
 
+// MARK: -
+public extension LBTriangle
+{
+    var zIndex:LLFloat {
+        get { return params.zindex }
+        set { params.zindex = newValue }
+    }
+    
+    @discardableResult
+    func zIndex( _ index:Float ) -> Self {
+        params.zindex = index
+        return self
+    }
+    
+    @discardableResult
+    func zIndex( _ v:LLFloatConvertable ) -> Self {
+        return zIndex( v.f )
+    }
+    
+    @discardableResult
+    func zIndex( _ calc:( LBActorAccessor )->Float ) -> Self {
+        params.zindex = calc( self )
+        return self
+    }
+}
 
 // MARK: -
 public extension LBTriangle
@@ -498,7 +586,7 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func enabled( _ calc:( LBTriangle )->Bool ) -> Self {
+    func enabled( _ calc:( LBActorAccessor )->Bool ) -> Self {
         params.enabled = calc( self )
         return self
     }
@@ -524,7 +612,7 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func life( _ calc:( LBTriangle )->Float ) -> Self {
+    func life( _ calc:( LBActorAccessor )->Float ) -> Self {
         params.life = calc( self )
         return self
     }
@@ -557,7 +645,7 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func color( _ calc:( LBTriangle )->LLColor ) -> Self {
+    func color( _ calc:( LBActorAccessor )->LLColor ) -> Self {
         params.color = calc( self ).floatv4
         return self
     }
@@ -583,7 +671,7 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func alpha( _ calc:( LBTriangle )->Float ) -> Self {
+    func alpha( _ calc:( LBActorAccessor )->Float ) -> Self {
         params.color.w = calc( self )
         return self
     }
@@ -630,14 +718,14 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func deltaPosition( _ calc:( LBTriangle )->LLPointFloat ) -> Self {
+    func deltaPosition( _ calc:( LBActorAccessor )->LLPointFloat ) -> Self {
         let pos = calc( self )
         params.deltaPosition = LLFloatv2( pos.x, pos.y )
         return self
     }
     
     @discardableResult
-    func deltaPosition<T:BinaryFloatingPoint>( _ calc:( LBTriangle )->(T,T) ) -> Self {
+    func deltaPosition<T:BinaryFloatingPoint>( _ calc:( LBActorAccessor )->(T,T) ) -> Self {
         let pos = calc( self )
         params.deltaPosition = LLFloatv2( Float(pos.0), Float(pos.1) )
         return self
@@ -670,7 +758,7 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func deltaScale( _ calc:( LBTriangle )->LLSizeFloat ) -> Self {
+    func deltaScale( _ calc:( LBActorAccessor )->LLSizeFloat ) -> Self {
         let sz = calc( self )
         params.deltaScale = LLFloatv2( sz.width, sz.height )
         return self
@@ -734,19 +822,19 @@ public extension LBTriangle
     }
     
     @discardableResult
-    func deltaAngle( _ calc:( LBTriangle )->LLAngle ) -> Self {
+    func deltaAngle( _ calc:( LBActorAccessor )->LLAngle ) -> Self {
         deltaAngle = calc( self )
         return self
     }
     
     @discardableResult
-    func deltaAngle<T:BinaryInteger>( _ calc:( LBTriangle )->T ) -> Self {
+    func deltaAngle<T:BinaryInteger>( _ calc:( LBActorAccessor )->T ) -> Self {
         deltaAngle = LLAngle( radians:Double( calc( self ) ) )
         return self
     }
     
     @discardableResult
-    func deltaAngle<T:BinaryFloatingPoint>( _ calc:( LBTriangle )->T ) -> Self {
+    func deltaAngle<T:BinaryFloatingPoint>( _ calc:( LBActorAccessor )->T ) -> Self {
         deltaAngle = LLAngle( radians:Double( calc( self ) ) )
         return self
     }
@@ -773,7 +861,7 @@ public extension LBTriangle
     }
 
     @discardableResult
-    func deltaLife( _ calc:( LBTriangle )->Float ) -> Self {
+    func deltaLife( _ calc:( LBActorAccessor )->Float ) -> Self {
         params.deltaLife = calc( self )
         return self
     }
@@ -800,7 +888,7 @@ public extension LBTriangle
     }
 
     @discardableResult
-    func deltaAlpha( _ calc:( LBTriangle )->Float ) -> Self {
+    func deltaAlpha( _ calc:( LBActorAccessor )->Float ) -> Self {
         params.deltaColor.w = calc( self )
         return self
     }
@@ -810,13 +898,47 @@ public extension LBTriangle
 public extension LBTriangle
 {
     @discardableResult
-    func texture( _ tex:MTLTexture? ) -> Self {
-        guard let tex = tex else {
-            self._storage.texture = nil
+    func atlasParts( of key:String ) -> Self {
+        guard let parts = _storage.atlas?.parts( key ),
+              let reg = parts.region 
+        else {
+            LLLog( "アトラスが設定されていないか,指定が正しくないため無効です:\(key)" )
+            params.atlasUV = LLFloatv4( 0.0, 0.0, 1.0, 1.0 )
+            vertice.p1.tex_uv = .zero
+            vertice.p2.tex_uv = .zero
+            vertice.p3.tex_uv = .zero
             return self
         }
         
-        self._storage.texture = tex        
+        params.atlasUV = LLFloatv4( reg.left.f, reg.top.f, reg.right.f, reg.bottom.f )
+        vertice.p1.tex_uv = LLFloatv2( 0.0, 0.0 ) 
+        vertice.p2.tex_uv = LLFloatv2( 1.0, 0.0 ) 
+        vertice.p3.tex_uv = LLFloatv2( 0.0, 1.0 ) 
+
+        return self
+    }    
+}
+
+// MARK: -
+public extension LBTriangle
+{
+    @discardableResult
+    func texture( _ tex:MTLTexture? ) -> Self {
+        guard let tex = tex else {
+            self._storage.texture = nil
+            params.atlasUV = LLFloatv4( 0.0, 0.0, 1.0, 1.0 )
+            vertice.p1.tex_uv = .zero
+            vertice.p2.tex_uv = .zero
+            vertice.p3.tex_uv = .zero
+            return self
+        }
+        
+        self._storage.texture = tex    
+        params.atlasUV = LLFloatv4( 0.0, 0.0, 1.0, 1.0 )
+        vertice.p1.tex_uv = LLFloatv2( 0.0, 0.0 ) 
+        vertice.p2.tex_uv = LLFloatv2( 1.0, 0.0 ) 
+        vertice.p3.tex_uv = LLFloatv2( 0.0, 1.0 ) 
+        
         return self
     } 
 

@@ -16,7 +16,7 @@ import QuartzCore
 open class LLViewController : NSViewController
 {
     private var _already:Bool = false
-    //private var _display_link = LLDisplayLink()
+    private var _dlink = LLDisplayLink()
     
     public init() {
         super.init(nibName: nil, bundle: nil)
@@ -95,12 +95,12 @@ open class LLViewController : NSViewController
     }
     
     override open func viewDidAppear() {
-        //_display_link?.callback = self.viewUpdate
-        //_display_link?.start()
+        _dlink.loopFunc = self.viewUpdate
+        _dlink.start()
     }
     
     override open func viewWillDisappear() {
-        //_display_link?.cancel()
+        _dlink.stop()
     }
     
     open func viewUpdate() {

@@ -1,9 +1,7 @@
 //
-// CAIMMetalView.swift
-// CAIM Project
-//   https://kengolab.net/CreApp/wiki/
+// LilySwift Library Project
 //
-// Copyright (c) Watanabe-DENKI Inc.
+// Copyright (c) Watanabe-DENKI Inc. and Kengo Watanabe.
 //   https://wdkk.co.jp/
 //
 // This software is released under the MIT License.
@@ -19,6 +17,7 @@ open class LLMetalView : LLView
 {
     /// Metalレイヤー
     public private(set) lazy var metalLayer = CAMetalLayer()
+    public private(set) var lastDrawable:CAMetalDrawable?
 
     open override var bounds:CGRect {
         didSet { metalLayer.frame = self.bounds }
@@ -45,7 +44,8 @@ open class LLMetalView : LLView
     
     open var drawable:CAMetalDrawable? {
         if metalLayer.bounds.width < 1 || metalLayer.bounds.height < 1 { return nil }
-        return metalLayer.nextDrawable()
+        lastDrawable = metalLayer.nextDrawable()
+        return lastDrawable
     }
 }
 #endif

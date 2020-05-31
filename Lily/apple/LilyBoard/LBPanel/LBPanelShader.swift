@@ -45,6 +45,7 @@ open class LBPanelShader : LBShader
             $0
             .name( "LBPanelParam" )
             .add( "float4x4", "matrix" )
+            .add( "float4", "atlasUV" )
             .add( "float4", "color" )
             .add( "float4", "deltaColor" )
             .add( "float2", "position" )
@@ -88,6 +89,21 @@ open class LBPanelShader : LBShader
             float scx = p.scale.x * 0.5;
             float scy = p.scale.y * 0.5;
 
+            float4 atlas_uv = p.atlasUV;
+
+            float min_u = atlas_uv[0];
+            float min_v = atlas_uv[1];
+            float max_u = atlas_uv[2];
+            float max_v = atlas_uv[3];
+
+            float u = vin[idx].tex_uv[0];
+            float iu = 1.0 - u;
+            float v = vin[idx].tex_uv[1];
+            float iv = 1.0 - v;
+
+            float2 tex_uv = float2( min_u * iu + max_u * u, 
+                                    min_v * iv + max_v * v );
+
             // アフィン変換
             float2 v_coord = 0.0;
             v_coord.x = scx * cosv * x - sinv * scy * y + p.position.x;
@@ -99,7 +115,7 @@ open class LBPanelShader : LBShader
             LBPanelVertexOut vout;
             vout.pos = proj_matrix * float4( v_coord, visibility, 1 );
             vout.xy = vin[idx].xy;
-            vout.tex_uv = vin[idx].tex_uv;
+            vout.tex_uv = tex_uv;
             vout.uv = vin[idx].uv;
             vout.color = p.color;
 

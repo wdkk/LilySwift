@@ -328,6 +328,20 @@ public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {
     return lcimg
 }
 
+#elseif os(macOS)
+
+import AppKit
+
+public func LCImage2NSImage( _ img_:LCImageSmPtr ) -> NSImage {
+    return NSImage(cgImage: LCImage2CGImage( img_ )!, 
+                   size: CGSize( LCImageWidth( img_ ), LCImageHeight( img_ ) ) )
+}
+
+public func NSImage2LCImage( _ img_:NSImage ) -> LCImageSmPtr {
+    var nsimage_rect = CGRect( 0, 0, img_.size.width, img_.size.height );
+    let cgimg = img_.cgImage(forProposedRect: &nsimage_rect, context: nil, hints: nil)!
+    return CGImage2LCImage( cgimg )
+}
 #endif
 
 public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> CGImage? {  
@@ -349,4 +363,25 @@ public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> CGImage? {
     let cg_img:CGImage? = nonnull_cg_context.makeImage()
 
     return cg_img
+}
+
+public func CGImage2LCImage( _ img_:CGImage ) -> LCImageSmPtr {
+
+    let data = img_.dataProvider!.data
+    let width = img_.width
+    let height = img_.height
+    let length = CFDataGetLength( data )
+    
+    let lcimg = LCImageMake( width, height, .rgba8 )
+    let memory = LCImageRawMemory( lcimg )
+    CFDataGetBytes( data, CFRangeMake( 0, length ), memory )
+    let matrix = LCImageRGBA8Matrix( lcimg )!
+    
+    for y in 0 ..< height { 
+        for x in 0 ..< width {
+            LLSwap( &matrix[y][x].R, &matrix[y][x].B )
+        }
+    }
+    
+    return lcimg
 }

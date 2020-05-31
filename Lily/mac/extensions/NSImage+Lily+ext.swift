@@ -23,6 +23,12 @@ public extension NSImage
         }
         return image
     }
+    
+    var llImage:LLImage? {
+        guard let cgimg = self.cgImage else { return nil }
+        let lcimg = CGImage2LCImage( cgimg )
+        return LLImage( lcimg )
+    }
 }
 
 #endif

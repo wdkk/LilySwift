@@ -46,7 +46,7 @@ open class PGViewController: PGBaseViewController
     
     public var designBoardHandler:(()->Void)?
     public var updateBoardHandler:(()->Void)?
-
+   
     // 準備関数
     override open func setupBoard() {
         super.setupBoard()
@@ -110,4 +110,13 @@ open class PGViewController: PGBaseViewController
         }
         return tex
     }
+    
+    #if os(macOS)
+    // TODO: イベント系を整理したら削除する
+    public var mousedownHandler:(()->Void)?
+    open override func mouseDown(with event: NSEvent) {
+        super.mouseDown( with: event )
+        mousedownHandler?()
+    }
+    #endif
 }
