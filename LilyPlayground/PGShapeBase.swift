@@ -10,8 +10,23 @@
 
 import Metal
 
-public class PGTriangleBase : LBTriangle
-{    
+open class PGPanelBase : LBPanel
+{
+    public static let remove:(( PGPanelBase )->Void) = {
+        PGViewController.shared.panels.remove( $0 )
+    }
+    
+    var completionCallBack:(( PGPanelBase )->Void) = PGPanelBase.remove
+    
+    @discardableResult
+    open func completion( _ f:@escaping ( PGPanelBase )->Void ) -> Self {
+        completionCallBack = f
+        return self
+    }
+}
+
+open class PGTriangleBase : LBTriangle
+{
     public static let remove:(( PGTriangleBase )->Void) = {
         PGViewController.shared.triangles.remove( $0 )
     }

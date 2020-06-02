@@ -63,6 +63,10 @@
 		5D1A1A172483A71100E03509 /* LBActorAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1A1A122483A6EC00E03509 /* LBActorAccessor.swift */; };
 		5D1A1A1B2483AA5600E03509 /* LLDisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1A1A1A2483AA5600E03509 /* LLDisplayLink.swift */; };
 		5D1A1A1C2483AA5600E03509 /* LLDisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1A1A1A2483AA5600E03509 /* LLDisplayLink.swift */; };
+		5D23D1D624862C8C000BCBB1 /* PGShapeBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D23D1D524862C8C000BCBB1 /* PGShapeBase.swift */; };
+		5D23D1D724862C8C000BCBB1 /* PGShapeBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D23D1D524862C8C000BCBB1 /* PGShapeBase.swift */; };
+		5D23D1D924862C9A000BCBB1 /* LBActorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D23D1D824862C9A000BCBB1 /* LBActorAdapter.swift */; };
+		5D23D1DA24862C9A000BCBB1 /* LBActorAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D23D1D824862C9A000BCBB1 /* LBActorAdapter.swift */; };
 		5D2605CF236FF7710078B63A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DACEE95235C7167001143BF /* libz.tbd */; };
 		5D2E8BCD2387DA5D00D21D94 /* LLType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2E8BCC2387DA5D00D21D94 /* LLType.swift */; };
 		5D2E8BCE2387DA5D00D21D94 /* LLType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2E8BCC2387DA5D00D21D94 /* LLType.swift */; };
@@ -221,8 +225,6 @@
 		5D6B4BA42444B86400CCC52D /* LBTouch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6B4B9E2444B86400CCC52D /* LBTouch.swift */; };
 		5D7B864B24500A59007A47DF /* PGPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864124500A58007A47DF /* PGPicture.swift */; };
 		5D7B864C24500A59007A47DF /* PGPicture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864124500A58007A47DF /* PGPicture.swift */; };
-		5D7B864D24500A59007A47DF /* PGPanelBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864224500A58007A47DF /* PGPanelBase.swift */; };
-		5D7B864E24500A59007A47DF /* PGPanelBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864224500A58007A47DF /* PGPanelBase.swift */; };
 		5D7B864F24500A59007A47DF /* PGCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864324500A58007A47DF /* PGCircle.swift */; };
 		5D7B865024500A59007A47DF /* PGCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864324500A58007A47DF /* PGCircle.swift */; };
 		5D7B865124500A59007A47DF /* PGMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864424500A58007A47DF /* PGMask.swift */; };
@@ -231,8 +233,6 @@
 		5D7B865424500A59007A47DF /* PGBlurryCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864524500A58007A47DF /* PGBlurryCircle.swift */; };
 		5D7B865524500A59007A47DF /* PGTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864624500A58007A47DF /* PGTriangle.swift */; };
 		5D7B865624500A59007A47DF /* PGTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864624500A58007A47DF /* PGTriangle.swift */; };
-		5D7B865724500A59007A47DF /* PGTriangleBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864724500A58007A47DF /* PGTriangleBase.swift */; };
-		5D7B865824500A59007A47DF /* PGTriangleBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864724500A58007A47DF /* PGTriangleBase.swift */; };
 		5D7B865924500A59007A47DF /* PGRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864824500A59007A47DF /* PGRectangle.swift */; };
 		5D7B865A24500A59007A47DF /* PGRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864824500A59007A47DF /* PGRectangle.swift */; };
 		5D7B865B24500A59007A47DF /* PGSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B864924500A59007A47DF /* PGSetup.swift */; };
@@ -542,6 +542,8 @@
 		5D1A1A122483A6EC00E03509 /* LBActorAccessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBActorAccessor.swift; sourceTree = "<group>"; };
 		5D1A1A142483A70100E03509 /* MTLTexture+Lily+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MTLTexture+Lily+ext.swift"; sourceTree = "<group>"; };
 		5D1A1A1A2483AA5600E03509 /* LLDisplayLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLDisplayLink.swift; sourceTree = "<group>"; };
+		5D23D1D524862C8C000BCBB1 /* PGShapeBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGShapeBase.swift; sourceTree = "<group>"; };
+		5D23D1D824862C9A000BCBB1 /* LBActorAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBActorAdapter.swift; sourceTree = "<group>"; };
 		5D2605A5236FF5890078B63A /* LilySwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LilySwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D2E8BCC2387DA5D00D21D94 /* LLType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLType.swift; sourceTree = "<group>"; };
 		5D2E8BCF2387E54100D21D94 /* LLType.util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLType.util.swift; sourceTree = "<group>"; };
@@ -617,12 +619,10 @@
 		5D6B4B9D2444B86400CCC52D /* LBViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBViewController.swift; sourceTree = "<group>"; };
 		5D6B4B9E2444B86400CCC52D /* LBTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBTouch.swift; sourceTree = "<group>"; };
 		5D7B864124500A58007A47DF /* PGPicture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPicture.swift; sourceTree = "<group>"; };
-		5D7B864224500A58007A47DF /* PGPanelBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGPanelBase.swift; sourceTree = "<group>"; };
 		5D7B864324500A58007A47DF /* PGCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGCircle.swift; sourceTree = "<group>"; };
 		5D7B864424500A58007A47DF /* PGMask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGMask.swift; sourceTree = "<group>"; };
 		5D7B864524500A58007A47DF /* PGBlurryCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGBlurryCircle.swift; sourceTree = "<group>"; };
 		5D7B864624500A58007A47DF /* PGTriangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGTriangle.swift; sourceTree = "<group>"; };
-		5D7B864724500A58007A47DF /* PGTriangleBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGTriangleBase.swift; sourceTree = "<group>"; };
 		5D7B864824500A59007A47DF /* PGRectangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGRectangle.swift; sourceTree = "<group>"; };
 		5D7B864924500A59007A47DF /* PGSetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGSetup.swift; sourceTree = "<group>"; };
 		5D7B864A24500A59007A47DF /* PGViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGViewController.swift; sourceTree = "<group>"; };
@@ -1088,16 +1088,15 @@
 		5D502E86244D9C4C00412732 /* LilyPlayground */ = {
 			isa = PBXGroup;
 			children = (
+				5D23D1D524862C8C000BCBB1 /* PGShapeBase.swift */,
 				5D7B864A24500A59007A47DF /* PGViewController.swift */,
 				5D7B864924500A59007A47DF /* PGSetup.swift */,
 				5D7B864524500A58007A47DF /* PGBlurryCircle.swift */,
 				5D7B864324500A58007A47DF /* PGCircle.swift */,
 				5D7B864424500A58007A47DF /* PGMask.swift */,
-				5D7B864224500A58007A47DF /* PGPanelBase.swift */,
 				5D7B864124500A58007A47DF /* PGPicture.swift */,
 				5D7B864824500A59007A47DF /* PGRectangle.swift */,
 				5D7B864624500A58007A47DF /* PGTriangle.swift */,
-				5D7B864724500A58007A47DF /* PGTriangleBase.swift */,
 			);
 			name = LilyPlayground;
 			path = ../../../LilyPlayground;
@@ -1106,6 +1105,7 @@
 		5D537F4924475656007107B1 /* LilyBoard */ = {
 			isa = PBXGroup;
 			children = (
+				5D23D1D824862C9A000BCBB1 /* LBActorAdapter.swift */,
 				5D1A1A122483A6EC00E03509 /* LBActorAccessor.swift */,
 				5D537F4A24475656007107B1 /* LBShader.swift */,
 				5D537F4B24475656007107B1 /* LBDecoration.swift */,
@@ -1633,6 +1633,7 @@
 				5DFF06E123D197A500480E06 /* Data+LilyCore+ext.swift in Sources */,
 				5DB6034A23CE080C002CF23E /* LCAlignedMemory.allocator.swift in Sources */,
 				5D9A4E4823EC83C500210B1B /* LLTask.swift in Sources */,
+				5D23D1D724862C8C000BCBB1 /* PGShapeBase.swift in Sources */,
 				5D562DD623C330E000D46463 /* LCImage.hsvi.swift in Sources */,
 				5DE4503E241BDC47008419B6 /* CGColor+Lily+ext.swift in Sources */,
 				5D7B865A24500A59007A47DF /* PGRectangle.swift in Sources */,
@@ -1740,7 +1741,6 @@
 				5D537F8224475656007107B1 /* LBDecoration.swift in Sources */,
 				5DFF06DD23D197A500480E06 /* LCString+LilyCore+overload.swift in Sources */,
 				5D537FDA24475657007107B1 /* LPShader.swift in Sources */,
-				5D7B865824500A59007A47DF /* PGTriangleBase.swift in Sources */,
 				5DC8E189238839C700D264FA /* LCString.swift in Sources */,
 				5DE45033241BDC05008419B6 /* LLViewFieldContainer.swift in Sources */,
 				5D537FC624475657007107B1 /* LPAtlasIO.swift in Sources */,
@@ -1760,6 +1760,7 @@
 				5D537F8624475656007107B1 /* LBTriangleStorage.swift in Sources */,
 				5D6801B42422800600752979 /* LLViewControllerView.swift in Sources */,
 				5D562DCD23C32A6000D46463 /* LCImage.greyf.swift in Sources */,
+				5D23D1DA24862C9A000BCBB1 /* LBActorAdapter.swift in Sources */,
 				5DFCC7B823BFCDAD0049AC4E /* LCImage.rgbaf.swift in Sources */,
 				5DC8E17A2388268300D264FA /* LCAlgoLine.hermite.swift in Sources */,
 				5DFF06E323D197A500480E06 /* CGPoint+LilyCore+ext.swift in Sources */,
@@ -1794,7 +1795,6 @@
 				5D1A1A1C2483AA5600E03509 /* LLDisplayLink.swift in Sources */,
 				5D450F1123940F7D007D7DD6 /* LLFileReader.swift in Sources */,
 				5D5944E4240E368D00227149 /* LLMath.util+LilyCore+overload.swift in Sources */,
-				5D7B864E24500A59007A47DF /* PGPanelBase.swift in Sources */,
 				5D6801B32422800600752979 /* LLViewController.swift in Sources */,
 				5D450F1723940F7D007D7DD6 /* LLZ.swift in Sources */,
 				5D68011824227F2000752979 /* NSColor+Lily+ext.swift in Sources */,
@@ -1845,6 +1845,7 @@
 				5DC8E17F238832CC00D264FA /* LCAlgoStylusParam.swift in Sources */,
 				5DC8E1762388265800D264FA /* LCAlgoLine.bresenham.swift in Sources */,
 				5DFCC7B123BFCD780049AC4E /* LCImage.rgba8.swift in Sources */,
+				5D23D1D624862C8C000BCBB1 /* PGShapeBase.swift in Sources */,
 				5D1A1A152483A70100E03509 /* MTLTexture+Lily+ext.swift in Sources */,
 				5DFF06CA23D197A500480E06 /* CGRect+LilyCore+ext.swift in Sources */,
 				5D7B865924500A59007A47DF /* PGRectangle.swift in Sources */,
@@ -1953,7 +1954,6 @@
 				5D537F8124475656007107B1 /* LBDecoration.swift in Sources */,
 				5D6B4BA12444B86400CCC52D /* LBViewController.swift in Sources */,
 				5D537FD924475657007107B1 /* LPShader.swift in Sources */,
-				5D7B865724500A59007A47DF /* PGTriangleBase.swift in Sources */,
 				5D0CCA9623BB581E0007E174 /* LLType.graphics.swift in Sources */,
 				5D9A4E2C23EC83B800210B1B /* LLMetalMesh.swift in Sources */,
 				5D537FC524475657007107B1 /* LPAtlasIO.swift in Sources */,
@@ -1972,6 +1972,7 @@
 				5D537F8524475656007107B1 /* LBTriangleStorage.swift in Sources */,
 				5DFCC7E023C0E48C0049AC4E /* LCImageLoader.internal.tga.swift in Sources */,
 				5D9A4E8423EC848800210B1B /* LLTransitionAnimator.swift in Sources */,
+				5D23D1D924862C9A000BCBB1 /* LBActorAdapter.swift in Sources */,
 				5DE45039241BDC28008419B6 /* LLMath.type+LilyCore+ext.swift in Sources */,
 				5DFCC7BA23C0CFE80049AC4E /* LCImageLoader.swift in Sources */,
 				5D2E8BD62387F00000D21D94 /* LLMath.const.swift in Sources */,
@@ -2006,7 +2007,6 @@
 				5D1A1A1B2483AA5600E03509 /* LLDisplayLink.swift in Sources */,
 				5DFCC7C023C0D1C50049AC4E /* LDImageLoader.internal.ios.swift in Sources */,
 				5D9A4E6923EC847100210B1B /* UITouch+Lily+ext.swift in Sources */,
-				5D7B864D24500A59007A47DF /* PGPanelBase.swift in Sources */,
 				5D562DC623C329A900D46463 /* LCImage.grey8.swift in Sources */,
 				5D9A4E9423EC848800210B1B /* LLView.swift in Sources */,
 				5D6B4B942444B82200CCC52D /* LLSoloField.swift in Sources */,

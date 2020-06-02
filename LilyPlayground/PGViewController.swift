@@ -44,6 +44,10 @@ open class PGViewController: PGBaseViewController
     public var triangles = Set<PGTriangleBase>()
     public var textures = [String:LLMetalTexture]()
     
+    public var shapes:Set<LBActor> {
+        return Set<LBActor>( panels ).union( triangles )
+    }
+    
     public var designBoardHandler:(()->Void)?
     public var updateBoardHandler:(()->Void)?
    

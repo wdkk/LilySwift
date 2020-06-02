@@ -37,4 +37,6 @@ public var screenHeight:LLDouble { PGViewController.shared.height }
 public var touches:[LBTouch] { return PGViewController.shared.touches }
 public var releases:[LBTouch] { return PGViewController.shared.releases }
 
+public var shapes:Set<LBActor> { PGViewController.shared.shapes }
+
 #endif
