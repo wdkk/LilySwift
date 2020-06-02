@@ -31,7 +31,6 @@ public final class LBPanelDecoration : LBDecoration, LBDecorationCustomizable
             
             // delta値の加算
             obj.me.updateDeltaParams( &(obj.me.storage.params),
-                                      &(obj.me.storage.steps),
                                       count:obj.me.storage.params.count )
             
             guard let mtlbuf_params = LLMetalManager.device?.makeBuffer(
@@ -47,22 +46,13 @@ public final class LBPanelDecoration : LBDecoration, LBDecorationCustomizable
     
     public func updateDeltaParams(
                                    _ params:UnsafeMutablePointer<LBPanelParam>,
-                                   _ steps:UnsafeMutablePointer<LBPanelStep>,
                                    count:Int ) 
     {
         // delta値の加算
         let ptr = params
-        let step_ptr = steps
         for idx in 0 ..< count {
             let p = ptr + idx
-            let s = step_ptr + idx
          
-            if let sp = s.pointee.step {
-                var param = p.pointee
-                sp( &param )
-                p.pointee = param
-            }
-            
             p.pointee.position += p.pointee.deltaPosition
             p.pointee.scale += p.pointee.deltaScale
             p.pointee.angle += p.pointee.deltaAngle

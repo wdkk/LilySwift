@@ -42,11 +42,6 @@ open class LBPanel : LBActor
         set { withUnsafeMutablePointer(to: &(_storage.params[index]) ) { $0.pointee = newValue } }
     }
     
-    public var steps:LBPanelStep {
-        get { return _storage.steps[index] }
-        set { withUnsafeMutablePointer(to: &(_storage.steps[index]) ) { $0.pointee = newValue } }
-    }
-    
     public override var p1:LLPointFloat { 
         get { return LLPointFloat( vertice.p1.xy.x, vertice.p1.xy.y ) }
         set { vertice.p1.xy = LLFloatv2( newValue.x, newValue.y ) }

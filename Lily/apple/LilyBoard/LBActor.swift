@@ -11,7 +11,7 @@
 import Foundation
 import Metal
 
-open class LBActor : Hashable, LBActorAdapter, LBActorAccessor
+open class LBActor : Hashable
 {    
     // Hashableの実装
     public static func == ( lhs:LBActor, rhs:LBActor ) -> Bool {
@@ -22,6 +22,7 @@ open class LBActor : Hashable, LBActorAdapter, LBActorAccessor
         ObjectIdentifier(self).hash(into: &hasher)
     }
     
+    // MARK: - 基本パラメータ群
     public var p1:LLPointFloat { get { .zero } set {} }
     public var p2:LLPointFloat { get { .zero } set {} }
     public var p3:LLPointFloat { get { .zero } set {} }
@@ -63,7 +64,8 @@ open class LBActor : Hashable, LBActorAdapter, LBActorAccessor
     public func texture(_ tex: LLMetalTexture?) -> Self { return self }
 }
 
-public extension LBActor 
+// MARK: - 基本パラメータの各種メソッドチェーンアクセサ
+public extension LBActor
 {
     @discardableResult
     func p1( _ p:LLPointFloat ) -> Self {

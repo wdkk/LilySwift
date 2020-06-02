@@ -42,14 +42,12 @@ open class PGViewController: PGBaseViewController
     
     public var panels = Set<PGPanelBase>()
     public var triangles = Set<PGTriangleBase>()
+    public var shapes:Set<LBActor> { Set<LBActor>( panels ).union( triangles ) }
+    
     public var textures = [String:LLMetalTexture]()
     
-    public var shapes:Set<LBActor> {
-        return Set<LBActor>( panels ).union( triangles )
-    }
-    
-    public var designBoardHandler:(()->Void)?
-    public var updateBoardHandler:(()->Void)?
+    public var designHandler:(()->Void)?
+    public var updateHandler:(()->Void)?
    
     // 準備関数
     override open func setupBoard() {
@@ -76,28 +74,24 @@ open class PGViewController: PGBaseViewController
     
     override open func designBoard() {
         super.designBoard()
-        designBoardHandler?()
+        designHandler?()
     }
     
     // 繰り返し処理関数
     override open func updateBoard() {
         super.updateBoard()
-        updateBoardHandler?()
+        updateHandler?()
         
         // 終了したShapeに対する処理を行う
         checkCompletedShapes()
     }
         
     func checkCompletedShapes() {
-        for p in panels {
-            if p.life <= 0.0 {
-                p.completionCallBack( p )
-            }
-        }
-        
-        for t in triangles {
-            if t.life <= 0.0 {
-                t.completionCallBack( t )
+        for s in shapes {
+            if s.life <= 0.0 {
+                guard let pgactor = s as? PGActor else { continue }
+                pgactor.completionCallBack?( pgactor )
+                pgactor.checkRemove()
             }
         }
     }

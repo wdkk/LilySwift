@@ -20,8 +20,7 @@ class MyViewController : LBViewController
     
     override func setupBoard() {
         super.setupBoard()
-        vc.designBoardHandler = design
-        vc.updateBoardHandler = update
+        vc.designHandler = design
         vcm.transition(to: vc )
     }
 }
@@ -52,8 +51,4 @@ func design() {
     PGAddRectangle( index:1 )
     .scale( square:200 )
     .color( red:0.0, green:0.0, blue:0.5 )
-}
-
-func update() {
-
 }

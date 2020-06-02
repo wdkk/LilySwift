@@ -11,23 +11,20 @@
 import Foundation
 import LilySwift
 
-public var vc = PGViewController.shared
-
 class MyViewController : LBViewController
 {   
     var sceneDelegate:SceneDelegate { return self.view.window!.windowScene!.delegate as! SceneDelegate }
     var vcm:LLViewControllerManager { return sceneDelegate.vcm }
-    
+    public var vc = PGViewController.shared
     override func setupBoard() {
         super.setupBoard()
-        vc.designBoardHandler = design
-        vc.updateBoardHandler = update
+        vc.designHandler = design
+        vc.updateHandler = update
         vcm.transition(to: vc )
     }
 }
 
 func design() {
-   // 背景の色
    clearColor = .darkGrey
 
    for _ in 0 ..< 100 {
@@ -62,6 +59,7 @@ func design() {
 
 func update() {
     for s in shapes {
-        s.angle( s.angle + 0.01 )
+        s.angle( s.angle + 0.02 )
     }
 }
+
