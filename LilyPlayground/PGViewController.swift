@@ -42,7 +42,9 @@ open class PGViewController: PGBaseViewController
     
     public var panels = Set<PGPanelBase>()
     public var triangles = Set<PGTriangleBase>()
-    public var shapes:Set<LBActor> { Set<LBActor>( panels ).union( triangles ) }
+    public var shapes:Set<LBActor> {
+        Set<LBActor>( panels ).union( triangles )
+    }
     
     public var textures = [String:LLMetalTexture]()
     
@@ -82,15 +84,20 @@ open class PGViewController: PGBaseViewController
         super.updateBoard()
         updateHandler?()
         
-        // 終了したShapeに対する処理を行う
-        checkCompletedShapes()
+        // Shapeの更新/終了処理を行う
+        checkShapesStatus()
     }
         
-    func checkCompletedShapes() {
+    func checkShapesStatus() {
         for s in shapes {
+            guard let pgactor = s as? PGActor else { continue }
+            // イテレート処理
+            pgactor.appearIterate()
+            
             if s.life <= 0.0 {
-                guard let pgactor = s as? PGActor else { continue }
-                pgactor.completionCallBack?( pgactor )
+                // 完了前処理
+                pgactor.appearCompletion()
+                // 削除処理
                 pgactor.checkRemove()
             }
         }

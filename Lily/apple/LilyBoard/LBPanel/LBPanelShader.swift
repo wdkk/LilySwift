@@ -15,7 +15,7 @@ open class LBPanelShader : LBShader
 {       
     public convenience init() {
         let uid = UUID().labelString
-        self.init( vertexFuncName: "LBPanelVertex_" + uid, fragmentFuncName: "LBPanelFragment_" + uid )
+        self.init( vertexFuncName: "LBActorVertex_" + uid, fragmentFuncName: "LBPanelFragment_" + uid )
     }
     
     public override init( vertexFuncName: String, fragmentFuncName: String ) {
@@ -24,7 +24,7 @@ open class LBPanelShader : LBShader
         // 入力頂点情報
         self.addStruct {
             $0
-            .name( "LBPanelVertexIn" )
+            .name( "LBActorVertexIn" )
             .add( "float2", "xy" )
             .add( "float2", "uv" )
             .add( "float2", "tex_uv" )
@@ -33,7 +33,7 @@ open class LBPanelShader : LBShader
         // 出力頂点情報
         self.addStruct {
             $0
-            .name( "LBPanelVertexOut" )
+            .name( "LBActorVertexOut" )
             .add( "float4", "pos [[position]]" )
             .add( "float2", "xy" )
             .add( "float2", "uv" )
@@ -43,7 +43,7 @@ open class LBPanelShader : LBShader
         
         self.addStruct {
             $0
-            .name( "LBPanelParam" )
+            .name( "LBActorParam" )
             .add( "float4x4", "matrix" )
             .add( "float4", "atlasUV" )
             .add( "float4", "color" )
@@ -70,17 +70,17 @@ open class LBPanelShader : LBShader
     public override var defaultVertexFunction: LLMetalShadingCode.Function {
         super.defaultFragmentFunction
         .prefix( "vertex" )
-        .returnType( "LBPanelVertexOut" )
+        .returnType( "LBActorVertexOut" )
         .name( self.vert_name )
         .addArgument( "constant float4x4", "&proj_matrix [[ buffer(0) ]]" )
-        .addArgument( "constant LBPanelParam", "*param [[ buffer(1) ]]" )
-        .addArgument( "constant LBPanelVertexIn", "*vin [[ buffer(2) ]]" )
+        .addArgument( "constant LBActorParam", "*param [[ buffer(1) ]]" )
+        .addArgument( "constant LBActorVertexIn", "*vin [[ buffer(2) ]]" )
         .addArgument( "uint", "idx [[ vertex_id ]]" )
         .code( """
             // パネルのパラメータインデックス
             uint obj_idx = idx / 4;
             // p = パネルのパラメータ
-            LBPanelParam p = param[obj_idx];
+            LBActorParam p = param[obj_idx];
             
             float cosv = cos( p.angle );
             float sinv = sin( p.angle );
@@ -112,7 +112,7 @@ open class LBPanelShader : LBShader
             // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
             float visibility = p.state * p.enabled * p.color[3] - 0.00001;
 
-            LBPanelVertexOut vout;
+            LBActorVertexOut vout;
             vout.pos = proj_matrix * float4( v_coord, visibility, 1 );
             vout.xy = vin[idx].xy;
             vout.tex_uv = tex_uv;
@@ -126,7 +126,7 @@ open class LBPanelShader : LBShader
     
     public override var defaultFragmentFunction: LLMetalShadingCode.Function {
         super.defaultFragmentFunction
-        .addArgument( "LBPanelVertexOut", "vout [[ stage_in ]]" )
+        .addArgument( "LBActorVertexOut", "vout [[ stage_in ]]" )
         .code( """
             return vout.color;
         """ )

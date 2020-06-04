@@ -25,7 +25,7 @@ public class LLMetalTriangles<T> : LLMetalShape<LLTriple<T>>
 {
     public typealias VerticeGroup = LLTriple<T>
   
-    public override init( count:Int = 0, bufferType:LLMetalBufferType = .shared ) {
+    public required init( count:Int = 0, bufferType:LLMetalBufferType = .shared ) {
         super.init( count: count, bufferType: bufferType )
         
         drawFunc = { (encoder, index) in

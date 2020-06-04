@@ -23,7 +23,7 @@ public struct LLQuad<T> {
 // 四角形メッシュ形状メモリクラス
 public class LLMetalQuadrangles<T> : LLMetalShape<LLQuad<T>>
 {    
-    public override init( count:Int = 0, bufferType:LLMetalBufferType = .shared ) {
+    public required init( count:Int = 0, bufferType:LLMetalBufferType = .shared ) {
         super.init( count: count, bufferType: bufferType )
         
         drawFunc = { (encoder, index) in

@@ -20,7 +20,7 @@ public class LLMetalShape<T> : LLAlignedMemory4096<T>, LLMetalDrawable, LLMetalB
     fileprivate var _buffer_type:LLMetalBufferType
     public var drawFunc:((MTLRenderCommandEncoder, Int) -> Void)?
 
-    public init( count:Int, bufferType:LLMetalBufferType = .shared ) {
+    public required init( count:Int = 0, bufferType:LLMetalBufferType = .shared ) {
         _buffer_type = bufferType
         super.init( type:T.self, count: count )
         #if targetEnvironment(simulator)

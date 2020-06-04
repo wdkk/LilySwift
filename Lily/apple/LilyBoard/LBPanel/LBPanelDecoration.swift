@@ -11,11 +11,9 @@
 import Foundation
 import Metal
 
-public final class LBPanelDecoration : LBDecoration, LBDecorationCustomizable
+public final class LBPanelDecoration : LBDecoration<LBPanelStorage>, LBDecorationCustomizable
 {
     public typealias Me = LBPanelDecoration
-    
-    public var storage = LBPanelStorage()
     
     public static func custom( label:String ) -> Me {
         if let deco = LBDecorationManager.shared.decorations[label] as? Me { return deco }
@@ -35,17 +33,17 @@ public final class LBPanelDecoration : LBDecoration, LBDecorationCustomizable
             
             guard let mtlbuf_params = LLMetalManager.device?.makeBuffer(
                 bytes: &obj.me.storage.params,
-                length: MemoryLayout<LBPanelParam>.stride * obj.me.storage.params.count ) else { return }
+                length: MemoryLayout<LBActorParam>.stride * obj.me.storage.params.count ) else { return }
             
             let encoder = obj.args
             
             encoder.setVertexBuffer( mtlbuf_params, index:1 )
-            encoder.drawShape( obj.me.storage.quads, index:2 )
+            encoder.drawShape( obj.me.storage.metalVertex, index:2 )
         }
     }
     
     public func updateDeltaParams(
-                                   _ params:UnsafeMutablePointer<LBPanelParam>,
+                                   _ params:UnsafeMutablePointer<LBActorParam>,
                                    count:Int ) 
     {
         // delta値の加算

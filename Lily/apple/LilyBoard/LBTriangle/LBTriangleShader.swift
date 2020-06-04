@@ -15,7 +15,7 @@ open class LBTriangleShader : LBShader
 {       
     public convenience init() {
         let uid = UUID().labelString
-        self.init( vertexFuncName: "LBTriangleVertex_" + uid, fragmentFuncName: "LBTriangleFragment_" + uid )
+        self.init( vertexFuncName: "LBActorVertex_" + uid, fragmentFuncName: "LBTriangleFragment_" + uid )
     }
     
     public override init( vertexFuncName: String, fragmentFuncName: String ) {
@@ -27,7 +27,7 @@ open class LBTriangleShader : LBShader
         // 入力頂点情報
         self.addStruct {
             $0
-            .name( "LBTriangleVertexIn" )
+            .name( "LBActorVertexIn" )
             .add( "float2", "xy" )
             .add( "float2", "uv" )
             .add( "float2", "tex_uv" )
@@ -36,7 +36,7 @@ open class LBTriangleShader : LBShader
         // 出力頂点情報
         self.addStruct {
             $0
-            .name( "LBTriangleVertexOut" )
+            .name( "LBActorVertexOut" )
             .add( "float4", "pos [[position]]" )
             .add( "float2", "xy" )
             .add( "float2", "uv" )
@@ -46,7 +46,7 @@ open class LBTriangleShader : LBShader
         
         self.addStruct {
             $0
-            .name( "LBTriangleParam" )
+            .name( "LBActorParam" )
             .add( "float4x4", "matrix" )
             .add( "float4", "atlasUV" )
             .add( "float4", "color" )
@@ -67,16 +67,16 @@ open class LBTriangleShader : LBShader
 
         self.vertexFunction {
             $0
-            .returnType( "LBTriangleVertexOut" )
+            .returnType( "LBActorVertexOut" )
             .addArgument( "constant float4x4", "&proj_matrix [[ buffer(0) ]]" )
-            .addArgument( "constant LBTriangleParam", "*param [[ buffer(1) ]]" )
-            .addArgument( "constant LBTriangleVertexIn", "*vin [[ buffer(2) ]]" )
+            .addArgument( "constant LBActorParam", "*param [[ buffer(1) ]]" )
+            .addArgument( "constant LBActorVertexIn", "*vin [[ buffer(2) ]]" )
             .addArgument( "uint", "idx [[ vertex_id ]]" )
             .code( """
                 // パネルのパラメータインデックス
                 uint obj_idx = idx / 3;
                 // p = パネルのパラメータ
-                LBTriangleParam p = param[obj_idx];
+                LBActorParam p = param[obj_idx];
                 
                 float cosv = cos( p.angle );
                 float sinv = sin( p.angle );
@@ -108,7 +108,7 @@ open class LBTriangleShader : LBShader
                 // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
                 float visibility = p.state * p.enabled * p.color[3] - 0.00001;
 
-                LBTriangleVertexOut vout;
+                LBActorVertexOut vout;
                 vout.pos = proj_matrix * float4( v_coord, visibility, 1 );
                 vout.xy  = vin[idx].xy;
                 vout.tex_uv = tex_uv;
@@ -122,7 +122,7 @@ open class LBTriangleShader : LBShader
         
         self.fragmentFunction {
             $0
-            .addArgument( "LBTriangleVertexOut", "vout [[ stage_in ]]" )
+            .addArgument( "LBActorVertexOut", "vout [[ stage_in ]]" )
             .code( """
                 return vout.color;
             """ )

@@ -11,19 +11,20 @@
 import Foundation
 import Metal
 
-public struct LBTriangleVertex 
+public enum LBActorState : Float
+{
+    case active = 1.0
+    case trush  = 0.0
+}
+
+public struct LBActorVertex 
 {
     var xy = LLFloatv2()    // -1.0 ~ 1.0, 中央が0.0のローカル座標系
     var uv = LLFloatv2()    // 0.0 ~ 1.0, 左上が0.0のラスタ座標系
-    var tex_uv = LLFloatv2() // 0.0 ~ 1.0 テクスチャuv
+    var tex_uv = LLFloatv2() // 0.0 ~ 1.0 テクスチャのuv座標
 }
 
-public struct LBTriangleStep
-{
-    public var step:(( inout LBTriangleParam )->Void)?
-}
-
-public struct LBTriangleParam : LLMetalBufferAllocatable
+public struct LBActorParam : LLMetalBufferAllocatable
 {
     //-- メモリアラインメント範囲START --//
     // 公開パラメータ
@@ -51,7 +52,7 @@ public struct LBTriangleParam : LLMetalBufferAllocatable
     public var deltaLife:LLFloat { get { lifes.y } set { lifes.y = newValue } }
 
     public var enabled:Bool { get { states.x > 0.0 } set { states.x = newValue ? 1.0 : 0.0 } }
-    public var state:LBState { get { LBState( rawValue: states.y )! } set { states.y = newValue.rawValue } }
+    public var state:LBActorState { get { LBActorState( rawValue: states.y )! } set { states.y = newValue.rawValue } }
     
     public init() {
         matrix = .identity
@@ -86,11 +87,33 @@ public struct LBTriangleParam : LLMetalBufferAllocatable
         )
         states = LLFloatv2(
             1.0,                      // enabled = true
-            LBState.active.rawValue   // state = .active      
+            LBActorState.active.rawValue   // state = .active      
         )
         lifes = LLFloatv2(
             1.0,    // life = 1.0
             0.0     // deltaLife = 0.0
         )
+    }
+}
+
+// MARK: -
+public extension LBActorParam
+{    
+    @discardableResult
+    mutating func deltaPosition( _ p:LLPointFloat ) -> Self {
+        deltaPosition = LLFloatv2( p.x, p.y )
+        return self
+    }
+
+    @discardableResult
+    mutating func deltaPosition( dx:LLFloat, dy:LLFloat ) -> Self {
+        deltaPosition = LLFloatv2( dx, dy )
+        return self
+    }
+    
+    @discardableResult
+    mutating func deltaPosition( dx:LLFloatConvertable, dy:LLFloatConvertable ) -> Self {
+        deltaPosition = LLFloatv2( dx.f, dy.f )
+        return self
     }
 }

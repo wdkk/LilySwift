@@ -16,7 +16,7 @@ import Metal
 /// 点形状クラス
 public class LLMetalPoints<T> : LLMetalShape<T>
 {
-    public override init( count:Int = 0, bufferType:LLMetalBufferType = .shared ) {
+    public required init( count:Int = 0, bufferType:LLMetalBufferType = .shared ) {
         super.init( count: count, bufferType: bufferType )
         
         drawFunc = { (encoder, index) in

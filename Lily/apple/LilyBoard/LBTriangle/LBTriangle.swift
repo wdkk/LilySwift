@@ -11,37 +11,17 @@
 import Foundation
 import Metal
 
-open class LBTriangle : LBActor
+open class LBTriangle : LBShape<
+    LBTriangleDecoration,
+    LBTriangleStorage
+    >
 {
-    public typealias TDecoration = LBTriangleDecoration
-    public weak var decoration:TDecoration?
-    
-    public private(set) var index:Int
-    private var _storage:LBTriangleStorage
-    
-    public init( decoration deco:TDecoration ) {
-        // makeされていなかった場合を考慮してここでmakeする
-        deco.make()
-        
-        self.index = deco.storage.request()
-        self._storage = deco.storage
-        decoration = deco
+    public var vertice:LLTriple<LBActorVertex> {
+        get { return _storage.metalVertex.vertice[index] }
+        set { withUnsafeMutablePointer(to: &(_storage.metalVertex.vertice[index]) ) { $0.pointee = newValue } }
     }
     
-    deinit {
-        params.state = .trush
-    }
-
-    public var vertice:LLTriple<LBTriangleVertex> {
-        get { return _storage.tris.vertice[index] }
-        set { withUnsafeMutablePointer(to: &(_storage.tris.vertice[index]) ) { $0.pointee = newValue } }
-    }
-    
-    public var params:LBTriangleParam {
-        get { return _storage.params[index] }
-        set { withUnsafeMutablePointer(to: &(_storage.params[index]) ) { $0.pointee = newValue } }
-    }
-
+    // MARK: - 基本パラメータオーバーライド
     public override var p1:LLPointFloat { 
         get { return LLPointFloat( vertice.p1.xy.x, vertice.p1.xy.y ) }
         set { vertice.p1.xy = LLFloatv2( newValue.x, newValue.y ) }

@@ -13,6 +13,13 @@ import Metal
 
 open class LBActorStorage
 {
-    public init() {
-    }
+    public var params = [LBActorParam]()
+    
+    public required init() { }
+    
+    public func draw( encoder:MTLRenderCommandEncoder, index:Int ) { }
+
+    public func reuse() -> Int? { return nil }
+    
+    public func request() -> Int { return 0 }
 }

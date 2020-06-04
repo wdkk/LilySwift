@@ -51,7 +51,7 @@ public extension LBPanelDecoration
             
             guard let mtlbuf_params = LLMetalManager.device?.makeBuffer(
                 bytes: &obj.me.storage.params,
-                length: MemoryLayout<LBPanelParam>.stride * obj.me.storage.params.count ) else { return }
+                length: MemoryLayout<LBActorParam>.stride * obj.me.storage.params.count ) else { return }
             
             let sampler = LLMetalSampler.default
             
@@ -60,7 +60,7 @@ public extension LBPanelDecoration
             encoder.setVertexBuffer( mtlbuf_params, index:1 )
             encoder.setFragmentSamplerState( sampler, index: 0 )
             encoder.setFragmentTexture( obj.me.storage.atlas?.metalTexture, index: 0 )
-            encoder.drawShape( obj.me.storage.quads, index:2 )
+            encoder.drawShape( obj.me.storage.metalVertex, index:2 )
         }
     }
 }

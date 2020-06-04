@@ -12,7 +12,7 @@ import Foundation
 import Metal
 
 open class LBActor : Hashable
-{    
+{        
     // Hashableの実装
     public static func == ( lhs:LBActor, rhs:LBActor ) -> Bool {
         lhs === rhs

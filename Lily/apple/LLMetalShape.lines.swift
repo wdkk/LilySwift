@@ -23,7 +23,7 @@ public struct LLDual<T> {
 /// ライン形状クラス
 public class LLMetalLines<T> : LLMetalShape<LLDual<T>>
 {
-    public override init( count:Int = 0, bufferType: LLMetalBufferType = .shared ) {
+    public required init( count:Int = 0, bufferType: LLMetalBufferType = .shared ) {
         super.init( count: count, bufferType: bufferType )
         
         drawFunc = { (encoder, index) in

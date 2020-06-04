@@ -34,7 +34,7 @@ public class CAIMCubes<T> : LLMetalShape<T>
 {
     public let unit = 24
     
-    public override init( count:Int = 0, bufferType:LLMetalBufferType = .shared ) {
+    public required init( count:Int = 0, bufferType:LLMetalBufferType = .shared ) {
         super.init( count: count * unit, bufferType: bufferType )
     }
     

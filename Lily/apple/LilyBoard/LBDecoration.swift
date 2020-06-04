@@ -29,7 +29,7 @@ public protocol LBDecorationCustomizable
     static func custom( label:String ) -> Self
 }
 
-open class LBDecoration : LBDecoratable
+open class LBDecoration<TStorage:LBActorStorage> : LBDecoratable
 {
     public var pipeline = LLMetalRenderPipeline()
     public private(set) var keyLabel:String = ""
@@ -41,6 +41,8 @@ open class LBDecoration : LBDecoratable
     public var blendType:LLMetalBlendType = .alphaBlend
     
     var _draw_f:LLField?
+    
+    public var storage = TStorage()
     
     public static func isExist( label:String ) -> Bool {
         return LBDecorationManager.shared.decorations[label] != nil
