@@ -616,14 +616,14 @@ public extension LBActor
     }
         
     @discardableResult
-    func deltaColor( red:Float, green:Float, blue:Float, alpha:Float = 1.0 ) -> Self {
+    func deltaColor( red:Float, green:Float, blue:Float, alpha:Float = 0.0 ) -> Self {
         deltaColor = LLColor( red, green, blue, alpha )
         return self
     }
     
     @discardableResult
     func deltaColor( red:LLFloatConvertable, green:LLFloatConvertable,
-                     blue:LLFloatConvertable, alpha:LLFloatConvertable = 1.0 ) -> Self {
+                     blue:LLFloatConvertable, alpha:LLFloatConvertable = 0.0 ) -> Self {
         return deltaColor( red:red.f, green:green.f, blue:blue.f, alpha:alpha.f )
     }
 
