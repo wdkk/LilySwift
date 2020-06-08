@@ -8,7 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if !LILY
+#if !LILY_NOT_PG
 
 import UIKit
 import PlaygroundSupport

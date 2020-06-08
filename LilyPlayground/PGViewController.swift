@@ -14,7 +14,7 @@ import UIKit
 import AppKit
 #endif
 
-#if !LILY
+#if !LILY_NOT_PG
 import PlaygroundSupport
 #endif
 
