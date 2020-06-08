@@ -42,8 +42,7 @@ public final class LBPanelDecoration : LBDecoration<LBPanelStorage>, LBDecoratio
         }
     }
     
-    public func updateDeltaParams(
-                                   _ params:UnsafeMutablePointer<LBActorParam>,
+    public func updateDeltaParams( _ params:UnsafeMutablePointer<LBActorParam>,
                                    count:Int ) 
     {
         // delta値の加算

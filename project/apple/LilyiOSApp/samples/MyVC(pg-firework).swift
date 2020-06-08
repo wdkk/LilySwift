@@ -42,6 +42,15 @@ func design() {
         .deltaAlpha( -0.01 )
         .life( .random )
         .deltaLife( -0.01 )
+        .iterate {
+            $0.deltaAlpha { $0.deltaAlpha - 0.0001 }
+        }
+        .interval( sec: 0.5 ) {
+            $0.color.G += 0.1
+        }
+        .interval( sec: 1.0 ) {
+            $0.color.B += 0.1
+        }
         .completion {
             $0
             .position( cx:(-50 ... 50).randomize, cy:(-120 ... -110).randomize )

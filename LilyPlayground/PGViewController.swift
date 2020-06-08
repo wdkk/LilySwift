@@ -18,7 +18,7 @@ import AppKit
 import PlaygroundSupport
 #endif
 
-#if LILY 
+#if LILY_NOT_PG 
 open class PGBaseViewController : LBViewController 
 {
 }
@@ -58,6 +58,9 @@ open class PGViewController: PGBaseViewController
         // 親元のデザイン関数を削除
         metalView.design.fields.removeAll()
         
+        // 時間の初期化
+        PGActorTimer.shared.start()
+        
         // デザイン関数のみ再定義
         LLFlow( metalView )
         .design.add( with:self )
@@ -82,6 +85,9 @@ open class PGViewController: PGBaseViewController
     // 繰り返し処理関数
     override open func updateBoard() {
         super.updateBoard()
+        // 時間の更新
+        PGActorTimer.shared.update()
+        
         updateHandler?()
         
         // Shapeの更新/終了処理を行う
@@ -93,6 +99,8 @@ open class PGViewController: PGBaseViewController
             guard let pgactor = s as? PGActor else { continue }
             // イテレート処理
             pgactor.appearIterate()
+            // インターバル処理
+            pgactor.appearIntervals()
             
             if s.life <= 0.0 {
                 // 完了前処理

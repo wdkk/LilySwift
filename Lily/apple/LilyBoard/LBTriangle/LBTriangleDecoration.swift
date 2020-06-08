@@ -42,7 +42,9 @@ public final class LBTriangleDecoration : LBDecoration<LBTriangleStorage>, LBDec
         }
     }
     
-    public func updateDeltaParams( _ params:UnsafeMutablePointer<LBActorParam>, count:Int ) {
+    public func updateDeltaParams( _ params:UnsafeMutablePointer<LBActorParam>,
+                                   count:Int ) 
+    {
         // delta値の加算
         // TODO: コンピュートシェーダに写し変えたい
         let ptr = params

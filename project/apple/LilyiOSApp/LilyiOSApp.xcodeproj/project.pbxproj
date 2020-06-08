@@ -17,7 +17,7 @@
 		5DA0815923C2287D005E877C /* supportFiles in Resources */ = {isa = PBXBuildFile; fileRef = 5DA0815823C2287D005E877C /* supportFiles */; };
 		5DB4690A238E6D01002A8FF7 /* LilySwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */; };
 		5DB4690B238E6D01002A8FF7 /* LilySwift.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5DE8A2122486D1D3006A37E8 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE44FF7241BDBAF008419B6 /* MyViewController.swift */; };
+		5DC22546248EBF7000A248CC /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE44FF7241BDBAF008419B6 /* MyViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -230,7 +230,7 @@
 				5D5AA4BD2462982600832532 /* SceneDelegate.swift in Sources */,
 				5D5AA4BB2462982600832532 /* AppDelegate.swift in Sources */,
 				5D5AA4BA2462982600832532 /* LilyPlaygroundHelper.swift in Sources */,
-				5DE8A2122486D1D3006A37E8 /* MyViewController.swift in Sources */,
+				5DC22546248EBF7000A248CC /* MyViewController.swift in Sources */,
 				5D5AA4BC2462982600832532 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
