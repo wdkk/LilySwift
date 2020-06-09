@@ -62,106 +62,7 @@ open class LBPanel : LBShape<
         set { vertice.p4.tex_uv = LLFloatv2( newValue.x, newValue.y ) }
     }
 
-    public override var position:LLPointFloat { 
-        get { return LLPointFloat( params.position.x, params.position.y ) }
-        set { params.position = LLFloatv2( newValue.x, newValue.y ) }
-    }
-
-    public override var cx:LLFloat {
-        get { return params.position.x }
-        set { params.position.x = newValue }
-    }
-
-    public override var cy:LLFloat {
-        get { return params.position.y }
-        set { params.position.y = newValue }
-    }
     
-    public override var scale:LLSizeFloat {
-        get { return LLSizeFloat( params.scale.x, params.scale.y ) }
-        set { params.scale = LLFloatv2( newValue.width, newValue.height ) }
-    }
-
-    public override var width:Float {
-        get { return params.scale.x }
-        set { params.scale.x = newValue }
-    }
-    
-    public override var height:Float {
-        get { return params.scale.y }
-        set { params.scale.y = newValue }
-    }
-    
-    public override var angle:LLAngle {
-        get { return LLAngle.radians( params.angle.d ) }
-        set { params.angle = newValue.radians.f }
-    }
-    
-    public override var zIndex:LLFloat {
-        get { return params.zindex }
-        set { params.zindex = newValue }
-    }
-
-    public override var enabled:Bool { 
-        get { return params.enabled }
-        set { params.enabled = newValue }
-    }
-
-    public override var life:Float { 
-        get { return params.life }
-        set { params.life = newValue }
-    }
-
-    public override var color:LLColor {
-        get { return params.color.llColor }
-        set { params.color = newValue.floatv4 }
-    }
-
-   public override var alpha:Float {
-        get { return params.color.w }
-        set { params.color.w = newValue }
-    }
-
-    public override var matrix:LLMatrix4x4 { 
-        get { return params.matrix }
-        set { params.matrix = newValue }
-    }
-    
-    public override var deltaPosition:LLPointFloat { 
-        get { return LLPointFloat( params.deltaPosition.x, params.deltaPosition.y ) }
-        set { params.deltaPosition = LLFloatv2( newValue.x, newValue.y ) }
-    }
-    
-    public override var deltaScale:LLSizeFloat { 
-        get { return LLSizeFloat( params.deltaScale.x, params.deltaScale.y ) }
-        set { params.deltaScale = LLFloatv2( newValue.width, newValue.height ) }
-    }
-
-    public override var deltaColor:LLColor { 
-        get { return LLColor( 
-                params.deltaColor.x,
-                params.deltaColor.y,
-                params.deltaColor.z,
-                params.deltaColor.w )
-        }
-        set { params.deltaColor = LLFloatv4( newValue.R, newValue.G, newValue.B, newValue.A ) }
-    }
-
-    public override var deltaAlpha:Float {
-        get { return params.deltaColor.w }
-        set { params.deltaColor.w = newValue }
-    }
-
-    public override var deltaAngle:LLAngle {
-        get { return LLAngle.radians( params.deltaAngle.d ) }
-        set { params.deltaAngle = newValue.radians.f }
-    }
-
-    public override var deltaLife:Float {
-        get { return params.deltaLife }
-        set { params.deltaLife = newValue }
-    }
-
     @discardableResult
     public override func atlasParts( of key:String ) -> Self {
         guard let parts = _storage.atlas?.parts( key ),
@@ -210,5 +111,5 @@ open class LBPanel : LBShape<
     @discardableResult
     public override func texture( _ tex:LLMetalTexture? ) -> Self {
         return texture( tex?.metalTexture )
-    } 
+    }
 }

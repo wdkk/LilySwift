@@ -34,7 +34,7 @@ open class LBShape<
         params.state = .trush
     }
     
-    public var params:LBActorParam {
+    public override var params:LBActorParam {
         get { return _storage.params[index] }
         set { withUnsafeMutablePointer(to: &(_storage.params[index]) ) { $0.pointee = newValue } }
     }

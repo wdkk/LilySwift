@@ -22,6 +22,8 @@ open class LBActor : Hashable
         ObjectIdentifier(self).hash(into: &hasher)
     }
     
+    public var params:LBActorParam { get { LBActorParam() } set { } }
+    
     // MARK: - 基本パラメータ群
     public var p1:LLPointFloat { get { .zero } set {} }
     public var p2:LLPointFloat { get { .zero } set {} }
@@ -33,29 +35,106 @@ open class LBActor : Hashable
     public var uv3:LLPointFloat { get { .zero } set {} }
     public var uv4:LLPointFloat { get { .zero } set {} }
 
-    public var position:LLPointFloat { get { .zero } set {} }
-    public var cx:LLFloat { get { 0.0 } set {} }
-    public var cy:LLFloat { get { 0.0 } set {} }
+
+    public var position:LLPointFloat { 
+        get { return LLPointFloat( params.position.x, params.position.y ) }
+        set { params.position = LLFloatv2( newValue.x, newValue.y ) }
+    }
     
-    public var scale:LLSizeFloat { get { .zero } set {} }
-    public var width:Float { get { 0.0 } set {} }
-    public var height:Float { get { 0.0 } set {} }
+    public var cx:LLFloat {
+        get { return params.position.x }
+        set { params.position.x = newValue }
+    }
     
-    public var angle:LLAngle { get { .zero } set {} }
-    public var zIndex:LLFloat { get { 0.0 } set {} }
-    public var enabled:Bool { get { false } set {} }
-    public var life:Float { get { 0.0 } set {} }
-    public var color:LLColor { get { .clear } set {} }
-    public var alpha:Float { get { 0.0 } set {} }
+    public var cy:LLFloat {
+        get { return params.position.y }
+        set { params.position.y = newValue }
+    }
     
-    public var matrix:LLMatrix4x4 { get { .identity } set {} }
+    public var scale:LLSizeFloat {
+        get { return LLSizeFloat( params.scale.x, params.scale.y ) }
+        set { params.scale = LLFloatv2( newValue.width, newValue.height ) }
+    }
     
-    public var deltaPosition:LLPointFloat { get { .zero } set {} }
-    public var deltaScale:LLSizeFloat { get { .zero } set {} }
-    public var deltaColor:LLColor { get { .clear } set {} }
-    public var deltaAlpha:Float { get { 0.0 } set {} }
-    public var deltaAngle:LLAngle { get { .zero } set {} }
-    public var deltaLife:Float { get { 0.0 } set {} }
+    public var width:Float {
+        get { return params.scale.x }
+        set { params.scale.x = newValue }
+    }
+    
+    public var height:Float {
+        get { return params.scale.y }
+        set { params.scale.y = newValue }
+    }
+    
+    public var angle:LLAngle {
+        get { return LLAngle.radians( params.angle.d ) }
+        set { params.angle = newValue.radians.f }
+    }
+    
+    public var zIndex:LLFloat {
+        get { return params.zindex }
+        set { params.zindex = newValue }
+    }
+    
+    public var enabled:Bool { 
+        get { return params.enabled }
+        set { params.enabled = newValue }
+    }
+    
+    public var life:Float { 
+        get { return params.life }
+        set { params.life = newValue }
+    }
+    
+    public var color:LLColor {
+        get { return params.color.llColor }
+        set { params.color = newValue.floatv4 }
+    }
+    
+    public var alpha:Float {
+        get { return params.color.w }
+        set { params.color.w = newValue }
+    }
+    
+    public var matrix:LLMatrix4x4 { 
+        get { return params.matrix }
+        set { params.matrix = newValue }
+    }
+    
+    public var deltaPosition:LLPointFloat { 
+        get { return LLPointFloat( params.deltaPosition.x, params.deltaPosition.y ) }
+        set { params.deltaPosition = LLFloatv2( newValue.x, newValue.y ) }
+    }
+    
+    public var deltaScale:LLSizeFloat { 
+        get { return LLSizeFloat( params.deltaScale.x, params.deltaScale.y ) }
+        set { params.deltaScale = LLFloatv2( newValue.width, newValue.height ) }
+    }
+    
+    public var deltaColor:LLColor { 
+        get { return LLColor( 
+            params.deltaColor.x,
+            params.deltaColor.y,
+            params.deltaColor.z,
+            params.deltaColor.w )
+        }
+        set { params.deltaColor = LLFloatv4( newValue.R, newValue.G, newValue.B, newValue.A ) }
+    }
+    
+    public var deltaAlpha:Float {
+        get { return params.deltaColor.w }
+        set { params.deltaColor.w = newValue }
+    }
+    
+    public var deltaAngle:LLAngle {
+        get { return LLAngle.radians( params.deltaAngle.d ) }
+        set { params.deltaAngle = newValue.radians.f }
+    }
+    
+    public var deltaLife:Float {
+        get { return params.deltaLife }
+        set { params.deltaLife = newValue }
+    }
     
     public func atlasParts(of key: String) -> Self { return self }
     
@@ -64,7 +143,7 @@ open class LBActor : Hashable
     public func texture(_ tex: LLMetalTexture?) -> Self { return self }
 }
 
-// MARK: - 基本パラメータの各種メソッドチェーンアクセサ
+// MARK: - 基本頂点情報の各種メソッドチェーンアクセサ
 public extension LBActor
 {
     @discardableResult
@@ -281,17 +360,20 @@ public extension LBActor
         uv4 = calc( self )
         return self
     }
+}
 
-    
+// MARK: - 基本パラメータ情報の各種メソッドチェーンアクセサ
+public extension LBActor
+{
     @discardableResult
     func position( _ p:LLPointFloat ) -> Self {
-        position = LLPointFloat( p.x, p.y )
+        params.position = LLFloatv2( p.x, p.y )
         return self
     }
     
     @discardableResult
     func position( _ p:LLPoint ) -> Self {
-        position = LLPointFloat( p.x.f, p.y.f )
+        params.position = LLFloatv2( p.x.f, p.y.f )
         return self
     }
     
@@ -303,400 +385,421 @@ public extension LBActor
     
     @discardableResult
     func position( cx:LLFloatConvertable, cy:LLFloatConvertable ) -> Self {
-        return position( cx:cx.f, cy:cy.f )
+        params.position = LLFloatv2( cx.f, cy.f )
+        return self
     }
     
     @discardableResult
     func position( _ calc:( LBActor )->LLPointFloat ) -> Self {
-        position = calc( self )
+        let pf = calc( self )
+        params.position = LLFloatv2( pf.x, pf.y )
         return self
     }
     
     
     @discardableResult
     func cx( _ p:Float ) -> Self {
-        position.x = p
+        params.position.x = p
         return self
     }
     
     @discardableResult
     func cx( _ p:LLFloatConvertable ) -> Self {
-        return cx( p.f )
+        params.position.x = p.f
+        return self
     }
 
     @discardableResult
     func cx( _ calc:( LBActor )->LLFloat ) -> Self {
-        position.x = calc( self )
+        params.position.x = calc( self )
         return self
     }
 
     
     @discardableResult
     func cy( _ p:Float ) -> Self {
-        position.y = p
+        params.position.y = p
         return self
     }
     
     @discardableResult
     func cy( _ p:LLFloatConvertable ) -> Self {
-        return cy( p.f )
+        params.position.y = p.f
+        return self
     }
 
     @discardableResult
     func cy( _ calc:( LBActor )->LLFloat ) -> Self {
-        position.y = calc( self )
+        params.position.y = calc( self )
         return self
     }
 
     
     @discardableResult
     func scale( _ sz:LLSizeFloat ) -> Self {
-        scale = LLSizeFloat( sz.width, sz.height )
+        params.scale = LLFloatv2( sz.width, sz.height )
         return self
     }
         
     @discardableResult
     func scale( width:Float, height:Float ) -> Self {
-        scale = LLSizeFloat( width, height )
+        params.scale = LLFloatv2( width, height )
         return self
     }
     
     @discardableResult
     func scale( width:LLFloatConvertable, height:LLFloatConvertable ) -> Self {
-        return scale( width:width.f, height:height.f )
+        params.scale = LLFloatv2( width.f, height.f )
+        return self
     }
     
     @discardableResult
     func scale( _ calc:( LBActor )->LLSizeFloat ) -> Self {
-        scale = calc( self )
+        let sf = calc( self )
+        params.scale = LLFloatv2( sf.width, sf.height )
         return self
     }
     
     @discardableResult
     func scale( square sz:Float ) -> Self {
-        scale = LLSizeFloat( sz, sz )
+        params.scale = LLFloatv2( sz, sz )
         return self
     }
     
     @discardableResult
     func scale( square sz:LLFloatConvertable ) -> Self {
-        scale = LLSizeFloat( sz.f, sz.f )
+        params.scale = LLFloatv2( sz.f, sz.f )
         return self
     }
 
     
     @discardableResult
     func width( _ v:Float ) -> Self {
-        width = v
+        params.scale.x = v
         return self
     }
     
     @discardableResult
     func width( _ v:LLFloatConvertable ) -> Self {
-        return width( v.f )
+        params.scale.x = v.f
+        return self
     }
 
     @discardableResult
     func width( _ calc:( LBActor )->Float ) -> Self {
-        width = calc( self )
+        params.scale.x = calc( self )
         return self
     }
 
     
     @discardableResult
     func height( _ v:Float ) -> Self {
-        height = v
+        params.scale.y = v
         return self
     }
     
     @discardableResult
     func height( _ v:LLFloatConvertable ) -> Self {
-        return height( v.f )
+        params.scale.y = v.f
+        return self
     }
 
     @discardableResult
     func height( _ calc:( LBActor )->Float ) -> Self {
-        height = calc( self )
+        params.scale.y = calc( self )
         return self
     }
 
     
     @discardableResult
     func angle( _ ang:LLAngle ) -> Self {
-        angle = ang 
+        params.angle = ang.radians.f
         return self
     }
     
     @discardableResult
     func angle( radians rad:LLFloatConvertable ) -> Self {
-        return angle( LLAngle.radians( rad.f.d ) )
+        params.angle = rad.f
+        return self
     }
     
     @discardableResult
     func angle( degrees deg:LLFloatConvertable ) -> Self {
-        return angle( LLAngle.degrees( deg.f.d ) )
+        params.angle = LLAngle( degrees: deg.f.d ).radians.f
+        return self
     }
     
     @discardableResult
     func angle( _ calc:( LBActor )->LLAngle ) -> Self {
-        angle = calc( self )
+        let ang = calc( self )
+        params.angle = ang.radians.f
         return self
     }
     
     @discardableResult
     func angle<T:BinaryInteger>( _ calc:( LBActor )->T ) -> Self {
-        angle = LLAngle( radians:Double( calc( self ) ) )
+        params.angle = Float( calc( self ) )
         return self
     }
     
     @discardableResult
     func angle<T:BinaryFloatingPoint>( _ calc:( LBActor )->T ) -> Self {
-        angle = LLAngle( radians:Double( calc( self ) ) )
+        params.angle = Float( calc( self ) )
         return self
     }
 
-    
     @discardableResult
     func zIndex( _ index:Float ) -> Self {
-        zIndex = index
+        params.zindex = index
         return self
     }
     
     @discardableResult
     func zIndex( _ v:LLFloatConvertable ) -> Self {
-        return zIndex( v.f )
+        params.zindex = v.f
+        return self
     }
     
     @discardableResult
     func zIndex( _ calc:( LBActor )->Float ) -> Self {
-        zIndex = calc( self )
+        params.zindex = calc( self )
         return self
     }
 
     
     @discardableResult
     func enabled( _ torf:Bool ) -> Self {
-        enabled = torf
+        params.enabled = torf
         return self
     }
     
     @discardableResult
     func enabled( _ calc:( LBActor )->Bool ) -> Self {
-        enabled = calc( self )
+        params.enabled = calc( self )
         return self
     }
 
     
     @discardableResult
     func life( _ v:Float ) -> Self {
-        life = v
+        params.life = v
         return self
     }
     
     @discardableResult
     func life( _ v:LLFloatConvertable ) -> Self {
-        return life( v.f )
+        params.life = v.f
+        return self
     }
     
     @discardableResult
     func life( _ calc:( LBActor )->Float ) -> Self {
-        life = calc( self )
+        params.life = calc( self )
         return self
     }
 
     
     @discardableResult
     func color( _ c:LLColor ) -> Self {
-        color = c
+        params.color = c.floatv4
         return self
     }
     
     @discardableResult
     func color( red:Float, green:Float, blue:Float, alpha:Float = 1.0 ) -> Self {
-        color = LLColor( red, green, blue, alpha )
+        params.color = LLFloatv4( red, green, blue, alpha )
         return self
     }
     
     @discardableResult
     func color( red:LLFloatConvertable, green:LLFloatConvertable,
                 blue:LLFloatConvertable, alpha:LLFloatConvertable = 1.0 ) -> Self {
-        return color( red:red.f, green:green.f, blue:blue.f, alpha:alpha.f )
+        params.color = LLFloatv4( red.f, green.f, blue.f, alpha.f )
+        return self
     }
     
     @discardableResult
     func color( _ calc:( LBActor )->LLColor ) -> Self {
-        color = calc( self )
+        params.color = calc( self ).floatv4
         return self
     }
 
     
     @discardableResult
     func alpha( _ c:Float ) -> Self {
-        alpha = c
+        params.color.w = c
         return self
     }
     
     @discardableResult
     func alpha( _ v:LLFloatConvertable ) -> Self {
-        return alpha( v.f )
+        params.color.w = v.f
+        return self
     }
     
     @discardableResult
     func alpha( _ calc:( LBActor )->Float ) -> Self {
-        alpha = calc( self )
+        params.color.w = calc( self )
         return self
     }
     
 
     @discardableResult
     func matrix( _ mat:LLMatrix4x4 ) -> Self {
-        matrix = mat
+        params.matrix = mat
         return self
     }
 
     
     @discardableResult
     func deltaPosition( _ p:LLPointFloat ) -> Self {
-        deltaPosition = LLPointFloat( p.x, p.y )
+        params.deltaPosition = LLFloatv2( p.x, p.y )
         return self
     }
     
     @discardableResult
     func deltaPosition( dx:Float, dy:Float ) -> Self {
-        deltaPosition = LLPointFloat( dx, dy )
+        params.deltaPosition = LLFloatv2( dx, dy )
         return self
     }
     
     @discardableResult
     func deltaPosition( dx:LLFloatConvertable, dy:LLFloatConvertable ) -> Self {
-        return deltaPosition( dx:dx.f, dy:dy.f )
+        params.deltaPosition = LLFloatv2( dx.f, dy.f )
+        return self
     }
     
     @discardableResult
     func deltaPosition( _ calc:( LBActor )->LLPointFloat ) -> Self {
-        deltaPosition = calc( self )
+        let pf = calc( self )
+        params.deltaPosition = LLFloatv2( pf.x, pf.y )
         return self
     }
     
     @discardableResult
     func deltaPosition<T:BinaryFloatingPoint>( _ calc:( LBActor )->(T,T) ) -> Self {
         let pos = calc( self )
-        deltaPosition = LLPointFloat( Float(pos.0), Float(pos.1) )
+        params.deltaPosition = LLFloatv2( Float(pos.0), Float(pos.1) )
         return self
     }
 
     
     @discardableResult
     func deltaScale( _ dsc:LLSizeFloat ) -> Self {
-        deltaScale = LLSizeFloat( dsc.width, dsc.height )
+        params.deltaScale = LLFloatv2( dsc.width, dsc.height )
         return self
     }
     
     @discardableResult
     func deltaScale( dw:Float, dh:Float ) -> Self {
-        deltaScale = LLSizeFloat( dw, dh )
+        params.deltaScale = LLFloatv2( dw, dh )
         return self
     }
     
     @discardableResult
     func deltaScale( dw:LLFloatConvertable, dh:LLFloatConvertable ) -> Self {
-        return deltaScale( dw:dw.f, dh:dh.f )
+        params.deltaScale = LLFloatv2( dw.f, dh.f )
+        return self
     }
     
     @discardableResult
     func deltaScale( _ calc:( LBActor )->LLSizeFloat ) -> Self {
-        deltaScale = calc( self )
+        let sf = calc( self )
+        params.deltaScale = LLFloatv2( sf.width, sf.height )
         return self
     }
 
     @discardableResult
     func deltaColor( _ c:LLColor ) -> Self {
-        deltaColor = c
+        params.deltaColor = c.floatv4
         return self
     }
         
     @discardableResult
     func deltaColor( red:Float, green:Float, blue:Float, alpha:Float = 0.0 ) -> Self {
-        deltaColor = LLColor( red, green, blue, alpha )
+        params.deltaColor = LLFloatv4( red, green, blue, alpha )
         return self
     }
     
     @discardableResult
     func deltaColor( red:LLFloatConvertable, green:LLFloatConvertable,
                      blue:LLFloatConvertable, alpha:LLFloatConvertable = 0.0 ) -> Self {
-        return deltaColor( red:red.f, green:green.f, blue:blue.f, alpha:alpha.f )
+        params.deltaColor = LLFloatv4( red.f, green.f, blue.f, alpha.f )
+        return self
     }
 
     
     @discardableResult
     func deltaAlpha( _ v:Float ) -> Self {
-        deltaAlpha = v
+        params.deltaColor.w = v
         return self
     }
     
     @discardableResult
     func deltaAlpha( _ v:LLFloatConvertable ) -> Self {
-        deltaAlpha = v.f
+        params.deltaColor.w = v.f
         return self
     }
 
     @discardableResult
     func deltaAlpha( _ calc:( LBActor )->Float ) -> Self {
-        deltaAlpha = calc( self )
+        params.deltaColor.w = calc( self )
         return self
     }
 
         
     @discardableResult
     func deltaAngle( _ ang:LLAngle ) -> Self {
-        deltaAngle = ang 
+        params.deltaAngle = ang.radians.f
         return self
     }
     
     @discardableResult
     func deltaAngle( radians rad:LLFloatConvertable ) -> Self {
-        return deltaAngle( LLAngle.radians( rad.f.d ) )
+        params.deltaAngle = rad.f
+        return self
     }
     
     @discardableResult
     func deltaAngle( degrees deg:LLFloatConvertable ) -> Self {
-        return deltaAngle( LLAngle.degrees( deg.f.d ) )
+        params.deltaAngle = LLAngle.degrees( deg.f.d ).radians.f
+        return self
     }
     
     @discardableResult
     func deltaAngle( _ calc:( LBActor )->LLAngle ) -> Self {
-        deltaAngle = calc( self )
+        params.deltaAngle = calc( self ).radians.f
         return self
     }
     
     @discardableResult
     func deltaAngle<T:BinaryInteger>( _ calc:( LBActor )->T ) -> Self {
-        deltaAngle = LLAngle( radians:Double( calc( self ) ) )
+        params.deltaAngle = Float( calc( self ) )
         return self
     }
     
     @discardableResult
     func deltaAngle<T:BinaryFloatingPoint>( _ calc:( LBActor )->T ) -> Self {
-        deltaAngle = LLAngle( radians:Double( calc( self ) ) )
+        params.deltaAngle = Float( calc( self ) )
         return self
     }
 
     
     @discardableResult
     func deltaLife( _ v:Float ) -> Self {
-        deltaLife = v
+        params.deltaLife = v
         return self
     }
     
     @discardableResult
     func deltaLife( _ v:LLFloatConvertable ) -> Self {
-        deltaLife = v.f
+        params.deltaLife = v.f
         return self
     }
 
     @discardableResult
     func deltaLife( _ calc:( LBActor )->Float ) -> Self {
-        deltaLife = calc( self )
+        params.deltaLife = calc( self )
         return self
     }
 }
