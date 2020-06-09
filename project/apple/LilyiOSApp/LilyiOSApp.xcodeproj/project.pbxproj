@@ -13,11 +13,11 @@
 		5D5AA4BB2462982600832532 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B72462982600832532 /* AppDelegate.swift */; };
 		5D5AA4BC2462982600832532 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B82462982600832532 /* main.swift */; };
 		5D5AA4BD2462982600832532 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B92462982600832532 /* SceneDelegate.swift */; };
-		5D66F376248F7DFC006E388A /* MyVC(pg-firework).swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE8A20E2486D126006A37E8 /* MyVC(pg-firework).swift */; };
 		5D8DF91B1F5EBBC500108334 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D8DF91A1F5EBBC500108334 /* Default-568h@2x.png */; };
 		5DA0815923C2287D005E877C /* supportFiles in Resources */ = {isa = PBXBuildFile; fileRef = 5DA0815823C2287D005E877C /* supportFiles */; };
 		5DB4690A238E6D01002A8FF7 /* LilySwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */; };
 		5DB4690B238E6D01002A8FF7 /* LilySwift.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5DFD02DB248FDD6400AE6254 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE44FF7241BDBAF008419B6 /* MyViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -229,8 +229,8 @@
 			files = (
 				5D5AA4BD2462982600832532 /* SceneDelegate.swift in Sources */,
 				5D5AA4BB2462982600832532 /* AppDelegate.swift in Sources */,
-				5D66F376248F7DFC006E388A /* MyVC(pg-firework).swift in Sources */,
 				5D5AA4BA2462982600832532 /* LilyPlaygroundHelper.swift in Sources */,
+				5DFD02DB248FDD6400AE6254 /* MyViewController.swift in Sources */,
 				5D5AA4BC2462982600832532 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
