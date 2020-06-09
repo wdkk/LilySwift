@@ -8,6 +8,10 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+/// コメント未済
+
+#if LILY_FULL
+
 import Foundation
 
 #if os(iOS)
@@ -22,3 +26,5 @@ public extension String
         return LCStringPixelSize( self.lcStr, textAttr )
     }
 }
+
+#endif

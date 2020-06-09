@@ -10,6 +10,8 @@
 
 /// コメント未済
 
+#if LILY_FULL
+
 import Foundation
 
 public extension String 
@@ -18,3 +20,5 @@ public extension String
         return self.pixelSize( attr: textAttr.lcAttr )
    }   
 }
+
+#endif

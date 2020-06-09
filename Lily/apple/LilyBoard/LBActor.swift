@@ -34,7 +34,12 @@ open class LBActor : Hashable
     public var uv2:LLPointFloat { get { .zero } set {} }
     public var uv3:LLPointFloat { get { .zero } set {} }
     public var uv4:LLPointFloat { get { .zero } set {} }
-
+    
+    public func atlasParts(of key: String) -> Self { return self }
+    
+    public func texture(_ tex: MTLTexture?) -> Self { return self }
+    
+    public func texture(_ tex: LLMetalTexture?) -> Self { return self }
 
     public var position:LLPointFloat { 
         get { return LLPointFloat( params.position.x, params.position.y ) }
@@ -135,12 +140,6 @@ open class LBActor : Hashable
         get { return params.deltaLife }
         set { params.deltaLife = newValue }
     }
-    
-    public func atlasParts(of key: String) -> Self { return self }
-    
-    public func texture(_ tex: MTLTexture?) -> Self { return self }
-    
-    public func texture(_ tex: LLMetalTexture?) -> Self { return self }
 }
 
 // MARK: - 基本頂点情報の各種メソッドチェーンアクセサ

@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 
 private let LCDataOffsetByte:Int = 16
@@ -179,3 +181,5 @@ public func LCDataAppendChars( _ data:LCDataSmPtr, _ chars:LLConstCCharsPtr ) {
 public func LCDataClear( _ data:LCDataSmPtr ) {
     data.dt.removeAll()
 }
+
+#endif

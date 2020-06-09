@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 
 /// LCDataSmPtr拡張
@@ -20,3 +22,5 @@ public extension LCDataSmPtr
         return Data( bytes: ptr, count: length )
     }
 }
+
+#endif

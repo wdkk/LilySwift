@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 
 /// UserDefault拡張
@@ -29,3 +31,5 @@ public extension UserDefaults
         return num.int64Value
     }
 }
+
+#endif

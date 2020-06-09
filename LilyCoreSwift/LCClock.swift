@@ -23,11 +23,12 @@ public func LCClockNow() -> LLInt64 {
     return LLInt64( now_time.tv_sec * 1000 ) + LLInt64( now_time.tv_usec / 1000 )  
 }
 
+#if LILY_FULL
+
 fileprivate var is_started:Bool = false
 fileprivate var time_span:LLInt64 = 0
 fileprivate var fps:Int = 0
 
-#if LILY_FULL
 /// FPSをコンソール出力する
 /// - Description: アプリケーションループ内で繰り返し呼びだして用いる. 1秒に何回呼ばれたかを蓄積し、1秒毎に出力する
 public func LCClockFPS() {

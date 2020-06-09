@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 
 /// Data型拡張
@@ -29,3 +31,5 @@ public extension Data
         return lcd
     }
 }
+
+#endif

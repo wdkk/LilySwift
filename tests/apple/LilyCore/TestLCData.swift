@@ -10,7 +10,7 @@
 
 import XCTest
 
-@testable import LilySwift
+@testable import Lily
 
 class TestLCData : XCTestCase {
 
