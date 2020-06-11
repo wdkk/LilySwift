@@ -39,4 +39,6 @@ public var releases:[LBTouch] { return PGViewController.shared.releases }
 
 public var shapes:Set<LBActor> { PGViewController.shared.shapes }
 
+public var elapsedTime:Double { PGViewController.shared.elapsedTime }
+
 #endif

@@ -40,17 +40,23 @@ open class PGViewController: PGBaseViewController
         fatalError("init(coder:) has not been implemented")
     }
     
+    // 形状データ
     public var panels = Set<PGPanelBase>()
     public var triangles = Set<PGTriangleBase>()
     public var shapes:Set<LBActor> {
         Set<LBActor>( panels ).union( triangles )
     }
     
+    // テクスチャデータ
     public var textures = [String:LLMetalTexture]()
     
+    // 処理ハンドラ 
     public var designHandler:(()->Void)?
     public var updateHandler:(()->Void)?
    
+    // 表示からの経過時間
+    public var elapsedTime:Double { PGActorTimer.shared.elapsedTime }
+    
     // 準備関数
     override open func setupBoard() {
         super.setupBoard()

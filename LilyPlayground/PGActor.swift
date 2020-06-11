@@ -25,12 +25,27 @@ public class PGActorTimer {
     public func update() {
         nowTime = LLClock.now.d / 1000.0
     }
+    
+    public var elapsedTime:Double { nowTime - startTime }
+}
+
+public struct PGActorInterval
+{
+    var sec:Double = 1.0
+    var prev:Double = 0.0
+    var field:LLPlaneField<LBActor>
+    
+    public init( sec s_:Double, prev p_:Double, field f_:LLPlaneField<LBActor> ) {
+        sec = s_
+        prev = p_
+        field = f_
+    }
 }
 
 public protocol PGActor : LBActor
 {
     var iterateField:LLPlaneField<LBActor>? { get set }
-    var intervalFields:[(sec:Double, prev:Double, f:LLPlaneField<LBActor>)] { get set }
+    var intervalFields:[String:PGActorInterval] { get set }
     var completionField:LLPlaneField<LBActor>? { get set }
 
     @discardableResult
@@ -38,8 +53,11 @@ public protocol PGActor : LBActor
     func appearIterate()
     
     @discardableResult
-    func interval( sec:Double, f:@escaping ( LBActor )->Void ) -> Self
+    func interval( key:String, sec:Double, f:@escaping ( LBActor )->Void ) -> Self
     func appearIntervals()
+    
+    @discardableResult
+    func stopInterval( key:String ) -> Self    
     
     @discardableResult
     func completion( _ f:@escaping ( LBActor )->Void ) -> Self
@@ -50,8 +68,9 @@ public protocol PGActor : LBActor
 
 open class PGPanelBase : LBPanel, PGActor
 {
+
     public var iterateField:LLPlaneField<LBActor>?
-    public var intervalFields = [(sec:Double, prev:Double, f:LLPlaneField<LBActor>)]()
+    public var intervalFields = [String:PGActorInterval]()
     public var completionField:LLPlaneField<LBActor>?
    
     @discardableResult
@@ -65,25 +84,30 @@ open class PGPanelBase : LBPanel, PGActor
     }
     
     @discardableResult
-    open func interval( sec:Double, f:@escaping ( LBActor )->Void ) -> Self {
-        self.intervalFields.append( ( sec, 
-                                      PGActorTimer.shared.nowTime,
-                                      LLPlaneField(by: self, field: f ) ) )
+    open func interval( key:String = UUID().labelString,
+                        sec:Double, 
+                        f:@escaping ( LBActor )->Void ) -> Self {
+        self.intervalFields[key] = PGActorInterval( sec:sec,
+                                                    prev:PGActorTimer.shared.nowTime,
+                                                    field:LLPlaneField(by: self, field: f ) )
         return self
     }
     
     open func appearIntervals() {
         let now = PGActorTimer.shared.nowTime
-        for i in 0 ..< self.intervalFields.count {
-            let ifs = self.intervalFields[i]
-            let sec = ifs.sec
-            let prev = ifs.prev
-            let field = ifs.f
-            if now - prev >= sec {
-                field.appear( self )
-                self.intervalFields[i].prev = now
+        for ifs in self.intervalFields {
+            let intv = ifs.value
+            if now - intv.prev >= intv.sec {
+                intv.field.appear( self )
+                self.intervalFields[ifs.key]?.prev = now
             }
         }
+    }
+    
+    @discardableResult
+    public func stopInterval( key:String ) -> Self {
+        self.intervalFields.removeValue( forKey: key )
+        return self
     }
     
     @discardableResult
@@ -109,7 +133,7 @@ open class PGPanelBase : LBPanel, PGActor
 open class PGTriangleBase : LBTriangle, PGActor
 {    
     public var iterateField:LLPlaneField<LBActor>?
-    public var intervalFields = [(sec:Double, prev:Double, f:LLPlaneField<LBActor>)]()
+    public var intervalFields = [String:PGActorInterval]()
     public var completionField:LLPlaneField<LBActor>?
     
     @discardableResult
@@ -123,25 +147,30 @@ open class PGTriangleBase : LBTriangle, PGActor
     }
     
     @discardableResult
-    open func interval( sec:Double, f:@escaping ( LBActor )->Void ) -> Self {
-        self.intervalFields.append( ( sec, 
-                                      PGActorTimer.shared.nowTime,
-                                      LLPlaneField(by: self, field: f ) ) )
+    open func interval( key:String = UUID().labelString,
+                        sec:Double, 
+                        f:@escaping ( LBActor )->Void ) -> Self {
+        self.intervalFields[key] = PGActorInterval( sec:sec,
+                                                    prev:PGActorTimer.shared.nowTime,
+                                                    field:LLPlaneField(by: self, field: f ) )
         return self
     }
     
     open func appearIntervals() {
         let now = PGActorTimer.shared.nowTime
-        for i in 0 ..< self.intervalFields.count {
-            let ifs = self.intervalFields[i]
-            let sec = ifs.sec
-            let prev = ifs.prev
-            let field = ifs.f
-            if now - prev >= sec {
-                field.appear( self )
-                self.intervalFields[i].prev = now
+        for ifs in self.intervalFields {
+            let intv = ifs.value
+            if now - intv.prev >= intv.sec {
+                intv.field.appear( self )
+                self.intervalFields[ifs.key]?.prev = now
             }
         }
+    }
+    
+    @discardableResult
+    public func stopInterval( key:String ) -> Self {
+        self.intervalFields.removeValue( forKey: key )
+        return self
     }
     
     @discardableResult
