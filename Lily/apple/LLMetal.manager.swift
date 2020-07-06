@@ -15,53 +15,61 @@ import Metal
 
 open class LLMetalManager
 {
+    public static let shared = LLMetalManager()
+    private init() {
+        device = MTLCreateSystemDefaultDevice()
+        commandQueue = device?.makeCommandQueue()
+    }
+    
     /// Metalデバイス
-    public static var device = MTLCreateSystemDefaultDevice()
-    /// Metal描画用セマフォ
-    public static let semaphore = DispatchSemaphore( value: 0 )
+    public var device:MTLDevice?
     /// Metalコマンドキュー
-    private static let commandQueue = device?.makeCommandQueue()
+    public let commandQueue:MTLCommandQueue?
+    /// Metal描画用セマフォ
+    public let semaphore = DispatchSemaphore( value: 0 )
     
     // Metalコマンド実行
     @discardableResult
-    public static func execute( pre pre_f:(( MTLCommandBuffer )->())? = nil,
-                                main main_f:( MTLCommandBuffer )->(),
-                                post post_f:(( MTLCommandBuffer )->())? = nil,
-                                completion completion_f: (( MTLCommandBuffer )->())? = nil )
+    public func execute( pre pre_f:(( MTLCommandBuffer )->())? = nil,
+                         main main_f:( MTLCommandBuffer )->(),
+                         post post_f:(( MTLCommandBuffer )->())? = nil,
+                         completion completion_f: (( MTLCommandBuffer )->())? = nil )
     -> Bool
     {
-        // コマンドバッファの生成
-        guard let command_buffer = LLMetalManager.commandQueue?.makeCommandBuffer() else {
-            LLLogWarning( "Metalコマンドバッファの取得に失敗." )
-            return false
-        }
-        
-        // 完了時の処理
-        command_buffer.addCompletedHandler { _ in
-            LLMetalManager.semaphore.signal()
-            completion_f?( command_buffer )
-        }
-        
-        // 事前処理の実行(コンピュートシェーダなどで使える)
-        pre_f?( command_buffer )
+        return autoreleasepool {
+            // コマンドバッファの生成
+            guard let command_buffer = self.commandQueue?.makeCommandBuffer() else {
+                LLLogWarning( "Metalコマンドバッファの取得に失敗." )
+                return false
+            }
             
-        main_f( command_buffer )
+            // 完了時の処理
+            command_buffer.addCompletedHandler { [weak self] _ in
+                self?.semaphore.signal()
+                completion_f?( command_buffer )
+            }
+            
+            // 事前処理の実行(コンピュートシェーダなどで使える)
+            pre_f?( command_buffer )
+                
+            main_f( command_buffer )
+            
+            // コマンドバッファの確定
+            command_buffer.commit()
+            
+            // セマフォ待機のチェック
+            _ = self.semaphore.wait( timeout: .distantFuture )
         
-        // コマンドバッファの確定
-        command_buffer.commit()
-        
-        // セマフォ待機のチェック
-        _ = LLMetalManager.semaphore.wait( timeout: .distantFuture )
-    
-        // 事後処理の関数の実行(command_buffer.waitUntilCompletedの呼び出しなど)
-        post_f?( command_buffer )
-        
-        return true
+            // 事後処理の関数の実行(command_buffer.waitUntilCompletedの呼び出しなど)
+            post_f?( command_buffer )
+
+            return true
+        }
     }
     
     // Metalコマンド実行(メインのみ)
     @discardableResult
-    public static func execute( _ main_f:( MTLCommandBuffer )->() )
+    public func execute( _ main_f:( MTLCommandBuffer )->() )
     -> Bool
     {
         execute( main: main_f )

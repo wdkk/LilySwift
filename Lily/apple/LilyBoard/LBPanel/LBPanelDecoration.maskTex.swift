@@ -53,7 +53,7 @@ public extension LBPanelDecoration
             obj.me.updateDeltaParams( &(obj.me.storage.params), 
                                       count:obj.me.storage.params.count )
             
-            guard let mtlbuf_params = LLMetalManager.device?.makeBuffer(
+            guard let mtlbuf_params = LLMetalManager.shared.device?.makeBuffer(
                 bytes: &obj.me.storage.params,
                 length: MemoryLayout<LBActorParam>.stride * obj.me.storage.params.count ) else { return }
             

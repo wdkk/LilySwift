@@ -67,16 +67,20 @@ open class LLViewBase : CALayer, LLUILifeEvent
     public func postBuildup() {
         self.callDesignFunction()
         
-        for child in self.sublayers! {
-            if let llui = child as? LLUILifeEvent { llui.rebuild() }
+        if let sublayers = self.sublayers {
+            for child in sublayers {
+                if let llui = child as? LLUILifeEvent { llui.rebuild() }
+            }
         }
     }
     
     public func teardown() {
         self.callDisassembleFunction()
         
-        for child in self.sublayers! {
-            if let llui = child as? LLUILifeEvent { llui.teardown() }
+        if let sublayers = self.sublayers {
+            for child in sublayers {
+                if let llui = child as? LLUILifeEvent { llui.teardown() }
+            }
         }
     }
     

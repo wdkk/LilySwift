@@ -101,12 +101,12 @@ public class LLMetalAllocatedBuffer : LLMetalBufferAllocatable, LLMetalBufferSha
     private func allocate( _ buf:UnsafeRawPointer?, length:Int ) -> MTLBuffer? {
         if length == 0 { return nil }
         if buf == nil { return nil }
-        return LLMetalManager.device?.makeBuffer( bytes: buf!, length: length, options: .storageModeShared )
+        return LLMetalManager.shared.device?.makeBuffer( bytes: buf!, length: length, options: .storageModeShared )
     }
     
     private func allocate( _ length:Int ) -> MTLBuffer? {
         if length == 0 { return nil }
-        return LLMetalManager.device?.makeBuffer( length: length, options: .storageModeShared )
+        return LLMetalManager.shared.device?.makeBuffer( length: length, options: .storageModeShared )
     }
 }
 
@@ -144,7 +144,7 @@ public class LLMetalSharedBuffer : LLMetalBufferAllocatable, LLMetalBufferShapeP
         _mtlbuf_current_pointer = buf
         _mtlbuf_length = length
 
-        return LLMetalManager.device?.makeBuffer( bytesNoCopy:buf, 
+        return LLMetalManager.shared.device?.makeBuffer( bytesNoCopy:buf, 
                                                   length:length, 
                                                   options:.storageModeShared,
                                                   deallocator: nil )

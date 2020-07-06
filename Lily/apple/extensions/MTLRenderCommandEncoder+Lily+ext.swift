@@ -32,7 +32,7 @@ public extension MTLRenderCommandEncoder
     }
         
     func setDepthStencilDescriptor( _ desc:MTLDepthStencilDescriptor ) {
-        let depth_stencil_state = LLMetalManager.device?.makeDepthStencilState( descriptor: desc )
+        let depth_stencil_state = LLMetalManager.shared.device?.makeDepthStencilState( descriptor: desc )
         self.setDepthStencilState( depth_stencil_state )
     }
 }

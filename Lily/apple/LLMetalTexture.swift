@@ -92,6 +92,6 @@ public class LLMetalTexture
             mipmapped: false )
         tex_desc.usage = [.shaderRead, .shaderWrite]
         
-        self.metalTexture = LLMetalManager.device?.makeTexture( descriptor: tex_desc )
+        self.metalTexture = LLMetalManager.shared.device?.makeTexture( descriptor: tex_desc )
     }
 }

@@ -21,7 +21,7 @@ public class LLMetalShader
 
     // デフォルトライブラリでシェーダ関数作成
     public func make( _ shaderName:String ) {
-        guard let lib:MTLLibrary = LLMetalManager.device?.makeDefaultLibrary() else { 
+        guard let lib:MTLLibrary = LLMetalManager.shared.device?.makeDefaultLibrary() else { 
             LLLogWarning( "シェーダの作成に失敗しました." )
             return 
         }
@@ -36,7 +36,7 @@ public class LLMetalShader
         }
         
         do {
-            guard let lib:MTLLibrary = try LLMetalManager.device?.makeLibrary( filepath: lib_path ) else {
+            guard let lib:MTLLibrary = try LLMetalManager.shared.device?.makeLibrary( filepath: lib_path ) else {
                 LLLogWarning( "シェーダの作成に失敗しました." )
                 return 
             }
@@ -52,7 +52,7 @@ public class LLMetalShader
     public func make( withClass cls:AnyClass, shaderName:String ) {
         let bundle = Bundle(for: cls.self )
         do {
-            guard let lib:MTLLibrary = try LLMetalManager.device?.makeDefaultLibrary(bundle: bundle) else {
+            guard let lib:MTLLibrary = try LLMetalManager.shared.device?.makeDefaultLibrary(bundle: bundle) else {
                 LLLogWarning( "シェーダの作成に失敗しました." )
                 return 
             }
@@ -72,7 +72,7 @@ public class LLMetalShader
         }
         
         do {
-            guard let lib:MTLLibrary = try LLMetalManager.device?.makeLibrary( filepath: lib_path ) else { 
+            guard let lib:MTLLibrary = try LLMetalManager.shared.device?.makeLibrary( filepath: lib_path ) else { 
                 LLLogWarning( "シェーダの作成に失敗しました." )
                 return
             }
@@ -87,7 +87,7 @@ public class LLMetalShader
     // コード文字列でシェーダ関数作成
     public func make( withCode code:String, shaderName:String ) {
         do {
-            guard let lib:MTLLibrary = try LLMetalManager.device?.makeLibrary( source: code, options:nil ) else { 
+            guard let lib:MTLLibrary = try LLMetalManager.shared.device?.makeLibrary( source: code, options:nil ) else { 
                 LLLogWarning( "シェーダの作成に失敗しました." )
                 return
             }

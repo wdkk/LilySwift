@@ -32,7 +32,7 @@ open class LLMetalComputePipeline
             return 
         }
         do {
-            self.state = try LLMetalManager.device?.makeComputePipelineState( function: nonnull_f )
+            self.state = try LLMetalManager.shared.device?.makeComputePipelineState( function: nonnull_f )
         }
         catch {
             LLLogWarning( "コンピュートパイプラインの生成に失敗しました." )

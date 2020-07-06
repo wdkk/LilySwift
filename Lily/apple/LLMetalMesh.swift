@@ -62,18 +62,18 @@ public class LLMetalMesh : LLMetalDrawable
         (modelDescriptor3D.attributes[1] as! MDLVertexAttribute).name = MDLVertexAttributeNormal
         (modelDescriptor3D.attributes[2] as! MDLVertexAttribute).name = MDLVertexAttributeTextureCoordinate
         
-        let allocator = MTKMeshBufferAllocator( device: LLMetalManager.device! )
+        let allocator = MTKMeshBufferAllocator( device: LLMetalManager.shared.device! )
 
         let asset = MDLAsset( url: LLPath.bundle( path ).url,
                               vertexDescriptor: modelDescriptor3D,
                               bufferAllocator: allocator )
 
-        let new_mesh = try! MTKMesh.newMeshes(asset: asset, device: LLMetalManager.device! )
+        let new_mesh = try! MTKMesh.newMeshes(asset: asset, device: LLMetalManager.shared.device! )
         
         if add_normal {
             new_mesh.modelIOMeshes.first!.addNormals( withAttributeNamed: MDLVertexAttributeNormal,
                                                       creaseThreshold: normal_threshold )
-            let mtk_mesh = try! MTKMesh(mesh: new_mesh.modelIOMeshes.first!, device: LLMetalManager.device! )
+            let mtk_mesh = try! MTKMesh(mesh: new_mesh.modelIOMeshes.first!, device: LLMetalManager.shared.device! )
             return mtk_mesh
         }
         else {
@@ -88,7 +88,7 @@ public class LLMetalMesh : LLMetalDrawable
         (modelDescriptor3D.attributes[1] as! MDLVertexAttribute).name = MDLVertexAttributeNormal
         (modelDescriptor3D.attributes[2] as! MDLVertexAttribute).name = MDLVertexAttributeTextureCoordinate
         
-        let allocator = MTKMeshBufferAllocator( device: LLMetalManager.device! )
+        let allocator = MTKMeshBufferAllocator( device: LLMetalManager.shared.device! )
         
         let mesh = MDLMesh( sphereWithExtent: [ 1.0, 1.0, 1.0 ], 
                             segments: [ 32, 32 ], 
@@ -96,7 +96,7 @@ public class LLMetalMesh : LLMetalDrawable
                             geometryType: .triangles, 
                             allocator: allocator )
         
-        let new_mesh = try! MTKMesh( mesh: mesh, device: LLMetalManager.device! )
+        let new_mesh = try! MTKMesh( mesh: mesh, device: LLMetalManager.shared.device! )
         return new_mesh
     }
     

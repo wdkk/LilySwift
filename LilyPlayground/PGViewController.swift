@@ -31,7 +31,7 @@ open class PGBaseViewController: LBViewController, PlaygroundLiveViewSafeAreaCon
 
 open class PGViewController: PGBaseViewController
 {
-    public static let shared:PGViewController = PGViewController()
+    public static let shared = PGViewController()
     private override init() {
         super.init()
     }

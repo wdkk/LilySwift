@@ -29,6 +29,6 @@ public class LLMetalSampler
         sampler.lodMinClamp           = 0
         sampler.lodMaxClamp           = Float.greatestFiniteMagnitude
         
-        return LLMetalManager.device!.makeSamplerState(descriptor: sampler)!
+        return LLMetalManager.shared.device!.makeSamplerState(descriptor: sampler)!
     }
 }

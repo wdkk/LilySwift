@@ -59,7 +59,7 @@ extension NSWindow : LLUIRectControllable, LLUIPixelControllable
     }
         
     public var bounds:CGRect {
-        return CGRect( 0, 0, rect.width, rect.height )
+        return CGRect( 0, 0, frame.width, frame.height )
     }
 
     public var contentRect:CGRect {

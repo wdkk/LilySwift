@@ -45,7 +45,7 @@ open class LLMetalDepthTexture
             depthTexture!.width != depthDesc.width ||
             depthTexture!.height != depthDesc.height
         {
-            depthTexture = LLMetalManager.device?.makeTexture( descriptor: depthDesc )
+            depthTexture = LLMetalManager.shared.device?.makeTexture( descriptor: depthDesc )
         }
     }
     

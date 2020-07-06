@@ -52,7 +52,7 @@ public class LLMetalRenderPipeline
     public func makePipeline( _ rpd:MTLRenderPipelineDescriptor ) {
         // パイプラインの生成
         do {
-            state = try LLMetalManager.device?.makeRenderPipelineState( descriptor: rpd )
+            state = try LLMetalManager.shared.device?.makeRenderPipelineState( descriptor: rpd )
         }
         catch {
             print( error.localizedDescription )

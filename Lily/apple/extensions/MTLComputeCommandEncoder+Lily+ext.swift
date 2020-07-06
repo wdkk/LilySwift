@@ -17,7 +17,7 @@ public extension MTLLibrary
 {
     static func make( with code:String ) -> MTLLibrary? {
         do {
-            return try LLMetalManager.device?.makeLibrary( source: code, options:nil )
+            return try LLMetalManager.shared.device?.makeLibrary( source: code, options:nil )
         }
         catch {
             return nil

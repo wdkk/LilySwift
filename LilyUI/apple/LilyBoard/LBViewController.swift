@@ -22,7 +22,7 @@ open class LBViewController : LLViewController
 {
     public let metalView = LLMetalView()
     public var clearColor:LLColor = .white
-    public var currentCommandBuffer:MTLCommandBuffer?
+    public weak var currentCommandBuffer:MTLCommandBuffer?
     
     public let touchManager = LBTouchManager()
     public var touches:[LBTouch] { return touchManager.touches }
@@ -103,26 +103,26 @@ open class LBViewController : LLViewController
         self.setupBoard()
     }
 
-    // TODO: macOS: DisplayLinkへの対応
     // 繰り返し処理関数
     final public override func viewUpdate() {
         super.viewUpdate()
     
         // Metalの実行
-        LLMetalManager.execute(
-        main: {
-            self.currentCommandBuffer = $0
+        LLMetalManager.shared.execute(
+        main: { [weak self] (commandBuffer) in
+            guard let strongself = self else { return }
+            strongself.currentCommandBuffer = commandBuffer
             
-            self.updateBoard()
+            strongself.updateBoard()
 
             LLMetalRenderer.render(
-                commandBuffer:$0,
-                drawable: self.metalView.drawable,
-                clearColor: self.clearColor,
+                commandBuffer:commandBuffer,
+                drawable: strongself.metalView.drawable,
+                clearColor: strongself.clearColor,
                 depthTexture: nil,
-                renderer:self.render )
+                renderer:strongself.render )
             
-            self.currentCommandBuffer = nil
+            strongself.currentCommandBuffer = nil
         } )
     }
     
@@ -200,7 +200,7 @@ open class LBViewController : LLViewController
         }
         // コマンドバッファがない場合は発行して用いる. ただしパフォーマンスは落ちる可能性あり
         else {
-            LLMetalManager.execute {
+            LLMetalManager.shared.execute {
                 LLMetalComputer.compute( commandBuffer: $0 ) {
                    f( $0 )
                 }
