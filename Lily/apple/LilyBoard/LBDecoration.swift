@@ -14,48 +14,89 @@ import Metal
 // デコレーションの基本プロトコル
 public protocol LBDecoratable
 {
-    var pipeline:LLMetalRenderPipeline { get set }
+    static func isExist( label:String ) -> Bool
+
+    var compute_pipeline:LLMetalComputePipeline { get }
+    var render_pipeline:LLMetalRenderPipeline { get }
     var keyLabel:String { get }
     var layerIndex:Int { get set }
-    
-    func draw( _: MTLRenderCommandEncoder )
-    
-    static func isExist( label:String ) -> Bool
+
+    func compute( _: MTLComputeCommandEncoder )
+    func render( _: MTLRenderCommandEncoder )
 }
 
-// デコレーションのカスタムプロトコル
-public protocol LBDecorationCustomizable
+open class LBDecoration< TStorage:LBActorStorage > : LBDecoratable
 {
-    static func custom( label:String ) -> Self
-}
 
-open class LBDecoration<TStorage:LBActorStorage> : LBDecoratable
-{
-    public var pipeline = LLMetalRenderPipeline()
+    public static func isExist( label:String ) -> Bool {
+        return LBDecorationManager.shared.decorations[label] != nil
+    }
+    
+    public private(set) var compute_pipeline = LLMetalComputePipeline()
+    public private(set) var render_pipeline = LLMetalRenderPipeline()
     public private(set) var keyLabel:String = ""
     public var layerIndex:Int = 0
     
+    public var computeShader:LLMetalShader?
     public var vertexShader:LLMetalShader?
     public var fragmentShader:LLMetalShader?
     public private(set) var ready:Bool = false
     public var blendType:LLMetalBlendType = .alphaBlend
     
-    var _draw_f:LLField?
+    var _compute_f:LLField?
+    var _render_f:LLField?
     
     public var storage = TStorage()
     
-    public static func isExist( label:String ) -> Bool {
-        return LBDecorationManager.shared.decorations[label] != nil
-    }
-        
-    // 以下メンバ
     init( label:String ) { 
         self.keyLabel = label
+        
+        self.computeShader(
+            LBComputeShader( computeFuncName: "LBPanel_delta_\(label)" )
+            .addStruct {
+                $0
+                .name( "LBActorParam" )
+                .add( "float4x4", "matrix" )
+                .add( "float4", "atlasUV" )
+                .add( "float4", "color" )
+                .add( "float4", "deltaColor" )
+                .add( "float2", "position" )
+                .add( "float2", "deltaPosition" )
+                .add( "float2", "scale" )
+                .add( "float2", "deltaScale" )
+                .add( "float", "angle" )
+                .add( "float", "deltaAngle" )
+                .add( "float", "zindex" )  
+                .add( "float", "array_index" )
+                .add( "float", "life" )
+                .add( "float", "deltaLife" )
+                .add( "float", "enabled" )
+                .add( "float", "state" )            
+            }      
+            .computeFunction {
+                $0
+                .addArgument( "device LBActorParam", "*params [[buffer(0)]]" )
+                .addArgument( "uint", "id [[thread_position_in_grid]]" )
+                .code( """
+                    params[id].position += params[id].deltaPosition;
+                    params[id].scale += params[id].deltaScale;
+                    params[id].angle += params[id].deltaAngle;
+                    params[id].color += params[id].deltaColor;
+                    params[id].life += params[id].deltaLife;
+                """ )
+            }
+        )
     }
     
     deinit {
         // マネージャから削除
         LBDecorationManager.shared.remove( label:self.keyLabel )
+    }
+
+    @discardableResult
+    public func computeShader( _ shader:LLMetalShader ) -> Self {
+        self.computeShader = shader
+        return self
     }
     
     @discardableResult
@@ -70,9 +111,24 @@ open class LBDecoration<TStorage:LBActorStorage> : LBDecoratable
         return self
     }
     
-    // LBShaderでシェーダを指定
+    // コード文字列と関数名からシェーダを指定
     @discardableResult
-    public func shader( _ lbshader:LBShader ) -> Self {
+    public func computeShader( _ computeCode:(funcName:String, code:String) )
+    -> Self {
+        self.computeShader = LLMetalShader(code: computeCode.code, shaderName: computeCode.funcName )
+        return self
+    }
+
+    @discardableResult
+    public func computeShader( _ shader:LBComputeShader ) -> Self {
+        shader.generate()
+        self.computeShader = shader.metalComputeShader
+        return self
+    }
+    
+    // LBRenderShaderでシェーダを指定
+    @discardableResult
+    public func renderShader( _ lbshader:LBRenderShader ) -> Self {
         // LBShaderを用いてシェーダを生成する
         lbshader.generate()
         
@@ -83,7 +139,7 @@ open class LBDecoration<TStorage:LBActorStorage> : LBDecoratable
     
     // LLMetalShaderからシェーダを指定
     @discardableResult
-    public func shader( vertexShader:LLMetalShader, fragmentShader:LLMetalShader ) -> Self {
+    public func renderShader( vertexShader:LLMetalShader, fragmentShader:LLMetalShader ) -> Self {
         self.vertexShader = vertexShader
         self.fragmentShader = fragmentShader
         return self
@@ -91,8 +147,8 @@ open class LBDecoration<TStorage:LBActorStorage> : LBDecoratable
     
     // コード文字列と関数名からシェーダを指定
     @discardableResult
-    public func shader( vertexCode:(funcName:String, code:String),
-                        fragmentCode:(funcName:String, code:String) )
+    public func renderShader( vertexCode:(funcName:String, code:String),
+                              fragmentCode:(funcName:String, code:String) )
     -> Self {
         let vert_shader = LLMetalShader(code: vertexCode.code, shaderName: vertexCode.funcName )
         let frag_shader = LLMetalShader(code: vertexCode.code, shaderName: vertexCode.funcName )
@@ -101,7 +157,7 @@ open class LBDecoration<TStorage:LBActorStorage> : LBDecoratable
         self.fragmentShader = frag_shader
         return self
     }
-
+    
     @discardableResult
     public func layer( index:Int ) -> Self {
         self.layerIndex = index
@@ -119,7 +175,11 @@ open class LBDecoration<TStorage:LBActorStorage> : LBDecoratable
         if ready { return self }
         ready = true
         
-        pipeline.make {
+        compute_pipeline.make {
+            $0.computeShader = self.computeShader ?? LLMetalShader()
+        }
+        
+        render_pipeline.make {
             $0.vertexShader = self.vertexShader ?? LLMetalShader()
             $0.fragmentShader = self.fragmentShader ?? LLMetalShader()
             // LilyBoardはデプスを使わない
@@ -129,8 +189,12 @@ open class LBDecoration<TStorage:LBActorStorage> : LBDecoratable
         
         return self
     }
+
+    public func compute( _ encoder:MTLComputeCommandEncoder ) {
+        _compute_f?.appear( encoder )
+    }
     
-    public func draw( _ encoder:MTLRenderCommandEncoder ) {
-        _draw_f?.appear( encoder )
+    public func render( _ encoder:MTLRenderCommandEncoder ) {
+        _render_f?.appear( encoder )
     }
 }

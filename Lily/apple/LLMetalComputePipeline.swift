@@ -44,8 +44,9 @@ extension MTLComputeCommandEncoder
 {
     // MARK: - pipeline function
     public func use( _ pipeline:LLMetalComputePipeline, _ computeFunc:( MTLComputeCommandEncoder )->() ) {
+        guard let state = pipeline.state else { return }
         // エンコーダにパイプラインを指定
-        self.setComputePipelineState( pipeline.state! )
+        self.setComputePipelineState( state )
         // 関数を実行
         computeFunc( self )
     }

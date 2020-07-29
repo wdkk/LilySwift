@@ -41,6 +41,7 @@ public class LCAlignedMemoryAllocator
         
         var mem:UnsafeMutableRawPointer? = nil
         posix_memalign( &mem, alignment, length )
+        clear()
         self.memory = LLBytePtr( OpaquePointer( mem ) )
     }
     

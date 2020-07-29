@@ -22,18 +22,19 @@ public struct LLQuad<T> {
 
 // 四角形メッシュ形状メモリクラス
 public class LLMetalQuadrangles<T> : LLMetalShape<LLQuad<T>>
-{    
-    public required init( count:Int = 0, bufferType:LLMetalBufferType = .shared ) {
-        super.init( count: count, bufferType: bufferType )
-        
-        drawFunc = { (encoder, index) in
-            for i:Int in 0 ..< self.count {
-                encoder.drawPrimitives( type: .triangleStrip, vertexStart: i * 4, vertexCount: 4 )
-            }
+{   
+    public typealias VerticeType = LLQuad<T>
+}
+
+public class LLMetalQuadranglePainter<T> : LLMetalShapePainter<LLQuad<T>>
+{
+    public override init() {
+        super.init()
+        drawFunc = { (encoder, shape) in
+            encoder.drawPrimitives( type: .triangleStrip, 
+                                    vertexStart: 0, 
+                                    vertexCount: 4, 
+                                    instanceCount: shape.count )
         }
-    }
-        
-    public var vertice:UnsafeMutablePointer<LLQuad<T>> {
-        return UnsafeMutablePointer<LLQuad<T>>( OpaquePointer( self.pointer! ) )
     }
 }

@@ -10,7 +10,7 @@
 
 import Foundation
 
-public struct LLDiscussionField<TCaller:AnyObject, TTarget:AnyObject, TArg, TPhenomena> : LLField
+public struct LLMediaField<TCaller:AnyObject, TTarget:AnyObject, TArg, TPhenomena> : LLField
 {
     public private(set) var field:((TArg, TPhenomena)->Void)?
     public private(set) var phenomena:TPhenomena
@@ -30,8 +30,8 @@ public struct LLDiscussionField<TCaller:AnyObject, TTarget:AnyObject, TArg, TPhe
     {
         self.phenomena = phenomena
         self.field = { [weak caller, weak me] ( args:TArg, phenomena:TPhenomena ) in
-            guard let caller = caller else { return }
-            guard let me = me else { return }
+            guard let caller = caller,
+                  let me = me else { return }
             let obj = Object( caller: caller, me: me, args: args )
             f( obj, phenomena )
         }

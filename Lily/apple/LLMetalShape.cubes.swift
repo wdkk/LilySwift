@@ -10,6 +10,7 @@
 
 /// コメント未済
 
+/*
 import Foundation
 import Metal
 
@@ -99,3 +100,4 @@ public class CAIMCubes<T> : LLMetalShape<T>
         }
     }
 }
+*/

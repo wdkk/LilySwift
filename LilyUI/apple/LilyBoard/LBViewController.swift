@@ -39,7 +39,7 @@ open class LBViewController : LLViewController
                                                 top:coordMaxY,
                                                 right:coordMaxX,
                                                 bottom:coordMinY ) }
-    
+
     final public override func setup() {
         super.setup()
         
@@ -101,29 +101,46 @@ open class LBViewController : LLViewController
         self.view.addSubview( metalView )
         
         self.setupBoard()
+        
+        self.startUpdateLoop()
     }
 
     // 繰り返し処理関数
     final public override func viewUpdate() {
         super.viewUpdate()
-    
+        if !self.already { return }
+        
         // Metalの実行
         LLMetalManager.shared.execute(
         main: { [weak self] (commandBuffer) in
-            guard let strongself = self else { return }
+            guard let strongself = self,
+                  let drawable = strongself.metalView.drawable else { return }
+            
             strongself.currentCommandBuffer = commandBuffer
             
             strongself.updateBoard()
+            
+            LLMetalComputer.compute( commandBuffer: commandBuffer ) {
+                LBDecorationManager.shared.compute( encoder:$0 )
+            }
 
             LLMetalRenderer.render(
                 commandBuffer:commandBuffer,
-                drawable: strongself.metalView.drawable,
+                drawable: drawable,
                 clearColor: strongself.clearColor,
                 depthTexture: nil,
-                renderer:strongself.render )
-            
+                renderer: { 
+                    let size = LLSize( strongself.metalView.width, strongself.metalView.height )
+                    // デコレーションマネージャに処理フローを依頼
+                    LBDecorationManager.shared.render( encoder: $0, size: size )
+                }
+            )
+                     
             strongself.currentCommandBuffer = nil
-        } )
+        },
+        post: { (commandBuffer) in
+            commandBuffer.waitUntilScheduled()
+        })
     }
     
     func recogizeTouches( _ event:OSEvent? ) {
@@ -180,14 +197,6 @@ open class LBViewController : LLViewController
 
     open func updateBoard() {
         // overrideしてLilyBoardオブジェクトの更新処理を書く
-    }
-
-    // Metalで実際に描画を指示する関数
-    open func render( encoder:MTLRenderCommandEncoder ) {
-        let size = LLSize( metalView.width, metalView.height )
-    
-        // LilyBoardの描画をデコレーションマネージャに依頼
-        LBDecorationManager.shared.drawAll( encoder: encoder, size: size )
     }
     
     // MetalでCraft類をコンピュートパイプラインを動作させる関数

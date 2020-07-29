@@ -15,16 +15,16 @@ import Metal
 
 /// 点形状クラス
 public class LLMetalPoints<T> : LLMetalShape<T>
-{
-    public required init( count:Int = 0, bufferType:LLMetalBufferType = .shared ) {
-        super.init( count: count, bufferType: bufferType )
-        
-        drawFunc = { (encoder, index) in
-            encoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: count )
+{    
+    public typealias VerticeType = T
+}
+
+public class LLMetalPointPainter<T> : LLMetalShapePainter<T>
+{    
+    public override init() {
+        super.init()
+        drawFunc = { (encoder, shape) in
+            encoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: shape.count )
         }
-    }
-    
-    public var vertex:UnsafeMutablePointer<T> {
-        return UnsafeMutablePointer<T>( OpaquePointer( self.pointer! ) )
     }
 }

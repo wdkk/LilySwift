@@ -19,15 +19,13 @@ public extension LBTriangleDecoration
         // デコレーションのリクエストラベルを作る
         let lbl = "lbtriangle_normal_\(label)"
         
-        // すでに同ラベルのpictureデコレーションがある場合はこれを用いる
-        if LBTriangleDecoration.isExist( label: lbl ) {
-            return .custom( label: lbl )
-        }
+        // 同一ラベルがある場合、再利用
+        if Self.isExist( label:lbl ) { return Self.custom( label: lbl ) }
         
         // リクエストがなかった場合、各種設定を行なってデコレーションを生成する
         return LBTriangleDecoration.custom( label: lbl )
-        .shader( 
-            LBTriangleShader(
+        .renderShader( 
+            LBTrianglelRenderShader(
                 vertexFuncName: "LBTriangle_vertPlane_\(label)",
                 fragmentFuncName: "LBTriangle_fragPlane_\(label)" )
         )

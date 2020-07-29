@@ -11,7 +11,7 @@
 import Foundation
 import Metal
 
-public final class LBPanelDecoration : LBDecoration<LBPanelStorage>, LBDecorationCustomizable
+public final class LBPanelDecoration : LBDecoration<LBPanelStorage>
 {
     public typealias Me = LBPanelDecoration
     
@@ -23,38 +23,34 @@ public final class LBPanelDecoration : LBDecoration<LBPanelStorage>, LBDecoratio
     private override init( label:String ) {
         super.init( label: label )
         
-        // デフォルトのフィールドを用意
-        self.drawField { obj in 
-            if obj.me.storage.params.filter({ $0.state == .active }).count == 0 { return }
-            
-            // delta値の加算
-            obj.me.updateDeltaParams( &(obj.me.storage.params),
-                                      count:obj.me.storage.params.count )
-            
-            guard let mtlbuf_params = LLMetalManager.shared.device?.makeBuffer(
-                bytes: &obj.me.storage.params,
-                length: MemoryLayout<LBActorParam>.stride * obj.me.storage.params.count ) else { return }
-            
+        // デフォルトのコンピュータ
+        self.computeField( with:self ) { obj in
+            if obj.me.storage.isNoActive { return }
+                        
             let encoder = obj.args
-            
-            encoder.setVertexBuffer( mtlbuf_params, index:1 )
-            encoder.drawShape( obj.me.storage.metalVertex, index:2 )
+        
+            let threads_per_grid = MTLSizeMake( obj.me.storage.params.count, 1, 1 )
+            let threads_per_group = MTLSizeMake( 16, 1, 1 )
+            encoder.setBuffer( 
+                LLMetalSharedBuffer( amemory:obj.me.storage.params ),
+                offset: 0,
+                index: 0 )
+            encoder.dispatchThreads( threads_per_grid,
+                                     threadsPerThreadgroup: threads_per_group )
         }
-    }
-    
-    public func updateDeltaParams( _ params:UnsafeMutablePointer<LBActorParam>,
-                                   count:Int ) 
-    {
-        // delta値の加算
-        let ptr = params
-        for idx in 0 ..< count {
-            let p = ptr + idx
-         
-            p.pointee.position += p.pointee.deltaPosition
-            p.pointee.scale += p.pointee.deltaScale
-            p.pointee.angle += p.pointee.deltaAngle
-            p.pointee.color += p.pointee.deltaColor
-            p.pointee.life += p.pointee.deltaLife
+        
+        // デフォルトのレンダー
+        self.renderField( with:self ) { obj in 
+            if obj.me.storage.isNoActive { return }
+            
+            let mtlbuf_params = LLMetalSharedBuffer( amemory:obj.me.storage.params )
+           
+            let encoder = obj.args
+ 
+            encoder.setVertexBuffer( mtlbuf_params, index:1 )
+            encoder.draw( shape:obj.me.storage.metalVertex,
+                          index:2, 
+                          painter:LLMetalQuadranglePainter<LBActorVertex>() )
         }
     }
     
@@ -63,15 +59,52 @@ public final class LBPanelDecoration : LBDecoration<LBPanelStorage>, LBDecoratio
         storage.atlas = atlas
         return self
     }
-    
+
     @discardableResult
-    public func drawField( 
-        _ f:@escaping (LLSoloField<Me, MTLRenderCommandEncoder>.Object)->Void )
+    public func computeFieldMySelf( 
+        _ f:@escaping (LLPhysicalField<Me, Me, MTLComputeCommandEncoder>.Object)->Void )
     -> Self
     {
-        self._draw_f = LLSoloField( by:self,
-                                    argType:MTLRenderCommandEncoder.self, 
+        self._compute_f = LLPhysicalField( by:self,
+                                    target:self,
+                                    argType:MTLComputeCommandEncoder.self, 
                                     field:f )
+        return self
+    }
+    
+    @discardableResult
+    public func computeField<TCaller>( with caller:TCaller, 
+        _ f:@escaping (LLPhysicalField<TCaller, Me, MTLComputeCommandEncoder>.Object)->Void )
+    -> Self
+    {
+        self._compute_f = LLPhysicalField( by:caller,
+                                    target:self,
+                                    argType:MTLComputeCommandEncoder.self, 
+                                    field:f )
+        return self
+    }
+
+    @discardableResult
+    public func renderFieldMySelf(
+        _ f:@escaping (LLPhysicalField<Me, Me, MTLRenderCommandEncoder>.Object)->Void )
+    -> Self
+    {
+        self._render_f = LLPhysicalField( by:self,
+                                target:self,
+                                argType:MTLRenderCommandEncoder.self, 
+                                field:f )
+        return self
+    }
+    
+    @discardableResult
+    public func renderField<TCaller>( with caller:TCaller,
+        _ f:@escaping (LLPhysicalField<TCaller, Me, MTLRenderCommandEncoder>.Object)->Void )
+    -> Self
+    {
+        self._render_f = LLPhysicalField( by:caller,
+                                target:self,
+                                argType:MTLRenderCommandEncoder.self, 
+                                field:f )
         return self
     }
 }

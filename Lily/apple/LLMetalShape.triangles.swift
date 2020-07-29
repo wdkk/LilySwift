@@ -23,17 +23,15 @@ public struct LLTriple<T> {
 // 三角形メッシュ形状メモリクラス
 public class LLMetalTriangles<T> : LLMetalShape<LLTriple<T>>
 {
-    public typealias VerticeGroup = LLTriple<T>
-  
-    public required init( count:Int = 0, bufferType:LLMetalBufferType = .shared ) {
-        super.init( count: count, bufferType: bufferType )
-        
-        drawFunc = { (encoder, index) in
-            encoder.drawPrimitives( type: .triangle, vertexStart: 0, vertexCount: self.count )
+    public typealias VerticeType = LLTriple<T>
+}
+
+public class LLMetalTrianglePainter<T> : LLMetalShapePainter<LLTriple<T>>
+{
+    public override init() {
+        super.init()
+        drawFunc = { (encoder, shape) in
+            encoder.drawPrimitives( type: .triangle, vertexStart: 0, vertexCount: shape.count )
         }
-    }
-    
-    public var vertice:UnsafeMutablePointer<LLTriple<T>> {
-        return UnsafeMutablePointer<LLTriple<T>>( OpaquePointer( self.pointer! ) )
     }
 }

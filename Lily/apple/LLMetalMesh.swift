@@ -13,7 +13,7 @@
 import Metal
 import MetalKit
 
-public class LLMetalMesh : LLMetalDrawable
+public class LLMetalMesh
 {
     public var metalMesh: MTKMesh?
     public var metalVertexBuffer:MTLBuffer? { return metalMesh?.vertexBuffers[0].buffer }

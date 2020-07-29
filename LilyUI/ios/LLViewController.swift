@@ -15,6 +15,7 @@ import UIKit
 open class LLViewController : UIViewController
 {    
     private var _already:Bool = false
+    public var already:Bool { _already }
     private var _display_link:CADisplayLink?
     
     /// コンストラクタ
@@ -43,6 +44,7 @@ open class LLViewController : UIViewController
             self.setup()
             self.postSetup()
             CATransaction.stop { self.rebuild() }
+            _already = true
             return true
         }()
         
@@ -60,8 +62,6 @@ open class LLViewController : UIViewController
         if let prnt = self.parent { view.rect = prnt.view.bounds.llRect }
 
         if _already { rebuild() }
-        
-        self.startUpdateLoop()
     }
     
     open override func viewDidDisappear( _ animated: Bool ) {
@@ -103,7 +103,7 @@ open class LLViewController : UIViewController
     }
     
     open func setup() {
-        _already = true
+        
     }
     
     open func postSetup() {

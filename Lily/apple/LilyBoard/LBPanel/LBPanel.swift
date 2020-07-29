@@ -17,8 +17,11 @@ open class LBPanel : LBShape<
     >
 {
     public var vertice:LLQuad<LBActorVertex> {
-        get { return _storage.metalVertex.vertice[index] }
-        set { withUnsafeMutablePointer(to: &(_storage.metalVertex.vertice[index]) ) { $0.pointee = newValue } }
+        get { return decoration!.storage.metalVertex.vertice[index] }
+        set { withUnsafeMutablePointer(to: &(decoration!.storage.metalVertex.vertice[index]) ) { 
+                $0.pointee = newValue
+            } 
+        }
     }
     
     // MARK: - 基本パラメータオーバーライド
@@ -65,7 +68,7 @@ open class LBPanel : LBShape<
     
     @discardableResult
     public override func atlasParts( of key:String ) -> Self {
-        guard let parts = _storage.atlas?.parts( key ),
+        guard let parts = decoration?.storage.atlas?.parts( key ),
               let reg = parts.region 
         else {
             LLLog( "アトラスが設定されていないか,指定が正しくないため無効です:\(key)" )
@@ -89,7 +92,7 @@ open class LBPanel : LBShape<
     @discardableResult
     public override func texture( _ tex:MTLTexture? ) -> Self {
         guard let tex = tex else {
-            self._storage.texture = nil
+            self.decoration?.storage.texture = nil
             params.atlasUV = LLFloatv4( 0.0, 0.0, 1.0, 1.0 );
             vertice.p1.tex_uv = .zero
             vertice.p2.tex_uv = .zero
@@ -98,7 +101,7 @@ open class LBPanel : LBShape<
             return self
         }
         
-        self._storage.texture = tex
+        self.decoration?.storage.texture = tex
         params.atlasUV = LLFloatv4( 0.0, 0.0, 1.0, 1.0 );
         vertice.p1.tex_uv = LLFloatv2( 0.0, 0.0 ) 
         vertice.p2.tex_uv = LLFloatv2( 1.0, 0.0 ) 

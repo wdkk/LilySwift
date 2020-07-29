@@ -19,7 +19,7 @@ open class LBActor : Hashable
     }
     // Hashableの実装
     public func hash(into hasher: inout Hasher) {
-        ObjectIdentifier(self).hash(into: &hasher)
+        ObjectIdentifier( self ).hash( into: &hasher )
     }
     
     public var params:LBActorParam { get { LBActorParam() } set { } }
@@ -74,11 +74,6 @@ open class LBActor : Hashable
     public var angle:LLAngle {
         get { return LLAngle.radians( params.angle.d ) }
         set { params.angle = newValue.radians.f }
-    }
-    
-    public var zIndex:LLFloat {
-        get { return params.zindex }
-        set { params.zindex = newValue }
     }
     
     public var enabled:Bool { 
@@ -546,25 +541,6 @@ public extension LBActor
         params.angle = Float( calc( self ) )
         return self
     }
-
-    @discardableResult
-    func zIndex( _ index:Float ) -> Self {
-        params.zindex = index
-        return self
-    }
-    
-    @discardableResult
-    func zIndex( _ v:LLFloatConvertable ) -> Self {
-        params.zindex = v.f
-        return self
-    }
-    
-    @discardableResult
-    func zIndex( _ calc:( LBActor )->Float ) -> Self {
-        params.zindex = calc( self )
-        return self
-    }
-
     
     @discardableResult
     func enabled( _ torf:Bool ) -> Self {

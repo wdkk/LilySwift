@@ -25,7 +25,7 @@ public final class LPImpIOCraft : LPCraft, LPCraftCustomizable
         super.init()
         
         // デフォルトのフィールドを用意
-        self.fireField { (obj:LLSoloField<Me, MTLComputeCommandEncoder>.Object) in 
+        self.fireField( with:self ) { obj in 
             guard let in_img:LLImage = obj.me.impio?.inImage,
                   let out_img:LLImage = obj.me.impio?.outImage,
                   let in_memory:LLBytePtr = in_img.memory,
@@ -54,11 +54,12 @@ public final class LPImpIOCraft : LPCraft, LPCraftCustomizable
     }
     
     @discardableResult
-    public func fireField( 
-        _ f:@escaping (LLSoloField<Me, MTLComputeCommandEncoder>.Object)->Void )
+    public func fireField<TCaller>( with caller:TCaller, 
+        _ f:@escaping (LLPhysicalField<TCaller, Me, MTLComputeCommandEncoder>.Object)->Void )
     -> Self
     {
-        self._fire_f = LLSoloField( by:self,
+        self._fire_f = LLPhysicalField( by:caller,
+                                    target:self,
                                     argType:MTLComputeCommandEncoder.self, 
                                     field:f )
         return self

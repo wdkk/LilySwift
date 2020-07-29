@@ -11,10 +11,9 @@
 import Foundation
 import Metal
 
-open class LBShader
+open class LBComputeShader
 {    
-    public var metalVertexShader:LLMetalShader?
-    public var metalFragmentShader:LLMetalShader?
+    public var metalComputeShader:LLMetalShader?
     
     public internal(set) var header_code:LLMetalCodable = LLMetalShadingCode.Header()
     
@@ -22,18 +21,13 @@ open class LBShader
     
     public internal(set) var func_codes = [LLMetalCodable]()
     
-    public internal(set) var vert_code:LLMetalCodable = LLMetalShadingCode.Plane()
+    public internal(set) var comp_code:LLMetalCodable = LLMetalShadingCode.Plane()
     
-    public internal(set) var frag_code:LLMetalCodable = LLMetalShadingCode.Plane()
+    public internal(set) var comp_name:String
     
-    public internal(set) var vert_name:String
-    public internal(set) var frag_name:String
-    
-    public init( vertexFuncName:String, fragmentFuncName:String ) 
-    {
-        self.vert_name = vertexFuncName
-        self.frag_name = fragmentFuncName
-    }
+    public init( computeFuncName:String ) {
+        self.comp_name = computeFuncName
+    }    
 
     @discardableResult
     public func 
@@ -80,71 +74,41 @@ open class LBShader
     }
     
     @discardableResult
-    public final func 
-    vertexFunction( _ f:()->String ) -> Self {
-        self.vert_code = LLMetalShadingCode.Plane( f() )
+    public func 
+    computeFunction( _ f:()->String ) -> Self {
+        self.comp_code = LLMetalShadingCode.Plane( f() )
         return self
     }
     
     @discardableResult
     public final func 
-    vertexFunction( _ f:( LLMetalShadingCode.Function )->LLMetalShadingCode.Function ) -> Self {
-        self.vert_code = f( defaultVertexFunction )
-
+    computeFunction( _ f:( LLMetalShadingCode.Function )->LLMetalShadingCode.Function ) -> Self {
+        self.comp_code = f(
+            defaultComputeFunction
+        )        
         return self
     }
     
-    @discardableResult
-    public final func 
-    fragmentFunction( _ f:()->String ) -> Self {
-        self.frag_code = LLMetalShadingCode.Plane( f() )
-        return self
-    }
-    
-    @discardableResult
-    public final func 
-    fragmentFunction( _ f:( LLMetalShadingCode.Function )->LLMetalShadingCode.Function ) -> Self {
-        self.frag_code = f( defaultFragmentFunction )
-    
-        return self
-    }
-    
-    public var defaultVertexFunction:LLMetalShadingCode.Function {
+    public var defaultComputeFunction:LLMetalShadingCode.Function {
         LLMetalShadingCode.Function()
-        .prefix( "vertex" )
-        .name( self.vert_name )
-    }
-    
-    public var defaultFragmentFunction:LLMetalShadingCode.Function {
-        LLMetalShadingCode.Function()
-        .prefix( "fragment" )
-        .returnType( "float4" )
-        .name( self.frag_name ) 
+        .prefix( "kernel" )
+        .returnType( "void" )
+        .name( self.comp_name )
     }
     
     @discardableResult
     public func
     generate() -> Self {
-        let vertex_code 
+        let compute_code
             = header_code.generate()
             + struct_codes.reduce( "" ) { $0 + $1.generate() }
             + func_codes.reduce( "" ) { $0 + $1.generate() }
-            + vert_code.generate()
+            + comp_code.generate()
         
-        let fragment_code
-            = header_code.generate()
-            + struct_codes.reduce( "" ) { $0 + $1.generate() }
-            + func_codes.reduce( "" ) { $0 + $1.generate() }
-            + frag_code.generate()
-                        
-        metalVertexShader = LLMetalShader( 
-            code: vertex_code, 
-            shaderName: self.vert_name )
-        
-        metalFragmentShader = LLMetalShader(
-            code: fragment_code,
-            shaderName: self.frag_name )
-        
+        metalComputeShader = LLMetalShader( 
+            code: compute_code, 
+            shaderName: self.comp_name )
+ 
         return self
     }
 }

@@ -10,29 +10,21 @@
 
 import Foundation
 
-public struct LLSoloField<TMe:AnyObject, TArg> : LLField
+public struct LLSoloField<TMe:AnyObject> : LLField
 {
-    public private(set) var field:((TArg)->Void)?
+    public private(set) var field:((TMe)->Void)?
     
-    public struct Object
-    {
-        public var me:TMe
-        public var args:TArg
-    }
-  
     public init( by me:TMe,
-                 argType:TArg.Type,
-                 field f:@escaping (Object)->Void )
+                 field f:@escaping (TMe)->Void )
     {
-        self.field = { [weak me] ( args:TArg ) in
+        self.field = { [weak me] _ in
             guard let me = me else { return }
-            let obj = Object( me: me, args: args )
-            f( obj )
+            f( me )
         }
     }
     
     public func appear( _ obj:Any? = nil ) {
-        guard let args = obj as? TArg else { return }
-        self.field?( args )
+        guard let me = obj as? TMe else { return }
+        self.field?( me )
     }
 }

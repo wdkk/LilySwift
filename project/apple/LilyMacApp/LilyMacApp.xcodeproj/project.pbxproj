@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5D0AE42224B3987B003A8224 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3BAD2423524E00C2E789 /* MyViewController.swift */; };
+		5D08987F24D1C8CB0075453D /* LilyPlaygroundHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08987C24D1C8CB0075453D /* LilyPlaygroundHelper.swift */; };
+		5D08988024D1C8CB0075453D /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08987D24D1C8CB0075453D /* Application.swift */; };
+		5D08988124D1C8CB0075453D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08987E24D1C8CB0075453D /* main.swift */; };
+		5D08988324D1C9720075453D /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3BAD2423524E00C2E789 /* MyViewController.swift */; };
 		5D24C9481F606FE900AE628D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D24C9431F606FE900AE628D /* Assets.xcassets */; };
-		5D2605E723706FF60078B63A /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2605E523706FF60078B63A /* Application.swift */; };
-		5D2605E823706FF60078B63A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2605E623706FF60078B63A /* main.swift */; };
 		5DA0815B23C2288E005E877C /* supportFiles in Resources */ = {isa = PBXBuildFile; fileRef = 5DA0815A23C2288D005E877C /* supportFiles */; };
 		5DB4690E238E6D25002A8FF7 /* LilySwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB4690D238E6D25002A8FF7 /* LilySwift.xcframework */; };
 		5DB4690F238E6D25002A8FF7 /* LilySwift.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB4690D238E6D25002A8FF7 /* LilySwift.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -31,11 +32,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5D08987724D1C06E0075453D /* MyVC(pg2-3-5 fountain).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyVC(pg2-3-5 fountain).swift"; sourceTree = "<group>"; };
+		5D08987C24D1C8CB0075453D /* LilyPlaygroundHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LilyPlaygroundHelper.swift; sourceTree = "<group>"; };
+		5D08987D24D1C8CB0075453D /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		5D08987E24D1C8CB0075453D /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5D24C9431F606FE900AE628D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D24C9441F606FE900AE628D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D24C9451F606FE900AE628D /* LilyBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LilyBridge.h; sourceTree = "<group>"; };
-		5D2605E523706FF60078B63A /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
-		5D2605E623706FF60078B63A /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5DA0815A23C2288D005E877C /* supportFiles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = supportFiles; path = ../../../supportFiles; sourceTree = "<group>"; };
 		5DB4690D238E6D25002A8FF7 /* LilySwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = LilySwift.xcframework; path = ../../../_lib/LilySwift.xcframework; sourceTree = "<group>"; };
 		5DC5EE932125C25600F65A88 /* LilyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LilyApp.entitlements; sourceTree = "<group>"; };
@@ -56,6 +59,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5D08987B24D1C8CB0075453D /* baseCodes */ = {
+			isa = PBXGroup;
+			children = (
+				5D08987C24D1C8CB0075453D /* LilyPlaygroundHelper.swift */,
+				5D08987D24D1C8CB0075453D /* Application.swift */,
+				5D08987E24D1C8CB0075453D /* main.swift */,
+			);
+			path = baseCodes;
+			sourceTree = "<group>";
+		};
 		5D24C9411F606FE900AE628D /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -70,8 +83,6 @@
 		5D2605E423706FF60078B63A /* codes */ = {
 			isa = PBXGroup;
 			children = (
-				5D2605E623706FF60078B63A /* main.swift */,
-				5D2605E523706FF60078B63A /* Application.swift */,
 				5DCA3BAD2423524E00C2E789 /* MyViewController.swift */,
 			);
 			path = codes;
@@ -89,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				5DCA3BAF2423525C00C2E789 /* MyVC(test).swift */,
+				5D08987724D1C06E0075453D /* MyVC(pg2-3-5 fountain).swift */,
 			);
 			path = samples;
 			sourceTree = "<group>";
@@ -98,6 +110,7 @@
 			children = (
 				5DA0815A23C2288D005E877C /* supportFiles */,
 				5D24C9411F606FE900AE628D /* App */,
+				5D08987B24D1C8CB0075453D /* baseCodes */,
 				5D2605E423706FF60078B63A /* codes */,
 				5DCA3BA824234E6000C2E789 /* samples */,
 				5DEE58911C266D5E00546A18 /* Products */,
@@ -195,9 +208,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D2605E823706FF60078B63A /* main.swift in Sources */,
-				5D0AE42224B3987B003A8224 /* MyViewController.swift in Sources */,
-				5D2605E723706FF60078B63A /* Application.swift in Sources */,
+				5D08988024D1C8CB0075453D /* Application.swift in Sources */,
+				5D08987F24D1C8CB0075453D /* LilyPlaygroundHelper.swift in Sources */,
+				5D08988324D1C9720075453D /* MyViewController.swift in Sources */,
+				5D08988124D1C8CB0075453D /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,7 +267,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -307,7 +321,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;

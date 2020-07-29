@@ -16,6 +16,7 @@ import QuartzCore
 open class LLViewController : NSViewController
 {
     private var _already:Bool = false
+     public var already:Bool { _already }
     private var _dlink = LLDisplayLink()
     
     public init() {
@@ -53,7 +54,7 @@ open class LLViewController : NSViewController
     
     // MARK: - Override Pretty Functions
     open func setup() {
-        _already = true
+        
     }
     
     open func postSetup() {
@@ -95,16 +96,24 @@ open class LLViewController : NSViewController
     }
     
     override open func viewDidAppear() {
-        _dlink.loopFunc = self.viewUpdate
-        _dlink.start()
+        
     }
     
     override open func viewWillDisappear() {
-        _dlink.stop()
+        
     }
     
     open func viewUpdate() {
 
+    }
+    
+    open func startUpdateLoop() {
+        _dlink.loopFunc = self.viewUpdate
+        _dlink.start()
+    }
+    
+    open func endUpdateLoop() {
+        _dlink.stop()
     }
 }
 

@@ -21,6 +21,20 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		5D08985C24D1B8AC0075453D /* LBRenderShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08985A24D1B8AC0075453D /* LBRenderShader.swift */; };
+		5D08985D24D1B8AC0075453D /* LBComputeShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08985B24D1B8AC0075453D /* LBComputeShader.swift */; };
+		5D08985F24D1B8B70075453D /* LBTriangleRenderShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08985E24D1B8B70075453D /* LBTriangleRenderShader.swift */; };
+		5D08986124D1B8C20075453D /* LBPanelRenderShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08986024D1B8C20075453D /* LBPanelRenderShader.swift */; };
+		5D08986224D1B8C20075453D /* LBPanelRenderShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08986024D1B8C20075453D /* LBPanelRenderShader.swift */; };
+		5D08986324D1B8C60075453D /* LBTriangleRenderShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08985E24D1B8B70075453D /* LBTriangleRenderShader.swift */; };
+		5D08986C24D1B8FA0075453D /* LLMediaField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08986A24D1B8F90075453D /* LLMediaField.swift */; };
+		5D08986D24D1B8FA0075453D /* LLMediaField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08986A24D1B8F90075453D /* LLMediaField.swift */; };
+		5D08986E24D1B8FA0075453D /* LLPhysicalField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08986B24D1B8F90075453D /* LLPhysicalField.swift */; };
+		5D08986F24D1B8FA0075453D /* LLPhysicalField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08986B24D1B8F90075453D /* LLPhysicalField.swift */; };
+		5D08987124D1B91F0075453D /* LLSoloField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08987024D1B91F0075453D /* LLSoloField.swift */; };
+		5D08987224D1B91F0075453D /* LLSoloField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08987024D1B91F0075453D /* LLSoloField.swift */; };
+		5D08987524D1BA800075453D /* LBComputeShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08985B24D1B8AC0075453D /* LBComputeShader.swift */; };
+		5D08987624D1BA800075453D /* LBRenderShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08985A24D1B8AC0075453D /* LBRenderShader.swift */; };
 		5D0CCA6A23BB541E0007E174 /* TestLLType.util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0CCA6923BB541E0007E174 /* TestLLType.util.swift */; };
 		5D0CCA6B23BB541E0007E174 /* TestLLType.util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0CCA6923BB541E0007E174 /* TestLLType.util.swift */; };
 		5D0CCA7823BB543C0007E174 /* TestLCString+overload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0CCA6C23BB543B0007E174 /* TestLCString+overload.swift */; };
@@ -88,8 +102,6 @@
 		5D450F1B23940F7D007D7DD6 /* LLFileWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D450F0823940F7D007D7DD6 /* LLFileWriter.swift */; };
 		5D450F1C23940F7D007D7DD6 /* LLString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D450F0923940F7D007D7DD6 /* LLString.swift */; };
 		5D450F1D23940F7D007D7DD6 /* LLString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D450F0923940F7D007D7DD6 /* LLString.swift */; };
-		5D537F7F24475656007107B1 /* LBShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F4A24475656007107B1 /* LBShader.swift */; };
-		5D537F8024475656007107B1 /* LBShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F4A24475656007107B1 /* LBShader.swift */; };
 		5D537F8124475656007107B1 /* LBDecoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F4B24475656007107B1 /* LBDecoration.swift */; };
 		5D537F8224475656007107B1 /* LBDecoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F4B24475656007107B1 /* LBDecoration.swift */; };
 		5D537F8524475656007107B1 /* LBTriangleStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F4E24475656007107B1 /* LBTriangleStorage.swift */; };
@@ -98,16 +110,12 @@
 		5D537F8824475656007107B1 /* LBTriangleDecoration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F4F24475656007107B1 /* LBTriangleDecoration.swift */; };
 		5D537F8924475656007107B1 /* LBTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5024475656007107B1 /* LBTriangle.swift */; };
 		5D537F8A24475656007107B1 /* LBTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5024475656007107B1 /* LBTriangle.swift */; };
-		5D537F8B24475656007107B1 /* LBTriangleShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5124475656007107B1 /* LBTriangleShader.swift */; };
-		5D537F8C24475656007107B1 /* LBTriangleShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5124475656007107B1 /* LBTriangleShader.swift */; };
 		5D537F8D24475656007107B1 /* LBTriangleDecoration.plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5224475656007107B1 /* LBTriangleDecoration.plane.swift */; };
 		5D537F8E24475656007107B1 /* LBTriangleDecoration.plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5224475656007107B1 /* LBTriangleDecoration.plane.swift */; };
 		5D537F8F24475656007107B1 /* LBDecorationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5324475656007107B1 /* LBDecorationManager.swift */; };
 		5D537F9024475656007107B1 /* LBDecorationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5324475656007107B1 /* LBDecorationManager.swift */; };
 		5D537F9124475656007107B1 /* LBPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5524475656007107B1 /* LBPanel.swift */; };
 		5D537F9224475656007107B1 /* LBPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5524475656007107B1 /* LBPanel.swift */; };
-		5D537F9324475656007107B1 /* LBPanelShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5624475656007107B1 /* LBPanelShader.swift */; };
-		5D537F9424475656007107B1 /* LBPanelShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5624475656007107B1 /* LBPanelShader.swift */; };
 		5D537F9524475656007107B1 /* LBPanelDecoration.circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5724475656007107B1 /* LBPanelDecoration.circle.swift */; };
 		5D537F9624475656007107B1 /* LBPanelDecoration.circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5724475656007107B1 /* LBPanelDecoration.circle.swift */; };
 		5D537F9724475656007107B1 /* LBPanelDecoration.texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D537F5824475656007107B1 /* LBPanelDecoration.texture.swift */; };
@@ -201,12 +209,8 @@
 		5D6801BD242282B000752979 /* ClosedRange+Lily+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D68011A24227F3300752979 /* ClosedRange+Lily+ext.swift */; };
 		5D6B4B902444B82200CCC52D /* LLField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6B4B8C2444B82100CCC52D /* LLField.swift */; };
 		5D6B4B912444B82200CCC52D /* LLField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6B4B8C2444B82100CCC52D /* LLField.swift */; };
-		5D6B4B942444B82200CCC52D /* LLSoloField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6B4B8E2444B82200CCC52D /* LLSoloField.swift */; };
-		5D6B4B952444B82200CCC52D /* LLSoloField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6B4B8E2444B82200CCC52D /* LLSoloField.swift */; };
 		5D6B4B962444B82200CCC52D /* LLFieldContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6B4B8F2444B82200CCC52D /* LLFieldContainer.swift */; };
 		5D6B4B972444B82200CCC52D /* LLFieldContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6B4B8F2444B82200CCC52D /* LLFieldContainer.swift */; };
-		5D6B4B992444B84600CCC52D /* LLDiscussionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6B4B982444B84500CCC52D /* LLDiscussionField.swift */; };
-		5D6B4B9A2444B84600CCC52D /* LLDiscussionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6B4B982444B84500CCC52D /* LLDiscussionField.swift */; };
 		5D6B4B9F2444B86400CCC52D /* LBTouchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6B4B9C2444B86400CCC52D /* LBTouchManager.swift */; };
 		5D6B4BA02444B86400CCC52D /* LBTouchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6B4B9C2444B86400CCC52D /* LBTouchManager.swift */; };
 		5D6B4BA12444B86400CCC52D /* LBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6B4B9D2444B86400CCC52D /* LBViewController.swift */; };
@@ -273,8 +277,6 @@
 		5D9A4E4523EC83B800210B1B /* LLMetalComputePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9A4E1B23EC83B700210B1B /* LLMetalComputePipeline.swift */; };
 		5D9A4E4723EC83C500210B1B /* LLTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9A4E4623EC83C500210B1B /* LLTask.swift */; };
 		5D9A4E4823EC83C500210B1B /* LLTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9A4E4623EC83C500210B1B /* LLTask.swift */; };
-		5D9A4E4B23EC83F200210B1B /* LLMetalDrawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9A4E4A23EC83F200210B1B /* LLMetalDrawable.swift */; };
-		5D9A4E4C23EC83F200210B1B /* LLMetalDrawable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9A4E4A23EC83F200210B1B /* LLMetalDrawable.swift */; };
 		5D9A4E4E23EC843C00210B1B /* CALayer+Lily+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9A4E4D23EC843C00210B1B /* CALayer+Lily+ext.swift */; };
 		5D9A4E4F23EC843C00210B1B /* CALayer+Lily+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9A4E4D23EC843C00210B1B /* CALayer+Lily+ext.swift */; };
 		5D9A4E5223EC844500210B1B /* LLViewFieldCallable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9A4E5023EC844500210B1B /* LLViewFieldCallable.swift */; };
@@ -311,8 +313,6 @@
 		5D9A4EBD23EC876400210B1B /* MTLRenderPipelineColorAttachmentDescriptor+Lily+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9A4EB523EC876400210B1B /* MTLRenderPipelineColorAttachmentDescriptor+Lily+ext.swift */; };
 		5DA0815423C21603005E877C /* LDImage.apl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0815323C21603005E877C /* LDImage.apl.swift */; };
 		5DA0815523C21603005E877C /* LDImage.apl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0815323C21603005E877C /* LDImage.apl.swift */; };
-		5DB4C5842488D00F00F6171C /* LLPlaneField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB4C5832488D00F00F6171C /* LLPlaneField.swift */; };
-		5DB4C5852488D00F00F6171C /* LLPlaneField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB4C5832488D00F00F6171C /* LLPlaneField.swift */; };
 		5DB4C5882488D02500F6171C /* LBActor.struct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB4C5862488D02400F6171C /* LBActor.struct.swift */; };
 		5DB4C5892488D02500F6171C /* LBActor.struct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB4C5862488D02400F6171C /* LBActor.struct.swift */; };
 		5DB4C58A2488D02500F6171C /* LBShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB4C5872488D02400F6171C /* LBShape.swift */; };
@@ -518,6 +518,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5D08985A24D1B8AC0075453D /* LBRenderShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBRenderShader.swift; sourceTree = "<group>"; };
+		5D08985B24D1B8AC0075453D /* LBComputeShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBComputeShader.swift; sourceTree = "<group>"; };
+		5D08985E24D1B8B70075453D /* LBTriangleRenderShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBTriangleRenderShader.swift; sourceTree = "<group>"; };
+		5D08986024D1B8C20075453D /* LBPanelRenderShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBPanelRenderShader.swift; sourceTree = "<group>"; };
+		5D08986A24D1B8F90075453D /* LLMediaField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLMediaField.swift; sourceTree = "<group>"; };
+		5D08986B24D1B8F90075453D /* LLPhysicalField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLPhysicalField.swift; sourceTree = "<group>"; };
+		5D08987024D1B91F0075453D /* LLSoloField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLSoloField.swift; sourceTree = "<group>"; };
 		5D0CCA6923BB541E0007E174 /* TestLLType.util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLLType.util.swift; sourceTree = "<group>"; };
 		5D0CCA6C23BB543B0007E174 /* TestLCString+overload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestLCString+overload.swift"; sourceTree = "<group>"; };
 		5D0CCA6D23BB543B0007E174 /* TestCGSize+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TestCGSize+ext.swift"; sourceTree = "<group>"; };
@@ -553,16 +560,13 @@
 		5D450F0723940F7D007D7DD6 /* LLSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLSystem.swift; sourceTree = "<group>"; };
 		5D450F0823940F7D007D7DD6 /* LLFileWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLFileWriter.swift; sourceTree = "<group>"; };
 		5D450F0923940F7D007D7DD6 /* LLString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLString.swift; sourceTree = "<group>"; };
-		5D537F4A24475656007107B1 /* LBShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBShader.swift; sourceTree = "<group>"; };
 		5D537F4B24475656007107B1 /* LBDecoration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBDecoration.swift; sourceTree = "<group>"; };
 		5D537F4E24475656007107B1 /* LBTriangleStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBTriangleStorage.swift; sourceTree = "<group>"; };
 		5D537F4F24475656007107B1 /* LBTriangleDecoration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBTriangleDecoration.swift; sourceTree = "<group>"; };
 		5D537F5024475656007107B1 /* LBTriangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBTriangle.swift; sourceTree = "<group>"; };
-		5D537F5124475656007107B1 /* LBTriangleShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBTriangleShader.swift; sourceTree = "<group>"; };
 		5D537F5224475656007107B1 /* LBTriangleDecoration.plane.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBTriangleDecoration.plane.swift; sourceTree = "<group>"; };
 		5D537F5324475656007107B1 /* LBDecorationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBDecorationManager.swift; sourceTree = "<group>"; };
 		5D537F5524475656007107B1 /* LBPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBPanel.swift; sourceTree = "<group>"; };
-		5D537F5624475656007107B1 /* LBPanelShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBPanelShader.swift; sourceTree = "<group>"; };
 		5D537F5724475656007107B1 /* LBPanelDecoration.circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBPanelDecoration.circle.swift; sourceTree = "<group>"; };
 		5D537F5824475656007107B1 /* LBPanelDecoration.texture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBPanelDecoration.texture.swift; sourceTree = "<group>"; };
 		5D537F5924475656007107B1 /* LBPanelDecoration.texatlas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBPanelDecoration.texatlas.swift; sourceTree = "<group>"; };
@@ -605,9 +609,7 @@
 		5D68011A24227F3300752979 /* ClosedRange+Lily+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ClosedRange+Lily+ext.swift"; sourceTree = "<group>"; };
 		5D6801AB24227F9500752979 /* LLRegion+LilyCore+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLRegion+LilyCore+ext.swift"; sourceTree = "<group>"; };
 		5D6B4B8C2444B82100CCC52D /* LLField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLField.swift; sourceTree = "<group>"; };
-		5D6B4B8E2444B82200CCC52D /* LLSoloField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLSoloField.swift; sourceTree = "<group>"; };
 		5D6B4B8F2444B82200CCC52D /* LLFieldContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLFieldContainer.swift; sourceTree = "<group>"; };
-		5D6B4B982444B84500CCC52D /* LLDiscussionField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLDiscussionField.swift; sourceTree = "<group>"; };
 		5D6B4B9C2444B86400CCC52D /* LBTouchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBTouchManager.swift; sourceTree = "<group>"; };
 		5D6B4B9D2444B86400CCC52D /* LBViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBViewController.swift; sourceTree = "<group>"; };
 		5D6B4B9E2444B86400CCC52D /* LBTouch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBTouch.swift; sourceTree = "<group>"; };
@@ -642,7 +644,6 @@
 		5D9A4E1A23EC83B700210B1B /* LLMetalRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLMetalRenderer.swift; sourceTree = "<group>"; };
 		5D9A4E1B23EC83B700210B1B /* LLMetalComputePipeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLMetalComputePipeline.swift; sourceTree = "<group>"; };
 		5D9A4E4623EC83C500210B1B /* LLTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLTask.swift; sourceTree = "<group>"; };
-		5D9A4E4A23EC83F200210B1B /* LLMetalDrawable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLMetalDrawable.swift; sourceTree = "<group>"; };
 		5D9A4E4D23EC843C00210B1B /* CALayer+Lily+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+Lily+ext.swift"; sourceTree = "<group>"; };
 		5D9A4E5023EC844500210B1B /* LLViewFieldCallable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLViewFieldCallable.swift; sourceTree = "<group>"; };
 		5D9A4E5123EC844500210B1B /* LLUILifeEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLUILifeEvent.swift; sourceTree = "<group>"; };
@@ -670,7 +671,6 @@
 		5D9A4EB523EC876400210B1B /* MTLRenderPipelineColorAttachmentDescriptor+Lily+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MTLRenderPipelineColorAttachmentDescriptor+Lily+ext.swift"; sourceTree = "<group>"; };
 		5DA0815323C21603005E877C /* LDImage.apl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDImage.apl.swift; sourceTree = "<group>"; };
 		5DACEE95235C7167001143BF /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
-		5DB4C5832488D00F00F6171C /* LLPlaneField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLPlaneField.swift; sourceTree = "<group>"; };
 		5DB4C5862488D02400F6171C /* LBActor.struct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBActor.struct.swift; sourceTree = "<group>"; };
 		5DB4C5872488D02400F6171C /* LBShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBShape.swift; sourceTree = "<group>"; };
 		5DB4C58C2488D06400F6171C /* PGActor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGActor.swift; sourceTree = "<group>"; };
@@ -1024,9 +1024,9 @@
 				5D450F0123940F7D007D7DD6 /* LLAlgoLine.swift */,
 				5D6B4B8F2444B82200CCC52D /* LLFieldContainer.swift */,
 				5D6B4B8C2444B82100CCC52D /* LLField.swift */,
-				5DB4C5832488D00F00F6171C /* LLPlaneField.swift */,
-				5D6B4B8E2444B82200CCC52D /* LLSoloField.swift */,
-				5D6B4B982444B84500CCC52D /* LLDiscussionField.swift */,
+				5D08987024D1B91F0075453D /* LLSoloField.swift */,
+				5D08986B24D1B8F90075453D /* LLPhysicalField.swift */,
+				5D08986A24D1B8F90075453D /* LLMediaField.swift */,
 				5D9A4E4623EC83C500210B1B /* LLTask.swift */,
 				5D0D9AC323CCC8F900FFA33D /* LLAlignedMemory.swift */,
 				5D450F0523940F7D007D7DD6 /* LLClock.swift */,
@@ -1103,7 +1103,8 @@
 		5D537F4924475656007107B1 /* LilyBoard */ = {
 			isa = PBXGroup;
 			children = (
-				5D537F4A24475656007107B1 /* LBShader.swift */,
+				5D08985B24D1B8AC0075453D /* LBComputeShader.swift */,
+				5D08985A24D1B8AC0075453D /* LBRenderShader.swift */,
 				5D537F5324475656007107B1 /* LBDecorationManager.swift */,
 				5D537F4B24475656007107B1 /* LBDecoration.swift */,
 				5D537F4C24475656007107B1 /* LBTriangle */,
@@ -1122,10 +1123,10 @@
 		5D537F4C24475656007107B1 /* LBTriangle */ = {
 			isa = PBXGroup;
 			children = (
+				5D08985E24D1B8B70075453D /* LBTriangleRenderShader.swift */,
 				5D537F4E24475656007107B1 /* LBTriangleStorage.swift */,
 				5D537F4F24475656007107B1 /* LBTriangleDecoration.swift */,
 				5D537F5024475656007107B1 /* LBTriangle.swift */,
-				5D537F5124475656007107B1 /* LBTriangleShader.swift */,
 				5D537F5224475656007107B1 /* LBTriangleDecoration.plane.swift */,
 			);
 			path = LBTriangle;
@@ -1134,8 +1135,8 @@
 		5D537F5424475656007107B1 /* LBPanel */ = {
 			isa = PBXGroup;
 			children = (
+				5D08986024D1B8C20075453D /* LBPanelRenderShader.swift */,
 				5D537F5524475656007107B1 /* LBPanel.swift */,
-				5D537F5624475656007107B1 /* LBPanelShader.swift */,
 				5D537F5724475656007107B1 /* LBPanelDecoration.circle.swift */,
 				5D537F5824475656007107B1 /* LBPanelDecoration.texture.swift */,
 				5D537F5924475656007107B1 /* LBPanelDecoration.texatlas.swift */,
@@ -1231,7 +1232,6 @@
 		5D9A4E4923EC83F200210B1B /* protocols */ = {
 			isa = PBXGroup;
 			children = (
-				5D9A4E4A23EC83F200210B1B /* LLMetalDrawable.swift */,
 			);
 			path = protocols;
 			sourceTree = "<group>";
@@ -1617,15 +1617,16 @@
 				5D9A4E2B23EC83B800210B1B /* LLMetalShape.quadrangles.swift in Sources */,
 				5DFF06D723D197A500480E06 /* LCData+LilyCore+overload.swift in Sources */,
 				5DDD3DDB23C1AFB9008BB6F9 /* LCImageSaver.internal.swift in Sources */,
-				5D537F8024475656007107B1 /* LBShader.swift in Sources */,
 				5D6B4B972444B82200CCC52D /* LLFieldContainer.swift in Sources */,
 				5DC8E180238832CC00D264FA /* LCAlgoStylusParam.swift in Sources */,
 				5DC8E1772388265800D264FA /* LCAlgoLine.bresenham.swift in Sources */,
 				5DC8E17D238826EA00D264FA /* LCAlgoLine.swift in Sources */,
 				5DFF06CB23D197A500480E06 /* CGRect+LilyCore+ext.swift in Sources */,
+				5D08987624D1BA800075453D /* LBRenderShader.swift in Sources */,
 				5D450F1523940F7D007D7DD6 /* LLClock.swift in Sources */,
 				5D9A4E1F23EC83B800210B1B /* LLMetalShape.cubes.swift in Sources */,
 				5DFF06E123D197A500480E06 /* Data+LilyCore+ext.swift in Sources */,
+				5D08986324D1B8C60075453D /* LBTriangleRenderShader.swift in Sources */,
 				5DB6034A23CE080C002CF23E /* LCAlignedMemory.allocator.swift in Sources */,
 				5D9A4E4823EC83C500210B1B /* LLTask.swift in Sources */,
 				5D562DD623C330E000D46463 /* LCImage.hsvi.swift in Sources */,
@@ -1648,18 +1649,18 @@
 				5D6801B72422800D00752979 /* NSWindow+Lily+ext.swift in Sources */,
 				5DFCC7BB23C0CFE80049AC4E /* LCImageLoader.swift in Sources */,
 				5D537FA224475656007107B1 /* LBPanelStorage.swift in Sources */,
-				5D537F8C24475656007107B1 /* LBTriangleShader.swift in Sources */,
 				5DC8E19023894FD500D264FA /* LCPath.swift in Sources */,
 				5DFCC7C623C0E23E0049AC4E /* LLLog.swift in Sources */,
 				5D0D9AC523CCC8F900FFA33D /* LLAlignedMemory.swift in Sources */,
 				5DC8E1932389930800D264FA /* LCFileReader.swift in Sources */,
-				5D6B4B9A2444B84600CCC52D /* LLDiscussionField.swift in Sources */,
 				5DB4C58E2488D06400F6171C /* PGActor.swift in Sources */,
 				5D6801AD24227F9500752979 /* LLRegion+LilyCore+ext.swift in Sources */,
 				5DB6034123CD4096002CF23E /* LCAlignedMemory.16.swift in Sources */,
+				5D08986224D1B8C20075453D /* LBPanelRenderShader.swift in Sources */,
 				5D450F0F23940F7D007D7DD6 /* LLAlgoLine.swift in Sources */,
 				5DE4503A241BDC28008419B6 /* LLMath.type+LilyCore+ext.swift in Sources */,
 				5D537FAC24475656007107B1 /* LBActorStorage.swift in Sources */,
+				5D08987524D1BA800075453D /* LBComputeShader.swift in Sources */,
 				5D6801B52422800600752979 /* LLWindow.swift in Sources */,
 				5D9A4E2F23EC83B800210B1B /* LLMetal.type.render.swift in Sources */,
 				5D537F8A24475656007107B1 /* LBTriangle.swift in Sources */,
@@ -1714,6 +1715,7 @@
 				5D0CCA9723BB581E0007E174 /* LLType.graphics.swift in Sources */,
 				5D7B864C24500A59007A47DF /* PGPicture.swift in Sources */,
 				5D0D9AEC23CCC92F00FFA33D /* LLUIPixelControllable.swift in Sources */,
+				5D08986D24D1B8FA0075453D /* LLMediaField.swift in Sources */,
 				5DFCC7B623BFCDAD0049AC4E /* LCImage.rgba16.swift in Sources */,
 				5D6801B12422800600752979 /* LLViewBase.flow.swift in Sources */,
 				5D9A4E3B23EC83B800210B1B /* LLMetalShape.points.swift in Sources */,
@@ -1723,8 +1725,6 @@
 				5D537FD224475657007107B1 /* LPCraft.swift in Sources */,
 				5D450F1D23940F7D007D7DD6 /* LLString.swift in Sources */,
 				5DD7A5F223A7967E001D8752 /* LLMath.macro.swift in Sources */,
-				5DB4C5852488D00F00F6171C /* LLPlaneField.swift in Sources */,
-				5D537F9424475656007107B1 /* LBPanelShader.swift in Sources */,
 				5DDD3DDD23C1AFB9008BB6F9 /* LCImageSaver.internal.tga.swift in Sources */,
 				5D562DD323C32F3200D46463 /* LCImage.hsvf.swift in Sources */,
 				5D6B4BA22444B86400CCC52D /* LBViewController.swift in Sources */,
@@ -1775,6 +1775,7 @@
 				5D7B865224500A59007A47DF /* PGMask.swift in Sources */,
 				5DFF06D923D197A500480E06 /* CGSize+LilyCore+ext.swift in Sources */,
 				5D6801B82422800D00752979 /* NSMenuItem+Lily+ext.swift in Sources */,
+				5D08986F24D1B8FA0075453D /* LLPhysicalField.swift in Sources */,
 				5DC8E1862388368E00D264FA /* LCData.swift in Sources */,
 				5DD8AC61238C3AE100589730 /* LCZ.swift in Sources */,
 				5D537FC224475657007107B1 /* LPFlexibleFloat16.swift in Sources */,
@@ -1792,10 +1793,9 @@
 				5D5944E4240E368D00227149 /* LLMath.util+LilyCore+overload.swift in Sources */,
 				5D6801B32422800600752979 /* LLViewController.swift in Sources */,
 				5D450F1723940F7D007D7DD6 /* LLZ.swift in Sources */,
+				5D08987224D1B91F0075453D /* LLSoloField.swift in Sources */,
 				5D68011824227F2000752979 /* NSColor+Lily+ext.swift in Sources */,
-				5D6B4B952444B82200CCC52D /* LLSoloField.swift in Sources */,
 				5D537FB024475656007107B1 /* AppleCrossPlatform.swift in Sources */,
-				5D9A4E4C23EC83F200210B1B /* LLMetalDrawable.swift in Sources */,
 				5DFF06E923D197C300480E06 /* UserDefault+Lily+ext.swift in Sources */,
 				5DFCC7BE23C0D0240049AC4E /* LCImageLoader.internal.swift in Sources */,
 			);
@@ -1811,6 +1811,7 @@
 				5D0D9AE923CCC92F00FFA33D /* LLUIRectControllable.swift in Sources */,
 				5D537FD724475657007107B1 /* LPImpIO.swift in Sources */,
 				5D9A4E5223EC844500210B1B /* LLViewFieldCallable.swift in Sources */,
+				5D08985F24D1B8B70075453D /* LBTriangleRenderShader.swift in Sources */,
 				5D9A4E7E23EC848800210B1B /* LLTouchTapRecognizer.swift in Sources */,
 				5D68011324227F1200752979 /* LLColor+Lily+ext.ios.swift in Sources */,
 				5DFCC7B523BFCDAD0049AC4E /* LCImage.rgba16.swift in Sources */,
@@ -1828,11 +1829,11 @@
 				5DFF06EC23D197C300480E06 /* String+Lily+ext.swift in Sources */,
 				5D9A4E5423EC844500210B1B /* LLUILifeEvent.swift in Sources */,
 				5D9A4E2623EC83B800210B1B /* LLMetalComputer.swift in Sources */,
-				5D537F7F24475656007107B1 /* LBShader.swift in Sources */,
 				5D9A4E8223EC848800210B1B /* LLTouchHoldRecognizer.swift in Sources */,
 				5D6B4B962444B82200CCC52D /* LLFieldContainer.swift in Sources */,
 				5D9A4E6F23EC847100210B1B /* UIView+Lily+ext.swift in Sources */,
 				5DE4508F241BDD1C008419B6 /* LLMath.type.swift in Sources */,
+				5D08985C24D1B8AC0075453D /* LBRenderShader.swift in Sources */,
 				5D9A4EB623EC876400210B1B /* MTLComputeCommandEncoder+Lily+ext.swift in Sources */,
 				5D9A4E2A23EC83B800210B1B /* LLMetalShape.quadrangles.swift in Sources */,
 				5DFF06D623D197A500480E06 /* LCData+LilyCore+overload.swift in Sources */,
@@ -1860,7 +1861,6 @@
 				5DA0815423C21603005E877C /* LDImage.apl.swift in Sources */,
 				5D450F1423940F7D007D7DD6 /* LLClock.swift in Sources */,
 				5D537FA124475656007107B1 /* LBPanelStorage.swift in Sources */,
-				5D537F8B24475656007107B1 /* LBTriangleShader.swift in Sources */,
 				5D9A4E5D23EC845600210B1B /* LLRecursiveMutex.swift in Sources */,
 				5DC8E1982389C1C000D264FA /* LCFileWriter.swift in Sources */,
 				5D450F1A23940F7D007D7DD6 /* LLFileWriter.swift in Sources */,
@@ -1873,10 +1873,10 @@
 				5D0CCA9323BB55E70007E174 /* LLLog.swift in Sources */,
 				5D537FAB24475656007107B1 /* LBActorStorage.swift in Sources */,
 				5D9A4E9223EC848800210B1B /* LLTouchFieldContainerFlow.swift in Sources */,
-				5D6B4B992444B84600CCC52D /* LLDiscussionField.swift in Sources */,
 				5D537F8924475656007107B1 /* LBTriangle.swift in Sources */,
 				5DB6034023CD4096002CF23E /* LCAlignedMemory.16.swift in Sources */,
 				5DFD084323F13F5E00832BAB /* UIWindowScene+Lily+ext.swift in Sources */,
+				5D08985D24D1B8AC0075453D /* LBComputeShader.swift in Sources */,
 				5DC8E18F23894FD500D264FA /* LCPath.swift in Sources */,
 				5D537FC324475657007107B1 /* LPActor.swift in Sources */,
 				5D9A4E2E23EC83B800210B1B /* LLMetal.type.render.swift in Sources */,
@@ -1922,6 +1922,7 @@
 				5D9A4E3223EC83B800210B1B /* LLMetalRenderPipeline.swift in Sources */,
 				5DFCC7A823BFC51F0049AC4E /* LLType.graphics.const.swift in Sources */,
 				5DE46EE82428D09200008F2A /* LLPointFloat+LilyCore+ext.swift in Sources */,
+				5D08987124D1B91F0075453D /* LLSoloField.swift in Sources */,
 				5D537F9124475656007107B1 /* LBPanel.swift in Sources */,
 				5D9A4E3423EC83B800210B1B /* LLMetalSampler.swift in Sources */,
 				5D7B864B24500A59007A47DF /* PGPicture.swift in Sources */,
@@ -1931,12 +1932,11 @@
 				5D9A4E4E23EC843C00210B1B /* CALayer+Lily+ext.swift in Sources */,
 				5DB6033D23CD4083002CF23E /* LCAlignedMemory.internal.swift in Sources */,
 				5DDD3DE023C1AFB9008BB6F9 /* LCImageSaver.swift in Sources */,
+				5D08986E24D1B8FA0075453D /* LLPhysicalField.swift in Sources */,
 				5D7B864F24500A59007A47DF /* PGCircle.swift in Sources */,
 				5D537FD124475657007107B1 /* LPCraft.swift in Sources */,
 				5DC8E188238839C700D264FA /* LCString.swift in Sources */,
-				5DB4C5842488D00F00F6171C /* LLPlaneField.swift in Sources */,
 				5DE45034241BDC05008419B6 /* LLViewFieldContainerFlow.swift in Sources */,
-				5D537F9324475656007107B1 /* LBPanelShader.swift in Sources */,
 				5D9A4E3A23EC83B800210B1B /* LLMetalShape.points.swift in Sources */,
 				5DFF06EA23D197C300480E06 /* LLColor+Lily+ext.swift in Sources */,
 				5DDD3DE623C1AFC6008BB6F9 /* LLImage.swift in Sources */,
@@ -1966,6 +1966,7 @@
 				5D7B865B24500A59007A47DF /* PGSetup.swift in Sources */,
 				5D537F8524475656007107B1 /* LBTriangleStorage.swift in Sources */,
 				5DFCC7E023C0E48C0049AC4E /* LCImageLoader.internal.tga.swift in Sources */,
+				5D08986124D1B8C20075453D /* LBPanelRenderShader.swift in Sources */,
 				5D9A4E8423EC848800210B1B /* LLTransitionAnimator.swift in Sources */,
 				5DE45039241BDC28008419B6 /* LLMath.type+LilyCore+ext.swift in Sources */,
 				5DFCC7BA23C0CFE80049AC4E /* LCImageLoader.swift in Sources */,
@@ -2003,12 +2004,11 @@
 				5D9A4E6923EC847100210B1B /* UITouch+Lily+ext.swift in Sources */,
 				5D562DC623C329A900D46463 /* LCImage.grey8.swift in Sources */,
 				5D9A4E9423EC848800210B1B /* LLView.swift in Sources */,
-				5D6B4B942444B82200CCC52D /* LLSoloField.swift in Sources */,
-				5D9A4E4B23EC83F200210B1B /* LLMetalDrawable.swift in Sources */,
 				5D537FAF24475656007107B1 /* AppleCrossPlatform.swift in Sources */,
 				5DFF06E823D197C300480E06 /* UserDefault+Lily+ext.swift in Sources */,
 				5D450F1623940F7D007D7DD6 /* LLZ.swift in Sources */,
 				5DE4503D241BDC47008419B6 /* CGColor+Lily+ext.swift in Sources */,
+				5D08986C24D1B8FA0075453D /* LLMediaField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2112,7 +2112,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4.0.5.1;
+				CURRENT_PROJECT_VERSION = 4.1.0.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2134,7 +2134,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 4.0.5;
+				MARKETING_VERSION = 4.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.Lily;
 				PRODUCT_NAME = LilySwift;
 				SDKROOT = macosx;
@@ -2149,7 +2149,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4.0.5.1;
+				CURRENT_PROJECT_VERSION = 4.1.0.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2164,7 +2164,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 4.0.5;
+				MARKETING_VERSION = 4.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.Lily;
 				PRODUCT_NAME = LilySwift;
 				SDKROOT = macosx;
@@ -2311,7 +2311,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4.0.6.1;
+				CURRENT_PROJECT_VERSION = 4.1.0.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2333,7 +2333,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.6;
+				MARKETING_VERSION = 4.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2350,7 +2350,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4.0.6.1;
+				CURRENT_PROJECT_VERSION = 4.1.0.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2368,7 +2368,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.6;
+				MARKETING_VERSION = 4.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				PROVISIONING_PROFILE_SPECIFIER = "";

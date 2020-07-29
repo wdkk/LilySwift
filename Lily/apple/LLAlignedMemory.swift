@@ -32,7 +32,7 @@ open class LLAlignedMemory16<T> : LLAlignedMemoryAllocatable
     fileprivate var lcmemory = LCAlignedMemory16Make()
     public private(set) var typeSize:Int = 0
     
-    public init( type:T.Type, count:Int = 0 ) {
+    public init( count:Int = 0 ) {
         self.typeSize = MemoryLayout<T>.stride
         self.resize( count:count )
     }
@@ -79,7 +79,7 @@ open class LLAlignedMemory4096<T> : LLAlignedMemoryAllocatable
     fileprivate var lcmemory = LCAlignedMemory4096Make()
     public private(set) var typeSize:Int = 0
     
-    public init( type:T.Type, count:Int = 0 ) {
+    public init( count:Int = 0 ) {
         self.typeSize = MemoryLayout<T>.stride
         self.resize( count:count )
     }
@@ -91,6 +91,9 @@ open class LLAlignedMemory4096<T> : LLAlignedMemoryAllocatable
     public var allocatedLength:Int { return LCAlignedMemory4096AllocatedLength( lcmemory ) } 
     
     public var pointer:LLBytePtr? { return LCAlignedMemory4096Pointer( lcmemory ) }
+    
+    public var accessor:UnsafeMutablePointer<T>? { return UnsafeMutablePointer<T>(
+        OpaquePointer( pointer ) ) }
     
     public func clear() { LCAlignedMemory4096Clear( lcmemory ) }
 

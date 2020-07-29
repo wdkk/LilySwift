@@ -30,10 +30,10 @@ public class LLTouchFieldContainer : LLFieldContainer
         with caller:TCaller,
         target view:TView,
         join phenomena:TPhenomena,
-        field f:@escaping (LLDiscussionField<TCaller, TView, LLTouchArg, TPhenomena>.Object,
+        field f:@escaping (LLMediaField<TCaller, TView, LLTouchArg, TPhenomena>.Object,
         TPhenomena)->Void )
     {
-        fields[label] = LLDiscussionField( by:caller, target:view, argType:LLTouchArg.self, 
+        fields[label] = LLMediaField( by:caller, target:view, argType:LLTouchArg.self, 
                                            join:phenomena, field:f )
     }
     
@@ -41,10 +41,10 @@ public class LLTouchFieldContainer : LLFieldContainer
         label:String = UUID().uuidString,
         with caller:TCaller,
         target view:TView,
-        field f:@escaping (LLDiscussionField<TCaller, TView, LLTouchArg, LLEmptyPhenomena>.Object,
+        field f:@escaping (LLMediaField<TCaller, TView, LLTouchArg, LLEmptyPhenomena>.Object,
         LLEmptyPhenomena)->Void )
     {
-        fields[label] = LLDiscussionField( by:caller, target:view, argType:LLTouchArg.self,
+        fields[label] = LLMediaField( by:caller, target:view, argType:LLTouchArg.self,
                                            join:LLEmptyPhenomena.none, field:f )
     }
 }

@@ -19,15 +19,13 @@ public extension LBPanelDecoration
         // デコレーションのリクエストラベルを作る
         let lbl = "lbpanel_circle_\(label)"
         
-        // すでに同ラベルのpictureデコレーションがある場合はこれを用いる
-        if LBPanelDecoration.isExist( label: lbl ) {
-            return .custom( label: lbl )
-        }
+        // 同一ラベルがある場合、再利用
+        if Self.isExist( label:lbl ) { return Self.custom( label: lbl ) }
         
         // リクエストがなかった場合、各種設定を行なってデコレーションを生成する
         return LBPanelDecoration.custom( label: lbl )
-        .shader( 
-            LBPanelShader( 
+        .renderShader( 
+            LBPanelRenderShader( 
                 vertexFuncName: "LBPanel_vertCircle_\(label)",
                 fragmentFuncName: "LBPanel_fragCircle_\(label)" )
             .fragmentFunction {

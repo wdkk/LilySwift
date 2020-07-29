@@ -23,15 +23,15 @@ public struct LLDual<T> {
 /// ライン形状クラス
 public class LLMetalLines<T> : LLMetalShape<LLDual<T>>
 {
-    public required init( count:Int = 0, bufferType: LLMetalBufferType = .shared ) {
-        super.init( count: count, bufferType: bufferType )
-        
-        drawFunc = { (encoder, index) in
-            encoder.drawPrimitives(type: .line, vertexStart: 0, vertexCount: self.count )
+    public typealias VerticeType = LLDual<T>
+}
+
+public class LLMetalLinePainter<T> : LLMetalShapePainter<LLDual<T>>
+{
+    public override init() {
+        super.init()
+        drawFunc = { (encoder, shape) in
+            encoder.drawPrimitives(type: .line, vertexStart: 0, vertexCount: shape.count )
         }
-    }
-    
-    public var vertice:UnsafeMutablePointer<LLDual<T>> {
-        return UnsafeMutablePointer<LLDual<T>>( OpaquePointer( self.pointer! ) )
     }
 }

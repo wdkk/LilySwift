@@ -20,15 +20,13 @@ public extension LBPanelDecoration
         // デコレーションのリクエストラベルを作る
         let lbl = "lbpanel_masktex_\(label)"
         
-        // すでに同ラベルのpictureデコレーションがある場合はこれを用いる
-        if LBPanelDecoration.isExist( label:lbl ) {
-            return LBPanelDecoration.custom( label: lbl )
-        }
+        // 同一ラベルがある場合、再利用
+        if Self.isExist( label:lbl ) { return Self.custom( label: lbl ) }
         
         // リクエストがなかった場合、各種設定を行なってデコレーションを生成する
         return LBPanelDecoration.custom( label: lbl )
-        .shader( 
-            LBPanelShader( 
+        .renderShader( 
+            LBPanelRenderShader( 
                 vertexFuncName: "LBPanel_vertMaskAtlas_\(label)",
                 fragmentFuncName: "LBPanel_fragMaskAtlas_\(label)" )
             .fragmentFunction {
@@ -45,17 +43,10 @@ public extension LBPanelDecoration
                 """ )
             }
         )
-        .drawField { obj in 
-            if obj.me.storage.params.count == 0 { return }
-    
-            // delta値の加算
-            // TODO: コンピュートシェーダに写し変えたい
-            obj.me.updateDeltaParams( &(obj.me.storage.params), 
-                                      count:obj.me.storage.params.count )
-            
-            guard let mtlbuf_params = LLMetalManager.shared.device?.makeBuffer(
-                bytes: &obj.me.storage.params,
-                length: MemoryLayout<LBActorParam>.stride * obj.me.storage.params.count ) else { return }
+        .renderFieldMySelf { obj in 
+            if obj.me.storage.isNoActive { return }
+
+            let mtlbuf_params = LLMetalSharedBuffer( amemory:obj.me.storage.params )
             
             let sampler = LLMetalSampler.default
             
@@ -64,7 +55,7 @@ public extension LBPanelDecoration
             encoder.setVertexBuffer( mtlbuf_params, index:1 )
             encoder.setFragmentSamplerState( sampler, index: 0 )
             encoder.setFragmentTexture( obj.me.storage.texture, index: 0 )
-            encoder.drawShape( obj.me.storage.metalVertex, index:2 )
+            encoder.draw( shape:obj.me.storage.metalVertex, index:2, painter: LLMetalQuadranglePainter<LBActorVertex>()  )
         }
     }
 }

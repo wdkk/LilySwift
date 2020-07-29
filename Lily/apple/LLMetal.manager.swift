@@ -26,7 +26,7 @@ open class LLMetalManager
     /// Metalコマンドキュー
     public let commandQueue:MTLCommandQueue?
     /// Metal描画用セマフォ
-    public let semaphore = DispatchSemaphore( value: 0 )
+    public let semaphore = DispatchSemaphore( value: 3 )
     
     // Metalコマンド実行
     @discardableResult

@@ -18,16 +18,14 @@ open class LBShape<
 : LBActor
 {
     public weak var decoration:TDecoration?
-    var _storage:TStorage
     public private(set) var index:Int
     
     public init( decoration deco:TDecoration ) {
         // makeされていなかった場合を考慮してここでmakeする
         deco.make()
-        
+                
         self.index = deco.storage.request()
-        self._storage = deco.storage
-        decoration = deco
+        self.decoration = deco
     }
     
     deinit {
@@ -35,7 +33,7 @@ open class LBShape<
     }
     
     public override var params:LBActorParam {
-        get { return _storage.params[index] }
-        set { withUnsafeMutablePointer(to: &(_storage.params[index]) ) { $0.pointee = newValue } }
+        get { return decoration!.storage.params.accessor![index] }
+        set { decoration?.storage.params.accessor?[index] = newValue }
     }
 }

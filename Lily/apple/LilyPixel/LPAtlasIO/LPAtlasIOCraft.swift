@@ -25,7 +25,7 @@ public final class LPAtlasIOCraft : LPCraft, LPCraftCustomizable
         super.init()
         
         // デフォルトのフィールドを用意
-        self.fireField { obj in 
+        self.fireField( with:self ) { obj in 
             // テクスチャがない場合スキップ
             guard let in_atlas = obj.me.atlasio?.inAtlas,
                   let in_parts = obj.me.atlasio?.inParts,
@@ -85,11 +85,12 @@ public final class LPAtlasIOCraft : LPCraft, LPCraftCustomizable
     }
     
     @discardableResult
-    private func fireField( 
-        _ f:@escaping (LLSoloField<Me, MTLComputeCommandEncoder>.Object)->Void )
+    private func fireField<TCaller>( with caller:TCaller,  
+        _ f:@escaping (LLPhysicalField<TCaller, Me, MTLComputeCommandEncoder>.Object)->Void )
     -> Self
     {
-        self._fire_f = LLSoloField( by:self,
+        self._fire_f = LLPhysicalField( by:caller,
+                                    target:self,
                                     argType:MTLComputeCommandEncoder.self, 
                                     field:f )
         return self

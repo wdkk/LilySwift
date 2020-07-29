@@ -11,7 +11,7 @@
 import Foundation
 import Metal
 
-open class LBTriangleShader : LBShader
+open class LBTrianglelRenderShader : LBRenderShader
 {       
     public convenience init() {
         let uid = UUID().labelString

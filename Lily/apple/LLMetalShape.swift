@@ -13,28 +13,34 @@
 import Foundation
 import Metal
 
-// Metal形状メモリ基本クラス
-public class LLMetalShape<T> : LLAlignedMemory4096<T>, LLMetalDrawable, LLMetalBufferAllocatable
+public protocol LLMetalShapeVerticeProtocl
 {
+    associatedtype VerticeType
+}
+
+// Metal形状メモリ基本クラス
+public class LLMetalShape<T> 
+: LLAlignedMemory4096<T>, LLMetalBufferAllocatable, LLMetalShapeVerticeProtocl
+{
+    public typealias VerticeType = T
+    
     fileprivate var _buffer:LLMetalBufferShapeProtocol?
     fileprivate var _buffer_type:LLMetalBufferType
-    public var drawFunc:((MTLRenderCommandEncoder, Int) -> Void)?
 
     public required init( count:Int = 0, bufferType:LLMetalBufferType = .shared ) {
         _buffer_type = bufferType
-        super.init( type:T.self, count: count )
+        super.init( count: count )
         #if targetEnvironment(simulator)
         _buffer_type = .alloc
-        _buffer = LLMetalAllocatedBuffer( vertice: self )
+        _buffer = LLMetalAllocatedBuffer( amemory: self )
         #else
         _buffer = _buffer_type == .alloc ? 
-            LLMetalAllocatedBuffer( vertice: self ) : 
-            LLMetalSharedBuffer( vertice: self )
+            LLMetalAllocatedBuffer( amemory:self ) : LLMetalSharedBuffer( amemory:self )
         #endif
     }
     
     public var metalBuffer:MTLBuffer? {
-        _buffer?.update( vertice: self )
+        _buffer?.update( memory:self )
         return _buffer?.metalBuffer
     }
     
@@ -42,9 +48,22 @@ public class LLMetalShape<T> : LLAlignedMemory4096<T>, LLMetalDrawable, LLMetalB
         return UnsafeMutablePointer<T>( OpaquePointer( self.pointer ) )
     }
     
-    public func draw( with encoder:MTLRenderCommandEncoder, index idx:Int ) {
-        guard let metal_buffer = self.metalBuffer else { return }
-        encoder.setVertexBuffer( metal_buffer, index: idx )
-        drawFunc?( encoder, idx )
+    public var vertice:UnsafeMutablePointer<VerticeType> {
+        return UnsafeMutablePointer<VerticeType>( OpaquePointer( self.pointer! ) )
     }
+}
+
+public class LLMetalShapePainter<TShape>
+{
+    public var drawFunc:((MTLRenderCommandEncoder, LLMetalShape<TShape>) -> Void)?
+
+    public init() { }
+    
+    public func draw( with encoder:MTLRenderCommandEncoder, index idx:Int,
+                      shape:LLMetalShape<TShape> ) 
+    {
+        guard let metal_buffer = shape.metalBuffer else { return }
+        encoder.setVertexBuffer( metal_buffer, index: idx )
+        drawFunc?( encoder, shape )
+    }    
 }

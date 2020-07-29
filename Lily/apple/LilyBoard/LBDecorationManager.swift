@@ -30,7 +30,16 @@ open class LBDecorationManager
         decorations.removeValue(forKey: label )
     }
     
-    public func drawAll( encoder:MTLRenderCommandEncoder, size:LLSize ) {
+    public func compute( encoder:MTLComputeCommandEncoder ) {
+        for (_, deco) in decorations {
+            encoder.use( deco.compute_pipeline ) {
+                // デコレーションのコンピュート処理をながす
+                deco.compute( $0 )
+            }
+        }
+    }
+    
+    public func render( encoder:MTLRenderCommandEncoder, size:LLSize ) {
         // プロジェクション行列を画面のピクセルサイズ変換に指定
         let sz = CGSize( size.width, size.height )
         
@@ -43,11 +52,11 @@ open class LBDecorationManager
         
         for (_, deco) in sorted_decorations {
             // 描画
-            encoder.use( deco.pipeline ) {
+            encoder.use( deco.render_pipeline ) {
                 // 共通のプロジェクション行列
                 $0.setVertexBytes( &proj_matrix, length: 64, index: 0 )
-                // デコレーションのドローを行う
-                deco.draw( $0 )
+                // デコレーションの処理を流す
+                deco.render( $0 )
             }
         }
     }

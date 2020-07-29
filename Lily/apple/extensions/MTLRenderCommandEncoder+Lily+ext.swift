@@ -36,3 +36,15 @@ public extension MTLRenderCommandEncoder
         self.setDepthStencilState( depth_stencil_state )
     }
 }
+
+public extension MTLRenderCommandEncoder
+{
+    func draw<T>( shape:LLMetalShape<T>, index idx:Int = 0, painter:LLMetalShapePainter<T> ) {
+        painter.draw( with:self, index:idx, shape:shape )
+    }
+    
+    // TODO: Meshにdrawを持たせたくない
+    func draw( mesh:LLMetalMesh, index idx:Int = 0 ) {
+        mesh.draw( with:self, index:idx )
+    }
+}

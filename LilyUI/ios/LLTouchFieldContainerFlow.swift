@@ -27,7 +27,7 @@ public struct LLTouchFieldContainerFlow<TView:AnyObject>
         label:String = UUID().uuidString,
         with caller:TCaller,
         join phenomena:TPhenomena,
-        field f:@escaping (LLDiscussionField<TCaller, TView, LLTouchArg, TPhenomena>.Object,
+        field f:@escaping (LLMediaField<TCaller, TView, LLTouchArg, TPhenomena>.Object,
         TPhenomena)->Void )
     -> LLFlow<TView>
     {
@@ -39,7 +39,7 @@ public struct LLTouchFieldContainerFlow<TView:AnyObject>
     public func add<TCaller:AnyObject>( 
         label:String = UUID().uuidString,
         with caller:TCaller,
-        field f:@escaping (LLDiscussionField<TCaller, TView, LLTouchArg, LLEmptyPhenomena>.Object,
+        field f:@escaping (LLMediaField<TCaller, TView, LLTouchArg, LLEmptyPhenomena>.Object,
         LLEmptyPhenomena)->Void )
     -> LLFlow<TView>
     {

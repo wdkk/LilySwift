@@ -24,28 +24,38 @@ public struct LBActorVertex
     var tex_uv = LLFloatv2() // 0.0 ~ 1.0 テクスチャのuv座標
 }
 
-public struct LBActorParam : LLMetalBufferAllocatable
+public struct LBActorParam
 {
     //-- メモリアラインメント範囲START --//
     // 公開パラメータ
-    public var matrix:LLMatrix4x4
-    public var atlasUV:LLFloatv4
-    public var color:LLFloatv4
-    public var deltaColor:LLFloatv4
-    public var position:LLFloatv2
-    public var deltaPosition:LLFloatv2
-    public var scale:LLFloatv2
-    public var deltaScale:LLFloatv2
-    public var angle:LLFloat
-    public var deltaAngle:LLFloat
+    public var matrix:LLMatrix4x4 = .identity
+    public var atlasUV:LLFloatv4 = LLFloatv4( 0.0, 0.0, 1.0, 1.0 )
+    public var color:LLFloatv4 = LLColor.black.floatv4
+    public var deltaColor:LLFloatv4 = .zero
+    public var position:LLFloatv2 = .zero
+    public var deltaPosition:LLFloatv2 = .zero
+    public var scale:LLFloatv2 = LLFloatv2( 100.0, 100.0 )
+    public var deltaScale:LLFloatv2 = .zero
+    public var angle:LLFloat = 0.0
+    public var deltaAngle:LLFloat = 0.0
     // 内部パラメータ
-    fileprivate var indices:LLFloatv2    // zindex & arrayindex
-    fileprivate var lifes:LLFloatv2      // life & deltaLife
-    fileprivate var states:LLFloatv2     // enabled & trash
+    fileprivate var indices:LLFloatv2 = LLFloatv2(
+        0.0,    // zIndex
+        0.0     // arrayIndex
+    )
+    fileprivate var lifes:LLFloatv2 = LLFloatv2(
+        1.0,    // life
+        0.0     // deltaLife
+    )
+    fileprivate var states:LLFloatv2 = LLFloatv2(
+        1.0,                           // enabled = true
+        LBActorState.active.rawValue   // state = .active      
+    )
     //-- メモリアラインメント範囲END --//
     
     // アクセサ
-    public var zindex:LLFloat { get { indices.x } set { indices.x = newValue } }
+    // TODO: zindexは廃止
+    //public var zindex:LLFloat { get { indices.x } set { indices.x = newValue } } 
     public var arrayIndex:Int { get { indices.y.i! } set { indices.y = newValue.f } }
 
     public var life:LLFloat { get { lifes.x } set { lifes.x = newValue } }
@@ -53,67 +63,4 @@ public struct LBActorParam : LLMetalBufferAllocatable
 
     public var enabled:Bool { get { states.x > 0.0 } set { states.x = newValue ? 1.0 : 0.0 } }
     public var state:LBActorState { get { LBActorState( rawValue: states.y )! } set { states.y = newValue.rawValue } }
-    
-    public init() {
-        matrix = .identity
-        
-        atlasUV = LLFloatv4( 0.0, 0.0, 1.0, 1.0 )
-        
-        color = LLColor.black.floatv4
-        
-        deltaColor = .zero
-        
-        position = LLFloatv2(
-            0.0,
-            0.0 
-        )
-        
-        deltaPosition = .zero
-        
-        scale = LLFloatv2(
-            100.0,
-            100.0
-        )
-        
-        deltaScale = .zero
-        
-        angle = 0.0
-        
-        deltaAngle = 0.0
-        
-        indices = LLFloatv2(
-            0.0,    // zIndex
-            0.0     // arrayIndex
-        )
-        states = LLFloatv2(
-            1.0,                      // enabled = true
-            LBActorState.active.rawValue   // state = .active      
-        )
-        lifes = LLFloatv2(
-            1.0,    // life = 1.0
-            0.0     // deltaLife = 0.0
-        )
-    }
-}
-
-// MARK: -
-public extension LBActorParam
-{    
-    @discardableResult
-    mutating func deltaPosition( _ p:LLPointFloat ) -> Self {
-        deltaPosition = LLFloatv2( p.x, p.y )
-        return self
-    }
-
-    @discardableResult
-    mutating func deltaPosition( dx:LLFloat, dy:LLFloat ) -> Self {
-        deltaPosition = LLFloatv2( dx, dy )
-        return self
-    }
-    
-    @discardableResult
-    mutating func deltaPosition( dx:LLFloatConvertable, dy:LLFloatConvertable ) -> Self {
-        deltaPosition = LLFloatv2( dx.f, dy.f )
-        return self
-    }
 }
