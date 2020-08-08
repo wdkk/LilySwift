@@ -25,17 +25,17 @@ public final class LPImpIOCraft : LPCraft, LPCraftCustomizable
         super.init()
         
         // デフォルトのフィールドを用意
-        self.fireField( with:self ) { obj in 
-            guard let in_img:LLImage = obj.me.impio?.inImage,
-                  let out_img:LLImage = obj.me.impio?.outImage,
+        self.fireField( with:self ) { caller, me, args in 
+            guard let in_img:LLImage = me.impio?.inImage,
+                  let out_img:LLImage = me.impio?.outImage,
                   let in_memory:LLBytePtr = in_img.memory,
                   let out_memory:LLBytePtr = out_img.memory,
-                  var flex:LPFlexibleFloat16 = obj.me.impio?.flex
+                  var flex:LPFlexibleFloat16 = me.impio?.flex
             else {
                 return
             }
            
-            let encoder:MTLComputeCommandEncoder = obj.args
+            let encoder:MTLComputeCommandEncoder = args
             
             var size:LLSizev2 = LLSizev2( in_img.width.i32!, in_img.height.i32! )
             
@@ -54,14 +54,14 @@ public final class LPImpIOCraft : LPCraft, LPCraftCustomizable
     }
     
     @discardableResult
-    public func fireField<TCaller>( with caller:TCaller, 
-        _ f:@escaping (LLPhysicalField<TCaller, Me, MTLComputeCommandEncoder>.Object)->Void )
+    public func fireField<TCaller:AnyObject>( with caller:TCaller, 
+        _ f:@escaping (TCaller, Me, MTLComputeCommandEncoder)->Void )
     -> Self
     {
-        self._fire_f = LLPhysicalField( by:caller,
-                                    target:self,
-                                    argType:MTLComputeCommandEncoder.self, 
-                                    field:f )
+        self._fire_f = LLTalkingField( by:caller,
+                                    me:self,
+                                    objType:MTLComputeCommandEncoder.self, 
+                                    action:f )
         return self
     }
 }

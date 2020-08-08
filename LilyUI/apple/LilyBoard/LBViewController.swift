@@ -45,55 +45,54 @@ open class LBViewController : LLViewController
         
         // MetalのViewを画面に追加
         #if os(iOS)
-        LLFlow( metalView )
-        .assemble.add( with:self )
-        { ( obj, phenomena ) in
-            LLFlow( obj.me )
+        metalView.chain
+        .setup.add( with:self )
+        { ( caller, me ) in
+            me.chain
             .backgroundColor( .grey )
         }  
         .design.add( with:self ) 
-        { ( obj, phenomena ) in
+        { ( caller, me ) in
             // セーフエリア画面いっぱいにサイズ指定
             CATransaction.stop {
-                LLFlow( obj.me )
-                .rect( obj.caller.safeArea )
+                me.chain
+                .rect( caller.safeArea )
             }
             // 画面のリサイズで呼び出す
-            obj.caller.designBoard()
+            caller.designBoard()
         }
         .touchesBegan.add( with:self )
-        { ( obj, phenomena ) in
-            obj.caller.recogizeTouches( obj.args.event )
+        { ( caller, me, args ) in
+            caller.recogizeTouches( args.event )
         }
         .touchesMoved.add( with:self )
-        { ( obj, phenomena ) in
-            obj.caller.recogizeTouches( obj.args.event )
+        { ( caller, me, args ) in
+            caller.recogizeTouches( args.event )
         }
         .touchesEnded.add( with:self )
-        { ( obj, phenomena ) in
-            obj.caller.recogizeTouches( obj.args.event )
+        { ( caller, me, args ) in
+            caller.recogizeTouches( args.event )
         }
         .touchesCancelled.add( with:self )
-        { ( obj, phenomena ) in
-            obj.caller.recogizeTouches( obj.args.event )
+        { ( caller, me, args ) in
+            caller.recogizeTouches( args.event )
         }
-        
         #elseif os(macOS)
-        LLFlow( metalView )
-        .assemble.add( with:self )
-        { ( obj, phenomena ) in
-            LLFlow( obj.me )
+        metalView.chain
+        .setup.add( with:self )
+        { ( caller, me ) in
+            me.chain
             .backgroundColor( .grey )
         }  
         .design.add( with:self ) 
-        { ( obj, phenomena ) in
+        { ( caller, me ) in
             // セーフエリア画面いっぱいにサイズ指定
             CATransaction.stop {
-                LLFlow( obj.me )
-                .rect( obj.caller.safeArea )
+                me.chain
+                .rect( caller.safeArea )
             }
             // 画面のリサイズで呼び出す
-            obj.caller.designBoard()
+            caller.designBoard()
         }
         // TODO: macOSのイベント対応
         #endif
@@ -139,7 +138,12 @@ open class LBViewController : LLViewController
             strongself.currentCommandBuffer = nil
         },
         post: { (commandBuffer) in
+            // LilyPlaygroundsではcompletedで待つ形にする(非同期の悪さを止める)
+            #if LILY_NOT_PG
             commandBuffer.waitUntilScheduled()
+            #else
+            commandBuffer.waitUntilCompleted()
+            #endif
         })
     }
     

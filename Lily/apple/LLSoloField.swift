@@ -10,21 +10,32 @@
 
 import Foundation
 
-public struct LLSoloField<TMe:AnyObject> : LLField
+public struct LLSoloField<TMe:AnyObject, TObj> : LLField
 {
-    public private(set) var field:((TMe)->Void)?
+    public private(set) var field:((TObj)->Void)?
     
-    public init( by me:TMe,
-                 field f:@escaping (TMe)->Void )
+    public init( me:TMe,
+                 objType:TObj.Type,
+                 action:@escaping (TMe, TObj)->Void )
     {
-        self.field = { [weak me] _ in
+        self.field = { [weak me] ( objs:TObj ) in
             guard let me = me else { return }
-            f( me )
+            action( me, objs )
+        }
+    }
+    
+    // ジェネリクス(TObj=Any)を指定して用いる
+    public init( me:TMe,
+                 action:@escaping (TMe)->Void )
+    {
+        self.field = { [weak me] ( objs:TObj ) in
+            guard let me = me else { return }
+            action( me )
         }
     }
     
     public func appear( _ obj:Any? = nil ) {
-        guard let me = obj as? TMe else { return }
-        self.field?( me )
+        guard let tobj = obj as? TObj else { return }
+        self.field?( tobj )
     }
 }

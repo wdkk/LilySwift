@@ -10,17 +10,12 @@
 
 import Foundation
 
-public class LLEmptyObject 
+public class LLEmpty 
 {
-   static public let none = LLEmptyObject()
-}
-
-public class LLEmptyPhenomena 
-{
-    static public let none = LLEmptyPhenomena()
+   static public let none = LLEmpty()
 }
 
 public protocol LLField
 {
-    func appear( _ obj:Any? )
+    func appear( _ objs:Any? )
 }

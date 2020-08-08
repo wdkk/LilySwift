@@ -8,10 +8,14 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-public struct LLFlow<TObj:AnyObject>
+import Foundation
+
+public struct LLFieldMapChain<TObj:LLView, TFieldMap:LLFieldMap>
 {
     public var obj:TObj
-    public init( _ o:TObj ) { obj = o }
-    
-    public func commit() -> TObj { return obj }
+    public var fmap:TFieldMap
+    init( _ o:TObj, _ fm:TFieldMap ) {
+        obj = o
+        fmap = fm
+    }
 }

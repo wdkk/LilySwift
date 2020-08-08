@@ -8,12 +8,12 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if os(macOS)
+#if os(iOS)
 
-import AppKit
+import UIKit
 
-/// 基本プロパティアクセサ系
-public extension LLFlow where TObj:LLViewBase
+/// チェインアクセサ
+public extension LLChain where TObj:LLView
 {
     var bounds:CGRect { obj.bounds }
     
@@ -76,24 +76,48 @@ public extension LLFlow where TObj:LLViewBase
     
     @discardableResult
     func backgroundColor( _ c:LLColor ) -> Self {
-        obj.backgroundColor = c.cgColor
+        obj.backgroundColor = c.uiColor
         return self
     }
-}
-
-/// Field Container系経由関数
-public extension LLFlow where TObj:LLViewBase 
-{
-    var assemble:LLViewFieldContainerFlow<TObj> {
-        return LLViewFieldContainerFlow( obj.assemble, self ) 
+    
+    @discardableResult
+    func addSubview<TView:UIView>( _ view:TView ) -> Self {
+        obj.addSubview( view )
+        return self
     }
     
-    var design:LLViewFieldContainerFlow<TObj> {
-        return LLViewFieldContainerFlow( obj.design, self ) 
+    @discardableResult
+    func addSubview<TView:UIView>( _ chainview:LLChain<TView> ) -> Self {
+        obj.addSubview( chainview )
+        return self
     }
 
-    var disassemble:LLViewFieldContainerFlow<TObj> {
-        return LLViewFieldContainerFlow( obj.disassemble, self ) 
+    var setup:LLFieldMapChain<TObj, LLViewFieldMap> {
+        return LLFieldMapChain( obj, obj.setupField )
+    }
+    
+    var design:LLFieldMapChain<TObj, LLViewFieldMap> {
+        return LLFieldMapChain( obj, obj.designField )
+    }
+
+    var teardown:LLFieldMapChain<TObj, LLViewFieldMap> {
+        return LLFieldMapChain( obj, obj.teardownField )
+    }
+    
+    var touchesBegan:LLFieldMapChain<TObj, LLTouchFieldMap> {
+        return LLFieldMapChain( obj, obj.touchesBeganField ) 
+    }
+    
+    var touchesMoved:LLFieldMapChain<TObj, LLTouchFieldMap> {
+        return LLFieldMapChain( obj, obj.touchesMovedField ) 
+    }
+
+    var touchesEnded:LLFieldMapChain<TObj, LLTouchFieldMap> {
+        return LLFieldMapChain( obj, obj.touchesEndedField ) 
+    }
+    
+    var touchesCancelled:LLFieldMapChain<TObj, LLTouchFieldMap> {
+        return LLFieldMapChain( obj, obj.touchesCancelledField ) 
     }
 }
 

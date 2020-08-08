@@ -33,9 +33,9 @@ public struct PGActorInterval
 {
     var sec:Double = 1.0
     var prev:Double = 0.0
-    var field:LLSoloField<LBActor>
+    var field:LLSoloField<LBActor, Any>
     
-    public init( sec s_:Double, prev p_:Double, field f_:LLSoloField<LBActor> ) {
+    public init( sec s_:Double, prev p_:Double, field f_:LLSoloField<LBActor, Any> ) {
         sec = s_
         prev = p_
         field = f_
@@ -44,9 +44,9 @@ public struct PGActorInterval
 
 public protocol PGActor : LBActor
 {
-    var iterateField:LLSoloField<LBActor>? { get set }
+    var iterateField:LLSoloField<LBActor, Any>? { get set }
     var intervalFields:[String:PGActorInterval] { get set }
-    var completionField:LLSoloField<LBActor>? { get set }
+    var completionField:LLSoloField<LBActor, Any>? { get set }
 
     @discardableResult
     func iterate( _ f:@escaping ( LBActor )->Void ) -> Self
@@ -68,14 +68,13 @@ public protocol PGActor : LBActor
 
 open class PGPanelBase : LBPanel, PGActor
 {
-
-    public var iterateField:LLSoloField<LBActor>?
+    public var iterateField:LLSoloField<LBActor, Any>?
     public var intervalFields = [String:PGActorInterval]()
-    public var completionField:LLSoloField<LBActor>?
+    public var completionField:LLSoloField<LBActor, Any>?
    
     @discardableResult
     open func iterate( _ f:@escaping ( LBActor )->Void ) -> Self {
-        self.iterateField = LLSoloField(by: self, field: f )
+        self.iterateField = LLSoloField( me:self, action:f )
         return self
     }
     
@@ -89,7 +88,7 @@ open class PGPanelBase : LBPanel, PGActor
                         f:@escaping ( LBActor )->Void ) -> Self {
         self.intervalFields[key] = PGActorInterval( sec:sec,
                                                     prev:PGActorTimer.shared.nowTime,
-                                                    field:LLSoloField(by: self, field: f ) )
+                                                    field:LLSoloField( me:self, action:f ) )
         return self
     }
     
@@ -112,7 +111,7 @@ open class PGPanelBase : LBPanel, PGActor
     
     @discardableResult
     open func completion( _ f:@escaping ( LBActor )->Void ) -> Self {
-        self.completionField = LLSoloField(by: self, field: f )
+        self.completionField = LLSoloField( me:self, action:f )
         return self
     }
     
@@ -132,13 +131,13 @@ open class PGPanelBase : LBPanel, PGActor
 
 open class PGTriangleBase : LBTriangle, PGActor
 {    
-    public var iterateField:LLSoloField<LBActor>?
+    public var iterateField:LLSoloField<LBActor, Any>?
     public var intervalFields = [String:PGActorInterval]()
-    public var completionField:LLSoloField<LBActor>?
+    public var completionField:LLSoloField<LBActor, Any>?
     
     @discardableResult
     open func iterate( _ f:@escaping ( LBActor )->Void ) -> Self {
-        self.iterateField = LLSoloField(by: self, field: f )
+        self.iterateField = LLSoloField( me:self, action:f )
         return self
     }
     
@@ -152,7 +151,7 @@ open class PGTriangleBase : LBTriangle, PGActor
                         f:@escaping ( LBActor )->Void ) -> Self {
         self.intervalFields[key] = PGActorInterval( sec:sec,
                                                     prev:PGActorTimer.shared.nowTime,
-                                                    field:LLSoloField(by: self, field: f ) )
+                                                    field:LLSoloField( me:self, action:f ) )
         return self
     }
     
@@ -175,7 +174,7 @@ open class PGTriangleBase : LBTriangle, PGActor
     
     @discardableResult
     open func completion( _ f:@escaping ( LBActor )->Void ) -> Self {
-        self.completionField = LLSoloField(by: self, field: f )
+        self.completionField = LLSoloField( me:self, action:f )
         return self
     }
     

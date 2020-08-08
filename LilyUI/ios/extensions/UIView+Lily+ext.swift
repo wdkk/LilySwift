@@ -53,6 +53,10 @@ extension UIView : LLUIRectControllable, LLUIPixelControllable
         }
         self.layer.sublayers = nil
     }
+    
+    public func addSubview<TView:UIView>( _ chainview:LLChain<TView> ) {
+        self.addSubview( chainview.unchain )
+    }
 }
 
 #endif

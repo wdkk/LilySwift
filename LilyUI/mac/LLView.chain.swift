@@ -8,13 +8,13 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if os(iOS)
+#if os(macOS)
 
-import UIKit
+import AppKit
 
-/// 基本プロパティアクセサ系
-public extension LLFlow where TObj:LLViewBase
-{
+/// アクセサ
+public extension LLChain where TObj:LLView
+{    
     var bounds:CGRect { obj.bounds }
     
     @discardableResult
@@ -76,40 +76,20 @@ public extension LLFlow where TObj:LLViewBase
     
     @discardableResult
     func backgroundColor( _ c:LLColor ) -> Self {
-        obj.backgroundColor = c.uiColor
+        obj.backgroundColor = c.cgColor
         return self
     }
-}
 
-/// Field Container系経由関数
-public extension LLFlow where TObj:LLViewBase 
-{
-    var assemble:LLViewFieldContainerFlow<TObj> {
-        return LLViewFieldContainerFlow( obj.assemble, self ) 
+    var setup:LLFieldMapChain<TObj, LLViewFieldMap> {
+        return LLFieldMapChain( obj, obj.setupField )
     }
     
-    var design:LLViewFieldContainerFlow<TObj> {
-        return LLViewFieldContainerFlow( obj.design, self ) 
+    var design:LLFieldMapChain<TObj, LLViewFieldMap> {
+        return LLFieldMapChain( obj, obj.designField )
     }
 
-    var disassemble:LLViewFieldContainerFlow<TObj> {
-        return LLViewFieldContainerFlow( obj.disassemble, self ) 
-    }
-    
-    var touchesBegan:LLTouchFieldContainerFlow<TObj> {
-        return LLTouchFieldContainerFlow( obj.touchesBegan, self ) 
-    }
-    
-    var touchesMoved:LLTouchFieldContainerFlow<TObj> {
-        return LLTouchFieldContainerFlow( obj.touchesMoved, self ) 
-    }
-
-    var touchesEnded:LLTouchFieldContainerFlow<TObj> {
-        return LLTouchFieldContainerFlow( obj.touchesEnded, self ) 
-    }
-    
-    var touchesCancelled:LLTouchFieldContainerFlow<TObj> {
-        return LLTouchFieldContainerFlow( obj.touchesCancelled, self ) 
+    var teardown:LLFieldMapChain<TObj, LLViewFieldMap> {
+        return LLFieldMapChain( obj, obj.teardownField )
     }
 }
 

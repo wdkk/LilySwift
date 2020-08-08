@@ -25,13 +25,13 @@ public final class LPAtlasIOCraft : LPCraft, LPCraftCustomizable
         super.init()
         
         // デフォルトのフィールドを用意
-        self.fireField( with:self ) { obj in 
+        self.fireField( with:self ) { caller, me, args in 
             // テクスチャがない場合スキップ
-            guard let in_atlas = obj.me.atlasio?.inAtlas,
-                  let in_parts = obj.me.atlasio?.inParts,
-                  let out_atlas = obj.me.atlasio?.outAtlas,
-                  let out_parts = obj.me.atlasio?.outParts,
-                  var flex = obj.me.atlasio?.flex
+            guard let in_atlas = me.atlasio?.inAtlas,
+                  let in_parts = me.atlasio?.inParts,
+                  let out_atlas = me.atlasio?.outAtlas,
+                  let out_parts = me.atlasio?.outParts,
+                  var flex = me.atlasio?.flex
             else {
                 return
             }
@@ -63,7 +63,7 @@ public final class LPAtlasIOCraft : LPCraft, LPCraftCustomizable
                 (out_parts.region!.bottom * out_atlas.height.d).i32! 
             )
             
-            let encoder = obj.args
+            let encoder = args
         
             encoder.setBytes( &flex, length: 64, index: 0 )
             encoder.setBytes( &in_atlas_size, length: 8, index: 1 )
@@ -85,14 +85,14 @@ public final class LPAtlasIOCraft : LPCraft, LPCraftCustomizable
     }
     
     @discardableResult
-    private func fireField<TCaller>( with caller:TCaller,  
-        _ f:@escaping (LLPhysicalField<TCaller, Me, MTLComputeCommandEncoder>.Object)->Void )
+    private func fireField<TCaller:AnyObject>( with caller:TCaller,  
+        _ f:@escaping (TCaller, Me, MTLComputeCommandEncoder)->Void )
     -> Self
     {
-        self._fire_f = LLPhysicalField( by:caller,
-                                    target:self,
-                                    argType:MTLComputeCommandEncoder.self, 
-                                    field:f )
+        self._fire_f = LLTalkingField( by:caller,
+                                    me:self,
+                                    objType:MTLComputeCommandEncoder.self, 
+                                    action:f )
         return self
     }
 }

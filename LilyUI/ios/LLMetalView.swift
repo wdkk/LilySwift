@@ -13,7 +13,7 @@
 import Metal
 import QuartzCore
 
-open class LLMetalView : LLViewBase
+open class LLMetalView : LLView
 {
     /// Metalレイヤー
     public private(set) lazy var metalLayer = CAMetalLayer()

@@ -16,7 +16,7 @@ import QuartzCore
 open class LLViewController : NSViewController
 {
     private var _already:Bool = false
-     public var already:Bool { _already }
+    public var already:Bool { _already }
     private var _dlink = LLDisplayLink()
     
     public init() {
@@ -36,6 +36,30 @@ open class LLViewController : NSViewController
     open func rebuild() {
         self.buildup()
         self.postBuildup()
+    }
+    
+    override open func loadView() {
+        self.view = LLViewControllerView( vc:self )
+    }
+    
+    override open func viewDidLoad() {
+        setup()
+        postSetup()
+    }
+
+    override open func viewWillLayout() {
+        if isViewLoaded {
+            _already = true
+            rebuild()
+        }
+    }
+    
+    override open func viewDidAppear() {
+        
+    }
+    
+    override open func viewWillDisappear() {
+        
     }
     
     // NSView用
@@ -78,35 +102,11 @@ open class LLViewController : NSViewController
         
         _already = false
     }
-        
-    override open func loadView() {
-        self.view = LLViewControllerView( vc:self )
-    }
-    
-    override open func viewDidLoad() {
-        setup()
-        postSetup()
-    }
-
-    override open func viewWillLayout() {
-        if isViewLoaded {
-            _already = true
-            rebuild()
-        }
-    }
-    
-    override open func viewDidAppear() {
-        
-    }
-    
-    override open func viewWillDisappear() {
-        
-    }
     
     open func viewUpdate() {
 
     }
-    
+        
     open func startUpdateLoop() {
         _dlink.loopFunc = self.viewUpdate
         _dlink.start()

@@ -25,16 +25,16 @@ public final class LPTexIOCraft : LPCraft, LPCraftCustomizable
         super.init()
         
         // デフォルトのフィールドを用意
-        self.fireField( with:self ) { obj in 
+        self.fireField( with:self ) { caller, me, args in 
             // テクスチャがない場合スキップ
-            guard let in_tex = obj.me.texio?.inTexture,
-                  let out_tex = obj.me.texio?.outTexture,
-                  var flex = obj.me.texio?.flex
+            guard let in_tex = me.texio?.inTexture,
+                  let out_tex = me.texio?.outTexture,
+                  var flex = me.texio?.flex
             else {
                 return
             }
 
-            let encoder = obj.args
+            let encoder = args
         
             encoder.setBytes( &flex, length: 64, index: 0 )
             encoder.setTexture( in_tex, index: 0 )
@@ -50,14 +50,14 @@ public final class LPTexIOCraft : LPCraft, LPCraftCustomizable
     }
     
     @discardableResult
-    public func fireField<TCaller>( with caller:TCaller, 
-        _ f:@escaping (LLPhysicalField<TCaller, Me, MTLComputeCommandEncoder>.Object)->Void )
+    public func fireField<TCaller:AnyObject>( with caller:TCaller, 
+        _ f:@escaping (TCaller, Me, MTLComputeCommandEncoder)->Void )
     -> Self
     {
-        self._fire_f = LLPhysicalField( by:caller,
-                                    target:self,
-                                    argType:MTLComputeCommandEncoder.self, 
-                                    field:f )
+        self._fire_f = LLTalkingField( by:caller,
+                                    me:self,
+                                    objType:MTLComputeCommandEncoder.self, 
+                                    action:f )
         return self
     }
 }

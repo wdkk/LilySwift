@@ -10,21 +10,17 @@
 
 import Foundation
 
-public class LLFieldContainer 
+public class LLFieldMap 
 {
     public var fields = [String:LLField]()
-    
-    public func append( label:String, field:LLField ) {
-        fields[label] = field
-    }
-    
-    public func remove( label:String ) {
-        fields.removeValue( forKey: label )
-    }
-    
-    public func appear( _ obj:Any? ) {
+        
+    public func appear( _ objs:Any? ) {
         for f in fields {
-            f.value.appear( obj )
+            f.value.appear( objs )
         }
+    }
+    
+    public func removeAll() {
+        fields.removeAll()
     }
 }

@@ -23,7 +23,6 @@ public extension UIWindowScene
     func windowMaxSizeForCatalyst( _ size:LLSize ) {
         #if targetEnvironment(macCatalyst)
         self.sizeRestrictions?.maximumSize = size.cgSize
-        
         #endif
     }
 }

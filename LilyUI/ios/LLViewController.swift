@@ -13,20 +13,19 @@
 import UIKit
 
 open class LLViewController : UIViewController
-{    
-    private var _already:Bool = false
-    public var already:Bool { _already }
+{        
+    public private(set) var already:Bool = false
     private var _display_link:CADisplayLink?
     
     /// コンストラクタ
     required public init?( coder aDecoder: NSCoder ) { super.init( coder:aDecoder ) }
     public init() { 
-        super.init( nibName: nil, bundle: nil ) 
+        super.init( nibName: nil, bundle: nil )
     }
-
+    
     /// デストラクタ
     deinit {
-        _already = false
+        already = false
         self.view = nil
     }
     
@@ -40,11 +39,11 @@ open class LLViewController : UIViewController
         super.viewDidLayoutSubviews()
         
         let setup_result = { () -> Bool in
-            if _already { return false }
+            if already { return false }
             self.setup()
             self.postSetup()
             CATransaction.stop { self.rebuild() }
-            _already = true
+            already = true
             return true
         }()
         
@@ -61,7 +60,7 @@ open class LLViewController : UIViewController
         
         if let prnt = self.parent { view.rect = prnt.view.bounds.llRect }
 
-        if _already { rebuild() }
+        if already { rebuild() }
     }
     
     open override func viewDidDisappear( _ animated: Bool ) {
@@ -84,15 +83,12 @@ open class LLViewController : UIViewController
     private func _viewUpdate( _ displayLink:CADisplayLink ) {
         viewUpdate()
     }
-    
-    open func viewUpdate() {
-    
-    }
-    
+        
     open func startUpdateLoop() {
         if _display_link != nil { return }
         _display_link = CADisplayLink( target: self, 
                                        selector: #selector( LLViewController._viewUpdate(_:) ) )
+        _display_link?.preferredFramesPerSecond = 60
         _display_link?.add( to: RunLoop.current, forMode: RunLoop.Mode.common )
     }
     
@@ -111,8 +107,8 @@ open class LLViewController : UIViewController
     }
     
     open func buildup() {
-        if let core = self.view as? LLView {
-            core.rebuild()
+        if let llview = self.view as? LLView {
+            llview.rebuild()
         }
     }
     
@@ -121,11 +117,15 @@ open class LLViewController : UIViewController
     }
     
     open func teardown() {
-        if let core = self.view as? LLView {
-            core.teardown()
+        if let llview = self.view as? LLView {
+            llview.teardown()
         }
         
-        _already = false
+        already = false
+    }
+    
+    open func viewUpdate() {
+    
     }
 }
 

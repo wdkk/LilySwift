@@ -62,24 +62,24 @@ open class PGViewController: PGBaseViewController
         super.setupBoard()
         
         // 親元のデザイン関数を削除
-        metalView.design.fields.removeAll()
+        metalView.designField.fields.removeAll()
         
         // 時間の初期化
         PGActorTimer.shared.start()
         
         // デザイン関数のみ再定義
-        LLFlow( metalView )
+        metalView.chain
         .design.add( with:self )
-        { ( obj, phenomena ) in
+        { (caller, me) in
             // 画面いっぱいにサイズ指定
             CATransaction.stop {
-                obj.me.rect = obj.caller.ourBounds.llRect
+                me.rect = caller.ourBounds.llRect
             }
             
-            obj.caller.removeAllShapes()
+            caller.removeAllShapes()
             
             // 画面のリサイズで呼び出す
-            obj.caller.designBoard()
+            caller.designBoard()
         }
     }
     

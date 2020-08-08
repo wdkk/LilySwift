@@ -24,15 +24,15 @@ public final class LBTriangleDecoration : LBDecoration<LBTriangleStorage>
         super.init( label: label )
         
         // デフォルトのコンピュータ
-        self.computeField( with:self ) { obj in
-            if obj.me.storage.isNoActive { return }
+        self.computeField( with:self ) { caller, me, args in
+            if me.storage.isNoActive { return }
             
-            let encoder = obj.args
+            let encoder = args
         
-            let threads_per_grid = MTLSizeMake( obj.me.storage.params.count, 1, 1 )
+            let threads_per_grid = MTLSizeMake( me.storage.params.count, 1, 1 )
             let threads_per_group = MTLSizeMake( 4, 1, 1 )
             encoder.setBuffer( 
-                LLMetalSharedBuffer( amemory:obj.me.storage.params ),
+                LLMetalSharedBuffer( amemory:me.storage.params ),
                 offset: 0,
                 index: 0 )
             encoder.dispatchThreads( threads_per_grid,
@@ -40,15 +40,15 @@ public final class LBTriangleDecoration : LBDecoration<LBTriangleStorage>
         }
         
         // デフォルトのレンダー
-        self.renderField( with:self ) { obj in 
-            if obj.me.storage.isNoActive { return }
+        self.renderField( with:self ) { caller, me, args in 
+            if me.storage.isNoActive { return }
             
-            let mtlbuf_params = LLMetalSharedBuffer( amemory:obj.me.storage.params )
+            let mtlbuf_params = LLMetalSharedBuffer( amemory:me.storage.params )
             
-            let encoder = obj.args
+            let encoder = args
             
             encoder.setVertexBuffer( mtlbuf_params, index:1 )
-            encoder.draw( shape:obj.me.storage.metalVertex, 
+            encoder.draw( shape:me.storage.metalVertex, 
                           index:2, 
                           painter: LLMetalTrianglePainter<LBActorVertex>() )
         }
@@ -62,49 +62,47 @@ public final class LBTriangleDecoration : LBDecoration<LBTriangleStorage>
     
     @discardableResult
     public func computeFieldMySelf( 
-        _ f:@escaping (LLPhysicalField<Me, Me, MTLComputeCommandEncoder>.Object)->Void )
+        _ f:@escaping (Me, Me, MTLComputeCommandEncoder)->Void )
     -> Self
     {
-        self._compute_f = LLPhysicalField( by:self,
-                                    target:self,
-                                    argType:MTLComputeCommandEncoder.self, 
-                                    field:f )
+        self._compute_f = LLTalkingField( by:self, me:self,
+                                    objType:MTLComputeCommandEncoder.self, 
+                                    action:f )
         return self
     }
     
     @discardableResult
-    public func computeField<TCaller>( with caller:TCaller, 
-        _ f:@escaping (LLPhysicalField<TCaller, Me, MTLComputeCommandEncoder>.Object)->Void )
+    public func computeField<TCaller:AnyObject>( with caller:TCaller, 
+        _ f:@escaping (TCaller, Me, MTLComputeCommandEncoder)->Void )
     -> Self
     {
-        self._compute_f = LLPhysicalField( by:caller,
-                                    target:self,
-                                    argType:MTLComputeCommandEncoder.self, 
-                                    field:f )
+        self._compute_f = LLTalkingField( by:caller, me:self,
+                                    objType:MTLComputeCommandEncoder.self, 
+                                    action:f )
         return self
     }
 
     @discardableResult
     public func renderFieldMySelf(
-        _ f:@escaping (LLPhysicalField<Me, Me, MTLRenderCommandEncoder>.Object)->Void )
+        _ f:@escaping (Me, Me, MTLRenderCommandEncoder)->Void )
     -> Self
     {
-        self._render_f = LLPhysicalField( by:self,
-                                target:self,
-                                argType:MTLRenderCommandEncoder.self, 
-                                field:f )
+        self._render_f = LLTalkingField( by:self,
+                                me:self,
+                                objType:MTLRenderCommandEncoder.self, 
+                                action:f )
         return self
     }
     
     @discardableResult
-    public func renderField<TCaller>( with caller:TCaller,
-        _ f:@escaping (LLPhysicalField<TCaller, Me, MTLRenderCommandEncoder>.Object)->Void )
+    public func renderField<TCaller:AnyObject>( with caller:TCaller,
+        _ f:@escaping (TCaller, Me, MTLRenderCommandEncoder)->Void )
     -> Self
     {
-        self._render_f = LLPhysicalField( by:caller,
-                                target:self,
-                                argType:MTLRenderCommandEncoder.self, 
-                                field:f )
+        self._render_f = LLTalkingField( by:caller,
+                                me:self,
+                                objType:MTLRenderCommandEncoder.self, 
+                                action:f )
         return self
     }
 }

@@ -12,13 +12,13 @@ import QuartzCore
 
 open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
 {
-    public lazy var assemble = LLViewFieldContainer()
-    public lazy var design = LLViewFieldContainer()
-    public lazy var disassemble = LLViewFieldContainer()
+    public lazy var setupField = LLViewFieldMap()
+    public lazy var designField = LLViewFieldMap()
+    public lazy var teardownField = LLViewFieldMap()
         
     private weak var _vc:LLViewController?
-    private weak var _capture_view:LLViewBase?
-    private weak var _dragging_view:LLViewBase?
+    private weak var _capture_view:LLView?
+    private weak var _dragging_view:LLView?
     
     open var enabled:Bool = true
     
@@ -63,7 +63,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     public func teardown() {
-        self.callDisassembleFunction()
+        self.callDissetupFunction()
          
         // NSView側
         for child in self.subviews {
@@ -93,7 +93,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     // 指定座標のLLViewのピック
-    open func pick( _ global_pt: LLPoint ) -> ( view:LLViewBase?, local_pt:LLPoint ) {
+    open func pick( _ global_pt: LLPoint ) -> ( view:LLView?, local_pt:LLPoint ) {
         let sublayers = layer?.sublayers
         if sublayers != nil {
             // 子レイヤーをzIndex順にソートし、かつ同じz深度のものは逆順にあたるようreversedをかける
@@ -102,8 +102,8 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
             }.reversed()
             
             for layer in sorted_sublayers {
-                if !(layer is LLViewBase) { continue }
-                let result = (layer as! LLViewBase).pick( global_pt )
+                guard let llview = layer as? LLView else { continue }
+                let result = llview.pick( global_pt )
                 if result.view != nil { return result }
             }
         }
@@ -111,7 +111,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     // キャプチャしているビューの変更関数(各イベント関数内で呼び出し)
-    open func changeCaptureView( target:LLViewBase?, global_pos: CGPoint, event: NSEvent ) {
+    open func changeCaptureView( target:LLView?, global_pos: CGPoint, event: NSEvent ) {
         if _capture_view == target { return }
         if _dragging_view != nil { return }
         
@@ -473,19 +473,16 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         
         LLTablet.updateState( event: event )
     }
-}
 
-extension LLViewControllerView : LLViewFieldCallable
-{
     public func callAssembleFunction() {
-        self.assemble.appear( LLEmptyObject.none )
+        self.setupField.appear( LLEmpty.none )
     }
     
     public func callDesignFunction() {
-        self.design.appear( LLEmptyObject.none )
+        self.designField.appear( LLEmpty.none )
     }
     
-    public func callDisassembleFunction() {
-        self.disassemble.appear( LLEmptyObject.none )
+    public func callDissetupFunction() {
+        self.teardownField.appear( LLEmpty.none )
     }
 }

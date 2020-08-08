@@ -43,19 +43,19 @@ public extension LBPanelDecoration
                 """ )
             }
         )
-        .renderFieldMySelf { obj in 
-            if obj.me.storage.isNoActive { return }
+        .renderFieldMySelf { caller, me, args in 
+            if me.storage.isNoActive { return }
     
-            let mtlbuf_params = LLMetalSharedBuffer( amemory:obj.me.storage.params )
+            let mtlbuf_params = LLMetalSharedBuffer( amemory:me.storage.params )
            
             let sampler = LLMetalSampler.default
             
-            let encoder = obj.args
+            let encoder = args
             
             encoder.setVertexBuffer( mtlbuf_params, index:1 )
             encoder.setFragmentSamplerState( sampler, index: 0 )
-            encoder.setFragmentTexture( obj.me.storage.atlas?.metalTexture, index: 0 )
-            encoder.draw( shape:obj.me.storage.metalVertex, index:2, painter: LLMetalQuadranglePainter<LBActorVertex>() )
+            encoder.setFragmentTexture( me.storage.atlas?.metalTexture, index: 0 )
+            encoder.draw( shape:me.storage.metalVertex, index:2, painter: LLMetalQuadranglePainter<LBActorVertex>() )
         }
     }
 }
