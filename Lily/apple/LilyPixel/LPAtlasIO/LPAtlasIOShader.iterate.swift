@@ -23,29 +23,7 @@ open class LPAtlasIOIterateShader : LPShader
     public override init( computeFuncName: String ) {
         iterator_func_name = computeFuncName + "_iterate"
         super.init( computeFuncName: computeFuncName )
-        
-        // 自由に使いたいパラメータ
-        self.addStruct {
-            $0
-            .name( "LPFlexibleFloat16" )
-            .add( "float", "a" )
-            .add( "float", "b" )
-            .add( "float", "c" )
-            .add( "float", "d" )
-            .add( "float", "e" )
-            .add( "float", "f" )
-            .add( "float", "g" )
-            .add( "float", "h" )
-            .add( "float", "i" )
-            .add( "float", "j" )
-            .add( "float", "k" )
-            .add( "float", "l" )
-            .add( "float", "m" )
-            .add( "float", "n" )
-            .add( "float", "o" )
-            .add( "float", "p" )
-        }
-        
+                
         // 初期のイテレーションコード
         self.iteratorCode( """
             return float4( 0, 0, 0, 1 );
@@ -88,7 +66,6 @@ open class LPAtlasIOIterateShader : LPShader
             $0
             .returnType( "float4" )
             .name( self.iterator_func_name )
-            .addArgument( "LPFlexibleFloat16", "flex" )
             .addArgument( "texture2d<float, access::sample>", "in_tex" )
             .addArgument( "uint2", "in_coord" )
             .addArgument( "uint4", "in_region" )
@@ -114,7 +91,6 @@ open class LPAtlasIOIterateShader : LPShader
 
     public override var defaultComputeFunction:LLMetalShadingCode.Function {
         super.defaultComputeFunction
-        .addArgument( "constant LPFlexibleFloat16", "&flex [[ buffer(0) ]]" )
         .addArgument( "constant int2", "&in_atlas_size [[ buffer(1) ]]" )
         .addArgument( "constant int2", "&out_atlas_size [[ buffer(2) ]]" )
         .addArgument( "constant int2", "&in_parts_size [[ buffer(3) ]]" )

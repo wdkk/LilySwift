@@ -23,13 +23,13 @@ class MyViewController : LBViewController
     let tex_smoke = LLMetalTexture( named: "supportFiles/images/smoke.png" )
 
     // 初期化準備関数
-    override func setupBoard() {
+    override func setup() {
         // 背景色の設定
         self.clearColor = .darkGrey
     }
     
     // 設計関数
-    override func designBoard() {
+    override func buildupBoard() {
         panels.removeAll()
         
         for _ in 0 ..< 200 {

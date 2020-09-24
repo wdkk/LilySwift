@@ -18,8 +18,8 @@ class MyViewController : LBViewController
     
     public var vc = PGViewController.shared
     
-    override func setupBoard() {
-        super.setupBoard()
+    override func setup() {
+        super.setup()
         vc.designHandler = design
         //vc.updateHandler = update
         vcm.transition(to: vc )

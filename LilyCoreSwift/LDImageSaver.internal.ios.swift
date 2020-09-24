@@ -24,7 +24,7 @@ public extension LCImageSaverInternal
             let type   = LCImageGetType( img_ )
             let row    = wid * 4
             let sz     = row * hgt
-            var buffer:UnsafeMutablePointer<LLUInt8> = UnsafeMutablePointer<LLUInt8>.allocate( capacity: sz )
+            let buffer = UnsafeMutablePointer<LLUInt8>.allocate( capacity: sz )
             defer { buffer.deallocate() }
                         
             if type == .rgba8 {

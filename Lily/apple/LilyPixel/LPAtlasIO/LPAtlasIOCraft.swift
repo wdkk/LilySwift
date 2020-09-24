@@ -30,8 +30,7 @@ public final class LPAtlasIOCraft : LPCraft, LPCraftCustomizable
             guard let in_atlas = me.atlasio?.inAtlas,
                   let in_parts = me.atlasio?.inParts,
                   let out_atlas = me.atlasio?.outAtlas,
-                  let out_parts = me.atlasio?.outParts,
-                  var flex = me.atlasio?.flex
+                  let out_parts = me.atlasio?.outParts
             else {
                 return
             }
@@ -65,7 +64,6 @@ public final class LPAtlasIOCraft : LPCraft, LPCraftCustomizable
             
             let encoder = args
         
-            encoder.setBytes( &flex, length: 64, index: 0 )
             encoder.setBytes( &in_atlas_size, length: 8, index: 1 )
             encoder.setBytes( &out_atlas_size, length: 8, index: 2 )
             encoder.setBytes( &in_parts_size, length: 8, index: 3 )

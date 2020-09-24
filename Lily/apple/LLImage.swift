@@ -66,6 +66,12 @@ open class LLImage
     
     open var lcImage:LCImageSmPtr { return self._imgc }
     
+    #if LILY_SWIFT
+    open var cgImage:CGImage? { return LCImage2CGImage( self.lcImage ) }
+    #else
+    open var cgImage:CGImage? { return LCImage2CGImage( self.lcImage )?.takeUnretainedValue() }    
+    #endif
+    
     #if os(iOS)
     open var uiImage:UIImage? { return LCImage2UIImage( self._imgc ) }
     #elseif os(macOS)
@@ -104,6 +110,8 @@ open class LLImage
         
     open func clone() -> LLImage { return LLImage( self._imgc ) }
   
+    open func copy( to dest:LLImage ) { LCImageCopy( self._imgc, dest._imgc ) }
+    
     open func resize( wid:Int, hgt:Int ) { LCImageResize( self._imgc, wid, hgt ) }
 
     open func resize( wid:Int, hgt:Int, type:LLImageType ) { LCImageResizeWithType( self._imgc, wid, hgt, type ) }
@@ -121,4 +129,52 @@ open class LLImage
         return LCImageSaveFileWithOption( self._imgc, path.lcStr, option )
     }
     #endif
+}
+
+public extension LLImage
+{
+    var pixelBuffer:CVPixelBuffer? {
+        let dst_row_bytes = self.width * 4
+        guard let dst_addr = malloc( self.height * dst_row_bytes ) else { return nil }
+                
+        var result_buffer:CVPixelBuffer?
+        
+        guard CVPixelBufferCreateWithBytes( 
+           kCFAllocatorDefault,
+           self.width, self.height,
+           kCVPixelFormatType_32BGRA,
+           dst_addr,
+           dst_row_bytes,
+           { 
+               free( UnsafeMutableRawPointer( mutating: $1 ) )
+           },
+           nil, nil,
+           &result_buffer )
+        == kCVReturnSuccess else {
+            free( dst_addr )
+            return nil
+        }
+        
+        var src = self
+        if self.type != .rgba8 {
+            src = self.clone()
+            src.convertType(to: .rgba8 )
+        }
+        
+        let src_mat = self.rgba8Matrix!
+        
+        let dst_ptr = UnsafeMutablePointer<LLUInt8>( OpaquePointer( dst_addr ) )
+        
+        for j in 0 ..< self.height {
+            for i in 0 ..< self.width {
+                let ptr = dst_ptr.advanced(by: i * 4 + j * dst_row_bytes )
+                (ptr + 2).pointee = src_mat[j][i].R
+                (ptr + 1).pointee = src_mat[j][i].G
+                (ptr).pointee = src_mat[j][i].B
+                (ptr + 3).pointee = src_mat[j][i].A
+            }
+        }
+        
+        return result_buffer
+    }
 }

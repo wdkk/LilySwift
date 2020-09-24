@@ -13,31 +13,22 @@ import Metal
 
 open class LPAtlasIO : LPActor
 {       
-    public var inAtlas:LBTextureAtlas?
-    public var outAtlas:LBTextureAtlas?
-    public var inParts:LBTextureAtlasParts?
-    public var outParts:LBTextureAtlasParts?
-    public var flex = LPFlexibleFloat16()
+    public var inAtlas:LLMetalTextureAtlas?
+    public var outAtlas:LLMetalTextureAtlas?
+    public var inParts:LLMetalTextureAtlasParts?
+    public var outParts:LLMetalTextureAtlasParts?
     
     @discardableResult
-    public func input( atlas:LBTextureAtlas?, key:String ) -> Self {
+    public func input( atlas:LLMetalTextureAtlas?, key:String ) -> Self {
         inAtlas = atlas
         inParts = inAtlas?.parts( key )
         return self
     }
     
     @discardableResult
-    public func output( atlas:LBTextureAtlas?, key:String ) -> Self {
+    public func output( atlas:LLMetalTextureAtlas?, key:String ) -> Self {
         outAtlas = atlas
         outParts = outAtlas?.parts( key )
-        return self
-    }
-    
-    @discardableResult
-    public func flex( _ f:(inout LPFlexibleFloat16)->Void ) -> Self {
-        var ff = self.flex
-        f( &ff ) 
-        self.flex = ff
         return self
     }
 }

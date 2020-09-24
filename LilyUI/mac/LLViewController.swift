@@ -34,6 +34,7 @@ open class LLViewController : NSViewController
     open var vcview:LLViewControllerView { return self.view as! LLViewControllerView }
 
     open func rebuild() {
+        self.preBuildup()
         self.buildup()
         self.postBuildup()
     }
@@ -43,6 +44,7 @@ open class LLViewController : NSViewController
     }
     
     override open func viewDidLoad() {
+        preSetup()
         setup()
         postSetup()
     }
@@ -77,12 +79,20 @@ open class LLViewController : NSViewController
     }
     
     // MARK: - Override Pretty Functions
+    open func preSetup() {
+        
+    }
+    
     open func setup() {
         
     }
     
     open func postSetup() {
 
+    }
+    
+    open func preBuildup() {
+        
     }
     
     open func buildup() {
@@ -103,16 +113,30 @@ open class LLViewController : NSViewController
         _already = false
     }
     
-    open func viewUpdate() {
+    private func viewUpdate() {
+        preUpdate()
+        update()
+        postUpdate()
+    }
+    
+    open func preUpdate() {
+
+    }
+    
+    open func update() {
+
+    }
+    
+    open func postUpdate() {
 
     }
         
-    open func startUpdateLoop() {
+    open func startUpdating() {
         _dlink.loopFunc = self.viewUpdate
         _dlink.start()
     }
     
-    open func endUpdateLoop() {
+    open func endUpdating() {
         _dlink.stop()
     }
 }

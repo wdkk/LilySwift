@@ -14,7 +14,7 @@ import Metal
 open class LBPanelStorage : LBActorStorage
 {
     public var metalVertex = LLMetalQuadrangles<LBActorVertex>()
-    public var atlas:LBTextureAtlas?    // .pictureのみで利用
+    public var atlas:LLMetalTextureAtlas?    // .pictureのみで利用
     public var texture:MTLTexture?      // .textureのみで利用
         
     // パネルデータを要求する

@@ -10,7 +10,7 @@
 
 import Foundation
 
-public class LLFieldMap 
+public class LLFieldMap
 {
     public var fields = [String:LLField]()
         

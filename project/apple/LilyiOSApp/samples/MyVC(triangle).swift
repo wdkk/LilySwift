@@ -20,13 +20,13 @@ class MyViewController : LBViewController
     lazy var deco_tri = LBTriangleDecoration.plane()
      
     // 初期化準備関数
-    override func setupBoard() {
+    override func setup() {
         // 背景色の設定
         self.clearColor = .lightGrey
     }
     
     // 設計関数
-    override func designBoard() {
+    override func buildupBoard() {
         // 三角形をデコレーションで作成
         let t = LBTriangle( decoration: deco_tri )
             .color( .red )

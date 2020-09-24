@@ -20,13 +20,13 @@ class MyViewController : LBViewController
     lazy var deco_rect = LBPanelDecoration.rectangle()
      
     // 初期化準備関数
-    override func setupBoard() {
+    override func setup() {
         // 背景色の設定
         clearColor = .lightGrey
     }
     
     // 設計関数
-    override func designBoard() {
+    override func buildupBoard() {
         // パネルを四角デコレーションで作成
         let p = LBPanel( decoration: deco_rect )
             .color( .blue )

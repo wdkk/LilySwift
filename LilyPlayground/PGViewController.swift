@@ -58,8 +58,8 @@ open class PGViewController: PGBaseViewController
     public var elapsedTime:Double { PGActorTimer.shared.elapsedTime }
     
     // 準備関数
-    override open func setupBoard() {
-        super.setupBoard()
+    override open func setup() {
+        super.setup()
         
         // 親元のデザイン関数を削除
         metalView.designField.fields.removeAll()
@@ -79,12 +79,12 @@ open class PGViewController: PGBaseViewController
             caller.removeAllShapes()
             
             // 画面のリサイズで呼び出す
-            caller.designBoard()
+            caller.updateBoard()
         }
     }
     
-    override open func designBoard() {
-        super.designBoard()
+    override open func buildup() {
+        super.buildup()
         designHandler?()
     }
     

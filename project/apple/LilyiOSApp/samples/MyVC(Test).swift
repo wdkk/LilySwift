@@ -89,7 +89,7 @@ class MyViewController : LBViewController
         """ )
     )
         
-    override func setupBoard() {
+    override func setup() {
         // 背景色の設定
         self.clearColor = .darkGrey
              
@@ -99,7 +99,7 @@ class MyViewController : LBViewController
     }
     
     // 設計関数
-    override func designBoard() {
+    override func buildupBoard() {
         panels.removeAll()
                 
         for _ in 0 ..< 100 {

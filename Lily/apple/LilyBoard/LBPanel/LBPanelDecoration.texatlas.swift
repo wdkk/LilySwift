@@ -14,7 +14,7 @@ import Metal
 public extension LBPanelDecoration
 {
     // アトラスによる複数画像の描画
-    static func texatlas( _ label:String = UUID().labelString, using atlas:LBTextureAtlas )
+    static func texatlas( _ label:String = UUID().labelString, using atlas:LLMetalTextureAtlas )
     -> LBPanelDecoration {
         // デコレーションのリクエストラベルを作る
         let lbl = "lbpanel_texatlas_\(label)"

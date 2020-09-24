@@ -18,7 +18,7 @@ import UIKit
 import AppKit
 #endif
 
-open class LBTextureTree
+open class LLMetalTextureTree
 {        
     public class ImagePosUnit
     {
@@ -134,7 +134,7 @@ open class LBTextureTree
     }
 }
 
-open class LBTextureAtlas
+open class LLMetalTextureAtlas
 {
     private var _dictionaries = [String:Any?]()
     private var _label_positions = [String:LLRegion]()
@@ -177,7 +177,7 @@ open class LBTextureAtlas
     
     @discardableResult
     public func commit() -> Self { 
-        typealias ImagePosUnit = LBTextureTree.ImagePosUnit
+        typealias ImagePosUnit = LLMetalTextureTree.ImagePosUnit
         
         var image_rects = [ImagePosUnit]()
         
@@ -237,7 +237,7 @@ open class LBTextureAtlas
             return self
         }
         
-        let tree = LBTextureTree()
+        let tree = LLMetalTextureTree()
         let all_size = tree.pack( imageUnits: image_rects )
         
         if all_size.width > 16384 || all_size.height > 16384 {
@@ -285,13 +285,14 @@ open class LBTextureAtlas
         return self
     }
     
-    public func parts( _ key:String ) -> LBTextureAtlasParts {
-        return LBTextureAtlasParts( metalTexture: self.metalTexture,
+    public func parts( _ key:String ) -> LLMetalTextureAtlasParts {
+        return LLMetalTextureAtlasParts( 
+                               metalTexture: self.metalTexture,
                                region: self._label_positions[key] )
     }
 }
 
-public struct LBTextureAtlasParts {
+public struct LLMetalTextureAtlasParts {
     var metalTexture:MTLTexture?
     var region:LLRegion?
 }

@@ -21,13 +21,13 @@ class MyViewController : LBViewController
         .blendType( .add )
          
     // 初期化準備関数
-    override func setupBoard() {
+    override func setup() {
         // 背景色の設定
         self.clearColor = .darkGrey
     }
     
     // 設計関数
-    override func designBoard() {
+    override func buildupBoard() {
         panels.removeAll()
         
         for _ in 0 ..< 100 {

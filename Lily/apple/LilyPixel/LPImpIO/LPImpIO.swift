@@ -15,8 +15,7 @@ open class LPImpIO : LPActor
 {       
     public var inImage:LLImage?
     public var outImage:LLImage?
-    public var flex:LPFlexibleFloat16 = LPFlexibleFloat16()
-    
+
     @discardableResult
     public func input( image:LLImage? ) -> Self {
         inImage = image
@@ -26,14 +25,6 @@ open class LPImpIO : LPActor
     @discardableResult
     public func output( image:LLImage? ) -> Self {
         outImage = image
-        return self
-    }
-
-    @discardableResult
-    public func flex( _ f:(inout LPFlexibleFloat16)->Void ) -> Self {
-        var ff:LPFlexibleFloat16 = self.flex
-        f( &ff ) 
-        self.flex = ff
         return self
     }
 }

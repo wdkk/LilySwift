@@ -14,7 +14,7 @@ import Metal
 public class LBTriangleStorage : LBActorStorage
 {
     public var metalVertex = LLMetalTriangles<LBActorVertex>()
-    public var atlas:LBTextureAtlas?    // .pictureのみで利用
+    public var atlas:LLMetalTextureAtlas?    // .pictureのみで利用
     public var texture:MTLTexture?      // .textureのみで利用
     
     // トライアングルデータを要求する

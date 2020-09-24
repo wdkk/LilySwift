@@ -55,7 +55,7 @@ public final class LBPanelDecoration : LBDecoration<LBPanelStorage>
     }
     
     @discardableResult
-    public func textureAtlas( _ atlas:LBTextureAtlas? ) -> Self {
+    public func textureAtlas( _ atlas:LLMetalTextureAtlas? ) -> Self {
         storage.atlas = atlas
         return self
     }

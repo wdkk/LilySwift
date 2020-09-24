@@ -54,8 +54,6 @@ public struct LBActorParam
     //-- メモリアラインメント範囲END --//
     
     // アクセサ
-    // TODO: zindexは廃止
-    //public var zindex:LLFloat { get { indices.x } set { indices.x = newValue } } 
     public var arrayIndex:Int { get { indices.y.i! } set { indices.y = newValue.f } }
 
     public var life:LLFloat { get { lifes.x } set { lifes.x = newValue } }

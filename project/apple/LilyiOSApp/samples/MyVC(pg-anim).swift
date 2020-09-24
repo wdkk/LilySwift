@@ -16,8 +16,8 @@ class MyViewController : LBViewController
     var sceneDelegate:SceneDelegate { return self.view.window!.windowScene!.delegate as! SceneDelegate }
     var vcm:LLViewControllerManager { return sceneDelegate.vcm }
     public var vc = PGViewController.shared
-    override func setupBoard() {
-        super.setupBoard()
+    override func setup() {
+        super.setup()
         vc.designHandler = design
         vc.updateHandler = update
         vcm.transition(to: vc )

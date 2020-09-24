@@ -40,6 +40,7 @@ open class LLViewController : UIViewController
         
         let setup_result = { () -> Bool in
             if already { return false }
+            self.preSetup()
             self.setup()
             self.postSetup()
             CATransaction.stop { self.rebuild() }
@@ -64,7 +65,7 @@ open class LLViewController : UIViewController
     }
     
     open override func viewDidDisappear( _ animated: Bool ) {
-        self.endUpdateLoop()
+        self.endUpdating()
         super.viewDidDisappear( animated )
         teardown()
     }
@@ -74,28 +75,35 @@ open class LLViewController : UIViewController
         guard let v = self.view else { return }
         if v.width == 0.0 || v.height == 0.0 { return }
             
+        self.preBuildup()
         self.buildup()
         self.postBuildup()
     }
 
     // MARK: - Display Linkでのポーリング処理
     @objc 
-    private func _viewUpdate( _ displayLink:CADisplayLink ) {
-        viewUpdate()
+    public func viewUpdate( _ displayLink:CADisplayLink ) {
+        preUpdate()
+        update()
+        postUpdate()
     }
         
-    open func startUpdateLoop() {
+    open func startUpdating() {
         if _display_link != nil { return }
         _display_link = CADisplayLink( target: self, 
-                                       selector: #selector( LLViewController._viewUpdate(_:) ) )
+                                       selector: #selector( LLViewController.viewUpdate(_:) ) )
         _display_link?.preferredFramesPerSecond = 60
         _display_link?.add( to: RunLoop.current, forMode: RunLoop.Mode.common )
     }
     
-    open func endUpdateLoop() {
+    open func endUpdating() {
         if _display_link == nil { return }
         _display_link?.remove( from: RunLoop.current, forMode: RunLoop.Mode.common )
         _display_link = nil
+    }
+    
+    open func preSetup() {
+    
     }
     
     open func setup() {
@@ -104,6 +112,10 @@ open class LLViewController : UIViewController
     
     open func postSetup() {
 
+    }
+    
+    open func preBuildup() {
+        
     }
     
     open func buildup() {
@@ -123,10 +135,20 @@ open class LLViewController : UIViewController
         
         already = false
     }
-    
-    open func viewUpdate() {
+
+    open func preUpdate() {
     
     }
+    
+    open func update() {
+        
+    }
+    
+    open func postUpdate() {
+
+    }
+    
+
 }
 
 #endif

@@ -184,6 +184,10 @@ public func LCImageResize( _ img_:LCImageSmPtr, _ wid_:Int, _ hgt_:Int ) {
     LCImageResizeWithType( img_, wid_, hgt_, LCImageGetType( img_ ) )
 }
 
+public func LCImageCopy( _ img_src_:LCImageSmPtr, _ img_dst_:LCImageSmPtr ) {
+    img_dst_.rawimg = img_src_.rawimg?.clone()
+}
+
 // resize image contained depth
 public func LCImageResizeWithType( _ img_:LCImageSmPtr, _ wid_:Int, _ hgt_:Int, _ type_:LLImageType ) {
     if type_ == .none { return }
@@ -361,7 +365,6 @@ public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> CGImage? {
     
     guard let nonnull_cg_context:CGContext = cg_context else { return nil } 
     let cg_img:CGImage? = nonnull_cg_context.makeImage()
-
     return cg_img
 }
 

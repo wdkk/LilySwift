@@ -15,7 +15,6 @@ open class LPTexIO : LPActor
 {       
     public var inTexture:MTLTexture?
     public var outTexture:MTLTexture?
-    public var flex = LPFlexibleFloat16()
 
     @discardableResult
     public func input( texture:MTLTexture? ) -> Self {
@@ -38,14 +37,6 @@ open class LPTexIO : LPActor
     @discardableResult
     public func output( texture:LLMetalTexture? ) -> Self {
         outTexture = texture?.metalTexture
-        return self
-    }
-    
-    @discardableResult
-    public func flex( _ f:(inout LPFlexibleFloat16)->Void ) -> Self {
-        var ff = self.flex
-        f( &ff ) 
-        self.flex = ff
         return self
     }
 }

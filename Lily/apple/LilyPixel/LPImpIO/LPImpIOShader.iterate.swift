@@ -24,28 +24,6 @@ open class LPImpIOIterateShader : LPShader
         iterator_func_name = computeFuncName + "_iterate"
         super.init( computeFuncName: computeFuncName )
     
-        // 自由に使いたいパラメータ
-        self.addStruct {
-            $0
-            .name( "LPFlexibleFloat16" )
-            .add( "float", "a" )
-            .add( "float", "b" )
-            .add( "float", "c" )
-            .add( "float", "d" )
-            .add( "float", "e" )
-            .add( "float", "f" )
-            .add( "float", "g" )
-            .add( "float", "h" )
-            .add( "float", "i" )
-            .add( "float", "j" )
-            .add( "float", "k" )
-            .add( "float", "l" )
-            .add( "float", "m" )
-            .add( "float", "n" )
-            .add( "float", "o" )
-            .add( "float", "p" )
-        }
-        
         self.iteratorCode( """
             return float4( 0, 0, 0, 1 );
         """ )
@@ -61,7 +39,6 @@ open class LPImpIOIterateShader : LPShader
             $0
             .returnType( "float4" )
             .name( self.iterator_func_name )
-            .addArgument( "LPFlexibleFloat16", "flex" )
             .addArgument( "device float4", "*pixels" )
             .addArgument( "uint", "u" )
             .addArgument( "uint", "v" )
@@ -75,7 +52,6 @@ open class LPImpIOIterateShader : LPShader
         
     public override var defaultComputeFunction:LLMetalShadingCode.Function {
         super.defaultComputeFunction
-        .addArgument( "constant LPFlexibleFloat16", "&flex [[ buffer(0) ]]" )
         .addArgument( "constant int2", "&size [[ buffer(1) ]]" )
         .addArgument( "device float4", "*in_img [[ buffer(2) ]]" )
         .addArgument( "device float4", "*out_img [[ buffer(3) ]]" )

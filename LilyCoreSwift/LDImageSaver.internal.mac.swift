@@ -66,7 +66,7 @@ public extension LCImageSaverInternal
             if sample_bit == 32 {
                 let row = wid * 4
                 let sz  = row * hgt
-                var buffer = UnsafeMutablePointer<LLUInt8>.allocate( capacity: sz )
+                let buffer = UnsafeMutablePointer<LLUInt8>.allocate( capacity: sz )
                 defer { buffer.deallocate() }
                 
                 if type == .rgba8 {
@@ -195,7 +195,7 @@ public extension LCImageSaverInternal
             else if sample_bit == 24 {
                 let row = wid * 3
                 let sz  = row * hgt
-                var buffer = UnsafeMutablePointer<LLUInt8>.allocate( capacity: sz )
+                let buffer = UnsafeMutablePointer<LLUInt8>.allocate( capacity: sz )
                 defer { buffer.deallocate() }
                 
                 if type == .rgba8 {

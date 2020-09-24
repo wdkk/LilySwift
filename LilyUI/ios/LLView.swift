@@ -22,7 +22,9 @@ open class LLView : UIView, LLUILifeEvent
     public lazy var touchesMovedField = LLTouchFieldMap()
     public lazy var touchesEndedField = LLTouchFieldMap()
     public lazy var touchesCancelledField = LLTouchFieldMap()
-     
+    
+    public lazy var drawLayerField = LLDrawFieldMap()
+         
     public required init?(coder: NSCoder) { super.init(coder:coder) }
     public init() {
         super.init( frame:.zero )
@@ -83,7 +85,7 @@ open class LLView : UIView, LLUILifeEvent
         super.touchesCancelled( touches, with:event )
         self.touchesCancelledField.appear( LLTouchArg( touches, event ) )
     }
-
+    
     public func callAssembleFunction() {
         self.setupField.appear( LLEmpty.none )
     }
@@ -94,6 +96,10 @@ open class LLView : UIView, LLUILifeEvent
     
     public func callDissetupFunction() {
         self.teardownField.appear( LLEmpty.none )
+    }
+        
+    public override func draw( _ rect: CGRect ) {
+        self.drawLayerField.appear( rect )
     }
 }
 

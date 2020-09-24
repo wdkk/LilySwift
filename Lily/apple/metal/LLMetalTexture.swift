@@ -71,6 +71,14 @@ public class LLMetalTexture
         }
     }
     
+    public init( mtlTexture:MTLTexture? ) {
+        guard let mtltex = mtlTexture else { 
+            self.metalTexture = nil
+            return
+        }
+        self.metalTexture = mtltex
+    }
+    
     public func setImage( _ img:LLImage ) {       
         allocate( img.width, img.height )
 

@@ -32,7 +32,7 @@ public extension LCImageSaverInternal
         if !LCFileWriterIsActive( fw ) { return false }
 
         // ヘッダの準備
-        var header = UnsafeMutablePointer<LLUInt8>.allocate(capacity: HEADER_SIZE )
+        let header = UnsafeMutablePointer<LLUInt8>.allocate(capacity: HEADER_SIZE )
         defer { header.deallocate() }
         
         // ヘッダ内容の設定
@@ -65,7 +65,7 @@ public extension LCImageSaverInternal
 
         // [32bit 無圧縮]
         if channel == 4 {
-            var tga_mem = UnsafeMutablePointer<LLUInt8>.allocate(capacity: wid * hgt * 4 )
+            let tga_mem = UnsafeMutablePointer<LLUInt8>.allocate(capacity: wid * hgt * 4 )
             defer { tga_mem.deallocate() }
             
             let tga_ptr = tga_mem
@@ -207,7 +207,7 @@ public extension LCImageSaverInternal
         }
         // [24bit 無圧縮]
         else if channel == 3 {
-            var tga_mem = UnsafeMutablePointer<LLUInt8>.allocate(capacity: wid * hgt * 3 )
+            let tga_mem = UnsafeMutablePointer<LLUInt8>.allocate(capacity: wid * hgt * 3 )
             defer { tga_mem.deallocate() }
             
             let tga_ptr = tga_mem

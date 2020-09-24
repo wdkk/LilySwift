@@ -62,7 +62,7 @@ public extension LCImageLoaderInternal
         if !LCFileReaderIsActive( fr ) { return LCImageZero() }
         
         // ヘッダの読み込み
-        var header:UnsafeMutablePointer<LLUInt8> = UnsafeMutablePointer<LLUInt8>.allocate( capacity: HEADER_SIZE )
+        let header:UnsafeMutablePointer<LLUInt8> = UnsafeMutablePointer<LLUInt8>.allocate( capacity: HEADER_SIZE )
         defer { header.deallocate() }
         LCFileReaderRead( fr, header, LLInt64(HEADER_SIZE) )
         
@@ -102,7 +102,7 @@ public extension LCImageLoaderInternal
         
         // 色深度のチェック
         if depth == 32 {
-            var tga_mem:UnsafeMutablePointer<LLUInt8> = UnsafeMutablePointer<LLUInt8>.allocate(capacity: wid * hgt * 4 )
+            let tga_mem:UnsafeMutablePointer<LLUInt8> = UnsafeMutablePointer<LLUInt8>.allocate(capacity: wid * hgt * 4 )
             defer { tga_mem.deallocate() }
             
             // 圧縮している場合
@@ -135,7 +135,7 @@ public extension LCImageLoaderInternal
             }
         }
         else if depth == 24 {
-            var tga_mem:UnsafeMutablePointer<LLUInt8> = UnsafeMutablePointer<LLUInt8>.allocate(capacity: wid * hgt * 3 )
+            let tga_mem:UnsafeMutablePointer<LLUInt8> = UnsafeMutablePointer<LLUInt8>.allocate(capacity: wid * hgt * 3 )
             defer { tga_mem.deallocate() }
             // 圧縮している場合
             if image_type == 10 {
@@ -168,13 +168,13 @@ public extension LCImageLoaderInternal
             // カラーマップの取得
             let map_length:Int = color_entry_length.i        // カラーマップの数
             let map_size:Int = color_entry_depth.i / 8    // バイト数に直す
-            var map_color:UnsafeMutablePointer<LLUInt8> = UnsafeMutablePointer<LLUInt8>.allocate(capacity: map_length * map_size )
+            let map_color:UnsafeMutablePointer<LLUInt8> = UnsafeMutablePointer<LLUInt8>.allocate(capacity: map_length * map_size )
             defer { map_color.deallocate() }
             
             LCFileReaderRead( fr, map_color, (map_length * map_size).i64 )
             
             // tgaメモリ配列の取得
-            var tga_mem:UnsafeMutablePointer<LLUInt8> = UnsafeMutablePointer<LLUInt8>.allocate(capacity: wid * hgt )
+            let tga_mem:UnsafeMutablePointer<LLUInt8> = UnsafeMutablePointer<LLUInt8>.allocate(capacity: wid * hgt )
             defer { tga_mem.deallocate() }
             
             LCFileReaderRead( fr, tga_mem, (wid * hgt).i64 )

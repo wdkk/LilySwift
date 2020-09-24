@@ -40,8 +40,8 @@ open class LBViewController : LLViewController
                                                 right:coordMaxX,
                                                 bottom:coordMinY ) }
 
-    final public override func setup() {
-        super.setup()
+   open override func preSetup() {
+        super.preSetup()
         
         // MetalのViewを画面に追加
         #if os(iOS)
@@ -59,7 +59,7 @@ open class LBViewController : LLViewController
                 .rect( caller.safeArea )
             }
             // 画面のリサイズで呼び出す
-            caller.designBoard()
+            caller.buildupBoard()
         }
         .touchesBegan.add( with:self )
         { ( caller, me, args ) in
@@ -92,26 +92,27 @@ open class LBViewController : LLViewController
                 .rect( caller.safeArea )
             }
             // 画面のリサイズで呼び出す
-            caller.designBoard()
+            caller.buildupBoard()
         }
         // TODO: macOSのイベント対応
         #endif
         
         self.view.addSubview( metalView )
-        
-        self.setupBoard()
-        
-        self.startUpdateLoop()
     }
-
+    
+    open override func postSetup() {
+        super.postSetup()
+        self.startUpdating()
+    }
+    
     // 繰り返し処理関数
-    final public override func viewUpdate() {
-        super.viewUpdate()
+    open override func preUpdate() {
+        super.preUpdate()
         if !self.already { return }
         
         // Metalの実行
         LLMetalManager.shared.execute(
-        main: { [weak self] (commandBuffer) in
+        main: { [weak self] commandBuffer in
             guard let strongself = self,
                   let drawable = strongself.metalView.drawable else { return }
             
@@ -145,6 +146,14 @@ open class LBViewController : LLViewController
             commandBuffer.waitUntilCompleted()
             #endif
         })
+    }
+    
+    open func buildupBoard() {
+    
+    }
+    
+    open func updateBoard() {
+        
     }
     
     func recogizeTouches( _ event:OSEvent? ) {
@@ -189,18 +198,6 @@ open class LBViewController : LLViewController
             idx += 1
             if idx >= self.touchManager.units.count { break }
         }
-    }
-
-    open func setupBoard() {
-        // overrideしてLilyBoardオブジェクトの初期化処理を書く
-    }   
-    
-    open func designBoard() {
-        // overrideしてLilyBoardオブジェクトの初期化処理を書く
-    }    
-
-    open func updateBoard() {
-        // overrideしてLilyBoardオブジェクトの更新処理を書く
     }
     
     // MetalでCraft類をコンピュートパイプラインを動作させる関数

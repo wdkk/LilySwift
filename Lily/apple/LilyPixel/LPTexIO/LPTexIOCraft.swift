@@ -28,15 +28,13 @@ public final class LPTexIOCraft : LPCraft, LPCraftCustomizable
         self.fireField( with:self ) { caller, me, args in 
             // テクスチャがない場合スキップ
             guard let in_tex = me.texio?.inTexture,
-                  let out_tex = me.texio?.outTexture,
-                  var flex = me.texio?.flex
+                  let out_tex = me.texio?.outTexture
             else {
                 return
             }
 
             let encoder = args
         
-            encoder.setBytes( &flex, length: 64, index: 0 )
             encoder.setTexture( in_tex, index: 0 )
             encoder.setTexture( out_tex, index: 1 )
             encoder.dispatch2d( dataSize: LLSizev2( in_tex.width.i32!, in_tex.height.i32! ))
