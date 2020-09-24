@@ -8,6 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_NOT_PG
 
 import Foundation
 
@@ -210,3 +211,5 @@ class __LCImageProcWhiteBalanceAutomatically<TType:BinaryInteger, TColor>
         }
     }
 }
+
+#endif

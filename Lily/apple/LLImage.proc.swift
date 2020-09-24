@@ -9,6 +9,7 @@
 //
 
 /// コメント未済
+#if LILY_NOT_PG
 
 #if os(iOS)
 import UIKit
@@ -98,3 +99,5 @@ open class LLImageProc
         return img_dst
     }
 }
+
+#endif
