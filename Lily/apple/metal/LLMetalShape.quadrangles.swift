@@ -30,7 +30,7 @@ public class LLMetalQuadranglePainter<T> : LLMetalShapePainter<LLQuad<T>>
 {
     public override init() {
         super.init()
-        drawFunc = { (encoder, shape) in
+        drawFunc = { encoder, shape in
             encoder.drawPrimitives( type: .triangleStrip, 
                                     vertexStart: 0, 
                                     vertexCount: 4, 

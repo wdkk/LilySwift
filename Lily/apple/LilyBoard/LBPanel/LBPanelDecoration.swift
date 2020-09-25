@@ -44,7 +44,7 @@ public final class LBPanelDecoration : LBDecoration<LBPanelStorage>
             encoder.setBuffer( mtlbuf, index: 0 )
 
             let threads_per_grid = MTLSizeMake( me.storage.params.count, 1, 1 )
-            let threads_per_group = MTLSizeMake( 16, 1, 1 )
+            let threads_per_group = MTLSizeMake( 4, 1, 1 )
             encoder.dispatchThreads( threads_per_grid, threadsPerThreadgroup: threads_per_group )
             #endif
         }

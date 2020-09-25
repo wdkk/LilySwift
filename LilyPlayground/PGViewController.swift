@@ -62,14 +62,14 @@ open class PGViewController: PGBaseViewController
         super.setup()
         
         // 親元のデザイン関数を削除
-        metalView.designField.fields.removeAll()
+        metalView.buildupField.fields.removeAll()
         
         // 時間の初期化
         PGActorTimer.shared.start()
         
         // デザイン関数のみ再定義
         metalView.chain
-        .design.add( with:self )
+        .buildup.add( with:self )
         { (caller, me) in
             // 画面いっぱいにサイズ指定
             CATransaction.stop {

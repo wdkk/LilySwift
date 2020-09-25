@@ -15,7 +15,7 @@ import UIKit
 open class LLView : UIView, LLUILifeEvent
 {
     public lazy var setupField = LLViewFieldMap()
-    public lazy var designField = LLViewFieldMap()
+    public lazy var buildupField = LLViewFieldMap()
     public lazy var teardownField = LLViewFieldMap()
     
     public lazy var touchesBeganField = LLTouchFieldMap()
@@ -100,7 +100,7 @@ open class LLView : UIView, LLUILifeEvent
     }
     
     public func callDesignFunction() {
-        self.designField.appear( LLEmpty.none )
+        self.buildupField.appear( LLEmpty.none )
     }
     
     public func callDissetupFunction() {

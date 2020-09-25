@@ -36,6 +36,6 @@ class MyViewController : LBViewController
 
     // 繰り返し処理関数
     override func loop() {
-    
+
     }
 }

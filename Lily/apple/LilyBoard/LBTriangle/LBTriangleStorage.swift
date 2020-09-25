@@ -30,19 +30,17 @@ public class LBTriangleStorage : LBActorStorage
 
         if let reuse_idx = reuse() {
             tp.arrayIndex = reuse_idx
-            // 再利用
             metalVertex.vertice[reuse_idx] = tri_v
             params.accessor![reuse_idx] = tp
             return reuse_idx
         }
         
-        let new_index:Int = metalVertex.count
-        tp.arrayIndex = new_index
+        tp.arrayIndex = metalVertex.count
         
         // 追加
         metalVertex.append( tri_v )
         params.append( tp )
         
-        return new_index
+        return tp.arrayIndex
     }
 }

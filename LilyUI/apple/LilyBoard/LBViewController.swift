@@ -51,7 +51,7 @@ open class LBViewController : LLViewController
             me.chain
             .backgroundColor( .grey )
         }  
-        .design.add( with:self ) 
+        .buildup.add( with:self ) 
         { ( caller, me ) in
             // セーフエリア画面いっぱいにサイズ指定
             CATransaction.stop {
@@ -84,7 +84,7 @@ open class LBViewController : LLViewController
             me.chain
             .backgroundColor( .grey )
         }  
-        .design.add( with:self ) 
+        .buildup.add( with:self ) 
         { ( caller, me ) in
             // セーフエリア画面いっぱいにサイズ指定
             CATransaction.stop {

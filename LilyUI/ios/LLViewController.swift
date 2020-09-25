@@ -38,30 +38,23 @@ open class LLViewController : UIViewController
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let setup_result = { () -> Bool in
-            if already { return false }
+        if let prnt = self.parent {
+            view.rect = prnt.view.bounds.llRect
+        }
+        
+        if !already {
             self.preSetup()
             self.setup()
             self.postSetup()
             CATransaction.stop { self.rebuild() }
             already = true
-            return true
-        }()
-        
-        if !setup_result && (_old_size.width != self.width || _old_size.height != self.height) {
+        }
+        else if (_old_size.width != self.width || _old_size.height != self.height) {
             _old_size = LLSize( self.width, self.height )
             rebuild()
         }
         
         self.view.layoutIfNeeded()
-    }
-    
-    open override func viewDidAppear( _ animated: Bool ) {
-        super.viewDidAppear( animated )
-        
-        if let prnt = self.parent { view.rect = prnt.view.bounds.llRect }
-
-        if already { rebuild() }
     }
     
     open override func viewDidDisappear( _ animated: Bool ) {
@@ -154,8 +147,6 @@ open class LLViewController : UIViewController
     open func postLoop() {
 
     }
-    
-
 }
 
 #endif

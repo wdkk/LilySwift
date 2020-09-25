@@ -23,15 +23,17 @@ class MyViewController : LBViewController
     override func setup() {
         // 背景色の設定
         self.clearColor = .lightGrey
-    }
-    
-    // 設計関数
-    override func buildup() {
+        
         // パネルを四角デコレーションで作成
         let p = LBPanel( decoration: deco_rect )
             .color( .blue )
         // パネルセットに追加
         panels.insert( p )
+    }
+    
+    // 設計関数
+    override func buildup() {
+
     }
 
     // 繰り返し処理関数

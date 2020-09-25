@@ -13,7 +13,7 @@ import QuartzCore
 open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
 {
     public lazy var setupField = LLViewFieldMap()
-    public lazy var designField = LLViewFieldMap()
+    public lazy var buildupField = LLViewFieldMap()
     public lazy var teardownField = LLViewFieldMap()
         
     private weak var _vc:LLViewController?
@@ -487,7 +487,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     public func callDesignFunction() {
-        self.designField.appear( LLEmpty.none )
+        self.buildupField.appear( LLEmpty.none )
     }
     
     public func callDissetupFunction() {

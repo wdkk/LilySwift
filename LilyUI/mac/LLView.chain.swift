@@ -84,8 +84,8 @@ public extension LLChain where TObj:LLView
         return LLFieldMapChain( obj, obj.setupField )
     }
     
-    var design:LLFieldMapChain<TObj, LLViewFieldMap> {
-        return LLFieldMapChain( obj, obj.designField )
+    var buildup:LLFieldMapChain<TObj, LLViewFieldMap> {
+        return LLFieldMapChain( obj, obj.buildupField )
     }
 
     var teardown:LLFieldMapChain<TObj, LLViewFieldMap> {
