@@ -59,7 +59,7 @@ open class LBViewController : LLViewController
                 .rect( caller.safeArea )
             }
             // 画面のリサイズで呼び出す
-            caller.buildupBoard()
+            caller.rebuild()
         }
         .touchesBegan.add( with:self )
         { ( caller, me, args ) in
@@ -92,22 +92,27 @@ open class LBViewController : LLViewController
                 .rect( caller.safeArea )
             }
             // 画面のリサイズで呼び出す
-            caller.buildupBoard()
+            caller.rebuild()
         }
         // TODO: macOSのイベント対応
         #endif
         
         self.view.addSubview( metalView )
     }
-    
+
     open override func postSetup() {
         super.postSetup()
-        self.startUpdating()
+        self.startLooping()
+    }
+    
+    /// viewLoopの基盤関数の上書き(loopの呼び場所を変えるため)
+    open override func viewLoop() {
+        preLoop()
     }
     
     // 繰り返し処理関数
-    open override func preUpdate() {
-        super.preUpdate()
+    open override func preLoop() {
+        super.preLoop()
         if !self.already { return }
         
         // Metalの実行
@@ -118,7 +123,8 @@ open class LBViewController : LLViewController
             
             strongself.currentCommandBuffer = commandBuffer
             
-            strongself.updateBoard()
+            strongself.loop()
+            strongself.postLoop()
             
             LLMetalComputer.compute( commandBuffer: commandBuffer ) {
                 LBDecorationManager.shared.compute( encoder:$0 )
@@ -146,14 +152,6 @@ open class LBViewController : LLViewController
             commandBuffer.waitUntilCompleted()
             #endif
         })
-    }
-    
-    open func buildupBoard() {
-    
-    }
-    
-    open func updateBoard() {
-        
     }
     
     func recogizeTouches( _ event:OSEvent? ) {

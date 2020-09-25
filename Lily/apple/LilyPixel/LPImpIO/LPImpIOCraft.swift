@@ -39,8 +39,8 @@ public final class LPImpIOCraft : LPCraft, LPCraftCustomizable
             var size:LLSizev2 = LLSizev2( in_img.width.i32!, in_img.height.i32! )
             
             encoder.setBytes( &size, length: MemoryLayout<LLSizev2>.stride, index: 1 )
-            encoder.setBuffer( LLMetalSharedBuffer( in_memory, length: in_img.memoryLength ), index: 2 )
-            encoder.setBuffer( LLMetalSharedBuffer( out_memory, length: out_img.memoryLength ), index: 3 )
+            encoder.setBuffer( LLMetalStandardBuffer( in_memory, length: in_img.memoryLength ), index: 2 )
+            encoder.setBuffer( LLMetalStandardBuffer( out_memory, length: out_img.memoryLength ), index: 3 )
             encoder.dispatch2d( dataSize: size )
         }
     }

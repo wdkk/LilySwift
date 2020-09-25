@@ -99,7 +99,7 @@ class MyViewController : LBViewController
     }
     
     // 設計関数
-    override func buildupBoard() {
+    override func buildup() {
         panels.removeAll()
                 
         for _ in 0 ..< 100 {
@@ -134,7 +134,7 @@ class MyViewController : LBViewController
     }
 
     // 繰り返し処理関数
-    override func updateBoard() {
+    override func loop() {
         self.compute {
             atlascraft_blur.atlasIO( atlasio ).fire( using:$0 )
         }

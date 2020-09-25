@@ -75,9 +75,15 @@ open class LBDecoration< TStorage:LBActorStorage > : LBDecoratable
             }      
             .computeFunction {
                 $0
-                .addArgument( "device LBActorParam", "*params [[buffer(0)]]" )
+                .addArgument( "device LBActorParam", "* params [[ buffer(0) ]]" )
                 .addArgument( "uint", "id [[thread_position_in_grid]]" )
+                /*
+                .addArgument( "uint", "group_pos [[ threadgroup_position_in_grid ]]" )
+                .addArgument( "uint", "thread_pos [[ thread_position_in_threadgroup ]]" )
+                .addArgument( "uint", "threads_per_threadgroup [[ threads_per_threadgroup ]]" )
+                */
                 .code( """
+                    //uint id = (group_pos * threads_per_threadgroup + thread_pos);
                     params[id].position += params[id].deltaPosition;
                     params[id].scale += params[id].deltaScale;
                     params[id].angle += params[id].deltaAngle;

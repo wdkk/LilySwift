@@ -10,7 +10,7 @@
 
 import XCTest
 
-@testable import Lily
+@testable import LilySwift
 
 class TestLCPath: XCTestCase {
 

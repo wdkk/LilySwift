@@ -45,6 +45,7 @@ open class LLView : CALayer, LLUILifeEvent
         self.initViewAttributes()
         self.minificationFilter = .nearest
         self.magnificationFilter = .nearest
+        preSetup()
         setup()
         postSetup()
     }
@@ -54,13 +55,18 @@ open class LLView : CALayer, LLUILifeEvent
         self.initViewAttributes()
         self.minificationFilter = .nearest
         self.magnificationFilter = .nearest
+        preSetup()
         setup()
         postSetup()
     }
         
+    public func preSetup() { }
+    
     public func setup() { }
     
     public func postSetup() { }
+    
+    public func preBuildup() { }
     
     public func buildup() { }
     
@@ -84,9 +90,13 @@ open class LLView : CALayer, LLUILifeEvent
         }
     }
     
+    var _mutex = LLRecursiveMutex()
     public func rebuild() {
-        self.buildup()
-        self.postBuildup()
+        _mutex.lock {
+            self.preBuildup()
+            self.buildup()
+            self.postBuildup()
+        }
     }
     
     // Viewのピック処理. ignitionの発火はLLViewControllerViewで全管理しているのでお任せ

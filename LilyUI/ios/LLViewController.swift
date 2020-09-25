@@ -65,38 +65,45 @@ open class LLViewController : UIViewController
     }
     
     open override func viewDidDisappear( _ animated: Bool ) {
-        self.endUpdating()
+        self.endLooping()
         super.viewDidDisappear( animated )
         teardown()
     }
     
+    var _mutex = LLRecursiveMutex()
     open func rebuild() {
         // viewが出来上がっていないときはbuildしない
         guard let v = self.view else { return }
         if v.width == 0.0 || v.height == 0.0 { return }
-            
-        self.preBuildup()
-        self.buildup()
-        self.postBuildup()
+        
+        _mutex.lock {
+            self.preBuildup()
+            self.buildup()
+            self.postBuildup()
+        }
     }
 
     // MARK: - Display Linkでのポーリング処理
     @objc 
-    public func viewUpdate( _ displayLink:CADisplayLink ) {
-        preUpdate()
-        update()
-        postUpdate()
+    private func _viewLoop( _ displayLink:CADisplayLink ) {
+        viewLoop()
+    }
+    
+    open func viewLoop() {
+        preLoop()
+        loop()
+        postLoop()    
     }
         
-    open func startUpdating() {
+    open func startLooping() {
         if _display_link != nil { return }
         _display_link = CADisplayLink( target: self, 
-                                       selector: #selector( LLViewController.viewUpdate(_:) ) )
+                                       selector: #selector( LLViewController._viewLoop(_:) ) )
         _display_link?.preferredFramesPerSecond = 60
         _display_link?.add( to: RunLoop.current, forMode: RunLoop.Mode.common )
     }
     
-    open func endUpdating() {
+    open func endLooping() {
         if _display_link == nil { return }
         _display_link?.remove( from: RunLoop.current, forMode: RunLoop.Mode.common )
         _display_link = nil
@@ -119,13 +126,13 @@ open class LLViewController : UIViewController
     }
     
     open func buildup() {
-        if let llview = self.view as? LLView {
-            llview.rebuild()
-        }
+
     }
     
     open func postBuildup() {
-        
+        if let llview = self.view as? LLView {
+            llview.rebuild()
+        }
     }
     
     open func teardown() {
@@ -136,15 +143,15 @@ open class LLViewController : UIViewController
         already = false
     }
 
-    open func preUpdate() {
+    open func preLoop() {
     
     }
     
-    open func update() {
+    open func loop() {
         
     }
     
-    open func postUpdate() {
+    open func postLoop() {
 
     }
     

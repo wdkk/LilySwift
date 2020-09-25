@@ -26,7 +26,7 @@ class MyViewController : LBViewController
     }
     
     // 設計関数
-    override func buildupBoard() {
+    override func buildup() {
         // パネルを四角デコレーションで作成
         let p = LBPanel( decoration: deco_rect )
             .color( .blue )
@@ -35,7 +35,7 @@ class MyViewController : LBViewController
     }
 
     // 繰り返し処理関数
-    override func updateBoard() {
+    override func loop() {
     
     }
 }

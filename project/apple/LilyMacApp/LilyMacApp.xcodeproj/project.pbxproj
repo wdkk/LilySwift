@@ -43,7 +43,7 @@
 		5DB4690D238E6D25002A8FF7 /* LilySwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = LilySwift.xcframework; path = ../../../_lib/LilySwift.xcframework; sourceTree = "<group>"; };
 		5DC5EE932125C25600F65A88 /* LilyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LilyApp.entitlements; sourceTree = "<group>"; };
 		5DCA3BAD2423524E00C2E789 /* MyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
-		5DCA3BAF2423525C00C2E789 /* MyVC(test).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyVC(test).swift"; sourceTree = "<group>"; };
+		5DCA3BAF2423525C00C2E789 /* MyVC(lb-test).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyVC(lb-test).swift"; sourceTree = "<group>"; };
 		5DEE58901C266D5E00546A18 /* LilyMacApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LilyMacApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -99,7 +99,7 @@
 		5DCA3BA824234E6000C2E789 /* samples */ = {
 			isa = PBXGroup;
 			children = (
-				5DCA3BAF2423525C00C2E789 /* MyVC(test).swift */,
+				5DCA3BAF2423525C00C2E789 /* MyVC(lb-test).swift */,
 				5D08987724D1C06E0075453D /* MyVC(pg2-3-5 fountain).swift */,
 			);
 			path = samples;

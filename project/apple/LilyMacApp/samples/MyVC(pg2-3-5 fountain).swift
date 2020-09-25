@@ -19,8 +19,8 @@ class MyViewController : LLViewController
     override func buildup() {
         super.buildup()
         vc.vcview.rect = app.wc!.window!.contentBounds.llRect
-        vc.designHandler = design
-        vc.updateHandler = update
+        vc.buildupHandler = design
+        vc.loopHandler = update
         app.wc?.contentViewController = vc
     }
 }

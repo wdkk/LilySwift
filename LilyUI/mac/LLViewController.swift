@@ -33,10 +33,13 @@ open class LLViewController : NSViewController
     
     open var vcview:LLViewControllerView { return self.view as! LLViewControllerView }
 
+    var _mutex = LLRecursiveMutex()
     open func rebuild() {
-        self.preBuildup()
-        self.buildup()
-        self.postBuildup()
+        _mutex.lock {
+            self.preBuildup()
+            self.buildup()
+            self.postBuildup()
+        }
     }
     
     override open func loadView() {
@@ -96,13 +99,13 @@ open class LLViewController : NSViewController
     }
     
     open func buildup() {
-        if let core = self.view as? LLUILifeEvent {
-            core.rebuild()
-        }
+
     }
     
     open func postBuildup() {
-        
+        if let core = self.view as? LLUILifeEvent {
+            core.rebuild()
+        }        
     }
     
     open func teardown() {
@@ -113,30 +116,30 @@ open class LLViewController : NSViewController
         _already = false
     }
     
-    private func viewUpdate() {
-        preUpdate()
-        update()
-        postUpdate()
+    open func viewLoop() {
+        preLoop()
+        loop()
+        postLoop()
     }
     
-    open func preUpdate() {
+    open func preLoop() {
 
     }
     
-    open func update() {
+    open func loop() {
 
     }
     
-    open func postUpdate() {
+    open func postLoop() {
 
     }
         
-    open func startUpdating() {
-        _dlink.loopFunc = self.viewUpdate
+    open func startLooping() {
+        _dlink.loopFunc = self.viewLoop
         _dlink.start()
     }
     
-    open func endUpdating() {
+    open func endLooping() {
         _dlink.stop()
     }
 }

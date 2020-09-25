@@ -54,7 +54,7 @@ public class LLMetalAllocatedBuffer : LLMetalBufferAllocatable, LLMetalBufferSha
         _mtlbuf = self.allocate( _length )
     }
     // 指定したバイト数で確保＆ポインタ先からコピーして初期化
-    public init( buf:UnsafeRawPointer, length:Int ) {
+    public init( _ buf:UnsafeRawPointer, length:Int ) {
         _length = length
         _mtlbuf = self.allocate( buf, length: _length )
     }
@@ -148,3 +148,9 @@ public class LLMetalSharedBuffer : LLMetalBufferAllocatable, LLMetalBufferShapeP
                                                   deallocator: nil )
     }
 }
+
+#if targetEnvironment(simulator)
+public typealias LLMetalStandardBuffer = LLMetalAllocatedBuffer
+#else 
+public typealias LLMetalStandardBuffer = LLMetalSharedBuffer
+#endif

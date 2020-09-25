@@ -11,15 +11,15 @@
 import Foundation
 import LilySwift
 
-class MyViewController : LBViewController
+class MyViewController : LLViewController
 {   
     var sceneDelegate:SceneDelegate { return self.view.window!.windowScene!.delegate as! SceneDelegate }
     var vcm:LLViewControllerManager { return sceneDelegate.vcm }
     public var vc = PGViewController.shared
     override func setup() {
         super.setup()
-        vc.designHandler = design
-        vc.updateHandler = update
+        vc.buildupHandler = design
+        vc.loopHandler = update
         vcm.transition(to: vc )
     }
 }

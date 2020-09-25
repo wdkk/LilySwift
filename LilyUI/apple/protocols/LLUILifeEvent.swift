@@ -14,10 +14,12 @@ import CoreGraphics
 public protocol LLUILifeEvent
 {
     /// UIの準備サイクル
+    func preSetup()
     func setup()
     func postSetup()
     
     /// UIの構築/再構築サイクル
+    func preBuildup()
     func buildup()
     func postBuildup()
     

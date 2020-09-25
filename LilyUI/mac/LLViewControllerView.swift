@@ -41,9 +41,13 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func preSetup() { }
+    
     public func setup() { }
     
     public func postSetup() { }
+    
+    public func preBuildup() { }
     
     public func buildup() { }
     
@@ -77,9 +81,13 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         }
     }
     
+    var _mutex = LLRecursiveMutex()
     public func rebuild() {
-        self.buildup()
-        self.postBuildup()
+        _mutex.lock {
+            self.preBuildup()
+            self.buildup()
+            self.postBuildup()
+        }
     }
         
     private func addEvents() {

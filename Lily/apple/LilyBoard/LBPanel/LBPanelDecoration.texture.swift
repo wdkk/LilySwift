@@ -44,7 +44,7 @@ public extension LBPanelDecoration
         .renderFieldMySelf { caller, me, args in 
             if me.storage.isNoActive { return }
             
-            let mtlbuf_params = LLMetalSharedBuffer( amemory:me.storage.params )
+            let mtlbuf_params = LLMetalStandardBuffer( amemory:me.storage.params )
             
             let sampler = LLMetalSampler.default
             

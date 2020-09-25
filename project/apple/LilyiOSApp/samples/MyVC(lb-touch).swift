@@ -23,12 +23,12 @@ class MyViewController : LBViewController
     }
     
     // 設計関数
-    override func buildupBoard() {
+    override func buildup() {
     
     }
 
     // 繰り返し処理関数
-    override func updateBoard() {
+    override func loop() {
         for touch in self.touches {
             let p = LBPanel( decoration: deco_circle )
                 .position( touch.xy )

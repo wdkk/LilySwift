@@ -17,11 +17,9 @@ class MyViewController : LBViewController
     var panels = Set<LBPanel>()
     
     // 四角形デコレーションの用意
-    lazy var deco_rect = LBPanelDecoration.maskTex()
+    lazy var deco_rect = LBPanelDecoration.rectangle()
         .blendType( .add )
-    
-    let tex_smoke = LLMetalTexture( named: "supportFiles/images/smoke.png" )
-
+         
     // 初期化準備関数
     override func setup() {
         // 背景色の設定
@@ -29,23 +27,25 @@ class MyViewController : LBViewController
     }
     
     // 設計関数
-    override func buildupBoard() {
+    override func buildup() {
         panels.removeAll()
-                        
-        // パネルを四角形デコレーションで作成
-        for _ in 0 ..< 200 {
+        
+        for _ in 0 ..< 100 {
+            // パネルを円デコレーションで作成
             let p = LBPanel( decoration: deco_rect )
-            
-            let px = (-50...50).randomize
-            let py = (-20...20).randomize
+            panels.insert( p )
+        }
+                
+        // パネルを四角形デコレーションで作成
+        for p in panels {
+            let size = 40.0 + ( 120.0 ).randomize
 
             p
-            .position( cx: px, cy: py )
+            .position( coordRegion.randomPoint )
+            .scale( width:size, height:size )
             .angle( .random )
             .life( .random )
-            .color( LLColor( 0.9, 0.4, 0.16, 1.0 ) )
-            .deltaPosition( dx:-1.0 + 2.0.randomize, dy:0.5 + 3.0.randomize )
-            .texture( tex_smoke )
+            .color( .random )
             
             // セットに追加
             panels.insert( p )
@@ -53,22 +53,21 @@ class MyViewController : LBViewController
     }
 
     // 繰り返し処理関数
-    override func updateBoard() {
+    override func loop() {
         for p in panels {            
-            p.life { $0.life - 0.01 }
-            .width { 60.0 + (1.0 - $0.life) * 40.0 }
-            .height { 60.0 + (1.0 - $0.life) * 40.0 }
-            .alpha { sin( $0.life * Float.pi ) * 0.5 }
+            p.life { $0.life - 0.005 }
+            .width { 80.0 + (1.0 - $0.life) * 120.0 }
+            .height { 80.0 + (1.0 - $0.life) * 120.0 }
+            .angle { $0.angle + 0.005 * Double.pi }
+            .alpha { sin( $0.life * Float.pi ) * 0.75 }
             
             if p.life <= 0.0 {
-                let px = (-50...50).randomize
-                let py = (-20...20).randomize
-                
-                p.position( cx: px, cy: py )
+                p
+                .position( coordRegion.randomPoint )
                 .scale( .zero )
                 .angle( .random )
                 .life( 1.0 )
-                .deltaPosition( dx:-1.0 + 2.0.randomize, dy:0.5 + 3.0.randomize )
+                .color( .random )
             }
         }
     }

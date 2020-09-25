@@ -14,10 +14,10 @@ import LilySwift
 class MyViewController : LBViewController
 {   
     // パネルを格納するセット
-    var triangles = Set<LBTriangle>()
+    var panels = Set<LBPanel>()
     
-    // 三角形のプレーンデコレーションの用意
-    lazy var deco_tri = LBTriangleDecoration.plane()
+    // 四角形デコレーションの用意
+    lazy var deco_rect = LBPanelDecoration.rectangle()
      
     // 初期化準備関数
     override func setup() {
@@ -26,16 +26,16 @@ class MyViewController : LBViewController
     }
     
     // 設計関数
-    override func buildupBoard() {
-        // 三角形をデコレーションで作成
-        let t = LBTriangle( decoration: deco_tri )
-            .color( .red )
+    override func buildup() {
+        // パネルを四角デコレーションで作成
+        let p = LBPanel( decoration: deco_rect )
+            .color( .blue )
         // パネルセットに追加
-        triangles.insert( t )
+        panels.insert( p )
     }
 
     // 繰り返し処理関数
-    override func updateBoard() {
+    override func loop() {
     
     }
 }

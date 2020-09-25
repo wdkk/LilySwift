@@ -51,8 +51,8 @@ open class PGViewController: PGBaseViewController
     public var textures = [String:LLMetalTexture]()
     
     // 処理ハンドラ 
-    public var designHandler:(()->Void)?
-    public var updateHandler:(()->Void)?
+    public var buildupHandler:(()->Void)?
+    public var loopHandler:(()->Void)?
    
     // 表示からの経過時間
     public var elapsedTime:Double { PGActorTimer.shared.elapsedTime }
@@ -78,23 +78,23 @@ open class PGViewController: PGBaseViewController
             
             caller.removeAllShapes()
             
-            // 画面のリサイズで呼び出す
-            caller.updateBoard()
+            // 画面のリサイズ時に画面更新に合わせてループを1度呼び出しておく
+            caller.loop()
         }
     }
     
-    override open func buildup() {
-        super.buildup()
-        designHandler?()
+    override open func postBuildup() {
+        super.postBuildup()
+        buildupHandler?()
     }
     
     // 繰り返し処理関数
-    override open func updateBoard() {
-        super.updateBoard()
+    override open func loop() {
+        super.loop()
         // 時間の更新
         PGActorTimer.shared.update()
         
-        updateHandler?()
+        loopHandler?()
         
         // Shapeの更新/終了処理を行う
         checkShapesStatus()

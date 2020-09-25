@@ -28,13 +28,18 @@ open class LLView : UIView, LLUILifeEvent
     public required init?(coder: NSCoder) { super.init(coder:coder) }
     public init() {
         super.init( frame:.zero )
+        self.preSetup()
         self.setup()
         self.postSetup()
     }
     
+    public func preSetup() { }
+    
     public func setup() { }
     
     public func postSetup() { }
+    
+    public func preBuildup() { }
     
     public func buildup() { }
     
@@ -54,9 +59,13 @@ open class LLView : UIView, LLUILifeEvent
         }
     }
     
+    var _mutex = LLRecursiveMutex()
     public func rebuild() {
-        self.buildup()
-        self.postBuildup()
+        _mutex.lock {
+            self.preBuildup()
+            self.buildup()
+            self.postBuildup()
+        }
     }
     
     public override func addSubview( _ view: UIView ) {
