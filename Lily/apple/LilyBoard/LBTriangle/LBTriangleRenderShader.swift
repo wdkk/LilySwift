@@ -67,21 +67,23 @@ open class LBTrianglelRenderShader : LBRenderShader
 
         self.vertexFunction {
             $0
+            .prefix( "vertex" )
             .returnType( "LBActorVertexOut" )
+            .name( self.vert_name )
             .addArgument( "constant float4x4", "&proj_matrix [[ buffer(0) ]]" )
             .addArgument( "constant LBActorParam", "*param [[ buffer(1) ]]" )
-            .addArgument( "constant LBActorVertexIn", "*vin [[ buffer(2) ]]" )
-            .addArgument( "uint", "idx [[ vertex_id ]]" )
+            .addArgument( "constant LBActorVertexIn", "*vin_ptr [[ buffer(2) ]]" )
+            .addArgument( "uint", "vid [[ vertex_id ]]" )
+            .addArgument( "uint", "iid [[ instance_id ]]" )
             .code( """
-                // パネルのパラメータインデックス
-                uint obj_idx = idx / 3;
+                LBActorVertexIn vin = vin_ptr[vid];
                 // p = パネルのパラメータ
-                LBActorParam p = param[obj_idx];
-                
+                LBActorParam p = param[iid];
+
                 float cosv = cos( p.angle );
                 float sinv = sin( p.angle );
-                float x = vin[idx].xy.x;
-                float y = vin[idx].xy.y;
+                float x = vin.xy.x;
+                float y = vin.xy.y;
                 float scx = p.scale.x * 0.5;
                 float scy = p.scale.y * 0.5;
 
@@ -92,9 +94,9 @@ open class LBTrianglelRenderShader : LBRenderShader
                 float max_u = atlas_uv[2];
                 float max_v = atlas_uv[3];
 
-                float u = vin[idx].tex_uv[0];
+                float u = vin.tex_uv[0];
                 float iu = 1.0 - u;
-                float v = vin[idx].tex_uv[1];
+                float v = vin.tex_uv[1];
                 float iv = 1.0 - v;
 
                 float2 tex_uv = float2( min_u * iu + max_u * u, 
@@ -110,9 +112,9 @@ open class LBTrianglelRenderShader : LBRenderShader
 
                 LBActorVertexOut vout;
                 vout.pos = proj_matrix * float4( v_coord, visibility, 1 );
-                vout.xy  = vin[idx].xy;
+                vout.xy = vin.xy;
                 vout.tex_uv = tex_uv;
-                vout.uv  = vin[idx].uv;
+                vout.uv = vin.uv;
                 vout.color = p.color;
 
                 return vout;

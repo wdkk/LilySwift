@@ -98,7 +98,7 @@ class MyViewController : LBViewController
         .output(atlas: atlas, key: "key1" )
     }
     
-    // 設計関数
+    // 画面更新時の構築処理
     override func buildup() {
         panels.removeAll()
                 

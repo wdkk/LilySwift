@@ -26,7 +26,7 @@ class MyViewController : LBViewController
         self.clearColor = .darkGrey
     }
     
-    // 設計関数
+    // 画面更新時の構築処理
     override func buildup() {
         panels.removeAll()
         

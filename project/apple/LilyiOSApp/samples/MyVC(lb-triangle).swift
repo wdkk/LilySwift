@@ -23,15 +23,17 @@ class MyViewController : LBViewController
     override func setup() {
         // 背景色の設定
         self.clearColor = .lightGrey
-    }
-    
-    // 設計関数
-    override func buildup() {
+
         // 三角形をデコレーションで作成
         let t = LBTriangle( decoration: deco_tri )
             .color( .red )
         // パネルセットに追加
         triangles.insert( t )
+    }
+    
+    // 画面更新時の構築処理
+    override func buildup() {
+
     }
 
     // 繰り返し処理関数

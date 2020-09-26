@@ -22,7 +22,7 @@ class MyViewController : LBViewController
         self.clearColor = .lightGrey
     }
     
-    // 設計関数
+    // 画面更新時の構築処理
     override func buildup() {
     
     }

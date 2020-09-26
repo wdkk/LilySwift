@@ -31,7 +31,7 @@ class MyViewController : LBViewController
         panels.insert( p )
     }
     
-    // 設計関数
+    // 画面更新時の構築処理
     override func buildup() {
 
     }

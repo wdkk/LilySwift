@@ -25,7 +25,7 @@ class MyViewController : LBViewController
         clearColor = .lightGrey
     }
     
-    // 設計関数
+    // 画面更新時の構築処理
     override func buildup() {
         // パネルを四角デコレーションで作成
         let p = LBPanel( decoration: deco_rect )

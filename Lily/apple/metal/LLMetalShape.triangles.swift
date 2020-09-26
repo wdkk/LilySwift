@@ -31,7 +31,10 @@ public class LLMetalTrianglePainter<T> : LLMetalShapePainter<LLTriple<T>>
     public override init() {
         super.init()
         drawFunc = { encoder, shape in
-            encoder.drawPrimitives( type: .triangle, vertexStart:0, vertexCount: shape.count * 3, instanceCount: shape.count )
+            encoder.drawPrimitives( type: .triangle,
+                                    vertexStart: 0,
+                                    vertexCount: 3,
+                                    instanceCount: shape.count )
         }
     }
 }
