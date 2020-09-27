@@ -66,7 +66,7 @@ open class LLImage
     
     open var lcImage:LCImageSmPtr { return self._imgc }
     
-    #if LILY_SWIFT || !LILY_NOT_PG
+    #if LILY_SWIFT || !LILY_FULL
     open var cgImage:CGImage? { return LCImage2CGImage( self.lcImage ) }
     #else
     open var cgImage:CGImage? { return LCImage2CGImage( self.lcImage )?.takeUnretainedValue() }    

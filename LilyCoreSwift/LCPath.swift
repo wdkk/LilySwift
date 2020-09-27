@@ -17,7 +17,7 @@ import Foundation
 public func LCPathGetBundle( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
     var full_path = Bundle.main.bundlePath
     
-    #if !LILY_NOT_PG   // Playground
+    #if !LILY_FULL   // Playground
     let name = LLPath.pickFilename( LLString( filename ) )
     let ext  = LLPath.pickExtension( LLString( filename ) )
     guard let path = Bundle.main.path(forResource: name, ofType: ext ) else {

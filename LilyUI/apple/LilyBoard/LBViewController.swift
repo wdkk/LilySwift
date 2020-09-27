@@ -146,7 +146,7 @@ open class LBViewController : LLViewController
         },
         post: { (commandBuffer) in
             // LilyPlaygroundsではcompletedで待つ形にする(非同期の悪さを止める)
-            #if LILY_NOT_PG
+            #if LILY_FULL
             commandBuffer.waitUntilScheduled()
             #else
             commandBuffer.waitUntilCompleted()

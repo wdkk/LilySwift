@@ -8,7 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if LILY_NOT_PG
+#if LILY_FULL
 
 import Foundation
 

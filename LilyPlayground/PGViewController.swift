@@ -14,11 +14,11 @@ import UIKit
 import AppKit
 #endif
 
-#if !LILY_NOT_PG
+#if !LILY_FULL
 import PlaygroundSupport
 #endif
 
-#if LILY_NOT_PG 
+#if LILY_FULL 
 open class PGBaseViewController : LBViewController 
 {
 }

@@ -9,7 +9,7 @@
 //
 
 /// コメント未済
-#if LILY_NOT_PG
+#if LILY_FULL
 
 #if os(iOS)
 import UIKit

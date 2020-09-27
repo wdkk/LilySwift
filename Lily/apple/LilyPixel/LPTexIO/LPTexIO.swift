@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 import Metal
 
@@ -40,3 +42,5 @@ open class LPTexIO : LPActor
         return self
     }
 }
+
+#endif

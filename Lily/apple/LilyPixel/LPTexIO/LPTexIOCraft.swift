@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 import Metal
 
@@ -59,3 +61,5 @@ public final class LPTexIOCraft : LPCraft, LPCraftCustomizable
         return self
     }
 }
+
+#endif
