@@ -163,15 +163,15 @@ public class LCImageGenericRaw<TColor> : LCImageRaw
         
         let wid:Int = self.getWidth()
         let hgt:Int = self.getHeight()
-        let mat_src = self.getMatrix()!
-        let funcFrom = self.requestFunctionOfConvertRawColorFrom()!
+        let mat_src:SelfColorMatrix = self.getMatrix()!
+        let funcFrom:ConvertFromFunc = self.requestFunctionOfConvertRawColorFrom()!
         
         switch type {
         case .rgba8:
             let img_dst:LCImageRGBA8 = LCImageRGBA8( self.width, self.height )
             img_dst.setScale( self.scale )
-            let mat_dst = img_dst.getMatrix()!
-            let funcTo  = img_dst.requestFunctionOfConvertRawColorTo()!
+            let mat_dst:LLColor8Matrix = img_dst.getMatrix()!
+            let funcTo:LCImageRGBA8.ConvertToFunc = img_dst.requestFunctionOfConvertRawColorTo()!
             for y:Int in 0 ..< hgt {
                 for x:Int in 0 ..< wid {
                     mat_dst[y][x] = funcTo( funcFrom( mat_src[y][x] ) )
@@ -181,8 +181,8 @@ public class LCImageGenericRaw<TColor> : LCImageRaw
         case .rgba16:
             let img_dst:LCImageRGBA16 = LCImageRGBA16( self.width, self.height )
             img_dst.setScale( self.scale )
-            let mat_dst = img_dst.getMatrix()!
-            let funcTo  = img_dst.requestFunctionOfConvertRawColorTo()!
+            let mat_dst:LLColor16Matrix = img_dst.getMatrix()!
+            let funcTo:LCImageRGBA16.ConvertToFunc = img_dst.requestFunctionOfConvertRawColorTo()!
             for y:Int in 0 ..< hgt {
                 for x:Int in 0 ..< wid {
                     mat_dst[y][x] = funcTo( funcFrom( mat_src[y][x] ) )
@@ -192,8 +192,8 @@ public class LCImageGenericRaw<TColor> : LCImageRaw
         case .rgbaf:
             let img_dst:LCImageRGBAf = LCImageRGBAf( self.width, self.height )
             img_dst.setScale( self.scale )
-            let mat_dst = img_dst.getMatrix()!
-            let funcTo  = img_dst.requestFunctionOfConvertRawColorTo()!
+            let mat_dst:LLColorMatrix = img_dst.getMatrix()!
+            let funcTo:LCImageRGBAf.ConvertToFunc = img_dst.requestFunctionOfConvertRawColorTo()!
             for y:Int in 0 ..< hgt {
                 for x:Int in 0 ..< wid {
                     mat_dst[y][x] = funcTo( funcFrom( mat_src[y][x] ) )
@@ -203,8 +203,8 @@ public class LCImageGenericRaw<TColor> : LCImageRaw
         case .grey8:
             let img_dst:LCImageGrey8 = LCImageGrey8( self.width, self.height )
             img_dst.setScale( self.scale )
-            let mat_dst = img_dst.getMatrix()!
-            let funcTo = img_dst.requestFunctionOfConvertRawColorTo()!
+            let mat_dst:LLUInt8Matrix = img_dst.getMatrix()!
+            let funcTo:LCImageGrey8.ConvertToFunc = img_dst.requestFunctionOfConvertRawColorTo()!
             for y:Int in 0 ..< hgt {
                 for x:Int in 0 ..< wid {
                     mat_dst[y][x] = funcTo( funcFrom( mat_src[y][x] ) )
@@ -214,8 +214,8 @@ public class LCImageGenericRaw<TColor> : LCImageRaw
         case .grey16:
             let img_dst:LCImageGrey16 = LCImageGrey16( self.width, self.height )
             img_dst.setScale( self.scale )
-            let mat_dst = img_dst.getMatrix()!
-            let funcTo = img_dst.requestFunctionOfConvertRawColorTo()!
+            let mat_dst:LLUInt16Matrix = img_dst.getMatrix()!
+            let funcTo:LCImageGrey16.ConvertToFunc = img_dst.requestFunctionOfConvertRawColorTo()!
             for y:Int in 0 ..< hgt {
                 for x:Int in 0 ..< wid {
                     mat_dst[y][x] = funcTo( funcFrom( mat_src[y][x] ) )
@@ -225,8 +225,8 @@ public class LCImageGenericRaw<TColor> : LCImageRaw
         case .greyf:
             let img_dst:LCImageGreyf = LCImageGreyf( self.width, self.height )
             img_dst.setScale( self.scale )
-            let mat_dst = img_dst.getMatrix()!
-            let funcTo = img_dst.requestFunctionOfConvertRawColorTo()!
+            let mat_dst:LLFloatMatrix = img_dst.getMatrix()!
+            let funcTo:LCImageGreyf.ConvertToFunc = img_dst.requestFunctionOfConvertRawColorTo()!
             for y:Int in 0 ..< hgt {
                 for x:Int in 0 ..< wid {
                     mat_dst[y][x] = funcTo( funcFrom( mat_src[y][x] ) )
@@ -262,7 +262,7 @@ public class LCImageGenericRaw<TColor> : LCImageRaw
         self.matrix = SelfColorMatrix.allocate( capacity: hgt )
 
         let mem:LLBytePtr = self.memory!
-        let mat = self.matrix!        
+        let mat:UnsafeMutablePointer<UnsafeMutablePointer<TColor>> = self.matrix!        
         for y:Int in 0 ..< height {
             mat[y] = SelfColorPtr( OpaquePointer( mem + (y * self.row_bytes) ) )
         }

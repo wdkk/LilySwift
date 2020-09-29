@@ -12,7 +12,7 @@ import Metal
 
 public class PGTriangle : PGTriangleBase
 {
-    static private var deco = [Int:LBTriangleDecoration]()
+    static private var deco:[Int:LBTriangleDecoration] = [:]
     
     static private func create( index:Int ) -> LBTriangleDecoration {
         if let d = deco[index] { return d }
@@ -30,7 +30,7 @@ public class PGTriangle : PGTriangleBase
 
 public class PGAddTriangle : PGTriangleBase
 {
-    static private var deco = [Int:LBTriangleDecoration]()
+    static private var deco:[Int:LBTriangleDecoration] = [:]
     
     static private func create( index:Int ) -> LBTriangleDecoration {
         if let d = deco[index] { return d }
@@ -49,7 +49,7 @@ public class PGAddTriangle : PGTriangleBase
 
 public class PGSubTriangle : PGTriangleBase
 {
-    static private var deco = [Int:LBTriangleDecoration]()
+    static private var deco:[Int:LBTriangleDecoration] = [:]
     
     static private func create( index:Int ) -> LBTriangleDecoration {
         if let d = deco[index] { return d }

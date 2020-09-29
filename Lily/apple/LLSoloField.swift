@@ -19,7 +19,7 @@ public struct LLSoloField<TMe:AnyObject, TObj> : LLField
                  action:@escaping (TMe, TObj)->Void )
     {
         self.field = { [weak me] ( objs:TObj ) in
-            guard let me = me else { return }
+            guard let me:TMe = me else { return }
             action( me, objs )
         }
     }
@@ -29,13 +29,13 @@ public struct LLSoloField<TMe:AnyObject, TObj> : LLField
                  action:@escaping (TMe)->Void )
     {
         self.field = { [weak me] ( objs:TObj ) in
-            guard let me = me else { return }
+            guard let me:TMe = me else { return }
             action( me )
         }
     }
     
     public func appear( _ obj:Any? = nil ) {
-        guard let tobj = obj as? TObj else { return }
+        guard let tobj:TObj = obj as? TObj else { return }
         self.field?( tobj )
     }
 }

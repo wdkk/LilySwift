@@ -140,7 +140,7 @@ open class LLTouchHoldRecognizer
     open func firePoolTouches( touchFunc:(Set<UITouch>)->Void ) {
         endHold()
         for touch in _touch_pool {
-            let waiting_touches = Set<UITouch>( arrayLiteral: touch )
+            let waiting_touches:Set<UITouch> = Set<UITouch>( arrayLiteral: touch )
             touchFunc( waiting_touches )
         }
         _touch_pool.removeAll()

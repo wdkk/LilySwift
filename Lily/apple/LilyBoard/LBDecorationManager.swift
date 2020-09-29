@@ -14,10 +14,10 @@ import Metal
 
 open class LBDecorationManager
 {
-    public static let shared = LBDecorationManager()  
+    public static let shared:LBDecorationManager = LBDecorationManager()  
     private init() {}
     
-    public var decorations = [String:LBDecoratable]()
+    public var decorations:[String:LBDecoratable] = [:]
     
     // デコレーションの追加登録
     public func add<TDeco:LBDecoratable>( deco:TDeco ) -> TDeco {
@@ -41,7 +41,7 @@ open class LBDecorationManager
     
     public func render( encoder:MTLRenderCommandEncoder, size:LLSize ) {
         // プロジェクション行列を画面のピクセルサイズ変換に指定
-        let sz = CGSize( size.width, size.height )
+        let sz:CGSize = CGSize( size.width, size.height )
         
         var proj_matrix:LLMatrix4x4 = .pixelXYProjection( sz )
         

@@ -20,7 +20,7 @@ open class LLMetalShadingCode
 {
     open class Plane : LLMetalCodable
     {
-        public var code = ""
+        public var code:String = ""
         public init( _ c:String = "" ) { code = c }
         
         public func generate() -> String { return code }
@@ -28,7 +28,7 @@ open class LLMetalShadingCode
     
     open class Header : LLMetalCodable
     {
-        public var headers = [String]()
+        public var headers:[String] = []
         
         public init() {
             headers.append( "#include <metal_stdlib>" )
@@ -49,8 +49,8 @@ open class LLMetalShadingCode
     
     open class Struct : LLMetalCodable
     {
-        public var name = ""
-        public var variables = [String]()
+        public var name:String = ""
+        public var variables:[String] = []
         
         public func name( _ v:String ) -> Self {
             name = v
@@ -63,7 +63,7 @@ open class LLMetalShadingCode
         }
         
         public func generate() -> String {
-            var composited_code = ""
+            var composited_code:String = ""
             composited_code += "struct " + name + " {\n"
             for v in variables { composited_code += "    " + v + ";\n" }
             composited_code += "};\n"
@@ -77,8 +77,8 @@ open class LLMetalShadingCode
         public var prefix:String = ""
         public var returnType:String = ""
         public var name:String = "noname"
-        public var arguments = [String]()
-        public var code = ""
+        public var arguments:[String] = []
+        public var code:String = ""
         
         public func prefix( _ v:String ) -> Self {
             prefix = v
@@ -107,7 +107,7 @@ open class LLMetalShadingCode
         
         public func generate() -> String {
             // 関数の接頭辞
-            var composited_code = ""
+            var composited_code:String = ""
             if !prefix.isEmpty { composited_code += prefix + " " }
             composited_code += returnType + "\n"
             composited_code += name + "(\n"

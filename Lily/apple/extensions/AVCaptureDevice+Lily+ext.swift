@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if LILY_FULL
+
 import Foundation
 import AVFoundation
 
@@ -16,7 +18,7 @@ public extension AVCaptureDevice
     private func availableFormatsFor( preferredFps: Double ) 
     -> [AVCaptureDevice.Format]
     {
-        var result_formats = [AVCaptureDevice.Format]()
+        var result_formats:[AVCaptureDevice.Format] = [AVCaptureDevice.Format]()
         
         for format in self.formats {
             let ranges = format.videoSupportedFrameRateRanges
@@ -64,3 +66,5 @@ public extension AVCaptureDevice
         }
     }
 }
+
+#endif

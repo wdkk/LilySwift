@@ -17,40 +17,24 @@ import simd
 public typealias LLIntv2 = vector_int2
 public extension LLIntv2 
 {
-    init( _ x:Int32 = 0, _ y:Int32 = 0 ) {
-        self.init( x:x, y:y )
-    }
-    
     static var zero:Self { return Self() }
 }
 
 public typealias LLIntv3 = vector_int3
 public extension LLIntv3 
-{
-    init( _ x:Int32 = 0, _ y:Int32 = 0, _ z:Int32 = 0 ) { 
-        self.init( x:x, y:y, z:z )
-    }
-    
+{    
     static var zero:Self { return Self() }
 }
 
 public typealias LLIntv4 = vector_int4
 public extension LLIntv4 
 {
-    init( _ x:Int32 = 0, _ y:Int32 = 0, _ z:Int32 = 0, _ w:Int32 = 0 ) { 
-        self.init( x:x, y:y, z:z, w:w )
-    }
-    
     static var zero:Self { return Self() }
 }
 
 public typealias LLSizev2 = vector_int2
 public extension LLSizev2 
 {
-    init( width:Int32 = 0, height:Int32 = 0 ) { 
-        self.init( x:width, y:height )
-    }
-    
     var width:Int32 { get { return x } set { x = newValue } }
     var height:Int32 { get { return y } set { y = newValue } }
 }
@@ -58,10 +42,6 @@ public extension LLSizev2
 public typealias LLSizev3 = vector_int3
 public extension LLSizev3 
 {
-    init( width:Int32 = 0, height:Int32 = 0, depth:Int32 = 0 ) { 
-        self.init( x:width, y:height, z:depth )
-    }
-    
     var width:Int32 { get { return x } set { x = newValue } }
     var height:Int32 { get { return y } set { y = newValue } }
     var depth:Int32 { get { return z } set { z = newValue } }
@@ -71,10 +51,6 @@ public typealias LLFloatv2 = vector_float2
 public typealias LLCoordUV = vector_float2
 extension LLFloatv2
 {
-    public init( _ x:Float = 0.0, _ y:Float = 0.0 ) { 
-        self.init( x:x, y:y ) 
-    }
-    
     public static var zero:Self { return Self() }
     public var normalize:Self { return simd_normalize( self ) }
     
@@ -86,21 +62,13 @@ extension LLFloatv2
 public typealias LLFloatv3 = vector_float3
 public extension LLFloatv3
 {
-    init( _ x:Float = 0.0, _ y:Float = 0.0, _ z:Float = 0.0 ) { 
-        self.init( x:x, y:y, z:z ) 
-    }
-    
     static var zero:Self { return Self() }
     var normalize:Self { return simd_normalize( self ) }
 }
 
 public typealias LLFloatv4 = vector_float4
 public extension LLFloatv4 
-{
-    init( _ x:Float = 0.0, _ y:Float = 0.0, _ z:Float = 0.0, _ w:Float = 0.0 ) { 
-        self.init( x:x, y:y, z:z, w:w ) 
-    }
-    
+{    
     static var zero:LLFloatv4 { return LLFloatv4() }
     var normalize:LLFloatv4 { return simd_normalize( self ) }
     

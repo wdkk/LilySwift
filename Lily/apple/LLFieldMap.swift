@@ -12,11 +12,11 @@ import Foundation
 
 public class LLFieldMap
 {
-    public var fields = [String:LLField]()
+    public var fields:[String:LLField] = [:]
         
     public func appear( _ objs:Any? ) {
-        for f in fields {
-            f.value.appear( objs )
+        for (_,f) in fields {
+            f.appear( objs )
         }
     }
     

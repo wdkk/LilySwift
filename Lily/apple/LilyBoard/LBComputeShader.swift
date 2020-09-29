@@ -17,9 +17,9 @@ open class LBComputeShader
     
     public internal(set) var header_code:LLMetalCodable = LLMetalShadingCode.Header()
     
-    public internal(set) var struct_codes = [LLMetalCodable]()
+    public internal(set) var struct_codes:[LLMetalCodable] = []
     
-    public internal(set) var func_codes = [LLMetalCodable]()
+    public internal(set) var func_codes:[LLMetalCodable] = []
     
     public internal(set) var comp_code:LLMetalCodable = LLMetalShadingCode.Plane()
     

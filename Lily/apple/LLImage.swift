@@ -53,8 +53,8 @@ open class LLImage
         }
         else { return nil }
         
-        guard let nonnull_memory = memory else { return nil }
-        guard let opaque_memory = OpaquePointer( nonnull_memory ) else { return nil }
+        guard let nonnull_memory:LLBytePtr = memory else { return nil }
+        guard let opaque_memory:OpaquePointer = OpaquePointer( nonnull_memory ) else { return nil }
     
         texture.getBytes( UnsafeMutableRawPointer( opaque_memory ),
                           bytesPerRow: rowBytes,

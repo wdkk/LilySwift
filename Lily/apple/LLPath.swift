@@ -56,15 +56,15 @@ open class LLPath
     /// - Returns: ファイル名の配列
     static public func enumerateFiles( at dir_path:LLString, filters:[LLString] = [] ) -> [LLString] {
         // [LLString] -> LCStringArraySmPtrへ転写
-        let filters_lcarray = LCStringArrayMake()
-        for fil in filters {
+        let filters_lcarray:LCStringArraySmPtr = LCStringArrayMake()
+        for fil:LLString in filters {
             LCStringArrayAppend( filters_lcarray, fil.lcStr )
         }
         
-        let efs = LCPathEnumerateFiles( dir_path.lcStr, filters_lcarray )
-        var pp = [LLString]()
-        for i in 0 ..< LCStringArrayCount( efs ) {
-            let lcStr = LCStringArrayAt( efs, i )
+        let efs:LCStringArraySmPtr = LCPathEnumerateFiles( dir_path.lcStr, filters_lcarray )
+        var pp:[LLString] = []
+        for i:Int in 0 ..< LCStringArrayCount( efs ) {
+            let lcStr:LCStringSmPtr = LCStringArrayAt( efs, i )
             pp.append( LLString( lcStr ) )
         }
         return pp
@@ -75,10 +75,10 @@ open class LLPath
     ///   - dir_path: 対象のディレクトリパス
     /// - Returns: サブディレクトリ名の配列
     static public func enumerateDirectories( at dir_path:LLString ) -> [LLString] {
-        let efs = LCPathEnumerateDirectories( dir_path.lcStr )
-        var pp = [LLString]()
-        for i in 0 ..< LCStringArrayCount( efs ) {
-            let lcStr = LCStringArrayAt( efs, i )
+        let efs:LCStringArraySmPtr = LCPathEnumerateDirectories( dir_path.lcStr )
+        var pp:[LLString] = []
+        for i:Int in 0 ..< LCStringArrayCount( efs ) {
+            let lcStr:LCStringSmPtr = LCStringArrayAt( efs, i )
             pp.append( LLString( lcStr ) )
         }
         return pp

@@ -269,22 +269,24 @@ public func LCImage2UIImage( _ img_:LCImageSmPtr ) -> UIImage? {
     let hgt:Int = LCImageHeight( img_ )
     
     // 乗算済みアルファをCGImageへ
-    let lcimg = LCImageClonePremultipliedAlpha( img_ )
+    let lcimg:LCImageSmPtr = LCImageClonePremultipliedAlpha( img_ )
     // rgba8bitに変換
     LCImageConvertType( lcimg, .rgba8 )
     
-    let color_space = CGColorSpaceCreateDeviceRGB()
+    let color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
     
-    guard let memory = LCImageRawMemory( lcimg ) else { return nil }
-    let cg_context  = CGContext( data: memory, width: wid, height: hgt,
-                                bitsPerComponent: 8, bytesPerRow: wid * 4, space: color_space,
-                                bitmapInfo: CGBitmapInfo.alphaInfoMask.rawValue + 
+    guard let memory:LLBytePtr = LCImageRawMemory( lcimg ) else { return nil }
+    let cg_context:CGContext? = CGContext( data: memory, width: wid, height: hgt,
+                                           bitsPerComponent: 8, 
+                                           bytesPerRow: wid * 4,
+                                           space: color_space,
+                                           bitmapInfo: CGBitmapInfo.alphaInfoMask.rawValue + 
                                             CGImageAlphaInfo.premultipliedLast.rawValue )
     
-    guard let nonnull_cg_context = cg_context else { return nil } 
-    guard let cg_img = nonnull_cg_context.makeImage() else { return nil }
+    guard let nonnull_cg_context:CGContext = cg_context else { return nil } 
+    guard let cg_img:CGImage = nonnull_cg_context.makeImage() else { return nil }
     
-    let ui_img = UIImage(cgImage: cg_img, scale: LCImageScale( lcimg ).cgf, orientation: .up )
+    let ui_img:UIImage = UIImage(cgImage: cg_img, scale: LCImageScale( lcimg ).cgf, orientation: .up )
     
     return ui_img
 }
@@ -293,29 +295,31 @@ public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {
     let wid:Int = img_.size.width.i!
     let hgt:Int = img_.size.height.i!
     
-    let lcimg = LCImageMake( wid, hgt, .rgba8 )
+    let lcimg:LCImageSmPtr = LCImageMake( wid, hgt, .rgba8 )
     
-    guard let input_image_ref = img_.cgImage else { return LCImageSmPtr() } 
+    guard let input_image_ref:CGImage = img_.cgImage else { return LCImageSmPtr() } 
     
-    let color_space = CGColorSpaceCreateDeviceRGB()
+    let color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
     
     guard let memory = LCImageRawMemory( lcimg ) else { return LCImageSmPtr() }
-    let cg_context  = CGContext( data: memory, width: wid, height: hgt,
-                                bitsPerComponent: 8, bytesPerRow: wid * 4, space: color_space,
-                                bitmapInfo: CGBitmapInfo.alphaInfoMask.rawValue + 
+    let cg_context:CGContext? = CGContext( data: memory, width: wid, height: hgt,
+                                           bitsPerComponent: 8,
+                                           bytesPerRow: wid * 4,
+                                           space: color_space,
+                                           bitmapInfo: CGBitmapInfo.alphaInfoMask.rawValue + 
                                             CGImageAlphaInfo.premultipliedLast.rawValue )
-    guard let nonnull_cg_context = cg_context else { return LCImageSmPtr() }     
+    guard let nonnull_cg_context:CGContext = cg_context else { return LCImageSmPtr() }     
 
     nonnull_cg_context.draw( input_image_ref, in: CGRect( 0, 0, wid.cgf, hgt.cgf ) )
     
-    guard let conv_img = nonnull_cg_context.makeImage() else { return LCImageSmPtr() }
+    guard let conv_img:CGImage = nonnull_cg_context.makeImage() else { return LCImageSmPtr() }
     
-    guard let provider = conv_img.dataProvider else { return LCImageSmPtr() }
-    let input_data = provider.data
-    let row = conv_img.bytesPerRow
+    guard let provider:CGDataProvider = conv_img.dataProvider else { return LCImageSmPtr() }
+    let input_data:CFData? = provider.data
+    let row:Int = conv_img.bytesPerRow
     
-    guard let pixel_data = CFDataGetBytePtr( input_data ) else { return LCImageSmPtr() }
-    guard let mat = LCImageRGBA8Matrix( lcimg ) else { return LCImageSmPtr() }
+    guard let pixel_data:UnsafePointer<UInt8> = CFDataGetBytePtr( input_data ) else { return LCImageSmPtr() }
+    guard let mat:LLColor8Matrix = LCImageRGBA8Matrix( lcimg ) else { return LCImageSmPtr() }
 
     for y in 0 ..< hgt {
         for x in 0 ..< wid {
@@ -342,8 +346,10 @@ public func LCImage2NSImage( _ img_:LCImageSmPtr ) -> NSImage {
 }
 
 public func NSImage2LCImage( _ img_:NSImage ) -> LCImageSmPtr {
-    var nsimage_rect = CGRect( 0, 0, img_.size.width, img_.size.height );
-    let cgimg = img_.cgImage(forProposedRect: &nsimage_rect, context: nil, hints: nil)!
+    var nsimage_rect:CGRect = CGRect( 0, 0, img_.size.width, img_.size.height )
+    let cgimg:CGImage = img_.cgImage( forProposedRect:&nsimage_rect, 
+                                      context: nil,
+                                      hints: nil)!
     return CGImage2LCImage( cgimg )
 }
 #endif
@@ -359,8 +365,10 @@ public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> CGImage? {
     guard let memory:LLBytePtr = LCImageRawMemory( lcimg ) else { return nil }
     let color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
     let cg_context:CGContext? = CGContext( data: memory, width: wid, height: hgt,
-                                   bitsPerComponent: 8, bytesPerRow: wid * 4, space: color_space,
-                                   bitmapInfo: CGBitmapInfo.alphaInfoMask.rawValue + 
+                                           bitsPerComponent: 8,
+                                           bytesPerRow: wid * 4,
+                                           space: color_space,
+                                           bitmapInfo: CGBitmapInfo.alphaInfoMask.rawValue + 
                                              CGImageAlphaInfo.premultipliedLast.rawValue )
     
     guard let nonnull_cg_context:CGContext = cg_context else { return nil } 
@@ -370,15 +378,15 @@ public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> CGImage? {
 
 public func CGImage2LCImage( _ img_:CGImage ) -> LCImageSmPtr {
 
-    let data = img_.dataProvider!.data
-    let width = img_.width
-    let height = img_.height
-    let length = CFDataGetLength( data )
+    let data:CFData? = img_.dataProvider?.data
+    let width:Int = img_.width
+    let height:Int = img_.height
+    let length:CFIndex = CFDataGetLength( data )
     
-    let lcimg = LCImageMake( width, height, .rgba8 )
-    let memory = LCImageRawMemory( lcimg )
+    let lcimg:LCImageSmPtr = LCImageMake( width, height, .rgba8 )
+    let memory:LLBytePtr? = LCImageRawMemory( lcimg )
     CFDataGetBytes( data, CFRangeMake( 0, length ), memory )
-    let matrix = LCImageRGBA8Matrix( lcimg )!
+    let matrix:LLColor8Matrix = LCImageRGBA8Matrix( lcimg )!
     
     for y in 0 ..< height { 
         for x in 0 ..< width {

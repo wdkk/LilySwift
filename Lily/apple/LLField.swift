@@ -12,7 +12,7 @@ import Foundation
 
 public class LLEmpty 
 {
-   static public let none = LLEmpty()
+    static public let none:LLEmpty = LLEmpty()
 }
 
 public protocol LLField

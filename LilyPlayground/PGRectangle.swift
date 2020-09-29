@@ -12,7 +12,7 @@ import Metal
 
 public class PGRectangle : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco:[Int:LBPanelDecoration] = [:]
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }
@@ -30,7 +30,7 @@ public class PGRectangle : PGPanelBase
 
 public class PGAddRectangle : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco:[Int:LBPanelDecoration] = [:]
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }
@@ -49,7 +49,7 @@ public class PGAddRectangle : PGPanelBase
 
 public class PGSubRectangle : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco:[Int:LBPanelDecoration] = [:]
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }

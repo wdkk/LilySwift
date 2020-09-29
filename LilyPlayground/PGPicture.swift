@@ -12,7 +12,7 @@ import Metal
 
 public class PGPicture : PGPanelBase
 {
-    static private var deco = [String:LBPanelDecoration]()
+    static private var deco:[String:LBPanelDecoration] = [:]
     
     static private func create( name:String, index:Int ) -> LBPanelDecoration {
         let id = name + "\(index)"
@@ -35,7 +35,7 @@ public class PGPicture : PGPanelBase
 
 public class PGAddPicture : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco:[Int:LBPanelDecoration] = [:]
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }
@@ -58,7 +58,7 @@ public class PGAddPicture : PGPanelBase
 
 public class PGSubPicture : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco:[Int:LBPanelDecoration] = [:]
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }

@@ -12,7 +12,7 @@ import Metal
 
 public class PGMask : PGPanelBase
 {
-    static private var deco = [String:LBPanelDecoration]()
+    static private var deco:[String:LBPanelDecoration] = [:]
     
     static private func create( name:String, index:Int ) -> LBPanelDecoration {
         let id = name + "\(index)"
@@ -35,7 +35,7 @@ public class PGMask : PGPanelBase
 
 public class PGAddMask : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco:[Int:LBPanelDecoration] = [:]
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }
@@ -58,7 +58,7 @@ public class PGAddMask : PGPanelBase
 
 public class PGSubMask : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco:[Int:LBPanelDecoration] = [:]
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }

@@ -136,8 +136,8 @@ open class LLMetalTextureTree
 
 open class LLMetalTextureAtlas
 {
-    private var _dictionaries = [String:Any?]()
-    private var _label_positions = [String:LLRegion]()
+    private var _dictionaries:[String:Any?] = [:]
+    private var _label_positions:[String:LLRegion] = [:]
     public var metalTexture:MTLTexture?
     public private(set) var label:String
     public private(set) var width:Int32 = 0
@@ -179,7 +179,7 @@ open class LLMetalTextureAtlas
     public func commit() -> Self { 
         typealias ImagePosUnit = LLMetalTextureTree.ImagePosUnit
         
-        var image_rects = [ImagePosUnit]()
+        var image_rects:[ImagePosUnit] = []
         
         for (key, v) in self._dictionaries {
             // nullの場合処理しない

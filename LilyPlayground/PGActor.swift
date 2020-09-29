@@ -69,7 +69,7 @@ public protocol PGActor : LBActor
 open class PGPanelBase : LBPanel, PGActor
 {
     public var iterateField:LLSoloField<LBActor, Any>?
-    public var intervalFields = [String:PGActorInterval]()
+    public var intervalFields:[String:PGActorInterval] = [:]
     public var completionField:LLSoloField<LBActor, Any>?
    
     @discardableResult

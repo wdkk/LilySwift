@@ -12,7 +12,7 @@ import Metal
 
 public class PGCircle : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco:[Int:LBPanelDecoration] = [:]
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }
@@ -30,7 +30,7 @@ public class PGCircle : PGPanelBase
 
 public class PGAddCircle : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco:[Int:LBPanelDecoration] = [:]
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }
@@ -49,7 +49,7 @@ public class PGAddCircle : PGPanelBase
 
 public class PGSubCircle : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco:[Int:LBPanelDecoration] = [:]
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }

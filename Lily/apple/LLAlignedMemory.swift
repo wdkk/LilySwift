@@ -29,7 +29,7 @@ public protocol LLAlignedMemoryAllocatable
 open class LLAlignedMemory16<T> : LLAlignedMemoryAllocatable
 {
     /// LilyCoreオブジェクト
-    fileprivate var lcmemory = LCAlignedMemory16Make()
+    fileprivate var lcmemory:LCAlignedMemory16SmPtr = LCAlignedMemory16Make()
     public private(set) var typeSize:Int = 0
     
     public init( count:Int = 0 ) {
@@ -76,7 +76,7 @@ open class LLAlignedMemory16<T> : LLAlignedMemoryAllocatable
 open class LLAlignedMemory4096<T> : LLAlignedMemoryAllocatable
 {
     /// LilyCoreオブジェクト
-    fileprivate var lcmemory = LCAlignedMemory4096Make()
+    fileprivate var lcmemory:LCAlignedMemory4096SmPtr = LCAlignedMemory4096Make()
     public private(set) var typeSize:Int = 0
     
     public init( count:Int = 0 ) {
@@ -104,8 +104,8 @@ open class LLAlignedMemory4096<T> : LLAlignedMemoryAllocatable
     // メモリの追加
     public func append( _ element:T ) {
         withUnsafePointer( to: element ) { 
-            let opaque_ptr = OpaquePointer( $0 )
-            let nonnull_ptr = LLNonNullUInt8Ptr( opaque_ptr )
+            let opaque_ptr:OpaquePointer = OpaquePointer( $0 )
+            let nonnull_ptr:LLNonNullUInt8Ptr = LLNonNullUInt8Ptr( opaque_ptr )
             LCAlignedMemory4096AppendBytes( lcmemory, nonnull_ptr, self.typeSize )
         }
     }
@@ -113,8 +113,8 @@ open class LLAlignedMemory4096<T> : LLAlignedMemoryAllocatable
     // メモリの追加
     public func append( _ elements:[T] ) {
         withUnsafePointer( to: elements ) {
-            let opaque_ptr = OpaquePointer( $0 )
-            let nonnull_ptr = LLNonNullUInt8Ptr( opaque_ptr )
+            let opaque_ptr:OpaquePointer = OpaquePointer( $0 )
+            let nonnull_ptr:LLNonNullUInt8Ptr = LLNonNullUInt8Ptr( opaque_ptr )
             LCAlignedMemory4096AppendBytes( lcmemory, nonnull_ptr, self.typeSize )
         }
     }

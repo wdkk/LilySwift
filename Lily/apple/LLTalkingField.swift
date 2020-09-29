@@ -20,8 +20,8 @@ public struct LLTalkingField<TCaller:AnyObject, TMe:AnyObject, TObj> : LLField
                  action:@escaping (TCaller, TMe, TObj)->Void )
     {
         self.field = { [weak caller, weak me] ( objs:TObj ) in
-            guard let caller = caller,
-                  let me = me else { return }
+            guard let caller:TCaller = caller,
+                  let me:TMe = me else { return }
             action( caller, me, objs )
         }
     }
@@ -32,8 +32,8 @@ public struct LLTalkingField<TCaller:AnyObject, TMe:AnyObject, TObj> : LLField
                  action:@escaping (TCaller, TMe)->Void )
     {
         self.field = { [weak caller, weak me] ( objs:TObj ) in
-            guard let caller = caller,
-                  let me = me else { return }
+            guard let caller:TCaller = caller,
+                  let me:TMe = me else { return }
             action( caller, me )
         }
     }

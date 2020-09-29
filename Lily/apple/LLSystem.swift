@@ -47,7 +47,7 @@ open class LLSystem
     /// 指定したミリ秒だけ処理を待機する（待機時間が長い時向け)
     /// - Parameter ms: 待機時間(ミリ秒)
     static public func wait( _ msd:Double ) { 
-        guard let ms = msd.i else { return }
+        guard let ms:Int = msd.i else { return }
         LCSystemWait( ms ) 
     }
 }

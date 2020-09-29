@@ -321,6 +321,10 @@
 		5D9A4EBD23EC876400210B1B /* MTLRenderPipelineColorAttachmentDescriptor+Lily+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9A4EB523EC876400210B1B /* MTLRenderPipelineColorAttachmentDescriptor+Lily+ext.swift */; };
 		5DA0815423C21603005E877C /* LDImage.apl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0815323C21603005E877C /* LDImage.apl.swift */; };
 		5DA0815523C21603005E877C /* LDImage.apl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0815323C21603005E877C /* LDImage.apl.swift */; };
+		5DB40DF625237BF00016A911 /* AVCaptureDevice+Lily+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB40DF425237BF00016A911 /* AVCaptureDevice+Lily+ext.swift */; };
+		5DB40DF725237BF00016A911 /* AVCaptureDevice+Lily+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB40DF425237BF00016A911 /* AVCaptureDevice+Lily+ext.swift */; };
+		5DB40DF825237BF00016A911 /* CVPixelBuffer+Lily+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB40DF525237BF00016A911 /* CVPixelBuffer+Lily+ext.swift */; };
+		5DB40DF925237BF00016A911 /* CVPixelBuffer+Lily+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB40DF525237BF00016A911 /* CVPixelBuffer+Lily+ext.swift */; };
 		5DB4C5882488D02500F6171C /* LBActor.struct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB4C5862488D02400F6171C /* LBActor.struct.swift */; };
 		5DB4C5892488D02500F6171C /* LBActor.struct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB4C5862488D02400F6171C /* LBActor.struct.swift */; };
 		5DB4C58A2488D02500F6171C /* LBShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB4C5872488D02400F6171C /* LBShape.swift */; };
@@ -682,6 +686,8 @@
 		5D9A4EB523EC876400210B1B /* MTLRenderPipelineColorAttachmentDescriptor+Lily+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MTLRenderPipelineColorAttachmentDescriptor+Lily+ext.swift"; sourceTree = "<group>"; };
 		5DA0815323C21603005E877C /* LDImage.apl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDImage.apl.swift; sourceTree = "<group>"; };
 		5DACEE95235C7167001143BF /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		5DB40DF425237BF00016A911 /* AVCaptureDevice+Lily+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVCaptureDevice+Lily+ext.swift"; sourceTree = "<group>"; };
+		5DB40DF525237BF00016A911 /* CVPixelBuffer+Lily+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CVPixelBuffer+Lily+ext.swift"; sourceTree = "<group>"; };
 		5DB4C5862488D02400F6171C /* LBActor.struct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBActor.struct.swift; sourceTree = "<group>"; };
 		5DB4C5872488D02400F6171C /* LBShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBShape.swift; sourceTree = "<group>"; };
 		5DB4C58C2488D06400F6171C /* PGActor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGActor.swift; sourceTree = "<group>"; };
@@ -1087,6 +1093,8 @@
 		5D450F0323940F7D007D7DD6 /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5DB40DF425237BF00016A911 /* AVCaptureDevice+Lily+ext.swift */,
+				5DB40DF525237BF00016A911 /* CVPixelBuffer+Lily+ext.swift */,
 				5D1A1A142483A70100E03509 /* MTLTexture+Lily+ext.swift */,
 				5D68011A24227F3300752979 /* ClosedRange+Lily+ext.swift */,
 				5DE4503B241BDC47008419B6 /* CGColor+Lily+ext.swift */,
@@ -1721,6 +1729,7 @@
 				5DFF06DB23D197A500480E06 /* LLPoint+LilyCore+ext.swift in Sources */,
 				5D2BA71E251C4A8100340890 /* LLMetalShape.points.swift in Sources */,
 				5DDD3DE723C1AFC7008BB6F9 /* LLImage.swift in Sources */,
+				5DB40DF725237BF00016A911 /* AVCaptureDevice+Lily+ext.swift in Sources */,
 				5D9A4E4F23EC843C00210B1B /* CALayer+Lily+ext.swift in Sources */,
 				5D537F9224475656007107B1 /* LBPanel.swift in Sources */,
 				5D0CCA9723BB581E0007E174 /* LLType.graphics.swift in Sources */,
@@ -1804,6 +1813,7 @@
 				5D450F1723940F7D007D7DD6 /* LLZ.swift in Sources */,
 				5D2BA722251C4A8100340890 /* LLMetalShape.triangles.swift in Sources */,
 				5D08987224D1B91F0075453D /* LLSoloField.swift in Sources */,
+				5DB40DF925237BF00016A911 /* CVPixelBuffer+Lily+ext.swift in Sources */,
 				5D68011824227F2000752979 /* NSColor+Lily+ext.swift in Sources */,
 				5D537FB024475656007107B1 /* AppleCrossPlatform.swift in Sources */,
 				5DFF06E923D197C300480E06 /* UserDefault+Lily+ext.swift in Sources */,
@@ -1886,6 +1896,7 @@
 				5DB7A552239E534D0050A9B4 /* LLError.swift in Sources */,
 				5D2E8BCD2387DA5D00D21D94 /* LLType.swift in Sources */,
 				5D0D9AC423CCC8F900FFA33D /* LLAlignedMemory.swift in Sources */,
+				5DB40DF825237BF00016A911 /* CVPixelBuffer+Lily+ext.swift in Sources */,
 				5D0CCA9323BB55E70007E174 /* LLLog.swift in Sources */,
 				5D537FAB24475656007107B1 /* LBActorStorage.swift in Sources */,
 				5D537F8924475656007107B1 /* LBTriangle.swift in Sources */,
@@ -1977,6 +1988,7 @@
 				5D2E8BD92387F0C300D21D94 /* LLMath.2DAffine.swift in Sources */,
 				5D7B865B24500A59007A47DF /* PGSetup.swift in Sources */,
 				5D537F8524475656007107B1 /* LBTriangleStorage.swift in Sources */,
+				5DB40DF625237BF00016A911 /* AVCaptureDevice+Lily+ext.swift in Sources */,
 				5DFCC7E023C0E48C0049AC4E /* LCImageLoader.internal.tga.swift in Sources */,
 				5D08986124D1B8C20075453D /* LBPanelRenderShader.swift in Sources */,
 				5D2BA70D251C4A8100340890 /* LLMetalShape.cubes.swift in Sources */,
@@ -2126,7 +2138,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4.3.6.0;
+				CURRENT_PROJECT_VERSION = 4.3.7.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2148,7 +2160,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 4.3.6;
+				MARKETING_VERSION = 4.3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.Lily;
 				PRODUCT_NAME = LilySwift;
 				SDKROOT = macosx;
@@ -2163,7 +2175,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4.3.6.0;
+				CURRENT_PROJECT_VERSION = 4.3.7.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2178,7 +2190,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 4.3.6;
+				MARKETING_VERSION = 4.3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.Lily;
 				PRODUCT_NAME = LilySwift;
 				SDKROOT = macosx;
@@ -2327,7 +2339,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4.3.6.0;
+				CURRENT_PROJECT_VERSION = 4.3.7.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2349,7 +2361,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.3.6;
+				MARKETING_VERSION = 4.3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2366,7 +2378,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4.3.6.0;
+				CURRENT_PROJECT_VERSION = 4.3.7.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2384,7 +2396,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.3.6;
+				MARKETING_VERSION = 4.3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				PROVISIONING_PROFILE_SPECIFIER = "";

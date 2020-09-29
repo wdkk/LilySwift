@@ -15,7 +15,7 @@ import Metal
 
 open class LLMetalManager
 {
-    public static let shared = LLMetalManager()
+    public static let shared:LLMetalManager = LLMetalManager()
     private init() {
         device = MTLCreateSystemDefaultDevice()
         commandQueue = device?.makeCommandQueue()

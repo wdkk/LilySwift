@@ -41,14 +41,14 @@ open class PGViewController: PGBaseViewController
     }
     
     // 形状データ
-    public var panels = Set<PGPanelBase>()
-    public var triangles = Set<PGTriangleBase>()
+    public var panels:Set<PGPanelBase> = Set<PGPanelBase>()
+    public var triangles:Set<PGTriangleBase> = Set<PGTriangleBase>()
     public var shapes:Set<LBActor> {
         Set<LBActor>( panels ).union( triangles )
     }
     
     // テクスチャデータ
-    public var textures = [String:LLMetalTexture]()
+    public var textures:[String:LLMetalTexture] = [:]
     
     // 処理ハンドラ 
     public var buildupHandler:(()->Void)?

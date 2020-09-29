@@ -107,10 +107,10 @@ public extension LLString
     /// - Parameter separator: 分割の記号(セパレータ)
     /// - Returns: 分割文字列の配列(セパレータは含まれない)
     func split( _ separator:LLString ) -> [LLString] {
-        let arr = LCStringSplit( lcStr, separator.lcStr )
-        var strs = [LLString]()
-        for i in 0 ..< LCStringArrayCount( arr ) {
-            let s = LLString( LCStringArrayAt( arr, i ) )
+        let arr:LCStringArraySmPtr = LCStringSplit( lcStr, separator.lcStr )
+        var strs:[LLString] = []
+        for i:Int in 0 ..< LCStringArrayCount( arr ) {
+            let s:LLString = LLString( LCStringArrayAt( arr, i ) )
             strs.append( s )
         }
         return strs

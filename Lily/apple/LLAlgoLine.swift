@@ -16,7 +16,7 @@ import Foundation
 open class LLAlgoLineBresenham
 {
     /// LilyCoreのラインオブジェクト
-	fileprivate(set) var linec = LCAlgoLineBresenhamMake()
+    fileprivate(set) var linec:LCAlgoLineBresenhamSmPtr = LCAlgoLineBresenhamMake()
     
     /// オブジェクトを生成
     public init() {}
@@ -60,7 +60,7 @@ open class LLAlgoLineBresenham
 open class LLAlgoLineHermite
 {
     /// LilyCoreのラインオブジェクト
-    fileprivate(set) var linec = LCAlgoLineHermiteMake()
+    fileprivate(set) var linec:LCAlgoLineHermiteSmPtr = LCAlgoLineHermiteMake()
     
     /// オブジェクトを生成
     public init() {}

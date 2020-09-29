@@ -12,7 +12,7 @@ import Metal
 
 public class PGBlurryCircle : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco:[Int:LBPanelDecoration] = [:]
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }
@@ -30,7 +30,7 @@ public class PGBlurryCircle : PGPanelBase
 
 public class PGAddBlurryCircle : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco:[Int:LBPanelDecoration] = [:]
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }
@@ -49,7 +49,7 @@ public class PGAddBlurryCircle : PGPanelBase
 
 public class PGSubBlurryCircle : PGPanelBase
 {
-    static private var deco = [Int:LBPanelDecoration]()
+    static private var deco:[Int:LBPanelDecoration] = [:]
     
     static private func create( index:Int ) -> LBPanelDecoration {
         if let d = deco[index] { return d }

@@ -14,5 +14,5 @@ import Metal
 
 public struct LLMetalComputeSetting
 {
-   public var computeShader = LLMetalShader()
+    public var computeShader:LLMetalShader = LLMetalShader()
 }
