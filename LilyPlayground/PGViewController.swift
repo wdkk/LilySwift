@@ -18,18 +18,7 @@ import AppKit
 import PlaygroundSupport
 #endif
 
-#if LILY_FULL 
-open class PGBaseViewController : LBViewController 
-{
-}
-#else
-@objc(BookCore_LiveViewController)
-open class PGBaseViewController: LBViewController, PlaygroundLiveViewSafeAreaContainer
-{
-}
-#endif
-
-open class PGViewController: PGBaseViewController
+open class PGViewController: LBViewController
 {
     public static let shared = PGViewController()
     private override init() {
