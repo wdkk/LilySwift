@@ -71,7 +71,7 @@ open class LLView : CALayer, LLUILifeEvent
     public func buildup() { }
     
     public func postBuildup() {
-        self.callDesignFunction()
+        self.callBuildupFunctions()
         
         if let sublayers = self.sublayers {
             for child in sublayers {
@@ -81,7 +81,7 @@ open class LLView : CALayer, LLUILifeEvent
     }
     
     public func teardown() {
-        self.callDissetupFunction()
+        self.callTeardownFunctions()
         
         if let sublayers = self.sublayers {
             for child in sublayers {
@@ -128,15 +128,15 @@ open class LLView : CALayer, LLUILifeEvent
 
 extension LLView
 {
-    public func callAssembleFunction() {
+    public func callSetupFunctions() {
         self.setupField.appear( LLEmpty.none )
     }
     
-    public func callDesignFunction() {
+    public func callBuildupFunctions() {
         self.buildupField.appear( LLEmpty.none )
     }
     
-    public func callDissetupFunction() {
+    public func callTeardownFunctions() {
         self.teardownField.appear( LLEmpty.none )
     }
 }

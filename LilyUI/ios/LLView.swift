@@ -44,7 +44,7 @@ open class LLView : UIView, LLUILifeEvent
     public func buildup() { }
     
     public func postBuildup() {
-        self.callDesignFunction()
+        self.callBuildupFunctions()
         
         for child in self.subviews {
             if let llui = child as? LLUILifeEvent { llui.rebuild() }
@@ -52,7 +52,7 @@ open class LLView : UIView, LLUILifeEvent
     }
     
     public func teardown() {
-        self.callDissetupFunction()
+        self.callTeardownFunctions()
         
         for child in self.subviews {
             if let llui = child as? LLUILifeEvent { llui.teardown() }
@@ -70,7 +70,7 @@ open class LLView : UIView, LLUILifeEvent
     
     public override func addSubview( _ view: UIView ) {
         if let llview = view as? LLView {
-            llview.callAssembleFunction()
+            llview.callSetupFunctions()
         }
         super.addSubview( view )
     }
@@ -95,15 +95,15 @@ open class LLView : UIView, LLUILifeEvent
         self.touchesCancelledField.appear( LLTouchArg( touches, event ) )
     }
     
-    public func callAssembleFunction() {
+    public func callSetupFunctions() {
         self.setupField.appear( LLEmpty.none )
     }
     
-    public func callDesignFunction() {
+    public func callBuildupFunctions() {
         self.buildupField.appear( LLEmpty.none )
     }
     
-    public func callDissetupFunction() {
+    public func callTeardownFunctions() {
         self.teardownField.appear( LLEmpty.none )
     }
         

@@ -37,15 +37,7 @@ open class LLViewController : UIViewController
     fileprivate var _old_size:LLSize = .zero
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        // TODO: Playgrounds Booksの画面更新に不都合があるためコメントアウト
-        // ViewController.view in ViewController.viewのサイズ対応は個別に行っていくべきとみる。
-        /*
-        if let prnt = self.parent {
-            view.rect = prnt.view.bounds.llRect
-        }
-        */
-        
+                
         if !already {
             self.preSetup()
             self.setup()

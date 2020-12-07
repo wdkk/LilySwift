@@ -30,7 +30,7 @@ class MyViewController : LBViewController
     // 画面更新時の構築処理
     override func buildup() {
         super.buildup()
-        
+                
         panels.removeAll()
         
         for _ in 0 ..< 100 {

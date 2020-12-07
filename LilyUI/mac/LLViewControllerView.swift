@@ -52,7 +52,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     public func buildup() { }
     
     public func postBuildup() {
-        self.callDesignFunction()
+        self.callBuildupFunctions()
         
         // NSView側
         for child in self.subviews {
@@ -67,7 +67,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     public func teardown() {
-        self.callDissetupFunction()
+        self.callTeardownFunctions()
          
         // NSView側
         for child in self.subviews {
@@ -482,15 +482,15 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         LLTablet.updateState( event: event )
     }
 
-    public func callAssembleFunction() {
+    public func callSetupFunctions() {
         self.setupField.appear( LLEmpty.none )
     }
     
-    public func callDesignFunction() {
+    public func callBuildupFunctions() {
         self.buildupField.appear( LLEmpty.none )
     }
     
-    public func callDissetupFunction() {
+    public func callTeardownFunctions() {
         self.teardownField.appear( LLEmpty.none )
     }
 }
