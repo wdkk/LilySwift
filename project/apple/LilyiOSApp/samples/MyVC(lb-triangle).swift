@@ -21,6 +21,8 @@ class MyViewController : LBViewController
      
     // 初期化準備関数
     override func setup() {
+        super.setup()
+        
         // 背景色の設定
         self.clearColor = .lightGrey
 
@@ -33,11 +35,11 @@ class MyViewController : LBViewController
     
     // 画面更新時の構築処理
     override func buildup() {
-
+        super.buildup()
     }
 
     // 繰り返し処理関数
     override func loop() {
-
+        super.loop()
     }
 }

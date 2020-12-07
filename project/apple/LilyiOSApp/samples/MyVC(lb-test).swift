@@ -90,6 +90,8 @@ class MyViewController : LBViewController
     )
         
     override func setup() {
+        super.setup()
+        
         // 背景色の設定
         self.clearColor = .darkGrey
              
@@ -100,6 +102,8 @@ class MyViewController : LBViewController
     
     // 画面更新時の構築処理
     override func buildup() {
+        super.buildup()
+        
         panels.removeAll()
                 
         for _ in 0 ..< 100 {
@@ -135,6 +139,8 @@ class MyViewController : LBViewController
 
     // 繰り返し処理関数
     override func loop() {
+        super.loop()
+        
         self.compute {
             atlascraft_blur.atlasIO( atlasio ).fire( using:$0 )
         }

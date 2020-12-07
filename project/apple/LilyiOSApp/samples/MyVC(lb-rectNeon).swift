@@ -22,12 +22,15 @@ class MyViewController : LBViewController
          
     // 初期化準備関数
     override func setup() {
+        super.setup()
         // 背景色の設定
         self.clearColor = .darkGrey
     }
     
     // 画面更新時の構築処理
     override func buildup() {
+        super.buildup()
+        
         panels.removeAll()
         
         for _ in 0 ..< 100 {
@@ -54,6 +57,8 @@ class MyViewController : LBViewController
 
     // 繰り返し処理関数
     override func loop() {
+        super.loop()
+        
         for p in panels {            
             p.life { $0.life - 0.005 }
             .width { 80.0 + (1.0 - $0.life) * 120.0 }
