@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		5D2973DA1F5E70D2005F1CBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D2973D31F5E70D2005F1CBA /* Assets.xcassets */; };
 		5D37A34B20E791A40084C4E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D37A34A20E791A40084C4E6 /* LaunchScreen.storyboard */; };
-		5D5796D3257E426800DD07C3 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE44FF7241BDBAF008419B6 /* MyViewController.swift */; };
+		5D45A8F5257EA1820007454B /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE44FF7241BDBAF008419B6 /* MyViewController.swift */; };
 		5D5AA4BA2462982600832532 /* LilyPlaygroundHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B62462982600832532 /* LilyPlaygroundHelper.swift */; };
 		5D5AA4BB2462982600832532 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B72462982600832532 /* AppDelegate.swift */; };
 		5D5AA4BC2462982600832532 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B82462982600832532 /* main.swift */; };
@@ -35,12 +35,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5D08987324D1B97D0075453D /* MyVC(pg2-3-5 fountain).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyVC(pg2-3-5 fountain).swift"; sourceTree = "<group>"; };
-		5D23D1DB24862D8E000BCBB1 /* MyVC(pg-anim).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyVC(pg-anim).swift"; sourceTree = "<group>"; };
 		5D2973D31F5E70D2005F1CBA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D2973D61F5E70D2005F1CBA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D37A34A20E791A40084C4E6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		5D502E91244D9D9D00412732 /* MyVC(pg-test).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MyVC(pg-test).swift"; sourceTree = "<group>"; };
 		5D5AA4B62462982600832532 /* LilyPlaygroundHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LilyPlaygroundHelper.swift; sourceTree = "<group>"; };
 		5D5AA4B72462982600832532 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5D5AA4B82462982600832532 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -48,17 +45,8 @@
 		5D8DF91A1F5EBBC500108334 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		5DA0815823C2287D005E877C /* supportFiles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = supportFiles; path = ../../../supportFiles; sourceTree = "<group>"; };
 		5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = LilySwift.xcframework; path = ../../../_lib/LilySwift.xcframework; sourceTree = "<group>"; };
-		5DCA3BA724234D6000C2E789 /* MyVC(lb-test).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyVC(lb-test).swift"; sourceTree = "<group>"; };
 		5DCD20F923525D29007F00EA /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		5DE44FF7241BDBAF008419B6 /* MyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
-		5DE46EDA2428CF6F00008F2A /* MyVC(lb-touch).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MyVC(lb-touch).swift"; sourceTree = "<group>"; };
-		5DE46EDB2428CF6F00008F2A /* MyVC(lb-firework).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MyVC(lb-firework).swift"; sourceTree = "<group>"; };
-		5DE46EDC2428CF6F00008F2A /* MyVC(lb-smokeMask).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MyVC(lb-smokeMask).swift"; sourceTree = "<group>"; };
-		5DE46EDD2428CF6F00008F2A /* MyVC(lb-rectNeon).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MyVC(lb-rectNeon).swift"; sourceTree = "<group>"; };
-		5DE46EF82429069700008F2A /* MyVC(lb-triangle).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyVC(lb-triangle).swift"; sourceTree = "<group>"; };
-		5DE46EF92429069700008F2A /* MyVC(lb-panel).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyVC(lb-panel).swift"; sourceTree = "<group>"; };
-		5DE8A20E2486D126006A37E8 /* MyVC(pg-firework).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyVC(pg-firework).swift"; sourceTree = "<group>"; };
-		5DE8A20F2486D126006A37E8 /* MyVC(pg-interaction).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyVC(pg-interaction).swift"; sourceTree = "<group>"; };
 		5DEE58601C2667DA00546A18 /* LilyiOSApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LilyiOSApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -96,25 +84,6 @@
 			path = baseCodes;
 			sourceTree = "<group>";
 		};
-		5DCA3BA624234D6000C2E789 /* samples */ = {
-			isa = PBXGroup;
-			children = (
-				5DE46EF92429069700008F2A /* MyVC(lb-panel).swift */,
-				5DE46EF82429069700008F2A /* MyVC(lb-triangle).swift */,
-				5DCA3BA724234D6000C2E789 /* MyVC(lb-test).swift */,
-				5DE46EDB2428CF6F00008F2A /* MyVC(lb-firework).swift */,
-				5DE46EDD2428CF6F00008F2A /* MyVC(lb-rectNeon).swift */,
-				5DE46EDC2428CF6F00008F2A /* MyVC(lb-smokeMask).swift */,
-				5DE46EDA2428CF6F00008F2A /* MyVC(lb-touch).swift */,
-				5D502E91244D9D9D00412732 /* MyVC(pg-test).swift */,
-				5D23D1DB24862D8E000BCBB1 /* MyVC(pg-anim).swift */,
-				5DE8A20E2486D126006A37E8 /* MyVC(pg-firework).swift */,
-				5DE8A20F2486D126006A37E8 /* MyVC(pg-interaction).swift */,
-				5D08987324D1B97D0075453D /* MyVC(pg2-3-5 fountain).swift */,
-			);
-			path = samples;
-			sourceTree = "<group>";
-		};
 		5DEE58571C2667DA00546A18 = {
 			isa = PBXGroup;
 			children = (
@@ -123,7 +92,6 @@
 				5D2973D11F5E70D2005F1CBA /* App */,
 				5D5AA4B52462982600832532 /* baseCodes */,
 				5DFA0D4A23FFB83D0025A756 /* codes */,
-				5DCA3BA624234D6000C2E789 /* samples */,
 				5DEE58611C2667DA00546A18 /* Products */,
 				5DF5307123525FE2009A6898 /* Frameworks */,
 			);
@@ -232,7 +200,7 @@
 				5D5AA4BD2462982600832532 /* SceneDelegate.swift in Sources */,
 				5D5AA4BB2462982600832532 /* AppDelegate.swift in Sources */,
 				5D5AA4BA2462982600832532 /* LilyPlaygroundHelper.swift in Sources */,
-				5D5796D3257E426800DD07C3 /* MyViewController.swift in Sources */,
+				5D45A8F5257EA1820007454B /* MyViewController.swift in Sources */,
 				5D5AA4BC2462982600832532 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

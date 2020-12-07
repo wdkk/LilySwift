@@ -32,7 +32,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5D08987724D1C06E0075453D /* MyVC(pg2-3-5 fountain).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyVC(pg2-3-5 fountain).swift"; sourceTree = "<group>"; };
 		5D08987C24D1C8CB0075453D /* LilyPlaygroundHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LilyPlaygroundHelper.swift; sourceTree = "<group>"; };
 		5D08987D24D1C8CB0075453D /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		5D08987E24D1C8CB0075453D /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -43,7 +42,6 @@
 		5DB4690D238E6D25002A8FF7 /* LilySwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = LilySwift.xcframework; path = ../../../_lib/LilySwift.xcframework; sourceTree = "<group>"; };
 		5DC5EE932125C25600F65A88 /* LilyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LilyApp.entitlements; sourceTree = "<group>"; };
 		5DCA3BAD2423524E00C2E789 /* MyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
-		5DCA3BAF2423525C00C2E789 /* MyVC(lb-test).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyVC(lb-test).swift"; sourceTree = "<group>"; };
 		5DEE58901C266D5E00546A18 /* LilyMacApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LilyMacApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -96,15 +94,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5DCA3BA824234E6000C2E789 /* samples */ = {
-			isa = PBXGroup;
-			children = (
-				5DCA3BAF2423525C00C2E789 /* MyVC(lb-test).swift */,
-				5D08987724D1C06E0075453D /* MyVC(pg2-3-5 fountain).swift */,
-			);
-			path = samples;
-			sourceTree = "<group>";
-		};
 		5DEE58871C266D5E00546A18 = {
 			isa = PBXGroup;
 			children = (
@@ -112,7 +101,6 @@
 				5D24C9411F606FE900AE628D /* App */,
 				5D08987B24D1C8CB0075453D /* baseCodes */,
 				5D2605E423706FF60078B63A /* codes */,
-				5DCA3BA824234E6000C2E789 /* samples */,
 				5DEE58911C266D5E00546A18 /* Products */,
 				5D60056D2367E84100262B40 /* Frameworks */,
 			);

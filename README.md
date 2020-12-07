@@ -82,7 +82,7 @@ LilySwiftライブラリは MIT License ( https://github.com/wdkk/LilySwift/blob
 
 ## 開発元(Developer)
 
-- 渡辺電気株式会社(Watanabe-DENKI Inc.)
+- 渡辺電気株式会社(Watanabe-Denki Inc.)
 　　
   - https://wdkk.co.jp/
 
@@ -92,4 +92,4 @@ LilySwiftライブラリは MIT License ( https://github.com/wdkk/LilySwift/blob
 
 
 
-Copyright(c) 2004- Watanabe-DENKI.Inc.
+Copyright(c) 2004- Watanabe-Denki.Inc.

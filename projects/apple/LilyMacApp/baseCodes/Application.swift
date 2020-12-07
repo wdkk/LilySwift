@@ -3,7 +3,7 @@
 //  LilyApp
 //
 //  Created by Kengo on 2018/08/16.
-//  Copyright © 2018年 Watanabe-DENKI Inc. All rights reserved.
+//  Copyright © 2018年 Watanabe-Denki Inc. All rights reserved.
 //
 
 import Foundation

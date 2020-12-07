@@ -2,7 +2,7 @@
 // LLWindow.swift
 // Lily Library
 //
-// Copyright (c) 2017- Watanabe-DENKI Inc.
+// Copyright (c) 2017- Watanabe-Denki Inc.
 //   https://wdkk.co.jp/
 //
 

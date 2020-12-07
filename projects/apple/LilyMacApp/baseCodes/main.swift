@@ -3,7 +3,7 @@
 //  Lily
 //
 //  Created by kengo on 2015/04/04.
-//  Copyright (c) 2017- Watanabe-DENKI Inc.
+//  Copyright (c) 2017- Watanabe-Denki Inc.
 //
 
 import Foundation

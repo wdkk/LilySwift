@@ -1,7 +1,7 @@
 //
 // LilySwift Library Project
 //
-// Copyright (c) Watanabe-DENKI Inc. and Kengo Watanabe.
+// Copyright (c) Watanabe-Denki Inc. and Kengo Watanabe.
 //   https://wdkk.co.jp/
 //
 // This software is released under the MIT License.
@@ -29,13 +29,6 @@ class SceneDelegate : UIResponder, UIWindowSceneDelegate
         scene.windowMinSizeForCatalyst( LLSize( 768, 1044 ) )
         scene.windowMaxSizeForCatalyst( LLSize( 768, 1044 ) )
     
-        /*
-        // trait変更時に適用する関数の登録
-        vcm.traitChanged = checkColorMode
-        // 初期化時カラーモードのチェック
-        checkColorMode()
-        */
-        
         window?.rootViewController = vcm.root( vc )
         window?.makeKeyAndVisible()
     }
@@ -43,12 +36,6 @@ class SceneDelegate : UIResponder, UIWindowSceneDelegate
     func stateRestorationActivity(for scene: UIScene) -> NSUserActivity? {
         return scene.userActivity
     }
-
-    /*
-    private func checkColorMode() {
-
-    }
-    */
     
     func sceneWillResignActive(_ scene: UIScene) {
         

@@ -3,7 +3,7 @@
 //  LilySwift
 //
 //  Created by Kengo on 2020/01/04.
-//  Copyright © 2020 Watanabe-DENKI.Inc. All rights reserved.
+//  Copyright © 2020 Watanabe-Denki.Inc. All rights reserved.
 //
 
 import Foundation

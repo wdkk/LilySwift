@@ -1,7 +1,7 @@
 //
 // LilySwift Library Project
 //
-// Copyright (c) Watanabe-DENKI Inc. and Kengo Watanabe.
+// Copyright (c) Watanabe-Denki Inc. and Kengo Watanabe.
 //   https://wdkk.co.jp/
 //
 // This software is released under the MIT License.
@@ -29,6 +29,10 @@ open class PGViewController: LBViewController
         fatalError("init(coder:) has not been implemented")
     }
     
+    // 外部処理ハンドラ 
+    public var buildupHandler:(()->Void)?
+    public var loopHandler:(()->Void)?
+    
     // 形状データ
     public var panels:Set<PGPanelBase> = Set<PGPanelBase>()
     public var triangles:Set<PGTriangleBase> = Set<PGTriangleBase>()
@@ -38,11 +42,7 @@ open class PGViewController: LBViewController
     
     // テクスチャデータ
     public var textures:[String:LLMetalTexture] = [:]
-    
-    // 処理ハンドラ 
-    public var buildupHandler:(()->Void)?
-    public var loopHandler:(()->Void)?
-   
+
     // 表示からの経過時間
     public var elapsedTime:Double { PGActorTimer.shared.elapsedTime }
     
@@ -59,33 +59,25 @@ open class PGViewController: LBViewController
         // デザイン関数のみ再定義
         metalView.chain
         .buildup.add( with:self )
-        { (caller, me) in
+        { caller, me in
             // 現在ある全ての図形を削除する
-            caller.removeAllShapes()    
-            // 画面のリサイズ時に画面更新に合わせてループを1度呼び出しておく
-            caller.loop()
+            caller.removeAllShapes()
+            // セーフエリアいっぱいにリサイズ
+            CATransaction.stop {
+                me.chain.rect( self.ourBounds.llRect )
+            }
+            // ボード描画
+            caller.buildupBoard()
         }
     }
     
-    open override func preBuildup() {
-        super.preBuildup()
-        
-        // TODO: viewControllerのbuildupをオーバライドして使った時、
-        // metalViewが初期化されておらずサイズが取れないため、ここでサイジングしておく
-        // もう少しスマートな方法が欲しい
-        CATransaction.stop {
-            metalView.chain.rect( self.ourBounds.llRect )
-        }
-    }
-    
-    override open func postBuildup() {
-        super.postBuildup()
+    // ボード構築関数
+    open override func buildupBoard() {
         buildupHandler?()
     }
-    
-    // 繰り返し処理関数
-    override open func loop() {
-        super.loop()
+        
+    // ボード繰り返し処理関数
+    override open func loopBoard() {
         // 時間の更新
         PGActorTimer.shared.update()
         
@@ -117,6 +109,7 @@ open class PGViewController: LBViewController
         triangles.removeAll()
     }
     
+    // テクスチャの取得 & まだつくっていないときは生成
     public func getTexture( _ path:String ) -> LLMetalTexture {
         guard let tex = textures[path] else {
             textures[path] = LLMetalTexture( named: path )

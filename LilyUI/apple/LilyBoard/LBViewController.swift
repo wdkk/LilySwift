@@ -1,7 +1,7 @@
 //
 // LilySwift Library Project
 //
-// Copyright (c) Watanabe-DENKI Inc. and Kengo Watanabe.
+// Copyright (c) Watanabe-Denki Inc. and Kengo Watanabe.
 //   https://wdkk.co.jp/
 //
 // This software is released under the MIT License.
@@ -39,12 +39,14 @@ open class LBViewController : LLViewController
                                                 top:coordMaxY,
                                                 right:coordMaxX,
                                                 bottom:coordMinY ) }
-
-   open override func preSetup() {
-        super.preSetup()
+    // オーバーライド用関数
+    open func buildupBoard() { }
+    // オーバーライド用関数
+    open func loopBoard() { }
     
-        print( "preSetup" )
-        
+    open override func preSetup() {
+        super.preSetup()
+
         // MetalのViewを画面に追加
         #if os(iOS)
         metalView.chain
@@ -55,7 +57,12 @@ open class LBViewController : LLViewController
         }  
         .buildup.add( with:self ) 
         { ( caller, me ) in
-            caller.rebuild()
+            // セーフエリアいっぱいにリサイズ
+            CATransaction.stop {
+                me.chain.rect( self.safeArea )
+            }
+            // ボード描画
+            caller.buildupBoard()
         }
         .touchesBegan.add( with:self )
         { ( caller, me, args ) in
@@ -82,8 +89,12 @@ open class LBViewController : LLViewController
         }  
         .buildup.add( with:self ) 
         { ( caller, me ) in
-            // 画面のリサイズで呼び出す
-            caller.rebuild()
+            // セーフエリアいっぱいにリサイズ
+            CATransaction.stop {
+                me.chain.rect( self.safeArea )
+            }
+            // ボード描画
+            caller.buildupBoard()
         }
         // TODO: macOSのイベント対応
         #endif
@@ -95,26 +106,10 @@ open class LBViewController : LLViewController
         super.postSetup()
         self.startLooping()
     }
-        
-    open override func preBuildup() {
-        super.preBuildup()
-        
-        // TODO: viewControllerのbuildupをオーバライドして使った時、
-        // metalViewが初期化されておらずサイズが取れないため、ここでサイジングしておく
-        // もう少しスマートな方法が欲しい
-        CATransaction.stop {
-            metalView.chain.rect( self.safeArea )
-        }
-    }
-    
-    /// viewLoopの基盤関数の上書き(loopの呼び場所を変えるため)
-    open override func viewLoop() {
-        preLoop()
-    }
     
     // 繰り返し処理関数
-    open override func preLoop() {
-        super.preLoop()
+    open override func loop() {
+        super.loop()
         if !self.already { return }
         
         // Metalの実行
@@ -125,8 +120,7 @@ open class LBViewController : LLViewController
             
             strongself.currentCommandBuffer = commandBuffer
             
-            strongself.loop()
-            strongself.postLoop()
+            strongself.loopBoard()
             
             LLMetalComputer.compute( commandBuffer: commandBuffer ) {
                 LBDecorationManager.shared.compute( encoder:$0 )
@@ -146,8 +140,8 @@ open class LBViewController : LLViewController
                      
             strongself.currentCommandBuffer = nil
         },
-        post: { (commandBuffer) in
-            // LilyPlaygroundsではcompletedで待つ形にする(非同期の悪さを止める)
+        post: { commandBuffer in
+            // LilyPlaygroundではcompletedで待つ形にする(非同期の悪さを止める)
             #if LILY_FULL
             commandBuffer.waitUntilScheduled()
             #else
@@ -155,7 +149,7 @@ open class LBViewController : LLViewController
             #endif
         })
     }
-    
+        
     func recogizeTouches( _ event:OSEvent? ) {
         // タッチ情報の配列をリセット
         self.touchManager.clear()
