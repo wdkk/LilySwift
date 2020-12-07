@@ -60,15 +60,21 @@ open class PGViewController: LBViewController
         metalView.chain
         .buildup.add( with:self )
         { (caller, me) in
-            // 画面いっぱいにサイズ指定
-            CATransaction.stop {
-                me.rect = caller.ourBounds.llRect
-            }
-            
-            caller.removeAllShapes()
-            
+            // 現在ある全ての図形を削除する
+            caller.removeAllShapes()    
             // 画面のリサイズ時に画面更新に合わせてループを1度呼び出しておく
             caller.loop()
+        }
+    }
+    
+    open override func preBuildup() {
+        super.preBuildup()
+        
+        // TODO: viewControllerのbuildupをオーバライドして使った時、
+        // metalViewが初期化されておらずサイズが取れないため、ここでサイジングしておく
+        // もう少しスマートな方法が欲しい
+        CATransaction.stop {
+            metalView.chain.rect( self.ourBounds.llRect )
         }
     }
     

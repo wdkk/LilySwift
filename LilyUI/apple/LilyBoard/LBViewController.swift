@@ -42,6 +42,8 @@ open class LBViewController : LLViewController
 
    open override func preSetup() {
         super.preSetup()
+    
+        print( "preSetup" )
         
         // MetalのViewを画面に追加
         #if os(iOS)
@@ -53,12 +55,6 @@ open class LBViewController : LLViewController
         }  
         .buildup.add( with:self ) 
         { ( caller, me ) in
-            // セーフエリア画面いっぱいにサイズ指定
-            CATransaction.stop {
-                me.chain
-                .rect( caller.safeArea )
-            }
-            // 画面のリサイズで呼び出す
             caller.rebuild()
         }
         .touchesBegan.add( with:self )
@@ -86,11 +82,6 @@ open class LBViewController : LLViewController
         }  
         .buildup.add( with:self ) 
         { ( caller, me ) in
-            // セーフエリア画面いっぱいにサイズ指定
-            CATransaction.stop {
-                me.chain
-                .rect( caller.safeArea )
-            }
             // 画面のリサイズで呼び出す
             caller.rebuild()
         }
@@ -103,6 +94,17 @@ open class LBViewController : LLViewController
     open override func postSetup() {
         super.postSetup()
         self.startLooping()
+    }
+        
+    open override func preBuildup() {
+        super.preBuildup()
+        
+        // TODO: viewControllerのbuildupをオーバライドして使った時、
+        // metalViewが初期化されておらずサイズが取れないため、ここでサイジングしておく
+        // もう少しスマートな方法が欲しい
+        CATransaction.stop {
+            metalView.chain.rect( self.safeArea )
+        }
     }
     
     /// viewLoopの基盤関数の上書き(loopの呼び場所を変えるため)
