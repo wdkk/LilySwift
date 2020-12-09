@@ -24,7 +24,7 @@ public class PGBlurryCircle : PGPanelBase
     @discardableResult
     public init( index:Int = 0 ) {
         super.init( decoration:PGBlurryCircle.create( index: index ) )
-        PGViewController.shared.panels.insert( self )
+        PGMemoryPool.shared.panels.insert( self )
     }
 }
 
@@ -43,7 +43,7 @@ public class PGAddBlurryCircle : PGPanelBase
     @discardableResult
     public init( index:Int = 0 ) {
         super.init( decoration:PGAddBlurryCircle.create( index: index ) )
-        PGViewController.shared.panels.insert( self )
+        PGMemoryPool.shared.panels.insert( self )
     }
 }
 
@@ -62,7 +62,7 @@ public class PGSubBlurryCircle : PGPanelBase
     @discardableResult
     public init( index:Int = 0 ) {
         super.init( decoration:PGSubBlurryCircle.create( index: index ) )
-        PGViewController.shared.panels.insert( self )
+        PGMemoryPool.shared.panels.insert( self )
     }
 }
 

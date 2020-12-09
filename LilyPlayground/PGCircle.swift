@@ -24,7 +24,7 @@ public class PGCircle : PGPanelBase
     @discardableResult
     public init( index:Int = 0 ) {
         super.init( decoration:PGCircle.create( index: index ) )
-        PGViewController.shared.panels.insert( self )
+        PGMemoryPool.shared.panels.insert( self )
     }
 }
 
@@ -43,7 +43,7 @@ public class PGAddCircle : PGPanelBase
     @discardableResult
     public init( index:Int = 0 ) {
         super.init( decoration:PGAddCircle.create( index: index ) )
-        PGViewController.shared.panels.insert( self )
+        PGMemoryPool.shared.panels.insert( self )
     }
 }
 
@@ -62,7 +62,7 @@ public class PGSubCircle : PGPanelBase
     @discardableResult
     public init( index:Int = 0 ) {
         super.init( decoration:PGSubCircle.create( index: index ) )
-        PGViewController.shared.panels.insert( self )
+        PGMemoryPool.shared.panels.insert( self )
     }
 }
 

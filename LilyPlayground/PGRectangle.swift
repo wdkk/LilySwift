@@ -24,7 +24,7 @@ public class PGRectangle : PGPanelBase
     @discardableResult
     public init( index:Int = 0 ) {
         super.init( decoration:PGRectangle.create( index: index ) )
-        PGViewController.shared.panels.insert( self )
+        PGMemoryPool.shared.panels.insert( self )
     }
 }
 
@@ -43,7 +43,7 @@ public class PGAddRectangle : PGPanelBase
     @discardableResult
     public init( index:Int = 0 ) {
         super.init( decoration:PGAddRectangle.create( index: index ) )
-        PGViewController.shared.panels.insert( self )
+        PGMemoryPool.shared.panels.insert( self )
     }
 }
 
@@ -62,6 +62,6 @@ public class PGSubRectangle : PGPanelBase
     @discardableResult
     public init( index:Int = 0 ) {
         super.init( decoration:PGSubRectangle.create( index: index ) )
-        PGViewController.shared.panels.insert( self )
+        PGMemoryPool.shared.panels.insert( self )
     }
 }

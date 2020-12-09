@@ -24,7 +24,7 @@ public class PGTriangle : PGTriangleBase
     @discardableResult
     public init( index:Int = 0 ) {
         super.init( decoration:PGTriangle.create( index: index ) )
-        PGViewController.shared.triangles.insert( self )
+        PGMemoryPool.shared.triangles.insert( self )
     }
 }
 
@@ -43,7 +43,7 @@ public class PGAddTriangle : PGTriangleBase
     @discardableResult
     public init( index:Int = 0 ) {
         super.init( decoration:PGAddTriangle.create( index: index ) )
-        PGViewController.shared.triangles.insert( self )
+        PGMemoryPool.shared.triangles.insert( self )
     }
 }
 
@@ -62,7 +62,7 @@ public class PGSubTriangle : PGTriangleBase
     @discardableResult
     public init( index:Int = 0 ) {
         super.init( decoration:PGSubTriangle.create( index: index ) )
-        PGViewController.shared.triangles.insert( self )
+        PGMemoryPool.shared.triangles.insert( self )
     }
 }
 

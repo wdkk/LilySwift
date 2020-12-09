@@ -124,7 +124,7 @@ open class PGPanelBase : LBPanel, PGActor
             self.iterateField = nil
             self.intervalFields.removeAll()
             self.completionField = nil
-            PGViewController.shared.panels.remove( self )
+            PGMemoryPool.shared.panels.remove( self )
         }
     }
 }
@@ -187,7 +187,7 @@ open class PGTriangleBase : LBTriangle, PGActor
             self.iterateField = nil
             self.intervalFields.removeAll()
             self.completionField = nil
-            PGViewController.shared.triangles.remove( self )
+            PGMemoryPool.shared.triangles.remove( self )
         }
     }
 }

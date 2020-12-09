@@ -18,14 +18,14 @@ import AppKit
 import PlaygroundSupport
 #endif
 
-open class PGViewController: LBViewController
+open class PGViewController : LBViewController
 {
-    public static let shared = PGViewController()
-    private override init() {
+    public override init() {
         super.init()
+        PGScreen.current = self
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -33,16 +33,8 @@ open class PGViewController: LBViewController
     public var buildupHandler:(()->Void)?
     public var loopHandler:(()->Void)?
     
-    // 形状データ
-    public var panels:Set<PGPanelBase> = Set<PGPanelBase>()
-    public var triangles:Set<PGTriangleBase> = Set<PGTriangleBase>()
-    public var shapes:Set<LBActor> {
-        Set<LBActor>( panels ).union( triangles )
-    }
+    public var shapes:Set<LBActor> { PGMemoryPool.shared.shapes }
     
-    // テクスチャデータ
-    public var textures:[String:LLMetalTexture] = [:]
-
     // 表示からの経過時間
     public var elapsedTime:Double { PGActorTimer.shared.elapsedTime }
     
@@ -88,7 +80,7 @@ open class PGViewController: LBViewController
     }
         
     func checkShapesStatus() {
-        for s in shapes {
+        for s in PGMemoryPool.shared.shapes {
             guard let pgactor = s as? PGActor else { continue }
             // イテレート処理
             pgactor.appearIterate()
@@ -105,17 +97,12 @@ open class PGViewController: LBViewController
     }
     
     func removeAllShapes() {
-        panels.removeAll()
-        triangles.removeAll()
+        PGMemoryPool.shared.removeAllShapes()
     }
     
     // テクスチャの取得 & まだつくっていないときは生成
     public func getTexture( _ path:String ) -> LLMetalTexture {
-        guard let tex = textures[path] else {
-            textures[path] = LLMetalTexture( named: path )
-            return textures[path]!
-        }
-        return tex
+        return PGMemoryPool.shared.getTexture( path )
     }
     
     #if os(macOS)

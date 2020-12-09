@@ -24,12 +24,12 @@ public class PGMask : PGPanelBase
     
     @discardableResult
     public init( _ name:String, index:Int = 0 ) {
-        let tex = PGViewController.shared.getTexture( name )
+        let tex = PGMemoryPool.shared.getTexture( name )
         
         super.init( decoration:PGMask.create( name:name, index:index ) )
         self.texture( tex )
         
-        PGViewController.shared.panels.insert( self )
+        PGMemoryPool.shared.panels.insert( self )
     }
 }
 
@@ -47,12 +47,12 @@ public class PGAddMask : PGPanelBase
     
     @discardableResult
     public init( _ name:String, index:Int = 0 ) {
-        let tex = PGViewController.shared.getTexture( name )
+        let tex = PGMemoryPool.shared.getTexture( name )
         
         super.init( decoration:PGAddMask.create( index: index ) )
         self.texture( tex )
         
-        PGViewController.shared.panels.insert( self )
+        PGMemoryPool.shared.panels.insert( self )
     }
 }
 
@@ -70,11 +70,11 @@ public class PGSubMask : PGPanelBase
     
     @discardableResult
     public init( _ name:String, index:Int = 0 ) {
-        let tex = PGViewController.shared.getTexture( name )
+        let tex = PGMemoryPool.shared.getTexture( name )
         
         super.init( decoration:PGSubMask.create( index: index ) )
         self.texture( tex )
         
-        PGViewController.shared.panels.insert( self )
+        PGMemoryPool.shared.panels.insert( self )
     }
 }
