@@ -17,7 +17,7 @@ class MyViewController : LBViewController
     var panels = Set<LBPanel>()
     
     // 四角形デコレーションの用意
-    lazy var deco_rect = LBPanelDecoration.rectangle()
+    lazy var objpl_rect = LBPanelPipeline.rectangle()
     
     // 画面が更新された時の構築処理
     override func buildupBoard() {
@@ -30,7 +30,7 @@ class MyViewController : LBViewController
         panels.removeAll()
         
         // パネルを四角で作成
-        let p = LBPanel( decoration: deco_rect )
+        let p = LBPanel( objpl: objpl_rect )
         .color( .blue )
             
         // パネルセットに追加

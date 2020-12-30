@@ -11,24 +11,24 @@
 import Foundation
 import Metal
 
-public extension LBPanelDecoration
+public extension LBPanelPipeline
 {
-    // アトラスマスクパネルの描画
-    static func maskAtlas( label:String = UUID().labelString )
-    -> LBPanelDecoration 
+    // 画像マスクパネルの描画
+    static func maskTex( label:String = UUID().labelString )
+    -> LBPanelPipeline 
     {
-        // デコレーションのリクエストラベルを作る
-        let lbl = "lbpanel_maskatlas_\(label)"
+        // オブジェクトパイプラインのリクエストラベルを作る
+        let lbl = "lbpanel_masktex_\(label)"
         
         // 同一ラベルがある場合、再利用
         if Self.isExist( label:lbl ) { return Self.custom( label: lbl ) }
         
-        // リクエストがなかった場合、各種設定を行なってデコレーションを生成する
-        return LBPanelDecoration.custom( label: lbl )
+        // リクエストがなかった場合、各種設定を行なってオブジェクトパイプラインを生成する
+        return LBPanelPipeline.custom( label: lbl )
         .renderShader( 
             LBPanelRenderShader( 
-                vertexFuncName: "LBPanel_vertMaskTex_\(label)",
-                fragmentFuncName: "LBPanel_fragMaskTex_\(label)" )
+                vertexFuncName: "LBPanel_vertMaskAtlas_\(label)",
+                fragmentFuncName: "LBPanel_fragMaskAtlas_\(label)" )
             .fragmentFunction {
                 $0
                 .addArgument( "texture2d<float>", "tex [[ texture(0) ]]" )
@@ -45,17 +45,17 @@ public extension LBPanelDecoration
         )
         .renderFieldMySelf { caller, me, args in 
             if me.storage.isNoActive { return }
-    
+
             let mtlbuf_params = LLMetalStandardBuffer( amemory:me.storage.params )
-           
+            
             let sampler = LLMetalSampler.default
             
             let encoder = args
             
             encoder.setVertexBuffer( mtlbuf_params, index:1 )
             encoder.setFragmentSamplerState( sampler, index: 0 )
-            encoder.setFragmentTexture( me.storage.atlas?.metalTexture, index: 0 )
-            encoder.draw( shape:me.storage.metalVertex, index:2, painter: LLMetalQuadranglePainter<LBActorVertex>() )
+            encoder.setFragmentTexture( me.storage.texture, index: 0 )
+            encoder.draw( shape:me.storage.metalVertex, index:2, painter: LLMetalQuadranglePainter<LBActorVertex>()  )
         }
     }
 }

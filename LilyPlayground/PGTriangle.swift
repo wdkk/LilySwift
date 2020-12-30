@@ -12,56 +12,56 @@ import Metal
 
 public class PGTriangle : PGTriangleBase
 {
-    static private var deco:[Int:LBTriangleDecoration] = [:]
+    static private var objpl:[Int:LBTrianglePipeline] = [:]
     
-    static private func create( index:Int ) -> LBTriangleDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBTriangleDecoration.plane()
+    static private func create( index:Int ) -> LBTrianglePipeline {
+        if let d = objpl[index] { return d }
+        objpl[index] = LBTrianglePipeline.plane()
             .layer( index:index )
-        return deco[index]!
+        return objpl[index]!
     }
     
     @discardableResult
     public init( index:Int = 0 ) {
-        super.init( decoration:PGTriangle.create( index: index ) )
+        super.init( objpl:PGTriangle.create( index: index ) )
         PGMemoryPool.shared.triangles.insert( self )
     }
 }
 
 public class PGAddTriangle : PGTriangleBase
 {
-    static private var deco:[Int:LBTriangleDecoration] = [:]
+    static private var objpl:[Int:LBTrianglePipeline] = [:]
     
-    static private func create( index:Int ) -> LBTriangleDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBTriangleDecoration.plane()
+    static private func create( index:Int ) -> LBTrianglePipeline {
+        if let d = objpl[index] { return d }
+        objpl[index] = LBTrianglePipeline.plane()
             .blendType( .add )
             .layer( index:index )
-        return deco[index]!
+        return objpl[index]!
     }
     
     @discardableResult
     public init( index:Int = 0 ) {
-        super.init( decoration:PGAddTriangle.create( index: index ) )
+        super.init( objpl:PGAddTriangle.create( index: index ) )
         PGMemoryPool.shared.triangles.insert( self )
     }
 }
 
 public class PGSubTriangle : PGTriangleBase
 {
-    static private var deco:[Int:LBTriangleDecoration] = [:]
+    static private var objpl:[Int:LBTrianglePipeline] = [:]
     
-    static private func create( index:Int ) -> LBTriangleDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBTriangleDecoration.plane()
+    static private func create( index:Int ) -> LBTrianglePipeline {
+        if let d = objpl[index] { return d }
+        objpl[index] = LBTrianglePipeline.plane()
             .blendType( .sub )
             .layer( index:index )
-        return deco[index]!
+        return objpl[index]!
     }
     
     @discardableResult
     public init( index:Int = 0 ) {
-        super.init( decoration:PGSubTriangle.create( index: index ) )
+        super.init( objpl:PGSubTriangle.create( index: index ) )
         PGMemoryPool.shared.triangles.insert( self )
     }
 }

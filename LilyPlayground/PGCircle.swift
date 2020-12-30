@@ -12,56 +12,56 @@ import Metal
 
 public class PGCircle : PGPanelBase
 {
-    static private var deco:[Int:LBPanelDecoration] = [:]
+    static private var objpl:[Int:LBPanelPipeline] = [:]
     
-    static private func create( index:Int ) -> LBPanelDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.circle()
+    static private func create( index:Int ) -> LBPanelPipeline {
+        if let d = objpl[index] { return d }
+        objpl[index] = LBPanelPipeline.circle()
             .layer( index:index )
-        return deco[index]!
+        return objpl[index]!
     }
     
     @discardableResult
     public init( index:Int = 0 ) {
-        super.init( decoration:PGCircle.create( index: index ) )
+        super.init( objpl:PGCircle.create( index: index ) )
         PGMemoryPool.shared.panels.insert( self )
     }
 }
 
 public class PGAddCircle : PGPanelBase
 {
-    static private var deco:[Int:LBPanelDecoration] = [:]
+    static private var objpl:[Int:LBPanelPipeline] = [:]
     
-    static private func create( index:Int ) -> LBPanelDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.circle()
+    static private func create( index:Int ) -> LBPanelPipeline {
+        if let d = objpl[index] { return d }
+        objpl[index] = LBPanelPipeline.circle()
             .blendType( .add )
             .layer( index:index )
-        return deco[index]!
+        return objpl[index]!
     }
     
     @discardableResult
     public init( index:Int = 0 ) {
-        super.init( decoration:PGAddCircle.create( index: index ) )
+        super.init( objpl:PGAddCircle.create( index: index ) )
         PGMemoryPool.shared.panels.insert( self )
     }
 }
 
 public class PGSubCircle : PGPanelBase
 {
-    static private var deco:[Int:LBPanelDecoration] = [:]
+    static private var objpl:[Int:LBPanelPipeline] = [:]
     
-    static private func create( index:Int ) -> LBPanelDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.circle()
+    static private func create( index:Int ) -> LBPanelPipeline {
+        if let d = objpl[index] { return d }
+        objpl[index] = LBPanelPipeline.circle()
             .blendType( .sub )
             .layer( index:index )
-        return deco[index]!
+        return objpl[index]!
     }
     
     @discardableResult
     public init( index:Int = 0 ) {
-        super.init( decoration:PGSubCircle.create( index: index ) )
+        super.init( objpl:PGSubCircle.create( index: index ) )
         PGMemoryPool.shared.panels.insert( self )
     }
 }

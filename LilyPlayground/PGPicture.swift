@@ -12,21 +12,21 @@ import Metal
 
 public class PGPicture : PGPanelBase
 {
-    static private var deco:[String:LBPanelDecoration] = [:]
+    static private var objpl:[String:LBPanelPipeline] = [:]
     
-    static private func create( name:String, index:Int ) -> LBPanelDecoration {
+    static private func create( name:String, index:Int ) -> LBPanelPipeline {
         let id = name + "\(index)"
-        if let d = deco[id] { return d }
-        deco[id] = LBPanelDecoration.texture()
+        if let d = objpl[id] { return d }
+        objpl[id] = LBPanelPipeline.texture()
             .layer( index:index )
-        return deco[id]!
+        return objpl[id]!
     }
     
     @discardableResult
     public init( _ name:String, index:Int = 0 ) {
         let tex = PGMemoryPool.shared.getTexture( name )
         
-        super.init( decoration:PGPicture.create( name:name, index:index ) )
+        super.init( objpl:PGPicture.create( name:name, index:index ) )
         self.texture( tex )
         
         PGMemoryPool.shared.panels.insert( self )
@@ -35,21 +35,21 @@ public class PGPicture : PGPanelBase
 
 public class PGAddPicture : PGPanelBase
 {
-    static private var deco:[Int:LBPanelDecoration] = [:]
+    static private var objpl:[Int:LBPanelPipeline] = [:]
     
-    static private func create( index:Int ) -> LBPanelDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.texture()
+    static private func create( index:Int ) -> LBPanelPipeline {
+        if let d = objpl[index] { return d }
+        objpl[index] = LBPanelPipeline.texture()
             .blendType( .add )
             .layer( index:index )
-        return deco[index]!
+        return objpl[index]!
     }
     
     @discardableResult
     public init( _ name:String, index:Int = 0 ) {
         let tex = PGMemoryPool.shared.getTexture( name )
         
-        super.init( decoration:PGAddPicture.create( index: index ) )
+        super.init( objpl:PGAddPicture.create( index: index ) )
         self.texture( tex )
         
         PGMemoryPool.shared.panels.insert( self )
@@ -58,21 +58,21 @@ public class PGAddPicture : PGPanelBase
 
 public class PGSubPicture : PGPanelBase
 {
-    static private var deco:[Int:LBPanelDecoration] = [:]
+    static private var objpl:[Int:LBPanelPipeline] = [:]
     
-    static private func create( index:Int ) -> LBPanelDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.texture()
+    static private func create( index:Int ) -> LBPanelPipeline {
+        if let d = objpl[index] { return d }
+        objpl[index] = LBPanelPipeline.texture()
             .blendType( .sub )
             .layer( index:index )
-        return deco[index]!
+        return objpl[index]!
     }
     
     @discardableResult
     public init( _ name:String, index:Int = 0 ) {
         let tex = PGMemoryPool.shared.getTexture( name )
         
-        super.init( decoration:PGSubPicture.create( index: index ) )
+        super.init( objpl:PGSubPicture.create( index: index ) )
         self.texture( tex )
         
         PGMemoryPool.shared.panels.insert( self )

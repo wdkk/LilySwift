@@ -11,39 +11,43 @@
 import Foundation
 import Metal
 
-public extension LBPanelDecoration
+public extension LBPanelPipeline
 {
-    // アトラスによる複数画像の描画
-    static func texatlas( _ label:String = UUID().labelString, using atlas:LLMetalTextureAtlas )
-    -> LBPanelDecoration {
-        // デコレーションのリクエストラベルを作る
-        let lbl = "lbpanel_texatlas_\(label)"
+    // アトラスマスクパネルの描画
+    static func maskAtlas( label:String = UUID().labelString )
+    -> LBPanelPipeline 
+    {
+        // オブジェクトパイプラインのリクエストラベルを作る
+        let lbl = "lbpanel_maskatlas_\(label)"
         
         // 同一ラベルがある場合、再利用
         if Self.isExist( label:lbl ) { return Self.custom( label: lbl ) }
         
-        // リクエストがなかった場合、各種設定を行なってデコレーションを生成する
-        return LBPanelDecoration.custom( label:lbl )
-        .textureAtlas( atlas )
+        // リクエストがなかった場合、各種設定を行なってオブジェクトパイプラインを生成する
+        return LBPanelPipeline.custom( label: lbl )
         .renderShader( 
             LBPanelRenderShader( 
-                vertexFuncName: "LBPanel_vertTexAtlas_\(label)",
-                fragmentFuncName: "LBPanel_fragTexAtlas_\(label)" )
+                vertexFuncName: "LBPanel_vertMaskTex_\(label)",
+                fragmentFuncName: "LBPanel_fragMaskTex_\(label)" )
             .fragmentFunction {
                 $0
                 .addArgument( "texture2d<float>", "tex [[ texture(0) ]]" )
                 .addArgument( "sampler", "sampler [[ sampler(0) ]]" )
                 .code( """
                     if( is_null_texture( tex ) ) { discard_fragment(); }
-                    return tex.sample( sampler, vout.tex_uv );
+                    float4 tex_c = tex.sample( sampler, vout.tex_uv );
+                    
+                    float4 c = vout.color;
+                    c[3] *= tex_c[0];
+                    return c;
                 """ )
             }
         )
         .renderFieldMySelf { caller, me, args in 
             if me.storage.isNoActive { return }
-            
+    
             let mtlbuf_params = LLMetalStandardBuffer( amemory:me.storage.params )
-            
+           
             let sampler = LLMetalSampler.default
             
             let encoder = args

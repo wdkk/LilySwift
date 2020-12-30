@@ -11,20 +11,20 @@
 import Foundation
 import Metal
 
-public extension LBPanelDecoration
+public extension LBPanelPipeline
 {
     // 単品画像の描画
     static func texture( label:String = UUID().labelString )
-    -> LBPanelDecoration 
+    -> LBPanelPipeline 
     {
-        // デコレーションのリクエストラベルを作る
+        // オブジェクトパイプラインのリクエストラベルを作る
         let lbl = "lbpanel_texture_\(label)"
         
         // 同一ラベルがある場合、再利用
         if Self.isExist( label:lbl ) { return Self.custom( label: lbl ) }
         
-        // リクエストがなかった場合、各種設定を行なってデコレーションを生成する
-        return LBPanelDecoration.custom( label: lbl )
+        // リクエストがなかった場合、各種設定を行なってオブジェクトパイプラインを生成する
+        return LBPanelPipeline.custom( label: lbl )
         .renderShader( 
             LBPanelRenderShader( 
                 vertexFuncName: "LBPanel_vertTexture_\(label)",

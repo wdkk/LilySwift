@@ -12,20 +12,20 @@ import Foundation
 import Metal
 
 open class LBShape<
-    TDecoration:LBDecoration<TStorage>,
+    TObjPL:LBObjectPipeline<TStorage>,
     TStorage:LBActorStorage
     >
 : LBActor
 {
-    public weak var decoration:TDecoration?
+    public weak var objPipeline:TObjPL?
     public private(set) var index:Int
     
-    public init( decoration deco:TDecoration ) {
+    public init( objpl:TObjPL ) {
         // makeされていなかった場合を考慮してここでmakeする
-        deco.make()
+        objpl.make()
                 
-        self.index = deco.storage.request()
-        self.decoration = deco
+        self.index = objpl.storage.request()
+        self.objPipeline = objpl
     }
     
     deinit {
@@ -33,7 +33,7 @@ open class LBShape<
     }
     
     public override var params:LBActorParam {
-        get { return decoration!.storage.params.accessor![index] }
-        set { decoration?.storage.params.accessor?[index] = newValue }
+        get { return objPipeline!.storage.params.accessor![index] }
+        set { objPipeline?.storage.params.accessor?[index] = newValue }
     }
 }

@@ -12,21 +12,21 @@ import Metal
 
 public class PGMask : PGPanelBase
 {
-    static private var deco:[String:LBPanelDecoration] = [:]
+    static private var objpl:[String:LBPanelPipeline] = [:]
     
-    static private func create( name:String, index:Int ) -> LBPanelDecoration {
+    static private func create( name:String, index:Int ) -> LBPanelPipeline {
         let id = name + "\(index)"
-        if let d = deco[id] { return d }
-        deco[id] = LBPanelDecoration.maskTex()
+        if let d = objpl[id] { return d }
+        objpl[id] = LBPanelPipeline.maskTex()
             .layer( index:index )
-        return deco[id]!
+        return objpl[id]!
     }
     
     @discardableResult
     public init( _ name:String, index:Int = 0 ) {
         let tex = PGMemoryPool.shared.getTexture( name )
         
-        super.init( decoration:PGMask.create( name:name, index:index ) )
+        super.init( objpl:PGMask.create( name:name, index:index ) )
         self.texture( tex )
         
         PGMemoryPool.shared.panels.insert( self )
@@ -35,21 +35,21 @@ public class PGMask : PGPanelBase
 
 public class PGAddMask : PGPanelBase
 {
-    static private var deco:[Int:LBPanelDecoration] = [:]
+    static private var objpl:[Int:LBPanelPipeline] = [:]
     
-    static private func create( index:Int ) -> LBPanelDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.maskTex()
+    static private func create( index:Int ) -> LBPanelPipeline {
+        if let d = objpl[index] { return d }
+        objpl[index] = LBPanelPipeline.maskTex()
             .blendType( .add )
             .layer( index:index )
-        return deco[index]!
+        return objpl[index]!
     }
     
     @discardableResult
     public init( _ name:String, index:Int = 0 ) {
         let tex = PGMemoryPool.shared.getTexture( name )
         
-        super.init( decoration:PGAddMask.create( index: index ) )
+        super.init( objpl:PGAddMask.create( index: index ) )
         self.texture( tex )
         
         PGMemoryPool.shared.panels.insert( self )
@@ -58,21 +58,21 @@ public class PGAddMask : PGPanelBase
 
 public class PGSubMask : PGPanelBase
 {
-    static private var deco:[Int:LBPanelDecoration] = [:]
+    static private var objpl:[Int:LBPanelPipeline] = [:]
     
-    static private func create( index:Int ) -> LBPanelDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.maskTex()
+    static private func create( index:Int ) -> LBPanelPipeline {
+        if let d = objpl[index] { return d }
+        objpl[index] = LBPanelPipeline.maskTex()
             .blendType( .sub )
             .layer( index:index )
-        return deco[index]!
+        return objpl[index]!
     }
     
     @discardableResult
     public init( _ name:String, index:Int = 0 ) {
         let tex = PGMemoryPool.shared.getTexture( name )
         
-        super.init( decoration:PGSubMask.create( index: index ) )
+        super.init( objpl:PGSubMask.create( index: index ) )
         self.texture( tex )
         
         PGMemoryPool.shared.panels.insert( self )

@@ -12,56 +12,56 @@ import Metal
 
 public class PGRectangle : PGPanelBase
 {
-    static private var deco:[Int:LBPanelDecoration] = [:]
+    static private var objpl:[Int:LBPanelPipeline] = [:]
     
-    static private func create( index:Int ) -> LBPanelDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.rectangle()
+    static private func create( index:Int ) -> LBPanelPipeline {
+        if let d = objpl[index] { return d }
+        objpl[index] = LBPanelPipeline.rectangle()
             .layer( index:index )
-        return deco[index]!
+        return objpl[index]!
     }
     
     @discardableResult
     public init( index:Int = 0 ) {
-        super.init( decoration:PGRectangle.create( index: index ) )
+        super.init( objpl:PGRectangle.create( index: index ) )
         PGMemoryPool.shared.panels.insert( self )
     }
 }
 
 public class PGAddRectangle : PGPanelBase
 {
-    static private var deco:[Int:LBPanelDecoration] = [:]
+    static private var objpl:[Int:LBPanelPipeline] = [:]
     
-    static private func create( index:Int ) -> LBPanelDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.rectangle()
+    static private func create( index:Int ) -> LBPanelPipeline {
+        if let d = objpl[index] { return d }
+        objpl[index] = LBPanelPipeline.rectangle()
             .blendType( .add )
             .layer( index:index )
-        return deco[index]!
+        return objpl[index]!
     }
     
     @discardableResult
     public init( index:Int = 0 ) {
-        super.init( decoration:PGAddRectangle.create( index: index ) )
+        super.init( objpl:PGAddRectangle.create( index: index ) )
         PGMemoryPool.shared.panels.insert( self )
     }
 }
 
 public class PGSubRectangle : PGPanelBase
 {
-    static private var deco:[Int:LBPanelDecoration] = [:]
+    static private var objpl:[Int:LBPanelPipeline] = [:]
     
-    static private func create( index:Int ) -> LBPanelDecoration {
-        if let d = deco[index] { return d }
-        deco[index] = LBPanelDecoration.rectangle()
+    static private func create( index:Int ) -> LBPanelPipeline {
+        if let d = objpl[index] { return d }
+        objpl[index] = LBPanelPipeline.rectangle()
             .blendType( .sub )
             .layer( index:index )
-        return deco[index]!
+        return objpl[index]!
     }
     
     @discardableResult
     public init( index:Int = 0 ) {
-        super.init( decoration:PGSubRectangle.create( index: index ) )
+        super.init( objpl:PGSubRectangle.create( index: index ) )
         PGMemoryPool.shared.panels.insert( self )
     }
 }

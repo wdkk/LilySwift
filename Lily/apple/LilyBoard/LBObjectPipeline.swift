@@ -11,8 +11,8 @@
 import Foundation
 import Metal
 
-// デコレーションの基本プロトコル
-public protocol LBDecoratable
+// オブジェクトパイプラインの基本プロトコル
+public protocol LBObjectPipelineProtocol
 {
     static func isExist( label:String ) -> Bool
 
@@ -25,11 +25,11 @@ public protocol LBDecoratable
     func render( _: MTLRenderCommandEncoder )
 }
 
-open class LBDecoration< TStorage:LBActorStorage > : LBDecoratable
+open class LBObjectPipeline< TStorage:LBActorStorage > : LBObjectPipelineProtocol
 {
 
     public static func isExist( label:String ) -> Bool {
-        return LBDecorationManager.shared.decorations[label] != nil
+        return LBObjectPipelineManager.shared.pipelines[label] != nil
     }
     
     public private(set) var compute_pipeline = LLMetalComputePipeline()
@@ -90,7 +90,7 @@ open class LBDecoration< TStorage:LBActorStorage > : LBDecoratable
     
     deinit {
         // マネージャから削除
-        LBDecorationManager.shared.remove( label:self.keyLabel )
+        LBObjectPipelineManager.shared.remove( label:self.keyLabel )
     }
 
     @discardableResult

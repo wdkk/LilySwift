@@ -11,13 +11,13 @@
 import Foundation
 import Metal
 
-public final class LBTriangleDecoration : LBDecoration<LBTriangleStorage>
+public final class LBTrianglePipeline : LBObjectPipeline<LBTriangleStorage>
 {
-    public typealias Me = LBTriangleDecoration
+    public typealias Me = LBTrianglePipeline
     
     public static func custom( label:String ) -> Me {
-        if let deco = LBDecorationManager.shared.decorations[label] as? Me { return deco }
-        return LBDecorationManager.shared.add( deco:Me( label:label ) )
+        if let objpl = LBObjectPipelineManager.shared.pipelines[label] as? Me { return objpl }
+        return LBObjectPipelineManager.shared.add( objpl:Me( label:label ) )
     }
 
     private override init( label:String ) {

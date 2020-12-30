@@ -11,19 +11,19 @@
 import Foundation
 import Metal
 
-public extension LBTriangleDecoration
+public extension LBTrianglePipeline
 {
     // 三角形描画
     static func plane( label:String = UUID().labelString )
-    -> LBTriangleDecoration {
-        // デコレーションのリクエストラベルを作る
+    -> LBTrianglePipeline {
+        // オブジェクトパイプラインのリクエストラベルを作る
         let lbl = "lbtriangle_normal_\(label)"
         
         // 同一ラベルがある場合、再利用
         if Self.isExist( label:lbl ) { return Self.custom( label: lbl ) }
         
-        // リクエストがなかった場合、各種設定を行なってデコレーションを生成する
-        return LBTriangleDecoration.custom( label: lbl )
+        // リクエストがなかった場合、各種設定を行なってオブジェクトパイプラインを生成する
+        return LBTrianglePipeline.custom( label: lbl )
         .renderShader( 
             LBTrianglelRenderShader(
                 vertexFuncName: "LBTriangle_vertPlane_\(label)",

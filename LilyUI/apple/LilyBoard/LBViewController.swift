@@ -123,7 +123,7 @@ open class LBViewController : LLViewController
             strongself.loopBoard()
             
             LLMetalComputer.compute( commandBuffer: commandBuffer ) {
-                LBDecorationManager.shared.compute( encoder:$0 )
+                LBObjectPipelineManager.shared.compute( encoder:$0 )
             }
 
             LLMetalRenderer.render(
@@ -133,8 +133,8 @@ open class LBViewController : LLViewController
                 depthTexture: nil,
                 renderer: { 
                     let size = LLSize( strongself.metalView.width, strongself.metalView.height )
-                    // デコレーションマネージャに処理フローを依頼
-                    LBDecorationManager.shared.render( encoder: $0, size: size )
+                    // オブジェクトパイプラインマネージャに処理フローを依頼
+                    LBObjectPipelineManager.shared.render( encoder: $0, size: size )
                 }
             )
                      

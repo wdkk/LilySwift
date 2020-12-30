@@ -11,41 +11,37 @@
 import Foundation
 import Metal
 
-public extension LBPanelDecoration
+public extension LBPanelPipeline
 {
-    // 画像マスクパネルの描画
-    static func maskTex( label:String = UUID().labelString )
-    -> LBPanelDecoration 
-    {
-        // デコレーションのリクエストラベルを作る
-        let lbl = "lbpanel_masktex_\(label)"
+    // アトラスによる複数画像の描画
+    static func texatlas( _ label:String = UUID().labelString, using atlas:LLMetalTextureAtlas )
+    -> LBPanelPipeline {
+        // オブジェクトパイプラインのリクエストラベルを作る
+        let lbl = "lbpanel_texatlas_\(label)"
         
         // 同一ラベルがある場合、再利用
         if Self.isExist( label:lbl ) { return Self.custom( label: lbl ) }
         
-        // リクエストがなかった場合、各種設定を行なってデコレーションを生成する
-        return LBPanelDecoration.custom( label: lbl )
+        // リクエストがなかった場合、各種設定を行なってオブジェクトパイプラインを生成する
+        return LBPanelPipeline.custom( label:lbl )
+        .textureAtlas( atlas )
         .renderShader( 
             LBPanelRenderShader( 
-                vertexFuncName: "LBPanel_vertMaskAtlas_\(label)",
-                fragmentFuncName: "LBPanel_fragMaskAtlas_\(label)" )
+                vertexFuncName: "LBPanel_vertTexAtlas_\(label)",
+                fragmentFuncName: "LBPanel_fragTexAtlas_\(label)" )
             .fragmentFunction {
                 $0
                 .addArgument( "texture2d<float>", "tex [[ texture(0) ]]" )
                 .addArgument( "sampler", "sampler [[ sampler(0) ]]" )
                 .code( """
                     if( is_null_texture( tex ) ) { discard_fragment(); }
-                    float4 tex_c = tex.sample( sampler, vout.tex_uv );
-                    
-                    float4 c = vout.color;
-                    c[3] *= tex_c[0];
-                    return c;
+                    return tex.sample( sampler, vout.tex_uv );
                 """ )
             }
         )
         .renderFieldMySelf { caller, me, args in 
             if me.storage.isNoActive { return }
-
+            
             let mtlbuf_params = LLMetalStandardBuffer( amemory:me.storage.params )
             
             let sampler = LLMetalSampler.default
@@ -54,8 +50,8 @@ public extension LBPanelDecoration
             
             encoder.setVertexBuffer( mtlbuf_params, index:1 )
             encoder.setFragmentSamplerState( sampler, index: 0 )
-            encoder.setFragmentTexture( me.storage.texture, index: 0 )
-            encoder.draw( shape:me.storage.metalVertex, index:2, painter: LLMetalQuadranglePainter<LBActorVertex>()  )
+            encoder.setFragmentTexture( me.storage.atlas?.metalTexture, index: 0 )
+            encoder.draw( shape:me.storage.metalVertex, index:2, painter: LLMetalQuadranglePainter<LBActorVertex>() )
         }
     }
 }
