@@ -12,6 +12,7 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 public extension UIWindowScene
 {
     func windowMinSizeForCatalyst( _ size:LLSize ) {

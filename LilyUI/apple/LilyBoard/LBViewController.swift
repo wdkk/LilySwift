@@ -134,7 +134,7 @@ open class LBViewController : LLViewController
                 renderer: { 
                     let size = LLSize( strongself.metalView.width, strongself.metalView.height )
                     // オブジェクトパイプラインマネージャに処理フローを依頼
-                    LBObjectPipelineManager.shared.render( encoder: $0, size: size )
+                    LBObjectPipelineManager.shared.render( encoder: $0, screenSize: size )
                 }
             )
                      

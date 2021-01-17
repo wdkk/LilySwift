@@ -49,6 +49,7 @@ public extension UIViewController
 {
     var keyWindow:UIWindow? { return self.view.window }
     
+    @available(iOS 13.0, *)
     var windowScene:UIWindowScene? { return self.keyWindow?.windowScene }
 }
 
@@ -56,14 +57,17 @@ public extension UIViewController
 public extension UIViewController
 { 
     var deviceOrientation:UIInterfaceOrientation {
-        guard let win_scene = windowScene else { return .unknown }
-        return win_scene.interfaceOrientation
+        if #available(iOS 13.0, *) {
+            guard let win_scene = windowScene else { return .unknown }
+            return win_scene.interfaceOrientation
+        } 
+        else {
+            return UIApplication.shared.statusBarOrientation
+        }
     }
     
     var isPortrait:Bool {
-        guard let window_scene = windowScene else { return true }
-        let o = window_scene.interfaceOrientation
-        return o != .landscapeLeft && o != .landscapeRight
+        return deviceOrientation.isPortrait
     }
 }
 
@@ -72,8 +76,13 @@ public extension UIViewController
 { 
     /// ステータスバー領域情報
     var statusBarFrame:LLRect {
-        guard let manager = windowScene?.statusBarManager else { return .zero }  
-        return manager.statusBarFrame.llRect
+        if #available(iOS 13.0, *) {
+            guard let manager = windowScene?.statusBarManager else { return .zero }
+            return manager.statusBarFrame.llRect
+        } 
+        else {
+            return UIApplication.shared.statusBarFrame.llRect 
+        }  
     }
     
     /// デバイスの状況に合わせたステータスバーの高さ

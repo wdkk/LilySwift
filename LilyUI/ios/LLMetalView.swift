@@ -12,19 +12,28 @@
 
 import Metal
 import QuartzCore
-
+ 
 open class LLMetalView : LLView
 {
     /// Metalレイヤー
+    @available(iOS 13.0, *)
     public private(set) lazy var metalLayer = CAMetalLayer()
     public private(set) var lastDrawable:CAMetalDrawable?
 
     open override var bounds:CGRect {
-        didSet { metalLayer.frame = self.bounds }
+        didSet { 
+            if #available(iOS 13.0, *) {
+                metalLayer.frame = self.bounds
+            } 
+        }
     }
     
     open override var frame:CGRect { 
-        didSet { metalLayer.frame = self.bounds }
+        didSet { 
+            if #available(iOS 13.0, *) {
+                metalLayer.frame = self.bounds
+            }
+        }
     }
     
     open override func postSetup() {
@@ -34,18 +43,25 @@ open class LLMetalView : LLView
 
     /// Metalの初期化 / Metal Layerの準備
     private func setupMetal() {
-        metalLayer.device = LLMetalManager.shared.device
-        metalLayer.pixelFormat = .bgra8Unorm
-        metalLayer.framebufferOnly = false
-        metalLayer.frame = self.bounds
-        metalLayer.contentsScale = LLSystem.retinaScale.cgf
-        self.layer.addSublayer( metalLayer )
+        if #available(iOS 13.0, *) {
+            metalLayer.device = LLMetalManager.shared.device
+            metalLayer.pixelFormat = .bgra8Unorm
+            metalLayer.framebufferOnly = false
+            metalLayer.frame = self.bounds
+            metalLayer.contentsScale = LLSystem.retinaScale.cgf
+            self.layer.addSublayer( metalLayer )
+        }
     }
     
     open var drawable:CAMetalDrawable? {
-        if metalLayer.bounds.width < 1 || metalLayer.bounds.height < 1 { return nil }
-        lastDrawable = metalLayer.nextDrawable()
-        return lastDrawable
+        if #available(iOS 13.0, *) {
+            if metalLayer.bounds.width < 1 || metalLayer.bounds.height < 1 { return nil }
+            lastDrawable = metalLayer.nextDrawable()
+            return lastDrawable
+        }
+        else {
+            return nil
+        }
     }
 }
 

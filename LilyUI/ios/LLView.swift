@@ -28,6 +28,8 @@ open class LLView : UIView, LLUILifeEvent
     public required init?(coder: NSCoder) { super.init(coder:coder) }
     public init() {
         super.init( frame:.zero )
+        // 初期化
+        self.rect = LLRect( -1, -1, 1, 1 )
         self.preSetup()
         self.setup()
         self.postSetup()

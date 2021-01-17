@@ -32,6 +32,10 @@ open class LLViewController : UIViewController
     open override func viewDidLoad() {
         super.viewDidLoad()
         self.view = LLView()
+        if #available(iOS 13.0, *) {}
+        else {
+            self.view.frame = UIScreen.main.bounds
+        }
     }
     
     fileprivate var _old_size:LLSize = .zero

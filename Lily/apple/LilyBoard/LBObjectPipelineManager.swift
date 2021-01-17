@@ -39,7 +39,7 @@ open class LBObjectPipelineManager
         }
     }
     
-    public func render( encoder:MTLRenderCommandEncoder, size:LLSize ) {
+    public func render( encoder:MTLRenderCommandEncoder, screenSize size:LLSize ) {
         // プロジェクション行列を画面のピクセルサイズ変換に指定
         let sz:CGSize = CGSize( size.width, size.height )
         

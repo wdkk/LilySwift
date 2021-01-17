@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5D08987F24D1C8CB0075453D /* LilyPlaygroundHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08987C24D1C8CB0075453D /* LilyPlaygroundHelper.swift */; };
 		5D08988024D1C8CB0075453D /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08987D24D1C8CB0075453D /* Application.swift */; };
 		5D08988124D1C8CB0075453D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08987E24D1C8CB0075453D /* main.swift */; };
 		5D08988324D1C9720075453D /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3BAD2423524E00C2E789 /* MyViewController.swift */; };
@@ -32,7 +31,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5D08987C24D1C8CB0075453D /* LilyPlaygroundHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LilyPlaygroundHelper.swift; sourceTree = "<group>"; };
 		5D08987D24D1C8CB0075453D /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		5D08987E24D1C8CB0075453D /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5D24C9431F606FE900AE628D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -60,7 +58,6 @@
 		5D08987B24D1C8CB0075453D /* baseCodes */ = {
 			isa = PBXGroup;
 			children = (
-				5D08987C24D1C8CB0075453D /* LilyPlaygroundHelper.swift */,
 				5D08987D24D1C8CB0075453D /* Application.swift */,
 				5D08987E24D1C8CB0075453D /* main.swift */,
 			);
@@ -197,7 +194,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D08988024D1C8CB0075453D /* Application.swift in Sources */,
-				5D08987F24D1C8CB0075453D /* LilyPlaygroundHelper.swift in Sources */,
 				5D08988324D1C9720075453D /* MyViewController.swift in Sources */,
 				5D08988124D1C8CB0075453D /* main.swift in Sources */,
 			);
