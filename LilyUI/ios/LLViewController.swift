@@ -32,10 +32,6 @@ open class LLViewController : UIViewController
     open override func viewDidLoad() {
         super.viewDidLoad()
         self.view = LLView()
-        if #available(iOS 13.0, *) {}
-        else {
-            self.view.frame = UIScreen.main.bounds
-        }
     }
     
     fileprivate var _old_size:LLSize = .zero
@@ -46,12 +42,17 @@ open class LLViewController : UIViewController
             self.preSetup()
             self.setup()
             self.postSetup()
-            CATransaction.stop { self.rebuild() }
+            // TODO: iOS11対応でsetup時のbuildup呼び出しを停止した.
+            // 今後問題が起きるようであれば復帰させ、iOS11対応を廃止する > iOS13にする
+            //CATransaction.stop { self.rebuild() }
             already = true
         }
-        else if (_old_size.width != self.width || _old_size.height != self.height) {
+        else if _old_size.width != self.width || _old_size.height != self.height {
             _old_size = LLSize( self.width, self.height )
-            rebuild()
+            // TODO: iOS11対応でLLViewの初期化サイズを(1,1)としたので、それ以上の場合buildupを呼ぶようにする
+            if self.width > 1 || self.height > 1 {
+                rebuild()
+            }
         }
         
         self.view.layoutIfNeeded()

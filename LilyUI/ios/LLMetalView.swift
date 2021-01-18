@@ -36,6 +36,10 @@ open class LLMetalView : LLView
         }
     }
     
+    open override func preSetup() {
+        // TODO: metalViewがまともに動かなくなるので.zeroに戻す
+    }
+    
     open override func postSetup() {
         super.postSetup()
         setupMetal()
@@ -47,15 +51,15 @@ open class LLMetalView : LLView
             metalLayer.device = LLMetalManager.shared.device
             metalLayer.pixelFormat = .bgra8Unorm
             metalLayer.framebufferOnly = false
-            metalLayer.frame = self.bounds
             metalLayer.contentsScale = LLSystem.retinaScale.cgf
+            metalLayer.frame = self.bounds
             self.layer.addSublayer( metalLayer )
         }
     }
     
     open var drawable:CAMetalDrawable? {
         if #available(iOS 13.0, *) {
-            if metalLayer.bounds.width < 1 || metalLayer.bounds.height < 1 { return nil }
+            if metalLayer.bounds.width < 64 || metalLayer.bounds.height < 64 { return nil }
             lastDrawable = metalLayer.nextDrawable()
             return lastDrawable
         }

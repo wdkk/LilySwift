@@ -18,13 +18,18 @@ open class LLMetalView : LLView
     /// Metalレイヤー
     public private(set) lazy var metalLayer = CAMetalLayer()
     public private(set) var lastDrawable:CAMetalDrawable?
+    public private(set) var ready:Bool = false
 
     open override var bounds:CGRect {
-        didSet { metalLayer.frame = self.bounds }
+        didSet { 
+            metalLayer.frame = self.bounds 
+        }
     }
     
     open override var frame:CGRect { 
-        didSet { metalLayer.frame = self.bounds }
+        didSet { 
+            metalLayer.frame = self.bounds 
+        }
     }
     
     open override func postSetup() {
@@ -34,12 +39,13 @@ open class LLMetalView : LLView
 
     /// Metalの初期化 / Metal Layerの準備
     private func setupMetal() {
+        self.addSublayer( metalLayer )
         metalLayer.device = LLMetalManager.shared.device
         metalLayer.pixelFormat = .bgra8Unorm
         metalLayer.framebufferOnly = false
         metalLayer.frame = self.bounds
         metalLayer.contentsScale = LLSystem.retinaScale.cgf
-        self.addSublayer( metalLayer )
+        self.ready = true
     }
     
     open var drawable:CAMetalDrawable? {
