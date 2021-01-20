@@ -10,13 +10,12 @@
 
 import Foundation
 
-public struct LLFieldMapChain<TObj:OSView, TFieldMap:LLFieldMap>
-{
-    public var obj:TObj
-    public var fmap:TFieldMap
-    
-    public init( _ o:TObj, _ fm:TFieldMap ) {
-        obj = o
-        fmap = fm
-    }
-}
+#if os(iOS)
+import UIKit
+public typealias OSView = UIView
+
+#elseif os(macOS)
+import AppKit
+public typealias OSView = LLView
+
+#endif

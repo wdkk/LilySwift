@@ -14,6 +14,8 @@ open class LLRecursiveMutex
 {
     private var _count:Int = 0
     private(set) var locking:Bool = false
+    
+    public init() { }
         
     open func lock( _ f:@escaping ()->() ) {
         _count += 1

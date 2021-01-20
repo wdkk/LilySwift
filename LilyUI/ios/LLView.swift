@@ -12,7 +12,7 @@
 
 import UIKit
 
-open class LLView : UIView, LLUILifeEvent
+open class LLView : UIView, LLUILifeEvent, LLUIFieldFunctionable
 {
     public lazy var setupField = LLViewFieldMap()
     public lazy var buildupField = LLViewFieldMap()
@@ -74,8 +74,8 @@ open class LLView : UIView, LLUILifeEvent
     }
     
     public override func addSubview( _ view: UIView ) {
-        if let llview = view as? LLView {
-            llview.callSetupFunctions()
+        if let llfield_f = view as? LLUIFieldFunctionable {
+            llfield_f.callSetupFunctions()
         }
         super.addSubview( view )
     }
@@ -113,6 +113,7 @@ open class LLView : UIView, LLUILifeEvent
     }
         
     public override func draw( _ rect: CGRect ) {
+        super.draw( rect )
         self.drawLayerField.appear( rect )
     }
 }

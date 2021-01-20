@@ -124,16 +124,15 @@ open class LLViewController : UIViewController
     }
     
     open func postBuildup() {
-        if let llview = self.view as? LLView {
-            llview.rebuild()
+        if let life_event_ui = self.view as? LLUILifeEvent {
+            life_event_ui.rebuild()
         }
     }
     
     open func teardown() {
-        if let llview = self.view as? LLView {
-            llview.teardown()
+        if let life_event_ui = self.view as? LLUILifeEvent {
+            life_event_ui.teardown()
         }
-        
         already = false
     }
 

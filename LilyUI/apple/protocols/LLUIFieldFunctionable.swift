@@ -9,14 +9,13 @@
 //
 
 import Foundation
+import CoreGraphics
 
-public struct LLFieldMapChain<TObj:OSView, TFieldMap:LLFieldMap>
+public protocol LLUIFieldFunctionable
 {
-    public var obj:TObj
-    public var fmap:TFieldMap
-    
-    public init( _ o:TObj, _ fm:TFieldMap ) {
-        obj = o
-        fmap = fm
-    }
+    func callSetupFunctions()
+   
+    func callBuildupFunctions()
+     
+    func callTeardownFunctions()
 }

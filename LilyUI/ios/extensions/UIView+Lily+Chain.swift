@@ -12,8 +12,8 @@
 
 import UIKit
 
-/// チェインアクセサ
-public extension LLChain where TObj:LLView
+/// UIViewチェインアクセサ
+public extension LLChain where TObj:UIView
 {
     var bounds:CGRect { obj.bounds }
     
@@ -90,35 +90,7 @@ public extension LLChain where TObj:LLView
     func addSubview<TView:UIView>( _ chainview:LLChain<TView> ) -> Self {
         obj.addSubview( chainview )
         return self
-    }
-
-    var setup:LLFieldMapChain<TObj, LLViewFieldMap> {
-        return LLFieldMapChain( obj, obj.setupField )
-    }
-    
-    var buildup:LLFieldMapChain<TObj, LLViewFieldMap> {
-        return LLFieldMapChain( obj, obj.buildupField )
-    }
-
-    var teardown:LLFieldMapChain<TObj, LLViewFieldMap> {
-        return LLFieldMapChain( obj, obj.teardownField )
-    }
-    
-    var touchesBegan:LLFieldMapChain<TObj, LLTouchFieldMap> {
-        return LLFieldMapChain( obj, obj.touchesBeganField ) 
-    }
-    
-    var touchesMoved:LLFieldMapChain<TObj, LLTouchFieldMap> {
-        return LLFieldMapChain( obj, obj.touchesMovedField ) 
-    }
-
-    var touchesEnded:LLFieldMapChain<TObj, LLTouchFieldMap> {
-        return LLFieldMapChain( obj, obj.touchesEndedField ) 
-    }
-    
-    var touchesCancelled:LLFieldMapChain<TObj, LLTouchFieldMap> {
-        return LLFieldMapChain( obj, obj.touchesCancelledField ) 
-    }
+    }    
 }
 
 #endif

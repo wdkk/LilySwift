@@ -13,7 +13,9 @@ import Foundation
 public class LLFieldMap
 {
     public var fields:[String:LLField] = [:]
-        
+    
+    public init() {}
+    
     public func appear( _ objs:Any? ) {
         for (_,f) in fields {
             f.appear( objs )
