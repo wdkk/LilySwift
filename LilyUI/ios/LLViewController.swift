@@ -45,6 +45,9 @@ open class LLViewController : UIViewController
             // TODO: iOS11対応でsetup時のbuildup呼び出しを停止した.
             // 今後問題が起きるようであれば復帰させ、iOS11対応を廃止する > iOS13にする
             //CATransaction.stop { self.rebuild() }
+            if self.width > 1 || self.height > 1 {
+                CATransaction.stop { self.rebuild() }
+            }
             already = true
         }
         else if _old_size.width != self.width || _old_size.height != self.height {

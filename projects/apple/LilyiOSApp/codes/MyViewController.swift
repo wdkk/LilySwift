@@ -10,10 +10,7 @@
 
 import Foundation
 import LilySwift
-import UIKit
-import QuartzCore
 
-/*
 class MyViewController : LBViewController
 {   
     // パネルを格納するセット
@@ -38,27 +35,5 @@ class MyViewController : LBViewController
             
         // パネルセットに追加
         panels.insert( p )
-    }
-}
-*/
- 
-class MyViewController : LLViewController
-{
-    lazy var img_view = LLImageView().chain
-    .buildup.add( with:self ) { caller, me in
-        me.chain
-        .rect( 50, 50, 256, 256 )
-    }
-    
-    override func setup() {
-        super.setup()
-        self.view.addSubview( img_view )
-    }
-    
-    override func buildup() {
-        super.buildup()
-
-        let img = LLImage( LLPath.bundle( "supportFiles/images/Lily.png" ) )
-        img_view.image( img )
     }
 }
