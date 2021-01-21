@@ -363,13 +363,17 @@ public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> CGImage? {
     LCImageConvertType( lcimg, .rgba8 )
     
     guard let memory:LLBytePtr = LCImageRawMemory( lcimg ) else { return nil }
+    
+    let bitmap_info:CGBitmapInfo = CGBitmapInfo( rawValue:
+        CGBitmapInfo.alphaInfoMask.rawValue & 
+        CGImageAlphaInfo.premultipliedLast.rawValue )
+    
     let color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
     let cg_context:CGContext? = CGContext( data: memory, width: wid, height: hgt,
                                            bitsPerComponent: 8,
                                            bytesPerRow: wid * 4,
                                            space: color_space,
-                                           bitmapInfo: CGBitmapInfo.alphaInfoMask.rawValue + 
-                                             CGImageAlphaInfo.premultipliedLast.rawValue )
+                                           bitmapInfo: bitmap_info.rawValue )
     
     guard let nonnull_cg_context:CGContext = cg_context else { return nil } 
     let cg_img:CGImage? = nonnull_cg_context.makeImage()
