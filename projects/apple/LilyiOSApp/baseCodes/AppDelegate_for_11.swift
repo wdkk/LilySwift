@@ -11,21 +11,22 @@
 import UIKit
 import LilySwift
 
+#if IOS11_LEGACY
+
 class AppDelegate: UIResponder, UIApplicationDelegate
 {
     var window: UIWindow?
-    var vcm = LLViewControllerManager()
-    var vc = MyViewController()
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool
+    var pageController = PageController()
+    
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil)
+    -> Bool
     {
         let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
-        window.makeKeyAndVisible()
         
-        window.backgroundColor = .white
-        window.rootViewController = vcm.root( vc )
-
+        pageController.start( on:window )
+        
         return true
     }
 
@@ -50,4 +51,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     }
 }
 
-
+#endif

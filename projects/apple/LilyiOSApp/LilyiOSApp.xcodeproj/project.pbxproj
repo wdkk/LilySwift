@@ -22,6 +22,8 @@
 		5D5AA4BB2462982600832532 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B72462982600832532 /* AppDelegate.swift */; };
 		5D5AA4BC2462982600832532 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B82462982600832532 /* main.swift */; };
 		5D5AA4BD2462982600832532 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B92462982600832532 /* SceneDelegate.swift */; };
+		5D613E0925BAAEB0004B1FD8 /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D613E0825BAAEB0004B1FD8 /* PageController.swift */; };
+		5D613E0A25BAAEB0004B1FD8 /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D613E0825BAAEB0004B1FD8 /* PageController.swift */; };
 		5D8DF91B1F5EBBC500108334 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D8DF91A1F5EBBC500108334 /* Default-568h@2x.png */; };
 		5DA0815923C2287D005E877C /* supportFiles in Resources */ = {isa = PBXBuildFile; fileRef = 5DA0815823C2287D005E877C /* supportFiles */; };
 		5DB4690A238E6D01002A8FF7 /* LilySwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */; };
@@ -63,6 +65,7 @@
 		5D5AA4B72462982600832532 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5D5AA4B82462982600832532 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5D5AA4B92462982600832532 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		5D613E0825BAAEB0004B1FD8 /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
 		5D8DF91A1F5EBBC500108334 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		5DA0815823C2287D005E877C /* supportFiles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = supportFiles; path = ../../../supportFiles; sourceTree = "<group>"; };
 		5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = LilySwift.xcframework; path = ../../../_lib/LilySwift.xcframework; sourceTree = "<group>"; };
@@ -110,6 +113,7 @@
 				5D5AA4B72462982600832532 /* AppDelegate.swift */,
 				5D5AA4B92462982600832532 /* SceneDelegate.swift */,
 				5D2A6D8F25B4A2700010D02B /* AppDelegate_for_11.swift */,
+				5D613E0825BAAEB0004B1FD8 /* PageController.swift */,
 			);
 			path = baseCodes;
 			sourceTree = "<group>";
@@ -258,6 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D613E0A25BAAEB0004B1FD8 /* PageController.swift in Sources */,
 				5D2A6D7925B4A1A30010D02B /* MyViewController.swift in Sources */,
 				5D2A6D9025B4A2700010D02B /* AppDelegate_for_11.swift in Sources */,
 				5D2A6D7A25B4A1A30010D02B /* main.swift in Sources */,
@@ -272,6 +277,7 @@
 				5D5AA4BB2462982600832532 /* AppDelegate.swift in Sources */,
 				5D45A8F5257EA1820007454B /* MyViewController.swift in Sources */,
 				5D5AA4BC2462982600832532 /* main.swift in Sources */,
+				5D613E0925BAAEB0004B1FD8 /* PageController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,7 +300,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/Frameworks",
 				);
-				OTHER_SWIFT_FLAGS = "-D DEBUG";
+				OTHER_SWIFT_FLAGS = "-D DEBUG -D IOS11_LEGACY";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilyApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -321,6 +327,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "-D IOS11_LEGACY";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilyApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

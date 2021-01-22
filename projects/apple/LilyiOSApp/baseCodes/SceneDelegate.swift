@@ -11,14 +11,14 @@
 import UIKit
 import LilySwift
 
-@available(iOS 13.0, *)
+#if !IOS11_LEGACY
+
 class SceneDelegate : UIResponder, UIWindowSceneDelegate 
 {    
     var window: UIWindow?
     var session:UISceneSession?
-    var vcm = LLViewControllerManager()
-    var vc = MyViewController()
-    
+    var pageController = PageController()
+
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, 
                options connectionOptions: UIScene.ConnectionOptions )
     {
@@ -30,13 +30,18 @@ class SceneDelegate : UIResponder, UIWindowSceneDelegate
         scene.windowMinSizeForCatalyst( LLSize( 768, 1044 ) )
         scene.windowMaxSizeForCatalyst( LLSize( 768, 1044 ) )
     
-        window?.rootViewController = vcm.root( vc )
-        window?.makeKeyAndVisible()
+        pageController.start( on:window )
     }
         
     func stateRestorationActivity(for scene: UIScene) -> NSUserActivity? {
         return scene.userActivity
     }
+
+    /*
+    private func checkColorMode() {
+
+    }
+    */
     
     func sceneWillResignActive(_ scene: UIScene) {
         
@@ -58,3 +63,5 @@ class SceneDelegate : UIResponder, UIWindowSceneDelegate
 
     }
 }
+
+#endif
