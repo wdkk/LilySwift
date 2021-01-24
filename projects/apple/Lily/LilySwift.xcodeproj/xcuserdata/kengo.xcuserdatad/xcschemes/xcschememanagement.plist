@@ -22,12 +22,17 @@
 		<key>LilySwift(iOS)Tests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>4</integer>
 		</dict>
 		<key>LilySwift(macOS)Tests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>5</integer>
+		</dict>
+		<key>LilySwiftDevEnv(iOS).xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -53,6 +58,11 @@
 			<true/>
 		</dict>
 		<key>5DB7A52A239E51780050A9B4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5DCE3F2125BDA70E00CBA004</key>
 		<dict>
 			<key>primary</key>
 			<true/>

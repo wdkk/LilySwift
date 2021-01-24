@@ -19,7 +19,7 @@ public extension LLFieldMapChain where TFieldMap:LLViewFieldMap
         field f:@escaping (TCaller, TObj)->Void )
     -> LLChain<TObj>
     {
-        fmap.add( with:caller, me:obj, field:f )
+        fmap.add( label, with:caller, me:obj, field:f )
         return LLChain( obj )
     }
     
@@ -31,7 +31,7 @@ public extension LLFieldMapChain where TFieldMap:LLViewFieldMap
         field f:@escaping (TCaller, TObj, TPhenomena)->Void )
     -> LLChain<TObj>
     {
-        fmap.add( with:caller, me:obj, phenomena:phenomena, field:f )
+        fmap.add( label, with:caller, me:obj, phenomena:phenomena, field:f )
         return LLChain( obj )
     }
 }

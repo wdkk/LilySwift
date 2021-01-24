@@ -12,7 +12,7 @@
 
 import UIKit
 
-/// UIViewチェインアクセサ
+/// UIViewチェインアクセサ : プロパティ
 public extension LLChain where TObj:UIView
 {
     var bounds:CGRect { obj.bounds }
@@ -80,6 +80,50 @@ public extension LLChain where TObj:UIView
         return self
     }
     
+    var borderColor:LLColor? { obj.layer.borderColor?.llColor }
+    
+    @discardableResult
+    func borderColor( _ c:LLColor ) -> Self {
+        obj.layer.borderColor = c.cgColor
+        return self
+    }  
+    
+    var borderWidth:LLFloat { obj.layer.borderWidth.f }
+    
+    @discardableResult
+    func borderWidth( _ w:LLFloat ) -> Self {
+        obj.layer.borderWidth = w.cgf
+        return self
+    }
+    
+    var cornerRadius:LLFloat { obj.layer.cornerRadius.f }
+    
+    @discardableResult
+    func cornerRadius( _ r:LLFloat ) -> Self {
+        obj.layer.cornerRadius = r.cgf
+        return self
+    }
+    
+    var isUserInteractionEnabled:Bool { obj.isUserInteractionEnabled }
+    
+    @discardableResult
+    func isUserInteractionEnabled( _ torf:Bool ) -> Self {
+        obj.isUserInteractionEnabled = torf
+        return self
+    }
+    
+    var maskToBounds:Bool { obj.layer.masksToBounds }
+    
+    @discardableResult
+    func maskToBounds( _ torf:Bool ) -> Self {
+        obj.layer.masksToBounds = torf
+        return self
+    }
+}
+
+/// UIViewチェインアクセサ : メソッド
+public extension LLChain where TObj:UIView
+{
     @discardableResult
     func addSubview<TView:UIView>( _ view:TView ) -> Self {
         obj.addSubview( view )

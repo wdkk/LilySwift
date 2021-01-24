@@ -17,7 +17,8 @@ public class LLFieldMap
     public init() {}
     
     public func appear( _ objs:Any? ) {
-        for (_,f) in fields {
+        let sorted_fields = fields.sorted { $0.0 < $1.0 }
+        for (_,f) in sorted_fields {
             f.appear( objs )
         }
     }

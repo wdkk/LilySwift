@@ -12,8 +12,8 @@
 
 import UIKit
 
-/// LLViewチェインアクセサ : イベント
-public extension LLChain where TObj:LLView
+/// LLLabelチェインアクセサ : イベント
+public extension LLChain where TObj:LLLabel
 {
     var setup:LLFieldMapChain<TObj, LLViewFieldMap> {
         return LLFieldMapChain( obj, obj.setupField )
