@@ -7,7 +7,7 @@ _build/
 _lib/
 _app/
 
-LilySwiftDevEnv(iOS)/
+projects/apple/Lily/LilySwiftDevEnv(iOS)/*
 
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj

@@ -404,6 +404,7 @@
 		5DCE3F6C25BDA76E00CBA004 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCE3F6325BDA76E00CBA004 /* SceneDelegate.swift */; };
 		5DCE3F7F25BDA7DC00CBA004 /* LilySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8F3B7C235B946B00BB9805 /* LilySwift.framework */; };
 		5DCE3F8025BDA7DC00CBA004 /* LilySwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8F3B7C235B946B00BB9805 /* LilySwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5DCE3FAD25BDAE1800CBA004 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCE3FAC25BDAE1800CBA004 /* Test.swift */; };
 		5DD7A5EF23A79679001D8752 /* LLLog.macro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD7A5ED23A79678001D8752 /* LLLog.macro.swift */; };
 		5DD7A5F023A79679001D8752 /* LLMath.macro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD7A5EE23A79678001D8752 /* LLMath.macro.swift */; };
 		5DD7A5F123A7967E001D8752 /* LLLog.macro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD7A5ED23A79678001D8752 /* LLLog.macro.swift */; };
@@ -790,6 +791,7 @@
 		5DCE3F6125BDA76E00CBA004 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5DCE3F6225BDA76E00CBA004 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5DCE3F6325BDA76E00CBA004 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		5DCE3FAC25BDAE1800CBA004 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		5DD5361A23660C0C0076DDE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5DD7A5ED23A79678001D8752 /* LLLog.macro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLLog.macro.swift; sourceTree = "<group>"; };
 		5DD7A5EE23A79678001D8752 /* LLMath.macro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLMath.macro.swift; sourceTree = "<group>"; };
@@ -1431,6 +1433,7 @@
 			isa = PBXGroup;
 			children = (
 				5DCE3F5625BDA76E00CBA004 /* MyViewController.swift */,
+				5DCE3FAC25BDAE1800CBA004 /* Test.swift */,
 			);
 			path = codes;
 			sourceTree = "<group>";
@@ -2318,6 +2321,7 @@
 				5DCE3F6A25BDA76E00CBA004 /* AppDelegate.swift in Sources */,
 				5DCE3F6B25BDA76E00CBA004 /* main.swift in Sources */,
 				5DCE3F6825BDA76E00CBA004 /* PageController.swift in Sources */,
+				5DCE3FAD25BDAE1800CBA004 /* Test.swift in Sources */,
 				5DCE3F6425BDA76E00CBA004 /* MyViewController.swift in Sources */,
 				5DCE3F6925BDA76E00CBA004 /* AppDelegate_for_11.swift in Sources */,
 				5DCE3F6C25BDA76E00CBA004 /* SceneDelegate.swift in Sources */,
