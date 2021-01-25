@@ -131,13 +131,25 @@ public func LLRectMake( _ x:Double, _ y:Double, _ width:Double, _ height:Double 
 /// LLRect(矩形構造体)を拡張/収縮
 /// - Parameters:
 ///   - rc: 元となる矩形情報
-///   - val: 上下左右に拡張する値
+///   - val: 上下左右に収縮する値（マイナス値で膨張)
 /// - Returns: 拡張/収縮後の矩形情報
 public func LLRectInset( _ rc:LLRect, _ val:Double ) -> LLRect {
     return LLRect( x: rc.x + val, 
                    y: rc.y + val,
                    width: rc.width - val * 2.0,
                    height: rc.height - val * 2.0 )
+}
+
+/// LLRect(矩形構造体)を拡張/収縮
+/// - Parameters:
+///   - rc: 元となる矩形情報
+///   - region: 上下左右に収縮する値(マイナス値で膨張)
+/// - Returns: 拡張/収縮後の矩形情報
+public func LLRectInsetRegion( _ rc:LLRect, _ insets:LLRegion ) -> LLRect {
+    return LLRect( x: rc.x + insets.left, 
+                   y: rc.y + insets.top,
+                   width: rc.width - insets.left - insets.right,
+                   height: rc.height - insets.top - insets.bottom )
 }
 
 /// LLRegion(領域構造体)を(0,0,0,0)で作成
