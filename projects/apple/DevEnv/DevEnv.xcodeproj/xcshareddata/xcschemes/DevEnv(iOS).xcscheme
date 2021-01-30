@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5DCE3F2125BDA70E00CBA004"
-               BuildableName = "LilySwiftDevEnv(iOS).app"
-               BlueprintName = "LilySwiftDevEnv(iOS)"
-               ReferencedContainer = "container:LilySwift.xcodeproj">
+               BlueprintIdentifier = "5DCE3CD925BD987200CBA004"
+               BuildableName = "DevEnv(iOS).app"
+               BlueprintName = "DevEnv(iOS)"
+               ReferencedContainer = "container:DevEnv.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,10 +44,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5DCE3F2125BDA70E00CBA004"
-            BuildableName = "LilySwiftDevEnv(iOS).app"
-            BlueprintName = "LilySwiftDevEnv(iOS)"
-            ReferencedContainer = "container:LilySwift.xcodeproj">
+            BlueprintIdentifier = "5DCE3CD925BD987200CBA004"
+            BuildableName = "DevEnv(iOS).app"
+            BlueprintName = "DevEnv(iOS)"
+            ReferencedContainer = "container:DevEnv.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -61,10 +61,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5DCE3F2125BDA70E00CBA004"
-            BuildableName = "LilySwiftDevEnv(iOS).app"
-            BlueprintName = "LilySwiftDevEnv(iOS)"
-            ReferencedContainer = "container:LilySwift.xcodeproj">
+            BlueprintIdentifier = "5DCE3CD925BD987200CBA004"
+            BuildableName = "DevEnv(iOS).app"
+            BlueprintName = "DevEnv(iOS)"
+            ReferencedContainer = "container:DevEnv.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

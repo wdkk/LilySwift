@@ -392,16 +392,6 @@
 		5DCE3F0C25BDA56E00CBA004 /* LLLabel+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCE3F0125BDA56D00CBA004 /* LLLabel+Chain.swift */; };
 		5DCE3F0D25BDA56E00CBA004 /* LLTouchFieldMap+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCE3F0225BDA56D00CBA004 /* LLTouchFieldMap+Chain.swift */; };
 		5DCE3F0E25BDA56E00CBA004 /* LLTouchFieldMap+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCE3F0225BDA56D00CBA004 /* LLTouchFieldMap+Chain.swift */; };
-		5DCE3F6425BDA76E00CBA004 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCE3F5625BDA76E00CBA004 /* MyViewController.swift */; };
-		5DCE3F6525BDA76E00CBA004 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DCE3F5825BDA76E00CBA004 /* Assets.xcassets */; };
-		5DCE3F6625BDA76E00CBA004 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DCE3F5A25BDA76E00CBA004 /* LaunchScreen.storyboard */; };
-		5DCE3F6825BDA76E00CBA004 /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCE3F5F25BDA76E00CBA004 /* PageController.swift */; };
-		5DCE3F6925BDA76E00CBA004 /* AppDelegate_for_11.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCE3F6025BDA76E00CBA004 /* AppDelegate_for_11.swift */; };
-		5DCE3F6A25BDA76E00CBA004 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCE3F6125BDA76E00CBA004 /* AppDelegate.swift */; };
-		5DCE3F6B25BDA76E00CBA004 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCE3F6225BDA76E00CBA004 /* main.swift */; };
-		5DCE3F6C25BDA76E00CBA004 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCE3F6325BDA76E00CBA004 /* SceneDelegate.swift */; };
-		5DCE3F7F25BDA7DC00CBA004 /* LilySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8F3B7C235B946B00BB9805 /* LilySwift.framework */; };
-		5DCE3F8025BDA7DC00CBA004 /* LilySwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8F3B7C235B946B00BB9805 /* LilySwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DD7A5EF23A79679001D8752 /* LLLog.macro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD7A5ED23A79678001D8752 /* LLLog.macro.swift */; };
 		5DD7A5F023A79679001D8752 /* LLMath.macro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD7A5EE23A79678001D8752 /* LLMath.macro.swift */; };
 		5DD7A5F123A7967E001D8752 /* LLLog.macro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD7A5ED23A79678001D8752 /* LLLog.macro.swift */; };
@@ -558,28 +548,14 @@
 			remoteGlobalIDString = 5D2605A4236FF5890078B63A;
 			remoteInfo = LilySwiftMac;
 		};
-		5DCE3F8125BDA7DC00CBA004 /* PBXContainerItemProxy */ = {
+		5DD953EB25C556D6002AD2E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 5D8F3B73235B946B00BB9805 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5D8F3B7B235B946B00BB9805;
-			remoteInfo = LilySwift;
+			containerPortal = 5DD953E725C556D6002AD2E1 /* DevEnv.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5DCE3CDA25BD987200CBA004;
+			remoteInfo = "DevEnv(iOS)";
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		5DCE3F8325BDA7DC00CBA004 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				5DCE3F8025BDA7DC00CBA004 /* LilySwift.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5D00AE0224DF0C1D00233ADB /* LLFieldMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLFieldMap.swift; sourceTree = "<group>"; };
@@ -779,7 +755,6 @@
 		5DCE3F0025BDA56D00CBA004 /* LLButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLButton.swift; sourceTree = "<group>"; };
 		5DCE3F0125BDA56D00CBA004 /* LLLabel+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLLabel+Chain.swift"; sourceTree = "<group>"; };
 		5DCE3F0225BDA56D00CBA004 /* LLTouchFieldMap+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLTouchFieldMap+Chain.swift"; sourceTree = "<group>"; };
-		5DCE3F2225BDA70E00CBA004 /* LilySwiftDevEnv(iOS).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LilySwiftDevEnv(iOS).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DCE3F5625BDA76E00CBA004 /* MyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
 		5DCE3F5825BDA76E00CBA004 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5DCE3F5B25BDA76E00CBA004 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -797,6 +772,7 @@
 		5DD9526825C536FF002AD2E1 /* LLTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLTextField.swift; sourceTree = "<group>"; };
 		5DD9526925C536FF002AD2E1 /* LLTextField+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLTextField+Chain.swift"; sourceTree = "<group>"; };
 		5DD9527125C5370A002AD2E1 /* UITextField+Lily+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Lily+Chain.swift"; sourceTree = "<group>"; };
+		5DD953E725C556D6002AD2E1 /* DevEnv.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DevEnv.xcodeproj; path = ../DevEnv/DevEnv.xcodeproj; sourceTree = "<group>"; };
 		5DE4502C241BDBF9008419B6 /* CATransaction+Lily+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CATransaction+Lily+ext.swift"; sourceTree = "<group>"; };
 		5DE45038241BDC28008419B6 /* LLMath.type+LilyCore+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLMath.type+LilyCore+ext.swift"; sourceTree = "<group>"; };
 		5DE4503B241BDC47008419B6 /* CGColor+Lily+ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGColor+Lily+ext.swift"; sourceTree = "<group>"; };
@@ -910,14 +886,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DB7A530239E51780050A9B4 /* LilySwift.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5DCE3F1F25BDA70E00CBA004 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5DCE3F7F25BDA7DC00CBA004 /* LilySwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1333,6 +1301,7 @@
 		5D8F3B72235B946B00BB9805 = {
 			isa = PBXGroup;
 			children = (
+				5DD953E725C556D6002AD2E1 /* DevEnv.xcodeproj */,
 				5D450EFD23940F7D007D7DD6 /* Lily */,
 				5D2E8B962387D93200D21D94 /* LilyCoreSwift */,
 				5D0D9AD223CCC92F00FFA33D /* LilyUI */,
@@ -1352,7 +1321,6 @@
 				5D2605A5236FF5890078B63A /* LilySwift.framework */,
 				5DB7A51C239E50CA0050A9B4 /* LilySwiftTests.xctest */,
 				5DB7A52B239E51780050A9B4 /* LilySwiftMacTests.xctest */,
-				5DCE3F2225BDA70E00CBA004 /* LilySwiftDevEnv(iOS).app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1461,6 +1429,14 @@
 				5DCE3F5F25BDA76E00CBA004 /* PageController.swift */,
 			);
 			path = baseCodes;
+			sourceTree = "<group>";
+		};
+		5DD953E825C556D6002AD2E1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5DD953EC25C556D6002AD2E1 /* DevEnv(iOS).app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		5DE45049241BDC62008419B6 /* extensions */ = {
@@ -1650,25 +1626,6 @@
 			productReference = 5DB7A52B239E51780050A9B4 /* LilySwiftMacTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		5DCE3F2125BDA70E00CBA004 /* LilySwiftDevEnv(iOS) */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5DCE3F3325BDA70F00CBA004 /* Build configuration list for PBXNativeTarget "LilySwiftDevEnv(iOS)" */;
-			buildPhases = (
-				5DCE3F1E25BDA70E00CBA004 /* Sources */,
-				5DCE3F1F25BDA70E00CBA004 /* Frameworks */,
-				5DCE3F2025BDA70E00CBA004 /* Resources */,
-				5DCE3F8325BDA7DC00CBA004 /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5DCE3F8225BDA7DC00CBA004 /* PBXTargetDependency */,
-			);
-			name = "LilySwiftDevEnv(iOS)";
-			productName = "LilySwiftDevEnv(iOS)";
-			productReference = 5DCE3F2225BDA70E00CBA004 /* LilySwiftDevEnv(iOS).app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1695,9 +1652,6 @@
 					5DB7A52A239E51780050A9B4 = {
 						CreatedOnToolsVersion = 11.2.1;
 					};
-					5DCE3F2125BDA70E00CBA004 = {
-						CreatedOnToolsVersion = 12.3;
-					};
 				};
 			};
 			buildConfigurationList = 5D8F3B76235B946B00BB9805 /* Build configuration list for PBXProject "LilySwift" */;
@@ -1711,6 +1665,12 @@
 			mainGroup = 5D8F3B72235B946B00BB9805;
 			productRefGroup = 5D8F3B7D235B946B00BB9805 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 5DD953E825C556D6002AD2E1 /* Products */;
+					ProjectRef = 5DD953E725C556D6002AD2E1 /* DevEnv.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				5D8F3B7B235B946B00BB9805 /* LilySwift */,
@@ -1718,10 +1678,19 @@
 				5DACF118235C958C001143BF /* LilySwiftxc */,
 				5DB7A51B239E50CA0050A9B4 /* LilySwiftTests */,
 				5DB7A52A239E51780050A9B4 /* LilySwiftMacTests */,
-				5DCE3F2125BDA70E00CBA004 /* LilySwiftDevEnv(iOS) */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		5DD953EC25C556D6002AD2E1 /* DevEnv(iOS).app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "DevEnv(iOS).app";
+			remoteRef = 5DD953EB25C556D6002AD2E1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5D2605A3236FF5890078B63A /* Resources */ = {
@@ -1749,15 +1718,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5DCE3F2025BDA70E00CBA004 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5DCE3F6525BDA76E00CBA004 /* Assets.xcassets in Resources */,
-				5DCE3F6625BDA76E00CBA004 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2317,19 +2277,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5DCE3F1E25BDA70E00CBA004 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5DCE3F6A25BDA76E00CBA004 /* AppDelegate.swift in Sources */,
-				5DCE3F6B25BDA76E00CBA004 /* main.swift in Sources */,
-				5DCE3F6825BDA76E00CBA004 /* PageController.swift in Sources */,
-				5DCE3F6425BDA76E00CBA004 /* MyViewController.swift in Sources */,
-				5DCE3F6925BDA76E00CBA004 /* AppDelegate_for_11.swift in Sources */,
-				5DCE3F6C25BDA76E00CBA004 /* SceneDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2342,11 +2289,6 @@
 			isa = PBXTargetDependency;
 			target = 5D2605A4236FF5890078B63A /* LilySwiftMac */;
 			targetProxy = 5DB7A531239E51780050A9B4 /* PBXContainerItemProxy */;
-		};
-		5DCE3F8225BDA7DC00CBA004 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5D8F3B7B235B946B00BB9805 /* LilySwift */;
-			targetProxy = 5DCE3F8125BDA7DC00CBA004 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2745,56 +2687,6 @@
 			};
 			name = Release;
 		};
-		5DCE3F3425BDA70F00CBA004 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CODE_SIGN_ENTITLEMENTS = "LilySwiftDevEnv(iOS)/App/DevEnv-iOS.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N6DRT9P33S;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "LilySwiftDevEnv(iOS)/App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "jp.co.wdkk.LilySwiftDevEnv-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		5DCE3F3525BDA70F00CBA004 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CODE_SIGN_ENTITLEMENTS = "LilySwiftDevEnv(iOS)/App/DevEnv-iOS.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N6DRT9P33S;
-				INFOPLIST_FILE = "LilySwiftDevEnv(iOS)/App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "jp.co.wdkk.LilySwiftDevEnv-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTS_MACCATALYST = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2848,15 +2740,6 @@
 			buildConfigurations = (
 				5DB7A534239E51780050A9B4 /* Debug */,
 				5DB7A535239E51780050A9B4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5DCE3F3325BDA70F00CBA004 /* Build configuration list for PBXNativeTarget "LilySwiftDevEnv(iOS)" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5DCE3F3425BDA70F00CBA004 /* Debug */,
-				5DCE3F3525BDA70F00CBA004 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
