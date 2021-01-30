@@ -48,17 +48,17 @@ public extension LLTransitionSet
     static var slideRight:LLTransitionSet {
         return LLTransitionSet(
             start:
-            { ( from, to ) in
+            { from, to in
                 from.view.x = 0.0
-                to.view.x = to.width
+                to.view.x = from.width
             },
             end:
-            { ( from, to ) in
+            { from, to in
                 from.view.x = -from.view.width
                 to.view.x = 0.0
             },
             completion:
-            { ( from, to ) in
+            { from, to in
                 from.view.x = 0.0
             }
         )
@@ -67,18 +67,52 @@ public extension LLTransitionSet
     static var slideLeft:LLTransitionSet {
         return LLTransitionSet(
             start:
-            { ( from, to ) in
+            { from, to in
                 from.view.x = 0.0
-                to.view.x = -to.view.width
+                to.view.x = -from.view.width
             },
             end:
-            { ( from, to ) in
+            { from, to in
                 from.view.x = from.view.width
                 to.view.x = 0.0
             },
             completion:
-            { ( from, to ) in
+            { from, to in
                 from.view.x = 0.0
+            }
+        )
+    }
+    
+    static var overUp:LLTransitionSet {
+        return LLTransitionSet(
+            start:
+            { from, to in
+                to.view.y = from.height
+            },
+            end:
+            { from, to in
+                to.view.y = 0.0
+            },
+            completion:
+            { from, to in
+                from.view.y = 0.0
+            }
+        )
+    }
+    
+    static var overDown:LLTransitionSet {
+        return LLTransitionSet(
+            start:
+            { from, to in
+                to.view.y = 0.0
+            },
+            end:
+            { from, to in
+                to.view.y = from.height
+            },
+            completion:
+            { from, to in
+                to.view.y = from.height
             }
         )
     }
@@ -86,21 +120,21 @@ public extension LLTransitionSet
     static var disolveRight:LLTransitionSet {
         return LLTransitionSet(
             start:
-            { ( from, to ) in
+            { from, to in
                 from.view.alpha = 1.0
                 from.view.x = 0.0
                 to.view.alpha = 0.0
-                to.view.x = to.view.width / 4.0
+                to.view.x = from.view.width / 2.0
             },
             end:
-            { ( from, to ) in
+            { from, to in
                 from.view.alpha = 0.0
-                from.view.x = -from.view.width / 4.0
+                from.view.x = -from.view.width / 2.0
                 to.view.alpha = 1.0
                 to.view.x = 0.0
             },
             completion:
-            { ( from, to ) in
+            { from, to in
                 from.view.alpha = 1.0
                 from.view.x = 0.0
             }
@@ -110,23 +144,71 @@ public extension LLTransitionSet
     static var disolveLeft:LLTransitionSet {
         return LLTransitionSet(
             start:
-            { ( from, to ) in
+            { from, to in
                 from.view.alpha = 1.0
                 from.view.x = 0.0
                 to.view.alpha = 0.0
-                to.view.x = -to.view.width / 4.0
+                to.view.x = -from.view.width / 2.0  // 元画像サイズを参考に次のビューの開始位置を決める
             },
             end:
-            { ( from, to ) in
+            { from, to in
                 from.view.alpha = 0.0
-                from.view.x = from.view.width / 4.0
+                from.view.x = from.view.width / 2.0
                 to.view.alpha = 1.0
                 to.view.x = 0.0
             },
             completion:
-            { ( from, to ) in
+            { from, to in
                 from.view.alpha = 1.0
                 from.view.x = 0.0
+            }
+        )
+    }
+    
+    static var disolveUp:LLTransitionSet {
+        return LLTransitionSet(
+            start:
+            { from, to in
+                from.view.alpha = 1.0
+                from.view.y = 0.0
+                to.view.alpha = 0.0
+                to.view.y = from.view.height / 2.0
+            },
+            end:
+            { from, to in
+                from.view.alpha = 0.0
+                from.view.y = -from.view.height / 2.0
+                to.view.alpha = 1.0
+                to.view.y = 0.0
+            },
+            completion:
+            { from, to in
+                from.view.alpha = 1.0
+                from.view.y = 0.0
+            }
+        )
+    }
+    
+    static var disolveDown:LLTransitionSet {
+        return LLTransitionSet(
+            start:
+            { from, to in
+                from.view.alpha = 1.0
+                from.view.y = 0.0
+                to.view.alpha = 0.0
+                to.view.y = -from.view.height / 2.0
+            },
+            end:
+            { from, to in
+                from.view.alpha = 0.0
+                from.view.y = from.view.height / 2.0
+                to.view.alpha = 1.0
+                to.view.y = 0.0
+            },
+            completion:
+            { from, to in
+                from.view.alpha = 1.0
+                from.view.y = 0.0
             }
         )
     }

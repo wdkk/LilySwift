@@ -64,14 +64,16 @@ open class LLView : CALayer, LLUILifeEvent
     
     public func setup() { }
     
-    public func postSetup() { }
+    public func postSetup() { 
+        self.callSetupFields()
+    }
     
     public func preBuildup() { }
     
     public func buildup() { }
     
     public func postBuildup() {
-        self.callBuildupFunctions()
+        self.callBuildupFields()
         
         if let sublayers = self.sublayers {
             for child in sublayers {
@@ -81,7 +83,7 @@ open class LLView : CALayer, LLUILifeEvent
     }
     
     public func teardown() {
-        self.callTeardownFunctions()
+        self.callTeardownFields()
         
         if let sublayers = self.sublayers {
             for child in sublayers {
@@ -128,15 +130,15 @@ open class LLView : CALayer, LLUILifeEvent
 
 extension LLView
 {
-    public func callSetupFunctions() {
+    public func callSetupFields() {
         self.setupField.appear( LLEmpty.none )
     }
     
-    public func callBuildupFunctions() {
+    public func callBuildupFields() {
         self.buildupField.appear( LLEmpty.none )
     }
     
-    public func callTeardownFunctions() {
+    public func callTeardownFields() {
         self.teardownField.appear( LLEmpty.none )
     }
 }

@@ -119,7 +119,7 @@ open class LLViewController : UIViewController
     }
     
     open func preBuildup() {
-        
+        self.view.backgroundColor = LLColorSet["view","background"].uiColor
     }
     
     open func buildup() {

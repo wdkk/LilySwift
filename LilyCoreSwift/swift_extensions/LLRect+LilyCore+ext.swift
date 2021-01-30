@@ -67,4 +67,10 @@ public extension LLRect
     func inset( _ val:Double ) -> LLRect {
         return LLRectInset( self, val )
     }
+    
+    /// 矩形を膨張/収縮する
+    /// - Parameter region: 補正値
+    func inset( _ region:LLRegion ) -> LLRect {
+        return LLRectInsetRegion( self, region )
+    }
 }

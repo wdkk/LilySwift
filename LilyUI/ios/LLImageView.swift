@@ -27,16 +27,16 @@ open class LLImageView : LLView
 
     open var image:Any? {
         didSet {
-            if image is UIImage { rebuild() }
-            else if image is LLImage { rebuild() }
-            else if image == nil { rebuild() }
+            if image is UIImage { blt() }
+            else if image is LLImage { blt() }
+            else if image == nil { blt() }
             else { LLLog("not supported \(type(of: image))") }
         }
     }
     
-    open var imageFixPosition:CGPoint = .zero { didSet { rebuild() } }
+    open var imageFixPosition:CGPoint = .zero { didSet { blt() } }
     
-    open var imageFixSize:CGSize = CGSize( width:40, height:40 ) { didSet { rebuild() } }
+    open var imageFixSize:CGSize = CGSize( width:40, height:40 ) { didSet { blt() } }
     
     open var imageOriginalSize:CGSize {
         get {
@@ -53,7 +53,7 @@ open class LLImageView : LLView
     }
     
     open var style:LLImageViewDrawStyle = .stretchFull {
-        didSet { rebuild() }
+        didSet { blt() }
     }
     
     required public init?(coder aDecoder: NSCoder) { super.init(coder: aDecoder) }
@@ -70,8 +70,8 @@ open class LLImageView : LLView
         _draw_layer.removeFromSuperlayer()
     }
     
-    open override func buildup() {
-        super.buildup()
+    open override func postBuildup() {
+        super.postBuildup()
         blt()
     }
     
@@ -88,12 +88,12 @@ open class LLImageView : LLView
             let cgimg:CGImage? = uiimg.cgImage
             
             // check CGImage
-            if cgimg == nil {
+            guard let nn_cgimg = cgimg else {
                 _draw_layer.contents = nil
                 return
             }
             
-            drawCGImage( cgimg! )
+            drawCGImage( nn_cgimg )
         }
         else if image is LLImage {
             let img = self.image as! LLImage
@@ -101,12 +101,12 @@ open class LLImageView : LLView
             // check LLImage
             if !img.available { _draw_layer.contents = nil; return }
                         
-            guard let cgimg = img.cgImage else {
+            guard let nn_cgimg = img.cgImage else {
                 _draw_layer.contents = nil
                 return
             }
             
-            drawCGImage( cgimg )
+            drawCGImage( nn_cgimg )
         }
         else {
             _draw_layer.contents = nil

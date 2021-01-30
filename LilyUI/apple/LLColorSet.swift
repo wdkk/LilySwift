@@ -2,8 +2,8 @@
 //  LLColorManager.swift
 //  Lily
 //
-//  Created by Kengo on 2021/01/23.
-//  Copyright © 2021 Watanabe-DENKI.Inc. All rights reserved.
+//  Created by Kengo Watanabe on 2021/01/23.
+//  Copyright © 2021 Watanabe-Denki.Inc. All rights reserved.
 //
 
 import Foundation
@@ -13,9 +13,24 @@ open class LLColorSetModule
     fileprivate init() {
         // デフォルト値を設定
         set( uikey:"view", key:"background", hexes:( "#FFFFFF", "#212121" ) )
+        set( uikey:"view", key:"text", hexes:( "#444444", "#FFFFFF" ) )
+        set( uikey:"view", key:"text-error", hexes:( "#FF2222", "#EE4444" ) )
+        
+        // ボタン
+        set( uikey:"button", key:"background", hexes:( "#FFFFFF", "#212121" ) )
+        set( uikey:"button", key:"text", hexes:( "#4488BB", "#88BBFF" ) )
+        set( uikey:"button", key:"text-active", hexes:( "#88BBFF", "#4488BB" ) )
+        set( uikey:"button", key:"border", hexes:( "#4488BB", "#88BBFF" ) )
+        set( uikey:"button", key:"border-active", hexes:( "#88BBFF", "#4488BB" ) )
+        
+        // テキストフィールド
+        set( uikey:"text-field", key:"background", hexes:( "#FFFFFF", "#212121" ) )
+        set( uikey:"text-field", key:"text", hexes:( "#444444", "#FFFFFF" ) )
+        set( uikey:"text-field", key:"border", hexes:( "#666666", "#DDDDDD" ) )
+        set( uikey:"text-field", key:"placeholder", hexes:( "#999999", "#888888" ) )
     }
     
-    public var dict:[String:[String:ColorPattern]] = [:]
+    var dict:[String:[String:ColorPattern]] = [:]
     
     public subscript( uikey:String, key:String ) -> LLColor {
         get { 

@@ -12,8 +12,8 @@
 
 import UIKit
 
-/// LLViewチェインアクセサ : イベント
-public extension LLChain where TObj:LLView
+/// LLTextFieldチェインアクセサ : イベント
+public extension LLChain where TObj:LLTextField
 {
     // MARK: -
     
@@ -59,6 +59,32 @@ public extension LLChain where TObj:LLView
     
     var touchesCancelled:LLFieldMapChain<TObj, LLTouchFieldMap> {
         return LLFieldMapChain( obj, obj.touchesCancelledField ) 
+    }
+}
+
+/// LLTextFieldチェインアクセサ : メソッド
+public extension LLChain where TObj:LLTextField
+{
+    var placeholderColor:UIColor { obj.placeholderColor.uiColor }
+    
+    @discardableResult
+    func placeholderColor( _ c:UIColor ) -> Self { 
+        obj.placeholderColor( c.llColor )
+        return self
+    }
+    
+    @discardableResult
+    func placeholderColor( _ llc:LLColor ) -> Self { 
+        obj.placeholderColor( llc )
+        return self
+    }
+    
+    var placeholderText:LLString { obj.placeholderText }
+    
+    @discardableResult
+    func placeholderText( _ txt:LLString ) -> Self { 
+        obj.placeholderText( txt )
+        return self
     }
 }
 

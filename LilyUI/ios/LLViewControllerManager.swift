@@ -16,7 +16,8 @@ open class LLViewControllerManager : UIViewController
 {
     fileprivate var ext_objects = [String:Any]()
     
-    open private(set) weak var current:UIViewController?
+    open private(set) var current:UIViewController?
+    open private(set) var preview:UIViewController?
     
     public required init?( coder aDecoder: NSCoder ) { super.init( coder:aDecoder ) }
     public init() {
@@ -164,6 +165,7 @@ public extension LLViewControllerManager
                 self?.current?.removeFromParent()
                 vc.didMove( toParent: self )
                 
+                self?.preview = self?.current
                 self?.current = vc
                 // unlock rotation
                 self?._autorotated = true

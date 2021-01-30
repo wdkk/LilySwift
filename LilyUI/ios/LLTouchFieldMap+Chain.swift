@@ -16,7 +16,7 @@ public extension LLFieldMapChain where TFieldMap:LLTouchFieldMap
 {
     @discardableResult
     func add<TCaller:AnyObject>( 
-        label:String = UUID().uuidString,
+        _ label:String = UUID().uuidString,
         with caller:TCaller,
         field f:@escaping (TCaller, TObj, LLTouchArg)->Void )
     -> LLChain<TObj>
@@ -27,7 +27,7 @@ public extension LLFieldMapChain where TFieldMap:LLTouchFieldMap
     
     @discardableResult
     func add<TCaller:AnyObject, TPhenomena>(
-        label:String = UUID().uuidString,
+        _ label:String = UUID().uuidString,
         with caller:TCaller,
         phenomena:TPhenomena,
         field f:@escaping (TCaller, TObj, LLTouchArg, TPhenomena)->Void )

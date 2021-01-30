@@ -13,7 +13,7 @@
 import UIKit
 
 extension UIView : LLUIRectControllable, LLUIPixelControllable
-{    
+{
     public var ourCenter: CGPoint {
         get { return self.center }
         set { self.center = newValue }
@@ -55,7 +55,8 @@ extension UIView : LLUIRectControllable, LLUIPixelControllable
     }
     
     public func addSubview<TView:UIView>( _ chainview:LLChain<TView> ) {
-        self.addSubview( chainview.unchain )
+        let view = chainview.unchain
+        self.addSubview( view )
     }
 }
 

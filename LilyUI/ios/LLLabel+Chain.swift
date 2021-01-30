@@ -15,6 +15,8 @@ import UIKit
 /// LLLabelチェインアクセサ : イベント
 public extension LLChain where TObj:LLLabel
 {
+    // MARK: -
+    
     var setup:LLFieldMapChain<TObj, LLViewFieldMap> {
         return LLFieldMapChain( obj, obj.setupField )
     }
@@ -27,6 +29,18 @@ public extension LLChain where TObj:LLLabel
         return LLFieldMapChain( obj, obj.teardownField )
     }
     
+    // MARK: -
+    
+    var defaultBuildup:LLFieldMapChain<TObj, LLViewFieldMap> {
+        return LLFieldMapChain( obj, obj.defaultBuildupField )
+    }
+    
+    var staticBuildup:LLFieldMapChain<TObj, LLViewFieldMap> {
+        return LLFieldMapChain( obj, obj.staticBuildupField )
+    }
+    
+    // MARK: -
+    
     var touchesBegan:LLFieldMapChain<TObj, LLTouchFieldMap> {
         return LLFieldMapChain( obj, obj.touchesBeganField ) 
     }
@@ -37,6 +51,10 @@ public extension LLChain where TObj:LLLabel
 
     var touchesEnded:LLFieldMapChain<TObj, LLTouchFieldMap> {
         return LLFieldMapChain( obj, obj.touchesEndedField ) 
+    }
+    
+    var touchesEndedInside:LLFieldMapChain<TObj, LLTouchFieldMap> {
+        return LLFieldMapChain( obj, obj.touchesEndedInsideField ) 
     }
     
     var touchesCancelled:LLFieldMapChain<TObj, LLTouchFieldMap> {

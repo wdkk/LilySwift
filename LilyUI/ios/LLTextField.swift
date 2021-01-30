@@ -12,7 +12,7 @@
 
 import UIKit
 
-open class LLLabel : UILabel, LLUILifeEvent
+open class LLTextField : UITextField, LLUILifeEvent
 {
     public lazy var setupField = LLViewFieldMap()
     public lazy var buildupField = LLViewFieldMap()
@@ -29,6 +29,25 @@ open class LLLabel : UILabel, LLUILifeEvent
     
     public lazy var drawLayerField = LLDrawFieldMap()
     
+    public lazy var borderBottom = CALayer(layer:self.layer)
+    
+    public private(set) var placeholderText:LLString = ""
+    public private(set) var placeholderColor = LLColor.black
+    
+    public func placeholderText( _ text:LLString ) {
+        self.placeholderText = text
+        self.attributedPlaceholder = NSAttributedString(
+            string: self.placeholderText, 
+        attributes: [NSAttributedString.Key.foregroundColor : self.placeholderColor.uiColor] )
+    }
+    
+    public func placeholderColor( _ c:LLColor ) {
+        self.placeholderColor = c
+        self.attributedPlaceholder = NSAttributedString(
+            string: self.placeholderText, 
+        attributes: [NSAttributedString.Key.foregroundColor : self.placeholderColor.uiColor] )
+    }
+
     public required init?(coder: NSCoder) { super.init(coder:coder) }
     public init() {
         super.init( frame:.zero )
@@ -48,8 +67,32 @@ open class LLLabel : UILabel, LLUILifeEvent
         CATransaction.stop { self.rect = LLRect( -1, -1, 1, 1 ) }
     }
     
-    public func setup() { }
-    
+    public func setup() { 
+        self.chain
+        .setup.add( with:self ) { caller, me in
+            me.chain
+            .isUserInteractionEnabled( true )
+            .autocorrectionType( .no )
+            .autocapitalizationType( .none )
+        }
+        .defaultBuildup.add( with:self ) { caller, me in
+            me.chain
+            .textColor( llc:LLColorSet["text-field","text"] )
+            .borderColor( LLColorSet["text-field","border"] )
+            .backgroundColor( LLColorSet["text-field","background"] )
+            .placeholderColor( LLColorSet["text-field","placeholder"] )
+            
+            me.borderBottom.backgroundColor = LLColorSet["text-field","border"].cgColor
+        }
+        .staticBuildup.add( with:self ) { caller, me in 
+            CATransaction.stop {
+                me.borderBottom.frame = CGRect( 0, me.height-2.0, me.width, 2.0 )   
+            }
+        }
+
+        self.layer.addSublayer( self.borderBottom )
+    }
+        
     public func postSetup() {
         self.callSetupFields()
     }

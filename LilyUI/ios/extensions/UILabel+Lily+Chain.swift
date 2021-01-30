@@ -52,6 +52,14 @@ public extension LLChain where TObj:UILabel
         obj.textAlignment = align
         return self
     }
+    
+    var numberOfLines:Int { obj.numberOfLines }
+    
+    @discardableResult
+    func numberOfLines( _ number:Int ) -> Self {
+        obj.numberOfLines = number
+        return self
+    }
 }
 
 /// UILabelチェインアクセサ : メソッド
