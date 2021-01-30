@@ -755,16 +755,6 @@
 		5DCE3F0025BDA56D00CBA004 /* LLButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLButton.swift; sourceTree = "<group>"; };
 		5DCE3F0125BDA56D00CBA004 /* LLLabel+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLLabel+Chain.swift"; sourceTree = "<group>"; };
 		5DCE3F0225BDA56D00CBA004 /* LLTouchFieldMap+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLTouchFieldMap+Chain.swift"; sourceTree = "<group>"; };
-		5DCE3F5625BDA76E00CBA004 /* MyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
-		5DCE3F5825BDA76E00CBA004 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5DCE3F5B25BDA76E00CBA004 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		5DCE3F5C25BDA76E00CBA004 /* DevEnv-iOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "DevEnv-iOS.entitlements"; sourceTree = "<group>"; };
-		5DCE3F5D25BDA76E00CBA004 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5DCE3F5F25BDA76E00CBA004 /* PageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
-		5DCE3F6025BDA76E00CBA004 /* AppDelegate_for_11.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate_for_11.swift; sourceTree = "<group>"; };
-		5DCE3F6125BDA76E00CBA004 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5DCE3F6225BDA76E00CBA004 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		5DCE3F6325BDA76E00CBA004 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5DD5361A23660C0C0076DDE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5DD7A5ED23A79678001D8752 /* LLLog.macro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLLog.macro.swift; sourceTree = "<group>"; };
 		5DD7A5EE23A79678001D8752 /* LLMath.macro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLMath.macro.swift; sourceTree = "<group>"; };
@@ -1308,7 +1298,6 @@
 				5D502E86244D9C4C00412732 /* LilyPlayground */,
 				5DEF50A5239AA36A00ECA038 /* Configures */,
 				5DB7A53B239E526E0050A9B4 /* tests */,
-				5DCE3F2325BDA70E00CBA004 /* LilySwiftDevEnv(iOS) */,
 				5D8F3B7D235B946B00BB9805 /* Products */,
 				5DACEE94235C7167001143BF /* Frameworks */,
 			);
@@ -1388,47 +1377,6 @@
 				5DD7A5EE23A79678001D8752 /* LLMath.macro.swift */,
 			);
 			path = swift_macro_helper;
-			sourceTree = "<group>";
-		};
-		5DCE3F2325BDA70E00CBA004 /* LilySwiftDevEnv(iOS) */ = {
-			isa = PBXGroup;
-			children = (
-				5DCE3F5725BDA76E00CBA004 /* App */,
-				5DCE3F5E25BDA76E00CBA004 /* baseCodes */,
-				5DCE3F5525BDA76E00CBA004 /* codes */,
-			);
-			path = "LilySwiftDevEnv(iOS)";
-			sourceTree = "<group>";
-		};
-		5DCE3F5525BDA76E00CBA004 /* codes */ = {
-			isa = PBXGroup;
-			children = (
-				5DCE3F5625BDA76E00CBA004 /* MyViewController.swift */,
-			);
-			path = codes;
-			sourceTree = "<group>";
-		};
-		5DCE3F5725BDA76E00CBA004 /* App */ = {
-			isa = PBXGroup;
-			children = (
-				5DCE3F5825BDA76E00CBA004 /* Assets.xcassets */,
-				5DCE3F5A25BDA76E00CBA004 /* LaunchScreen.storyboard */,
-				5DCE3F5C25BDA76E00CBA004 /* DevEnv-iOS.entitlements */,
-				5DCE3F5D25BDA76E00CBA004 /* Info.plist */,
-			);
-			path = App;
-			sourceTree = "<group>";
-		};
-		5DCE3F5E25BDA76E00CBA004 /* baseCodes */ = {
-			isa = PBXGroup;
-			children = (
-				5DCE3F6225BDA76E00CBA004 /* main.swift */,
-				5DCE3F6125BDA76E00CBA004 /* AppDelegate.swift */,
-				5DCE3F6025BDA76E00CBA004 /* AppDelegate_for_11.swift */,
-				5DCE3F6325BDA76E00CBA004 /* SceneDelegate.swift */,
-				5DCE3F5F25BDA76E00CBA004 /* PageController.swift */,
-			);
-			path = baseCodes;
 			sourceTree = "<group>";
 		};
 		5DD953E825C556D6002AD2E1 /* Products */ = {
@@ -2291,17 +2239,6 @@
 			targetProxy = 5DB7A531239E51780050A9B4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		5DCE3F5A25BDA76E00CBA004 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5DCE3F5B25BDA76E00CBA004 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		5D2605AA236FF5890078B63A /* Debug */ = {

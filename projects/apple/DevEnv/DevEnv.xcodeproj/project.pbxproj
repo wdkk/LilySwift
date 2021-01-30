@@ -14,7 +14,6 @@
 		5DD9539D25C5530F002AD2E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD9539025C5530F002AD2E1 /* SceneDelegate.swift */; };
 		5DD9539E25C5530F002AD2E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DD9539225C5530F002AD2E1 /* Assets.xcassets */; };
 		5DD9539F25C5530F002AD2E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DD9539425C5530F002AD2E1 /* LaunchScreen.storyboard */; };
-		5DD953A025C5530F002AD2E1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5DD9539625C5530F002AD2E1 /* Info.plist */; };
 		5DD953A125C5530F002AD2E1 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD9539825C5530F002AD2E1 /* MyViewController.swift */; };
 		5DD953F325C556EC002AD2E1 /* LilySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DD953F225C556EC002AD2E1 /* LilySwift.framework */; };
 		5DD953F425C556EC002AD2E1 /* LilySwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5DD953F225C556EC002AD2E1 /* LilySwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -180,7 +179,6 @@
 			files = (
 				5DD9539E25C5530F002AD2E1 /* Assets.xcassets in Resources */,
 				5DD9539F25C5530F002AD2E1 /* LaunchScreen.storyboard in Resources */,
-				5DD953A025C5530F002AD2E1 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
