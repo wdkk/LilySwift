@@ -19,6 +19,9 @@ open class LLView : CALayer, LLUILifeEvent
     public lazy var setupField = LLViewFieldMap()
     public lazy var buildupField = LLViewFieldMap()
     public lazy var teardownField = LLViewFieldMap()
+    
+    public lazy var defaultBuildupField = LLViewFieldMap()
+    public lazy var staticBuildupField = LLViewFieldMap()
    
     open var available:Bool = true
         
@@ -68,12 +71,15 @@ open class LLView : CALayer, LLUILifeEvent
         self.callSetupFields()
     }
     
-    public func preBuildup() { }
+    public func preBuildup() {
+        self.callDefaultBuildupFields()
+    }
     
     public func buildup() { }
     
     public func postBuildup() {
         self.callBuildupFields()
+        self.callStaticBuildupFields()
         
         if let sublayers = self.sublayers {
             for child in sublayers {
@@ -92,7 +98,7 @@ open class LLView : CALayer, LLUILifeEvent
         }
     }
     
-    var _mutex = LLRecursiveMutex()
+    public var _mutex = LLRecursiveMutex()
     public func rebuild() {
         _mutex.lock {
             self.preBuildup()

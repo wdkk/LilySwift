@@ -15,6 +15,9 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     public lazy var setupField = LLViewFieldMap()
     public lazy var buildupField = LLViewFieldMap()
     public lazy var teardownField = LLViewFieldMap()
+    
+    public lazy var defaultBuildupField = LLViewFieldMap()
+    public lazy var staticBuildupField = LLViewFieldMap()
         
     private weak var _vc:LLViewController?
     private weak var _capture_view:LLView?
@@ -45,14 +48,19 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     
     public func setup() { }
     
-    public func postSetup() { }
+    public func postSetup() { 
+        self.callSetupFields()
+    }
     
-    public func preBuildup() { }
+    public func preBuildup() {
+        self.callDefaultBuildupFields()
+    }
     
     public func buildup() { }
     
     public func postBuildup() {
         self.callBuildupFields()
+        self.callStaticBuildupFields()
         
         // NSView側
         for child in self.subviews {
@@ -81,7 +89,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         }
     }
     
-    var _mutex = LLRecursiveMutex()
+    public var _mutex = LLRecursiveMutex()
     public func rebuild() {
         _mutex.lock {
             self.preBuildup()

@@ -8,7 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-import UIKit
 import CoreGraphics
 
 public protocol LLUILifeEvent
