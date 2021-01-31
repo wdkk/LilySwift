@@ -37,12 +37,21 @@ public extension LLChain where TObj:UITextField
         return self
     }
     
+    var font:UIFont { obj.font! }
+    
+    @discardableResult
+    func font( _ f:UIFont ) -> Self {
+        obj.font = f
+        return self
+    }
+    
+    
     var fontSize:LLFloat { obj.font!.pointSize.f }
   
     @discardableResult
     func fontSize( _ sz:LLFloat ) -> Self {
-        if obj.font == nil { obj.font = UIFont() }
-        obj.font = UIFont( name: obj.font!.familyName, size: sz.cgf )
+        let f_desc = obj.font!.fontDescriptor
+        obj.font = UIFont( descriptor: f_desc, size: sz.cgf )
         return self
     }
     

@@ -37,14 +37,23 @@ public extension LLChain where TObj:UILabel
         return self
     }
     
+    var font:UIFont { obj.font }
+    
+    @discardableResult
+    func font( _ f:UIFont ) -> Self {
+        obj.font = f
+        return self
+    }
+    
     var fontSize:LLFloat { obj.font!.pointSize.f }
   
     @discardableResult
     func fontSize( _ sz:LLFloat ) -> Self {
-        obj.font = UIFont( name: obj.font.familyName, size: sz.cgf )
+        let f_desc = obj.font.fontDescriptor
+        obj.font = UIFont( descriptor: f_desc, size: sz.cgf )
         return self
     }
-    
+        
     var textAlignment:NSTextAlignment { obj.textAlignment }
     
     @discardableResult
@@ -58,6 +67,14 @@ public extension LLChain where TObj:UILabel
     @discardableResult
     func numberOfLines( _ number:Int ) -> Self {
         obj.numberOfLines = number
+        return self
+    }
+    
+    var adjustsFontSizeToFitWidth:Bool { obj.adjustsFontSizeToFitWidth }
+    
+    @discardableResult
+    func adjustsFontSizeToFitWidth( _ torf:Bool ) -> Self {
+        obj.adjustsFontSizeToFitWidth = torf
         return self
     }
 }
