@@ -275,7 +275,7 @@
 				OTHER_SWIFT_FLAGS = "-D LILY_FULL";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SYMROOT = ../../../_build;
+				SYMROOT = ../../../_build/;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -340,7 +340,7 @@
 				OTHER_SWIFT_FLAGS = "-D LILY_FULL";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SYMROOT = ../../../_build;
+				SYMROOT = ../../../_build/;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
