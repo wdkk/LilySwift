@@ -212,6 +212,26 @@ public extension LLTransitionSet
             }
         )
     }
+    
+    static var fade:LLTransitionSet {
+        return LLTransitionSet(
+            start:
+            { from, to in
+                from.view.alpha = 1.0
+                to.view.alpha = 0.0
+            },
+            end:
+            { from, to in
+                from.view.alpha = 0.0
+                to.view.alpha = 1.0
+            },
+            completion:
+            { from, to in
+                from.view.alpha = 1.0
+                to.view.alpha = 1.0
+            }
+        )
+    }
 }
 
 #endif
