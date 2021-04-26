@@ -16,7 +16,7 @@ import Metal
 /// Metal描画パイプライン
 public class LLMetalRenderPipeline
 {
-    // エンコーダー
+    // パイプラインの状態情報
     public private(set) var state:MTLRenderPipelineState?
     
     public init() {}
