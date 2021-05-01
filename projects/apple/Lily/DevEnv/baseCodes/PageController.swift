@@ -16,13 +16,18 @@ class PageController
     var vcm = LLViewControllerManager()
     
     func start( on window:UIWindow? ) {
+        // カラーセットのデフォルト色を決める
+        setupDefaultColorStyle()
+        
         // trait変更時に適用する関数の登録
         vcm.traitChanged = checkColorMode
         // 初期化時カラーモードのチェック
         checkColorMode()
         
         window?.backgroundColor = LLColorSet["view","background"].uiColor
-        window?.rootViewController = vcm.root( MyViewController() )
+        
+        window?.rootViewController = vcm.root( DevViewController() )
+        
         window?.makeKeyAndVisible()
     }
     
@@ -35,7 +40,7 @@ class PageController
         return d.pageController.vcm
         #endif
     }
-    
+        
     private func checkColorMode() {
         // カラーセットのライトモード/ダークモードの切り替え
         #if swift(>=5.1)
@@ -60,5 +65,20 @@ class PageController
         }
         
         vcm.view?.backgroundColor = LLColorSet["view","background"].uiColor
+    }
+    
+    private func setupDefaultColorStyle() {
+        // ボタン
+        LLColorSet.set( uikey:"button", key:"background", hexes:( "#FFFFFF", "#212121" ) )
+        LLColorSet.set( uikey:"button", key:"text", hexes:( "#00839a", "#00b9da" ) )
+        LLColorSet.set( uikey:"button", key:"text-active", hexes:( "#00b9da", "#00839a" ) )
+        LLColorSet.set( uikey:"button", key:"border", hexes:( "#00839a", "#00b9da" ) )
+        LLColorSet.set( uikey:"button", key:"border-active", hexes:( "#00b9da", "#00839a" ) )
+        
+        // テキストフィールド
+        LLColorSet.set( uikey:"text-field", key:"background", hexes:( "#FFFFFF", "#212121" ) )
+        LLColorSet.set( uikey:"text-field", key:"text", hexes:( "#223344", "#DDEEFF" ) )
+        LLColorSet.set( uikey:"text-field", key:"border", hexes:( "#667788", "#DDEEFF" ) )
+        LLColorSet.set( uikey:"text-field", key:"placeholder", hexes:( "#999999", "#888888" ) )
     }
 }

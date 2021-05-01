@@ -27,8 +27,11 @@ class SceneDelegate : UIResponder, UIWindowSceneDelegate
         self.window = UIWindow( windowScene: scene )
         self.session = session
         
-        scene.windowMinSizeForCatalyst( LLSize( 768, 1044 ) )
-        scene.windowMaxSizeForCatalyst( LLSize( 768, 1044 ) )
+        //scene.windowMinSizeForCatalyst( LLSize( 768, 1044 ) )
+        //scene.windowMaxSizeForCatalyst( LLSize( 768, 1044 ) )
+    
+        scene.windowMinSizeForCatalyst( LLSize( 600, 620 ) )
+        scene.windowMaxSizeForCatalyst( LLSize( 600, 620 ) )
     
         // Playground用サイズ
         //scene.windowMinSizeForCatalyst( LLSize( 1600, 1220 ) )

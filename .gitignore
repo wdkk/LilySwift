@@ -7,7 +7,7 @@ _build/
 _lib/
 _app/
 
-projects/apple/DevEnv/
+
 
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj

@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
                      configurationForConnecting connectingSceneSession: UISceneSession,
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration 
     {
-        return UISceneConfiguration(name: "LilyScene-Config", sessionRole: connectingSceneSession.role)
+        return UISceneConfiguration(name:"LilyScene-Config", sessionRole: connectingSceneSession.role)
     }
 }
 
