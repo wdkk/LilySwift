@@ -11,7 +11,7 @@
 import Foundation
 import CoreGraphics
 
-public protocol LLUIPixelControllable : class
+public protocol LLUIPixelControllable : AnyObject
 {
     var ourBounds:CGRect { get set }
     

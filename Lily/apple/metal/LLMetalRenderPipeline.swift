@@ -33,7 +33,8 @@ public class LLMetalRenderPipeline
         self.makePipeline( rpd )
     }
     
-    public func makeRenderPipelineDesc( setting:LLMetalRenderSetting ) -> MTLRenderPipelineDescriptor {
+    public func makeRenderPipelineDesc( setting:LLMetalRenderSetting )
+    -> MTLRenderPipelineDescriptor {
         // パイプラインディスクリプタの作成
         let rpd = MTLRenderPipelineDescriptor()
         rpd.vertexFunction = setting.vertexShader.function

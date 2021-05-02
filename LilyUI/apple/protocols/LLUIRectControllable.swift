@@ -11,7 +11,7 @@
 import Foundation
 import CoreGraphics
 
-public protocol LLUIRectControllable : class
+public protocol LLUIRectControllable : AnyObject
 {
     var ourCenter:CGPoint { get set }
     

@@ -26,7 +26,18 @@ public final class LBPanelPipeline : LBObjectPipeline<LBPanelStorage>
         // デフォルトのコンピュータ
         self.computeField( with:self ) { caller, me, args in
             if me.storage.isNoActive { return }
+
+            // TODO: コンピュートシェーダがiPad Pro(2017)以前に対応が難しいため、直接コピーに戻す
+            let p = me.storage.params.accessor!
+            for i in 0 ..< me.storage.params.count {
+                p[i].position += p[i].deltaPosition
+                p[i].color += p[i].deltaColor
+                p[i].scale += p[i].deltaScale
+                p[i].angle += p[i].deltaAngle
+                p[i].life += p[i].deltaLife
+            }
             
+            /*
             // TODO: コンピュートシェーダにまとめたい
             #if targetEnvironment(simulator)
             let p = me.storage.params.accessor!
@@ -47,6 +58,7 @@ public final class LBPanelPipeline : LBObjectPipeline<LBPanelStorage>
             let threads_per_group = MTLSizeMake( 4, 1, 1 )
             encoder.dispatchThreads( threads_per_grid, threadsPerThreadgroup: threads_per_group )
             #endif
+            */
         }
         
         // デフォルトのレンダー

@@ -20,7 +20,11 @@ import Metal
 
 public extension LLColor8
 {
-    init( _ r:LLUInt8, _ g:LLUInt8, _ b:LLUInt8, _ a:LLUInt8 ) { 
+    init( _ r:LLUInt8, _ g:LLUInt8, _ b:LLUInt8, _ a:LLUInt8 = LLColor8_MaxValue ) { 
+        self.init( R: r, G: g, B: b, A: a )
+    }
+    
+    init( red r:LLUInt8, green g:LLUInt8, blue b:LLUInt8, alpha a:LLUInt8 = LLColor8_MaxValue ) { 
         self.init( R: r, G: g, B: b, A: a )
     }
     
@@ -62,7 +66,11 @@ public func != ( left:LLColor8, right:LLColor8 ) -> Bool { return !LLColor8Equal
 
 public extension LLColor16
 {
-    init( _ r:LLUInt16, _ g:LLUInt16, _ b:LLUInt16, _ a:LLUInt16 ) {
+    init( _ r:LLUInt16, _ g:LLUInt16, _ b:LLUInt16, _ a:LLUInt16 = LLColor16_MaxValue ) {
+        self.init( R: r, G: g, B: b, A: a ) 
+    }
+    
+    init( red r:LLUInt16, green g:LLUInt16, blue b:LLUInt16, alpha a:LLUInt16 = LLColor16_MaxValue ) {
         self.init( R: r, G: g, B: b, A: a ) 
     }
     
@@ -104,7 +112,12 @@ public func != ( left:LLColor16, right:LLColor16 ) -> Bool { return !LLColor16Eq
 
 public extension LLColor
 {    
-    init( _ r:Float, _ g:Float, _ b:Float, _ a:Float ) {
+    init( _ r:Float, _ g:Float, _ b:Float, _ a:Float = LLColor_MaxValue ) {
+        self.init( R: r, G: g, B: b, A: a )
+    }
+    
+
+    init( red r:Float, green g:Float, blue b:Float, alpha a:Float = LLColor_MaxValue ) {
         self.init( R: r, G: g, B: b, A: a )
     }
 
@@ -152,6 +165,10 @@ public extension LLHSVf
         self.init( H:h, S:s, V:v )
     }
     
+    init( hue h:Float, saturation s:Float, value v:Float ) {
+        self.init( H:h, S:s, V:v )
+    }
+    
     init( _ hex:String ) {
         let hsv = LLColor8toHSVf( LLHextoColor8( hex.lcStr ) )
         self.init( hsv.H, hsv.S, hsv.V )
@@ -186,6 +203,10 @@ public extension LLHSVf
 public extension LLHSVi
 {  
     init( _ h:LLUInt16, _ s:LLUInt8, _ v:LLUInt8 ) {
+        self.init( H:h, S:s, V:v )
+    }
+    
+    init( hue h:LLUInt16, saturation s:LLUInt8, value v:LLUInt8 ) {
         self.init( H:h, S:s, V:v )
     }
     
