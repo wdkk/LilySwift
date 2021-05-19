@@ -22,12 +22,14 @@ public enum LLMetalBlendType : Int
     case min
 }
 
+// OLD: 廃止できれば理想
 public struct LLMetalDepthState
 {
     public var sampleCount:Int = 1
     public var depthFormat:MTLPixelFormat = .depth32Float_stencil8
 }
 
+// OLD: いずれ廃止予定
 public struct LLMetalRenderSetting
 {
     // 深度ステート

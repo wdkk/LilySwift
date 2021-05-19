@@ -8,12 +8,13 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+// OLD: 廃止予定
 /// コメント未済
-
+/*
 import Metal
 import MetalKit
 
-public class LLMetalMesh
+public class LSObjectOld
 {
     public var metalMesh: MTKMesh?
     public var metalVertexBuffer:MTLBuffer? { return metalMesh?.vertexBuffers[0].buffer }
@@ -44,9 +45,9 @@ public class LLMetalMesh
         metalMesh = self.load(with:path, at:index, addNormal: add_normal, normalThreshold: normal_threshold)
     }
     
-    public static func sphere(at index:Int) -> LLMetalMesh 
+    public static func sphere(at index:Int) -> LSObject 
     {
-        let mesh = LLMetalMesh()
+        let mesh = LSObject()
         mesh.metalMesh = mesh.makeSphere( at: index )
         return mesh
     }
@@ -57,7 +58,7 @@ public class LLMetalMesh
                       normalThreshold normal_threshold:Float )
     -> MTKMesh
     {
-        let modelDescriptor3D = MTKModelIOVertexDescriptorFromMetal( LLMetalMesh.defaultVertexDesc(at:index) )
+        let modelDescriptor3D = MTKModelIOVertexDescriptorFromMetal( LSObject.defaultVertexDesc(at:index) )
         (modelDescriptor3D.attributes[0] as! MDLVertexAttribute).name = MDLVertexAttributePosition
         (modelDescriptor3D.attributes[1] as! MDLVertexAttribute).name = MDLVertexAttributeNormal
         (modelDescriptor3D.attributes[2] as! MDLVertexAttribute).name = MDLVertexAttributeTextureCoordinate
@@ -82,7 +83,7 @@ public class LLMetalMesh
     }
     
     private func makeSphere(at index:Int) -> MTKMesh {
-        let modelDescriptor3D = MTKModelIOVertexDescriptorFromMetal( LLMetalMesh.defaultVertexDesc( at:index ) )
+        let modelDescriptor3D = MTKModelIOVertexDescriptorFromMetal( LSObject.defaultVertexDesc( at:index ) )
         
         (modelDescriptor3D.attributes[0] as! MDLVertexAttribute).name = MDLVertexAttributePosition
         (modelDescriptor3D.attributes[1] as! MDLVertexAttribute).name = MDLVertexAttributeNormal
@@ -113,3 +114,5 @@ public class LLMetalMesh
         }
     }
 }
+ 
+*/

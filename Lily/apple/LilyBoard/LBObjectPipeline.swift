@@ -179,7 +179,8 @@ open class LBObjectPipeline< TStorage:LBActorStorage > : LBObjectPipelineProtoco
             $0.computeShader = self.computeShader ?? LLMetalShader()
         }
         
-        render_pipeline.make {
+        // TODO: makeに置き換える
+        render_pipeline.makeOld {
             $0.vertexShader = self.vertexShader ?? LLMetalShader()
             $0.fragmentShader = self.fragmentShader ?? LLMetalShader()
             // LilyBoardはデプスを使わない

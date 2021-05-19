@@ -23,7 +23,7 @@ open class LBActor : Hashable
     }
     
     public var params:LBActorParam { get { LBActorParam() } set { } }
-    
+        
     // MARK: - 基本パラメータ群
     public var p1:LLPointFloat { get { .zero } set {} }
     public var p2:LLPointFloat { get { .zero } set {} }

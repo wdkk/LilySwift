@@ -73,6 +73,15 @@ public extension LLFloatv4
     var normalize:LLFloatv4 { return simd_normalize( self ) }
     
     var llColor:LLColor { return LLColor( x, y, z, w ) }
+    
+    var xyz:LLFloatv3 {
+        get { LLFloatv3( x, y, z ) }
+        set {
+            x = newValue.x
+            y = newValue.y
+            z = newValue.z
+        }
+    }
 }
 
 // 3x3行列(48バイト)
@@ -120,6 +129,14 @@ public extension LLMatrix4x4
         ])
     }
     
+    // 左上3x3行列の抽出
+    var upperLeft3x3:LLMatrix3x3 {
+      let x = columns.0.xyz
+      let y = columns.1.xyz
+      let z = columns.2.xyz
+      return LLMatrix3x3(columns: (x, y, z))
+    }
+    
     // 平行移動
     static func translate(_ x:Float, _ y:Float, _ z:Float) -> Self {
         var mat:LLMatrix4x4 = .identity
@@ -129,8 +146,13 @@ public extension LLMatrix4x4
         return mat
     }
     
+    // 平行移動
+    static func translate( vector pos:LLFloatv3 ) -> Self {
+        return .translate( pos.x, pos.y, pos.z )
+    }
+    
     // 拡大縮小
-    static func scale(_ x:Float, _ y:Float, _ z:Float) -> Self {
+    static func scale( _ x:Float, _ y:Float, _ z:Float ) -> Self {
         var mat:LLMatrix4x4 = .identity
         mat.X.x = x
         mat.Y.y = y
@@ -138,8 +160,21 @@ public extension LLMatrix4x4
         return mat
     }
     
+    // 拡大縮小
+    static func scale( vector sc:LLFloatv3 ) -> Self {
+        return .scale( sc.x, sc.y, sc.z )
+    }
+    
     // 回転(三軸同時)
-    static func rotate(axis: LLFloatv4, byAngle angle: Float) -> Self {
+    static func rotate( vector angle:LLFloatv3 ) -> Self {      
+        let rotation_x = LLMatrix4x4.rotateX( byAngle: angle.x )
+        let rotation_y = LLMatrix4x4.rotateY( byAngle: angle.y )
+        let rotation_z = LLMatrix4x4.rotateZ( byAngle: angle.z )
+        return rotation_x * rotation_y * rotation_z
+    }
+    
+    // 回転(三軸同時)
+    static func rotate( axis: LLFloatv3, byAngle angle: Float ) -> Self {
         var mat:LLMatrix4x4 = .identity
         
         let c:Float = cos(angle)
@@ -266,29 +301,81 @@ public extension LLMatrix4x4
         return mat
     }
     
-    static func ortho2d(wid:Float, hgt:Float) -> Self {
-        return ortho(left: 0, right: wid, bottom: hgt, top: 0, near: -1, far: 1)
+    static func ortho2d( wid:Float, hgt:Float ) -> Self {
+        return ortho( left: 0, right: wid, bottom: hgt, top: 0, near: -1, far: 1 )
     }
     
-    // 透視投影変換行列(手前:Z軸正方向)
-    static func perspective(aspect: Float, fieldOfViewY: Float, near: Float, far: Float) -> Self {
+    // 透視投影変換行列
+    static func perspectiveLeftHand( aspect: Float, fieldOfViewYRadians: Float, near: Float, far: Float ) -> Self 
+    {
         var mat:LLMatrix4x4 = LLMatrix4x4()
+                
+        let y = 1.0 / tan( fieldOfViewYRadians * 0.5 )
+        let x = y / aspect
+        let z = far / ( far - near )
         
-        let fov_radians:Float = fieldOfViewY * Float(Double.pi / 180.0)
-        
-        let y_scale:Float = 1 / tan(fov_radians * 0.5)
-        let x_scale:Float = y_scale / aspect
-        let z_range:Float = far - near
-        let z_scale:Float = -(far + near) / z_range
-        let wz_scale:Float = -2 * far * near / z_range
-        
-        mat.X.x = x_scale
-        mat.Y.y = y_scale
-        mat.Z.z = z_scale
-        mat.Z.w = -1.0
-        mat.W.z = wz_scale
-        mat.W.w = 0.0
-        
+        mat.columns.0 = LLFloatv4( x, 0, 0, 0 )
+        mat.columns.1 = LLFloatv4( 0, y, 0, 0 )
+        mat.columns.2 = LLFloatv4( 0, 0, z, 1 )
+        mat.columns.3 = LLFloatv4( 0, 0, z * -near, 0 )
+ 
         return mat
+    }
+    
+    // 透視投影変換行列
+    static func perspectiveRightHand( aspect: Float, fieldOfViewYRadians: Float, near: Float, far: Float ) -> Self 
+    {
+        var mat:LLMatrix4x4 = LLMatrix4x4()
+                
+        let y = 1.0 / tan( fieldOfViewYRadians * 0.5 )
+        let x = y / aspect
+        let z = far / ( near - far )
+        
+        mat.columns.0 = LLFloatv4( x, 0, 0, 0 )
+        mat.columns.1 = LLFloatv4( 0, y, 0, 0 )
+        mat.columns.2 = LLFloatv4( 0, 0, z, -1 )
+        mat.columns.3 = LLFloatv4( 0, 0, z * near, 0 )
+
+        return mat
+    }
+    
+    static func perspectiveLeftHand( aspect: Float, fieldOfViewYDegrees: Float, near: Float, far: Float ) -> Self 
+    {
+        let fov_radians = fieldOfViewYDegrees * Float.pi / 180.0
+        return Self.perspectiveLeftHand(
+            aspect: aspect, 
+            fieldOfViewYRadians: fov_radians,
+            near: near,
+            far: far )
+    }
+    
+    static func perspectiveRightHand( aspect: Float, fieldOfViewYDegrees: Float, near: Float, far: Float ) -> Self 
+    {
+        let fov_radians = fieldOfViewYDegrees * Float.pi / 180.0
+        return Self.perspectiveRightHand(
+            aspect: aspect, 
+            fieldOfViewYRadians: fov_radians,
+            near: near,
+            far: far )
+    }
+    
+    static func perspectiveLeftHand( aspect:Float, fieldOfViewY:LLAngle, near:Float, far: Float, lhs:Bool = true ) -> Self 
+    {
+        let fov_radians = fieldOfViewY.radians.f
+        return Self.perspectiveLeftHand(
+            aspect: aspect, 
+            fieldOfViewYRadians: fov_radians,
+            near: near,
+            far: far )
+    }
+    
+    static func perspectiveRightHand( aspect:Float, fieldOfViewY:LLAngle, near:Float, far: Float, lhs:Bool = true ) -> Self 
+    {
+        let fov_radians = fieldOfViewY.radians.f
+        return Self.perspectiveRightHand(
+            aspect: aspect, 
+            fieldOfViewYRadians: fov_radians,
+            near: near,
+            far: far )
     }
 }
