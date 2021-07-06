@@ -17,7 +17,8 @@ open class LLMetalComputer
     @discardableResult
     public static func compute( 
         commandBuffer:MTLCommandBuffer,
-        compute:( _ computeEncoder:MTLComputeCommandEncoder )->() ) 
+        compute:( _ computeEncoder:MTLComputeCommandEncoder )->() 
+    ) 
     -> Bool 
     {        
         guard let encoder = commandBuffer.makeComputeCommandEncoder() else {

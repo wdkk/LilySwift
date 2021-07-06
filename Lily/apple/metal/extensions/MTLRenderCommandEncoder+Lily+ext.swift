@@ -42,12 +42,4 @@ public extension MTLRenderCommandEncoder
     func draw<T>( shape:LLMetalShape<T>, index idx:Int = 0, painter:LLMetalShapePainter<T> ) {
         painter.draw( with:self, index:idx, shape:shape )
     }
-
-    /*
-    // OLD: 廃止予定
-    // TODO: Meshにdrawを持たせたくない
-    func draw( mesh:LSObjectOld, index idx:Int = 0 ) {
-        mesh.draw( with:self, index:idx )
-    }
-    */
 }

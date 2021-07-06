@@ -20,10 +20,22 @@ open class LBPanelStorage : LBActorStorage
     // パネルデータを要求する
     public override func request() -> Int {        
         let quad_v = LLQuad<LBActorVertex>(
-            LBActorVertex( xy:LLFloatv2( -1.0,  1.0 ), uv:LLFloatv2( 0.0, 0.0 ) ),
-            LBActorVertex( xy:LLFloatv2(  1.0,  1.0 ), uv:LLFloatv2( 1.0, 0.0 ) ),
-            LBActorVertex( xy:LLFloatv2( -1.0, -1.0 ), uv:LLFloatv2( 0.0, 1.0 ) ),
-            LBActorVertex( xy:LLFloatv2(  1.0, -1.0 ), uv:LLFloatv2( 1.0, 1.0 ) )
+            LBActorVertex(
+                xy:LLFloatv2( -1.0,  1.0 ),
+                uv:LLFloatv2( 0.0, 0.0 ) 
+            ),
+            LBActorVertex( 
+                xy:LLFloatv2(  1.0,  1.0 ), 
+                uv:LLFloatv2( 1.0, 0.0 )
+            ),
+            LBActorVertex( 
+                xy:LLFloatv2( -1.0, -1.0 ),
+                uv:LLFloatv2( 0.0, 1.0 ) 
+            ),
+            LBActorVertex( 
+                xy:LLFloatv2(  1.0, -1.0 ),
+                uv:LLFloatv2( 1.0, 1.0 )
+            )
         )
         
         var pp = LBActorParam()

@@ -23,6 +23,7 @@ open class LBViewController : LLViewController
     public let metalView = LLMetalView()
     public var clearColor:LLColor = .white
     public weak var currentCommandBuffer:MTLCommandBuffer?
+    //lazy var depth_tex = LLMetalDepthTexture()
     
     public let touchManager = LBTouchManager()
     public var touches:[LBTouch] { return touchManager.touches }
@@ -51,12 +52,12 @@ open class LBViewController : LLViewController
         #if os(iOS)
         metalView.chain
         .setup.add( with:self )
-        { ( caller, me ) in
+        { caller, me in
             me.chain
             .backgroundColor( .grey )
         }  
         .buildup.add( with:self ) 
-        { ( caller, me ) in
+        { caller, me in
             // セーフエリアいっぱいにリサイズ
             CATransaction.stop {
                 me.chain.rect( self.safeArea )
@@ -65,30 +66,30 @@ open class LBViewController : LLViewController
             caller.buildupBoard()
         }
         .touchesBegan.add( with:self )
-        { ( caller, me, args ) in
+        { caller, me, args in
             caller.recogizeTouches( args.event )
         }
         .touchesMoved.add( with:self )
-        { ( caller, me, args ) in
+        { caller, me, args in
             caller.recogizeTouches( args.event )
         }
         .touchesEnded.add( with:self )
-        { ( caller, me, args ) in
+        { caller, me, args in
             caller.recogizeTouches( args.event )
         }
         .touchesCancelled.add( with:self )
-        { ( caller, me, args ) in
+        { caller, me, args in
             caller.recogizeTouches( args.event )
         }
         #elseif os(macOS)
         metalView.chain
         .setup.add( with:self )
-        { ( caller, me ) in
+        { caller, me in
             me.chain
             .backgroundColor( .grey )
         }  
         .buildup.add( with:self ) 
-        { ( caller, me ) in
+        { caller, me in
             // セーフエリアいっぱいにリサイズ
             CATransaction.stop {
                 me.chain.rect( self.safeArea )
@@ -115,30 +116,53 @@ open class LBViewController : LLViewController
         // Metalの実行
         LLMetalManager.shared.execute(
         main: { [weak self] commandBuffer in
-            guard let strongself = self,
-                  let drawable = strongself.metalView.drawable else { return }
+            guard let self = self,
+                  let drawable = self.metalView.drawable 
+            else { return }
             
-            strongself.currentCommandBuffer = commandBuffer
+            self.currentCommandBuffer = commandBuffer
             
-            strongself.loopBoard()
+            self.loopBoard()
+            
+            /*
+            depth_tex.updateDepthTexture( 
+                drawable: drawable,
+                depthFormat: .depth32Float_stencil8,
+                type:.type2D,
+                sampleCount: 1,
+                mipmapped: false )
+            */
             
             LLMetalComputer.compute( commandBuffer: commandBuffer ) {
                 LBObjectPipelineManager.shared.compute( encoder:$0 )
             }
-
+        
             LLMetalRenderer.render(
                 commandBuffer:commandBuffer,
                 drawable: drawable,
-                clearColor: strongself.clearColor,
-                depthTexture: nil,
-                renderer: { 
-                    let size = LLSize( strongself.metalView.width, strongself.metalView.height )
-                    // オブジェクトパイプラインマネージャに処理フローを依頼
-                    LBObjectPipelineManager.shared.render( encoder: $0, screenSize: size )
-                }
-            )
-                     
-            strongself.currentCommandBuffer = nil
+                clearColor: self.clearColor,
+                depthTexture: nil //depth_tex
+                )
+            {
+                /*
+                // エンコーダにデプスとステンシルの初期設定
+                let depth_desc = MTLDepthStencilDescriptor()
+                depth_desc.depthCompareFunction = .less
+                depth_desc.isDepthWriteEnabled = true
+                $0.setDepthStencilDescriptor( depth_desc )
+                */
+                
+                // 初期値: メッシュの裏表の回転方向（逆時計回りを設定）
+                $0.setFrontFacing( .counterClockwise )
+                // 初期値: エンコーダにカリングの初期設定
+                $0.setCullMode( .none )
+
+                let size = LLSize( self.metalView.width, self.metalView.height )
+                // オブジェクトパイプラインマネージャに処理フローを依頼
+                LBObjectPipelineManager.shared.render( encoder: $0, screenSize: size )
+            }
+    
+            self.currentCommandBuffer = nil
         },
         post: { commandBuffer in
             // LilyPlaygroundではcompletedで待つ形にする(非同期の悪さを止める)

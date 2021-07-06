@@ -21,7 +21,7 @@ public class LLMetalShader
 
     // デフォルトライブラリでシェーダ関数作成
     public func make( _ shaderName:String ) {
-        guard let lib:MTLLibrary = LLMetalManager.shared.device?.makeDefaultLibrary() else { 
+        guard let lib = LLMetalManager.shared.device?.makeDefaultLibrary() else { 
             LLLogWarning( "シェーダの作成に失敗しました." )
             return 
         }
@@ -30,13 +30,14 @@ public class LLMetalShader
     
     // 外部ライブラリファイルでシェーダ関数作成
     public func make( withLib libName:String, shaderName:String ) {
-        guard let lib_path = Bundle.main.path(forResource: libName, ofType: "metallib") else {
+        guard let lib_path = Bundle.main.path(forResource: libName, ofType: "metallib")
+        else {
             LLLogWarning( "シェーダの作成に失敗しました." )
             return
         }
         
         do {
-            guard let lib:MTLLibrary = try LLMetalManager.shared.device?.makeLibrary( filepath: lib_path ) else {
+            guard let lib = try LLMetalManager.shared.device?.makeLibrary( filepath: lib_path ) else {
                 LLLogWarning( "シェーダの作成に失敗しました." )
                 return 
             }
@@ -52,7 +53,8 @@ public class LLMetalShader
     public func make( withClass cls:AnyClass, shaderName:String ) {
         let bundle = Bundle(for: cls.self )
         do {
-            guard let lib:MTLLibrary = try LLMetalManager.shared.device?.makeDefaultLibrary(bundle: bundle) else {
+            guard let lib = try LLMetalManager.shared.device?.makeDefaultLibrary(bundle: bundle) 
+            else {
                 LLLogWarning( "シェーダの作成に失敗しました." )
                 return 
             }
@@ -66,13 +68,15 @@ public class LLMetalShader
     
     // クラス名指定でバンドル元を指定し(たとえば外部frameworkなど)そこに含まれる指定したmetallibを用いてシェーダ関数作成
     public func make( withClass cls:AnyClass, libName:String, shaderName:String ) {
-        guard let lib_path = Bundle(for: cls.self ).path(forResource: libName, ofType: "metallib") else {
+        guard let lib_path = Bundle(for: cls.self ).path(forResource: libName, ofType: "metallib") 
+        else {
             LLLogWarning( "シェーダの作成に失敗しました." )
             return 
         }
         
         do {
-            guard let lib:MTLLibrary = try LLMetalManager.shared.device?.makeLibrary( filepath: lib_path ) else { 
+            guard let lib = try LLMetalManager.shared.device?.makeLibrary( filepath: lib_path )
+            else { 
                 LLLogWarning( "シェーダの作成に失敗しました." )
                 return
             }
@@ -87,7 +91,8 @@ public class LLMetalShader
     // コード文字列でシェーダ関数作成
     public func make( withCode code:String, shaderName:String ) {
         do {
-            guard let lib:MTLLibrary = try LLMetalManager.shared.device?.makeLibrary( source: code, options:nil ) else { 
+            guard let lib = try LLMetalManager.shared.device?.makeLibrary( source: code, options:nil ) 
+            else { 
                 LLLogWarning( "シェーダの作成に失敗しました." )
                 return
             }

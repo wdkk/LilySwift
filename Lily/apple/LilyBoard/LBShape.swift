@@ -14,7 +14,7 @@ import Metal
 open class LBShape<
     TObjPL:LBObjectPipeline<TStorage>,
     TStorage:LBActorStorage
-    >
+>
 : LBActor
 {
     public weak var objPipeline:TObjPL?

@@ -15,10 +15,14 @@ import QuartzCore
 
 open class LLMetalRenderer
 {
-    static func makeRenderPassDescriptor( drawable:CAMetalDrawable, color:LLColor, depthTexture:LLMetalDepthTexture? )
+    static func makeRenderPassDescriptor( 
+        drawable:CAMetalDrawable,
+        color:LLColor, 
+        depthTexture:LLMetalDepthTexture? 
+    )
     -> MTLRenderPassDescriptor 
     {
-        let r_pass_desc:MTLRenderPassDescriptor = MTLRenderPassDescriptor()
+        let r_pass_desc = MTLRenderPassDescriptor()
         // カラーアタッチメントの設定
         r_pass_desc.colorAttachments[0].texture = drawable.texture
         r_pass_desc.colorAttachments[0].loadAction = (color != .clear) ? .clear : .load
@@ -50,24 +54,32 @@ open class LLMetalRenderer
     }
      
     /// エンコーダの設定と再生成
-    public static func makeEncoder( commandBuffer:MTLCommandBuffer,
-                             drawable:CAMetalDrawable, 
-                             clearColor:LLColor,
-                             depthTexture:LLMetalDepthTexture? )
+    private static func makeEncoder(
+        commandBuffer:MTLCommandBuffer,
+        drawable:CAMetalDrawable, 
+        clearColor:LLColor,
+        depthTexture:LLMetalDepthTexture?
+    )
     -> MTLRenderCommandEncoder?
     {
         // レンダーパスディスクリプタの設定
-        let r_pass_desc = makeRenderPassDescriptor( drawable:drawable, color:clearColor, depthTexture:depthTexture )
+        let r_pass_desc = makeRenderPassDescriptor(
+            drawable:drawable,
+            color:clearColor,
+            depthTexture:depthTexture
+        )
         // エンコーダ生成
         return commandBuffer.makeRenderCommandEncoder( descriptor: r_pass_desc )
     }
     
     @discardableResult
-    public static func render( commandBuffer:MTLCommandBuffer,
-                        drawable: CAMetalDrawable?,
-                        clearColor:LLColor,
-                        depthTexture:LLMetalDepthTexture? = nil,
-                        renderer:( MTLRenderCommandEncoder )->Void )
+    public static func render(
+        commandBuffer:MTLCommandBuffer,
+        drawable: CAMetalDrawable?,
+        clearColor:LLColor,
+        depthTexture:LLMetalDepthTexture? = nil,
+        renderer:( MTLRenderCommandEncoder )->Void
+    )
     -> Bool
     {
         guard let drawable = drawable else {
@@ -75,33 +87,17 @@ open class LLMetalRenderer
             return false
         }
             
-        depthTexture?.updateDepthTexture( drawable: drawable )
-
-        guard let encoder = makeEncoder( commandBuffer:commandBuffer,
-                                         drawable:drawable,
-                                         clearColor:clearColor,
-                                         depthTexture: depthTexture )
+        guard let encoder = makeEncoder(
+            commandBuffer:commandBuffer,
+            drawable:drawable,
+            clearColor:clearColor,
+            depthTexture: depthTexture 
+        )
         else {
             LLLogWarning( "RenderCommandEncoderを取得できませんでした." )
             return false 
         }
-        
-        // TODO: 裏表の設定を外に出す
-        // メッシュの裏表の回転方向（逆時計回りを設定）
-        encoder.setFrontFacing( .counterClockwise )
-        // TODO: カリングの設定を外に出す
-        // エンコーダにカリングの初期設定
-        encoder.setCullMode( .none )
-        
-        // TODO: デプステクスチャの設定を外に出す
-        // エンコーダにデプスとステンシルの初期設定
-        if depthTexture != nil {
-            let depth_desc = MTLDepthStencilDescriptor()
-            depth_desc.depthCompareFunction = .less
-            depth_desc.isDepthWriteEnabled = true
-            encoder.setDepthStencilDescriptor( depth_desc )
-        }
-        
+                
         // 指定された関数オブジェクトの実行
         renderer( encoder )
         

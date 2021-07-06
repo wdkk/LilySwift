@@ -70,63 +70,84 @@ public final class LBPanelPipeline : LBObjectPipeline<LBPanelStorage>
             let encoder = args
  
             encoder.setVertexBuffer( mtlbuf_params, index:1 )
-            encoder.draw( shape:me.storage.metalVertex,
-                          index:2, 
-                          painter:LLMetalQuadranglePainter<LBActorVertex>() )
+            
+            encoder.draw( 
+                shape:me.storage.metalVertex,
+                index:2, 
+                painter:LLMetalQuadranglePainter<LBActorVertex>()
+            )
         }
     }
     
     @discardableResult
-    public func textureAtlas( _ atlas:LLMetalTextureAtlas? ) -> Self {
+    public func textureAtlas( 
+        _ atlas:LLMetalTextureAtlas?
+    )
+    -> Self
+    {
         storage.atlas = atlas
         return self
     }
 
     @discardableResult
     public func computeFieldMySelf( 
-        _ f:@escaping (Me, Me, MTLComputeCommandEncoder)->Void )
+        _ f:@escaping (Me, Me, MTLComputeCommandEncoder)->Void 
+    )
     -> Self
     {
-        self._compute_f = LLTalkingField( by:self,
-                                       me:self,
-                                       objType:MTLComputeCommandEncoder.self, 
-                                       action:f )
+        self._compute_f = LLTalkingField(
+            by:self,
+            me:self,
+            objType:MTLComputeCommandEncoder.self, 
+            action:f 
+        )
         return self
     }
     
     @discardableResult
-    public func computeField<TCaller:AnyObject>( with caller:TCaller, 
-        _ f:@escaping (TCaller, Me, MTLComputeCommandEncoder)->Void )
+    public func computeField<TCaller:AnyObject>( 
+        with caller:TCaller, 
+        _ f:@escaping (TCaller, Me, MTLComputeCommandEncoder)->Void 
+    )
     -> Self
     {
-        self._compute_f = LLTalkingField( by:caller,
-                                       me:self,
-                                       objType:MTLComputeCommandEncoder.self, 
-                                       action:f )
+        self._compute_f = LLTalkingField(
+            by:caller,
+            me:self,
+            objType:MTLComputeCommandEncoder.self, 
+            action:f
+        )
         return self
     }
 
     @discardableResult
     public func renderFieldMySelf(
-        _ f:@escaping (Me, Me, MTLRenderCommandEncoder)->Void )
+        _ f:@escaping (Me, Me, MTLRenderCommandEncoder)->Void 
+    )
     -> Self
     {
-        self._render_f = LLTalkingField( by:self,
-                                      me:self,
-                                      objType:MTLRenderCommandEncoder.self, 
-                                      action:f )
+        self._render_f = LLTalkingField(
+            by:self,
+            me:self,
+            objType:MTLRenderCommandEncoder.self, 
+            action:f
+        )
         return self
     }
     
     @discardableResult
-    public func renderField<TCaller:AnyObject>( with caller:TCaller,
-        _ f:@escaping (TCaller, Me, MTLRenderCommandEncoder)->Void )
+    public func renderField<TCaller:AnyObject>( 
+        with caller:TCaller,
+        _ f:@escaping (TCaller, Me, MTLRenderCommandEncoder)->Void 
+    )
     -> Self
     {
-        self._render_f = LLTalkingField( by:caller,
-                                      me:self,
-                                      objType:MTLRenderCommandEncoder.self, 
-                                      action:f )
+        self._render_f = LLTalkingField(
+            by:caller,
+            me:self,
+            objType:MTLRenderCommandEncoder.self, 
+            action:f
+        )
         return self
     }
 }

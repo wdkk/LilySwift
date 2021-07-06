@@ -25,9 +25,9 @@ public protocol LBObjectPipelineProtocol
     func render( _: MTLRenderCommandEncoder )
 }
 
-open class LBObjectPipeline< TStorage:LBActorStorage > : LBObjectPipelineProtocol
+open class LBObjectPipeline< TStorage:LBActorStorage >
+: LBObjectPipelineProtocol
 {
-
     public static func isExist( label:String ) -> Bool {
         return LBObjectPipelineManager.shared.pipelines[label] != nil
     }
@@ -52,39 +52,42 @@ open class LBObjectPipeline< TStorage:LBActorStorage > : LBObjectPipelineProtoco
         self.keyLabel = label
         
         self.computeShader(
-            LBComputeShader( computeFuncName: "LBPanel_delta_\(label)" )
-            .addStruct {
-                $0
-                .name( "LBActorParam" )
-                .add( "float4x4", "matrix" )
-                .add( "float4", "atlasUV" )
-                .add( "float4", "color" )
-                .add( "float4", "deltaColor" )
-                .add( "float2", "position" )
-                .add( "float2", "deltaPosition" )
-                .add( "float2", "scale" )
-                .add( "float2", "deltaScale" )
-                .add( "float", "angle" )
-                .add( "float", "deltaAngle" )
-                .add( "float", "zindex" )  
-                .add( "float", "array_index" )
-                .add( "float", "life" )
-                .add( "float", "deltaLife" )
-                .add( "float", "enabled" )
-                .add( "float", "state" )            
-            }      
-            .computeFunction {
-                $0
-                .addArgument( "device LBActorParam", "* params [[ buffer(0) ]]" )
-                .addArgument( "uint", "id [[thread_position_in_grid]]" )
-                .code( """
-                    params[id].position += params[id].deltaPosition;
-                    params[id].scale += params[id].deltaScale;
-                    params[id].angle += params[id].deltaAngle;
-                    params[id].color += params[id].deltaColor;
-                    params[id].life += params[id].deltaLife;
-                """ )
+            LLMetalShader( code: """
+            #include <metal_stdlib>
+            using namespace metal;
+            
+            struct LBActorParam {
+                float4x4 matrix;
+                float4 atlasUV;
+                float4 color;
+                float4 deltaColor;
+                float2 position;
+                float2 deltaPosition;
+                float2 scale;
+                float2 deltaScale;
+                float angle;
+                float deltaAngle;
+                float zindex; 
+                float array_index;
+                float life;
+                float deltaLife;
+                float enabled;
+                float state;    
+            };
+            
+            kernel void LBPanel_delta_\(label) (
+                device LBActorParam* params [[ buffer(0) ]],
+                uint id [[thread_position_in_grid]]
+            )
+            {
+                params[id].position += params[id].deltaPosition;
+                params[id].scale += params[id].deltaScale;
+                params[id].angle += params[id].deltaAngle;
+                params[id].color += params[id].deltaColor;
+                params[id].life += params[id].deltaLife;
             }
+            """,
+            shaderName: "LBPanel_delta_\(label)" )
         )
     }
     
@@ -107,54 +110,7 @@ open class LBObjectPipeline< TStorage:LBActorStorage > : LBObjectPipelineProtoco
     
     @discardableResult
     public func fragmentShader( _ shader:LLMetalShader ) -> Self {
-        self.vertexShader = shader
-        return self
-    }
-    
-    // コード文字列と関数名からシェーダを指定
-    @discardableResult
-    public func computeShader( _ computeCode:(funcName:String, code:String) )
-    -> Self {
-        self.computeShader = LLMetalShader(code: computeCode.code, shaderName: computeCode.funcName )
-        return self
-    }
-
-    @discardableResult
-    public func computeShader( _ shader:LBComputeShader ) -> Self {
-        shader.generate()
-        self.computeShader = shader.metalComputeShader
-        return self
-    }
-    
-    // LBRenderShaderでシェーダを指定
-    @discardableResult
-    public func renderShader( _ lbshader:LBRenderShader ) -> Self {
-        // LBShaderを用いてシェーダを生成する
-        lbshader.generate()
-        
-        self.vertexShader = lbshader.metalVertexShader
-        self.fragmentShader = lbshader.metalFragmentShader
-        return self
-    }
-    
-    // LLMetalShaderからシェーダを指定
-    @discardableResult
-    public func renderShader( vertexShader:LLMetalShader, fragmentShader:LLMetalShader ) -> Self {
-        self.vertexShader = vertexShader
-        self.fragmentShader = fragmentShader
-        return self
-    }
-    
-    // コード文字列と関数名からシェーダを指定
-    @discardableResult
-    public func renderShader( vertexCode:(funcName:String, code:String),
-                              fragmentCode:(funcName:String, code:String) )
-    -> Self {
-        let vert_shader = LLMetalShader(code: vertexCode.code, shaderName: vertexCode.funcName )
-        let frag_shader = LLMetalShader(code: vertexCode.code, shaderName: vertexCode.funcName )
-        
-        self.vertexShader = vert_shader
-        self.fragmentShader = frag_shader
+        self.fragmentShader = shader
         return self
     }
     
@@ -176,16 +132,18 @@ open class LBObjectPipeline< TStorage:LBActorStorage > : LBObjectPipelineProtoco
         ready = true
         
         compute_pipeline.make {
-            $0.computeShader = self.computeShader ?? LLMetalShader()
+            $0.computeShader( self.computeShader ?? LLMetalShader() )
         }
         
-        // TODO: makeに置き換える
-        render_pipeline.makeOld {
-            $0.vertexShader = self.vertexShader ?? LLMetalShader()
-            $0.fragmentShader = self.fragmentShader ?? LLMetalShader()
-            // LilyBoardはデプスを使わない
-            $0.depthState.depthFormat = .invalid
-            $0.colorAttachment.composite(type: blendType )
+        render_pipeline.make {
+            $0.vertexShader( self.vertexShader ?? LLMetalShader() )
+            $0.fragmentShader( self.fragmentShader ?? LLMetalShader() )
+            // IMPORTANT: デプステクスチャと一致させる必要がある
+            $0.depthAttachmentPixelFormat = .invalid
+            $0.stencilAttachmentPixelFormat = .invalid
+            //$0.depthAttachmentPixelFormat = .depth32Float_stencil8
+            //$0.stencilAttachmentPixelFormat = .depth32Float_stencil8
+            $0.colorAttachments[0].composite(type: blendType )
         }
         
         return self

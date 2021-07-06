@@ -15,15 +15,24 @@ public class LBTriangleStorage : LBActorStorage
 {
     public var metalVertex = LLMetalTriangles<LBActorVertex>()
     public var atlas:LLMetalTextureAtlas?    // .pictureのみで利用
-    public var texture:MTLTexture?      // .textureのみで利用
+    public var texture:MTLTexture?           // .textureのみで利用
     
     // トライアングルデータを要求する
     public override func request() -> Int {        
         let tri_v = LLTriple<LBActorVertex>(
             // 正三角形
-            LBActorVertex( xy:LLFloatv2(  0.0,  1.15470053838 ), uv:LLFloatv2(  0.0,  1.0 ) ),
-            LBActorVertex( xy:LLFloatv2( -1.0, -0.57735026919 ), uv:LLFloatv2( -1.0,  1.0 ) ),
-            LBActorVertex( xy:LLFloatv2(  1.0, -0.57735026919 ), uv:LLFloatv2(  1.0, -1.0 ) )
+            LBActorVertex( 
+                xy:LLFloatv2(  0.0,  1.15470053838 ),
+                uv:LLFloatv2(  0.0,  1.0 )
+            ),
+            LBActorVertex(
+                xy:LLFloatv2( -1.0, -0.57735026919 ),
+                uv:LLFloatv2( -1.0,  1.0 )
+            ),
+            LBActorVertex(
+                xy:LLFloatv2(  1.0, -0.57735026919 ),
+                uv:LLFloatv2(  1.0, -1.0 ) 
+            )
         )
    
         var tp = LBActorParam()

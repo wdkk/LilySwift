@@ -15,14 +15,17 @@ import Metal
 
 open class LLMetalManager
 {
-    public static let shared:LLMetalManager = LLMetalManager()
+    public typealias ExecFunc = ( MTLCommandBuffer )->()
+    
+    /// シングルトンシェア
+    public static let shared = LLMetalManager()
     private init() {
         device = MTLCreateSystemDefaultDevice()
         commandQueue = device?.makeCommandQueue()
     }
     
     /// Metalデバイス
-    public var device:MTLDevice?
+    public let device:MTLDevice?
     /// Metalコマンドキュー
     public let commandQueue:MTLCommandQueue?
     /// Metal描画用セマフォ
@@ -30,10 +33,12 @@ open class LLMetalManager
     
     // Metalコマンド実行
     @discardableResult
-    public func execute( pre pre_f:(( MTLCommandBuffer )->())? = nil,
-                         main main_f:( MTLCommandBuffer )->(),
-                         post post_f:(( MTLCommandBuffer )->())? = nil,
-                         completion completion_f: (( MTLCommandBuffer )->())? = nil )
+    public func execute( 
+        pre pre_f:ExecFunc? = nil,
+        main main_f:ExecFunc,
+        post post_f:ExecFunc? = nil,
+        completion completion_f:ExecFunc? = nil 
+    )
     -> Bool
     {
         return autoreleasepool {
@@ -49,7 +54,7 @@ open class LLMetalManager
                 completion_f?( command_buffer )
             }
             
-            // 事前処理の実行(コンピュートシェーダなどで使える)
+            // 事前処理の実行(コンピュートシェーダなどで使う)
             pre_f?( command_buffer )
                 
             main_f( command_buffer )

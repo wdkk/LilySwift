@@ -12,15 +12,19 @@
 
 import Metal
 
-// Metalライブラリでコードを読み込むのを簡単にするための拡張
-public extension MTLLibrary
+extension MTLComputeCommandEncoder
 {
-    static func make( with code:String ) -> MTLLibrary? {
-        do {
-            return try LLMetalManager.shared.device?.makeLibrary( source: code, options:nil )
-        }
-        catch {
-            return nil
-        }
+    public func setBuffer( _ buffer:MTLBuffer, index idx:Int ) {
+        self.setBuffer( buffer, offset: 0, index: idx )
+    }
+    
+    public func setBuffer<T:LLMetalBufferAllocatable>( 
+        _ obj:T, 
+        offset:Int = 0,
+        index idx:Int 
+    ) 
+    {
+        self.setBuffer( obj.metalBuffer, offset: offset, index: idx )
     }
 }
+

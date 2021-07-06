@@ -21,46 +21,16 @@ public class LLMetalRenderPipeline
     
     public init() {}
     
-    public func make( _ fn:( MTLRenderPipelineDescriptor )->() ) {
+    public func make( _ fn:( inout MTLRenderPipelineDescriptor )->() ) {
         // パイプラインディスクリプタをデフォルト設定で作成
-        let rp_desc = MTLRenderPipelineDescriptor.default
+        var rp_desc = MTLRenderPipelineDescriptor.default
         // コールバックで設定の上書きを行う
-        fn( rp_desc )
+        fn( &rp_desc )
         // パイプラインの作成
         self.makePipeline( rp_desc )        
     }
-      
-    // OLD: パイプラインの作成関数
-    public func makeOld( _ fn:( inout LLMetalRenderSetting )->() ) {
-        // 設定オブジェクトの作成
-        var setting = LLMetalRenderSetting()
-        // コールバックで設定を行う
-        fn( &setting )
-        // 設定を用いてパイプライン記述を作成
-        let rpd = makeRenderPipelineDesc( setting:setting )
-        // パイプラインの作成
-        self.makePipeline( rpd )
-    }
     
-    // OLD:
-    public func makeRenderPipelineDesc( setting:LLMetalRenderSetting )
-    -> MTLRenderPipelineDescriptor {
-        // パイプラインディスクリプタの作成
-        let rpd = MTLRenderPipelineDescriptor()
-        rpd.vertexFunction = setting.vertexShader.function
-        rpd.fragmentFunction = setting.fragmentShader.function
-        // パイプラインディスクリプタのデプス・ステンシル情報を設定
-        rpd.vertexDescriptor = setting.vertexDesc
-        //rpd.sampleCount = setting.depthState.sampleCount
-        rpd.depthAttachmentPixelFormat = setting.depthState.depthFormat
-        rpd.stencilAttachmentPixelFormat = setting.depthState.depthFormat
-        // 色設定
-        rpd.colorAttachments[0] = setting.colorAttachment
-        
-        return rpd
-    }
-    
-    public func makePipeline( _ rpd:MTLRenderPipelineDescriptor ) {
+    private func makePipeline( _ rpd:MTLRenderPipelineDescriptor ) {
         // パイプラインの生成
         do {
             state = try LLMetalManager.shared.device?.makeRenderPipelineState( descriptor: rpd )

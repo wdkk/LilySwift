@@ -21,30 +21,3 @@ public enum LLMetalBlendType : Int
     case max
     case min
 }
-
-// OLD: 廃止できれば理想
-public struct LLMetalDepthState
-{
-    public var sampleCount:Int = 1
-    public var depthFormat:MTLPixelFormat = .depth32Float_stencil8
-}
-
-// OLD: いずれ廃止予定
-public struct LLMetalRenderSetting
-{
-    // 深度ステート
-    public var depthState:LLMetalDepthState = LLMetalDepthState()
-    // 頂点シェーダー
-    public var vertexShader:LLMetalShader = LLMetalShader()
-    // フラグメントシェーダー
-    public var fragmentShader:LLMetalShader = LLMetalShader()
-    // カラーアタッチメント
-    public var colorAttachment:MTLRenderPipelineColorAttachmentDescriptor = MTLRenderPipelineColorAttachmentDescriptor()
-    // 頂点ディスクリプタ
-    public var vertexDesc:MTLVertexDescriptor? = nil
-    
-    public init() {
-        colorAttachment.pixelFormat = .bgra8Unorm
-        colorAttachment.composite(type: .alphaBlend )
-    }
-}

@@ -13,14 +13,16 @@
 import Foundation
 import Metal
 
-public protocol LLMetalShapeVerticeProtocl
+public protocol LLMetalShapeVerticeProtocol
 {
     associatedtype VerticeType
 }
 
 // Metal形状メモリ基本クラス
 public class LLMetalShape<T> 
-: LLAlignedMemory4096<T>, LLMetalBufferAllocatable, LLMetalShapeVerticeProtocl
+: LLAlignedMemory4096<T>
+, LLMetalBufferAllocatable
+, LLMetalShapeVerticeProtocol
 {
     public typealias VerticeType = T
     
@@ -59,8 +61,11 @@ public class LLMetalShapePainter<TShape>
 
     public init() { }
     
-    public func draw( with encoder:MTLRenderCommandEncoder, index idx:Int,
-                      shape:LLMetalShape<TShape> ) 
+    public func draw( 
+        with encoder:MTLRenderCommandEncoder,
+        index idx:Int,
+        shape:LLMetalShape<TShape> 
+    ) 
     {
         guard let metal_buffer = shape.metalBuffer else { return }
         encoder.setVertexBuffer( metal_buffer, index: idx )

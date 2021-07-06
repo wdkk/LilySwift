@@ -28,11 +28,12 @@ public protocol LLMetalBufferAllocatable
 public protocol LLMetalBufferShapeProtocol
 {
     var metalBuffer:MTLBuffer? { get }
-    
     func update( memory:LLAlignedMemoryAllocatable )
 }
 
-public class LLMetalAllocatedBuffer : LLMetalBufferAllocatable, LLMetalBufferShapeProtocol
+public class LLMetalAllocatedBuffer 
+: LLMetalBufferAllocatable
+, LLMetalBufferShapeProtocol
 {
     private var _length:Int
     private var _mtlbuf:MTLBuffer?
@@ -120,18 +121,30 @@ public class LLMetalSharedBuffer : LLMetalBufferAllocatable, LLMetalBufferShapeP
         _length = amemory.length
         if _length == 0 { _mtlbuf = nil }
         else { 
-            _mtlbuf = self.nocopy( amemory.pointer!, length:_length, allocatedLength:amemory.allocatedLength )
+            _mtlbuf = self.nocopy(
+                amemory.pointer!,
+                length:_length, 
+                allocatedLength:amemory.allocatedLength
+            )
         }
     }
     
     // 指定したバイト数で確保＆ポインタ先からコピーして初期化
     public init( _ buf:UnsafeRawPointer, length:Int ) {
         _length = length
-        _mtlbuf = self.nocopy( UnsafeMutableRawPointer(mutating: buf), length: _length, allocatedLength:_length )
+        _mtlbuf = self.nocopy(
+            UnsafeMutableRawPointer(mutating: buf), 
+            length: _length, 
+            allocatedLength:_length 
+        )
     }
     
     public func update( memory:LLAlignedMemoryAllocatable ) {
-        _mtlbuf = self.nocopy( memory.pointer!, length: memory.length, allocatedLength:memory.allocatedLength )
+        _mtlbuf = self.nocopy( 
+            memory.pointer!,
+            length: memory.length,
+            allocatedLength:memory.allocatedLength 
+        )
     }
     
     private func nocopy( _ buf:UnsafeMutableRawPointer, length:Int, allocatedLength:Int ) -> MTLBuffer? {
@@ -142,10 +155,12 @@ public class LLMetalSharedBuffer : LLMetalBufferAllocatable, LLMetalBufferShapeP
         _mtlbuf_current_pointer = buf
         _mtlbuf_length = length
 
-        return LLMetalManager.shared.device?.makeBuffer( bytesNoCopy:buf, 
-                                                  length:allocatedLength, 
-                                                  options:.storageModeShared,
-                                                  deallocator: nil )
+        return LLMetalManager.shared.device?.makeBuffer(
+            bytesNoCopy:buf, 
+            length:allocatedLength, 
+            options:.storageModeShared,
+            deallocator: nil 
+        )
     }
 }
 

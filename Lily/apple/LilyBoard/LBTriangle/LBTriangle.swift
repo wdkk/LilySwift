@@ -11,10 +11,11 @@
 import Foundation
 import Metal
 
-open class LBTriangle : LBShape<
+open class LBTriangle
+: LBShape<
     LBTrianglePipeline,
     LBTriangleStorage
-    >
+>
 {
     public var vertice:LLTriple<LBActorVertex> {
         get { return objPipeline!.storage.metalVertex.vertice[index] }

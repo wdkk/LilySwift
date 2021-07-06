@@ -45,6 +45,7 @@ open class LBObjectPipelineManager
         
         var proj_matrix:LLMatrix4x4 = .pixelXYProjection( sz )
         
+        // TODO: Z-Indexオーダーに切り替えたい
         // オブジェクトパイプラインをすべてスキャンしてlayerの順番に並べ替える
         let sorted_pipelines = LBObjectPipelineManager.shared.pipelines.sorted { 
             $0.value.layerIndex < $1.value.layerIndex

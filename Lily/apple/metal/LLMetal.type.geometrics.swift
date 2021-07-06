@@ -14,6 +14,29 @@ import CoreGraphics
 import Metal
 import simd
 
+// MARK: - 値セット
+public struct LLDual<T> {
+    public var p1:T, p2:T
+    public init( _ p1:T, _ p2:T ) {
+        self.p1 = p1; self.p2 = p2
+    }
+}
+
+public struct LLTriple<T> {
+    public var p1:T, p2:T, p3:T
+    public init( _ p1:T, _ p2:T, _ p3:T ) {
+        self.p1 = p1; self.p2 = p2; self.p3 = p3
+    }
+}
+
+public struct LLQuad<T> {
+    public var p1:T, p2:T, p3:T, p4:T
+    public init( _ p1:T, _ p2:T, _ p3:T, _ p4:T ) {
+        self.p1 = p1; self.p2 = p2; self.p3 = p3; self.p4 = p4
+    }
+}
+
+// MARK: - SIMD
 public typealias LLIntv2 = vector_int2
 public extension LLIntv2 
 {
@@ -286,8 +309,14 @@ public extension LLMatrix4x4
         return pixelXYProjection( wid: Int(size.width), hgt: Int(size.height) )
     }
 
-    static func ortho(left l: Float, right r: Float, bottom b: Float, top t: Float, near n: Float, far f: Float) 
-        -> Self 
+    static func ortho(
+        left l: Float,
+        right r: Float,
+        bottom b: Float,
+        top t: Float,
+        near n: Float,
+        far f: Float ) 
+    -> Self 
     {
         var mat:LLMatrix4x4 = .identity
         
@@ -306,7 +335,12 @@ public extension LLMatrix4x4
     }
     
     // 透視投影変換行列
-    static func perspectiveLeftHand( aspect: Float, fieldOfViewYRadians: Float, near: Float, far: Float ) -> Self 
+    static func perspectiveLeftHand(
+        aspect: Float, 
+        fieldOfViewYRadians: Float,
+        near: Float, 
+        far: Float ) 
+    -> Self 
     {
         var mat:LLMatrix4x4 = LLMatrix4x4()
                 
@@ -314,16 +348,23 @@ public extension LLMatrix4x4
         let x = y / aspect
         let z = far / ( far - near )
         
-        mat.columns.0 = LLFloatv4( x, 0, 0, 0 )
-        mat.columns.1 = LLFloatv4( 0, y, 0, 0 )
-        mat.columns.2 = LLFloatv4( 0, 0, z, 1 )
-        mat.columns.3 = LLFloatv4( 0, 0, z * -near, 0 )
- 
+        let X = LLFloatv4( x, 0, 0, 0 )
+        let Y = LLFloatv4( 0, y, 0, 0 )
+        let Z = LLFloatv4( 0, 0, z, 1 )
+        let W = LLFloatv4( 0, 0, z * -near, 0 )
+        
+        mat.columns = ( X, Y, Z, W )
+        
         return mat
     }
     
     // 透視投影変換行列
-    static func perspectiveRightHand( aspect: Float, fieldOfViewYRadians: Float, near: Float, far: Float ) -> Self 
+    static func perspectiveRightHand( 
+        aspect: Float,
+        fieldOfViewYRadians: Float,
+        near: Float,
+        far: Float )
+    -> Self 
     {
         var mat:LLMatrix4x4 = LLMatrix4x4()
                 
@@ -331,15 +372,22 @@ public extension LLMatrix4x4
         let x = y / aspect
         let z = far / ( near - far )
         
-        mat.columns.0 = LLFloatv4( x, 0, 0, 0 )
-        mat.columns.1 = LLFloatv4( 0, y, 0, 0 )
-        mat.columns.2 = LLFloatv4( 0, 0, z, -1 )
-        mat.columns.3 = LLFloatv4( 0, 0, z * near, 0 )
+        let X = LLFloatv4( x, 0, 0, 0 )
+        let Y = LLFloatv4( 0, y, 0, 0 )
+        let Z = LLFloatv4( 0, 0, z, -1 )
+        let W = LLFloatv4( 0, 0, z * near, 0 )
+        
+        mat.columns = ( X, Y, Z, W )
 
         return mat
     }
     
-    static func perspectiveLeftHand( aspect: Float, fieldOfViewYDegrees: Float, near: Float, far: Float ) -> Self 
+    static func perspectiveLeftHand( 
+        aspect: Float, 
+        fieldOfViewYDegrees: Float,
+        near: Float, 
+        far: Float )
+    -> Self 
     {
         let fov_radians = fieldOfViewYDegrees * Float.pi / 180.0
         return Self.perspectiveLeftHand(

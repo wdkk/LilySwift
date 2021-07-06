@@ -71,6 +71,7 @@ public class LLMetalTexture
         }
     }
     
+    // Metalテクスチャをそのまま代入
     public init( mtlTexture:MTLTexture? ) {
         guard let mtltex = mtlTexture else { 
             self.metalTexture = nil
@@ -87,7 +88,13 @@ public class LLMetalTexture
         self.metalTexture?.replace( region: reg, mipmapLevel: 0, withBytes: pointer, bytesPerRow: img.rowBytes )
     }
     
-    private func allocate( _ width:Int, _ height:Int, _ pixelFormat:MTLPixelFormat = .rgba8Unorm ) {
+    private func allocate( 
+        _ width:Int,
+        _ height:Int,
+        _ pixelFormat:MTLPixelFormat = .rgba8Unorm,
+        usage:MTLTextureUsage = [.shaderRead, .shaderWrite] 
+    )
+    {
         if let tex = self.metalTexture,
            tex.width == width && tex.height == height && tex.pixelFormat == pixelFormat {
            return
@@ -98,7 +105,8 @@ public class LLMetalTexture
             width: width,
             height: height,
             mipmapped: false )
-        tex_desc.usage = [.shaderRead, .shaderWrite]
+        
+        tex_desc.usage = usage
         
         self.metalTexture = LLMetalManager.shared.device?.makeTexture( descriptor: tex_desc )
     }
