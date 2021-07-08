@@ -8,22 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		5D2973DA1F5E70D2005F1CBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D2973D31F5E70D2005F1CBA /* Assets.xcassets */; };
-		5D2A6D7925B4A1A30010D02B /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE44FF7241BDBAF008419B6 /* MyViewController.swift */; };
-		5D2A6D7A25B4A1A30010D02B /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B82462982600832532 /* main.swift */; };
-		5D2A6D7C25B4A1A30010D02B /* LilySwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */; };
-		5D2A6D7E25B4A1A30010D02B /* supportFiles in Resources */ = {isa = PBXBuildFile; fileRef = 5DA0815823C2287D005E877C /* supportFiles */; };
-		5D2A6D7F25B4A1A30010D02B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D2973D31F5E70D2005F1CBA /* Assets.xcassets */; };
-		5D2A6D8025B4A1A30010D02B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D8DF91A1F5EBBC500108334 /* Default-568h@2x.png */; };
-		5D2A6D8125B4A1A30010D02B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D37A34A20E791A40084C4E6 /* LaunchScreen.storyboard */; };
-		5D2A6D8325B4A1A30010D02B /* LilySwift.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		5D2A6D9025B4A2700010D02B /* AppDelegate_for_11.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2A6D8F25B4A2700010D02B /* AppDelegate_for_11.swift */; };
 		5D37A34B20E791A40084C4E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D37A34A20E791A40084C4E6 /* LaunchScreen.storyboard */; };
 		5D45A8F5257EA1820007454B /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE44FF7241BDBAF008419B6 /* MyViewController.swift */; };
 		5D5AA4BB2462982600832532 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B72462982600832532 /* AppDelegate.swift */; };
 		5D5AA4BC2462982600832532 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B82462982600832532 /* main.swift */; };
 		5D5AA4BD2462982600832532 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B92462982600832532 /* SceneDelegate.swift */; };
 		5D613E0925BAAEB0004B1FD8 /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D613E0825BAAEB0004B1FD8 /* PageController.swift */; };
-		5D613E0A25BAAEB0004B1FD8 /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D613E0825BAAEB0004B1FD8 /* PageController.swift */; };
 		5D8DF91B1F5EBBC500108334 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D8DF91A1F5EBBC500108334 /* Default-568h@2x.png */; };
 		5DA0815923C2287D005E877C /* supportFiles in Resources */ = {isa = PBXBuildFile; fileRef = 5DA0815823C2287D005E877C /* supportFiles */; };
 		5DB4690A238E6D01002A8FF7 /* LilySwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB46909238E6D01002A8FF7 /* LilySwift.xcframework */; };
@@ -31,17 +21,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		5D2A6D8225B4A1A30010D02B /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				5D2A6D8325B4A1A30010D02B /* LilySwift.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5DB4690C238E6D01002A8FF7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -58,8 +37,6 @@
 /* Begin PBXFileReference section */
 		5D2973D31F5E70D2005F1CBA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D2973D61F5E70D2005F1CBA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5D2A6D8725B4A1A30010D02B /* LilyiOSApp_for_11.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LilyiOSApp_for_11.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5D2A6D8E25B4A2160010D02B /* Info_for_11.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info_for_11.plist; sourceTree = "<group>"; };
 		5D2A6D8F25B4A2700010D02B /* AppDelegate_for_11.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate_for_11.swift; sourceTree = "<group>"; };
 		5D37A34A20E791A40084C4E6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5D5AA4B72462982600832532 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -75,14 +52,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5D2A6D7B25B4A1A30010D02B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5D2A6D7C25B4A1A30010D02B /* LilySwift.xcframework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5DEE585D1C2667DA00546A18 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -99,7 +68,6 @@
 			children = (
 				5D2973D31F5E70D2005F1CBA /* Assets.xcassets */,
 				5D2973D61F5E70D2005F1CBA /* Info.plist */,
-				5D2A6D8E25B4A2160010D02B /* Info_for_11.plist */,
 				5DCD20F923525D29007F00EA /* App.entitlements */,
 				5D37A34A20E791A40084C4E6 /* LaunchScreen.storyboard */,
 			);
@@ -135,7 +103,6 @@
 			isa = PBXGroup;
 			children = (
 				5DEE58601C2667DA00546A18 /* LilyiOSApp.app */,
-				5D2A6D8725B4A1A30010D02B /* LilyiOSApp_for_11.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -159,24 +126,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5D2A6D7425B4A1A30010D02B /* LilyiOSApp_for_11 */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5D2A6D8425B4A1A30010D02B /* Build configuration list for PBXNativeTarget "LilyiOSApp_for_11" */;
-			buildPhases = (
-				5D2A6D7525B4A1A30010D02B /* Sources */,
-				5D2A6D7B25B4A1A30010D02B /* Frameworks */,
-				5D2A6D7D25B4A1A30010D02B /* Resources */,
-				5D2A6D8225B4A1A30010D02B /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = LilyiOSApp_for_11;
-			productName = AppSwift;
-			productReference = 5D2A6D8725B4A1A30010D02B /* LilyiOSApp_for_11.app */;
-			productType = "com.apple.product-type.application";
-		};
 		5DEE585F1C2667DA00546A18 /* LilyiOSApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5DEE58721C2667DA00546A18 /* Build configuration list for PBXNativeTarget "LilyiOSApp" */;
@@ -227,23 +176,11 @@
 			projectRoot = "";
 			targets = (
 				5DEE585F1C2667DA00546A18 /* LilyiOSApp */,
-				5D2A6D7425B4A1A30010D02B /* LilyiOSApp_for_11 */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5D2A6D7D25B4A1A30010D02B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5D2A6D7E25B4A1A30010D02B /* supportFiles in Resources */,
-				5D2A6D7F25B4A1A30010D02B /* Assets.xcassets in Resources */,
-				5D2A6D8025B4A1A30010D02B /* Default-568h@2x.png in Resources */,
-				5D2A6D8125B4A1A30010D02B /* LaunchScreen.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5DEE585E1C2667DA00546A18 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -258,17 +195,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5D2A6D7525B4A1A30010D02B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5D613E0A25BAAEB0004B1FD8 /* PageController.swift in Sources */,
-				5D2A6D7925B4A1A30010D02B /* MyViewController.swift in Sources */,
-				5D2A6D9025B4A2700010D02B /* AppDelegate_for_11.swift in Sources */,
-				5D2A6D7A25B4A1A30010D02B /* main.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5DEE585C1C2667DA00546A18 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -284,60 +210,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		5D2A6D8525B4A1A30010D02B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N6DRT9P33S;
-				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
-				INFOPLIST_FILE = App/Info_for_11.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"@executable_path/../Frameworks",
-					"@executable_path/Frameworks",
-				);
-				OTHER_SWIFT_FLAGS = "-D DEBUG -D IOS11_LEGACY";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilyApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		5D2A6D8625B4A1A30010D02B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N6DRT9P33S;
-				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
-				INFOPLIST_FILE = App/Info_for_11.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"@executable_path/../Frameworks",
-					"@executable_path/Frameworks",
-				);
-				OTHER_SWIFT_FLAGS = "-D IOS11_LEGACY";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilyApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		5DEE58701C2667DA00546A18 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -507,15 +379,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5D2A6D8425B4A1A30010D02B /* Build configuration list for PBXNativeTarget "LilyiOSApp_for_11" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5D2A6D8525B4A1A30010D02B /* Debug */,
-				5D2A6D8625B4A1A30010D02B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		5DEE585B1C2667DA00546A18 /* Build configuration list for PBXProject "LilyiOSApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

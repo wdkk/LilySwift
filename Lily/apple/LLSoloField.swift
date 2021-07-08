@@ -14,9 +14,11 @@ public struct LLSoloField<TMe:AnyObject, TObj> : LLField
 {
     public private(set) var field:((TObj)->Void)?
     
-    public init( me:TMe,
-                 objType:TObj.Type,
-                 action:@escaping (TMe, TObj)->Void )
+    public init(
+        me:TMe,
+        objType:TObj.Type,
+        action:@escaping (TMe, TObj)->Void 
+    )
     {
         self.field = { [weak me] ( objs:TObj ) in
             guard let me:TMe = me else { return }
@@ -25,8 +27,10 @@ public struct LLSoloField<TMe:AnyObject, TObj> : LLField
     }
     
     // ジェネリクス(TObj=Any)を指定して用いる
-    public init( me:TMe,
-                 action:@escaping (TMe)->Void )
+    public init( 
+        me:TMe,
+        action:@escaping (TMe)->Void 
+    )
     {
         self.field = { [weak me] ( objs:TObj ) in
             guard let me:TMe = me else { return }

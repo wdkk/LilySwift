@@ -11,8 +11,6 @@
 import UIKit
 import LilySwift
 
-#if !IOS11_LEGACY
-
 class SceneDelegate : UIResponder, UIWindowSceneDelegate 
 {    
     var window: UIWindow?
@@ -63,5 +61,3 @@ class SceneDelegate : UIResponder, UIWindowSceneDelegate
 
     }
 }
-
-#endif

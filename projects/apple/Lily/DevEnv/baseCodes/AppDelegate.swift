@@ -10,23 +10,25 @@
 
 import UIKit
 
-#if !IOS11_LEGACY
-
 class AppDelegate: UIResponder, UIApplicationDelegate
 {
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil)
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    )
     -> Bool
     { 
         return true
     }
     
-    func application(_ application: UIApplication,
-                     configurationForConnecting connectingSceneSession: UISceneSession,
-                     options: UIScene.ConnectionOptions) -> UISceneConfiguration 
+    func application(
+        _ application: UIApplication,
+        configurationForConnecting connectingSceneSession: UISceneSession,
+        options: UIScene.ConnectionOptions
+    ) 
+    -> UISceneConfiguration 
     {
         return UISceneConfiguration(name:"LilyScene-Config", sessionRole: connectingSceneSession.role)
     }
 }
 
-#endif

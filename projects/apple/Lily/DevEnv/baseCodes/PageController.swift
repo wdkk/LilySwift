@@ -32,13 +32,8 @@ class PageController
     }
     
     static func manager( of view:UIView ) -> LLViewControllerManager? {
-        #if IOS11_LEGACY
-        guard let d = UIApplication.shared.delegate as? AppDelegate else { return nil }
-        return d.pageController.vcm
-        #else
         guard let d = view.window?.windowScene?.delegate as? SceneDelegate else { return nil }
         return d.pageController.vcm
-        #endif
     }
         
     private func checkColorMode() {

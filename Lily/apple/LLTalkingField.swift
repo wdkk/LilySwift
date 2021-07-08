@@ -14,10 +14,12 @@ public struct LLTalkingField<TCaller:AnyObject, TMe:AnyObject, TObj> : LLField
 {
     public private(set) var field:((TObj)->Void)?
       
-    public init( by caller:TCaller,
-                 me:TMe,
-                 objType:TObj.Type,
-                 action:@escaping (TCaller, TMe, TObj)->Void )
+    public init( 
+        by caller:TCaller,
+        me:TMe,
+        objType:TObj.Type,
+        action:@escaping (TCaller, TMe, TObj)->Void
+    )
     {
         self.field = { [weak caller, weak me] ( objs:TObj ) in
             guard let caller:TCaller = caller,
@@ -27,9 +29,11 @@ public struct LLTalkingField<TCaller:AnyObject, TMe:AnyObject, TObj> : LLField
     }
     
     // ジェネリクス(<TCaller, TMe, Any>)を指定して用いる
-    public init( by caller:TCaller,
-                 me:TMe,
-                 action:@escaping (TCaller, TMe)->Void )
+    public init( 
+        by caller:TCaller,
+        me:TMe,
+        action:@escaping (TCaller, TMe)->Void
+    )
     {
         self.field = { [weak caller, weak me] ( objs:TObj ) in
             guard let caller:TCaller = caller,

@@ -15,11 +15,13 @@ public struct LLMediaField<TCaller:AnyObject, TMe:AnyObject, TObj, TPhenomena> :
     public private(set) var field:((TObj, TPhenomena)->Void)?
     public private(set) var phenomena:TPhenomena
   
-    public init( by caller:TCaller,
-                 me:TMe,
-                 objType:TObj.Type,
-                 phenomena:TPhenomena,
-                 action:@escaping (TCaller, TMe, TObj, TPhenomena)->Void )
+    public init( 
+        by caller:TCaller,
+        me:TMe,
+        objType:TObj.Type,
+        phenomena:TPhenomena,
+        action:@escaping (TCaller, TMe, TObj, TPhenomena)->Void
+    )
     {
         self.phenomena = phenomena
         self.field = { [weak caller, weak me] objs, phenomena in
@@ -30,10 +32,12 @@ public struct LLMediaField<TCaller:AnyObject, TMe:AnyObject, TObj, TPhenomena> :
     }
     
     // ジェネリクス(<TCaller, TMe, Any, TPhenomena>)を指定して用いる
-    public init( by caller:TCaller,
-                 me:TMe,
-                 phenomena:TPhenomena,
-                 action:@escaping (TCaller, TMe, TPhenomena)->Void )
+    public init( 
+        by caller:TCaller,
+        me:TMe,
+        phenomena:TPhenomena,
+        action:@escaping (TCaller, TMe, TPhenomena)->Void 
+    )
     {
         self.phenomena = phenomena
         self.field = { [weak caller, weak me] objs, phenomena in
