@@ -10,20 +10,20 @@
 
 import Foundation
 
-public class LLFieldMap
+open class LLFieldMap
 {
     public var fields:[String:LLField] = [:]
     
     public init() {}
     
-    public func appear( _ objs:Any? ) {
+    open func appear( _ objs:Any? ) {
         let sorted_fields = fields.sorted { $0.0 < $1.0 }
         for (_,f) in sorted_fields {
             f.appear( objs )
         }
     }
     
-    public func removeAll() {
+    open func removeAll() {
         fields.removeAll()
     }
 }

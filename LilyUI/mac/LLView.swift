@@ -63,21 +63,21 @@ open class LLView : CALayer, LLUILifeEvent
         postSetup()
     }
         
-    public func preSetup() { }
+    open func preSetup() { }
     
-    public func setup() { }
+    open func setup() { }
     
-    public func postSetup() { 
+    open func postSetup() { 
         self.callSetupFields()
     }
     
-    public func preBuildup() {
+    open func preBuildup() {
         self.callDefaultBuildupFields()
     }
     
-    public func buildup() { }
+    open func buildup() { }
     
-    public func postBuildup() {
+    open func postBuildup() {
         self.callBuildupFields()
         self.callStaticBuildupFields()
         
@@ -88,7 +88,7 @@ open class LLView : CALayer, LLUILifeEvent
         }
     }
     
-    public func teardown() {
+    open func teardown() {
         self.callTeardownFields()
         
         if let sublayers = self.sublayers {
@@ -99,7 +99,7 @@ open class LLView : CALayer, LLUILifeEvent
     }
     
     public var _mutex = LLRecursiveMutex()
-    public func rebuild() {
+    open func rebuild() {
         _mutex.lock {
             self.preBuildup()
             self.buildup()

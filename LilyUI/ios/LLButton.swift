@@ -14,7 +14,7 @@ import UIKit
 
 open class LLButton : LLLabel
 {
-    public override func setup() {
+    open override func setup() {
         super.setup()
     
         self.chain

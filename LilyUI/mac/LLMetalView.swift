@@ -38,7 +38,7 @@ open class LLMetalView : LLView
     }
 
     /// Metalの初期化 / Metal Layerの準備
-    private func setupMetal() {
+    open func setupMetal() {
         self.addSublayer( metalLayer )
         metalLayer.device = LLMetalManager.shared.device
         metalLayer.pixelFormat = .bgra8Unorm

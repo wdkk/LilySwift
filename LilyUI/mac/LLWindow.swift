@@ -49,16 +49,16 @@ open class LLWindow : NSWindow, NSWindowDelegate
 		NotificationCenter.default.removeObserver(self, name:NSWindow.willCloseNotification, object:nil)
     }
 
-    public func windowDidResize( _ notification:Notification ) {
+    open func windowDidResize( _ notification:Notification ) {
 		//igWindow.resize.ignite( LLArg2() )
 	}
     
     private var _exit_full_screen:Bool = false
-    public func windowWillExitFullScreen( _ notification: Notification ) {
+    open func windowWillExitFullScreen( _ notification: Notification ) {
         _exit_full_screen = true
     }
 	
-    public func windowWillClose( _ notification:Notification ) {
+    open func windowWillClose( _ notification:Notification ) {
         // 最大化からの戻りでも閉じるが動くのでフラグで処理を防止
         if _exit_full_screen {
             _exit_full_screen = false

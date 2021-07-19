@@ -27,10 +27,12 @@ open class LLTouchHoldRecognizer
     
     open var isEnd:Bool { return (_holded_id == -1) }
     
-    open func startHold( touches:Set<UITouch>, 
-                         touch_count:Int, 
-                         succeeded:@escaping ()->(), 
-                         cancelled:@escaping ()->() )
+    open func startHold(
+        touches:Set<UITouch>, 
+        touchCount touch_count:Int, 
+        succeeded:@escaping ()->(), 
+        cancelled:@escaping ()->() 
+    )
     {
         guard let touch:UITouch = touches.first else { return }
         
@@ -64,16 +66,18 @@ open class LLTouchHoldRecognizer
                 guard let self = self else { return }
                 succeeded()
                 if self.loop {
-                    self.loopHold(touches: touches, touch_count: touch_count, succeeded: succeeded, cancelled: cancelled )
+                    self.loopHold(touches: touches, touchCount: touch_count, succeeded: succeeded, cancelled: cancelled )
                 }
             }
         }
     }
     
-    open func loopHold( touches:Set<UITouch>,
-                        touch_count:Int, 
-                        succeeded:@escaping ()->(),
-                        cancelled:@escaping ()->() ) 
+    open func loopHold(
+        touches:Set<UITouch>,
+        touchCount touch_count:Int, 
+        succeeded:@escaping ()->(),
+        cancelled:@escaping ()->() 
+    ) 
     {
         guard let touch:UITouch = touches.first else { return }
         
@@ -107,15 +111,17 @@ open class LLTouchHoldRecognizer
                 guard let self = self else { return }
                 succeeded()
                 if self.loop {
-                    self.loopHold(touches: touches, touch_count: touch_count, succeeded: succeeded, cancelled: cancelled )
+                    self.loopHold(touches: touches, touchCount: touch_count, succeeded: succeeded, cancelled: cancelled )
                 }
             }
         }
     }
     
-    open func checkHold( touches:Set<UITouch>, 
-                         touch_count:Int, 
-                         cancelled:@escaping ()->() ) 
+    open func checkHold(
+        touches:Set<UITouch>, 
+        touchCount touch_count:Int, 
+        cancelled:@escaping ()->()
+    ) 
     {
         if touch_count != 1 { cancelled(); return }
 
@@ -140,7 +146,7 @@ open class LLTouchHoldRecognizer
     open func firePoolTouches( touchFunc:(Set<UITouch>)->Void ) {
         endHold()
         for touch in _touch_pool {
-            let waiting_touches:Set<UITouch> = Set<UITouch>( arrayLiteral: touch )
+            let waiting_touches = Set<UITouch>( arrayLiteral: touch )
             touchFunc( waiting_touches )
         }
         _touch_pool.removeAll()

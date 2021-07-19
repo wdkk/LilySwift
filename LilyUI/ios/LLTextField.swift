@@ -12,7 +12,9 @@
 
 import UIKit
 
-open class LLTextField : UITextField, LLUILifeEvent
+open class LLTextField 
+: UITextField
+, LLUILifeEvent
 {
     public lazy var setupField = LLViewFieldMap()
     public lazy var buildupField = LLViewFieldMap()
@@ -34,14 +36,14 @@ open class LLTextField : UITextField, LLUILifeEvent
     public private(set) var placeholderText:LLString = ""
     public private(set) var placeholderColor = LLColor.black
     
-    public func placeholderText( _ text:LLString ) {
+    open func placeholderText( _ text:LLString ) {
         self.placeholderText = text
         self.attributedPlaceholder = NSAttributedString(
             string: self.placeholderText, 
         attributes: [NSAttributedString.Key.foregroundColor : self.placeholderColor.uiColor] )
     }
     
-    public func placeholderColor( _ c:LLColor ) {
+    open func placeholderColor( _ c:LLColor ) {
         self.placeholderColor = c
         self.attributedPlaceholder = NSAttributedString(
             string: self.placeholderText, 
@@ -54,7 +56,7 @@ open class LLTextField : UITextField, LLUILifeEvent
     }
     
     public var _mutex = LLRecursiveMutex()
-    public func rebuild() {
+    open func rebuild() {
         _mutex.lock {
             self.preBuildup()
             self.buildup()
@@ -62,12 +64,12 @@ open class LLTextField : UITextField, LLUILifeEvent
         }
     }
     
-    public func preSetup() { 
+    open func preSetup() { 
         // TODO: 初期化(サイズがないとiOS11では動作しない模様)
         CATransaction.stop { self.rect = LLRect( -1, -1, 1, 1 ) }
     }
     
-    public func setup() { 
+    open func setup() { 
         self.chain
         .setup.add( with:self ) { caller, me in
             me.chain
@@ -93,17 +95,17 @@ open class LLTextField : UITextField, LLUILifeEvent
         self.layer.addSublayer( self.borderBottom )
     }
         
-    public func postSetup() {
+    open func postSetup() {
         self.callSetupFields()
     }
     
-    public func preBuildup() {
+    open func preBuildup() {
         self.callDefaultBuildupFields()
     }
     
-    public func buildup() { }
+    open func buildup() { }
     
-    public func postBuildup() {
+    open func postBuildup() {
         self.callBuildupFields()
         self.callStaticBuildupFields()
         
@@ -112,7 +114,7 @@ open class LLTextField : UITextField, LLUILifeEvent
         }
     }
     
-    public func teardown() {
+    open func teardown() {
         self.callTeardownFields()
         
         for child in self.subviews {
@@ -120,7 +122,7 @@ open class LLTextField : UITextField, LLUILifeEvent
         }
     }
     
-    public override func addSubview( _ view: UIView ) {
+    open override func addSubview( _ view: UIView ) {
         if let llui = view as? LLUILifeEvent {
             llui.preSetup()
             llui.setup()
@@ -129,17 +131,17 @@ open class LLTextField : UITextField, LLUILifeEvent
         super.addSubview( view )
     }
     
-    public override func touchesBegan( _ touches: Set<UITouch>, with event: UIEvent? ) {
+    open override func touchesBegan( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesBegan( touches, with:event )
         self.touchesBeganField.appear( LLTouchArg( touches, event ) )
     }
     
-    public override func touchesMoved( _ touches: Set<UITouch>, with event: UIEvent? ) {
+    open override func touchesMoved( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesMoved( touches, with:event )
         self.touchesMovedField.appear( LLTouchArg( touches, event ) )
     }
     
-    public override func touchesEnded( _ touches: Set<UITouch>, with event: UIEvent? ) {
+    open override func touchesEnded( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesEnded( touches, with:event )
         self.touchesEndedField.appear( LLTouchArg( touches, event ) )
         
@@ -151,12 +153,12 @@ open class LLTextField : UITextField, LLUILifeEvent
         }
     }
     
-    public override func touchesCancelled( _ touches: Set<UITouch>, with event: UIEvent? ) {
+    open override func touchesCancelled( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesCancelled( touches, with:event )
         self.touchesCancelledField.appear( LLTouchArg( touches, event ) )
     }
      
-    public override func draw( _ rect: CGRect ) {
+    open override func draw( _ rect: CGRect ) {
         super.draw( rect )
         self.drawLayerField.appear( rect )
     }

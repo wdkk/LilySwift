@@ -16,7 +16,7 @@ public class LLDrawFieldMap : LLFieldMap
 {
     public typealias Args = CGRect
     
-    public func add<TCaller:AnyObject, TView:AnyObject, TPhenomena>(
+    open func add<TCaller:AnyObject, TView:AnyObject, TPhenomena>(
         _ label:String = UUID().uuidString,
         with caller:TCaller,
         me view:TView,
@@ -30,7 +30,7 @@ public class LLDrawFieldMap : LLFieldMap
                                       action:f )
     }
     
-    public func add<TCaller:AnyObject, TView:AnyObject>( 
+    open func add<TCaller:AnyObject, TView:AnyObject>( 
         _ label:String = UUID().uuidString,
         with caller:TCaller,
         me view:TView,

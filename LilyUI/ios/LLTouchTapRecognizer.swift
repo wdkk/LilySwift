@@ -40,8 +40,9 @@ open class LLTouchTapRecognizer
         }
     }
     
-    open func checkIgniteTap( tapped tappedFunc:( Int )->Void,
-                              nontapped nontappedFunc:()->Void )
+    open func checkIgniteTap( 
+        tapped tappedFunc:( Int )->Void,
+        nontapped nontappedFunc:()->Void )
     {
         // multi tap event
         let dt = LLClock.now - _tap_start_time

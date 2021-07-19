@@ -23,9 +23,9 @@ public struct LLTouchArg
     }
 }
 
-public class LLTouchFieldMap : LLFieldMap 
+open class LLTouchFieldMap : LLFieldMap 
 {
-    public func add<TCaller:AnyObject, TView:AnyObject, TPhenomena>(
+    open func add<TCaller:AnyObject, TView:AnyObject, TPhenomena>(
         _ label:String = UUID().uuidString,
         with caller:TCaller,
         me view:TView,
@@ -39,7 +39,7 @@ public class LLTouchFieldMap : LLFieldMap
                                       action:f )
     }
     
-    public func add<TCaller:AnyObject, TView:AnyObject>( 
+    open func add<TCaller:AnyObject, TView:AnyObject>( 
         _ label:String = UUID().uuidString,
         with caller:TCaller,
         me view:TView,

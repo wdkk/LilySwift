@@ -44,21 +44,21 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func preSetup() { }
+    open func preSetup() { }
     
-    public func setup() { }
+    open func setup() { }
     
-    public func postSetup() { 
+    open func postSetup() { 
         self.callSetupFields()
     }
     
-    public func preBuildup() {
+    open func preBuildup() {
         self.callDefaultBuildupFields()
     }
     
-    public func buildup() { }
+    open func buildup() { }
     
-    public func postBuildup() {
+    open func postBuildup() {
         self.callBuildupFields()
         self.callStaticBuildupFields()
         
@@ -74,7 +74,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         }
     }
     
-    public func teardown() {
+    open func teardown() {
         self.callTeardownFields()
          
         // NSView側
@@ -90,7 +90,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     public var _mutex = LLRecursiveMutex()
-    public func rebuild() {
+    open func rebuild() {
         _mutex.lock {
             self.preBuildup()
             self.buildup()
