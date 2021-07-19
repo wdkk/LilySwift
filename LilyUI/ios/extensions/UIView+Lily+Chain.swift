@@ -134,7 +134,20 @@ public extension LLChain where TObj:UIView
     func addSubview<TView:UIView>( _ chainview:LLChain<TView> ) -> Self {
         obj.addSubview( chainview )
         return self
-    }    
+    }  
+    
+    @discardableResult
+    func bringSubviewToFront<TView:UIView>( _ view:TView ) -> Self {
+        obj.bringSubviewToFront( view )
+        return self
+    }
+    
+    @discardableResult
+    func bringSubviewToFront<TView:UIView>( _ view:LLChain<TView> ) -> Self {
+        obj.bringSubviewToFront( view.unchain )
+        return self
+    }
 }
+
 
 #endif
