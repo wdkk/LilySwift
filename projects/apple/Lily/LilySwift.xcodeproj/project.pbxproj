@@ -310,6 +310,7 @@
 		5DA0815523C21603005E877C /* LDImage.apl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0815323C21603005E877C /* LDImage.apl.swift */; };
 		5DA3A28E26A56BC3004BD2C1 /* LLScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3A28D26A56BC3004BD2C1 /* LLScrollView.swift */; };
 		5DA3A29226A56ED1004BD2C1 /* UIScrollView+Lily+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3A29126A56ED1004BD2C1 /* UIScrollView+Lily+Chain.swift */; };
+		5DA3A29626A571F2004BD2C1 /* LLScrollView+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA3A29526A571F2004BD2C1 /* LLScrollView+Chain.swift */; };
 		5DABE04025B7FF4C00E65D70 /* LLView+chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DABE03F25B7FF4C00E65D70 /* LLView+chain.swift */; };
 		5DABE04725B7FF5D00E65D70 /* UIView+Lily+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DABE04625B7FF5D00E65D70 /* UIView+Lily+Chain.swift */; };
 		5DABE07425B809D800E65D70 /* LLViewFieldMap+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DABE07225B809D800E65D70 /* LLViewFieldMap+Chain.swift */; };
@@ -697,6 +698,7 @@
 		5DA0815323C21603005E877C /* LDImage.apl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LDImage.apl.swift; sourceTree = "<group>"; };
 		5DA3A28D26A56BC3004BD2C1 /* LLScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLScrollView.swift; sourceTree = "<group>"; };
 		5DA3A29126A56ED1004BD2C1 /* UIScrollView+Lily+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Lily+Chain.swift"; sourceTree = "<group>"; };
+		5DA3A29526A571F2004BD2C1 /* LLScrollView+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLScrollView+Chain.swift"; sourceTree = "<group>"; };
 		5DABE03F25B7FF4C00E65D70 /* LLView+chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLView+chain.swift"; sourceTree = "<group>"; };
 		5DABE04625B7FF5D00E65D70 /* UIView+Lily+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Lily+Chain.swift"; sourceTree = "<group>"; };
 		5DABE07225B809D800E65D70 /* LLViewFieldMap+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLViewFieldMap+Chain.swift"; sourceTree = "<group>"; };
@@ -931,6 +933,7 @@
 				5DD9526825C536FF002AD2E1 /* LLTextField.swift */,
 				5DD9526925C536FF002AD2E1 /* LLTextField+Chain.swift */,
 				5DA3A28D26A56BC3004BD2C1 /* LLScrollView.swift */,
+				5DA3A29526A571F2004BD2C1 /* LLScrollView+Chain.swift */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -2002,6 +2005,7 @@
 				5DFCC7B723BFCDAD0049AC4E /* LCImage.rgbaf.swift in Sources */,
 				5DB7A552239E534D0050A9B4 /* LLError.swift in Sources */,
 				5D2E8BCD2387DA5D00D21D94 /* LLType.swift in Sources */,
+				5DA3A29626A571F2004BD2C1 /* LLScrollView+Chain.swift in Sources */,
 				5D4726982694D4CC0043BA34 /* LLMetal.type.geometrics.swift in Sources */,
 				5D0CCA9323BB55E70007E174 /* LLLog.swift in Sources */,
 				5D4726AE2694D4CC0043BA34 /* LLMetal.manager.swift in Sources */,
