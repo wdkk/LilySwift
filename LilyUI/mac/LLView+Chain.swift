@@ -79,6 +79,11 @@ public extension LLChain where TObj:LLView
         obj.backgroundColor = c.cgColor
         return self
     }
+}
+
+public extension LLChain where TObj:LLView
+{
+    // MARK: -
 
     var setup:LLFieldMapChain<TObj, LLViewFieldMap> {
         return LLFieldMapChain( obj, obj.setupField )
@@ -91,6 +96,49 @@ public extension LLChain where TObj:LLView
     var teardown:LLFieldMapChain<TObj, LLViewFieldMap> {
         return LLFieldMapChain( obj, obj.teardownField )
     }
+    
+    // MARK: - 
+    
+    var mouseLeftDown:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseLeftDownField ) 
+    }
+    
+    var mouseLeftDragged:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseLeftDraggedField ) 
+    }   
+    
+    var mouseLeftUp:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseLeftUpField ) 
+    }
+    
+    var mouseLeftUpInside:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseLeftUpInsideField ) 
+    }
+
+    var mouseRightDown:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseRightDownField ) 
+    }
+    
+    var mouseRightDragged:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseRightDraggedField ) 
+    }   
+    
+    var mouseRightUp:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseRightUpField ) 
+    }
+    
+    var mouseRightUpInside:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseRightUpInsideField ) 
+    }
+    
+    var mouseOver:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseOverField ) 
+    } 
+    
+    var mouseOut:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseOutField ) 
+    }
+    
 }
 
 #endif
