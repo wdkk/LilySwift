@@ -17,7 +17,8 @@ public class LLViewFieldMap : LLFieldMap
         order:LLFieldMap.Order = LLFieldMap.newOrder(),
         caller:TCaller,
         me view:TView,
-        field f:@escaping (TCaller, TView)->Void )
+        field f:@escaping (TCaller, TView)->Void
+    )
     {
         fields[order] = LLTalkingField<TCaller, TView, Any>(
             label:label,
@@ -33,7 +34,8 @@ public class LLViewFieldMap : LLFieldMap
         caller:TCaller,
         me view:TView,
         phenomena:TPhenomena,
-        field f:@escaping (TCaller, TView, TPhenomena)->Void )
+        field f:@escaping (TCaller, TView, TPhenomena)->Void
+    )
     {
         fields[order] = LLMediaField<TCaller, TView, Any, TPhenomena>( 
             label:label,

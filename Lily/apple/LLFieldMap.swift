@@ -10,6 +10,7 @@
 
 import Foundation
 
+// LLFieldを一斉実行するためのマッピング格納クラス
 open class LLFieldMap
 {
     public typealias Order = Int
@@ -26,6 +27,7 @@ open class LLFieldMap
     public init() {}
     
     open func appear( _ objs:Any? ) {
+        // Order順に実行していく.
         let sorted_fields = fields.sorted { $0.0 < $1.0 }
         for (_,f) in sorted_fields {
             f.appear( objs )

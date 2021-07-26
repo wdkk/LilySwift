@@ -21,4 +21,15 @@ public struct LBTouch
     public var xy:LLPointFloat = .zero
     public var uv:LLPointFloat = .zero
     public var state:State = .release
+    
+    public init(
+        xy:LLPointFloat = .zero,
+        uv:LLPointFloat = .zero,
+        state:State = .release 
+    )
+    {
+        self.xy = xy
+        self.uv = uv
+        self.state = state
+    }
 }
