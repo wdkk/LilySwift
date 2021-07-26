@@ -10,16 +10,20 @@
 
 import Foundation
 
-public struct LLSoloField<TMe:AnyObject, TObj> : LLField
+public struct LLSoloField<TMe:AnyObject, TObj>
+: LLField
 {
     public private(set) var field:((TObj)->Void)?
+    public var label:String
     
     public init(
+        label:String = UUID().labelString,
         me:TMe,
         objType:TObj.Type,
         action:@escaping (TMe, TObj)->Void 
     )
     {
+        self.label = label
         self.field = { [weak me] ( objs:TObj ) in
             guard let me:TMe = me else { return }
             action( me, objs )
@@ -27,11 +31,13 @@ public struct LLSoloField<TMe:AnyObject, TObj> : LLField
     }
     
     // ジェネリクス(TObj=Any)を指定して用いる
-    public init( 
+    public init(
+        label:String = UUID().labelString,
         me:TMe,
         action:@escaping (TMe)->Void 
     )
     {
+        self.label = label
         self.field = { [weak me] ( objs:TObj ) in
             guard let me:TMe = me else { return }
             action( me )

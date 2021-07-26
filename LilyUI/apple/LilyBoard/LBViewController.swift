@@ -51,12 +51,12 @@ open class LBViewController : LLViewController
         // MetalのViewを画面に追加
         #if os(iOS)
         metalView.chain
-        .setup.add( with:self )
+        .setup.add( caller:self )
         { caller, me in
             me.chain
             .backgroundColor( .grey )
         }  
-        .buildup.add( with:self ) 
+        .buildup.add( caller:self ) 
         { caller, me in
             // セーフエリアいっぱいにリサイズ
             CATransaction.stop {
@@ -65,30 +65,30 @@ open class LBViewController : LLViewController
             // ボード描画
             caller.buildupBoard()
         }
-        .touchesBegan.add( with:self )
+        .touchesBegan.add( caller:self )
         { caller, me, args in
-            caller.recogizeTouches( args.event )
+            caller.recogizeTouches( event:args.event )
         }
-        .touchesMoved.add( with:self )
+        .touchesMoved.add( caller:self )
         { caller, me, args in
-            caller.recogizeTouches( args.event )
+            caller.recogizeTouches( event:args.event )
         }
-        .touchesEnded.add( with:self )
+        .touchesEnded.add( caller:self )
         { caller, me, args in
-            caller.recogizeTouches( args.event )
+            caller.recogizeTouches( event:args.event )
         }
-        .touchesCancelled.add( with:self )
+        .touchesCancelled.add( caller:self )
         { caller, me, args in
-            caller.recogizeTouches( args.event )
+            caller.recogizeTouches( event:args.event )
         }
         #elseif os(macOS)
         metalView.chain
-        .setup.add( with:self )
+        .setup.add( caller:self )
         { caller, me in
             me.chain
             .backgroundColor( .grey )
         }  
-        .buildup.add( with:self ) 
+        .buildup.add( caller:self ) 
         { caller, me in
             // セーフエリアいっぱいにリサイズ
             CATransaction.stop {
@@ -96,6 +96,18 @@ open class LBViewController : LLViewController
             }
             // ボード描画
             caller.buildupBoard()
+        }
+        .mouseLeftDown.add( caller:self )
+        { caller, me, args in
+            caller.recogizeMouse( pos:args.position, state:.touch, event:args.event )
+        }
+        .mouseLeftDragged.add( caller:self )
+        { caller, me, args in
+            caller.recogizeMouse( pos:args.position, state:.touch, event:args.event )
+        }
+        .mouseLeftUp.add( caller:self )
+        { caller, me, args in
+            caller.recogizeMouse( pos:args.position, state:.release, event:args.event )
         }
         // TODO: macOSのイベント対応
         #endif
@@ -173,23 +185,41 @@ open class LBViewController : LLViewController
             #endif
         })
     }
-        
-    func recogizeTouches( _ event:OSEvent? ) {
+
+    // MetalでCraft類をコンピュートパイプラインを動作させる関数
+    open func compute( _ f:( MTLComputeCommandEncoder )->Void ) {
+        // コマンドバッファがある場合は用いて動作する
+        if let command_buffer = currentCommandBuffer { 
+            LLMetalComputer.compute( commandBuffer: command_buffer ) {
+                f( $0 )
+            }
+        }
+        // コマンドバッファがない場合は発行して用いる. ただしパフォーマンスは落ちる可能性あり
+        else {
+            LLMetalManager.shared.execute {
+                LLMetalComputer.compute( commandBuffer: $0 ) {
+                   f( $0 )
+                }
+            }
+        }
+    }
+}
+
+#if os(iOS)
+public extension LBViewController
+{
+    func recogizeTouches( event:UIEvent? ) {
         // タッチ情報の配列をリセット
         self.touchManager.clear()
         
-        #if os(iOS)
         guard let all_touches = event?.allTouches else { return }
-        #elseif os(macOS)
-        guard let all_touches = event?.allTouches() else { return }
-        #endif
         
         // タッチ数
         var idx = 0
         for touch in all_touches {
             // point座標系を取得
             let lt_pos = touch.location( in: self.view )
- 
+
             // MetalViewの中心座標を取得(TODO:self.viewとmetalViewの関係を簡潔にしたい)
             let o = metalView.center
             
@@ -217,22 +247,29 @@ open class LBViewController : LLViewController
             if idx >= self.touchManager.units.count { break }
         }
     }
-    
-    // MetalでCraft類をコンピュートパイプラインを動作させる関数
-    open func compute( _ f:( MTLComputeCommandEncoder )->Void ) {
-        // コマンドバッファがある場合は用いて動作する
-        if let command_buffer = currentCommandBuffer { 
-            LLMetalComputer.compute( commandBuffer: command_buffer ) {
-                f( $0 )
-            }
-        }
-        // コマンドバッファがない場合は発行して用いる. ただしパフォーマンスは落ちる可能性あり
-        else {
-            LLMetalManager.shared.execute {
-                LLMetalComputer.compute( commandBuffer: $0 ) {
-                   f( $0 )
-                }
-            }
-        }
-    }
 }
+#endif
+
+#if os(macOS)
+public extension LBViewController
+{
+    func recogizeMouse( pos:LLPoint, state:LBTouch.State, event:NSEvent? ) {
+        // タッチ情報の配列をリセット
+        self.touchManager.clear()
+        
+        // MetalViewの中心座標を取得(TODO:self.viewとmetalViewの関係を簡潔にしたい)
+        let o = metalView.center
+            
+        let pix_o_pos = LLPointFloat( pos.x.cgf - o.x, -(pos.y.cgf - o.y) )
+        let pix_lt_pos = LLPointFloat( pos.x, pos.y )
+ 
+        // 中心を0とした座標
+        self.touchManager.units[0].xy = pix_o_pos
+        // 左上を0とした座標
+        self.touchManager.units[0].uv = pix_lt_pos
+        // タッチ状態
+        self.touchManager.units[0].state = state
+    }
+    
+}
+#endif

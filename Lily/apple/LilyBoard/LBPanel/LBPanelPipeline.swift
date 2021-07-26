@@ -24,7 +24,7 @@ public final class LBPanelPipeline : LBObjectPipeline<LBPanelStorage>
         super.init( label: label )
         
         // デフォルトのコンピュータ
-        self.computeField( with:self ) { caller, me, args in
+        self.computeField( caller:self ) { caller, me, args in
             if me.storage.isNoActive { return }
 
             // TODO: コンピュートシェーダがiPad Pro(2017)以前に対応が難しいため、直接コピーに戻す
@@ -62,7 +62,7 @@ public final class LBPanelPipeline : LBObjectPipeline<LBPanelStorage>
         }
         
         // デフォルトのレンダー
-        self.renderField( with:self ) { caller, me, args in 
+        self.renderField( caller:self ) { caller, me, args in 
             if me.storage.isNoActive { return }
             
             let mtlbuf_params = LLMetalStandardBuffer( amemory:me.storage.params )
@@ -96,7 +96,7 @@ public final class LBPanelPipeline : LBObjectPipeline<LBPanelStorage>
     -> Self
     {
         self._compute_f = LLTalkingField(
-            by:self,
+            caller:self,
             me:self,
             objType:MTLComputeCommandEncoder.self, 
             action:f 
@@ -106,13 +106,13 @@ public final class LBPanelPipeline : LBObjectPipeline<LBPanelStorage>
     
     @discardableResult
     public func computeField<TCaller:AnyObject>( 
-        with caller:TCaller, 
+        caller:TCaller, 
         _ f:@escaping (TCaller, Me, MTLComputeCommandEncoder)->Void 
     )
     -> Self
     {
         self._compute_f = LLTalkingField(
-            by:caller,
+            caller:caller,
             me:self,
             objType:MTLComputeCommandEncoder.self, 
             action:f
@@ -127,7 +127,7 @@ public final class LBPanelPipeline : LBObjectPipeline<LBPanelStorage>
     -> Self
     {
         self._render_f = LLTalkingField(
-            by:self,
+            caller:self,
             me:self,
             objType:MTLRenderCommandEncoder.self, 
             action:f
@@ -137,13 +137,13 @@ public final class LBPanelPipeline : LBObjectPipeline<LBPanelStorage>
     
     @discardableResult
     public func renderField<TCaller:AnyObject>( 
-        with caller:TCaller,
+        caller:TCaller,
         _ f:@escaping (TCaller, Me, MTLRenderCommandEncoder)->Void 
     )
     -> Self
     {
         self._render_f = LLTalkingField(
-            by:caller,
+            caller:caller,
             me:self,
             objType:MTLRenderCommandEncoder.self, 
             action:f

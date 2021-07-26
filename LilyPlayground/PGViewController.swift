@@ -50,7 +50,7 @@ open class PGViewController : LBViewController
         
         // デザイン関数のみ再定義
         metalView.chain
-        .buildup.add( with:self )
+        .buildup.add( caller:self )
         { caller, me in
             // 現在ある全ての図形を削除する
             caller.removeAllShapes()

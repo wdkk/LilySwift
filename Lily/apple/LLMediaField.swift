@@ -10,19 +10,23 @@
 
 import Foundation
 
-public struct LLMediaField<TCaller:AnyObject, TMe:AnyObject, TObj, TPhenomena> : LLField
+public struct LLMediaField<TCaller:AnyObject, TMe:AnyObject, TObj, TPhenomena>
+: LLField
 {
     public private(set) var field:((TObj, TPhenomena)->Void)?
     public private(set) var phenomena:TPhenomena
+    public var label:String
   
     public init( 
-        by caller:TCaller,
+        label:String = UUID().labelString,
+        caller:TCaller,
         me:TMe,
         objType:TObj.Type,
         phenomena:TPhenomena,
         action:@escaping (TCaller, TMe, TObj, TPhenomena)->Void
     )
     {
+        self.label = label
         self.phenomena = phenomena
         self.field = { [weak caller, weak me] objs, phenomena in
             guard let caller = caller,
@@ -33,12 +37,14 @@ public struct LLMediaField<TCaller:AnyObject, TMe:AnyObject, TObj, TPhenomena> :
     
     // ジェネリクス(<TCaller, TMe, Any, TPhenomena>)を指定して用いる
     public init( 
-        by caller:TCaller,
+        label:String = UUID().labelString,
+        caller:TCaller,
         me:TMe,
         phenomena:TPhenomena,
         action:@escaping (TCaller, TMe, TPhenomena)->Void 
     )
     {
+        self.label = label
         self.phenomena = phenomena
         self.field = { [weak caller, weak me] objs, phenomena in
             guard let caller = caller,

@@ -10,7 +10,7 @@
 
 import Foundation
 
-public struct LLFieldMapChain<TObj:OSView, TFieldMap:LLFieldMap>
+public struct LLFieldMapChain<TObj:AnyObject, TFieldMap:LLFieldMap>
 {
     public var obj:TObj
     public var fmap:TFieldMap

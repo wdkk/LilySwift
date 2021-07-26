@@ -86,9 +86,11 @@ open class PGPanelBase : LBPanel, PGActor
     open func interval( key:String = UUID().labelString,
                         sec:Double, 
                         f:@escaping ( LBActor )->Void ) -> Self {
-        self.intervalFields[key] = PGActorInterval( sec:sec,
-                                                    prev:PGActorTimer.shared.nowTime,
-                                                    field:LLSoloField( me:self, action:f ) )
+        self.intervalFields[key] = PGActorInterval(
+            sec:sec,
+            prev:PGActorTimer.shared.nowTime,
+            field:LLSoloField( me:self, action:f )
+        )
         return self
     }
     

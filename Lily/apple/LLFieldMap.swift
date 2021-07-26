@@ -12,7 +12,16 @@ import Foundation
 
 open class LLFieldMap
 {
-    public var fields:[String:LLField] = [:]
+    public typealias Order = Int
+    
+    // 自動オーダーのカウンタ
+    static public private(set) var auto_order_count:Order = 0
+    static public func newOrder() -> Order { 
+        auto_order_count += 1
+        return auto_order_count
+    }
+    
+    public var fields:[Order:LLField] = [:]
     
     public init() {}
     

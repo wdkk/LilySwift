@@ -14,6 +14,7 @@ import Foundation
 import Cocoa
 import QuartzCore
 
+// ATTENTION: UIViewではなくCALayerのサブクラス
 open class LLView : CALayer, LLUILifeEvent
 { 
     public lazy var setupField = LLViewFieldMap()
@@ -23,6 +24,18 @@ open class LLView : CALayer, LLUILifeEvent
     public lazy var defaultBuildupField = LLViewFieldMap()
     public lazy var staticBuildupField = LLViewFieldMap()
    
+    public lazy var mouseMovedField = LLMouseFieldMap()
+    public lazy var mouseLeftDownField = LLMouseFieldMap()
+    public lazy var mouseLeftDraggedField = LLMouseFieldMap()
+    public lazy var mouseLeftUpField = LLMouseFieldMap()
+    public lazy var mouseLeftUpInsideField = LLMouseFieldMap()
+    public lazy var mouseRightDownField = LLMouseFieldMap()
+    public lazy var mouseRightDraggedField = LLMouseFieldMap()
+    public lazy var mouseRightUpField = LLMouseFieldMap()
+    public lazy var mouseRightUpInsideField = LLMouseFieldMap()
+    public lazy var mouseOverField = LLMouseFieldMap()
+    public lazy var mouseOutField = LLMouseFieldMap()
+    
     open var available:Bool = true
         
     public var center:CGPoint { ourCenter }

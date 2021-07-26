@@ -13,26 +13,34 @@ import Foundation
 public class LLViewFieldMap : LLFieldMap 
 {
     public func add<TCaller:AnyObject, TView:AnyObject>( 
-        _ label:String = UUID().uuidString,
-        with caller:TCaller,
+        label:String = UUID().labelString,
+        order:LLFieldMap.Order = LLFieldMap.newOrder(),
+        caller:TCaller,
         me view:TView,
         field f:@escaping (TCaller, TView)->Void )
     {
-        fields[label] = LLTalkingField<TCaller, TView, Any>( by:caller,
-                                                             me:view,
-                                                             action:f )
+        fields[order] = LLTalkingField<TCaller, TView, Any>(
+            label:label,
+            caller:caller,
+            me:view,
+            action:f 
+        )
     }
     
     public func add<TCaller:AnyObject, TView:AnyObject, TPhenomena>(
-        _ label:String = UUID().uuidString,
-        with caller:TCaller,
+        label:String = UUID().labelString,
+        order:LLFieldMap.Order = LLFieldMap.newOrder(),
+        caller:TCaller,
         me view:TView,
         phenomena:TPhenomena,
         field f:@escaping (TCaller, TView, TPhenomena)->Void )
     {
-        fields[label] = LLMediaField<TCaller, TView, Any, TPhenomena>( by:caller,
-                                                                       me:view, 
-                                                                       phenomena:phenomena,
-                                                                       action:f )
+        fields[order] = LLMediaField<TCaller, TView, Any, TPhenomena>( 
+            label:label,
+            caller:caller,
+            me:view, 
+            phenomena:phenomena,
+            action:f 
+        )
     }
 }

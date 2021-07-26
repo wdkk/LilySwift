@@ -18,6 +18,18 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     
     public lazy var defaultBuildupField = LLViewFieldMap()
     public lazy var staticBuildupField = LLViewFieldMap()
+    
+    public lazy var mouseMovedField = LLMouseFieldMap()
+    public lazy var mouseLeftDownField = LLMouseFieldMap()
+    public lazy var mouseLeftDraggedField = LLMouseFieldMap()
+    public lazy var mouseLeftUpField = LLMouseFieldMap()
+    public lazy var mouseLeftUpInsideField = LLMouseFieldMap()
+    public lazy var mouseRightDownField = LLMouseFieldMap()
+    public lazy var mouseRightDraggedField = LLMouseFieldMap()
+    public lazy var mouseRightUpField = LLMouseFieldMap()
+    public lazy var mouseRightUpInsideField = LLMouseFieldMap()
+    public lazy var mouseOverField = LLMouseFieldMap()
+    public lazy var mouseOutField = LLMouseFieldMap()
         
     private weak var _vc:LLViewController?
     private weak var _capture_view:LLView?
@@ -109,7 +121,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     // 指定座標のLLViewのピック
-    open func pick( _ global_pt: LLPoint ) -> ( view:LLView?, local_pt:LLPoint ) {
+    open func pick( _ global_pt:LLPoint ) -> ( view:LLView?, localPosition:LLPoint ) {
         let sublayers = layer?.sublayers
         if sublayers != nil {
             // 子レイヤーをzIndex順にソートし、かつ同じz深度のものは逆順にあたるようreversedをかける
@@ -120,27 +132,27 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
             for layer in sorted_sublayers {
                 guard let llview = layer as? LLView else { continue }
                 let result = llview.pick( global_pt )
-                if result.view != nil { return result }
+                if result.view != nil { return ( result.view!, result.local_pt ) }
             }
         }
         return ( nil, global_pt )
     }
     
     // キャプチャしているビューの変更関数(各イベント関数内で呼び出し)
-    open func changeCaptureView( target:LLView?, global_pos: CGPoint, event: NSEvent ) {
+    open func changeCaptureView( target:LLView?, globalPosition: CGPoint, event: NSEvent ) {
         if _capture_view == target { return }
         if _dragging_view != nil { return }
         
         /*
         target?.igMouse.over.ignite( 
-            LLMouseArg( target, pos: target!.convert(global_pos, from: nil).llPoint, event: event )
+            LLMouseArg( target, pos: target!.convert(globalPosition, from: nil).llPoint, event: event )
         )
         */
         
         /*
         _capture_view?.igMouse.out.ignite(
             LLMouseArg( _capture_view, 
-                        pos: _capture_view!.convert(global_pos, from: nil).llPoint,
+                        pos: _capture_view!.convert(globalPosition, from: nil).llPoint,
                         event: event ) 
         )
         */
@@ -158,18 +170,21 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         
         let result = pick( pt_on_win.llPoint )
         if result.view != nil {
-            changeCaptureView( target: result.view, global_pos: pt_on_win, event: event )
-            /*
-            result.view?.igMouse.move.ignite( LLMouseArg( result.view, pos: result.local_pt, event: event ) )
-            */
+            changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
+            // LLViewのイベントを代わりに発火させる
+            result.view?.mouseMovedField.appear(
+                LLMouseArg( result.localPosition, event ) 
+            )
+            
             return event
         }
         
-        /*
-        let pt_on_view = self.convert(pt_on_win, from: nil).llPoint
-        changeCaptureView( target: nil, global_pos: pt_on_win, event: event )
-        _vc?.igMouse.move.ignite( LLMouseArg( _vc, pos: pt_on_view, event: event ) )
-        */
+        // 該当するビューがなかった場合、ビューコントローラのビューイベントを発火させる
+        let pt_on_view = self.convert( pt_on_win, from: nil ).llPoint
+        changeCaptureView( target: nil, globalPosition: pt_on_win, event: event )
+        self.mouseMovedField.appear(
+            LLMouseArg( pt_on_view, event ) 
+        )
         
         return event
     }
@@ -178,23 +193,28 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         if !enabled { return event }
         
         LLTablet.updateState( event: event )
-        let pt_on_win  = event.locationInWindow
+        let pt_on_win = event.locationInWindow
 
         let result = pick( pt_on_win.llPoint )
-        if( result.view != nil ) {
+        if result.view != nil {
             _dragging_view = result.view
-            changeCaptureView( target: result.view, global_pos: pt_on_win, event: event )
-            /*
-            result.view?.igMouse.leftDown.ignite( LLMouseArg( result.view, pos: result.local_pt, event: event ) )
-            */
+            changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
+            
+            // LLViewのイベントを代わりに発火させる
+            result.view?.mouseLeftDownField.appear(
+                LLMouseArg( result.localPosition, event ) 
+            )
+            
             return event
         }
         
-        /*
-        let pt_on_view = self.convert(pt_on_win, from: nil).llPoint
-        changeCaptureView( target: nil, global_pos: pt_on_win, event: event )
-        _vc?.igMouse.leftDown.ignite( LLMouseArg( _vc, pos: pt_on_view, event: event ) )
-        */
+        // 該当するビューがなかった場合、ビューコントローラのビューイベントを発火させる
+        let pt_on_view = self.convert( pt_on_win, from: nil ).llPoint
+        changeCaptureView( target: nil, globalPosition: pt_on_win, event: event )
+        self.mouseLeftDownField.appear(
+            LLMouseArg( pt_on_view, event ) 
+        )
+        
         return event
     }
     
@@ -202,21 +222,23 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         if !enabled { return event }
         
         LLTablet.updateState( event: event )
-        
-        //let pt_on_win = event.locationInWindow
+        let pt_on_win = event.locationInWindow
  
-        if( _capture_view != nil ) {
-            /*
-            let local_pt = _capture_view!.convert( pt_on_win, to: nil ).llPoint
-            _capture_view?.igMouse.leftDragged.ignite( LLMouseArg( _capture_view, pos: local_pt, event: event ) )
-            */
+        if _capture_view != nil {
+            let localPosition = _capture_view!.convert( pt_on_win, to: nil ).llPoint
+            // LLViewのイベントを代わりに発火させる
+            _capture_view?.mouseLeftDraggedField.appear(
+                LLMouseArg( localPosition, event ) 
+            )
+            
             return event
         }
 
-        /*        
+        // 該当するビューがなかった場合、ビューコントローラのビューイベントを発火させる     
         let pt_on_view = self.convert(pt_on_win, from: nil).llPoint
-        _vc?.igMouse.leftDragged.ignite( LLMouseArg( _vc, pos: pt_on_view, event: event ) )
-        */
+        self.mouseLeftDraggedField.appear(
+            LLMouseArg( pt_on_view, event ) 
+        )
         return event
     }
     
@@ -228,31 +250,31 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         let pt_on_win  = event.locationInWindow
 
         let result = pick( pt_on_win.llPoint )
-        if( _dragging_view != nil ) {
+        if _dragging_view != nil {
             // [マウス左アップ]
-            /*
-            _dragging_view?.igMouse.leftUp.ignite( 
-                LLMouseArg( _dragging_view, pos: result.local_pt, event: event ) 
+            _dragging_view?.mouseLeftUpField.appear(
+                LLMouseArg( result.localPosition, event ) 
             )
-            */
+
             // [UI内部マウス左アップ]
             if _dragging_view == result.view {
-                /*
-                _dragging_view?.igMouse.leftUpInside.ignite(
-                    LLMouseArg( _dragging_view, pos: result.local_pt, event: event ) 
+                _dragging_view?.mouseLeftUpInsideField.appear(
+                    LLMouseArg( result.localPosition, event ) 
                 )
-                */
             }
+            
             _dragging_view = nil
-            changeCaptureView( target: result.view, global_pos: pt_on_win, event: event )
+            changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
             return event
         }
 
-        /*        
+        // 該当するビューがなかった場合、ビューコントローラのビューイベントを発火させる
         let pt_on_view = self.convert(pt_on_win, from: nil).llPoint
-        changeCaptureView( target: nil, global_pos: pt_on_win, event: event )
-        _vc?.igMouse.leftUp.ignite( LLMouseArg( _vc, pos: pt_on_view, event: event ) )
-        */
+        changeCaptureView( target: nil, globalPosition: pt_on_win, event: event )
+        self.mouseLeftUpField.appear(
+            LLMouseArg( pt_on_view, event ) 
+        )
+        
         return event
     }
     
@@ -264,24 +286,23 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         let pt_on_win  = event.locationInWindow
         
         let result = pick( pt_on_win.llPoint )
-        if( result.view != nil ) {
+        if result.view != nil {
             _dragging_view = result.view
-            /*
-            changeCaptureView( target: result.view, global_pos: pt_on_win, event: event )
-            result.view?.igMouse.rightDown.ignite( 
-                LLMouseArg( result.view, pos: result.local_pt, event: event ) 
+            
+            changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
+            result.view?.mouseLeftDownField.appear(
+                LLMouseArg( result.localPosition, event ) 
             )
-            */
+            
             return event
         }
         
-        /*
         let pt_on_view = self.convert(pt_on_win, from: nil).llPoint
-        changeCaptureView( target: nil, global_pos: pt_on_win, event: event )
-        _vc?.igMouse.rightDown.ignite(
-            LLMouseArg( _vc, pos: pt_on_view, event: event )
+        changeCaptureView( target: nil, globalPosition: pt_on_win, event: event )
+        self.mouseRightDownField.appear(
+            LLMouseArg( pt_on_view, event ) 
         )
-        */
+        
         return event
     }
     
@@ -290,24 +311,22 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         
         LLTablet.updateState( event: event )
         
-        //let pt_on_win = event.locationInWindow
+        let pt_on_win = event.locationInWindow
         
-        if( _capture_view != nil ) {
-            /*
-            let local_pt = _capture_view!.convert( pt_on_win, to: nil ).llPoint
-            _capture_view?.igMouse.rightDragged.ignite( 
-                LLMouseArg( _capture_view, pos: local_pt, event: event )
+        if _capture_view != nil {
+            let localPosition = _capture_view!.convert( pt_on_win, to: nil ).llPoint
+            _capture_view?.mouseRightDraggedField.appear( 
+                LLMouseArg( localPosition, event )
             )
-            */
+       
             return event
         }
-
-        /*        
+   
         let pt_on_view = self.convert(pt_on_win, from: nil).llPoint
-        _vc?.igMouse.rightDragged.ignite(
-            LLMouseArg( _vc, pos: pt_on_view, event: event )
+        self.mouseRightDraggedField.appear(
+            LLMouseArg( pt_on_view, event )
         )
-        */
+        
         return event
     }
     
@@ -319,32 +338,36 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         let pt_on_win  = event.locationInWindow
         
         let result = pick( pt_on_win.llPoint )
-        if( _dragging_view != nil ) {
+        if _dragging_view != nil {
             // [マウス右アップ]
-            //_dragging_view?.igMouse.rightUp.ignite( 
-            //    LLMouseArg( _dragging_view, pos: result.local_pt, event: event )
-            //)
+            _dragging_view?.mouseRightUpField.appear( 
+                LLMouseArg( result.localPosition, event )
+            )
             
             // [UI内部マウス右アップ]
             if _dragging_view == result.view {
-                //_dragging_view?.igMouse.rightUpInside.ignite( 
-                //    LLMouseArg( _dragging_view, pos: result.local_pt, event: event )
-                //)
+                _dragging_view?.mouseRightUpInsideField.appear( 
+                    LLMouseArg( result.localPosition, event )
+                )
             }
+            
             _dragging_view = nil
-            changeCaptureView( target: result.view, global_pos: pt_on_win, event: event )
+            changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
             return event
         }
         
-        /*
         let pt_on_view = self.convert( pt_on_win, from: nil ).llPoint
-        changeCaptureView( target: nil, global_pos: pt_on_win, event: event )
-        _vc?.igMouse.rightUp.ignite( LLMouseArg( _vc, pos: pt_on_view, event: event ) )
-        */
+        changeCaptureView( target: nil, globalPosition: pt_on_win, event: event )
+        self.mouseRightUpField.appear(
+            LLMouseArg( pt_on_view, event )
+        )
+
         return event
     }
     
     // MARK: - イベント関数(タッチ)
+    
+    // TODO: タッチ処理は後々処理する
     //private var _current_touches_state = LLTouchesState()
     
     open override func touchesBegan( with event: NSEvent ) {
@@ -393,7 +416,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         let pt_on_win = event.locationInWindow
         
         let result = pick( pt_on_win.llPoint )
-        if( result.view != nil ) {
+        if result.view != nil {
             /*
             let arg = LLIndirectTouchArg( result.view,
                                           cursor_pos: pt_on_win.llPoint,

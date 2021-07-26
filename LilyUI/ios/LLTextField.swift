@@ -71,13 +71,13 @@ open class LLTextField
     
     open func setup() { 
         self.chain
-        .setup.add( with:self ) { caller, me in
+        .setup.add( caller:self ) { caller, me in
             me.chain
             .isUserInteractionEnabled( true )
             .autocorrectionType( .no )
             .autocapitalizationType( .none )
         }
-        .defaultBuildup.add( with:self ) { caller, me in
+        .defaultBuildup.add( caller:self ) { caller, me in
             me.chain
             .textColor( llc:LLColorSet["text-field","text"] )
             .borderColor( LLColorSet["text-field","border"] )
@@ -86,7 +86,7 @@ open class LLTextField
             
             me.borderBottom.backgroundColor = LLColorSet["text-field","border"].cgColor
         }
-        .staticBuildup.add( with:self ) { caller, me in 
+        .staticBuildup.add( caller:self ) { caller, me in 
             CATransaction.stop {
                 me.borderBottom.frame = CGRect( 0, me.height-2.0, me.width, 2.0 )   
             }

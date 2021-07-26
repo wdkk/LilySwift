@@ -40,6 +40,10 @@ public extension MTLRenderCommandEncoder
 public extension MTLRenderCommandEncoder
 {
     func draw<T>( shape:LLMetalShape<T>, index idx:Int = 0, painter:LLMetalShapePainter<T> ) {
-        painter.draw( with:self, index:idx, shape:shape )
+        painter.draw(
+            with:self,
+            index:idx,
+            shape:shape 
+        )
     }
 }

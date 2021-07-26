@@ -16,26 +16,41 @@ public extension LLFieldMapChain where TFieldMap:LLDrawFieldMap
 {
     @discardableResult
     func add<TCaller:AnyObject>( 
-        _ label:String = UUID().uuidString,
-        with caller:TCaller,
+        label:String = UUID().labelString,
+        order:LLFieldMap.Order = LLFieldMap.newOrder(),
+        caller:TCaller,
         args:LLDrawFieldMap.Args,
         field f:@escaping (TCaller, TObj, LLDrawFieldMap.Args)->Void )
     -> LLChain<TObj>
     {
-        fmap.add( label, with:caller, me:obj, field:f )
+        fmap.add( 
+            label:label,
+            order:order,
+            caller:caller,
+            me:obj,
+            field:f 
+        )
         return LLChain( obj )
     }
     
     @discardableResult
     func add<TCaller:AnyObject, TPhenomena>( 
-        _ label:String = UUID().uuidString,
-        with caller:TCaller,
+        label:String = UUID().labelString,
+        order:LLFieldMap.Order = LLFieldMap.newOrder(),
+        caller:TCaller,
         args:LLDrawFieldMap.Args,
         phenomena:TPhenomena,
         field f:@escaping (TCaller, TObj, LLDrawFieldMap.Args, TPhenomena)->Void )
     -> LLChain<TObj>
     {
-        fmap.add( label, with:caller, me:obj, phenomena:phenomena, field:f )
+        fmap.add( 
+            label:label,
+            order:order,
+            caller:caller, 
+            me:obj, 
+            phenomena:phenomena, 
+            field:f 
+        )
         return LLChain( obj )
     }
 }

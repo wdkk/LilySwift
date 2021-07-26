@@ -26,29 +26,37 @@ public struct LLTouchArg
 open class LLTouchFieldMap : LLFieldMap 
 {
     open func add<TCaller:AnyObject, TView:AnyObject, TPhenomena>(
-        _ label:String = UUID().uuidString,
-        with caller:TCaller,
+        label:String = UUID().labelString,
+        order:LLFieldMap.Order = LLFieldMap.newOrder(),
+        caller:TCaller,
         me view:TView,
         phenomena:TPhenomena,
         field f:@escaping (TCaller, TView, LLTouchArg, TPhenomena)->Void )
     {
-        fields[label] = LLMediaField( by:caller,
-                                      me:view,
-                                      objType:LLTouchArg.self, 
-                                      phenomena:phenomena,
-                                      action:f )
+        fields[order] = LLMediaField(
+            label:label,
+            caller:caller,
+            me:view,
+            objType:LLTouchArg.self, 
+            phenomena:phenomena,
+            action:f
+        )
     }
     
     open func add<TCaller:AnyObject, TView:AnyObject>( 
-        _ label:String = UUID().uuidString,
-        with caller:TCaller,
+        label:String = UUID().labelString,
+        order:LLFieldMap.Order = LLFieldMap.newOrder(),
+        caller:TCaller,
         me view:TView,
         field f:@escaping (TCaller, TView, LLTouchArg)->Void )
     {
-        fields[label] = LLTalkingField( by:caller,
-                                        me:view,
-                                        objType:LLTouchArg.self,
-                                        action:f )
+        fields[order] = LLTalkingField(
+            label:label,
+            caller:caller,
+            me:view,
+            objType:LLTouchArg.self,
+            action:f
+        )
     }
 }
 

@@ -10,34 +10,42 @@
 
 import Foundation
 
-public struct LLTalkingField<TCaller:AnyObject, TMe:AnyObject, TObj> : LLField
+public struct LLTalkingField<TCaller:AnyObject, TMe:AnyObject, TObj>
+: LLField
 {
     public private(set) var field:((TObj)->Void)?
-      
+    public var label:String  
+    
     public init( 
-        by caller:TCaller,
+        label:String = UUID().labelString,
+        caller:TCaller,
         me:TMe,
         objType:TObj.Type,
         action:@escaping (TCaller, TMe, TObj)->Void
     )
     {
+        self.label = label
         self.field = { [weak caller, weak me] ( objs:TObj ) in
             guard let caller:TCaller = caller,
-                  let me:TMe = me else { return }
+                  let me:TMe = me
+            else { return }
             action( caller, me, objs )
         }
     }
     
     // ジェネリクス(<TCaller, TMe, Any>)を指定して用いる
     public init( 
-        by caller:TCaller,
+        label:String = UUID().labelString,
+        caller:TCaller,
         me:TMe,
         action:@escaping (TCaller, TMe)->Void
     )
     {
+        self.label = label
         self.field = { [weak caller, weak me] ( objs:TObj ) in
             guard let caller:TCaller = caller,
-                  let me:TMe = me else { return }
+                  let me:TMe = me 
+            else { return }
             action( caller, me )
         }
     }

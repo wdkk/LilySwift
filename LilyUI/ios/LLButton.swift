@@ -18,29 +18,29 @@ open class LLButton : LLLabel
         super.setup()
     
         self.chain
-        .setup.add( with:self ) { caller, me in
+        .setup.add( caller:self ) { caller, me in
             me.chain
             .isUserInteractionEnabled( true )
             .maskToBounds( true )
             .borderWidth( 2.0 )
         }
-        .defaultBuildup.add( with:self ) { caller, me in
+        .defaultBuildup.add( caller:self ) { caller, me in
             me.chain
             .textAlignment( .center )
             .textColor( llc:LLColorSet["button","text"] )
             .borderColor( LLColorSet["button","border"] )
             .backgroundColor( LLColorSet["button","background"] )
         }
-        .staticBuildup.add( with:self ) { caller, me in
+        .staticBuildup.add( caller:self ) { caller, me in
             me.chain
             .cornerRadius( self.height.f / 2.0 )
         }
-        .touchesBegan.add( with:self ) { caller, me, phenomena in
+        .touchesBegan.add( caller:self ) { caller, me, phenomena in
             me.chain
             .textColor( llc:LLColorSet["button","text-active"] )
             .borderColor( LLColorSet["button","border-active"] )
         }
-        .touchesEnded.add( with:self ) { caller, me, phenomena in
+        .touchesEnded.add( caller:self ) { caller, me, phenomena in
             me.chain
             .textColor( llc:LLColorSet["button","text"] )
             .borderColor( LLColorSet["button","border"] )
