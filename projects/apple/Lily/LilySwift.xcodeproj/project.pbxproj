@@ -2546,7 +2546,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4.5.15.1;
+				CURRENT_PROJECT_VERSION = 4.5.16.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2570,7 +2570,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.15;
+				MARKETING_VERSION = 4.5.16;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2587,7 +2587,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4.5.15.1;
+				CURRENT_PROJECT_VERSION = 4.5.16.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2607,7 +2607,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.15;
+				MARKETING_VERSION = 4.5.16;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
