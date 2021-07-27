@@ -19,7 +19,6 @@ import AppKit
 
 open class LLImageProc
 {
-    /*
     static public func scaleNearest( imgSrc:LLImage, width:Int, height:Int ) 
     -> LLImage
     {
@@ -83,8 +82,7 @@ open class LLImageProc
         LCImageProcBilateralFilter( imgSrc.lcImage, img_dst.lcImage, kernel, dist, lumi )
         return img_dst
     }
-    */
-    
+
     static public func whiteBalanceAutomatically( imgSrc:LLImage )
     -> LLImage
     {

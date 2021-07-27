@@ -330,6 +330,8 @@
 		5DB71B2826AF082800392833 /* LLView+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB71B2426AF082800392833 /* LLView+Chain.swift */; };
 		5DB71B2926AF082800392833 /* LLViewControllerView+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB71B2526AF082800392833 /* LLViewControllerView+Chain.swift */; };
 		5DB71B2A26AF082800392833 /* LLMouseFieldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB71B2626AF082800392833 /* LLMouseFieldMap.swift */; };
+		5DB71B2C26B0029C00392833 /* LCImage.proc.pending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB71B2B26B0029C00392833 /* LCImage.proc.pending.swift */; };
+		5DB71B2D26B0029C00392833 /* LCImage.proc.pending.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB71B2B26B0029C00392833 /* LCImage.proc.pending.swift */; };
 		5DB7A521239E50CA0050A9B4 /* LilySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8F3B7C235B946B00BB9805 /* LilySwift.framework */; };
 		5DB7A530239E51780050A9B4 /* LilySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2605A5236FF5890078B63A /* LilySwift.framework */; };
 		5DB7A552239E534D0050A9B4 /* LLError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB7A551239E534D0050A9B4 /* LLError.swift */; };
@@ -715,6 +717,7 @@
 		5DB71B2426AF082800392833 /* LLView+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLView+Chain.swift"; sourceTree = "<group>"; };
 		5DB71B2526AF082800392833 /* LLViewControllerView+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLViewControllerView+Chain.swift"; sourceTree = "<group>"; };
 		5DB71B2626AF082800392833 /* LLMouseFieldMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLMouseFieldMap.swift; sourceTree = "<group>"; };
+		5DB71B2B26B0029C00392833 /* LCImage.proc.pending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCImage.proc.pending.swift; sourceTree = "<group>"; };
 		5DB7A51C239E50CA0050A9B4 /* LilySwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LilySwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DB7A52B239E51780050A9B4 /* LilySwiftMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LilySwiftMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DB7A539239E52570050A9B4 /* InfoMacTests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoMacTests.plist; sourceTree = "<group>"; };
@@ -1033,6 +1036,7 @@
 				5DFCC7F123C1057C0049AC4E /* LDImageSaver.internal.ios.swift */,
 				5DFCC7F423C1059B0049AC4E /* LDImageSaver.internal.mac.swift */,
 				5D2BA73E251C4BC800340890 /* LCImage.proc.whitebalance.swift */,
+				5DB71B2B26B0029C00392833 /* LCImage.proc.pending.swift */,
 				5DC8E18E23894FD500D264FA /* LCPath.swift */,
 				5DC8E187238839C700D264FA /* LCString.swift */,
 				5DC8E1942389B9FA00D264FA /* LCSystem.swift */,
@@ -1748,6 +1752,7 @@
 				5DFCC7C123C0D1C50049AC4E /* LDImageLoader.internal.ios.swift in Sources */,
 				5D5AFE162581554600635BE2 /* PGMemoryPool.swift in Sources */,
 				5DB71B2726AF082800392833 /* LLMouseFieldMap+Chain.swift in Sources */,
+				5DB71B2D26B0029C00392833 /* LCImage.proc.pending.swift in Sources */,
 				5DCE3F0625BDA56E00CBA004 /* LLImageView+Chain.swift in Sources */,
 				5D6B4BA42444B86400CCC52D /* LBTouch.swift in Sources */,
 				5D4726C72694D4CC0043BA34 /* LBTrianglePipeline.swift in Sources */,
@@ -2091,6 +2096,7 @@
 				5D7B864F24500A59007A47DF /* PGCircle.swift in Sources */,
 				5DC8E188238839C700D264FA /* LCString.swift in Sources */,
 				5D0D9AEB23CCC92F00FFA33D /* LLUIPixelControllable.swift in Sources */,
+				5DB71B2C26B0029C00392833 /* LCImage.proc.pending.swift in Sources */,
 				5DCE3EF425BDA56000CBA004 /* UILabel+Lily+Chain.swift in Sources */,
 				5DFCC7AB23BFC5320049AC4E /* LLType.graphics.const.palette.swift in Sources */,
 				5DD7A5EF23A79679001D8752 /* LLLog.macro.swift in Sources */,
