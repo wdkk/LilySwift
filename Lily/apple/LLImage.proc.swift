@@ -82,7 +82,7 @@ open class LLImageProc
         LCImageProcBilateralFilter( imgSrc.lcImage, img_dst.lcImage, kernel, dist, lumi )
         return img_dst
     }
-
+    
     static public func whiteBalanceAutomatically( imgSrc:LLImage )
     -> LLImage
     {

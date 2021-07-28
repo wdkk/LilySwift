@@ -8,73 +8,86 @@
 
 import Foundation
 
-static public func LCImageProcScaleNearest(
+public func LCImageProcScaleNearest(
     _ img_src_:LCImageSmPtr, 
     _ img_dst_:LCImageSmPtr,
-    width:Int,
-    height:Int 
+    _ width:Int,
+    _ height:Int 
 ) 
 {
     // TODO: 未実装
 }
 
-static public func LCImageProcScaleBiLinear(
+public func LCImageProcScaleBiLinear(
     _ img_src_:LCImageSmPtr, 
     _ img_dst_:LCImageSmPtr,
-    width:Int, 
-    height:Int ) 
+    _ width:Int, 
+    _ height:Int ) 
 {
     // TODO: 未実装
 }
 
-static public func LCImageProcScaleSmooth(
+public func LCImageProcScaleSmooth(
     _ img_src_:LCImageSmPtr, 
     _ img_dst_:LCImageSmPtr,
-    width:Int, 
-    height:Int 
+    _ width:Int, 
+    _ height:Int 
 ) 
 {
     // TODO: 未実装
 }
 
-static public func LCImageProcRotateNearest(     
+public func LCImageProcRotateNearest(     
     _ img_src_:LCImageSmPtr, 
     _ img_dst_:LCImageSmPtr, 
-    degree:LLFloat, 
-    resizing:Bool 
+    _ degree:LLFloat, 
+    _ resizing:Bool 
 ) 
 {
     // TODO: 未実装
 }
 
-static public func LCImageProcRotateBiLinear( 
+public func LCImageProcRotateBiLinear( 
     _ img_src_:LCImageSmPtr, 
     _ img_dst_:LCImageSmPtr, 
-    degree:LLFloat, 
-    resizing:Bool
+    _ degree:LLFloat, 
+    _ resizing:Bool
 )
 {
     // TODO: 未実装
 }
 
-static public func LCImageProcAffineTransformNearest( 
+public func LCImageProcAffineTransformNearest( 
     _ img_src_:LCImageSmPtr, 
     _ img_dst_:LCImageSmPtr, 
-    width:Int, 
-    height:Int, 
-    degree:Float,
-    isResize:Bool ) 
+    _ width:Int, 
+    _ height:Int, 
+    _ degree:Float,
+    _ isResize:Bool
+) 
 {
     // TODO: 未実装
 }
 
-static public func LCImageProcAffineTransformBiLinear( 
+public func LCImageProcAffineTransformBiLinear( 
     _ img_src_:LCImageSmPtr, 
     _ img_dst_:LCImageSmPtr,
-    width:Int,
-    height:Int,
-    degree:Float,
-    isResize:Bool ) 
+    _ width:Int,
+    _ height:Int,
+    _ degree:Float,
+    _ isResize:Bool
+) 
+{
+    // TODO: 未実装
+}
+
+public func LCImageProcBilateralFilter(
+    _ img_src_:LCImageSmPtr, 
+    _ img_dst_:LCImageSmPtr,
+    _ kernel:Int,
+    _ dist:Double,
+    _ lumi:Double
+) 
 {
     // TODO: 未実装
 }

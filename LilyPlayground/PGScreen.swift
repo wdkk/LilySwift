@@ -56,8 +56,7 @@ public class PGScreen
     // MARK: - ユーティリティ
     
     // 全ての形状を削除する
-    public static func clearAllShapes() {
-        PGMemoryPool.shared.panels.removeAll()
-        PGMemoryPool.shared.triangles.removeAll()        
+    public static func removeAllShapes() {
+        PGMemoryPool.shared.removeAllShapes()      
     }
 }
