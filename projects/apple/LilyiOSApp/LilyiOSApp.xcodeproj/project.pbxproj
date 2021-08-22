@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		5D2973DA1F5E70D2005F1CBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D2973D31F5E70D2005F1CBA /* Assets.xcassets */; };
+		5D2B70EE26D2A1BB00CF9B1A /* mask-star.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D2B70E926D2A1BB00CF9B1A /* mask-star.png */; };
+		5D2B70EF26D2A1BB00CF9B1A /* mask-sparkle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D2B70EA26D2A1BB00CF9B1A /* mask-sparkle.png */; };
+		5D2B70F026D2A1BB00CF9B1A /* mask-snow.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D2B70EB26D2A1BB00CF9B1A /* mask-snow.png */; };
+		5D2B70F126D2A1BB00CF9B1A /* lily.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D2B70EC26D2A1BB00CF9B1A /* lily.png */; };
+		5D2B70F226D2A1BB00CF9B1A /* mask-smoke.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D2B70ED26D2A1BB00CF9B1A /* mask-smoke.png */; };
 		5D37A34B20E791A40084C4E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D37A34A20E791A40084C4E6 /* LaunchScreen.storyboard */; };
 		5D45A8F5257EA1820007454B /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE44FF7241BDBAF008419B6 /* MyViewController.swift */; };
 		5D5AA4BB2462982600832532 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AA4B72462982600832532 /* AppDelegate.swift */; };
@@ -38,6 +43,11 @@
 		5D2973D31F5E70D2005F1CBA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D2973D61F5E70D2005F1CBA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D2A6D8F25B4A2700010D02B /* AppDelegate_for_11.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate_for_11.swift; sourceTree = "<group>"; };
+		5D2B70E926D2A1BB00CF9B1A /* mask-star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mask-star.png"; sourceTree = "<group>"; };
+		5D2B70EA26D2A1BB00CF9B1A /* mask-sparkle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mask-sparkle.png"; sourceTree = "<group>"; };
+		5D2B70EB26D2A1BB00CF9B1A /* mask-snow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mask-snow.png"; sourceTree = "<group>"; };
+		5D2B70EC26D2A1BB00CF9B1A /* lily.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lily.png; sourceTree = "<group>"; };
+		5D2B70ED26D2A1BB00CF9B1A /* mask-smoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mask-smoke.png"; sourceTree = "<group>"; };
 		5D37A34A20E791A40084C4E6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5D5AA4B72462982600832532 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5D5AA4B82462982600832532 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -74,6 +84,18 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		5D2B70E826D2A1BB00CF9B1A /* playgroundImages */ = {
+			isa = PBXGroup;
+			children = (
+				5D2B70E926D2A1BB00CF9B1A /* mask-star.png */,
+				5D2B70EA26D2A1BB00CF9B1A /* mask-sparkle.png */,
+				5D2B70EB26D2A1BB00CF9B1A /* mask-snow.png */,
+				5D2B70EC26D2A1BB00CF9B1A /* lily.png */,
+				5D2B70ED26D2A1BB00CF9B1A /* mask-smoke.png */,
+			);
+			path = playgroundImages;
+			sourceTree = "<group>";
+		};
 		5D5AA4B52462982600832532 /* baseCodes */ = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +113,7 @@
 			children = (
 				5D8DF91A1F5EBBC500108334 /* Default-568h@2x.png */,
 				5DA0815823C2287D005E877C /* supportFiles */,
+				5D2B70E826D2A1BB00CF9B1A /* playgroundImages */,
 				5D2973D11F5E70D2005F1CBA /* App */,
 				5D5AA4B52462982600832532 /* baseCodes */,
 				5DFA0D4A23FFB83D0025A756 /* codes */,
@@ -186,9 +209,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DA0815923C2287D005E877C /* supportFiles in Resources */,
+				5D2B70EE26D2A1BB00CF9B1A /* mask-star.png in Resources */,
+				5D2B70EF26D2A1BB00CF9B1A /* mask-sparkle.png in Resources */,
+				5D2B70F026D2A1BB00CF9B1A /* mask-snow.png in Resources */,
 				5D2973DA1F5E70D2005F1CBA /* Assets.xcassets in Resources */,
+				5D2B70F126D2A1BB00CF9B1A /* lily.png in Resources */,
 				5D8DF91B1F5EBBC500108334 /* Default-568h@2x.png in Resources */,
 				5D37A34B20E791A40084C4E6 /* LaunchScreen.storyboard in Resources */,
+				5D2B70F226D2A1BB00CF9B1A /* mask-smoke.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

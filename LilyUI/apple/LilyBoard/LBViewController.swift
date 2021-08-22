@@ -184,7 +184,7 @@ open class LBViewController : LLViewController
             commandBuffer.waitUntilCompleted()
             #endif
             
-            self.touchManager.clear()
+            self.touchManager.resetReleases()
         })
     }
 
@@ -222,7 +222,7 @@ public extension LBViewController
             // point座標系を取得
             let lt_pos = touch.location( in: self.view )
 
-            // MetalViewの中心座標を取得(TODO:self.viewとmetalViewの関係を簡潔にしたい)
+            // MetalViewの中心座標を取得(TODO: self.viewとmetalViewの関係を簡潔にしたい)
             let o = metalView.center
             
             let pix_o_pos = LLPointFloat( lt_pos.x - o.x, -(lt_pos.y - o.y) )
@@ -259,7 +259,7 @@ public extension LBViewController
         // タッチ情報の配列をリセット
         self.touchManager.clear()
         
-        // MetalViewの中心座標を取得(TODO:self.viewとmetalViewの関係を簡潔にしたい)
+        // MetalViewの中心座標を取得(TODO: self.viewとmetalViewの関係を簡潔にしたい)
         let o = metalView.center
             
         let pix_o_pos = LLPointFloat( pos.x.cgf - o.x, -(pos.y.cgf - o.y) )

@@ -22,6 +22,15 @@ public class LBTouchManager
         return (units.filter { $0.state == .release })
     }
     
+    public func resetReleases() {
+        for i in 0 ..< units.count { 
+            if units[i].state == .release {
+                units[i].xy = .zero
+                units[i].state = .none
+            }
+        } 
+    }
+    
     public func clear() { 
         for i in 0 ..< units.count { 
             units[i].xy = .zero

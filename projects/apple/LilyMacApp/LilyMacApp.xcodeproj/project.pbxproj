@@ -11,6 +11,11 @@
 		5D08988124D1C8CB0075453D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08987E24D1C8CB0075453D /* main.swift */; };
 		5D08988324D1C9720075453D /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3BAD2423524E00C2E789 /* MyViewController.swift */; };
 		5D24C9481F606FE900AE628D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D24C9431F606FE900AE628D /* Assets.xcassets */; };
+		5D2B70F926D2A1C500CF9B1A /* mask-star.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D2B70F426D2A1C500CF9B1A /* mask-star.png */; };
+		5D2B70FA26D2A1C500CF9B1A /* mask-sparkle.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D2B70F526D2A1C500CF9B1A /* mask-sparkle.png */; };
+		5D2B70FB26D2A1C500CF9B1A /* mask-snow.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D2B70F626D2A1C500CF9B1A /* mask-snow.png */; };
+		5D2B70FC26D2A1C500CF9B1A /* lily.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D2B70F726D2A1C500CF9B1A /* lily.png */; };
+		5D2B70FD26D2A1C500CF9B1A /* mask-smoke.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D2B70F826D2A1C500CF9B1A /* mask-smoke.png */; };
 		5DA0815B23C2288E005E877C /* supportFiles in Resources */ = {isa = PBXBuildFile; fileRef = 5DA0815A23C2288D005E877C /* supportFiles */; };
 		5DB4690E238E6D25002A8FF7 /* LilySwift.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB4690D238E6D25002A8FF7 /* LilySwift.xcframework */; };
 		5DB4690F238E6D25002A8FF7 /* LilySwift.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB4690D238E6D25002A8FF7 /* LilySwift.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -36,6 +41,11 @@
 		5D24C9431F606FE900AE628D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D24C9441F606FE900AE628D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D24C9451F606FE900AE628D /* LilyBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LilyBridge.h; sourceTree = "<group>"; };
+		5D2B70F426D2A1C500CF9B1A /* mask-star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mask-star.png"; sourceTree = "<group>"; };
+		5D2B70F526D2A1C500CF9B1A /* mask-sparkle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mask-sparkle.png"; sourceTree = "<group>"; };
+		5D2B70F626D2A1C500CF9B1A /* mask-snow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mask-snow.png"; sourceTree = "<group>"; };
+		5D2B70F726D2A1C500CF9B1A /* lily.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lily.png; sourceTree = "<group>"; };
+		5D2B70F826D2A1C500CF9B1A /* mask-smoke.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mask-smoke.png"; sourceTree = "<group>"; };
 		5DA0815A23C2288D005E877C /* supportFiles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = supportFiles; path = ../../../supportFiles; sourceTree = "<group>"; };
 		5DB4690D238E6D25002A8FF7 /* LilySwift.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = LilySwift.xcframework; path = ../../../_lib/LilySwift.xcframework; sourceTree = "<group>"; };
 		5DC5EE932125C25600F65A88 /* LilyApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LilyApp.entitlements; sourceTree = "<group>"; };
@@ -83,6 +93,18 @@
 			path = codes;
 			sourceTree = "<group>";
 		};
+		5D2B70F326D2A1C500CF9B1A /* playgroundImages */ = {
+			isa = PBXGroup;
+			children = (
+				5D2B70F426D2A1C500CF9B1A /* mask-star.png */,
+				5D2B70F526D2A1C500CF9B1A /* mask-sparkle.png */,
+				5D2B70F626D2A1C500CF9B1A /* mask-snow.png */,
+				5D2B70F726D2A1C500CF9B1A /* lily.png */,
+				5D2B70F826D2A1C500CF9B1A /* mask-smoke.png */,
+			);
+			path = playgroundImages;
+			sourceTree = "<group>";
+		};
 		5D60056D2367E84100262B40 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				5DA0815A23C2288D005E877C /* supportFiles */,
+				5D2B70F326D2A1C500CF9B1A /* playgroundImages */,
 				5D24C9411F606FE900AE628D /* App */,
 				5D08987B24D1C8CB0075453D /* baseCodes */,
 				5D2605E423706FF60078B63A /* codes */,
@@ -182,7 +205,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DA0815B23C2288E005E877C /* supportFiles in Resources */,
+				5D2B70F926D2A1C500CF9B1A /* mask-star.png in Resources */,
+				5D2B70FB26D2A1C500CF9B1A /* mask-snow.png in Resources */,
+				5D2B70FA26D2A1C500CF9B1A /* mask-sparkle.png in Resources */,
 				5D24C9481F606FE900AE628D /* Assets.xcassets in Resources */,
+				5D2B70FC26D2A1C500CF9B1A /* lily.png in Resources */,
+				5D2B70FD26D2A1C500CF9B1A /* mask-smoke.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
