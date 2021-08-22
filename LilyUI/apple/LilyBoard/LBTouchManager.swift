@@ -25,7 +25,7 @@ public class LBTouchManager
     public func clear() { 
         for i in 0 ..< units.count { 
             units[i].xy = .zero
-            units[i].state = .release
+            units[i].state = .none
         } 
     }
 }

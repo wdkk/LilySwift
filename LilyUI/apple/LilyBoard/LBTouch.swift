@@ -16,16 +16,17 @@ public struct LBTouch
     {
         case touch
         case release
+        case none
     }
     
     public var xy:LLPointFloat = .zero
     public var uv:LLPointFloat = .zero
-    public var state:State = .release
+    public var state:State = .none
     
     public init(
         xy:LLPointFloat = .zero,
         uv:LLPointFloat = .zero,
-        state:State = .release 
+        state:State = .none
     )
     {
         self.xy = xy

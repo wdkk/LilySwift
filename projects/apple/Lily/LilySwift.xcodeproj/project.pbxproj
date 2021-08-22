@@ -1104,7 +1104,6 @@
 				5D47267B2694D4CB0043BA34 /* LLSystem.swift */,
 				5D47267C2694D4CB0043BA34 /* LLTextAttribute.swift */,
 				5D47267D2694D4CB0043BA34 /* LLImage.swift */,
-				5D47267E2694D4CB0043BA34 /* LilyPixel */,
 				5D4726822694D4CB0043BA34 /* LLFileWriter.swift */,
 				5D4726832694D4CB0043BA34 /* LLField.swift */,
 				5D4726842694D4CB0043BA34 /* LLSoloField.swift */,
@@ -1210,37 +1209,6 @@
 				5D4726762694D4CB0043BA34 /* UserDefault+Lily+ext.swift */,
 			);
 			path = extensions;
-			sourceTree = "<group>";
-		};
-		5D47267E2694D4CB0043BA34 /* LilyPixel */ = {
-			isa = PBXGroup;
-			children = (
-				5D47267F2694D4CB0043BA34 /* LPAtlasIO */,
-				5D4726802694D4CB0043BA34 /* LPTexIO */,
-				5D4726812694D4CB0043BA34 /* LPImpIO */,
-			);
-			path = LilyPixel;
-			sourceTree = "<group>";
-		};
-		5D47267F2694D4CB0043BA34 /* LPAtlasIO */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = LPAtlasIO;
-			sourceTree = "<group>";
-		};
-		5D4726802694D4CB0043BA34 /* LPTexIO */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = LPTexIO;
-			sourceTree = "<group>";
-		};
-		5D4726812694D4CB0043BA34 /* LPImpIO */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = LPImpIO;
 			sourceTree = "<group>";
 		};
 		5D4726852694D4CB0043BA34 /* protocols */ = {
@@ -2283,7 +2251,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4.5.15.1;
+				CURRENT_PROJECT_VERSION = 4.5.16.2;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2305,7 +2273,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 4.5.15;
+				MARKETING_VERSION = 4.5.16;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				SDKROOT = macosx;
@@ -2320,7 +2288,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4.5.15.1;
+				CURRENT_PROJECT_VERSION = 4.5.16.2;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2335,7 +2303,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 4.5.15;
+				MARKETING_VERSION = 4.5.16;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				SDKROOT = macosx;
@@ -2552,7 +2520,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4.5.16.1;
+				CURRENT_PROJECT_VERSION = 4.5.16.2;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2593,7 +2561,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4.5.16.1;
+				CURRENT_PROJECT_VERSION = 4.5.16.2;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;

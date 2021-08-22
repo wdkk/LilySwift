@@ -183,6 +183,8 @@ open class LBViewController : LLViewController
             #else
             commandBuffer.waitUntilCompleted()
             #endif
+            
+            self.touchManager.clear()
         })
     }
 
