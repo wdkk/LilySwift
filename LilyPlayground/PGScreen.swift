@@ -43,8 +43,7 @@ public class PGScreen
     public static var elapsedTime:Double { current.elapsedTime }
     
     // MARK: - タッチ情報ヘルパ
-    private static var latest_touch:LBTouch = 
-        LBTouch( xy:.zero, uv: .zero, state:.touch )
+    private static var latest_touch:LBTouch = LBTouch( xy:.zero, uv: .zero, state:.touch )
     
     public static var latestTouch:LBTouch {
         if let touch = PGScreen.touches.first {

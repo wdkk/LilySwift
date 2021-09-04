@@ -50,6 +50,7 @@ open class LBViewController : LLViewController
 
         // MetalのViewを画面に追加
         #if os(iOS)
+        metalView.isMultipleTouchEnabled = true
         metalView.chain
         .setup.add( caller:self )
         { caller, me in
@@ -99,15 +100,15 @@ open class LBViewController : LLViewController
         }
         .mouseLeftDown.add( caller:self )
         { caller, me, args in
-            caller.recogizeMouse( pos:args.position, state:.touch, event:args.event )
+            caller.recogizeMouse( pos:args.position, phase:.began, event:args.event )
         }
         .mouseLeftDragged.add( caller:self )
         { caller, me, args in
-            caller.recogizeMouse( pos:args.position, state:.touch, event:args.event )
+            caller.recogizeMouse( pos:args.position, phase:.moved, event:args.event )
         }
         .mouseLeftUp.add( caller:self )
         { caller, me, args in
-            caller.recogizeMouse( pos:args.position, state:.release, event:args.event )
+            caller.recogizeMouse( pos:args.position, phase:.ended, event:args.event )
         }
         // TODO: macOSのイベント対応
         #endif
@@ -230,7 +231,7 @@ public extension LBViewController
             var state:LBTouch.State = .release
             
             switch touch.phase {
-                case .began: state = .touch
+                case .began: state = .began
                 case .moved: state = .touch
                 case .stationary: state = .touch
                 case .ended: state = .release
@@ -238,12 +239,17 @@ public extension LBViewController
                 default: state = .release
             }
             
-            // 中心を0とした座標
-            self.touchManager.units[idx].xy = pix_o_pos
-            // 左上を0とした座標
-            self.touchManager.units[idx].uv = pix_lt_pos
-            // タッチ状態
-            self.touchManager.units[idx].state = state
+            let lb_touch = LBTouch(
+                xy: pix_o_pos,  // 中心を0とした座標
+                uv: pix_lt_pos, // 左上を0とした座標
+                state: state    // タッチ状態
+            )
+
+            if touch.phase == .began {
+                self.touchManager.starts[idx] = lb_touch
+            }            
+            self.touchManager.units[idx] = lb_touch
+            self.touchManager.units[idx].startPos = self.touchManager.starts[idx].xy
             
             idx += 1
             if idx >= self.touchManager.units.count { break }
@@ -255,22 +261,36 @@ public extension LBViewController
 #if os(macOS)
 public extension LBViewController
 {
-    func recogizeMouse( pos:LLPoint, state:LBTouch.State, event:NSEvent? ) {
+    func recogizeMouse( pos:LLPoint, phase:MacOSMousePhase, event:NSEvent? ) {
         // タッチ情報の配列をリセット
         self.touchManager.clear()
         
         // MetalViewの中心座標を取得(TODO: self.viewとmetalViewの関係を簡潔にしたい)
         let o = metalView.center
             
-        let pix_o_pos = LLPointFloat( pos.x.cgf - o.x, -(pos.y.cgf - o.y) )
+        let pix_o_pos  = LLPointFloat( pos.x.cgf - o.x, -(pos.y.cgf - o.y) )
         let pix_lt_pos = LLPointFloat( pos.x, pos.y )
+        var state:LBTouch.State = .release
+        
+        switch phase {
+            case .began: state = .began
+            case .moved: state = .touch
+            case .stationary: state = .touch
+            case .ended: state = .release
+            case .cancelled: state = .release
+        }
  
-        // 中心を0とした座標
-        self.touchManager.units[0].xy = pix_o_pos
-        // 左上を0とした座標
-        self.touchManager.units[0].uv = pix_lt_pos
-        // タッチ状態
-        self.touchManager.units[0].state = state
+        let lb_touch = LBTouch(
+            xy: pix_o_pos,  // 中心を0とした座標
+            uv: pix_lt_pos, // 左上を0とした座標
+            state: state    // タッチ状態
+        )
+
+        if phase == .began {
+            self.touchManager.starts[0] = lb_touch
+        }        
+        self.touchManager.units[0] = lb_touch
+        self.touchManager.units[0].startPos = self.touchManager.starts[0].xy
     }
     
 }
