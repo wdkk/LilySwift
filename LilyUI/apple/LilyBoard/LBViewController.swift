@@ -68,19 +68,35 @@ open class LBViewController : LLViewController
         }
         .touchesBegan.add( caller:self )
         { caller, me, args in
-            caller.recogizeTouches( event:args.event )
+            for touch in args.touches {
+                caller.touchManager.allTouches.append( touch )
+            }
+            let all_touches = caller.touchManager.allTouches
+            caller.recogizeTouches( touches:all_touches )
         }
         .touchesMoved.add( caller:self )
         { caller, me, args in
-            caller.recogizeTouches( event:args.event )
+            let all_touches = caller.touchManager.allTouches
+            caller.recogizeTouches( touches:all_touches )
         }
         .touchesEnded.add( caller:self )
         { caller, me, args in
-            caller.recogizeTouches( event:args.event )
+            let all_touches = caller.touchManager.allTouches
+            caller.recogizeTouches( touches:all_touches )
+            
+            for i in (0 ..< caller.touchManager.allTouches.count).reversed() {
+                for touch in args.touches {
+                    if touch == caller.touchManager.allTouches[i] {
+                        caller.touchManager.allTouches.remove( at:i )
+                        break
+                    }
+                }
+            }
         }
         .touchesCancelled.add( caller:self )
         { caller, me, args in
-            caller.recogizeTouches( event:args.event )
+            let all_touches = caller.touchManager.allTouches
+            caller.recogizeTouches( touches:all_touches )
         }
         #elseif os(macOS)
         metalView.chain
@@ -185,6 +201,7 @@ open class LBViewController : LLViewController
             commandBuffer.waitUntilCompleted()
             #endif
             
+            self.touchManager.changeBegansToTouches()
             self.touchManager.resetReleases()
         })
     }
@@ -211,12 +228,10 @@ open class LBViewController : LLViewController
 #if os(iOS)
 public extension LBViewController
 {
-    func recogizeTouches( event:UIEvent? ) {
+    func recogizeTouches( touches all_touches:[UITouch] ) {
         // タッチ情報の配列をリセット
         self.touchManager.clear()
-        
-        guard let all_touches = event?.allTouches else { return }
-        
+    
         // タッチ数
         var idx = 0
         for touch in all_touches {

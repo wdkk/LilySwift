@@ -10,10 +10,17 @@
 
 import Foundation
 
+#if os(iOS) || targetEnvironment(macCatalyst)
+import UIKit
+#endif
+
 public class LBTouchManager
 {
+    #if os(iOS) || targetEnvironment(macCatalyst)
+    public var allTouches = [UITouch]()
+    #endif
+    
     public var units = [LBTouch]( repeating: LBTouch(), count: 20 )
-   
     public var starts = [LBTouch]( repeating: LBTouch(), count: 20 )
 
     // タッチに関わる配列
@@ -28,6 +35,15 @@ public class LBTouchManager
     // タッチ完了状態に絞って配列
     public var releases:[LBTouch] {
         return (units.filter { $0.state == .release })
+    }
+    
+    public func changeBegansToTouches() {
+        for i in 0 ..< units.count { 
+            if units[i].state == .began {
+                // .beganから.touchへ移行
+                units[i].state = .touch
+            }
+        }
     }
     
     public func resetReleases() {
