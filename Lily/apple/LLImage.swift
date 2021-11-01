@@ -146,7 +146,9 @@ public extension LLImage
            dst_addr,
            dst_row_bytes,
            { 
-               free( UnsafeMutableRawPointer( mutating: $1 ) )
+               if let buf = $1 {
+                   free( UnsafeMutableRawPointer( mutating: buf ) )
+               }
            },
            nil, nil,
            &result_buffer )

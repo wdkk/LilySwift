@@ -80,20 +80,18 @@ open class PGViewController : LBViewController
     }
         
     func checkShapesStatus() {
-        LLTask.Sync.main {
-            for s in PGMemoryPool.shared.shapes {
-                guard let pgactor = s as? PGActor else { continue }
-                // イテレート処理
-                pgactor.appearIterate()
-                // インターバル処理
-                pgactor.appearIntervals()
-                
-                if s.life <= 0.0 {
-                    // 完了前処理
-                    pgactor.appearCompletion()
-                    // 削除処理
-                    pgactor.checkRemove()
-                }
+        for s in PGMemoryPool.shared.shapes {
+            guard let pgactor = s as? PGActor else { continue }
+            // イテレート処理
+            pgactor.appearIterate()
+            // インターバル処理
+            pgactor.appearIntervals()
+            
+            if s.life <= 0.0 {
+                // 完了前処理
+                pgactor.appearCompletion()
+                // 削除処理
+                pgactor.checkRemove()
             }
         }
     }

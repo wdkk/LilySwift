@@ -60,7 +60,9 @@ public extension CVPixelBuffer
            dst_row_bytes,
            { 
                // メモリ解放 
-               free( UnsafeMutableRawPointer( mutating: $1 ) )
+               if let buf = $1 {
+                   free( UnsafeMutableRawPointer( mutating: buf ) )
+               }
            },
            nil, nil,
            &result_buffer )
