@@ -463,7 +463,7 @@ public func LLImageSaveOptionDefault() -> LLImageSaveOption {
     return option
 }
 
-public func LLHextoColor8( _ hex_:LCStringSmPtr ) -> LLColor8 {
+public func LLHexColor8( _ hex_:LCStringSmPtr ) -> LLColor8 {
     var upper_hex:LCStringSmPtr = LCStringUppercased( hex_ )
     upper_hex = LCStringReplace( upper_hex, LCStringMakeWithCChars( "#" ),  LCStringZero() )
     upper_hex = LCStringReplace( upper_hex, LCStringMakeWithCChars( "0X" ), LCStringZero() )
@@ -537,4 +537,8 @@ public func LLHextoColor8( _ hex_:LCStringSmPtr ) -> LLColor8 {
             LLLogWarning( "正しくないHex指定です" )
             return LLColor8_Black
     }
+}
+
+public func LLHexColor( _ hex_:LCStringSmPtr ) -> LLColor {
+    return LLColor8tof( LLHexColor8( hex_ ) )
 }

@@ -29,7 +29,7 @@ public extension LLColor8
     }
     
     init( _ hex:String ) {
-        let c = LLHextoColor8( hex.lcStr )
+        let c = LLHexColor8( hex.lcStr )
         self.init( R: c.R, G: c.G, B: c.B, A: c.A )
     }
     
@@ -75,7 +75,7 @@ public extension LLColor16
     }
     
     init( _ hex:String ) {
-        let c = LLColor8to16( LLHextoColor8( hex.lcStr ) )
+        let c = LLColor8to16( LLHexColor8( hex.lcStr ) )
         self.init( R: c.R, G: c.G, B: c.B, A: c.A )
     }
     
@@ -122,7 +122,7 @@ public extension LLColor
     }
 
     init( _ hex:String ) {
-        let c = LLColor8tof( LLHextoColor8( hex.lcStr ) )
+        let c = LLColor8tof( LLHexColor8( hex.lcStr ) )
         self.init( R: c.R, G: c.G, B: c.B, A: c.A )
     }
     
@@ -170,7 +170,7 @@ public extension LLHSVf
     }
     
     init( _ hex:String ) {
-        let hsv = LLColor8toHSVf( LLHextoColor8( hex.lcStr ) )
+        let hsv = LLColor8toHSVf( LLHexColor8( hex.lcStr ) )
         self.init( hsv.H, hsv.S, hsv.V )
     }
     
@@ -211,7 +211,7 @@ public extension LLHSVi
     }
     
     init( _ hex:String ) {
-        let hsv = LLColor8toHSVi( LLHextoColor8( hex.lcStr ) )
+        let hsv = LLColor8toHSVi( LLHexColor8( hex.lcStr ) )
         self.init( hsv.H, hsv.S, hsv.V )
     }
     

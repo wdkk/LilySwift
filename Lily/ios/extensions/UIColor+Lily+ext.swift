@@ -42,7 +42,7 @@ public extension UIColor
     }
 
     convenience init( _ hex:String ) {
-        self.init( LLHextoColor8( hex.lcStr ) )
+        self.init( LLHexColor8( hex.lcStr ) )
     }
 
     var llColor8:LLColor8 { LLColor8( self ) }
