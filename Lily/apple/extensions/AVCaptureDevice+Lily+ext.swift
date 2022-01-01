@@ -11,6 +11,7 @@
 import Foundation
 import AVFoundation
 
+@available(iOS 14.0, *)
 public extension AVCaptureDevice 
 {
     private func availableFormatsFor( preferredFps: Double ) 
