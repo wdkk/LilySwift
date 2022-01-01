@@ -54,4 +54,5 @@ open class LLMetalView : LLView
         return lastDrawable
     }
 }
+
 #endif

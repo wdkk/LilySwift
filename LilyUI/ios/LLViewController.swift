@@ -12,6 +12,7 @@
 
 import UIKit
 
+@available(iOS 10.0, *)
 open class LLViewController : UIViewController
 {        
     public private(set) var already:Bool = false

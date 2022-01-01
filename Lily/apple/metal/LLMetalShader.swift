@@ -14,6 +14,7 @@ import Foundation
 import Metal
 
 /// シェーダオブジェクトクラス
+@available(iOS 11.0, macOS 10.12, *)
 public class LLMetalShader
 {
     // Metalシェーダ関数オブジェクト

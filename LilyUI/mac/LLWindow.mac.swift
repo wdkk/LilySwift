@@ -6,6 +6,8 @@
 //   https://wdkk.co.jp/
 //
 
+#if os(macOS)
+
 import Foundation
 import Cocoa
 
@@ -67,3 +69,5 @@ open class LLWindow : NSWindow, NSWindowDelegate
 		//igWindow.close.ignite( LLArg2() )
 	}
 }
+
+#endif

@@ -12,6 +12,7 @@
 
 import UIKit
 
+@available(iOS 9.1, *)
 open class LLView : UIView, LLUILifeEvent
 {
     public lazy var setupField = LLViewFieldMap()

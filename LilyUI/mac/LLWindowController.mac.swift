@@ -6,7 +6,11 @@
 //   https://wdkk.co.jp/
 //
 
+#if os(macOS)
+
 import Foundation
 import AppKit
 
 public typealias LLWindowController = NSWindowController
+
+#endif

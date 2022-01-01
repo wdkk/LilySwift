@@ -12,6 +12,7 @@
 
 import UIKit
 
+@available(iOS 11.0, *)
 extension UIViewController : LLUIRectControllable, LLUIPixelControllable
 {
     public var ourCenter: CGPoint {
@@ -31,6 +32,7 @@ extension UIViewController : LLUIRectControllable, LLUIPixelControllable
 }
 
 // MARK: - セーフエリア/コントロールエリア制御
+@available(iOS 13.0, *)
 public extension UIViewController
 {
     // セーフエリア領域(viewWilLayoutSubviews以降に有効)
@@ -45,15 +47,16 @@ public extension UIViewController
 }
 
 // MARK: - UI親子関係アクセサ
+@available(iOS 13.0, *)
 public extension UIViewController
 {
     var keyWindow:UIWindow? { return self.view.window }
     
-    @available(iOS 13.0, *)
     var windowScene:UIWindowScene? { return self.keyWindow?.windowScene }
 }
 
 // MARK: - デバイスオリエンテーション情報
+@available(iOS 13.0, *)
 public extension UIViewController
 { 
     var deviceOrientation:UIInterfaceOrientation {
@@ -67,6 +70,7 @@ public extension UIViewController
 }
 
 // MARK: - ステータスバー領域情報
+@available(iOS 13.0, *)
 public extension UIViewController
 { 
     /// ステータスバー領域情報

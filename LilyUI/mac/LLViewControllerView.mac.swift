@@ -6,6 +6,8 @@
 //   https://wdkk.co.jp/
 //
 
+#if os(macOS)
+
 import Foundation
 import Cocoa
 import QuartzCore
@@ -525,3 +527,5 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         self.teardownField.appear( LLEmpty.none )
     }
 }
+
+#endif
