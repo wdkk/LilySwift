@@ -23,8 +23,6 @@ public protocol LLAlignedMemoryAllocatable
     var pointer:LLBytePtr? { get }
 }
 
-#if LILY_FULL
-
 /// 16バイトアラインメントされたメモリオブジェクトクラス
 open class LLAlignedMemory16<T> : LLAlignedMemoryAllocatable
 {
@@ -69,8 +67,6 @@ open class LLAlignedMemory16<T> : LLAlignedMemoryAllocatable
         }
     }
 }
-
-#endif
 
 /// 4096バイトアラインメントされたメモリオブジェクトクラス
 open class LLAlignedMemory4096<T> : LLAlignedMemoryAllocatable

@@ -10,8 +10,6 @@
 
 /// コメント未済
 
-#if LILY_FULL
-
 import Foundation
 
 #if os(iOS)
@@ -26,5 +24,3 @@ public extension String
         return LCStringPixelSize( self.lcStr, textAttr )
     }
 }
-
-#endif

@@ -8,8 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if LILY_FULL
-
 #if os(macOS)
 
 import AppKit
@@ -330,7 +328,5 @@ public extension LCImageSaverInternal
         
     }
 }
-
-#endif
 
 #endif

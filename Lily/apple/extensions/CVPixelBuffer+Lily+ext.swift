@@ -8,8 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if LILY_FULL
-
 import Foundation
 import Accelerate
 
@@ -142,5 +140,3 @@ public extension CVPixelBuffer
         return dst_img
     }
 }
-
-#endif

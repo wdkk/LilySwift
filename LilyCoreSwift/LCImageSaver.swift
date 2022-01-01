@@ -8,8 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if LILY_FULL
-
 import Foundation
 
 public func LCImageSaverMake() -> LCImageSaverSmPtr {
@@ -24,5 +22,3 @@ public func LCImageSaverSaveWithOption( _ saver_:LCImageSaverSmPtr, _ img_:LCIma
                                         _ option_:LLImageSaveOption ) -> Bool {
     return saver_.saver.save( img_, file_path_, option_ )
 }
-
-#endif

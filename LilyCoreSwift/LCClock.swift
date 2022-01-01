@@ -23,7 +23,6 @@ public func LCClockNow() -> LLInt64 {
     return LLInt64( now_time.tv_sec * 1000 ) + LLInt64( now_time.tv_usec / 1000 )  
 }
 
-#if LILY_FULL
 
 fileprivate var is_started:Bool = false
 fileprivate var time_span:LLInt64 = 0
@@ -46,4 +45,3 @@ public func LCClockFPS() {
 
     fps += 1
 }
-#endif

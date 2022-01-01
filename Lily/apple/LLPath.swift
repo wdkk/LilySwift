@@ -20,7 +20,6 @@ open class LLPath
         return LLString( LCPathGetBundle( filename.lcStr ) )
     }
  
-    #if LILY_FULL
     /// 起動時パスを取得する(.appの位置)
     /// - Parameter filename: 基準パスに追加する相対ファイルパス
     /// - Returns: パス文字列 ( ex:(Mac) /Users/xxx/Desktop/LilyApp.appの場合 -> /Users/xxx/Desktop/ )
@@ -83,7 +82,6 @@ open class LLPath
         }
         return pp
     }
-    #endif
     
     /// パスからファイル名を抽出する(拡張子なし)
     /// - Parameter path: ファイル名を含む対象のパス

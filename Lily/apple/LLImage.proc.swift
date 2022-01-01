@@ -9,8 +9,6 @@
 //
 
 /// コメント未済
-#if LILY_FULL
-
 #if os(iOS)
 import UIKit
 #elseif os(macOS)
@@ -91,5 +89,3 @@ open class LLImageProc
         return img_dst
     }
 }
-
-#endif

@@ -8,8 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if LILY_FULL
-
 import Foundation
 
 public func LCImageProcWhiteBalanceAutomatically( _ img_src_:LCImageSmPtr, _ img_dst_:LCImageSmPtr ) {
@@ -211,5 +209,3 @@ class __LCImageProcWhiteBalanceAutomatically<TType:BinaryInteger, TColor>
         }
     }
 }
-
-#endif

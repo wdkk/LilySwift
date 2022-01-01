@@ -8,8 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if LILY_FULL
-
 import Foundation
 
 /// ラインアルゴリズムのステップ情報構造体
@@ -51,5 +49,3 @@ public struct LLAlgoLineStep
         self.progress = progress
     }
 }
-
-#endif

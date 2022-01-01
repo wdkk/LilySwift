@@ -195,11 +195,8 @@ open class LBViewController : LLViewController
         },
         post: { commandBuffer in
             // LilyPlaygroundではcompletedで待つ形にする(非同期の悪さを止める)
-            #if LILY_FULL
-            commandBuffer.waitUntilScheduled()
-            #else
+            //commandBuffer.waitUntilScheduled()
             commandBuffer.waitUntilCompleted()
-            #endif
             
             self.touchManager.changeBegansToTouches()
             self.touchManager.resetReleases()

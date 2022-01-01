@@ -13,7 +13,6 @@ import Foundation
 /// システム管理モジュール
 open class LLSystem
 {
-    #if LILY_FULL
     /// 空きメモリ容量(MB)
     static public var freeMemory:Double {
         return LCSystemGetFreeMemory()
@@ -25,8 +24,7 @@ open class LLSystem
     static public func freeStorage( path:String = "/" ) -> Double {
         return LCSystemGetFreeStorage( path.cChar ) 
     }
-    #endif
-	
+
     /// デバイスのretinaスケール(2.0, 3.0など)
     static public var retinaScale:Double {
         return LCSystemGetRetinaScale()

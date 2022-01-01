@@ -8,8 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if LILY_FULL
-
 import Foundation
 
 /// ラインアルゴリズムを用いたスタイラスステップ情報
@@ -129,5 +127,3 @@ public func LCAlgoStylusParamProgress( _ lsp:LCAlgoStylusParamSmPtr, _ k:LLDoubl
     // stepの値を返す
     return p.now
 }
-
-#endif

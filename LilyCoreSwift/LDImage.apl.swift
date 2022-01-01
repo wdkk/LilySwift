@@ -67,7 +67,6 @@ public func LDImageLoadFileWithOption( _ file_path_:LCStringSmPtr, _ option_:LLI
     return result
 }
 
-#if LILY_FULL
 
 public func LDImageSaveFileWithOption( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr, _ option_:LLImageSaveOption ) 
 -> Bool {
@@ -86,5 +85,3 @@ public func LDImageSaveFileWithOption( _ img_:LCImageSmPtr, _ file_path_:LCStrin
     let saver:LCImageSaverSmPtr = LCImageSaverMake()
     return LCImageSaverSaveWithOption( saver, img_, file_path_, opt )
 }
-
-#endif

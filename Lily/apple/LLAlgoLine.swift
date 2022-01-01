@@ -8,8 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if LILY_FULL
-
 import Foundation
 
 /// 直線プロットモジュール(Bresenhamアルゴリズム)
@@ -125,5 +123,3 @@ open class LLAlgoStylusParam
         return LCAlgoStylusParamProgress( param, k )
     }
 }
-
-#endif

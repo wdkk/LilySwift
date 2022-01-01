@@ -61,8 +61,6 @@ public func LCImageMakeWithFileAndOption( _ file_path_:LCStringSmPtr, _ option_:
     return LDImageLoadFileWithOption( file_path_, option_ )
 }
 
-#if LILY_FULL
-
 public func LCImageSaveFile( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr ) -> Bool {
     return LDImageSaveFileWithOption( img_, file_path_, LLImageSaveOptionDefault() )
 }
@@ -71,8 +69,6 @@ public func LCImageSaveFileWithOption( _ img_:LCImageSmPtr, _ file_path_:LCStrin
                                        _ option_:LLImageSaveOption ) -> Bool {
     return LDImageSaveFileWithOption( img_, file_path_, option_ )
 }
-
-#endif
 
 public func LCImageClone( _ img_src_:LCImageSmPtr ) -> LCImageSmPtr {
     let lcimg:LCImageSmPtr = LCImageSmPtr()
@@ -341,7 +337,11 @@ public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {
 import AppKit
 
 public func LCImage2NSImage( _ img_:LCImageSmPtr ) -> NSImage {
-    return NSImage(cgImage: LCImage2CGImage( img_ )!, 
+    guard let cg_img = LCImage2CGImage( img_ ) else { 
+        return NSImage(size: CGSize( LCImageWidth( img_ ), LCImageHeight( img_ ) ) )
+    }
+    
+    return NSImage(cgImage: cg_img.takeUnretainedValue(), 
                    size: CGSize( LCImageWidth( img_ ), LCImageHeight( img_ ) ) )
 }
 
@@ -354,7 +354,7 @@ public func NSImage2LCImage( _ img_:NSImage ) -> LCImageSmPtr {
 }
 #endif
 
-public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> CGImage? {  
+public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> Unmanaged<CGImage>? {  
     let wid:Int = LCImageWidth( img_ )
     let hgt:Int = LCImageHeight( img_ )
     
@@ -375,9 +375,10 @@ public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> CGImage? {
                                            space: color_space,
                                            bitmapInfo: bitmap_info.rawValue )
     
-    guard let nonnull_cg_context:CGContext = cg_context else { return nil } 
-    let cg_img:CGImage? = nonnull_cg_context.makeImage()
-    return cg_img
+    guard let nn_cg_context:CGContext = cg_context else { return nil } 
+    guard let cg_img = nn_cg_context.makeImage() else { return nil }
+    let unmanaged_cg_img = Unmanaged<CGImage>.passUnretained( cg_img )
+    return unmanaged_cg_img
 }
 
 public func CGImage2LCImage( _ img_:CGImage ) -> LCImageSmPtr {

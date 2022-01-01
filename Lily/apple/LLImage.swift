@@ -66,11 +66,7 @@ open class LLImage
     
     open var lcImage:LCImageSmPtr { return self._imgc }
     
-    #if LILY_SWIFT || !LILY_FULL
-    open var cgImage:CGImage? { return LCImage2CGImage( self.lcImage ) }
-    #else
-    open var cgImage:CGImage? { return LCImage2CGImage( self.lcImage )?.takeUnretainedValue() }    
-    #endif
+    open var cgImage:CGImage? { return LCImage2CGImage( self.lcImage )?.takeUnretainedValue() }
     
     #if os(iOS)
     open var uiImage:UIImage? { return LCImage2UIImage( self._imgc ) }
@@ -118,7 +114,6 @@ open class LLImage
     
     open func convertType( to type:LLImageType ) { LCImageConvertType( self._imgc, type ) }
     
-    #if LILY_FULL
     @discardableResult
     open func save( to path:String ) -> Bool {
         return LCImageSaveFile( self._imgc, path.lcStr )
@@ -128,7 +123,6 @@ open class LLImage
     open func save( to path:String, option:LLImageSaveOption ) -> Bool {
         return LCImageSaveFileWithOption( self._imgc, path.lcStr, option )
     }
-    #endif
 }
 
 public extension LLImage

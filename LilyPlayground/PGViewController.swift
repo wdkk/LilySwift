@@ -14,10 +14,6 @@ import UIKit
 import AppKit
 #endif
 
-#if !LILY_FULL
-import PlaygroundSupport
-#endif
-
 open class PGViewController : LBViewController
 {
     public override init() {

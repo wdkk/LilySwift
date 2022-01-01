@@ -35,7 +35,6 @@ public func LCPathGetBundle( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
     return LCStringMakeWithCChars( full_path.cChar )
 }
 
-#if LILY_FULL
 /// 起動位置のパスを取得
 /// - Parameter filename: パスに追加するファイル名
 /// - Returns: 起動位置のパス文字列
@@ -257,8 +256,6 @@ public func LCPathIsMatchFilter( _ path_:LCStringSmPtr, _ filter_:LCStringSmPtr 
     // ここまで通ってきたものはフィルタ対象になるのでtrue
     return true
 }
-
-#endif
 
 /// パスからファイル名(拡張子なし)を抽出する
 /// - Parameter filename: パス文字列
