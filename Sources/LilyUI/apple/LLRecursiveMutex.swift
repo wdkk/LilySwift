@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+// コメント未着手
+
 import Foundation
 
 open class LLRecursiveMutex
