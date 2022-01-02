@@ -13,3 +13,5 @@ projects/apple/Lily/DevEnv/
 !*.xcodeproj/project.pbxproj
 !*.xcworkspace/contents.xcworkspacedata
 UserInterfaceState.xcuserstate
+
+.swiftpm/
