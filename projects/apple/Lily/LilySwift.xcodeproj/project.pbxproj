@@ -60,6 +60,8 @@
 		5D8EA08B263D5D0500DCD404 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8EA080263D5D0500DCD404 /* SceneDelegate.swift */; };
 		5D9A4E9A23EC850A00210B1B /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D9A4E9823EC850A00210B1B /* MetalKit.framework */; };
 		5D9A4E9B23EC850A00210B1B /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D9A4E9923EC850A00210B1B /* Metal.framework */; };
+		5DA6D7C12782FB2E00768CD2 /* PGBookCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA6D7C02782FB2E00768CD2 /* PGBookCanvas.swift */; };
+		5DA6D7C22782FB2E00768CD2 /* PGBookCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA6D7C02782FB2E00768CD2 /* PGBookCanvas.swift */; };
 		5DB7A521239E50CA0050A9B4 /* LilySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8F3B7C235B946B00BB9805 /* LilySwift.framework */; };
 		5DB7A530239E51780050A9B4 /* LilySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2605A5236FF5890078B63A /* LilySwift.framework */; };
 		5DDFEE082781A1710003398B /* LLViewFieldMap+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDFED0E2781A1710003398B /* LLViewFieldMap+Chain.swift */; };
@@ -562,6 +564,7 @@
 		5D8F3B7C235B946B00BB9805 /* LilySwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LilySwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D9A4E9823EC850A00210B1B /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
 		5D9A4E9923EC850A00210B1B /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
+		5DA6D7C02782FB2E00768CD2 /* PGBookCanvas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGBookCanvas.swift; sourceTree = "<group>"; };
 		5DACEE95235C7167001143BF /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		5DB7A51C239E50CA0050A9B4 /* LilySwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LilySwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DB7A52B239E51780050A9B4 /* LilySwiftMacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LilySwiftMacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -922,6 +925,14 @@
 				5D8EA04D263D5CD400DCD404 /* DevEnv(iOS).app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		5DA6D7BF2782FB2E00768CD2 /* swiftui_wrapper */ = {
+			isa = PBXGroup;
+			children = (
+				5DA6D7C02782FB2E00768CD2 /* PGBookCanvas.swift */,
+			);
+			path = swiftui_wrapper;
 			sourceTree = "<group>";
 		};
 		5DACEE94235C7167001143BF /* Frameworks */ = {
@@ -1386,6 +1397,7 @@
 		5DDFEDFD2781A1710003398B /* LilyPlayground */ = {
 			isa = PBXGroup;
 			children = (
+				5DA6D7BF2782FB2E00768CD2 /* swiftui_wrapper */,
 				5DDFEDFE2781A1710003398B /* PGRectangle.swift */,
 				5DDFEDFF2781A1710003398B /* PGMask.swift */,
 				5DDFEE002781A1710003398B /* PGCircle.swift */,
@@ -1833,6 +1845,7 @@
 				5DDFEF2B2781A1720003398B /* LLMetal.type.geometrics.swift in Sources */,
 				5DDFEE932781A1720003398B /* LLType+LilyCore+ext.swift in Sources */,
 				5DDFEF992781A1720003398B /* LLZ.swift in Sources */,
+				5DA6D7C22782FB2E00768CD2 /* PGBookCanvas.swift in Sources */,
 				5DDFEF3D2781A1720003398B /* LLMetal.type.render.swift in Sources */,
 				5DDFEEFD2781A1720003398B /* LCImageLoader.internal.tga.swift in Sources */,
 				5DDFEE192781A1710003398B /* LilyUICrossPlatform.swift in Sources */,
@@ -1947,6 +1960,7 @@
 				5DDFEE082781A1710003398B /* LLViewFieldMap+Chain.swift in Sources */,
 				5DDFEFA22781A1720003398B /* LLField.swift in Sources */,
 				5DDFEED62781A1720003398B /* LCPath.swift in Sources */,
+				5DA6D7C12782FB2E00768CD2 /* PGBookCanvas.swift in Sources */,
 				5DDFEF542781A1720003398B /* LBTriangleStorage.swift in Sources */,
 				5DDFEFAC2781A1720003398B /* UIColor+Lily+ext.swift in Sources */,
 				5DDFEE302781A1710003398B /* LLLabel+Chain.swift in Sources */,
