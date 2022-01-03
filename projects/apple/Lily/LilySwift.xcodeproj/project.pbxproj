@@ -19,6 +19,18 @@
 			name = LilySwiftxc;
 			productName = Lilyx;
 		};
+		5D679ABF278394DA00DF430C /* LilySwiftxc-dev */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5D679AC2278394DA00DF430C /* Build configuration list for PBXAggregateTarget "LilySwiftxc-dev" */;
+			buildPhases = (
+				5D679AC0278394DA00DF430C /* ShellScript */,
+				5D679AC1278394DA00DF430C /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "LilySwiftxc-dev";
+			productName = Lilyx;
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -1668,6 +1680,7 @@
 			targets = (
 				5D8F3B7B235B946B00BB9805 /* LilySwift */,
 				5D2605A4236FF5890078B63A /* LilySwiftMac */,
+				5D679ABF278394DA00DF430C /* LilySwiftxc-dev */,
 				5D5EF90225D4234600EA86CC /* LilySwiftxc */,
 				5DB7A51B239E50CA0050A9B4 /* LilySwiftTests */,
 				5DB7A52A239E51780050A9B4 /* LilySwiftMacTests */,
@@ -1732,7 +1745,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# 個別のFramework名\nIN_ARCHIVE=\"${PROJECT_NAME}.xcarchive\"\nIN_FRAMEWORK=\"${PROJECT_NAME}.framework\"\n# 個別FrameWorkの出力先予定\nIN_BUILD=\"${PROJECT_DIR}/../../../_archivebuild\"\n# xcframeworkの出力先\nOUT_LOCATION=\"${PROJECT_DIR}/../../../_lib\"\nOUT_FRAMEWORK=\"${OUT_LOCATION}/${PROJECT_NAME}.xcframework\"\n\n# macOSフレームワーク\nMAC_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-macos\"\n# Catalystフレームワーク\nCATALYST_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-maccatalyst\"\n# iOS Simulatorフレームワーク\nSIMULATOR_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-iphonesimulator\"\n# iOS 実機フレームワーク\nIOS_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-iphoneos\"\n\n# 既存xcframeworkを削除\nrm -rf ${OUT_FRAMEWORK}\n\n# xcframeworkを作成\nxcodebuild -create-xcframework \\\n-framework \"${MAC_FRAMEWORK_DIR}/${IN_ARCHIVE}/Products/Library/Frameworks/${IN_FRAMEWORK}\" \\\n-framework \"${CATALYST_FRAMEWORK_DIR}/${IN_ARCHIVE}/Products/Library/Frameworks/${IN_FRAMEWORK}\" \\\n-framework \"${SIMULATOR_FRAMEWORK_DIR}/${IN_ARCHIVE}/Products/Library/Frameworks/${IN_FRAMEWORK}\" \\\n-framework \"${IOS_FRAMEWORK_DIR}/${IN_ARCHIVE}/Products/Library/Frameworks/${IN_FRAMEWORK}\" \\\n-output ${OUT_FRAMEWORK}\n";
+			shellScript = "# 個別のFramework名\nIN_ARCHIVE=\"${PROJECT_NAME}.xcarchive\"\nIN_FRAMEWORK=\"${PROJECT_NAME}.framework\"\n# 個別FrameWorkの出力先予定\nIN_BUILD=\"${PROJECT_DIR}/../../../_xcarchivebuild\"\n# xcframeworkの出力先\nOUT_LOCATION=\"${PROJECT_DIR}/../../../_lib\"\nOUT_FRAMEWORK=\"${OUT_LOCATION}/${PROJECT_NAME}.xcframework\"\n\n# macOSフレームワーク\nMAC_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-macos\"\n# Catalystフレームワーク\nCATALYST_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-maccatalyst\"\n# iOS Simulatorフレームワーク\nSIMULATOR_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-iphonesimulator\"\n# iOS 実機フレームワーク\nIOS_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-iphoneos\"\n\n# 既存xcframeworkを削除\nrm -rf ${OUT_FRAMEWORK}\n\n# xcframeworkを作成\nxcodebuild -create-xcframework \\\n-framework \"${MAC_FRAMEWORK_DIR}/${IN_ARCHIVE}/Products/Library/Frameworks/${IN_FRAMEWORK}\" \\\n-framework \"${CATALYST_FRAMEWORK_DIR}/${IN_ARCHIVE}/Products/Library/Frameworks/${IN_FRAMEWORK}\" \\\n-framework \"${SIMULATOR_FRAMEWORK_DIR}/${IN_ARCHIVE}/Products/Library/Frameworks/${IN_FRAMEWORK}\" \\\n-framework \"${IOS_FRAMEWORK_DIR}/${IN_ARCHIVE}/Products/Library/Frameworks/${IN_FRAMEWORK}\" \\\n-output ${OUT_FRAMEWORK}\n";
 		};
 		5D5EF90325D4234600EA86CC /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1749,7 +1762,41 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# 個別のFramework名\nIN_ARCHIVE=\"${PROJECT_NAME}.xcarchive\"\nIN_FRAMEWORK=\"${PROJECT_NAME}.framework\"\n# 個別FrameWorkの出力先予定\nIN_BUILD=\"${PROJECT_DIR}/../../../_archivebuild\"\n\n# macOSフレームワーク\nMAC_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-macos\"\n# Catalystフレームワーク\nCATALYST_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-maccatalyst\"\n# iOS Simulatorフレームワーク\nSIMULATOR_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-iphonesimulator\"\n# iOS 実機フレームワーク\nIOS_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-iphoneos\"\n\n# Macのフレームワークがなければビルド\nxcodebuild \\\n'ENABLE_BITCODE=YES' \\\n'BITCODE_GENERATION_MODE=bitcode' \\\n'OTHER_CFLAGS=-fembed-bitcode' \\\n'BUILD_LIBRARY_FOR_DISTRIBUTION=YES' \\\n'SKIP_INSTALL=NO' \\\narchive \\\n-scheme \"Lily(macOS)\" \\\n-configuration ${CONFIGURATION} \\\n-sdk macosx \\\n-archivePath \"${MAC_FRAMEWORK_DIR}/${IN_ARCHIVE}\" \\\nOBJROOT=\"${OBJROOT}/DependentBuilds/macOS\" \\\nCONFIGURATION_BUILD_DIR=\"${IN_BUILD}/macOS/\"\n\n# Catalystのフレームワークがなければビルド\nxcodebuild \\\n'ENABLE_BITCODE=YES' \\\n'BITCODE_GENERATION_MODE=bitcode' \\\n'OTHER_CFLAGS=-fembed-bitcode' \\\n'BUILD_LIBRARY_FOR_DISTRIBUTION=YES' \\\n'SKIP_INSTALL=NO' \\\n'SUPPORTS_MACCATALYST=YES' \\\narchive \\\n-scheme \"Lily(iOS)\" \\\n-configuration ${CONFIGURATION} \\\n-sdk macosx \\\n-archivePath \"${CATALYST_FRAMEWORK_DIR}/${IN_ARCHIVE}\" \\\nOBJROOT=\"${OBJROOT}/DependentBuilds/macCatalyst\" \\\nCONFIGURATION_BUILD_DIR=\"${IN_BUILD}/macCatalyst/\"\n\n# iOS Simulatorのフレームワークがなければビルド\nxcodebuild \\\n'ENABLE_BITCODE=NO' \\\n'BITCODE_GENERATION_MODE=bitcode' \\\n'OTHER_CFLAGS=-fembed-bitcode' \\\n'BUILD_LIBRARY_FOR_DISTRIBUTION=YES' \\\n'SKIP_INSTALL=NO' \\\narchive \\\n-scheme \"Lily(iOS)\" \\\n-configuration ${CONFIGURATION} \\\n-sdk iphonesimulator \\\n-archivePath \"${SIMULATOR_FRAMEWORK_DIR}/${IN_ARCHIVE}\" \\\nOBJROOT=\"${OBJROOT}/DependentBuilds/iOSSimulator\" \\\nCONFIGURATION_BUILD_DIR=\"${IN_BUILD}/iOSSimulator/\"\n\n# iOS Deviceのフレームワークがなければビルド\nxcodebuild \\\n'ENABLE_BITCODE=YES' \\\n'BITCODE_GENERATION_MODE=bitcode' \\\n'OTHER_CFLAGS=-fembed-bitcode' \\\n'BUILD_LIBRARY_FOR_DISTRIBUTION=YES' \\\n'SKIP_INSTALL=NO' \\\narchive \\\n-scheme \"Lily(iOS)\" \\\n-configuration ${CONFIGURATION} \\\n-sdk iphoneos \\\n-archivePath \"${IOS_FRAMEWORK_DIR}/${IN_ARCHIVE}\" \\\nOBJROOT=\"${OBJROOT}/DependentBuilds/iOSDevice\" \\\nCONFIGURATION_BUILD_DIR=\"${IN_BUILD}/iOSDevice/\"\n";
+			shellScript = "# 個別のFramework名\nIN_ARCHIVE=\"${PROJECT_NAME}.xcarchive\"\nIN_FRAMEWORK=\"${PROJECT_NAME}.framework\"\n# 個別FrameWorkの出力先予定\nIN_BUILD=\"${PROJECT_DIR}/../../../_xcarchivebuild\"\n\n# macOSフレームワーク\nMAC_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-macos\"\n# Catalystフレームワーク\nCATALYST_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-maccatalyst\"\n# iOS Simulatorフレームワーク\nSIMULATOR_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-iphonesimulator\"\n# iOS 実機フレームワーク\nIOS_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-iphoneos\"\n\n# Macのフレームワークがなければビルド\nxcodebuild \\\n'ENABLE_BITCODE=YES' \\\n'BITCODE_GENERATION_MODE=bitcode' \\\n'OTHER_CFLAGS=-fembed-bitcode' \\\n'BUILD_LIBRARY_FOR_DISTRIBUTION=YES' \\\n'SKIP_INSTALL=NO' \\\narchive \\\n-scheme \"Lily(macOS)\" \\\n-configuration ${CONFIGURATION} \\\n-sdk macosx \\\n-archivePath \"${MAC_FRAMEWORK_DIR}/${IN_ARCHIVE}\" \\\nOBJROOT=\"${OBJROOT}/DependentBuilds/macOS\" \\\nCONFIGURATION_BUILD_DIR=\"${IN_BUILD}/macOS/\"\n\n# Catalystのフレームワークがなければビルド\nxcodebuild \\\n'ENABLE_BITCODE=YES' \\\n'BITCODE_GENERATION_MODE=bitcode' \\\n'OTHER_CFLAGS=-fembed-bitcode' \\\n'BUILD_LIBRARY_FOR_DISTRIBUTION=YES' \\\n'SKIP_INSTALL=NO' \\\n'SUPPORTS_MACCATALYST=YES' \\\narchive \\\n-scheme \"Lily(iOS)\" \\\n-configuration ${CONFIGURATION} \\\n-sdk macosx \\\n-archivePath \"${CATALYST_FRAMEWORK_DIR}/${IN_ARCHIVE}\" \\\nOBJROOT=\"${OBJROOT}/DependentBuilds/macCatalyst\" \\\nCONFIGURATION_BUILD_DIR=\"${IN_BUILD}/macCatalyst/\"\n\n# iOS Simulatorのフレームワークがなければビルド\nxcodebuild \\\n'ENABLE_BITCODE=NO' \\\n'BITCODE_GENERATION_MODE=bitcode' \\\n'OTHER_CFLAGS=-fembed-bitcode' \\\n'BUILD_LIBRARY_FOR_DISTRIBUTION=YES' \\\n'SKIP_INSTALL=NO' \\\narchive \\\n-scheme \"Lily(iOS)\" \\\n-configuration ${CONFIGURATION} \\\n-sdk iphonesimulator \\\n-archivePath \"${SIMULATOR_FRAMEWORK_DIR}/${IN_ARCHIVE}\" \\\nOBJROOT=\"${OBJROOT}/DependentBuilds/iOSSimulator\" \\\nCONFIGURATION_BUILD_DIR=\"${IN_BUILD}/iOSSimulator/\"\n\n# iOS Deviceのフレームワークがなければビルド\nxcodebuild \\\n'ENABLE_BITCODE=YES' \\\n'BITCODE_GENERATION_MODE=bitcode' \\\n'OTHER_CFLAGS=-fembed-bitcode' \\\n'BUILD_LIBRARY_FOR_DISTRIBUTION=YES' \\\n'SKIP_INSTALL=NO' \\\narchive \\\n-scheme \"Lily(iOS)\" \\\n-configuration ${CONFIGURATION} \\\n-sdk iphoneos \\\n-archivePath \"${IOS_FRAMEWORK_DIR}/${IN_ARCHIVE}\" \\\nOBJROOT=\"${OBJROOT}/DependentBuilds/iOSDevice\" \\\nCONFIGURATION_BUILD_DIR=\"${IN_BUILD}/iOSDevice/\"\n";
+		};
+		5D679AC0278394DA00DF430C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# 個別のFramework名\nIN_ARCHIVE=\"${PROJECT_NAME}.xcarchive\"\nIN_FRAMEWORK=\"${PROJECT_NAME}.framework\"\n# 個別FrameWorkの出力先予定\nIN_BUILD=\"${PROJECT_DIR}/../../../_xcdevbuild\"\n\n# macOSフレームワーク\nMAC_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-macos\"\n# Catalystフレームワーク\nCATALYST_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-maccatalyst\"\n# iOS Simulatorフレームワーク\nSIMULATOR_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-iphonesimulator\"\n# iOS 実機フレームワーク\nIOS_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-iphoneos\"\n\n# Macのフレームワークがなければビルド\nxcodebuild \\\n'ENABLE_BITCODE=NO' \\\n'BUILD_LIBRARY_FOR_DISTRIBUTION=YES' \\\n'SKIP_INSTALL=NO' \\\narchive \\\n-scheme \"Lily(macOS)\" \\\n-configuration ${CONFIGURATION} \\\n-sdk macosx \\\n-archivePath \"${MAC_FRAMEWORK_DIR}/${IN_ARCHIVE}\" \\\nOBJROOT=\"${OBJROOT}/DependentBuilds/macOS\" \\\nCONFIGURATION_BUILD_DIR=\"${IN_BUILD}/macOS/\"\n\n# Catalystのフレームワークがなければビルド\nxcodebuild \\\n'ENABLE_BITCODE=NO' \\\n'BUILD_LIBRARY_FOR_DISTRIBUTION=YES' \\\n'SKIP_INSTALL=NO' \\\n'SUPPORTS_MACCATALYST=YES' \\\narchive \\\n-scheme \"Lily(iOS)\" \\\n-configuration ${CONFIGURATION} \\\n-sdk macosx \\\n-archivePath \"${CATALYST_FRAMEWORK_DIR}/${IN_ARCHIVE}\" \\\nOBJROOT=\"${OBJROOT}/DependentBuilds/macCatalyst\" \\\nCONFIGURATION_BUILD_DIR=\"${IN_BUILD}/macCatalyst/\"\n\n# iOS Simulatorのフレームワークがなければビルド\nxcodebuild \\\n'ENABLE_BITCODE=NO' \\\n'BUILD_LIBRARY_FOR_DISTRIBUTION=YES' \\\n'SKIP_INSTALL=NO' \\\narchive \\\n-scheme \"Lily(iOS)\" \\\n-configuration ${CONFIGURATION} \\\n-sdk iphonesimulator \\\n-archivePath \"${SIMULATOR_FRAMEWORK_DIR}/${IN_ARCHIVE}\" \\\nOBJROOT=\"${OBJROOT}/DependentBuilds/iOSSimulator\" \\\nCONFIGURATION_BUILD_DIR=\"${IN_BUILD}/iOSSimulator/\"\n\n# iOS Deviceのフレームワークがなければビルド\nxcodebuild \\\n'ENABLE_BITCODE=NO' \\\n'BUILD_LIBRARY_FOR_DISTRIBUTION=YES' \\\n'SKIP_INSTALL=NO' \\\narchive \\\n-scheme \"Lily(iOS)\" \\\n-configuration ${CONFIGURATION} \\\n-sdk iphoneos \\\n-archivePath \"${IOS_FRAMEWORK_DIR}/${IN_ARCHIVE}\" \\\nOBJROOT=\"${OBJROOT}/DependentBuilds/iOSDevice\" \\\nCONFIGURATION_BUILD_DIR=\"${IN_BUILD}/iOSDevice/\"\n";
+		};
+		5D679AC1278394DA00DF430C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# 個別のFramework名\nIN_ARCHIVE=\"${PROJECT_NAME}.xcarchive\"\nIN_FRAMEWORK=\"${PROJECT_NAME}.framework\"\n# 個別FrameWorkの出力先予定\nIN_BUILD=\"${PROJECT_DIR}/../../../_xcdevbuild\"\n# xcframeworkの出力先\nOUT_LOCATION=\"${PROJECT_DIR}/../../../_lib\"\nOUT_FRAMEWORK=\"${OUT_LOCATION}/${PROJECT_NAME}.xcframework\"\n\n# macOSフレームワーク\nMAC_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-macos\"\n# Catalystフレームワーク\nCATALYST_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-maccatalyst\"\n# iOS Simulatorフレームワーク\nSIMULATOR_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-iphonesimulator\"\n# iOS 実機フレームワーク\nIOS_FRAMEWORK_DIR=\"${IN_BUILD}/${CONFIGURATION}-iphoneos\"\n\n# 既存xcframeworkを削除\nrm -rf ${OUT_FRAMEWORK}\n\n# xcframeworkを作成\nxcodebuild -create-xcframework \\\n-framework \"${MAC_FRAMEWORK_DIR}/${IN_ARCHIVE}/Products/Library/Frameworks/${IN_FRAMEWORK}\" \\\n-framework \"${CATALYST_FRAMEWORK_DIR}/${IN_ARCHIVE}/Products/Library/Frameworks/${IN_FRAMEWORK}\" \\\n-framework \"${SIMULATOR_FRAMEWORK_DIR}/${IN_ARCHIVE}/Products/Library/Frameworks/${IN_FRAMEWORK}\" \\\n-framework \"${IOS_FRAMEWORK_DIR}/${IN_ARCHIVE}/Products/Library/Frameworks/${IN_FRAMEWORK}\" \\\n-output ${OUT_FRAMEWORK}\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2373,6 +2420,24 @@
 			};
 			name = Release;
 		};
+		5D679AC3278394DA00DF430C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N6DRT9P33S;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		5D679AC4278394DA00DF430C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N6DRT9P33S;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		5D8EA05F263D5CD400DCD404 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2746,6 +2811,15 @@
 			buildConfigurations = (
 				5D5EF90525D4234600EA86CC /* Debug */,
 				5D5EF90625D4234600EA86CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5D679AC2278394DA00DF430C /* Build configuration list for PBXAggregateTarget "LilySwiftxc-dev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5D679AC3278394DA00DF430C /* Debug */,
+				5D679AC4278394DA00DF430C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

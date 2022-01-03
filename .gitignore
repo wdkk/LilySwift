@@ -4,9 +4,10 @@ html/
 
 build/
 _build/
+_xcdevbuild/
+_xcarchivebuild/
 _lib/
 _app/
-_archivebuild/
 
 projects/apple/Lily/DevEnv/
 
