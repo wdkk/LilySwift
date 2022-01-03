@@ -374,11 +374,11 @@ public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> Unmanaged<CGImage>? {
                                            bytesPerRow: wid * 4,
                                            space: color_space,
                                            bitmapInfo: bitmap_info.rawValue )
-    
+
     guard let nn_cg_context:CGContext = cg_context else { return nil } 
     guard let cg_img = nn_cg_context.makeImage() else { return nil }
-    let unmanaged_cg_img = Unmanaged<CGImage>.passUnretained( cg_img )
-    return unmanaged_cg_img
+    let unmanaged_cg_img = Unmanaged<CGImage>.passRetained( cg_img )
+    return unmanaged_cg_img.autorelease()
 }
 
 public func CGImage2LCImage( _ img_:CGImage ) -> LCImageSmPtr {
