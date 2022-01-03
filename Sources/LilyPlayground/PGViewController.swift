@@ -25,10 +25,6 @@ open class PGViewController : LBViewController
         fatalError("init(coder:) has not been implemented")
     }
     
-    // 外部処理ハンドラ 
-    public var buildupHandler:(()->Void)?
-    public var loopHandler:(()->Void)?
-    
     public var shapes:Set<LBActor> { PGMemoryPool.shared.shapes }
     
     // 表示からの経過時間
@@ -58,12 +54,7 @@ open class PGViewController : LBViewController
             caller.buildupBoard()
         }
     }
-    
-    // ボード構築関数
-    open override func buildupBoard() {
-        buildupHandler?()
-    }
-        
+            
     // ボード繰り返し処理関数
     override open func loopBoard() {
         // 時間の更新

@@ -6,6 +6,7 @@ build/
 _build/
 _lib/
 _app/
+_archivebuild/
 
 projects/apple/Lily/DevEnv/
 

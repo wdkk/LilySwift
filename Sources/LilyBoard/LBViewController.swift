@@ -40,10 +40,19 @@ open class LBViewController : LLViewController
                                                 top:coordMaxY,
                                                 right:coordMaxX,
                                                 bottom:coordMinY ) }
+    // 外部処理ハンドラ 
+    open var buildupHandler:(()->Void)?
+    
+    open var loopHandler:(()->Void)?
+
     // オーバーライド用関数
-    open func buildupBoard() { }
+    open func buildupBoard() {
+        buildupHandler?()
+    }
     // オーバーライド用関数
-    open func loopBoard() { }
+    open func loopBoard() {
+        loopHandler?()
+    }
     
     open override func preSetup() {
         super.preSetup()

@@ -13,8 +13,8 @@
 import SwiftUI
 import UIKit
 
-public struct PGBookCanvas : UIViewControllerRepresentable {
-    public typealias UIViewControllerType = PGViewController
+public struct LBCanvas : UIViewControllerRepresentable {
+    public typealias UIViewControllerType = LBViewController
     
     public var design:(()->Void)?
     public var update:(()->Void)?
@@ -28,14 +28,14 @@ public struct PGBookCanvas : UIViewControllerRepresentable {
         self.update = update
     }
     
-    public func makeUIViewController(context: Context) -> PGViewController {
-        let vc = PGViewController()
+    public func makeUIViewController(context: Context) -> LBViewController {
+        let vc = LBViewController()
         vc.buildupHandler = design
         vc.loopHandler = update
         return vc
     }
     
-    public func updateUIViewController(_ uiViewController: PGViewController, context: Context) {
+    public func updateUIViewController(_ uiViewController: LBViewController, context: Context) {
         uiViewController.buildupBoard()
     }
 }
@@ -45,8 +45,8 @@ public struct PGBookCanvas : UIViewControllerRepresentable {
 import SwiftUI
 import AppKit
 
-public struct PGBookCanvas : NSViewControllerRepresentable {
-    public typealias NSViewControllerType = PGViewController
+public struct LBCanvas : NSViewControllerRepresentable {
+    public typealias NSViewControllerType = LBViewController
     
     public var design:(()->Void)?
     public var update:(()->Void)?
@@ -60,14 +60,14 @@ public struct PGBookCanvas : NSViewControllerRepresentable {
         self.update = update
     }
     
-    public func makeNSViewController(context: Context) -> PGViewController {
-        let vc = PGViewController()
+    public func makeNSViewController(context: Context) -> LBViewController {
+        let vc = LBViewController()
         vc.buildupHandler = design
         vc.loopHandler = update
         return vc
     }
     
-    public func updateNSViewController(_ nsViewController: PGViewController, context: Context) {
+    public func updateNSViewController(_ nsViewController: LBViewController, context: Context) {
         nsViewController.buildupBoard()
     }
 }
