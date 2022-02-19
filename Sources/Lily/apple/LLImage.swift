@@ -66,7 +66,9 @@ open class LLImage
     
     open var lcImage:LCImageSmPtr { return self._imgc }
     
-    open var cgImage:CGImage? { return LCImage2CGImage( self.lcImage )?.takeUnretainedValue() }
+    open var cgImage:CGImage? { 
+        return LCImage2CGImage( self.lcImage )?.takeUnretainedValue()
+    }
     
     #if os(iOS)
     open var uiImage:UIImage? { return LCImage2UIImage( self._imgc ) }

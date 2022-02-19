@@ -147,7 +147,6 @@ public extension LLViewControllerManager
             // lock rotation
             _autorotated = false
 
-            current.willMove( toParent: nil )
             self.addChild( vc )
 
             start( current, vc ) 
@@ -162,6 +161,7 @@ public extension LLViewControllerManager
             completion: { [weak self] _ in
                 completion( current, vc )
                                 
+                self?.current?.willMove( toParent: nil )
                 self?.current?.removeFromParent()
                 vc.didMove( toParent: self )
                 
