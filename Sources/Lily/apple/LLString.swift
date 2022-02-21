@@ -33,9 +33,14 @@ public extension LLString
         return LCStringMakeWithCChars( self.cChar )
     }
         
-    /// URLに変換し取得する 
+    /// URLに変換し取得する(ファイルパス形式)
     var url:URL { 
         return URL( fileURLWithPath: self )
+    }
+    
+    /// URLに変換し取得する(https://...) 
+    var webUrl:URL { 
+        return URL( string:self )
     }
     
     /// Intへ変換
