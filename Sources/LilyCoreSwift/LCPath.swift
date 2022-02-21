@@ -43,7 +43,7 @@ public func LCPathGetLaunching( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
     #if os(iOS)
     return LCStringMakeWithCChars( (NSHomeDirectory() + "/" + String( filename )).cChar )
     #elseif os(macOS)
-    let dir = LCStringMakeWithCChars( Bundle.main.bundlePath.url.deletingLastPathComponent().relativePath.cChar )
+    let dir = LCStringMakeWithCChars( Bundle.main.bundlePath.fileUrl.deletingLastPathComponent().relativePath.cChar )
     return LCStringJoin( dir, LCStringJoin( LCStringMakeWithCChars( "/" ), filename ) )
     #endif    
 }
@@ -115,7 +115,7 @@ public func LCPathEnumerateFiles( _ dir_path:LCStringSmPtr, _ filters:LCStringAr
             // ファイル名
             let filename = contents[i]
             // ファイルのフルパス
-            let path = str_dir_path.url.appendingPathComponent( filename ).relativePath
+            let path = str_dir_path.fileUrl.appendingPathComponent( filename ).relativePath
             
             // フォルダの場合次へ
             var is_dir:ObjCBool = false
@@ -171,7 +171,7 @@ public func LCPathEnumerateDirectories( _ dir_path:LCStringSmPtr )
         for i in 0 ..< count_contents {
             let name = contents[i]
             // フルパス
-            let path = str_dir_path.url.appendingPathComponent( name ).relativePath
+            let path = str_dir_path.fileUrl.appendingPathComponent( name ).relativePath
             
             // フォルダだった場合追加する
             var is_dir:ObjCBool = false
@@ -262,7 +262,7 @@ public func LCPathIsMatchFilter( _ path_:LCStringSmPtr, _ filter_:LCStringSmPtr 
 /// - Returns: ファイル名文字列
 /// - Description: ex: /aaa/bbb/ccc.jpg -> ccc が得られる
 public func LCPathPickFilename( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
-    let path = String( filename ).url.deletingPathExtension().lastPathComponent
+    let path = String( filename ).fileUrl.deletingPathExtension().lastPathComponent
     return LCStringMakeWithCChars( path.cChar )
 }
 
@@ -271,7 +271,7 @@ public func LCPathPickFilename( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
 /// - Returns: ファイル名文字列
 /// - Description: ex: /aaa/bbb/ccc.jpg -> ccc.jpg が得られる
 public func LCPathPickFilenameFull( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
-    let path = String( filename ).url.lastPathComponent
+    let path = String( filename ).fileUrl.lastPathComponent
     return LCStringMakeWithCChars( path.cChar )
 }
 
@@ -280,6 +280,6 @@ public func LCPathPickFilenameFull( _ filename:LCStringSmPtr ) -> LCStringSmPtr 
 /// - Returns: ファイル名文字列
 /// - Description: ex: /aaa/bbb/ccc.jpg -> jpg が得られる
 public func LCPathPickExtension( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
-    let path = String( filename ).url.pathExtension
+    let path = String( filename ).fileUrl.pathExtension
     return LCStringMakeWithCChars( path.cChar )
 }

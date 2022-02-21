@@ -39,7 +39,7 @@ public extension LLString
     }
     
     /// URLに変換し取得する(https://...) 
-    var url:URL { 
+    var url:URL? { 
         return URL( string:self )
     }
     
