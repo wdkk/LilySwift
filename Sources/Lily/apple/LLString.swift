@@ -34,12 +34,12 @@ public extension LLString
     }
         
     /// URLに変換し取得する(ファイルパス形式)
-    var url:URL { 
+    var fileUrl:URL { 
         return URL( fileURLWithPath: self )
     }
     
     /// URLに変換し取得する(https://...) 
-    var webUrl:URL { 
+    var url:URL { 
         return URL( string:self )
     }
     
