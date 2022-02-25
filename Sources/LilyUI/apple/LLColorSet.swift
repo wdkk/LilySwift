@@ -22,6 +22,7 @@ open class LLColorSetModule
         set( uikey:"button", key:"text-active", hexes:( "#88BBFF", "#4488BB" ) )
         set( uikey:"button", key:"border", hexes:( "#4488BB", "#88BBFF" ) )
         set( uikey:"button", key:"border-active", hexes:( "#88BBFF", "#4488BB" ) )
+        set( uikey:"button", key:"disable", hexes:( "#BBBBBB", "#888888" ) )
         
         // テキストフィールド
         set( uikey:"text-field", key:"background", hexes:( "#FFFFFF", "#212121" ) )

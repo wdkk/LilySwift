@@ -27,8 +27,8 @@ open class LLButton : LLLabel
         .defaultBuildup.add( caller:self ) { caller, me in
             me.chain
             .textAlignment( .center )
-            .textColor( llc:LLColorSet["button","text"] )
-            .borderColor( LLColorSet["button","border"] )
+            .textColor( llc: me.isEnabled ? LLColorSet["button","text"] : LLColorSet["button","disable"] )
+            .borderColor( me.isEnabled ? LLColorSet["button","border"] : LLColorSet["button","disable"] )
             .backgroundColor( LLColorSet["button","background"] )
         }
         .staticBuildup.add( caller:self ) { caller, me in
@@ -36,11 +36,13 @@ open class LLButton : LLLabel
             .cornerRadius( self.height.f / 2.0 )
         }
         .touchesBegan.add( caller:self ) { caller, me, phenomena in
+            if !me.isEnabled { return }
             me.chain
             .textColor( llc:LLColorSet["button","text-active"] )
             .borderColor( LLColorSet["button","border-active"] )
         }
         .touchesEnded.add( caller:self ) { caller, me, phenomena in
+            if !me.isEnabled { return }
             me.chain
             .textColor( llc:LLColorSet["button","text"] )
             .borderColor( LLColorSet["button","border"] )
