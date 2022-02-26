@@ -45,7 +45,6 @@ public extension LLChain where TObj:UITextField
         return self
     }
     
-    
     var fontSize:LLFloat { obj.font!.pointSize.f }
   
     @discardableResult
@@ -54,7 +53,6 @@ public extension LLChain where TObj:UITextField
         obj.font = UIFont( descriptor: f_desc, size: sz.cgf )
         return self
     }
-    
     
     var textAlignment:NSTextAlignment { obj.textAlignment }
     
@@ -98,6 +96,19 @@ public extension LLChain where TObj:UITextField
         obj.adjustsFontSizeToFitWidth = torf
         return self
     }
+}
+
+public extension LLChain where TObj:UIControl, TObj:LLUILifeEvent
+{
+    @discardableResult
+    func isEnabled( _ torf:Bool ) -> Self { 
+        obj.isEnabled = torf
+        obj.isUserInteractionEnabled = torf
+        obj.rebuild()
+        return self
+    }
+    
+    var isEnabled:Bool { obj.isEnabled }
 }
 
 #endif

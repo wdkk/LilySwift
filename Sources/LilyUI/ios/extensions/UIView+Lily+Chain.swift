@@ -13,7 +13,7 @@
 import UIKit
 
 /// UIViewチェインアクセサ : プロパティ
-public extension LLChain where TObj:UIView
+public extension LLChain where TObj:UIView, TObj:LLUILifeEvent
 {
     var bounds:CGRect { obj.bounds }
     

@@ -38,3 +38,12 @@ open class LLFieldMap
         fields.removeAll()
     }
 }
+
+public extension LLFieldMap.Order 
+{
+    static var pre:Self { -15000000 }
+
+    static func pre( offsetBy v:Int = 0 ) -> Self {
+        return -15000000 + v 
+    }
+}

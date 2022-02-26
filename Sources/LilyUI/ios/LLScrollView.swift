@@ -12,7 +12,6 @@
 
 import UIKit
 
-@available(iOS 9.1, *)
 open class LLScrollView
 : UIScrollView
 , LLUILifeEvent

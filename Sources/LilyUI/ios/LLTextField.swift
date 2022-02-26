@@ -12,7 +12,6 @@
 
 import UIKit
 
-@available(iOS 9.1, *)
 open class LLTextField 
 : UITextField
 , LLUILifeEvent
@@ -72,13 +71,13 @@ open class LLTextField
     
     open func setup() { 
         self.chain
-        .setup.add( caller:self ) { caller, me in
+        .setup.add( order:.pre, caller:self ) { caller, me in
             me.chain
             .isUserInteractionEnabled( true )
             .autocorrectionType( .no )
             .autocapitalizationType( .none )
         }
-        .defaultBuildup.add( caller:self ) { caller, me in
+        .defaultBuildup.add( order:.pre, caller:self ) { caller, me in
             me.chain
             .textColor( llc:LLColorSet["text-field","text"] )
             .borderColor( LLColorSet["text-field","border"] )
@@ -87,7 +86,7 @@ open class LLTextField
             
             me.borderBottom.backgroundColor = LLColorSet["text-field","border"].cgColor
         }
-        .staticBuildup.add( caller:self ) { caller, me in 
+        .staticBuildup.add( order:.pre, caller:self ) { caller, me in 
             CATransaction.stop {
                 me.borderBottom.frame = CGRect( 0, me.height-2.0, me.width, 2.0 )   
             }

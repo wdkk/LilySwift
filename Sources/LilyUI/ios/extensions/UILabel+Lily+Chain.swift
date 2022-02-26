@@ -89,4 +89,18 @@ public extension LLChain where TObj:UILabel
     }
 }
 
+public extension LLChain where TObj:UILabel, TObj:LLUILifeEvent
+{
+    @discardableResult
+    func isEnabled( _ torf:Bool ) -> Self { 
+        obj.isEnabled = torf
+        obj.isUserInteractionEnabled = torf
+        obj.rebuild()
+        return self
+    }
+    
+    var isEnabled:Bool { obj.isEnabled }
+}
+
+
 #endif

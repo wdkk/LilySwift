@@ -468,8 +468,6 @@
 		5D8EA089263D5D0500DCD404 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8EA07E263D5D0500DCD404 /* AppDelegate.swift */; };
 		5D8EA08A263D5D0500DCD404 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8EA07F263D5D0500DCD404 /* main.swift */; };
 		5D8EA08B263D5D0500DCD404 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8EA080263D5D0500DCD404 /* SceneDelegate.swift */; };
-		5D9A4E9A23EC850A00210B1B /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D9A4E9823EC850A00210B1B /* MetalKit.framework */; };
-		5D9A4E9B23EC850A00210B1B /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D9A4E9923EC850A00210B1B /* Metal.framework */; };
 		5DB7A521239E50CA0050A9B4 /* LilySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8F3B7C235B946B00BB9805 /* LilySwift.framework */; };
 		5DB7A530239E51780050A9B4 /* LilySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2605A5236FF5890078B63A /* LilySwift.framework */; };
 		5DF72D5223A769EA00F29E47 /* TestLLString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF72D3B23A769EA00F29E47 /* TestLLString.swift */; };
@@ -854,8 +852,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D9A4E9B23EC850A00210B1B /* Metal.framework in Frameworks */,
-				5D9A4E9A23EC850A00210B1B /* MetalKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2462,6 +2458,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
+				SYMROOT = ../../../_devbuild/;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
@@ -2486,6 +2483,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
+				SYMROOT = ../../../_devbuild/;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
