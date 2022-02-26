@@ -4,16 +4,26 @@ html/
 
 build/
 _build/
+_devbuild/
 _xcdevbuild/
 _xcarchivebuild/
 _lib/
 _app/
 
-projects/apple/Lily/DevEnv/
+libLily*.a
+libLily*d.a
+Lily*.lib
+Lily*d.lib
+Lily*.framework
+Lily*.xcframework
+NUL
+
 
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcworkspace/contents.xcworkspacedata
 UserInterfaceState.xcuserstate
+
+projects/apple/Lily/DevEnv/*
 
 .swiftpm/
