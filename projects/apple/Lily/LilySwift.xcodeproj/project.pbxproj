@@ -2365,6 +2365,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
+				SYMROOT = ../../../_devbuild/;
 			};
 			name = Debug;
 		};
@@ -2395,6 +2396,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
+				SYMROOT = ../../../_devbuild/;
 			};
 			name = Release;
 		};
@@ -2660,6 +2662,7 @@
 				SKIP_INSTALL = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				SYMROOT = ../../../_devbuild/;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
@@ -2696,6 +2699,7 @@
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = NO;
 				SWIFT_VERSION = 5.0;
+				SYMROOT = ../../../_devbuild/;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;

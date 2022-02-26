@@ -24,6 +24,6 @@ NUL
 !*.xcworkspace/contents.xcworkspacedata
 UserInterfaceState.xcuserstate
 
-projects/apple/Lily/DevEnv/*
+Projects/apple/Lily/DevEnv/
 
 .swiftpm/

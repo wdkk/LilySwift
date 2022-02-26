@@ -4,11 +4,11 @@ import LilySwift
 class DevViewController : LLViewController
 {
     lazy var cyan_view = LLMetalView().chain
-    .setup.add( with:self ) { caller, me in
+    .setup.add( caller:self ) { caller, me in
         me.chain
         .backgroundColor( .cyan )
     }
-    .buildup.add( with:self ) { caller, me in
+    .buildup.add( caller:self ) { caller, me in
         CATransaction.stop {
             me.chain
             .rect( caller.safeArea )
