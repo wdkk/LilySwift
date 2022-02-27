@@ -2359,6 +2359,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 4.5.21;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				SDKROOT = macosx;
@@ -2403,6 +2404,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N6DRT9P33S;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2421,6 +2423,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N6DRT9P33S;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2454,6 +2457,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.DevEnv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
@@ -2545,6 +2549,7 @@
 				MODULEMAP_FILE = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_SWIFT_FLAGS = "";
 				SDKROOT = iphoneos;
@@ -2652,6 +2657,7 @@
 					"@loader_path/Frameworks",
 				);
 				MARKETING_VERSION = 4.5.21;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2719,6 +2725,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2765,6 +2772,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwiftMacTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
