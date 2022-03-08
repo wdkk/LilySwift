@@ -53,7 +53,7 @@ open class LLTextField
     public init() {
         super.init( frame:.zero )
         
-        me.chain
+        self.chain
         .style.default { me in
             me.chain
             .textColor( llc:LLColorSet["text-field","text"] )
