@@ -52,6 +52,21 @@ open class LLTextField
     public required init?(coder: NSCoder) { super.init(coder:coder) }
     public init() {
         super.init( frame:.zero )
+        
+        me.chain
+        .style.default { me in
+            me.chain
+            .textColor( llc:LLColorSet["text-field","text"] )
+            .borderColor( LLColorSet["text-field","border"] )
+            .backgroundColor( LLColorSet["text-field","background"] )
+            .placeholderColor( LLColorSet["text-field","placeholder"] )
+            
+            me.borderBottom.backgroundColor = LLColorSet["text-field","border"].cgColor
+       
+            CATransaction.stop {
+                me.borderBottom.frame = CGRect( 0, me.height-2.0, me.width, 2.0 )   
+            }
+        }
     }
     
     public var _mutex = LLRecursiveMutex()
@@ -72,19 +87,6 @@ open class LLTextField
             .isUserInteractionEnabled( true )
             .autocorrectionType( .no )
             .autocapitalizationType( .none )
-        }
-        .style.default { me in
-            me.chain
-            .textColor( llc:LLColorSet["text-field","text"] )
-            .borderColor( LLColorSet["text-field","border"] )
-            .backgroundColor( LLColorSet["text-field","background"] )
-            .placeholderColor( LLColorSet["text-field","placeholder"] )
-            
-            me.borderBottom.backgroundColor = LLColorSet["text-field","border"].cgColor
-       
-            CATransaction.stop {
-                me.borderBottom.frame = CGRect( 0, me.height-2.0, me.width, 2.0 )   
-            }
         }
 
         self.layer.addSublayer( self.borderBottom )

@@ -14,15 +14,11 @@ import UIKit
 
 open class LLButton : LLLabel
 {
-    open override func setup() {
-        super.setup()
-    
+    public required init?(coder: NSCoder) { super.init(coder:coder) }
+    override public init() {
+        super.init()
+        
         self.chain
-        .setup.add( order:.pre, caller:self ) { caller, me in
-            me.chain
-            .maskToBounds( true )
-            .isEnabled( true )
-        }
         .style.default { me in
             me.chain
             .textAlignment( .center )
@@ -43,6 +39,17 @@ open class LLButton : LLLabel
             .borderColor( LLColorSet["button","disable"] )
             .backgroundColor( LLColorSet["button","background"] )
             .cornerRadius( self.height.f / 2.0 )
+        }
+    }
+    
+    open override func setup() {
+        super.setup()
+    
+        self.chain
+        .setup.add( order:.pre, caller:self ) { caller, me in
+            me.chain
+            .maskToBounds( true )
+            .isEnabled( true )
         }
     }
 }
