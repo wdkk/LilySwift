@@ -23,19 +23,19 @@ open class LLButton : LLLabel
             me.chain
             .textAlignment( .center )
             .borderWidth( 2.0 )
-            .textColor( llc: LLColorSet["button","text"]  )
+            .textColor( LLColorSet["button","text"]  )
             .borderColor( LLColorSet["button","border"]  )
             .backgroundColor( LLColorSet["button","background"] )
             .cornerRadius( self.height.f / 2.0 )
         }
         .style.action { me in
             me.chain
-            .textColor( llc:LLColorSet["button","text-active"] )
+            .textColor( LLColorSet["button","text-active"] )
             .borderColor( LLColorSet["button","border-active"] )
         }
         .style.disable { me in
             me.chain
-            .textColor( llc: LLColorSet["button","disable"] )
+            .textColor( LLColorSet["button","disable"] )
             .borderColor( LLColorSet["button","disable"] )
             .backgroundColor( LLColorSet["button","background"] )
             .cornerRadius( self.height.f / 2.0 )

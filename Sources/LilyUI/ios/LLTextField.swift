@@ -56,7 +56,7 @@ open class LLTextField
         self.chain
         .style.default { me in
             me.chain
-            .textColor( llc:LLColorSet["text-field","text"] )
+            .textColor( LLColorSet["text-field","text"] )
             .borderColor( LLColorSet["text-field","border"] )
             .backgroundColor( LLColorSet["text-field","background"] )
             .placeholderColor( LLColorSet["text-field","placeholder"] )
@@ -101,10 +101,10 @@ open class LLTextField
     open func buildup() { }
     
     open func postBuildup() {
-        self.callBuildupFields()
-
         if self.isEnabled { self.styleField.default?.appear() }
         else { self.styleField.disable?.appear() }
+
+        self.callBuildupFields()
         
         for child in self.subviews {
             if let llui = child as? LLUILifeEvent { llui.rebuild() }

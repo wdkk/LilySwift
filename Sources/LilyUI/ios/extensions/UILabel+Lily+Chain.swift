@@ -26,13 +26,13 @@ public extension LLChain where TObj:UILabel
     var textColor:UIColor { obj.textColor }
     
     @discardableResult
-    func textColor( _ c:UIColor ) -> Self { 
-        obj.textColor = c
+    func textColor( uiColor:UIColor ) -> Self { 
+        obj.textColor = uiColor
         return self
     }
     
     @discardableResult
-    func textColor( llc:LLColor ) -> Self { 
+    func textColor( _ llc:LLColor ) -> Self { 
         obj.textColor = llc.uiColor
         return self
     }

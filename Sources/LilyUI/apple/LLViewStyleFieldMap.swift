@@ -18,7 +18,10 @@ public class LLViewStyleFieldMap : LLFieldMap
     private let ACTION:Int = 1 
     private let DISABLE:Int = 2
     
-    public var `default`:LLField? { return fields[DEFAULT] }
+    public var `default`:LLField? { 
+        get { return fields[DEFAULT] }
+        set { fields[DEFAULT] = newValue }
+    }
     
     open func `default`<TView:AnyObject>(
         label:String = UUID().labelString,
@@ -33,7 +36,10 @@ public class LLViewStyleFieldMap : LLFieldMap
         )
     }
     
-    public var action:LLField? { return fields[ACTION] }
+    public var action:LLField? { 
+        get { return fields[ACTION] }
+        set { fields[ACTION] = newValue }
+    }
     
     open func action<TView:AnyObject>(
         label:String = UUID().labelString,
@@ -47,7 +53,10 @@ public class LLViewStyleFieldMap : LLFieldMap
         )
     }
     
-    public var disable:LLField? { return fields[DISABLE] }
+    public var disable:LLField? {
+        get { return fields[DISABLE] }
+        set { fields[DISABLE] = newValue }
+    }
     
     open func disable<TView:AnyObject>(
         label:String = UUID().labelString,

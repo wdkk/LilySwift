@@ -55,10 +55,10 @@ open class LLLabel : UILabel, LLUILifeEvent
     open func buildup() { }
     
     open func postBuildup() {
-        self.callBuildupFields()
-        
         if self.isEnabled { self.styleField.default?.appear() }
         else { self.styleField.disable?.appear() }
+        
+        self.callBuildupFields()
         
         for child in self.subviews {
             if let llui = child as? LLUILifeEvent { llui.rebuild() }

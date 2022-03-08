@@ -28,6 +28,14 @@ public extension LLFieldMapChain where TFieldMap:LLViewStyleFieldMap
     }
     
     @discardableResult
+    func defaultEqual( field f:@escaping (TObj)->LLField? )
+    -> LLChain<TObj>
+    {
+        fmap.default = f( obj )
+        return LLChain( obj )
+    }
+    
+    @discardableResult
     func action( 
         label:String = UUID().labelString,
         field f:@escaping (TObj)->Void
@@ -43,6 +51,14 @@ public extension LLFieldMapChain where TFieldMap:LLViewStyleFieldMap
     }
     
     @discardableResult
+    func actionEqual( field f:@escaping (TObj)->LLField? )
+    -> LLChain<TObj>
+    {
+        fmap.action = f( obj )
+        return LLChain( obj )
+    }
+    
+    @discardableResult
     func disable( 
         label:String = UUID().labelString,
         field f:@escaping (TObj)->Void
@@ -54,6 +70,14 @@ public extension LLFieldMapChain where TFieldMap:LLViewStyleFieldMap
             me:obj,
             field:f 
         )
+        return LLChain( obj )
+    }
+    
+    @discardableResult
+    func disableEqual( field f:@escaping (TObj)->LLField? )
+    -> LLChain<TObj>
+    {
+        fmap.disable = f( obj )
         return LLChain( obj )
     }
 }
