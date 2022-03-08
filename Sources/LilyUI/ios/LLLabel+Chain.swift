@@ -24,20 +24,17 @@ public extension LLChain where TObj:LLLabel
     var buildup:LLFieldMapChain<TObj, LLViewFieldMap> {
         return LLFieldMapChain( obj, obj.buildupField )
     }
-
+    
     var teardown:LLFieldMapChain<TObj, LLViewFieldMap> {
         return LLFieldMapChain( obj, obj.teardownField )
     }
     
+    var style:LLFieldMapChain<TObj, LLViewStyleFieldMap> {
+        return LLFieldMapChain( obj, obj.styleField )
+    }
+    
     // MARK: -
-    
-    var defaultBuildup:LLFieldMapChain<TObj, LLViewFieldMap> {
-        return LLFieldMapChain( obj, obj.defaultBuildupField )
-    }
-    
-    var staticBuildup:LLFieldMapChain<TObj, LLViewFieldMap> {
-        return LLFieldMapChain( obj, obj.staticBuildupField )
-    }
+
     
     // MARK: -
     

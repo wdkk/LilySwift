@@ -149,5 +149,16 @@ public extension LLChain where TObj:UIView
     }
 }
 
+public extension LLChain where TObj:UIView, TObj:LLUILifeEvent
+{
+    @discardableResult
+    func isEnabled( _ torf:Bool ) -> Self { 
+        obj.isUserInteractionEnabled = torf
+        obj.rebuild()
+        return self
+    }
+    
+    var isEnabled:Bool { obj.isUserInteractionEnabled }
+}
 
 #endif

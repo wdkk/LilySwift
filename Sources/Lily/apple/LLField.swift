@@ -18,5 +18,13 @@ public class LLEmpty
 public protocol LLField
 {
     var label:String { get set }
+    func appear()
     func appear( _ objs:Any? )
+}
+
+public extension LLField
+{
+    func appear() {
+        self.appear( nil )
+    }
 }

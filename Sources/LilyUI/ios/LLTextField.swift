@@ -20,9 +20,6 @@ open class LLTextField
     public lazy var buildupField = LLViewFieldMap()
     public lazy var teardownField = LLViewFieldMap()
     
-    public lazy var defaultBuildupField = LLViewFieldMap()
-    public lazy var staticBuildupField = LLViewFieldMap()
- 
     public lazy var touchesBeganField = LLTouchFieldMap()
     public lazy var touchesMovedField = LLTouchFieldMap()
     public lazy var touchesEndedField = LLTouchFieldMap()
@@ -30,6 +27,8 @@ open class LLTextField
     public lazy var touchesCancelledField = LLTouchFieldMap()
     
     public lazy var drawLayerField = LLDrawFieldMap()
+    
+    public lazy var styleField = LLViewStyleFieldMap()
     
     public lazy var borderBottom = CALayer(layer:self.layer)
     
@@ -64,10 +63,7 @@ open class LLTextField
         }
     }
     
-    open func preSetup() { 
-        // TODO: 初期化(サイズがないとiOS11では動作しない模様)
-        CATransaction.stop { self.rect = LLRect( -1, -1, 1, 1 ) }
-    }
+    open func preSetup() { }
     
     open func setup() { 
         self.chain
@@ -77,7 +73,7 @@ open class LLTextField
             .autocorrectionType( .no )
             .autocapitalizationType( .none )
         }
-        .defaultBuildup.add( order:.pre, caller:self ) { caller, me in
+        .style.default { me in
             me.chain
             .textColor( llc:LLColorSet["text-field","text"] )
             .borderColor( LLColorSet["text-field","border"] )
@@ -85,8 +81,7 @@ open class LLTextField
             .placeholderColor( LLColorSet["text-field","placeholder"] )
             
             me.borderBottom.backgroundColor = LLColorSet["text-field","border"].cgColor
-        }
-        .staticBuildup.add( order:.pre, caller:self ) { caller, me in 
+       
             CATransaction.stop {
                 me.borderBottom.frame = CGRect( 0, me.height-2.0, me.width, 2.0 )   
             }
@@ -99,15 +94,15 @@ open class LLTextField
         self.callSetupFields()
     }
     
-    open func preBuildup() {
-        self.callDefaultBuildupFields()
-    }
+    open func preBuildup() { }
     
     open func buildup() { }
     
     open func postBuildup() {
         self.callBuildupFields()
-        self.callStaticBuildupFields()
+
+        if self.isEnabled { self.styleField.default?.appear() }
+        else { self.styleField.disable?.appear() }
         
         for child in self.subviews {
             if let llui = child as? LLUILifeEvent { llui.rebuild() }
@@ -133,6 +128,7 @@ open class LLTextField
     
     open override func touchesBegan( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesBegan( touches, with:event )
+        if self.isEnabled { self.styleField.action?.appear() }
         self.touchesBeganField.appear( LLTouchArg( touches, event ) )
     }
     
@@ -143,6 +139,7 @@ open class LLTextField
     
     open override func touchesEnded( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesEnded( touches, with:event )
+        if self.isEnabled { self.styleField.default?.appear() }
         self.touchesEndedField.appear( LLTouchArg( touches, event ) )
         
         for touch in touches {

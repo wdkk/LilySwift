@@ -14,12 +14,12 @@ import QuartzCore
 
 open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
 {
+    public var isUserInteractionEnabled: Bool = true
+    
     public lazy var setupField = LLViewFieldMap()
     public lazy var buildupField = LLViewFieldMap()
     public lazy var teardownField = LLViewFieldMap()
-    
-    public lazy var defaultBuildupField = LLViewFieldMap()
-    public lazy var staticBuildupField = LLViewFieldMap()
+    public lazy var styleField = LLViewStyleFieldMap()
     
     public lazy var mouseMovedField = LLMouseFieldMap()
     public lazy var mouseLeftDownField = LLMouseFieldMap()
@@ -36,8 +36,6 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     private weak var _vc:LLViewController?
     private weak var _capture_view:LLView?
     private weak var _dragging_view:LLView?
-    
-    open var enabled:Bool = true
     
     // layer-backed NSView properties
     override open var isFlipped: Bool { return true }
@@ -66,15 +64,15 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         self.callSetupFields()
     }
     
-    open func preBuildup() {
-        self.callDefaultBuildupFields()
-    }
+    open func preBuildup() { }
     
     open func buildup() { }
     
     open func postBuildup() {
         self.callBuildupFields()
-        self.callStaticBuildupFields()
+        
+        if self.isEnabled { self.styleField.default?.appear() }
+        else { self.styleField.disable?.appear() }
         
         // NSView側
         for child in self.subviews {
@@ -164,7 +162,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         
     // MARK: - イベント関数(マウス)
     open func eventMouseMoved( event:NSEvent ) -> NSEvent? {
-        if !enabled { return event }
+        if !isEnabled { return event }
         
         LLTablet.updateState( event: event )
         
@@ -192,7 +190,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     open func eventMouseLeftDown( event:NSEvent ) -> NSEvent? {
-        if !enabled { return event }
+        if !isEnabled { return event }
         
         LLTablet.updateState( event: event )
         let pt_on_win = event.locationInWindow
@@ -201,6 +199,8 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         if result.view != nil {
             _dragging_view = result.view
             changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
+            
+            if let v = _dragging_view, v.isEnabled { v.styleField.action?.appear() }
             
             // LLViewのイベントを代わりに発火させる
             result.view?.mouseLeftDownField.appear(
@@ -221,7 +221,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     open func eventMouseLeftDragged( event:NSEvent ) -> NSEvent? {
-        if !enabled { return event }
+        if !isEnabled { return event }
         
         LLTablet.updateState( event: event )
         let pt_on_win = event.locationInWindow
@@ -245,7 +245,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     open func eventMouseLeftUp( event:NSEvent ) -> NSEvent? {
-        if !enabled { return event }
+        if !isEnabled { return event }
         
         LLTablet.updateState( event: event )
         
@@ -253,6 +253,8 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
 
         let result = pick( pt_on_win.llPoint )
         if _dragging_view != nil {
+            if let v = _dragging_view, v.isEnabled { v.styleField.default?.appear() }
+            
             // [マウス左アップ]
             _dragging_view?.mouseLeftUpField.appear(
                 LLMouseArg( result.localPosition, event ) 
@@ -281,7 +283,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     open func eventMouseRightDown( event:NSEvent ) -> NSEvent? {
-        if !enabled { return event }
+        if !isEnabled { return event }
 
         LLTablet.updateState( event: event )
         
@@ -290,8 +292,10 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         let result = pick( pt_on_win.llPoint )
         if result.view != nil {
             _dragging_view = result.view
-            
             changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
+            
+            if let v = _dragging_view, v.isEnabled { v.styleField.action?.appear() }
+            
             result.view?.mouseLeftDownField.appear(
                 LLMouseArg( result.localPosition, event ) 
             )
@@ -309,13 +313,13 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     open func eventMouseRightDragged( event:NSEvent ) -> NSEvent? {
-        if !enabled { return event }
+        if !isEnabled { return event }
         
         LLTablet.updateState( event: event )
         
         let pt_on_win = event.locationInWindow
         
-        if _capture_view != nil {
+        if _capture_view != nil {            
             let localPosition = _capture_view!.convert( pt_on_win, to: nil ).llPoint
             _capture_view?.mouseRightDraggedField.appear( 
                 LLMouseArg( localPosition, event )
@@ -333,7 +337,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     open func eventMouseRightUp( event:NSEvent ) -> NSEvent? {
-        if !enabled { return event }
+        if !isEnabled { return event }
         
         LLTablet.updateState( event: event )
         
@@ -341,6 +345,8 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         
         let result = pick( pt_on_win.llPoint )
         if _dragging_view != nil {
+            if let v = _dragging_view, v.isEnabled { v.styleField.default?.appear() }
+            
             // [マウス右アップ]
             _dragging_view?.mouseRightUpField.appear( 
                 LLMouseArg( result.localPosition, event )
@@ -373,7 +379,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     //private var _current_touches_state = LLTouchesState()
     
     open override func touchesBegan( with event: NSEvent ) {
-        if !enabled { return }
+        if !isEnabled { return }
         
         /*
         let touches = event.touches( for: self )
@@ -406,7 +412,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     open override func touchesMoved( with event: NSEvent ) {
-        if !enabled { return }
+        if !isEnabled { return }
         
         /*
         let touches = event.touches( for: self )
@@ -441,7 +447,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     open override func touchesEnded( with event: NSEvent ) {
-        if !enabled { return }
+        if !isEnabled { return }
         
         /*
         let touches = event.touches( for: self )
@@ -475,7 +481,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     }
     
     open override func touchesCancelled( with event: NSEvent ) {
-        if !enabled { return }
+        if !isEnabled { return }
         
         /*
         let touches = event.allTouches()
@@ -510,8 +516,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     
     // MARK: - イベント関数(タブレット)
     open override func tabletPoint( with event: NSEvent ) {
-        if !enabled { return }
-        
+        if !isEnabled { return }
         LLTablet.updateState( event: event )
     }
 

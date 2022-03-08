@@ -45,7 +45,7 @@ public struct LLSoloField<TMe:AnyObject, TObj>
     }
     
     public func appear( _ obj:Any? = nil ) {
-        guard let tobj:TObj = obj as? TObj else { return }
+        guard let tobj = obj as? TObj else { return }
         self.field?( tobj )
     }
 }

@@ -21,31 +21,28 @@ open class LLButton : LLLabel
         .setup.add( order:.pre, caller:self ) { caller, me in
             me.chain
             .maskToBounds( true )
-            .borderWidth( 2.0 )
             .isEnabled( true )
         }
-        .defaultBuildup.add( order:.pre, caller:self ) { caller, me in
+        .style.default { me in
             me.chain
             .textAlignment( .center )
-            .textColor( llc: me.isEnabled ? LLColorSet["button","text"] : LLColorSet["button","disable"] )
-            .borderColor( me.isEnabled ? LLColorSet["button","border"] : LLColorSet["button","disable"] )
+            .borderWidth( 2.0 )
+            .textColor( llc: LLColorSet["button","text"]  )
+            .borderColor( LLColorSet["button","border"]  )
             .backgroundColor( LLColorSet["button","background"] )
-        }
-        .staticBuildup.add( order:.pre, caller:self ) { caller, me in
-            me.chain
             .cornerRadius( self.height.f / 2.0 )
         }
-        .touchesBegan.add( order:.pre, caller:self ) { caller, me, phenomena in
-            if !me.isEnabled { return }
+        .style.action { me in
             me.chain
             .textColor( llc:LLColorSet["button","text-active"] )
             .borderColor( LLColorSet["button","border-active"] )
         }
-        .touchesEnded.add( order:.pre, caller:self ) { caller, me, phenomena in
-            if !me.isEnabled { return }
+        .style.disable { me in
             me.chain
-            .textColor( llc:LLColorSet["button","text"] )
-            .borderColor( LLColorSet["button","border"] )
+            .textColor( llc: LLColorSet["button","disable"] )
+            .borderColor( LLColorSet["button","disable"] )
+            .backgroundColor( LLColorSet["button","background"] )
+            .cornerRadius( self.height.f / 2.0 )
         }
     }
 }

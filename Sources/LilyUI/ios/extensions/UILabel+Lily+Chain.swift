@@ -102,5 +102,4 @@ public extension LLChain where TObj:UILabel, TObj:LLUILifeEvent
     var isEnabled:Bool { obj.isEnabled }
 }
 
-
 #endif

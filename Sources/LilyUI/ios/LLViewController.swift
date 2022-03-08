@@ -43,20 +43,13 @@ open class LLViewController : UIViewController
             self.preSetup()
             self.setup()
             self.postSetup()
-            // TODO: iOS11対応でsetup時のbuildup呼び出しを停止した.
-            // 今後問題が起きるようであれば復帰させ、iOS11対応を廃止する > iOS13にする
-            //CATransaction.stop { self.rebuild() }
-            if self.width > 1 || self.height > 1 {
-                CATransaction.stop { self.rebuild() }
-            }
+
+            CATransaction.stop { self.rebuild() }
             already = true
         }
         else if _old_size.width != self.width || _old_size.height != self.height {
             _old_size = LLSize( self.width, self.height )
-            // TODO: iOS11対応でLLViewの初期化サイズを(1,1)としたので、それ以上の場合buildupを呼ぶようにする
-            if self.width > 1 || self.height > 1 {
-                rebuild()
-            }
+            rebuild()
         }
         
         self.view.layoutIfNeeded()
@@ -150,6 +143,17 @@ open class LLViewController : UIViewController
     
     open func postLoop() {
 
+    }
+}
+
+public extension LLViewController
+{
+    func addSubview( _ v:UIView ) {
+        self.view?.addSubview( v )
+    }
+    
+    func addSubview<TView:UIView>( _ v:LLChain<TView> ) {
+        self.view?.addSubview( v )
     }
 }
 

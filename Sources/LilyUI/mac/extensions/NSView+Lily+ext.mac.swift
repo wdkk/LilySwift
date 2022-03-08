@@ -59,6 +59,16 @@ extension NSView : LLUIRectControllable, LLUIPixelControllable
     public func addSubview( _ llView:LLView ) {
         self.layer!.addSublayer( llView )
     }
+    
+    // NSView用
+    public func addSubview(_ viewChain:LLChain<NSView> ) {
+        self.addSubview( viewChain.unchain )
+    }
+
+    // CALayerベースLLView用
+    public func addSubview(_ llViewChain:LLChain<LLView> ) {
+        self.addSubview( llViewChain.unchain )
+    }
 }
 
 #endif

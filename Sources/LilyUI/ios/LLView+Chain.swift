@@ -29,14 +29,8 @@ public extension LLChain where TObj:LLView
         return LLFieldMapChain( obj, obj.teardownField )
     }
     
-    // MARK: -
-    
-    var defaultBuildup:LLFieldMapChain<TObj, LLViewFieldMap> {
-        return LLFieldMapChain( obj, obj.defaultBuildupField )
-    }
-    
-    var staticBuildup:LLFieldMapChain<TObj, LLViewFieldMap> {
-        return LLFieldMapChain( obj, obj.staticBuildupField )
+    var style:LLFieldMapChain<TObj, LLViewStyleFieldMap> {
+        return LLFieldMapChain( obj, obj.styleField )
     }
     
     // MARK: -

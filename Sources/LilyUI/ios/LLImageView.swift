@@ -52,7 +52,7 @@ open class LLImageView : LLView
         }
     }
     
-    open var style:LLImageViewDrawStyle = .stretchFull {
+    open var drawStyle:LLImageViewDrawStyle = .stretchFull {
         didSet { blt() }
     }
     
@@ -120,10 +120,10 @@ open class LLImageView : LLView
             // set image to layer
             self._draw_layer.contents = img
             
-            if self.style == .stretchFull {
+            if self.drawStyle == .stretchFull {
                 self._draw_layer.rect = LLRect( self.bounds )
             }
-            else if self.style == .stretchFixedRatio {
+            else if self.drawStyle == .stretchFixedRatio {
                 let fr_wid = self.width.f
                 let fr_hgt = self.height.f
                 let wid = img.width.f
@@ -141,7 +141,7 @@ open class LLImageView : LLView
                 
                 self._draw_layer.rect = LLRect(x, y, swid, shgt)
             }
-            else if self.style == .centerOriginalSize {
+            else if self.drawStyle == .centerOriginalSize {
                 let fr_wid = self.width.f
                 let fr_hgt = self.height.f
                 let wid = img.width.f
@@ -151,7 +151,7 @@ open class LLImageView : LLView
                 
                 self._draw_layer.rect = LLRect(x, y, wid, hgt)
             }
-            else if self.style == .centerFixed {
+            else if self.drawStyle == .centerFixed {
                 let fr_wid = self.width.f
                 let fr_hgt = self.height.f
                 let wid = self.imageFixSize.width.f
@@ -161,7 +161,7 @@ open class LLImageView : LLView
 
                 self._draw_layer.rect = LLRect(x, y, wid, hgt)
             }
-            else if self.style == .positionFixed {
+            else if self.drawStyle == .positionFixed {
                 let wid = self.imageFixSize.width.f
                 let hgt = self.imageFixSize.height.f
                 let x = self.imageFixPosition.x.f

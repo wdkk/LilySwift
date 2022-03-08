@@ -16,14 +16,15 @@ import QuartzCore
 
 // ATTENTION: UIViewではなくCALayerのサブクラス
 open class LLView : CALayer, LLUILifeEvent
-{ 
+{
+    public var isUserInteractionEnabled = true
+    
     public lazy var setupField = LLViewFieldMap()
     public lazy var buildupField = LLViewFieldMap()
     public lazy var teardownField = LLViewFieldMap()
     
-    public lazy var defaultBuildupField = LLViewFieldMap()
-    public lazy var staticBuildupField = LLViewFieldMap()
-   
+    public lazy var styleField = LLViewStyleFieldMap()
+
     public lazy var mouseMovedField = LLMouseFieldMap()
     public lazy var mouseLeftDownField = LLMouseFieldMap()
     public lazy var mouseLeftDraggedField = LLMouseFieldMap()
@@ -35,9 +36,7 @@ open class LLView : CALayer, LLUILifeEvent
     public lazy var mouseRightUpInsideField = LLMouseFieldMap()
     public lazy var mouseOverField = LLMouseFieldMap()
     public lazy var mouseOutField = LLMouseFieldMap()
-    
-    open var available:Bool = true
-        
+            
     public var center:CGPoint { ourCenter }
     
     func initViewAttributes() {
@@ -84,16 +83,16 @@ open class LLView : CALayer, LLUILifeEvent
         self.callSetupFields()
     }
     
-    open func preBuildup() {
-        self.callDefaultBuildupFields()
-    }
+    open func preBuildup() { }
     
     open func buildup() { }
     
     open func postBuildup() {
         self.callBuildupFields()
-        self.callStaticBuildupFields()
         
+        if self.isEnabled { self.styleField.default?.appear() }
+        else { self.styleField.disable?.appear() }
+
         if let sublayers = self.sublayers {
             for child in sublayers {
                 if let llui = child as? LLUILifeEvent { llui.rebuild() }
@@ -137,7 +136,7 @@ open class LLView : CALayer, LLUILifeEvent
         
         let local_pt = self.convert( global_pt.cgPoint, from: nil ).llPoint
         // 非表示・無効のViewは無視
-        if isHidden || !available { return ( nil, global_pt ) }
+        if isHidden || !isEnabled { return ( nil, global_pt ) }
         // 範囲チェック
         if local_pt.x < 0.0 || width < local_pt.x || local_pt.y < 0.0 || height < local_pt.y {
             return ( nil, global_pt )
@@ -161,5 +160,22 @@ extension LLView
         self.teardownField.appear( LLEmpty.none )
     }
 }
+
+public extension LLChain where TObj:LLView
+{
+    var style:LLFieldMapChain<TObj, LLViewStyleFieldMap> {
+        return LLFieldMapChain( obj, obj.styleField )
+    }
+    
+    @discardableResult
+    func isEnabled( _ torf:Bool ) -> Self { 
+        obj.isUserInteractionEnabled = torf
+        obj.rebuild()
+        return self
+    }
+    
+    var isEnabled:Bool { obj.isEnabled }
+}
+
 
 #endif

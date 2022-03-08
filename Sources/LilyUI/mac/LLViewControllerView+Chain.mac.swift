@@ -30,17 +30,6 @@ public extension LLChain where TObj:LLViewControllerView
     }
     
     
-    // MARK: -
-    
-    var defaultBuildup:LLFieldMapChain<TObj, LLViewFieldMap> {
-        return LLFieldMapChain( obj, obj.defaultBuildupField )
-    }
-    
-    var staticBuildup:LLFieldMapChain<TObj, LLViewFieldMap> {
-        return LLFieldMapChain( obj, obj.staticBuildupField )
-    }
-    
-    
     // MARK: - 
     
     var mouseLeftDown:LLFieldMapChain<TObj, LLMouseFieldMap> {

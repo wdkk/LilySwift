@@ -68,17 +68,23 @@ open class LLViewController : NSViewController
     }
     
     // NSView用
-    open func addSubview(_ view:NSView ) {
-        vcview.addSubview( view )
-    }
-
     open func addSubview(_ view: NSView, positioned place: NSWindow.OrderingMode, relativeTo otherView: NSView? ) {
         vcview.addSubview( view, positioned: place, relativeTo: otherView )
     }   
     
+    open func addSubview(_ view:NSView ) {
+        vcview.addSubview( view )
+    }
+    open func addSubview(_ viewChain:LLChain<NSView> ) {
+        vcview.addSubview( viewChain.unchain )
+    }
+
     // CALayerベースLLView用
     open func addSubview(_ llView:LLView ) {
         vcview.addSubview( llView )
+    }
+    open func addSubview(_ llViewChain:LLChain<LLView> ) {
+        vcview.addSubview( llViewChain.unchain )
     }
     
     // MARK: - Override Pretty Functions

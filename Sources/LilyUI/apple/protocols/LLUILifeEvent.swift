@@ -12,14 +12,15 @@ import CoreGraphics
 
 public protocol LLUILifeEvent
 {
+    var isUserInteractionEnabled:Bool { get set }   // UIView, NSViewの変数のプロパティを必須とする
+    
     var _mutex:LLRecursiveMutex { get set }
     
     var setupField:LLViewFieldMap { get set }
     var buildupField:LLViewFieldMap { get set }
     var teardownField:LLViewFieldMap { get set }
-    
-    var defaultBuildupField:LLViewFieldMap { get set }
-    var staticBuildupField:LLViewFieldMap { get set }
+        
+    var styleField:LLViewStyleFieldMap { get set }
     
     /// UIの準備サイクル
     func preSetup()
@@ -43,12 +44,6 @@ public protocol LLUILifeEvent
     func callBuildupFields()
      
     func callTeardownFields()
-    
-    // MARK: - システムField
-    /// デフォルトのビルドアップ設定. 先に動作するため上書きされる
-    func callDefaultBuildupFields()
-    /// 固定のビルドアップ設定. 後に動作するため上書きされない
-    func callStaticBuildupFields()
 }
 
 extension LLUILifeEvent
@@ -65,11 +60,18 @@ extension LLUILifeEvent
         self.teardownField.appear( LLEmpty.none )
     }
     
-    public func callDefaultBuildupFields() {
-        self.defaultBuildupField.appear( LLEmpty.none )
+    public func callViewStyleFields() {
+        self.styleField.appear( LLEmpty.none )
     }
-    
-    public func callStaticBuildupFields() {
-        self.staticBuildupField.appear( LLEmpty.none )
+}
+
+extension LLUILifeEvent
+{
+    public var isEnabled:Bool {
+        get { return self.isUserInteractionEnabled }
+        set { 
+            self.isUserInteractionEnabled = newValue
+            self.rebuild()
+        }    
     }
 }
