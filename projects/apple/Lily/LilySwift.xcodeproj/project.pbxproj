@@ -459,6 +459,10 @@
 		5D6795952783693700DF430C /* LCImage.rgbaf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D67952A2783693700DF430C /* LCImage.rgbaf.swift */; };
 		5D6795962783693700DF430C /* LCTextAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D67952B2783693700DF430C /* LCTextAttribute.swift */; };
 		5D6795972783693700DF430C /* LCTextAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D67952B2783693700DF430C /* LCTextAttribute.swift */; };
+		5D7EB66327D7AB1C004C1D8D /* LLViewStyleFieldMap+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7EB66127D7AB1C004C1D8D /* LLViewStyleFieldMap+Chain.swift */; };
+		5D7EB66427D7AB1C004C1D8D /* LLViewStyleFieldMap+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7EB66127D7AB1C004C1D8D /* LLViewStyleFieldMap+Chain.swift */; };
+		5D7EB66527D7AB1C004C1D8D /* LLViewStyleFieldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7EB66227D7AB1C004C1D8D /* LLViewStyleFieldMap.swift */; };
+		5D7EB66627D7AB1C004C1D8D /* LLViewStyleFieldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7EB66227D7AB1C004C1D8D /* LLViewStyleFieldMap.swift */; };
 		5D8EA068263D5CED00DCD404 /* LilySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8F3B7C235B946B00BB9805 /* LilySwift.framework */; };
 		5D8EA069263D5CED00DCD404 /* LilySwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8F3B7C235B946B00BB9805 /* LilySwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5D8EA081263D5D0500DCD404 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D8EA06F263D5D0500DCD404 /* Assets.xcassets */; };
@@ -789,6 +793,8 @@
 		5D6795292783693700DF430C /* LCImageLoader.internal.tga.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCImageLoader.internal.tga.swift; sourceTree = "<group>"; };
 		5D67952A2783693700DF430C /* LCImage.rgbaf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCImage.rgbaf.swift; sourceTree = "<group>"; };
 		5D67952B2783693700DF430C /* LCTextAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCTextAttribute.swift; sourceTree = "<group>"; };
+		5D7EB66127D7AB1C004C1D8D /* LLViewStyleFieldMap+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLViewStyleFieldMap+Chain.swift"; sourceTree = "<group>"; };
+		5D7EB66227D7AB1C004C1D8D /* LLViewStyleFieldMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLViewStyleFieldMap.swift; sourceTree = "<group>"; };
 		5D8EA04D263D5CD400DCD404 /* DevEnv(iOS).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DevEnv(iOS).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D8EA06F263D5D0500DCD404 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D8EA071263D5D0500DCD404 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -984,17 +990,19 @@
 		5D678F102783677E00DF430C /* apple */ = {
 			isa = PBXGroup;
 			children = (
+				5D678F162783677E00DF430C /* metal */,
+				5D678F492783677E00DF430C /* extensions */,
+				5D678F5E2783677E00DF430C /* protocols */,
+				5D678F302783677E00DF430C /* LilyBoard */,
+				5D678F5F2783677E00DF430C /* LilyStage */,
 				5D678F112783677E00DF430C /* LLFile.swift */,
 				5D678F122783677E00DF430C /* LLTalkingField.swift */,
 				5D678F132783677E00DF430C /* LLPath.swift */,
 				5D678F142783677E00DF430C /* LLAlgoLine.swift */,
 				5D678F152783677E00DF430C /* LLFileReader.swift */,
-				5D678F162783677E00DF430C /* metal */,
 				5D678F2E2783677E00DF430C /* LLTask.swift */,
 				5D678F2F2783677E00DF430C /* LLAlignedMemory.swift */,
-				5D678F302783677E00DF430C /* LilyBoard */,
 				5D678F482783677E00DF430C /* LLMediaField.swift */,
-				5D678F492783677E00DF430C /* extensions */,
 				5D678F532783677E00DF430C /* LLImage.proc.swift */,
 				5D678F542783677E00DF430C /* LLClock.swift */,
 				5D678F552783677E00DF430C /* LLFieldMap.swift */,
@@ -1002,12 +1010,9 @@
 				5D678F572783677E00DF430C /* LLSystem.swift */,
 				5D678F582783677E00DF430C /* LLTextAttribute.swift */,
 				5D678F592783677E00DF430C /* LLImage.swift */,
-				5D678F5A2783677E00DF430C /* LilyPixel */,
 				5D678F5B2783677E00DF430C /* LLFileWriter.swift */,
 				5D678F5C2783677E00DF430C /* LLField.swift */,
 				5D678F5D2783677E00DF430C /* LLSoloField.swift */,
-				5D678F5E2783677E00DF430C /* protocols */,
-				5D678F5F2783677E00DF430C /* LilyStage */,
 				5D678F602783677E00DF430C /* LLString.swift */,
 			);
 			path = apple;
@@ -1110,13 +1115,6 @@
 			path = extensions;
 			sourceTree = "<group>";
 		};
-		5D678F5A2783677E00DF430C /* LilyPixel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = LilyPixel;
-			sourceTree = "<group>";
-		};
 		5D678F5E2783677E00DF430C /* protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -1195,17 +1193,19 @@
 		5D678F752783677E00DF430C /* apple */ = {
 			isa = PBXGroup;
 			children = (
-				5D678F762783677E00DF430C /* LLViewFieldMap+Chain.swift */,
-				5D678F772783677E00DF430C /* LilyPlaygroundUI */,
-				5D678F7C2783677E00DF430C /* LLRecursiveMutex.swift */,
 				5D678F7D2783677E00DF430C /* extensions */,
+				5D678F8A2783677E00DF430C /* protocols */,
+				5D678F822783677E00DF430C /* LilyBoardUI */,
+				5D678F772783677E00DF430C /* LilyPlaygroundUI */,
+				5D678F762783677E00DF430C /* LLViewFieldMap+Chain.swift */,
+				5D678F7C2783677E00DF430C /* LLRecursiveMutex.swift */,
 				5D678F802783677E00DF430C /* LLFieldMapChain.swift */,
 				5D678F812783677E00DF430C /* LilyUICrossPlatform.swift */,
-				5D678F822783677E00DF430C /* LilyBoardUI */,
 				5D678F882783677E00DF430C /* LLChain.swift */,
 				5D678F892783677E00DF430C /* LLColorSet.swift */,
-				5D678F8A2783677E00DF430C /* protocols */,
 				5D678F8E2783677E00DF430C /* LLViewFieldMap.swift */,
+				5D7EB66227D7AB1C004C1D8D /* LLViewStyleFieldMap.swift */,
+				5D7EB66127D7AB1C004C1D8D /* LLViewStyleFieldMap+Chain.swift */,
 			);
 			path = apple;
 			sourceTree = "<group>";
@@ -1269,6 +1269,7 @@
 		5D678F8F2783677E00DF430C /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				5D678F992783677E00DF430C /* extensions */,
 				5D678F902783677E00DF430C /* LLViewController.swift */,
 				5D678F912783677E00DF430C /* LLImageView.swift */,
 				5D678F922783677E00DF430C /* LLTouchHoldRecognizer.swift */,
@@ -1278,7 +1279,6 @@
 				5D678F962783677E00DF430C /* LLTextField+Chain.swift */,
 				5D678F972783677E00DF430C /* LLTouchFieldMap+Chain.swift */,
 				5D678F982783677E00DF430C /* LLDrawFieldMap.swift */,
-				5D678F992783677E00DF430C /* extensions */,
 				5D678FA32783677E00DF430C /* LLDrawFieldMap+Chain.swift */,
 				5D678FA42783677E00DF430C /* LLMetalView.swift */,
 				5D678FA52783677E00DF430C /* LLView.swift */,
@@ -1854,6 +1854,7 @@
 				5D678FE82783677E00DF430C /* LLLog.macro.swift in Sources */,
 				5D678FF62783677E00DF430C /* LLMetalTextureAtlas.swift in Sources */,
 				5D6791002783677F00DF430C /* LLViewControllerView.mac.swift in Sources */,
+				5D7EB66627D7AB1C004C1D8D /* LLViewStyleFieldMap.swift in Sources */,
 				5D6790762783677E00DF430C /* LLSoloField.swift in Sources */,
 				5D6795572783693700DF430C /* LCImageSaver.internal.tga.swift in Sources */,
 				5D67901C2783677E00DF430C /* LLMetalShape.triangles.swift in Sources */,
@@ -1887,6 +1888,7 @@
 				5D6790B42783677F00DF430C /* LLUILifeEvent.swift in Sources */,
 				5D6790642783677E00DF430C /* LLImage.proc.swift in Sources */,
 				5D6795452783693700DF430C /* LCPath.swift in Sources */,
+				5D7EB66427D7AB1C004C1D8D /* LLViewStyleFieldMap+Chain.swift in Sources */,
 				5D678FD62783677E00DF430C /* LCString+LilyCore+overload.swift in Sources */,
 				5D6790062783677E00DF430C /* MTLComputeCommandEncoder+Lily+ext.swift in Sources */,
 				5D67955B2783693700DF430C /* LLMath.const.swift in Sources */,
@@ -2141,6 +2143,7 @@
 				5D6790792783677E00DF430C /* UIImage+Lily+ext.swift in Sources */,
 				5D6790A12783677F00DF430C /* CALayer+Lily+ext.swift in Sources */,
 				5D67952E2783693700DF430C /* LCImage.hsvi.swift in Sources */,
+				5D7EB66327D7AB1C004C1D8D /* LLViewStyleFieldMap+Chain.swift in Sources */,
 				5D6790352783677E00DF430C /* LBPanelPipeline.blurryCircle.swift in Sources */,
 				5D67953E2783693700DF430C /* LCImage.rgba8.swift in Sources */,
 				5D6795602783693700DF430C /* LCImageSaver.swift in Sources */,
@@ -2155,6 +2158,7 @@
 				5D67955E2783693700DF430C /* LLType.graphics.util.swift in Sources */,
 				5D6790032783677E00DF430C /* MTLRenderCommandEncoder+Lily+ext.swift in Sources */,
 				5D6795302783693700DF430C /* LCSystem.swift in Sources */,
+				5D7EB66527D7AB1C004C1D8D /* LLViewStyleFieldMap.swift in Sources */,
 				5D678FDD2783677E00DF430C /* LLSizeFloat+LilyCore+ext.swift in Sources */,
 				5D6795842783693700DF430C /* LCAlgoStylusParam.swift in Sources */,
 				5D67952C2783693700DF430C /* LCAlgoLine.hermite.swift in Sources */,
@@ -2337,7 +2341,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4.5.21.0;
+				CURRENT_PROJECT_VERSION = 4.5.35.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2358,7 +2362,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.21;
+				MARKETING_VERSION = 4.5.35;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
@@ -2375,7 +2379,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4.5.21.0;
+				CURRENT_PROJECT_VERSION = 4.5.35.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2389,7 +2393,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.21;
+				MARKETING_VERSION = 4.5.35;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				SDKROOT = macosx;
@@ -2632,7 +2636,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4.5.21.0;
+				CURRENT_PROJECT_VERSION = 4.5.35.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2656,7 +2660,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.21;
+				MARKETING_VERSION = 4.5.35;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
@@ -2675,7 +2679,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4.5.21.0;
+				CURRENT_PROJECT_VERSION = 4.5.35.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2695,7 +2699,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.21;
+				MARKETING_VERSION = 4.5.35;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
