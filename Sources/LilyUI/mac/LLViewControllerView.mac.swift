@@ -1,9 +1,11 @@
 //
-// LLViewControllerView.swift
-// Lily Library
+// LilySwift Library Project
 //
-// Copyright (c) 2017- Watanabe-Denki Inc.
+// Copyright (c) Watanabe-Denki Inc. and Kengo Watanabe.
 //   https://wdkk.co.jp/
+//
+// This software is released under the MIT License.
+//   https://opensource.org/licenses/mit-license.php
 //
 
 #if os(macOS)
@@ -69,10 +71,10 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     open func buildup() { }
     
     open func postBuildup() {
-        self.callBuildupFields()
+        self.styleField.default?.appear() 
+       if !isEnabled { self.styleField.disable?.appear() }
         
-        if self.isEnabled { self.styleField.default?.appear() }
-        else { self.styleField.disable?.appear() }
+        self.callBuildupFields()
         
         // NSView側
         for child in self.subviews {
@@ -172,9 +174,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         if result.view != nil {
             changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
             // LLViewのイベントを代わりに発火させる
-            result.view?.mouseMovedField.appear(
-                LLMouseArg( result.localPosition, event ) 
-            )
+            result.view?.mouseMovedField.appear( LLMouseArg( result.localPosition, event ) )
             
             return event
         }
@@ -203,9 +203,8 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
             if let v = _dragging_view, v.isEnabled { v.styleField.action?.appear() }
             
             // LLViewのイベントを代わりに発火させる
-            result.view?.mouseLeftDownField.appear(
-                LLMouseArg( result.localPosition, event ) 
-            )
+            result.view?.actionBeganField.appear( LLActionArg( [ result.localPosition ] ) )
+            result.view?.mouseLeftDownField.appear( LLMouseArg( result.localPosition, event ) )
             
             return event
         }
@@ -229,9 +228,8 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         if _capture_view != nil {
             let localPosition = _capture_view!.convert( pt_on_win, to: nil ).llPoint
             // LLViewのイベントを代わりに発火させる
-            _capture_view?.mouseLeftDraggedField.appear(
-                LLMouseArg( localPosition, event ) 
-            )
+            _capture_view?.actionMovedField.appear( LLActionArg( [ localPosition ] ) )
+            _capture_view?.mouseLeftDraggedField.appear( LLMouseArg( localPosition, event ) )
             
             return event
         }
@@ -256,9 +254,8 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
             if let v = _dragging_view, v.isEnabled { v.styleField.default?.appear() }
             
             // [マウス左アップ]
-            _dragging_view?.mouseLeftUpField.appear(
-                LLMouseArg( result.localPosition, event ) 
-            )
+            _dragging_view?.actionEndedField.appear( LLActionArg( [ result.localPosition ] ) )
+            _dragging_view?.mouseLeftUpField.appear( LLMouseArg( result.localPosition, event ) )
 
             // [UI内部マウス左アップ]
             if _dragging_view == result.view {
@@ -296,9 +293,8 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
             
             if let v = _dragging_view, v.isEnabled { v.styleField.action?.appear() }
             
-            result.view?.mouseLeftDownField.appear(
-                LLMouseArg( result.localPosition, event ) 
-            )
+            result.view?.actionBeganField.appear( LLActionArg( [ result.localPosition ] ) )
+            result.view?.mouseLeftDownField.appear( LLMouseArg( result.localPosition, event ) )
             
             return event
         }
@@ -321,9 +317,9 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         
         if _capture_view != nil {            
             let localPosition = _capture_view!.convert( pt_on_win, to: nil ).llPoint
-            _capture_view?.mouseRightDraggedField.appear( 
-                LLMouseArg( localPosition, event )
-            )
+            
+            _capture_view?.actionMovedField.appear( LLActionArg( [ localPosition ] ) )
+            _capture_view?.mouseRightDraggedField.appear( LLMouseArg( localPosition, event ) )
        
             return event
         }
@@ -348,9 +344,8 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
             if let v = _dragging_view, v.isEnabled { v.styleField.default?.appear() }
             
             // [マウス右アップ]
-            _dragging_view?.mouseRightUpField.appear( 
-                LLMouseArg( result.localPosition, event )
-            )
+            _dragging_view?.actionEndedField.appear( LLActionArg( [ result.localPosition ] ) )
+            _dragging_view?.mouseRightUpField.appear( LLMouseArg( result.localPosition, event ) )
             
             // [UI内部マウス右アップ]
             if _dragging_view == result.view {
@@ -375,7 +370,7 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     
     // MARK: - イベント関数(タッチ)
     
-    // TODO: タッチ処理は後々処理する
+    // TODO: タッチ処理は未実装
     //private var _current_touches_state = LLTouchesState()
     
     open override func touchesBegan( with event: NSEvent ) {

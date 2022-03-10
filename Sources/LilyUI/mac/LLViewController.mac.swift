@@ -72,18 +72,18 @@ open class LLViewController : NSViewController
         vcview.addSubview( view, positioned: place, relativeTo: otherView )
     }   
     
-    open func addSubview(_ view:NSView ) {
+    open func addSubview<TView:NSControl>(_ view:TView ) {
         vcview.addSubview( view )
     }
-    open func addSubview(_ viewChain:LLChain<NSView> ) {
+    open func addSubview<TView:NSControl>(_ viewChain:LLChain<TView> ) {
         vcview.addSubview( viewChain.unchain )
     }
 
     // CALayerベースLLView用
-    open func addSubview(_ llView:LLView ) {
+    open func addSubview<TView:LLView>(_ llView:TView ) {
         vcview.addSubview( llView )
     }
-    open func addSubview(_ llViewChain:LLChain<LLView> ) {
+    open func addSubview<TView:LLView>(_ llViewChain:LLChain<TView> ) {
         vcview.addSubview( llViewChain.unchain )
     }
     

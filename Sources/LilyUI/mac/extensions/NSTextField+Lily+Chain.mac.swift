@@ -8,39 +8,39 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if os(iOS)
+#if os(macOS)
 
-import UIKit
+import AppKit
 
-/// UITextFieldチェインアクセサ : プロパティ
-public extension LLChain where TObj:UITextField
+/// NSTextFieldチェインアクセサ : プロパティ
+public extension LLChain where TObj:NSTextField
 {
-    var text:LLString? { obj.text }
+    var text:LLString? { obj.stringValue }
     
     @discardableResult
     func text( _ txt:LLString? ) -> Self { 
-        obj.text = txt
+        obj.stringValue = txt ?? ""
         return self
     }
             
-    var textColor:UIColor { obj.textColor! }
+    var textColor:NSColor { obj.textColor! }
     
     @discardableResult
-    func textColor( uiColor:UIColor ) -> Self { 
+    func textColor( uiColor:NSColor ) -> Self { 
         obj.textColor = uiColor
         return self
     }
     
     @discardableResult
     func textColor( _ llc:LLColor ) -> Self { 
-        obj.textColor = llc.uiColor
+        obj.textColor = llc.nsColor
         return self
     }
     
-    var font:UIFont { obj.font! }
+    var font:NSFont { obj.font! }
     
     @discardableResult
-    func font( _ f:UIFont ) -> Self {
+    func font( _ f:NSFont ) -> Self {
         obj.font = f
         return self
     }
@@ -50,28 +50,19 @@ public extension LLChain where TObj:UITextField
     @discardableResult
     func fontSize( _ sz:LLFloat ) -> Self {
         let f_desc = obj.font!.fontDescriptor
-        obj.font = UIFont( descriptor: f_desc, size: sz.cgf )
+        obj.font = NSFont( descriptor: f_desc, size: sz.cgf )
         return self
     }
     
-    var textAlignment:NSTextAlignment { obj.textAlignment }
+    var textAlignment:NSTextAlignment { obj.alignment }
     
     @discardableResult
     func textAlignment( _ align:NSTextAlignment ) -> Self {
-        obj.textAlignment = align
+        obj.alignment = align
         return self
     }
     
-    
-    var isSecureTextEntry:Bool { obj.isSecureTextEntry }
-    
-    @discardableResult
-    func isSecureTextEntry( _ torf:Bool ) -> Self {
-        obj.isSecureTextEntry = torf
-        return self
-    }
-    
-    
+    /*
     var autocapitalizationType:UITextAutocapitalizationType { obj.autocapitalizationType }
     
     @discardableResult
@@ -87,12 +78,13 @@ public extension LLChain where TObj:UITextField
         obj.autocorrectionType = type
         return self
     }
+    */
     
-    var adjustsFontSizeToFitWidth:Bool { obj.adjustsFontSizeToFitWidth }
+    var adjustsFontSizeToFitWidth:Bool { return false }
     
     @discardableResult
     func adjustsFontSizeToFitWidth( _ torf:Bool ) -> Self {
-        obj.adjustsFontSizeToFitWidth = torf
+        // NOTE: Macではサイズ調整なし
         return self
     }
 }

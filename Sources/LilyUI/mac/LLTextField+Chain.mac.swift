@@ -8,9 +8,9 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if os(iOS)
+#if os(macOS)
 
-import UIKit
+import AppKit
 
 /// LLTextFieldチェインアクセサ : イベント
 public extension LLChain where TObj:LLTextField
@@ -51,26 +51,46 @@ public extension LLChain where TObj:LLTextField
         return LLFieldMapChain( obj, obj.actionEndedInsideField ) 
     }
     
-    // MARK: -
+    // MARK: - 
     
-    var touchesBegan:LLFieldMapChain<TObj, LLTouchFieldMap> {
-        return LLFieldMapChain( obj, obj.touchesBeganField ) 
+    var mouseLeftDown:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseLeftDownField ) 
     }
     
-    var touchesMoved:LLFieldMapChain<TObj, LLTouchFieldMap> {
-        return LLFieldMapChain( obj, obj.touchesMovedField ) 
+    var mouseLeftDragged:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseLeftDraggedField ) 
+    }   
+    
+    var mouseLeftUp:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseLeftUpField ) 
+    }
+    
+    var mouseLeftUpInside:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseLeftUpInsideField ) 
     }
 
-    var touchesEnded:LLFieldMapChain<TObj, LLTouchFieldMap> {
-        return LLFieldMapChain( obj, obj.touchesEndedField ) 
+    var mouseRightDown:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseRightDownField ) 
     }
     
-    var touchesEndedInside:LLFieldMapChain<TObj, LLTouchFieldMap> {
-        return LLFieldMapChain( obj, obj.touchesEndedInsideField ) 
+    var mouseRightDragged:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseRightDraggedField ) 
+    }   
+    
+    var mouseRightUp:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseRightUpField ) 
     }
     
-    var touchesCancelled:LLFieldMapChain<TObj, LLTouchFieldMap> {
-        return LLFieldMapChain( obj, obj.touchesCancelledField ) 
+    var mouseRightUpInside:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseRightUpInsideField ) 
+    }
+    
+    var mouseOver:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseOverField ) 
+    } 
+    
+    var mouseOut:LLFieldMapChain<TObj, LLMouseFieldMap> {
+        return LLFieldMapChain( obj, obj.mouseOutField ) 
     }
 }
 
@@ -80,7 +100,7 @@ public extension LLChain where TObj:LLTextField
     var placeholderColor:LLColor { obj.placeholderColor }
     
     @discardableResult
-    func placeholderColor( _ c:UIColor ) -> Self { 
+    func placeholderColor( _ c:NSColor ) -> Self { 
         obj.placeholderColor( c.llColor )
         return self
     }
@@ -95,6 +115,16 @@ public extension LLChain where TObj:LLTextField
     
     @discardableResult
     func placeholderText( _ txt:LLString ) -> Self { 
+        obj.placeholderText( txt )
+        return self
+    }
+    
+    // プレイスホルダも同時に更新するため、fontSizeを上書き
+    @discardableResult
+    func fontSize( _ sz:LLFloat ) -> Self {
+        let f_desc = obj.font!.fontDescriptor
+        obj.font = NSFont( descriptor: f_desc, size: sz.cgf )
+        let txt = obj.placeholderText
         obj.placeholderText( txt )
         return self
     }

@@ -97,6 +97,25 @@ public extension LLChain where TObj:LLView
         return LLFieldMapChain( obj, obj.teardownField )
     }
     
+    // MARK: -
+    
+    var actionBegan:LLFieldMapChain<TObj, LLActionFieldMap> {
+        return LLFieldMapChain( obj, obj.actionBeganField ) 
+    }
+    
+    var actionMoved:LLFieldMapChain<TObj, LLActionFieldMap> {
+        return LLFieldMapChain( obj, obj.actionMovedField ) 
+    }
+
+    var actionEnded:LLFieldMapChain<TObj, LLActionFieldMap> {
+        return LLFieldMapChain( obj, obj.actionEndedField ) 
+    }
+    
+    var actionEndedInside:LLFieldMapChain<TObj, LLActionFieldMap> {
+        return LLFieldMapChain( obj, obj.actionEndedInsideField ) 
+    }
+    
+    
     // MARK: - 
     
     var mouseLeftDown:LLFieldMapChain<TObj, LLMouseFieldMap> {
@@ -138,7 +157,6 @@ public extension LLChain where TObj:LLView
     var mouseOut:LLFieldMapChain<TObj, LLMouseFieldMap> {
         return LLFieldMapChain( obj, obj.mouseOutField ) 
     }
-    
 }
 
 #endif

@@ -34,7 +34,22 @@ public extension LLChain where TObj:LLLabel
     }
     
     // MARK: -
+    
+    var actionBegan:LLFieldMapChain<TObj, LLActionFieldMap> {
+        return LLFieldMapChain( obj, obj.actionBeganField ) 
+    }
+    
+    var actionMoved:LLFieldMapChain<TObj, LLActionFieldMap> {
+        return LLFieldMapChain( obj, obj.actionMovedField ) 
+    }
 
+    var actionEnded:LLFieldMapChain<TObj, LLActionFieldMap> {
+        return LLFieldMapChain( obj, obj.actionEndedField ) 
+    }
+    
+    var actionEndedInside:LLFieldMapChain<TObj, LLActionFieldMap> {
+        return LLFieldMapChain( obj, obj.actionEndedInsideField ) 
+    }
     
     // MARK: -
     

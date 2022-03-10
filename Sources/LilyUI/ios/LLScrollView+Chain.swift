@@ -35,6 +35,24 @@ public extension LLChain where TObj:LLScrollView
     
     // MARK: -
     
+    var actionBegan:LLFieldMapChain<TObj, LLActionFieldMap> {
+        return LLFieldMapChain( obj, obj.actionBeganField ) 
+    }
+    
+    var actionMoved:LLFieldMapChain<TObj, LLActionFieldMap> {
+        return LLFieldMapChain( obj, obj.actionMovedField ) 
+    }
+
+    var actionEnded:LLFieldMapChain<TObj, LLActionFieldMap> {
+        return LLFieldMapChain( obj, obj.actionEndedField ) 
+    }
+    
+    var actionEndedInside:LLFieldMapChain<TObj, LLActionFieldMap> {
+        return LLFieldMapChain( obj, obj.actionEndedInsideField ) 
+    }
+    
+    // MARK: -
+        
     var touchesBegan:LLFieldMapChain<TObj, LLTouchFieldMap> {
         return LLFieldMapChain( obj, obj.touchesBeganField ) 
     }

@@ -24,6 +24,11 @@ open class LLView : CALayer, LLUILifeEvent
     public lazy var teardownField = LLViewFieldMap()
     
     public lazy var styleField = LLViewStyleFieldMap()
+    
+    public lazy var actionBeganField = LLActionFieldMap()
+    public lazy var actionMovedField = LLActionFieldMap()
+    public lazy var actionEndedField = LLActionFieldMap()
+    public lazy var actionEndedInsideField = LLActionFieldMap()
 
     public lazy var mouseMovedField = LLMouseFieldMap()
     public lazy var mouseLeftDownField = LLMouseFieldMap()
@@ -88,11 +93,11 @@ open class LLView : CALayer, LLUILifeEvent
     open func buildup() { }
     
     open func postBuildup() {
+        self.styleField.default?.appear() 
+       if !isEnabled { self.styleField.disable?.appear() }
+        
         self.callBuildupFields()
         
-        if self.isEnabled { self.styleField.default?.appear() }
-        else { self.styleField.disable?.appear() }
-
         if let sublayers = self.sublayers {
             for child in sublayers {
                 if let llui = child as? LLUILifeEvent { llui.rebuild() }

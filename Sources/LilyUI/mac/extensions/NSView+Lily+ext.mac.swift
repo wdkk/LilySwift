@@ -56,19 +56,67 @@ extension NSView : LLUIRectControllable, LLUIPixelControllable
         self.layer?.sublayers = nil
     }
     
-    public func addSubview( _ llView:LLView ) {
-        self.layer!.addSublayer( llView )
-    }
-    
     // NSView用
-    public func addSubview(_ viewChain:LLChain<NSView> ) {
+    public func addSubview<TView:NSView>(_ viewChain:LLChain<TView> ) {
         self.addSubview( viewChain.unchain )
     }
 
     // CALayerベースLLView用
-    public func addSubview(_ llViewChain:LLChain<LLView> ) {
+    public func addSubview<TLayer:CALayer>( _ llView:TLayer ) {
+        self.layer!.addSublayer( llView )
+    }
+    
+    public func addSubview<TLayer:CALayer>(_ llViewChain:LLChain<TLayer> ) {
         self.addSubview( llViewChain.unchain )
     }
+}
+
+extension NSView
+{
+    var backgroundColor:LLColor? { 
+        get {
+            guard let layer = layer, let backgroundColor = layer.backgroundColor else { return nil }
+            return backgroundColor.llColor
+        }
+        set {
+            wantsLayer = true
+            layer?.backgroundColor = newValue?.cgColor
+        }
+    }
+    
+    var borderColor:LLColor? { 
+        get {
+            guard let layer = layer, let borderColor = layer.borderColor else { return nil }
+            return borderColor.llColor
+        }
+        set {
+            wantsLayer = true
+            layer?.borderColor = newValue?.cgColor
+        }
+    }
+    
+    var borderWidth:Float { 
+        get {
+            guard let layer = layer else { return 0.0 }
+            return layer.borderWidth.f
+        }
+        set {
+            wantsLayer = true
+            layer?.borderWidth = newValue.cgf
+        }
+    }
+    
+    var cornerRadius:Float { 
+        get {
+            guard let layer = layer else { return 0.0 }
+            return layer.cornerRadius.f
+        }
+        set {
+            wantsLayer = true
+            layer?.cornerRadius = newValue.cgf
+        }
+    }
+    
 }
 
 #endif

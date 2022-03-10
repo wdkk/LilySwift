@@ -18,6 +18,11 @@ open class LLView : UIView, LLUILifeEvent
     public lazy var buildupField = LLViewFieldMap()
     public lazy var teardownField = LLViewFieldMap()
     
+    public lazy var actionBeganField = LLActionFieldMap()
+    public lazy var actionMovedField = LLActionFieldMap()
+    public lazy var actionEndedField = LLActionFieldMap()
+    public lazy var actionEndedInsideField = LLActionFieldMap()
+    
     public lazy var touchesBeganField = LLTouchFieldMap()
     public lazy var touchesMovedField = LLTouchFieldMap()
     public lazy var touchesEndedField = LLTouchFieldMap()
@@ -54,8 +59,8 @@ open class LLView : UIView, LLUILifeEvent
     open func buildup() { }
     
     open func postBuildup() {
-        if self.isEnabled { self.styleField.default?.appear() }
-        else { self.styleField.disable?.appear() }
+        self.styleField.default?.appear() 
+       if !isEnabled { self.styleField.disable?.appear() }
         
         self.callBuildupFields()
         
@@ -84,21 +89,31 @@ open class LLView : UIView, LLUILifeEvent
     open override func touchesBegan( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesBegan( touches, with:event )
         if self.isEnabled { self.styleField.action?.appear() }
+        
+        let points = touches.compactMap { $0.location( in: self ).llPoint }
+        self.actionBeganField.appear( LLActionArg( points ) )
         self.touchesBeganField.appear( LLTouchArg( touches, event ) )
     }
     
     open override func touchesMoved( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesMoved( touches, with:event )
+        
+        let points = touches.compactMap { $0.location( in:self ).llPoint }
+        self.actionMovedField.appear( LLActionArg( points ) )
         self.touchesMovedField.appear( LLTouchArg( touches, event ) )
     }
     
     open override func touchesEnded( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesEnded( touches, with:event )
         if self.isEnabled { self.styleField.default?.appear() }
+        
+        let points = touches.compactMap { $0.location( in:self ).llPoint }
+        self.actionEndedField.appear( LLActionArg( points ) )
         self.touchesEndedField.appear( LLTouchArg( touches, event ) )
         
         for touch in touches {
             if self.bounds.contains( touch.preciseLocation( in: self ) ) {
+                self.actionEndedInsideField.appear( LLActionArg( points ) )
                 self.touchesEndedInsideField.appear( LLTouchArg( touches, event ) )
                 break
             }
@@ -107,6 +122,9 @@ open class LLView : UIView, LLUILifeEvent
     
     open override func touchesCancelled( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesCancelled( touches, with:event )
+        
+        let points = touches.compactMap { $0.location( in: self ).llPoint }
+        self.actionEndedField.appear( LLActionArg( points ) )
         self.touchesCancelledField.appear( LLTouchArg( touches, event ) )
     }
             
