@@ -105,10 +105,10 @@ open class LLTextField
     open func buildup() { }
     
     open func postBuildup() {
-        self.styleField.default?.appear() 
-       if !isEnabled { self.styleField.disable?.appear() }
-
         self.callBuildupFields()
+        
+        self.styleField.default?.appear() 
+        if !isEnabled { self.styleField.disable?.appear() }
         
         for child in self.subviews {
             if let llui = child as? LLUILifeEvent { llui.rebuild() }
@@ -123,7 +123,7 @@ open class LLTextField
         }
     }
     
-    open override func addSubview( _ view: UIView ) {
+    open override func addSubview( _ view:UIView ) {
         if let llui = view as? LLUILifeEvent {
             llui.preSetup()
             llui.setup()

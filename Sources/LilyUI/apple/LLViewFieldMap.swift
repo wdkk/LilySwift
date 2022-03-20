@@ -12,6 +12,8 @@ import Foundation
 
 public class LLViewFieldMap : LLFieldMap 
 {
+    public typealias Objs = Any
+    
     public func add<TCaller:AnyObject, TView:AnyObject>( 
         label:String = UUID().labelString,
         order:LLFieldMap.Order = LLFieldMap.newOrder(),
@@ -20,7 +22,7 @@ public class LLViewFieldMap : LLFieldMap
         field f:@escaping (TCaller, TView)->Void
     )
     {
-        fields[order] = LLTalkingField<TCaller, TView, Any>(
+        fields[order] = LLTalkingField<TCaller, TView, Objs>(
             label:label,
             caller:caller,
             me:view,
@@ -37,7 +39,7 @@ public class LLViewFieldMap : LLFieldMap
         field f:@escaping (TCaller, TView, TPhenomena)->Void
     )
     {
-        fields[order] = LLMediaField<TCaller, TView, Any, TPhenomena>( 
+        fields[order] = LLMediaField<TCaller, TView, Objs, TPhenomena>( 
             label:label,
             caller:caller,
             me:view, 

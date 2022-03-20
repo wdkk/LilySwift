@@ -58,11 +58,21 @@ extension NSView : LLUIRectControllable, LLUIPixelControllable
     
     // NSView用
     public func addSubview<TView:NSView>(_ viewChain:LLChain<TView> ) {
+        if let llui = viewChain.unchain as? LLUILifeEvent {
+            llui.preSetup()
+            llui.setup()
+            llui.postSetup()
+        }
         self.addSubview( viewChain.unchain )
     }
 
     // CALayerベースLLView用
     public func addSubview<TLayer:CALayer>( _ llView:TLayer ) {
+        if let llui = llView as? LLUILifeEvent {
+            llui.preSetup()
+            llui.setup()
+            llui.postSetup()
+        }
         self.layer!.addSublayer( llView )
     }
     

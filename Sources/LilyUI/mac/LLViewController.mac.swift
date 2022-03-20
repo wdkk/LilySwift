@@ -69,13 +69,29 @@ open class LLViewController : NSViewController
     
     // NSView用
     open func addSubview(_ view: NSView, positioned place: NSWindow.OrderingMode, relativeTo otherView: NSView? ) {
+        if let llui = view as? LLUILifeEvent {
+            llui.preSetup()
+            llui.setup()
+            llui.postSetup()
+        }
         vcview.addSubview( view, positioned: place, relativeTo: otherView )
     }   
     
     open func addSubview<TView:NSControl>(_ view:TView ) {
+        if let llui = view as? LLUILifeEvent {
+            llui.preSetup()
+            llui.setup()
+            llui.postSetup()
+        }
         vcview.addSubview( view )
     }
     open func addSubview<TView:NSControl>(_ viewChain:LLChain<TView> ) {
+        if let llui = viewChain.unchain as? LLUILifeEvent {
+            llui.preSetup()
+            llui.setup()
+            llui.postSetup()
+        }
+        
         vcview.addSubview( viewChain.unchain )
     }
 
@@ -83,6 +99,7 @@ open class LLViewController : NSViewController
     open func addSubview<TView:LLView>(_ llView:TView ) {
         vcview.addSubview( llView )
     }
+    
     open func addSubview<TView:LLView>(_ llViewChain:LLChain<TView> ) {
         vcview.addSubview( llViewChain.unchain )
     }

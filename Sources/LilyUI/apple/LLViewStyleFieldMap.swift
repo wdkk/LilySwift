@@ -12,7 +12,7 @@ import Foundation
 
 public class LLViewStyleFieldMap : LLFieldMap 
 {
-    public typealias Args = Any
+    public typealias Objs = Any
 
     private let DEFAULT:Int = 0
     private let ACTION:Int = 1 
@@ -29,7 +29,7 @@ public class LLViewStyleFieldMap : LLFieldMap
         field f:@escaping (TView)->Void 
     )
     {
-        fields[DEFAULT] = LLSoloField<TView, Args>(
+        fields[DEFAULT] = LLSoloField<TView, Objs>(
             label:label,
             me:view,
             action:f
@@ -46,7 +46,7 @@ public class LLViewStyleFieldMap : LLFieldMap
         me view:TView,
         field f:@escaping (TView)->Void )
     {
-        fields[ACTION] = LLSoloField<TView, Args>(
+        fields[ACTION] = LLSoloField<TView, Objs>(
             label:label,
             me:view,
             action:f
@@ -63,7 +63,7 @@ public class LLViewStyleFieldMap : LLFieldMap
         me view:TView,
         field f:@escaping (TView)->Void )
     {
-        fields[DISABLE] = LLSoloField<TView, Args>(
+        fields[DISABLE] = LLSoloField<TView, Objs>(
             label:label,
             me:view,
             action:f

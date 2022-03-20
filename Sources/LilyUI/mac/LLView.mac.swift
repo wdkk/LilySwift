@@ -55,9 +55,21 @@ open class LLView : CALayer, LLUILifeEvent
         set { self.opacity = newValue.f }
     }
     
-    open func addSubview(_ llview:LLView ) { self.addSublayer( llview ) }
+    open func addSubview(_ llview:LLView ) { 
+        llview.preSetup()
+        llview.setup()
+        llview.postSetup()
+        self.addSublayer( llview )
+    }
     
-    open func addSubview(_ view:NSView ) { self.addSublayer( view.layer! ) }
+    open func addSubview(_ view:NSView ) { 
+        if let llui = view as? LLUILifeEvent {
+            llui.preSetup()
+            llui.setup()
+            llui.postSetup()
+        }
+        self.addSublayer( view.layer! )
+    }
     
     required public init?(coder decoder: NSCoder) { super.init(coder:decoder) }
     public override init() {
@@ -65,9 +77,7 @@ open class LLView : CALayer, LLUILifeEvent
         self.initViewAttributes()
         self.minificationFilter = .nearest
         self.magnificationFilter = .nearest
-        preSetup()
-        setup()
-        postSetup()
+
     }
     
     public override init( layer: Any ) {
@@ -75,9 +85,6 @@ open class LLView : CALayer, LLUILifeEvent
         self.initViewAttributes()
         self.minificationFilter = .nearest
         self.magnificationFilter = .nearest
-        preSetup()
-        setup()
-        postSetup()
     }
         
     open func preSetup() { }
@@ -93,10 +100,10 @@ open class LLView : CALayer, LLUILifeEvent
     open func buildup() { }
     
     open func postBuildup() {
-        self.styleField.default?.appear() 
-       if !isEnabled { self.styleField.disable?.appear() }
-        
         self.callBuildupFields()
+        
+        self.styleField.default?.appear() 
+        if !isEnabled { self.styleField.disable?.appear() }
         
         if let sublayers = self.sublayers {
             for child in sublayers {

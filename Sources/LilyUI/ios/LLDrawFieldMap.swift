@@ -14,7 +14,7 @@ import UIKit
 
 public class LLDrawFieldMap : LLFieldMap 
 {
-    public typealias Args = CGRect
+    public typealias Objs = CGRect
     
     open func add<TCaller:AnyObject, TView:AnyObject, TPhenomena>(
         label:String = UUID().labelString,
@@ -22,13 +22,13 @@ public class LLDrawFieldMap : LLFieldMap
         caller:TCaller,
         me view:TView,
         phenomena:TPhenomena,
-        field f:@escaping (TCaller, TView, Args, TPhenomena)->Void )
+        field f:@escaping (TCaller, TView, Objs, TPhenomena)->Void )
     {
         fields[order] = LLMediaField(
             label:label,
             caller:caller,
             me:view,
-            objType:Args.self, 
+            objType:Objs.self, 
             phenomena:phenomena,
             action:f
         )
@@ -39,13 +39,13 @@ public class LLDrawFieldMap : LLFieldMap
         order:LLFieldMap.Order = LLFieldMap.newOrder(),
         caller:TCaller,
         me view:TView,
-        field f:@escaping (TCaller, TView, Args)->Void )
+        field f:@escaping (TCaller, TView, Objs)->Void )
     {
         fields[order] = LLTalkingField( 
             label:label,
             caller:caller,
             me:view,
-            objType:Args.self,
+            objType:Objs.self,
             action:f 
         )
     }

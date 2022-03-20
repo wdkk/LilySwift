@@ -19,8 +19,8 @@ public extension LLFieldMapChain where TFieldMap:LLDrawFieldMap
         label:String = UUID().labelString,
         order:LLFieldMap.Order = LLFieldMap.newOrder(),
         caller:TCaller,
-        args:LLDrawFieldMap.Args,
-        field f:@escaping (TCaller, TObj, LLDrawFieldMap.Args)->Void )
+        args:LLDrawFieldMap.Objs,
+        field f:@escaping (TCaller, TObj, LLDrawFieldMap.Objs)->Void )
     -> LLChain<TObj>
     {
         fmap.add( 
@@ -38,9 +38,9 @@ public extension LLFieldMapChain where TFieldMap:LLDrawFieldMap
         label:String = UUID().labelString,
         order:LLFieldMap.Order = LLFieldMap.newOrder(),
         caller:TCaller,
-        args:LLDrawFieldMap.Args,
+        args:LLDrawFieldMap.Objs,
         phenomena:TPhenomena,
-        field f:@escaping (TCaller, TObj, LLDrawFieldMap.Args, TPhenomena)->Void )
+        field f:@escaping (TCaller, TObj, LLDrawFieldMap.Objs, TPhenomena)->Void )
     -> LLChain<TObj>
     {
         fmap.add( 
