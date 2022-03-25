@@ -41,16 +41,24 @@ extension UIView : LLUIRectControllable, LLUIPixelControllable
         
         return nil
     }
+
+    public func rebuildChildren() {
+        for child in self.subviews {
+            if let llui = child as? LLUILifeEvent { llui.rebuild() }
+        }
+    }
+
+    public func teardownChildren() {
+        for child in self.subviews {
+            if let llui = child as? LLUILifeEvent { llui.teardown() }
+        }
+    }
     
     public func removeChildren() {
-        for v in self.subviews {
-            v.removeFromSuperview()
-        }
+        for v in self.subviews { v.removeFromSuperview() }
         
         guard let sublayers = self.layer.sublayers else { return }
-        for l in sublayers {
-            l.removeFromSuperlayer()
-        }
+        for l in sublayers { l.removeFromSuperlayer() }
         self.layer.sublayers = nil
     }
     

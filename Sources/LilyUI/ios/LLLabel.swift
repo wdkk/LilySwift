@@ -12,7 +12,10 @@
 
 import UIKit
 
-open class LLLabel : UILabel, LLUILifeEvent
+open class LLLabel
+: UILabel
+, LLUILifeEvent
+, LLTouchEvent
 {
     public lazy var setupField = LLViewFieldMap()
     public lazy var buildupField = LLViewFieldMap()
@@ -31,53 +34,28 @@ open class LLLabel : UILabel, LLUILifeEvent
     
     public lazy var drawLayerField = LLDrawFieldMap()
     public lazy var styleField = LLViewStyleFieldMap()
+    public var layoutField:LLField?
     
     public required init?(coder: NSCoder) { super.init(coder:coder) }
-    public init() {
-        super.init( frame:.zero )
-    }
+    public init() { super.init( frame:.zero ) }
     
     public var _mutex = LLRecursiveMutex()
-    open func rebuild() {
-        _mutex.lock {
-            self.preBuildup()
-            self.buildup()
-            self.postBuildup()
-        }
-    }
-    
+
     open func preSetup() { }
     
     open func setup() { }
     
-    open func postSetup() {
-        self.callSetupFields()
-    }
+    open func postSetup() { self.lifeEventDefaultSetup() }
     
     open func preBuildup() { }
     
     open func buildup() { }
     
-    open func postBuildup() {
-        self.callBuildupFields()
-        
-        self.styleField.default?.appear() 
-        if !isEnabled { self.styleField.disable?.appear() }
-        
-        for child in self.subviews {
-            if let llui = child as? LLUILifeEvent { llui.rebuild() }
-        }
-    }
+    open func postBuildup() { self.lifeEventDefaultBuildup() }
     
-    open func teardown() {
-        self.callTeardownFields()
-        
-        for child in self.subviews {
-            if let llui = child as? LLUILifeEvent { llui.teardown() }
-        }
-    }
+    open func teardown() { self.lifeEventDefaultTeardown() }
     
-    open override func addSubview( _ view: UIView ) {
+    open override func addSubview( _ view:UIView ) {
         if let llui = view as? LLUILifeEvent {
             llui.preSetup()
             llui.setup()
@@ -88,44 +66,22 @@ open class LLLabel : UILabel, LLUILifeEvent
     
     open override func touchesBegan( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesBegan( touches, with:event )
-        if self.isEnabled { self.styleField.action?.appear() }
-        
-        let points = touches.compactMap { $0.location( in: self ).llPoint }
-        self.actionBeganField.appear( LLActionArg( points ) )
-        self.touchesBeganField.appear( LLTouchArg( touches, event ) )
+        self.touchEvent( began:self, touches:touches, with:event )
     }
     
     open override func touchesMoved( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesMoved( touches, with:event )
-        
-        let points = touches.compactMap { $0.location( in:self ).llPoint }
-        self.actionMovedField.appear( LLActionArg( points ) )
-        self.touchesMovedField.appear( LLTouchArg( touches, event ) )
+        self.touchEvent( moved:self, touches:touches, with:event )
     }
     
     open override func touchesEnded( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesEnded( touches, with:event )
-        if self.isEnabled { self.styleField.default?.appear() }
-        
-        let points = touches.compactMap { $0.location( in:self ).llPoint }
-        self.actionEndedField.appear( LLActionArg( points ) )
-        self.touchesEndedField.appear( LLTouchArg( touches, event ) )
-        
-        for touch in touches {
-            if self.bounds.contains( touch.preciseLocation( in: self ) ) {
-                self.actionEndedInsideField.appear( LLActionArg( points ) )
-                self.touchesEndedInsideField.appear( LLTouchArg( touches, event ) )
-                break
-            }
-        }
+        self.touchEvent( ended:self, touches:touches, with:event )
     }
     
     open override func touchesCancelled( _ touches: Set<UITouch>, with event: UIEvent? ) {
         super.touchesCancelled( touches, with:event )
-        
-        let points = touches.compactMap { $0.location( in:self ).llPoint }
-        self.actionEndedField.appear( LLActionArg( points ) )
-        self.touchesCancelledField.appear( LLTouchArg( touches, event ) )
+        self.touchEvent( cancelled:self, touches:touches, with:event )
     }
      
     open override func draw( _ rect: CGRect ) {

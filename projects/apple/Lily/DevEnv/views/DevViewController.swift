@@ -25,7 +25,7 @@ class Fragment
         .fontSize( 20 )
         .isEnabled( false )
     }
-    .buildup.add( caller:parent ) { caller, me in
+    .layout( caller:parent ) { caller, me in
         me.chain
         .rect( 40, 40, 200, 60 )
     }
@@ -61,7 +61,7 @@ class DevViewController : LLViewController
         .placeholderText( "ぷれいすほるだー" )
         .fontSize( 20 )
     }
-    .buildup.add( caller:self ) { caller, me in
+    .layout( caller:self ) { caller, me in
         me.chain
         .rect( 40, 120, 200, 40 )
     }
@@ -71,7 +71,7 @@ class DevViewController : LLViewController
         me.chain
         .isEnabled( true )
     }
-    .buildup.add( caller:self ) { caller, me in
+    .layout( caller:self ) { caller, me in
         me.chain
         .rect( 40, 180, 60, 60 )
     }

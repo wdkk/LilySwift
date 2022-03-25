@@ -15,7 +15,9 @@ import Cocoa
 import QuartzCore
 
 // ATTENTION: UIViewではなくCALayerのサブクラス
-open class LLView : CALayer, LLUILifeEvent
+open class LLView 
+: CALayer
+, LLUILifeEvent
 {
     public var isUserInteractionEnabled = true
     
@@ -24,6 +26,7 @@ open class LLView : CALayer, LLUILifeEvent
     public lazy var teardownField = LLViewFieldMap()
     
     public lazy var styleField = LLViewStyleFieldMap()
+    public var layoutField: LLField?
     
     public lazy var actionBeganField = LLActionFieldMap()
     public lazy var actionMovedField = LLActionFieldMap()
@@ -77,7 +80,6 @@ open class LLView : CALayer, LLUILifeEvent
         self.initViewAttributes()
         self.minificationFilter = .nearest
         self.magnificationFilter = .nearest
-
     }
     
     public override init( layer: Any ) {
@@ -87,49 +89,21 @@ open class LLView : CALayer, LLUILifeEvent
         self.magnificationFilter = .nearest
     }
         
+    public var _mutex = LLRecursiveMutex()
+    
     open func preSetup() { }
     
     open func setup() { }
     
-    open func postSetup() { 
-        self.callSetupFields()
-    }
+    open func postSetup() { self.lifeEventDefaultSetup() }
     
     open func preBuildup() { }
     
     open func buildup() { }
     
-    open func postBuildup() {
-        self.callBuildupFields()
-        
-        self.styleField.default?.appear() 
-        if !isEnabled { self.styleField.disable?.appear() }
-        
-        if let sublayers = self.sublayers {
-            for child in sublayers {
-                if let llui = child as? LLUILifeEvent { llui.rebuild() }
-            }
-        }
-    }
+    open func postBuildup() { self.lifeEventDefaultBuildup() }
     
-    open func teardown() {
-        self.callTeardownFields()
-        
-        if let sublayers = self.sublayers {
-            for child in sublayers {
-                if let llui = child as? LLUILifeEvent { llui.teardown() }
-            }
-        }
-    }
-    
-    public var _mutex = LLRecursiveMutex()
-    open func rebuild() {
-        _mutex.lock {
-            self.preBuildup()
-            self.buildup()
-            self.postBuildup()
-        }
-    }
+    open func teardown() { self.lifeEventDefaultTeardown() }
     
     // Viewのピック処理. ignitionの発火はLLViewControllerViewで全管理しているのでお任せ
     open func pick( _ global_pt: LLPoint ) -> ( view:LLView?, local_pt:LLPoint ) {
@@ -157,37 +131,5 @@ open class LLView : CALayer, LLUILifeEvent
         return ( self, local_pt )
     }
 }
-
-extension LLView
-{
-    public func callSetupFields() {
-        self.setupField.appear( LLEmpty.none )
-    }
-    
-    public func callBuildupFields() {
-        self.buildupField.appear( LLEmpty.none )
-    }
-    
-    public func callTeardownFields() {
-        self.teardownField.appear( LLEmpty.none )
-    }
-}
-
-public extension LLChain where TObj:LLView
-{
-    var style:LLFieldMapChain<TObj, LLViewStyleFieldMap> {
-        return LLFieldMapChain( obj, obj.styleField )
-    }
-    
-    @discardableResult
-    func isEnabled( _ torf:Bool ) -> Self { 
-        obj.isUserInteractionEnabled = torf
-        obj.rebuild()
-        return self
-    }
-    
-    var isEnabled:Bool { obj.isEnabled }
-}
-
 
 #endif

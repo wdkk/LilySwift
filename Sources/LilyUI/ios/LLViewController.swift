@@ -75,7 +75,7 @@ open class LLViewController : UIViewController
     }
 
     // MARK: - Display Linkでのポーリング処理
-    @objc 
+    @objc
     private func _viewLoop( _ displayLink:CADisplayLink ) {
         viewLoop()
     }
@@ -88,8 +88,10 @@ open class LLViewController : UIViewController
         
     open func startLooping() {
         if _display_link != nil { return }
-        _display_link = CADisplayLink( target: self, 
-                                       selector: #selector( LLViewController._viewLoop(_:) ) )
+        _display_link = CADisplayLink(
+            target: self, 
+            selector: #selector( LLViewController._viewLoop(_:) ) 
+        )
         _display_link?.preferredFramesPerSecond = 60
         _display_link?.add( to: RunLoop.current, forMode: RunLoop.Mode.common )
     }
@@ -100,25 +102,17 @@ open class LLViewController : UIViewController
         _display_link = nil
     }
     
-    open func preSetup() {
+    open func preSetup() {}
     
-    }
+    open func setup() {}
     
-    open func setup() {
-        
-    }
-    
-    open func postSetup() {
-
-    }
+    open func postSetup() {}
     
     open func preBuildup() {
         self.view.backgroundColor = LLColorSet["view","background"].uiColor
     }
     
-    open func buildup() {
-
-    }
+    open func buildup() {}
     
     open func postBuildup() {
         if let life_event_ui = self.view as? LLUILifeEvent {
@@ -133,17 +127,11 @@ open class LLViewController : UIViewController
         already = false
     }
 
-    open func preLoop() {
+    open func preLoop() {}
     
-    }
+    open func loop() {}
     
-    open func loop() {
-        
-    }
-    
-    open func postLoop() {
-
-    }
+    open func postLoop() {}
 }
 
 public extension LLViewController

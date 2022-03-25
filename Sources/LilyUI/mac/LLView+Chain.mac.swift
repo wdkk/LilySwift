@@ -159,4 +159,20 @@ public extension LLChain where TObj:LLView
     }
 }
 
+public extension LLChain where TObj:LLView
+{
+    var style:LLFieldMapChain<TObj, LLViewStyleFieldMap> {
+        return LLFieldMapChain( obj, obj.styleField )
+    }
+    
+    @discardableResult
+    func isEnabled( _ torf:Bool ) -> Self { 
+        obj.isUserInteractionEnabled = torf
+        obj.rebuild()
+        return self
+    }
+    
+    var isEnabled:Bool { obj.isEnabled }
+}
+
 #endif

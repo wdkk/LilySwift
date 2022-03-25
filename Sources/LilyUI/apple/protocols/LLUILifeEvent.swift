@@ -8,9 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-import CoreGraphics
-
-public protocol LLUILifeEvent
+public protocol LLUILifeEvent : AnyObject
 {
     var isUserInteractionEnabled:Bool { get set }   // UIView, NSViewの変数のプロパティを必須とする
     
@@ -21,6 +19,7 @@ public protocol LLUILifeEvent
     var teardownField:LLViewFieldMap { get set }
         
     var styleField:LLViewStyleFieldMap { get set }
+    var layoutField:LLField? { get set }
     
     /// UIの準備サイクル
     func preSetup()
@@ -38,40 +37,59 @@ public protocol LLUILifeEvent
     /// buildup系の総合関数. buidupシリーズは直接呼ばず、rebuildを使うこと
     func rebuild()
     
-    /// Field
-    func callSetupFields()
-   
-    func callBuildupFields()
-     
-    func callTeardownFields()
-}
-
-extension LLUILifeEvent
-{    
-    public func callSetupFields() {
-        self.setupField.appear( LLEmpty.none )
-    }
-    
-    public func callBuildupFields() {
-        self.buildupField.appear( LLEmpty.none )
-    }
-    
-    public func callTeardownFields() {
-        self.teardownField.appear( LLEmpty.none )
-    }
-    
-    public func callViewStyleFields() {
-        self.styleField.appear( LLEmpty.none )
-    }
+    /// プロトコルを持つ場合、小要素のrebuildとteardownを処理する関数を用意する
+    func rebuildChildren()
+    func teardownChildren()
 }
 
 extension LLUILifeEvent
 {
+    public func rebuild() {
+        _mutex.lock {
+            self.preBuildup()
+            self.buildup()
+            self.postBuildup()
+        }
+    }
+    
     public var isEnabled:Bool {
         get { return self.isUserInteractionEnabled }
         set { 
             self.isUserInteractionEnabled = newValue
             self.rebuild()
         }    
+    }
+    
+    public func layout<TCaller:AnyObject, TView:AnyObject>(
+        caller:TCaller,
+        me view:TView,
+        field f:@escaping (TCaller, TView)->Void
+    )
+    {
+        layoutField = LLTalkingField<TCaller, TView, Any>(
+            caller:caller,
+            me:view,
+            action:f 
+        )
+    }
+    
+    public func lifeEventDefaultSetup() { 
+        self.setupField.appear( LLEmpty.none )
+    }
+    
+    public func lifeEventDefaultBuildup() { 
+        self.layoutField?.appear()
+        
+        self.styleField.default?.appear() 
+        if !isEnabled { self.styleField.disable?.appear() }
+
+        self.buildupField.appear( LLEmpty.none )
+        
+        self.rebuildChildren()
+    }
+    
+    public func lifeEventDefaultTeardown() { 
+        self.teardownField.appear( LLEmpty.none )
+        self.teardownChildren()
     }
 }

@@ -44,6 +44,32 @@ extension NSView : LLUIRectControllable, LLUIPixelControllable
         }
     }
                 
+    public func rebuildChildren() {
+        // NSView側
+        for child in self.subviews {
+            if let llui = child as? LLUILifeEvent { llui.rebuild() }
+        }
+        
+        // CALayer側
+        guard let sublayers = self.layer?.sublayers else { return }
+        for child in sublayers {
+            if let llui = child as? LLUILifeEvent { llui.rebuild() }
+        }
+    }
+
+    public func teardownChildren() {
+        // NSView側
+        for child in self.subviews {
+            if let llui = child as? LLUILifeEvent { llui.teardown() }
+        }
+        
+        // CALayer側
+        guard let sublayers = self.layer?.sublayers else { return }
+        for child in sublayers {
+            if let llui = child as? LLUILifeEvent { llui.teardown() }
+        }
+    }
+    
     public func removeChildren() {
         for v in self.subviews {
             v.removeFromSuperview()
@@ -73,7 +99,7 @@ extension NSView : LLUIRectControllable, LLUIPixelControllable
             llui.setup()
             llui.postSetup()
         }
-        self.layer!.addSublayer( llView )
+        self.layer?.addSublayer( llView )
     }
     
     public func addSubview<TLayer:CALayer>(_ llViewChain:LLChain<TLayer> ) {

@@ -21,7 +21,9 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     public lazy var setupField = LLViewFieldMap()
     public lazy var buildupField = LLViewFieldMap()
     public lazy var teardownField = LLViewFieldMap()
+    
     public lazy var styleField = LLViewStyleFieldMap()
+    public var layoutField: LLField?
     
     public lazy var mouseMovedField = LLMouseFieldMap()
     public lazy var mouseLeftDownField = LLMouseFieldMap()
@@ -58,60 +60,23 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
         fatalError("init(coder:) has not been implemented")
     }
     
+    public var _mutex = LLRecursiveMutex()
+    
     open func preSetup() { }
     
     open func setup() { }
     
-    open func postSetup() { 
-        self.callSetupFields()
-    }
+    open func postSetup() { self.lifeEventDefaultSetup() }
     
     open func preBuildup() { }
     
     open func buildup() { }
     
-    open func postBuildup() {
-        self.callBuildupFields()
-        
-        self.styleField.default?.appear() 
-        if !isEnabled { self.styleField.disable?.appear() }
-                
-        // NSView側
-        for child in self.subviews {
-            if let llui = child as? LLUILifeEvent { llui.rebuild() }
-        }
-        
-        // CALayer側
-        guard let sublayers = self.layer?.sublayers else { return }
-        for child in sublayers {
-            if let llui = child as? LLUILifeEvent { llui.rebuild() }
-        }
-    }
+    open func postBuildup() { self.lifeEventDefaultBuildup() }
     
-    open func teardown() {
-        self.callTeardownFields()
-         
-        // NSView側
-        for child in self.subviews {
-            if let llui = child as? LLUILifeEvent { llui.teardown() }
-        }
-        
-        // CALayer側
-        guard let sublayers = self.layer?.sublayers else { return }
-        for child in sublayers {
-            if let llui = child as? LLUILifeEvent { llui.teardown() }
-        }
-    }
+    open func teardown() { self.lifeEventDefaultTeardown() }
     
-    public var _mutex = LLRecursiveMutex()
-    open func rebuild() {
-        _mutex.lock {
-            self.preBuildup()
-            self.buildup()
-            self.postBuildup()
-        }
-    }
-        
+    
     private func addEvents() {
         NSEvent.addLocalMonitorForEvents( matching: [.mouseMoved], handler: eventMouseMoved(event:) )
         NSEvent.addLocalMonitorForEvents( matching: [.leftMouseDown], handler: eventMouseLeftDown(event:) )
@@ -513,18 +478,6 @@ open class LLViewControllerView : NSView, CALayerDelegate, LLUILifeEvent
     open override func tabletPoint( with event: NSEvent ) {
         if !isEnabled { return }
         LLTablet.updateState( event: event )
-    }
-
-    public func callSetupFields() {
-        self.setupField.appear( LLEmpty.none )
-    }
-    
-    public func callBuildupFields() {
-        self.buildupField.appear( LLEmpty.none )
-    }
-    
-    public func callTeardownFields() {
-        self.teardownField.appear( LLEmpty.none )
     }
 }
 

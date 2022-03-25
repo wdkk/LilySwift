@@ -145,17 +145,11 @@ open class LLViewController : NSViewController
         postLoop()
     }
     
-    open func preLoop() {
-
-    }
+    open func preLoop() {}
     
-    open func loop() {
-
-    }
+    open func loop() {}
     
-    open func postLoop() {
-
-    }
+    open func postLoop() {}
         
     open func startLooping() {
         _dlink.loopFunc = self.viewLoop

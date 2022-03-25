@@ -483,6 +483,10 @@
 		5D8EA08B263D5D0500DCD404 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8EA080263D5D0500DCD404 /* SceneDelegate.swift */; };
 		5DB7A521239E50CA0050A9B4 /* LilySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D8F3B7C235B946B00BB9805 /* LilySwift.framework */; };
 		5DB7A530239E51780050A9B4 /* LilySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2605A5236FF5890078B63A /* LilySwift.framework */; };
+		5DE56D1327EE1F3600E6067B /* LLTouchEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE56D1227EE1F3600E6067B /* LLTouchEvent.swift */; };
+		5DE56D1627EE1F5B00E6067B /* LLUILifeEvent+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE56D1527EE1F5B00E6067B /* LLUILifeEvent+Chain.swift */; };
+		5DE56D1727EE1F5B00E6067B /* LLUILifeEvent+Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE56D1527EE1F5B00E6067B /* LLUILifeEvent+Chain.swift */; };
+		5DE56D1A27EE1F6F00E6067B /* LLView+Lily+ext.mac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DE56D1927EE1F6F00E6067B /* LLView+Lily+ext.mac.swift */; };
 		5DF72D5223A769EA00F29E47 /* TestLLString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF72D3B23A769EA00F29E47 /* TestLLString.swift */; };
 		5DF72D5323A769EA00F29E47 /* TestLLString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF72D3B23A769EA00F29E47 /* TestLLString.swift */; };
 		5DF72D5423A769EA00F29E47 /* TestLCAlgoStylusParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF72D3D23A769EA00F29E47 /* TestLCAlgoStylusParam.swift */; };
@@ -830,6 +834,9 @@
 		5DB7A539239E52570050A9B4 /* InfoMacTests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoMacTests.plist; sourceTree = "<group>"; };
 		5DB7A53A239E52580050A9B4 /* InfoiOSTests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoiOSTests.plist; sourceTree = "<group>"; };
 		5DD5361A23660C0C0076DDE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		5DE56D1227EE1F3600E6067B /* LLTouchEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLTouchEvent.swift; sourceTree = "<group>"; };
+		5DE56D1527EE1F5B00E6067B /* LLUILifeEvent+Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLUILifeEvent+Chain.swift"; sourceTree = "<group>"; };
+		5DE56D1927EE1F6F00E6067B /* LLView+Lily+ext.mac.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LLView+Lily+ext.mac.swift"; sourceTree = "<group>"; };
 		5DEF50A7239AA36A00ECA038 /* InfoMac.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoMac.plist; sourceTree = "<group>"; };
 		5DEF50A9239AA36A00ECA038 /* InfoiOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoiOS.plist; sourceTree = "<group>"; };
 		5DF72D3B23A769EA00F29E47 /* TestLLString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLLString.swift; sourceTree = "<group>"; };
@@ -1278,6 +1285,7 @@
 			isa = PBXGroup;
 			children = (
 				5D678F8B2783677E00DF430C /* LLUILifeEvent.swift */,
+				5DE56D1527EE1F5B00E6067B /* LLUILifeEvent+Chain.swift */,
 				5D678F8C2783677E00DF430C /* LLUIRectControllable.swift */,
 				5D678F8D2783677E00DF430C /* LLUIPixelControllable.swift */,
 			);
@@ -1287,6 +1295,7 @@
 		5D678F8F2783677E00DF430C /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				5DE56D1127EE1F3600E6067B /* protocols */,
 				5D678F992783677E00DF430C /* extensions */,
 				5D678F902783677E00DF430C /* LLViewController.swift */,
 				5D678F912783677E00DF430C /* LLImageView.swift */,
@@ -1355,6 +1364,7 @@
 		5D678FB52783677E00DF430C /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				5DE56D1927EE1F6F00E6067B /* LLView+Lily+ext.mac.swift */,
 				5D10EE3027DA679D00E89266 /* NSTextField+Lily+Chain.mac.swift */,
 				5D10EE3127DA679D00E89266 /* NSView+Lily+Chain.mac.swift */,
 				5D678FB62783677E00DF430C /* NSView+Lily+ext.mac.swift */,
@@ -1461,6 +1471,14 @@
 			);
 			name = Sources;
 			path = ../../../Sources;
+			sourceTree = "<group>";
+		};
+		5DE56D1127EE1F3600E6067B /* protocols */ = {
+			isa = PBXGroup;
+			children = (
+				5DE56D1227EE1F3600E6067B /* LLTouchEvent.swift */,
+			);
+			path = protocols;
 			sourceTree = "<group>";
 		};
 		5DEF50A5239AA36A00ECA038 /* Configures */ = {
@@ -1910,6 +1928,7 @@
 				5D6790522783677E00DF430C /* String+Lily+ext.swift in Sources */,
 				5D6795552783693700DF430C /* LCImage.proc.whitebalance.swift in Sources */,
 				5D6790B42783677F00DF430C /* LLUILifeEvent.swift in Sources */,
+				5DE56D1A27EE1F6F00E6067B /* LLView+Lily+ext.mac.swift in Sources */,
 				5D10EE2D27DA678500E89266 /* LLActionFieldMap+Chain.swift in Sources */,
 				5D6790642783677E00DF430C /* LLImage.proc.swift in Sources */,
 				5D6795452783693700DF430C /* LCPath.swift in Sources */,
@@ -1918,6 +1937,7 @@
 				5D6790062783677E00DF430C /* MTLComputeCommandEncoder+Lily+ext.swift in Sources */,
 				5D67955B2783693700DF430C /* LLMath.const.swift in Sources */,
 				5D6790B62783677F00DF430C /* LLUIRectControllable.swift in Sources */,
+				5DE56D1727EE1F5B00E6067B /* LLUILifeEvent+Chain.swift in Sources */,
 				5D67956D2783693700DF430C /* LDImageSaver.internal.ios.swift in Sources */,
 				5D67954D2783693700DF430C /* LCAlignedMemory.16.swift in Sources */,
 				5D67904A2783677E00DF430C /* AppleCrossPlatform.swift in Sources */,
@@ -2058,6 +2078,7 @@
 				5D6795422783693700DF430C /* LCAlignedMemory.4096.swift in Sources */,
 				5D6795502783693700DF430C /* LCImageSaver.internal.swift in Sources */,
 				5D67954A2783693700DF430C /* LCClock.swift in Sources */,
+				5DE56D1627EE1F5B00E6067B /* LLUILifeEvent+Chain.swift in Sources */,
 				5D6795882783693700DF430C /* LCImage.raw.swift in Sources */,
 				5D67908D2783677E00DF430C /* PGTriangle.swift in Sources */,
 				5D6790232783677E00DF430C /* LLAlignedMemory.swift in Sources */,
@@ -2252,6 +2273,7 @@
 				5D6795762783693700DF430C /* LDImageSaver.internal.mac.swift in Sources */,
 				5D6790892783677E00DF430C /* PGCircle.swift in Sources */,
 				5D67908F2783677E00DF430C /* PGBlurryCircle.swift in Sources */,
+				5DE56D1327EE1F3600E6067B /* LLTouchEvent.swift in Sources */,
 				5D6790F32783677F00DF430C /* LLImageView+Chain.swift in Sources */,
 				5D67907D2783677E00DF430C /* UIColor+Lily+ext.swift in Sources */,
 			);
@@ -2373,7 +2395,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4.5.39.0;
+				CURRENT_PROJECT_VERSION = 4.5.40.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2394,7 +2416,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.39;
+				MARKETING_VERSION = 4.5.40;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
@@ -2411,7 +2433,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 4.5.39.0;
+				CURRENT_PROJECT_VERSION = 4.5.40.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2425,7 +2447,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.39;
+				MARKETING_VERSION = 4.5.40;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				SDKROOT = macosx;
@@ -2668,7 +2690,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4.5.39.0;
+				CURRENT_PROJECT_VERSION = 4.5.40.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2692,7 +2714,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.39;
+				MARKETING_VERSION = 4.5.40;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
@@ -2711,7 +2733,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4.5.39.0;
+				CURRENT_PROJECT_VERSION = 4.5.40.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2731,7 +2753,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.5.39;
+				MARKETING_VERSION = 4.5.40;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwift;
 				PRODUCT_NAME = LilySwift;
 				PROVISIONING_PROFILE_SPECIFIER = "";
