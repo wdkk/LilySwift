@@ -65,13 +65,14 @@ open class LBViewController : LLViewController
         { caller, me in
             me.chain
             .backgroundColor( .grey )
-        }  
-        .buildup.add( caller:self ) 
-        { caller, me in
+        }
+        .layout( caller:self ) { caller, me in
             // セーフエリアいっぱいにリサイズ
             CATransaction.stop {
                 me.chain.rect( self.safeArea )
             }
+        }
+        .buildup.add( caller:self ) { caller, me in
             // ボード描画
             caller.buildupBoard()
         }

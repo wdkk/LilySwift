@@ -36,7 +36,7 @@ public struct LBCanvas : UIViewControllerRepresentable {
     }
     
     public func updateUIViewController(_ uiViewController: LBViewController, context: Context) {
-        uiViewController.buildupBoard()
+        uiViewController.rebuild()
     }
 }
 
@@ -68,7 +68,7 @@ public struct LBCanvas : NSViewControllerRepresentable {
     }
     
     public func updateNSViewController(_ nsViewController: LBViewController, context: Context) {
-        nsViewController.buildupBoard()
+        nsViewController.rebuild()
     }
 }
 

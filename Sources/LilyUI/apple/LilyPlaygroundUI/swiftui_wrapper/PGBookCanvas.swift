@@ -36,7 +36,7 @@ public struct PGBookCanvas : UIViewControllerRepresentable {
     }
     
     public func updateUIViewController(_ uiViewController: PGViewController, context: Context) {
-        uiViewController.buildupBoard()
+        uiViewController.rebuild()
     }
 }
 
@@ -68,7 +68,7 @@ public struct PGBookCanvas : NSViewControllerRepresentable {
     }
     
     public func updateNSViewController(_ nsViewController: PGViewController, context: Context) {
-        nsViewController.buildupBoard()
+        nsViewController.rebuild()
     }
 }
 

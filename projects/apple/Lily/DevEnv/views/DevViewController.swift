@@ -10,6 +10,8 @@
 //
 
 import LilySwift
+import Foundation
+import UIKit
 
 class Fragment
 {
