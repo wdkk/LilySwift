@@ -22,7 +22,9 @@ NUL
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcworkspace/contents.xcworkspacedata
+xcuserdata/*
 UserInterfaceState.xcuserstate
+
 
 Projects/apple/Lily/DevEnv/
 
