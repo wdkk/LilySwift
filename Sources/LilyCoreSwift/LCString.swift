@@ -297,7 +297,8 @@ public func LCStringFind( _ cstr:LCStringSmPtr, _ pos:Int, _ key:LCStringSmPtr )
     let str_key = String( key )
     // String.Indexのrangeを受け取り、nilならば-1を返す. そうでない場合はlowerBound.utf16Offsetで位置を返す
     guard let index = str.s.range( of: str_key ) else { return -1 }
-    return index.lowerBound.utf16Offset( in: "" ) + pos
+    let ns_range = NSRange( index, in:str.s )
+    return ns_range.lowerBound + pos
 }
 
 /// 文字列を後方から検索する
@@ -478,10 +479,11 @@ public func LCStringUppercased( _ src_:LCStringSmPtr ) -> LCStringSmPtr {
     return dst
 }
 
-/// src文字列を大文字に変換して返す
+/// src文字列のピクセルサイズを返す
 /// - Parameters:
 ///   - src_: 対象の文字列
-/// - Returns: 大文字変換した文字列
+///   - attr_: フォント属性
+/// - Returns: ピクセルサイズ
 public func LCStringPixelSize( _ src_:LCStringSmPtr, _ attr_:LCTextAttributeSmPtr ) -> LLSize {
     let family = String( LCTextAttributeFace( attr_ ) )
     let str = LLString( src_ )
