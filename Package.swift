@@ -23,7 +23,7 @@ let package = Package(
             dependencies: [],
             path: "./Sources/",
             swiftSettings: [
-                .define("DEBUG", .when( platforms:[.iOS, .macOS, .macCatalyst], configuration:.debug))
+                .define("DEBUG", .when( platforms:[.iOS, .macOS], configuration:.debug))
             ]
         )
     ]
