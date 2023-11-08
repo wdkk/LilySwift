@@ -3,6 +3,12 @@
 <plist version="1.0">
 <dict>
 	<key>BuildLocationStyle</key>
-	<string>UseTargetSettings</string>
+	<string>UseAppPreferences</string>
+	<key>CustomBuildLocationType</key>
+	<string>RelativeToDerivedData</string>
+	<key>DerivedDataLocationStyle</key>
+	<string>Default</string>
+	<key>ShowSharedSchemesAutomaticallyEnabled</key>
+	<true/>
 </dict>
 </plist>

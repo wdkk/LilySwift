@@ -1,7 +1,7 @@
 //
 // LilySwift Library Project
 //
-// Copyright (c) Watanabe-Denki Inc. and Kengo Watanabe.
+// Copyright (c) Watanabe-Denki, Inc. and Kengo Watanabe.
 //   https://wdkk.co.jp/
 //
 // This software is released under the MIT License.
@@ -9,7 +9,7 @@
 //
 
 /// コメント未済
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import UIKit
 #elseif os(macOS)
 import AppKit

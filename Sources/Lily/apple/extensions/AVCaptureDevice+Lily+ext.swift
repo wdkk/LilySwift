@@ -1,7 +1,7 @@
 //
 // LilySwift Library Project
 //
-// Copyright (c) Watanabe-Denki Inc. and Kengo Watanabe.
+// Copyright (c) Watanabe-Denki, Inc. and Kengo Watanabe.
 //   https://wdkk.co.jp/
 //
 // This software is released under the MIT License.
@@ -10,6 +10,8 @@
 
 import Foundation
 import AVFoundation
+
+#if os(iOS) || os(macOS)
 
 @available(iOS 14.0, *)
 public extension AVCaptureDevice 
@@ -65,3 +67,5 @@ public extension AVCaptureDevice
         }
     }
 }
+
+#endif

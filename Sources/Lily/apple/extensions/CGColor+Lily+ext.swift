@@ -1,7 +1,7 @@
 //
 // LilySwift Library Project
 //
-// Copyright (c) Watanabe-Denki Inc. and Kengo Watanabe.
+// Copyright (c) Watanabe-Denki, Inc. and Kengo Watanabe.
 //   https://wdkk.co.jp/
 //
 // This software is released under the MIT License.
@@ -10,7 +10,7 @@
 
 /// コメント未済
 
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import UIKit
 #elseif os(macOS)
 import AppKit
@@ -26,7 +26,7 @@ public extension CGColor
         var B:CGFloat = 0.0
         var A:CGFloat = 0.0
         
-        #if os(iOS)
+        #if os(iOS) || os(visionOS)
         UIColor( cgColor:self ).getRed( &R, green:&G, blue:&B, alpha: &A )
         return LLColor( R: R.f, G: G.f, B: B.f, A: A.f )    
         #elseif os(macOS)

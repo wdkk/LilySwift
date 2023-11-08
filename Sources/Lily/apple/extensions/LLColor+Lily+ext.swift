@@ -1,7 +1,7 @@
 //
 // LilySwift Library Project
 //
-// Copyright (c) Watanabe-Denki Inc. and Kengo Watanabe.
+// Copyright (c) Watanabe-Denki, Inc. and Kengo Watanabe.
 //   https://wdkk.co.jp/
 //
 // This software is released under the MIT License.
@@ -10,12 +10,13 @@
 
 /// コメント未済
 
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import UIKit
 #elseif os(macOS)
 import AppKit
 #endif
 
+import QuartzCore
 import Metal
 
 public extension LLColor8
@@ -139,7 +140,7 @@ public extension LLColor
     }
     
     var cgColor:CGColor {
-        #if os(iOS)
+        #if os(iOS) || os(visionOS)
         return UIColor( self.R.cgf, self.G.cgf, self.B.cgf, self.A.cgf ).cgColor
         #elseif os(macOS)
         return NSColor( self.R.cgf, self.G.cgf, self.B.cgf, self.A.cgf ).cgColor

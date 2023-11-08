@@ -1,7 +1,7 @@
 LilySwift ライブラリ
 =================
 
-update : 2022.02.13
+update : 2023.11.06
 
 渡辺電気株式会社でSwiftに関するコードを整理しているiOS/macOS向けライブラリです。
 よく使う基本モジュール, UIKitのユーティリティ, Metalのユーティリティなどを含みます。
@@ -10,26 +10,35 @@ update : 2022.02.13
 
 ## モジュール群の概要( Overview of Modules )
 
-* **LilyCoreSwift**  - 汎用的な処理モジュール群(C言語からの移植部分)です。型の定義、画像オブジェクト、基礎的なロジックなどを含みます。
+* **LilyCore**  
+- 汎用的な処理モジュール群(C言語からの移植)です。型の定義、画像オブジェクト、基礎的なロジックなどを含みます。
 
-* **Lily** -  メインとなるSwiftモジュール群です。LilyCoreモジュールのラッパークラス、Metalのモジュール、ユーティリティなどを含みます。
+* **Lily** 
+- メインとなるSwiftモジュール群です。LilyCoreモジュールのラッパーオブジェクト、Metalのモジュール、ユーティリティなどを含みます。
   
-* **LilyUI** - iOS, macOSのUIに関するモジュール群です。
+* **Lily.View** 
+- iOS, macOSのビューに関するモジュール群です。AppKit,UIKitを用いるレイヤです。
 
+* **Lily.Metal**
+- Metalを用いるヘルパーユーティリティ群です。オブジェクトや各種拡張を含みます。
 
+* **Lily.Stage**
+- Metalを用いたグラフィックス処理のモジュール群です。パイプラインをまとめています。
+
+* **Lily.UI**
+- Lily.ViewのSwiftUI向けモジュールです。
 
 ## 開発環境 ( Environment )
 
-* macOS Monterey
-* XCode13.2.1
-
-
+* XCode 15.0
+* iOS 15.0
+* macOS 13.0
 
 ## 利用手順( Usage )
 
-以下では、Lilyを用いてビルドを通すまでの手順を説明します。
+Lilyのビルドを通すまでの手順を説明します。
 
-### Case-A. Swift Packageを使う場合
+### Case-A. Swift Packageを使う
 
 #### A-a. インストール( Install )
 
@@ -41,10 +50,10 @@ update : 2022.02.13
 
 1. [File] > [Add Packages] を選択します。
 
-2. Packageリストの左下の[+]ボタンを押して、コレクションを追加します。
+2. Package選択画面の右上の[検索フィールド]で以下を入力します.
   - https://github.com/wdkk/LilySwift.git
 
-3. 追加された[WDKK-LilySwift] > [LilySwift]を選択します。
+3. [LilySwift]が表示されるのでこれを選択します
 
 4. Dependency Ruleを設定します。
   - [Up to Next Major Version]を選択
@@ -53,48 +62,10 @@ update : 2022.02.13
 5. Addボタンを押します。
 
 
-----
-
-### Case-B. xcframeworkを使う場合
-
-#### B-a. インストール( Install )
-
-1. XCodeを用意してください。
-  
-2. プロジェクトをダウンロードもしくはクローンしてください。
-
-
-#### B-b. LilySwift.xcframeworkの作成と実行テスト
-
-1. 取得したプロジェクトのXCワークスペースを開いてください。
-  
-   位置: [LilySwift] > [project] > [apple] > LilySwift.xcworkspace
-    
-2. XCode上で"LilySwift.xc-framework"スキーマを選択し、Runを実行します（ビルド）。
-  
-3. プロジェクトのルートフォルダに[_lib] > [LilySwift.xcframework]が生成されているか確認してください。
-  
-4. XCode上で"iOSApp"スキーマ、出力先に"任意のSimulator"を選択し、Runを実行します。
-  
-5. 起動したシミュレータで中心に青い四角が表示されれば成功です。
-
-
-#### B-c. iOSAppでLilyを利用する
-
-1. LilyiOSAppプロジェクト > [codes] > MyViewController.swiftを開いてください。
-  
-2. MyViewController.swiftが上記手順5の青い四角を表示するための、LilyBoardモジュールセットの記述です。
-  
-3. LilyiOSAppプロジェクト > [samples] に開発で用いている試行錯誤のコードが含まれています。ご参考ください。
-  
-4. 実際の利用シーンについては今後サンプルコードやリファレンスを用意してまいります。しばらくお待ちください。
-
-
-
 ## ライブラリの成り立ち( Library structure )
 
 2004年ごろ、Windows向けの画像処理ライブラリの必要性からLilyの開発を開始しました。
-LilySwiftはiOS/macOS向けにSwiftで動作するようにしたLilyライブラリです。
+LilySwiftはiOS/macOS向けにLilyをSwiftに移植したライブラリです。
 
 
 
@@ -106,7 +77,7 @@ LilySwiftライブラリは MIT License ( https://github.com/wdkk/LilySwift/blob
 
 ## 開発元(Developer)
 
-- 渡辺電気株式会社(Watanabe-Denki Inc.)
+- 渡辺電気株式会社(Watanabe-Denki, Inc.)
 　　
   - https://wdkk.co.jp/
 
@@ -116,4 +87,4 @@ LilySwiftライブラリは MIT License ( https://github.com/wdkk/LilySwift/blob
 
 
 
-Copyright(c) 2004- Watanabe-Denki.Inc.
+Copyright(c) 2004- Watanabe-Denki, Inc.

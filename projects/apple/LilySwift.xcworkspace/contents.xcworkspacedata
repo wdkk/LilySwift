@@ -5,10 +5,7 @@
       location = "group:Lily/LilySwift.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:LilyiOSApp/LilyiOSApp.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:LilyMacApp/LilyMacApp.xcodeproj">
+      location = "group:DevEnv/DevEnv.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:../../LICENSE">

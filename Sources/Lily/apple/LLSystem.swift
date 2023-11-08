@@ -1,7 +1,7 @@
 //
 // LilySwift Library Project
 //
-// Copyright (c) Watanabe-Denki Inc. and Kengo Watanabe.
+// Copyright (c) Watanabe-Denki, Inc. and Kengo Watanabe.
 //   https://wdkk.co.jp/
 //
 // This software is released under the MIT License.
@@ -9,6 +9,9 @@
 //
 
 import Foundation
+#if os(macOS)
+import AppKit
+#endif
 
 /// システム管理モジュール
 open class LLSystem
@@ -24,10 +27,23 @@ open class LLSystem
     static public func freeStorage( path:String = "/" ) -> Double {
         return LCSystemGetFreeStorage( path.cChar ) 
     }
-
+    
+    #if os(macOS)
+    static public var currentWindow:NSWindow?
+    static private var _retinaScale:Double = 1.0
+    
+    static public func updateRetinaScale() {
+        _retinaScale = LLSystem.currentWindow?.backingScaleFactor.d ?? 1.0
+    }
+    #endif
+    
     /// デバイスのretinaスケール(2.0, 3.0など)
     static public var retinaScale:Double {
+        #if os(macOS)
+        return _retinaScale
+        #else
         return LCSystemGetRetinaScale()
+        #endif
     }
     
     /// 指定したミリ秒だけ処理を停止する(待機時間が長い場合, wait()を使う)

@@ -1,7 +1,7 @@
 //
 // LilySwift Library Project
 //
-// Copyright (c) Watanabe-Denki Inc. and Kengo Watanabe.
+// Copyright (c) Watanabe-Denki, Inc. and Kengo Watanabe.
 //   https://wdkk.co.jp/
 //
 // This software is released under the MIT License.
@@ -42,6 +42,10 @@ open class LLAlignedMemory16<T> : LLAlignedMemoryAllocatable
     public var allocatedLength:Int { return LCAlignedMemory16AllocatedLength( lcmemory ) } 
     
     public var pointer:LLBytePtr? { return LCAlignedMemory16Pointer( lcmemory ) }
+    
+    public var mutablePointer:UnsafeMutablePointer<T>? { return UnsafeMutablePointer<T>( OpaquePointer( pointer ) ) }
+   
+    public var accessor:UnsafeMutableBufferPointer<T>? { return UnsafeMutableBufferPointer<T>( start:mutablePointer, count:count ) }
     
     public func clear() { LCAlignedMemory16Clear( lcmemory ) }
 
@@ -88,8 +92,9 @@ open class LLAlignedMemory4096<T> : LLAlignedMemoryAllocatable
     
     public var pointer:LLBytePtr? { return LCAlignedMemory4096Pointer( lcmemory ) }
     
-    public var accessor:UnsafeMutablePointer<T>? { return UnsafeMutablePointer<T>(
-        OpaquePointer( pointer ) ) }
+    public var mutablePointer:UnsafeMutablePointer<T>? { return UnsafeMutablePointer<T>( OpaquePointer( pointer ) ) }
+   
+    public var accessor:UnsafeMutableBufferPointer<T>? { return UnsafeMutableBufferPointer<T>( start:mutablePointer, count:count ) }
     
     public func clear() { LCAlignedMemory4096Clear( lcmemory ) }
 
