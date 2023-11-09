@@ -23,9 +23,9 @@ extension Lily.Stage.Model
         
         public struct Vertex : Equatable, Hashable
         {
-            public var position: simd_float3
-            public var normal: simd_float3
-            public var color: simd_float3
+            public var position:LLFloatv3
+            public var normal:LLFloatv3
+            public var color:LLFloatv3
             
             public static func == ( lhs:Self, rhs:Self ) -> Bool {
                 return lhs.position == rhs.position &&

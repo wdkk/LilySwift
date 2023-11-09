@@ -14,7 +14,7 @@ import simd
 
 extension Lily.Stage
 {
-    open class GBufferPass
+    open class DefferedShadingPass
     { 
         var device:MTLDevice
         var commandQueue:MTLCommandQueue?
@@ -23,7 +23,7 @@ extension Lily.Stage
         var shadowDepthState: MTLDepthStencilState?
         
         var GBufferPassDesc:MTLRenderPassDescriptor?
-        var GBufferDepthState: MTLDepthStencilState?
+        var GBufferDepthState:MTLDepthStencilState?
         
         public init( device:MTLDevice, renderTextures:RenderTextures ) {
             self.device = device

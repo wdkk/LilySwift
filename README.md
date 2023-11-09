@@ -56,8 +56,8 @@ Lilyのビルドを通すまでの手順を説明します。
 3. [LilySwift]が表示されるのでこれを選択します
 
 4. Dependency Ruleを設定します。
-  - [Up to Next Major Version]を選択
-  - バージョンの値を4.0.0 ~ 5.0.0を設定
+  - [Brunch]を選択
+  - 現在は"dev-5.0"で開発中のブランチとなります
 
 5. Addボタンを押します。
 

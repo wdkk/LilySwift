@@ -30,6 +30,19 @@ public extension MTLRenderCommandEncoder
     func setFragmentBuffer<T:MetalBufferAllocatable>( _ obj:T, offset:Int=0, index idx:Int ) {
         self.setFragmentBuffer( obj.metalBuffer, offset: offset, index: idx )
     }
+    
+    // MARK: - メモリレスの処理わけ
+    func setVertexMemoryLessTexture( _ tex:MTLTexture?, index idx:Int ) {
+        #if targetEnvironment(simulator)
+        self.setVertexTexture( tex, index: idx )
+        #endif
+    }
+    
+    func setFragmentMemoryLessTexture( _ tex:MTLTexture?, index idx:Int ) {
+        #if targetEnvironment(simulator)
+        self.setFragmentTexture( tex, index: idx )
+        #endif
+    }
 }
 
 public extension MTLRenderCommandEncoder

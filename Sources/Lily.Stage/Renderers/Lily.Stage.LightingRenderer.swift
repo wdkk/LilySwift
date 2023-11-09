@@ -79,12 +79,10 @@ extension Lily.Stage
             // ライティング描画
             renderEncoder?.setRenderPipelineState( lighting_pp )
             renderEncoder?.setDepthStencilState( lightingDepthState )
-            #if targetEnvironment(simulator)
-            renderEncoder?.setFragmentTexture( renderTextures.GBuffer0, index:0 )
-            renderEncoder?.setFragmentTexture( renderTextures.GBuffer1, index:1 )
-            renderEncoder?.setFragmentTexture( renderTextures.GBuffer2, index:2 )
-            renderEncoder?.setFragmentTexture( renderTextures.GBufferDepth, index:3 )
-            #endif
+            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.GBuffer0, index:0 )
+            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.GBuffer1, index:1 )
+            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.GBuffer2, index:2 )
+            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.GBufferDepth, index:3 )
             renderEncoder?.setFragmentTexture( renderTextures.shadowMap, index:5 )
             renderEncoder?.setFragmentTexture( skyCubeMap, index:6 )
             renderEncoder?.setFragmentBuffer( globalUniforms?.metalBuffer, offset:0, index:0 )

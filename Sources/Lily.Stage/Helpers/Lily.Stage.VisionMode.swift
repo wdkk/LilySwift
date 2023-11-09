@@ -16,6 +16,7 @@ extension Lily.Stage
     public enum VisionMode
     {
         case shared
+        case progressive
         case immersive
     }
 }
