@@ -14,7 +14,7 @@ import simd
 
 extension Lily.Stage
 {
-    open class DefferedShadingPass
+    open class DeferredShading
     { 
         var device:MTLDevice
         var commandQueue:MTLCommandQueue?

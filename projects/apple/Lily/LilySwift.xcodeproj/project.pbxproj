@@ -485,9 +485,9 @@
 		5DEC51C22AF8E9B900D13197 /* Lily.Stage.StageRenderEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51952AF8E9B900D13197 /* Lily.Stage.StageRenderEngine.swift */; };
 		5DEC51C32AF8E9B900D13197 /* Lily.Stage.StageRenderEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51952AF8E9B900D13197 /* Lily.Stage.StageRenderEngine.swift */; };
 		5DEC51C42AF8E9B900D13197 /* Lily.Stage.StageRenderEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51952AF8E9B900D13197 /* Lily.Stage.StageRenderEngine.swift */; };
-		5DEC51C52AF8E9B900D13197 /* Lily.Stage.DefferedShadingPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51962AF8E9B900D13197 /* Lily.Stage.DefferedShadingPass.swift */; };
-		5DEC51C62AF8E9B900D13197 /* Lily.Stage.DefferedShadingPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51962AF8E9B900D13197 /* Lily.Stage.DefferedShadingPass.swift */; };
-		5DEC51C72AF8E9B900D13197 /* Lily.Stage.DefferedShadingPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51962AF8E9B900D13197 /* Lily.Stage.DefferedShadingPass.swift */; };
+		5DEC51C52AF8E9B900D13197 /* Lily.Stage.DeferredShadingPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51962AF8E9B900D13197 /* Lily.Stage.DeferredShadingPass.swift */; };
+		5DEC51C62AF8E9B900D13197 /* Lily.Stage.DeferredShadingPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51962AF8E9B900D13197 /* Lily.Stage.DeferredShadingPass.swift */; };
+		5DEC51C72AF8E9B900D13197 /* Lily.Stage.DeferredShadingPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51962AF8E9B900D13197 /* Lily.Stage.DeferredShadingPass.swift */; };
 		5DEC51C82AF8E9B900D13197 /* Lily.Stage.ParticlePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51972AF8E9B900D13197 /* Lily.Stage.ParticlePass.swift */; };
 		5DEC51C92AF8E9B900D13197 /* Lily.Stage.ParticlePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51972AF8E9B900D13197 /* Lily.Stage.ParticlePass.swift */; };
 		5DEC51CA2AF8E9B900D13197 /* Lily.Stage.ParticlePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51972AF8E9B900D13197 /* Lily.Stage.ParticlePass.swift */; };
@@ -824,7 +824,7 @@
 		5DEC51912AF8E9B900D13197 /* Lily.Stage.ParticleRenderer.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Lily.Stage.ParticleRenderer.metal; sourceTree = "<group>"; };
 		5DEC51932AF8E9B900D13197 /* Lily.Stage.LightingRenderer.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Lily.Stage.LightingRenderer.metal; sourceTree = "<group>"; };
 		5DEC51952AF8E9B900D13197 /* Lily.Stage.StageRenderEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lily.Stage.StageRenderEngine.swift; sourceTree = "<group>"; };
-		5DEC51962AF8E9B900D13197 /* Lily.Stage.DefferedShadingPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lily.Stage.DefferedShadingPass.swift; sourceTree = "<group>"; };
+		5DEC51962AF8E9B900D13197 /* Lily.Stage.DeferredShadingPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lily.Stage.DeferredShadingPass.swift; sourceTree = "<group>"; };
 		5DEC51972AF8E9B900D13197 /* Lily.Stage.ParticlePass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lily.Stage.ParticlePass.swift; sourceTree = "<group>"; };
 		5DEC51982AF8E9B900D13197 /* Lily.Stage.BaseRenderEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lily.Stage.BaseRenderEngine.swift; sourceTree = "<group>"; };
 		5DEC51992AF8E9B900D13197 /* Lily.Stage.VisionRenderEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lily.Stage.VisionRenderEngine.swift; sourceTree = "<group>"; };
@@ -1340,7 +1340,7 @@
 				5DEC51982AF8E9B900D13197 /* Lily.Stage.BaseRenderEngine.swift */,
 				5DEC51952AF8E9B900D13197 /* Lily.Stage.StageRenderEngine.swift */,
 				5DEC51992AF8E9B900D13197 /* Lily.Stage.VisionRenderEngine.swift */,
-				5DEC51962AF8E9B900D13197 /* Lily.Stage.DefferedShadingPass.swift */,
+				5DEC51962AF8E9B900D13197 /* Lily.Stage.DeferredShadingPass.swift */,
 				5DEC51972AF8E9B900D13197 /* Lily.Stage.ParticlePass.swift */,
 				5DEC519A2AF8E9B900D13197 /* Lily.Stage.LightingRenderer.swift */,
 				5DEC519C2AF8E9B900D13197 /* Lily.Stage.ObjectRenderer.swift */,
@@ -1919,7 +1919,7 @@
 				5DDA32E12AFC1192004427C9 /* LCImage.rgbaf.swift in Sources */,
 				5D088ACE2AFC07D800DA4F01 /* LLPoint+LilyCore+ext.swift in Sources */,
 				5D67910C2783677F00DF430C /* NSWindow+Lily+ext.mac.swift in Sources */,
-				5DEC51C62AF8E9B900D13197 /* Lily.Stage.DefferedShadingPass.swift in Sources */,
+				5DEC51C62AF8E9B900D13197 /* Lily.Stage.DeferredShadingPass.swift in Sources */,
 				5DDA33462AFC11A6004427C9 /* LLFileReader.swift in Sources */,
 				5DDA33822AFC11C8004427C9 /* NSImage+Lily+ext.swift in Sources */,
 				5D088AEF2AFC07D800DA4F01 /* LLMath.type+LilyCore+ext.swift in Sources */,
@@ -2047,7 +2047,7 @@
 				5DEC51EC2AF8E9B900D13197 /* Lily.Stage.Shared.GlobalUniform.swift in Sources */,
 				5DDA33382AFC11A6004427C9 /* LLFileWriter.swift in Sources */,
 				5D5A47662A068F68005015D7 /* LLUIRectControllable.swift in Sources */,
-				5DEC51C52AF8E9B900D13197 /* Lily.Stage.DefferedShadingPass.swift in Sources */,
+				5DEC51C52AF8E9B900D13197 /* Lily.Stage.DeferredShadingPass.swift in Sources */,
 				5DDA333D2AFC11A6004427C9 /* LLString.swift in Sources */,
 				5DDA32BA2AFC1191004427C9 /* LCImageSaver.internal.tga.swift in Sources */,
 				5DDA333E2AFC11A6004427C9 /* LLPath.swift in Sources */,
@@ -2255,7 +2255,7 @@
 				5DEC51F42AF8E9B900D13197 /* Lily.Stage.Model.Triangles.swift in Sources */,
 				5DDA33252AFC1192004427C9 /* LLMath.type.swift in Sources */,
 				5D088AF02AFC07D800DA4F01 /* LLMath.type+LilyCore+ext.swift in Sources */,
-				5DEC51C72AF8E9B900D13197 /* Lily.Stage.DefferedShadingPass.swift in Sources */,
+				5DEC51C72AF8E9B900D13197 /* Lily.Stage.DeferredShadingPass.swift in Sources */,
 				5D088ACC2AFC07D800DA4F01 /* LCData+LilyCore+overload.swift in Sources */,
 				5DDA33272AFC1192004427C9 /* LLType.graphics.util.swift in Sources */,
 				5D088AFF2AFC07D800DA4F01 /* LLMath.util+LilyCore+overload.swift in Sources */,

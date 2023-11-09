@@ -20,7 +20,7 @@ extension Lily.Stage
         var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
         
         var renderTextures:RenderTextures
-        var defferedShadingPass:DefferedShadingPass?
+        var deferredShadingPass:DeferredShading?
         var particlePass:ParticlePass?
         
         var objectRenderer:ObjectRenderer?
@@ -32,7 +32,7 @@ extension Lily.Stage
             self.uniforms = uniforms
 
             self.renderTextures = .init( device:device )
-            self.defferedShadingPass = .init( device:device, renderTextures:renderTextures )
+            self.deferredShadingPass = .init( device:device, renderTextures:renderTextures )
             self.particlePass = .init( device:device, renderTextures:renderTextures )
 
             // レンダラーの用意
@@ -52,11 +52,11 @@ extension Lily.Stage
             depthTexture:MTLTexture?
         )
         {
-            guard let deffered_shading_pass = defferedShadingPass, let particle_pass = particlePass else { return }
+            guard let deferred_shading_pass = deferredShadingPass, let particle_pass = particlePass else { return }
             
             // 共通処理
             // パスの更新
-            deffered_shading_pass.updatePass( 
+            deferred_shading_pass.updatePass( 
                 renderTextures:renderTextures,
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetCount:viewCount
@@ -73,16 +73,16 @@ extension Lily.Stage
             
             // カスケードシャドウマップ
             for c_idx in 0 ..< Shared.Const.shadowCascadesCount {
-                deffered_shading_pass.shadowPassDesc?.depthAttachment.slice = c_idx
+                deferred_shading_pass.shadowPassDesc?.depthAttachment.slice = c_idx
                 
-                let shadow_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:deffered_shading_pass.shadowPassDesc! ) 
+                let shadow_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:deferred_shading_pass.shadowPassDesc! ) 
                 
                 shadow_encoder?
                 .label( "Shadow Cascade \(c_idx)" )
                 .cullMode( .front )
                 .frontFacing( .counterClockwise )
                 .depthClipMode( .clamp )
-                .depthStencilState( deffered_shading_pass.shadowDepthState )
+                .depthStencilState( deferred_shading_pass.shadowDepthState )
                 .viewport( shadowViewport )
                 .scissor( shadowScissor )
                 
@@ -101,33 +101,33 @@ extension Lily.Stage
             }
             
             // レンダーパスのcolor[0]をGBufferPassの書き込み先として指定する
-            deffered_shading_pass.setGBufferDestination( texture:destinationTexture )
-            deffered_shading_pass.setDepth( texture:depthTexture )
+            deferred_shading_pass.setGBufferDestination( texture:destinationTexture )
+            deferred_shading_pass.setDepth( texture:depthTexture )
             
-            let deffered_shading_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:deffered_shading_pass.GBufferPassDesc! )
+            let deferred_shading_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:deferred_shading_pass.GBufferPassDesc! )
             
-            deffered_shading_encoder?
+            deferred_shading_encoder?
             .label( "G-Buffer Render" )
             .cullMode( .none )
             .frontFacing( .counterClockwise )
-            .depthStencilState( deffered_shading_pass.GBufferDepthState! )
+            .depthStencilState( deferred_shading_pass.GBufferDepthState! )
             .viewports( viewports )
             .vertexAmplification( count:viewCount, viewports:viewports )
             
             // オブジェクトの描画
             objectRenderer?.draw( 
-                with:deffered_shading_encoder, 
+                with:deferred_shading_encoder, 
                 globalUniforms:uniforms
             )
 
             // ライティングの描画
             lightingRenderer?.draw(
-                with:deffered_shading_encoder, 
+                with:deferred_shading_encoder, 
                 globalUniforms:uniforms, 
                 renderTextures:renderTextures
             )
 
-            deffered_shading_encoder?.endEncoding()
+            deferred_shading_encoder?.endEncoding()
             
             particle_pass.setDestination( texture:destinationTexture )
             particle_pass.setDepth( texture:depthTexture )
