@@ -11,22 +11,22 @@ update : 2023.11.06
 ## モジュール群の概要( Overview of Modules )
 
 * **LilyCore**  
-- 汎用的な処理モジュール群(C言語からの移植)です。型の定義、画像オブジェクト、基礎的なロジックなどを含みます。
+  - 汎用的な処理モジュール群(C言語からの移植)です。型の定義、画像オブジェクト、基礎的なロジックなどを含みます。
 
 * **Lily** 
-- メインとなるSwiftモジュール群です。LilyCoreモジュールのラッパーオブジェクト、Metalのモジュール、ユーティリティなどを含みます。
+  - メインとなるSwiftモジュール群です。LilyCoreモジュールのラッパーオブジェクト、Metalのモジュール、ユーティリティなどを含みます。
   
 * **Lily.View** 
-- iOS, macOSのビューに関するモジュール群です。AppKit,UIKitを用いるレイヤです。
+  - iOS, macOSのビューに関するモジュール群です。AppKit,UIKitを用いるレイヤです。
 
 * **Lily.Metal**
-- Metalを用いるヘルパーユーティリティ群です。オブジェクトや各種拡張を含みます。
+  - Metalを用いるヘルパーユーティリティ群です。オブジェクトや各種拡張を含みます。
 
 * **Lily.Stage**
-- Metalを用いたグラフィックス処理のモジュール群です。パイプラインをまとめています。
+  - Metalを用いたグラフィックス処理のモジュール群です。パイプラインをまとめています。
 
 * **Lily.UI**
-- Lily.ViewのSwiftUI向けモジュールです。
+  - Lily.ViewのSwiftUI向けモジュールです。
 
 ## 開発環境 ( Environment )
 
@@ -38,15 +38,13 @@ update : 2023.11.06
 
 Lilyのビルドを通すまでの手順を説明します。
 
-### Case-A. Swift Packageを使う
-
-#### A-a. インストール( Install )
+#### a. インストール( Install )
 
 1. XCodeを用意してください。
 
 2. XCodeを起動し、新規のiOS Appプロジェクトを作成します。
 
-#### A-b. Swift Packageの追加( Add Swift Package )
+#### b. Swift Packageの追加( Add Swift Package )
 
 1. [File] > [Add Packages] を選択します。
 
