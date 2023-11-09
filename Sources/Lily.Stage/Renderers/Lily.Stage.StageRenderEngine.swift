@@ -38,18 +38,6 @@ extension Lily.Stage
             far: 600.0
         )
     
-        /*
-        public var camera = Lily.Stage.Camera(
-            perspectiveWith:LLFloatv3( 0, 0, 0 ),
-            direction: LLFloatv3( 0.0, 0.0, 1.0 ), 
-            up: LLFloatv3( 0, 1, 0 ), 
-            viewAngle: Float.pi / 3.0, 
-            aspectRatio: 320.0 / 240.0, 
-            near: 1.0, 
-            far: 600.0
-        )
-        */
-        
         //var cursorPosition:LLFloatv2 = .zero
         
         public init( device:MTLDevice, size:CGSize ) {
@@ -65,11 +53,6 @@ extension Lily.Stage
         
         public func updateGlobalUniform() {
             onFrame += 1
-            
-            let screen_size = LLSizeFloat( 
-                renderFlow.renderTextures.GBuffer0?.width.f ?? 1.0,
-                renderFlow.renderTextures.GBuffer0?.height.f ?? 1.0 
-            )
             
             let viewCount = 1
                         
@@ -91,7 +74,7 @@ extension Lily.Stage
                     uni[view_idx] = makeGlobalUniform(
                         onFrame:onFrame, 
                         cameraUniform:camera_uniform, 
-                        screenSize:screen_size
+                        screenSize:screenSize
                     )
                     
                     let cascade_sizes:[Float] = [ 4.0, 16.0, 64.0 ]
@@ -133,8 +116,9 @@ extension Lily.Stage
             }
         }
         
-        public func drawableSizeWillChange( size:CGSize ) {
-            renderFlow.renderTextures.updateBuffers( size:size ) 
+        public func changeScreenSize( size:CGSize ) {
+            screenSize = size.llSizeFloat
+            renderFlow.renderTextures.updateBuffers( size:size )
             camera.aspect = (size.width / size.height).f    // カメラのアス比を更新
         }
 
@@ -150,9 +134,8 @@ extension Lily.Stage
             commandBuffer.label = "Frame Command Buffer"
             commandBuffer.addCompletedHandler { [weak self] _ in self?.inFlightSemaphore.signal() }
             
-            // G-Bufferとデプスバッファを今の画面サイズで再生成する
-            let size = CGSize( renderFlow.renderTextures.GBuffer0!.width.cgf, renderFlow.renderTextures.GBuffer0!.height.cgf ) 
-            self.drawableSizeWillChange( size:size )
+            // 今の画面サイズで再生成する
+            changeScreenSize( size:screenSize.cgSize )
             
             _ = inFlightSemaphore.wait( timeout:.distantFuture )
             
@@ -162,29 +145,16 @@ extension Lily.Stage
             let viewports = [ MTLViewport(
                 originX:0, 
                 originY:0,
-                width:renderFlow.renderTextures.GBuffer0!.width.d,
-                height:renderFlow.renderTextures.GBuffer0!.height.d, 
+                width:screenSize.width.d,
+                height:screenSize.height.d, 
                 znear:1.0,
                 zfar:0.0 
             )]
             
             let viewCount = 1
             
-            let shadowViewport = MTLViewport(
-                originX: 0,
-                originY: 0, 
-                width:renderFlow.renderTextures.shadowMap!.width.d,
-                height:renderFlow.renderTextures.shadowMap!.height.d, 
-                znear: 0.0,
-                zfar: 1.0
-            )
-            
-            let shadowScissor = MTLScissorRect(
-                x: 0,
-                y: 0, 
-                width:renderFlow.renderTextures.shadowMap!.width, 
-                height:renderFlow.renderTextures.shadowMap!.height 
-            )
+            let shadowViewport = renderFlow.renderTextures.shadowViewport()
+            let shadowScissor = renderFlow.renderTextures.shadowScissor()
             
             let destinationTexture = renderPassDescriptor.colorAttachments[0].texture
             let depthTexture = renderFlow.renderTextures.depth

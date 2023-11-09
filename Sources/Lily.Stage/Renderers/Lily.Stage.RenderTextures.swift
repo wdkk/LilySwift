@@ -13,19 +13,7 @@ import MetalKit
 import simd
 
 extension Lily.Stage
-{
-    public enum BufferFormats
-    {
-        public static let GBuffer0:MTLPixelFormat = .bgra8Unorm_srgb
-        public static let GBuffer1:MTLPixelFormat = .rgba8Unorm
-        public static let GBuffer2:MTLPixelFormat = .rgba8Unorm
-        public static let GBufferDepth:MTLPixelFormat = .r32Float
-        public static let backBuffer:MTLPixelFormat = .bgra8Unorm_srgb
-        public static let depth:MTLPixelFormat = .depth32Float_stencil8
-        public static let shadowDepth:MTLPixelFormat = .depth32Float_stencil8
-        public static let sampleCount:Int = 1
-    }
-    
+{    
     open class RenderTextures
     { 
         var device:MTLDevice
@@ -109,5 +97,28 @@ extension Lily.Stage
             
             return shadowTexture
         }
+    }
+}
+
+public extension Lily.Stage.RenderTextures
+{
+    func shadowViewport() -> MTLViewport {
+        return MTLViewport(
+            originX: 0,
+            originY: 0, 
+            width:shadowMap!.width.d,
+            height:shadowMap!.height.d,
+            znear: 0.0,
+            zfar: 1.0
+        )
+    }
+    
+    func shadowScissor() -> MTLScissorRect {
+        return MTLScissorRect(
+            x: 0,
+            y: 0, 
+            width:shadowMap!.width, 
+            height:shadowMap!.height 
+        )
     }
 }

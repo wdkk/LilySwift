@@ -14,7 +14,7 @@ import simd
 
 extension Lily.Stage
 {
-    open class DeferredShading
+    open class DeferredShadingPass
     { 
         var device:MTLDevice
         var commandQueue:MTLCommandQueue?
@@ -60,8 +60,9 @@ extension Lily.Stage
         func setupShadowRenderPassDescriptor( _ shadowMap:MTLTexture? ) -> MTLRenderPassDescriptor {
             let desc = MTLRenderPassDescriptor()
             desc.depthAttachment.texture = shadowMap
-            desc.depthAttachment.clearDepth( 0.0 )
-            desc.depthAttachment.action( load:.clear, store:.store )
+            desc.depthAttachment
+            .clearDepth( 0.0 )
+            .action( load:.clear, store:.store )
             return desc
         }
         
@@ -81,24 +82,21 @@ extension Lily.Stage
             .action( load:.clear, store:.store )
             
             #if !targetEnvironment(simulator)
-            // G-Buffer0,1,2は保存しない(M1以降はiOS/macともにオンチップで保存不要になった
             desc.colorAttachments[0].action( load:.dontCare, store:.dontCare )
             desc.colorAttachments[1].action( load:.dontCare, store:.dontCare )
             desc.colorAttachments[2].action( load:.dontCare, store:.dontCare )
             desc.colorAttachments[3].clearColor( .white )
             desc.colorAttachments[3].action( load:.clear, store:.dontCare )
-            // colorAttachments[4]が毎フレームのバックバッファの受け取り口
-            desc.colorAttachments[4].action( load:.dontCare, store:.store )
             #else
             // シミュレータはテクスチャを保存する
             desc.colorAttachments[0].action( load:.dontCare, store:.store )
             desc.colorAttachments[1].action( load:.dontCare, store:.store )
             desc.colorAttachments[2].action( load:.dontCare, store:.store )
             desc.colorAttachments[3].clearColor( .white )
-            desc.colorAttachments[3].action( load:.clear, store:.store )     
+            desc.colorAttachments[3].action( load:.clear, store:.store )
+            #endif
             // colorAttachments[4]が毎フレームのバックバッファの受け取り口
             desc.colorAttachments[4].action( load:.dontCare, store:.store )
-            #endif
             
             return desc
         }

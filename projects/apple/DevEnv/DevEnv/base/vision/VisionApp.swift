@@ -12,27 +12,6 @@ import SwiftUI
 import CompositorServices
 import LilySwift
 
-struct ContentStageConfiguration
-: CompositorLayerConfiguration 
-{
-    func makeConfiguration(
-        capabilities: LayerRenderer.Capabilities, 
-        configuration: inout LayerRenderer.Configuration
-    ) 
-    {
-        configuration.colorFormat = Lily.Stage.BufferFormats.backBuffer
-        configuration.depthFormat = Lily.Stage.BufferFormats.depth
-    
-        let foveationEnabled = capabilities.supportsFoveation
-        configuration.isFoveationEnabled = foveationEnabled
-        
-        let options: LayerRenderer.Capabilities.SupportedLayoutsOptions = foveationEnabled ? [.foveationEnabled] : []
-        let supportedLayouts = capabilities.supportedLayouts(options: options)
-        
-        configuration.layout = supportedLayouts.contains( .layered ) ? .layered : .dedicated
-    }
-}
-
 @main
 struct VisionApp
 : App 
@@ -45,7 +24,7 @@ struct VisionApp
         
         
         ImmersiveSpace( id:"LilyImmersiveSpace" ) {
-            CompositorLayer( configuration:ContentStageConfiguration() ) { layerRenderer in
+            CompositorLayer( configuration:Lily.Stage.ContentStageConfiguration() ) { layerRenderer in
                 let renderEngine = Lily.Stage.VisionRenderEngine( layerRenderer )
                 renderEngine.startRenderLoop()
             }

@@ -16,6 +16,8 @@ extension Lily.Stage
 {       
     open class BaseRenderEngine
     {
+        var screenSize:LLSizeFloat = .zero
+        
         // グローバルUniformの基本情報を作る
         func makeGlobalUniform( 
             onFrame:UInt,

@@ -13,11 +13,35 @@
 import Metal
 import MetalKit
 import simd
+import SwiftUI
 import CompositorServices
 import Spatial
 
 extension Lily.Stage
-{               
+{              
+    public struct ContentStageConfiguration
+    : CompositorLayerConfiguration 
+    {
+        public init() {}
+        
+        public func makeConfiguration(
+            capabilities: LayerRenderer.Capabilities, 
+            configuration: inout LayerRenderer.Configuration
+        ) 
+        {
+            configuration.colorFormat = BufferFormats.backBuffer
+            configuration.depthFormat = BufferFormats.depth
+        
+            let foveationEnabled = capabilities.supportsFoveation
+            configuration.isFoveationEnabled = foveationEnabled
+            
+            let options: LayerRenderer.Capabilities.SupportedLayoutsOptions = foveationEnabled ? [.foveationEnabled] : []
+            let supportedLayouts = capabilities.supportedLayouts(options: options)
+            
+            configuration.layout = supportedLayouts.contains( .layered ) ? .layered : .dedicated
+        }
+    }
+    
     open class VisionRenderEngine 
     : BaseRenderEngine
     {
@@ -87,14 +111,16 @@ extension Lily.Stage
                     continue
                 } 
                 else {
-                    autoreleasepool { self.renderFrame() }
+                    autoreleasepool { 
+                        self.renderFrame() 
+                    }
                 }
             }
         }
         
-        public func drawableSizeWillChange( size:CGSize ) {
+        public func changeScreenSize( size:CGSize ) {
+            screenSize = size.llSizeFloat
             renderFlow.renderTextures.updateBuffers( size:size ) 
-            // カメラのアス比を更新
             camera.aspect = (size.width / size.height).f
         }
         
@@ -149,11 +175,6 @@ extension Lily.Stage
         {  
             onFrame += 1
             
-            let screen_size = LLSizeFloat( 
-                renderFlow.renderTextures.GBuffer0?.width.f ?? 1.0,
-                renderFlow.renderTextures.GBuffer0?.height.f ?? 1.0 
-            )
-            
             let viewCount = drawable.views.count
    
             uniforms.update { uni in
@@ -183,7 +204,7 @@ extension Lily.Stage
                     uni[view_idx] = makeGlobalUniform( 
                         onFrame:onFrame, 
                         cameraUniform:camera_uniform, 
-                        screenSize:screen_size 
+                        screenSize:screenSize
                     )
                     
                     let cascade_sizes:[Float] = [ 4.0, 16.0, 64.0 ]
@@ -242,9 +263,8 @@ extension Lily.Stage
             
             guard let layerRenderDrawable = frame.queryDrawable() else { return }
             
-            // G-Bufferとデプスバッファを今の画面サイズで再生成する
-            let size = CGSize( layerRenderDrawable.colorTextures[0].width, layerRenderDrawable.colorTextures[0].height ) 
-            self.drawableSizeWillChange( size:size )
+            // 今の画面サイズで再生成する
+            changeScreenSize( size:CGSize( layerRenderDrawable.colorTextures[0].width, layerRenderDrawable.colorTextures[0].height ) )
             
             _ = inFlightSemaphore.wait( timeout:DispatchTime.distantFuture )
             
@@ -261,20 +281,8 @@ extension Lily.Stage
             let viewports = layerRenderDrawable.views.map { $0.textureMap.viewport }
             let viewCount = layerRenderer.configuration.layout == .layered ? layerRenderDrawable.views.count : 1
             
-            let shadowViewport = MTLViewport(
-                originX: 0,
-                originY: 0, 
-                width:renderFlow.renderTextures.shadowMap!.width.d,
-                height:renderFlow.renderTextures.shadowMap!.height.d, 
-                znear: 0.0,
-                zfar: 1.0
-            )      
-            let shadowScissor = MTLScissorRect(
-                x: 0,
-                y: 0, 
-                width:renderFlow.renderTextures.shadowMap!.width, 
-                height:renderFlow.renderTextures.shadowMap!.height 
-            )
+            let shadowViewport = renderFlow.renderTextures.shadowViewport()
+            let shadowScissor = renderFlow.renderTextures.shadowScissor()
             
             let destinationTexture = layerRenderDrawable.colorTextures[0]
             let depthTexture = layerRenderDrawable.depthTextures[0]

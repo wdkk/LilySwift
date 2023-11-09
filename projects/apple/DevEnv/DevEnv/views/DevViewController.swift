@@ -33,7 +33,7 @@ class DevViewController
         CATransaction.stop {
             me
             .rect( vc.rect )
-            vc.renderEngine?.drawableSizeWillChange( size:me.scaledBounds.size )
+            vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
         }
     }
     .draw( caller:self ) { me, vc, status in

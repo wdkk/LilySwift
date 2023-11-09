@@ -43,7 +43,7 @@ struct VisionContentView: View
                     renderEngine = .init( device:device!, size:CGSize( 320, 240 ) )
                 },
                 buildup: { view in
-                    renderEngine?.drawableSizeWillChange( size:view.scaledBounds.size )
+                    renderEngine?.changeScreenSize( size:view.scaledBounds.size )
                 },
                 draw: { view, drawable, renderPassDesc in
                     changeCameraStatus()

@@ -20,7 +20,7 @@ extension Lily.Stage
         var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
         
         var renderTextures:RenderTextures
-        var deferredShadingPass:DeferredShading?
+        var deferredShadingPass:DeferredShadingPass?
         var particlePass:ParticlePass?
         
         var objectRenderer:ObjectRenderer?
