@@ -42,7 +42,7 @@ struct ParticleResult
     float4 backBuffer [[ color(0) ]];
 };
 
-vertex ParticleVOut particleVs(
+vertex ParticleVOut Lily_Stage_ParticleVs(
     const device ParticleVIn* in [[ buffer(0) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
     const device float4x4* modelMatrices [[ buffer(2) ]],
@@ -85,7 +85,7 @@ vertex ParticleVOut particleVs(
     return out;
 }
 
-fragment ParticleResult particleFs(
+fragment ParticleResult Lily_Stage_ParticleFs(
     const ParticleVOut in [[ stage_in ]]
 )
 {

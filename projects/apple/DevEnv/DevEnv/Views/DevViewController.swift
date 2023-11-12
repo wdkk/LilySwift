@@ -1,4 +1,3 @@
-
 //
 // LilySwift Library Project
 //
@@ -48,7 +47,9 @@ class DevViewController
         ) 
     }
 
-    var renderEngine:Lily.Stage.StageRenderEngine?
+    var renderEngine:Lily.Stage.StandardRenderEngine?
+    
+    var renderFlow:DevEnv.Stage.RenderFlow
     
     var mouseDrag = LLFloatv2()
     
@@ -66,7 +67,13 @@ class DevViewController
         
         setupKeyInput()
         
-        renderEngine = .init( device:device!, size:CGSize( 320, 240 ) )
+        renderFlow = .init( device:device )
+        
+        renderEngine = .init( 
+            device:device!,
+            size:CGSize( 320, 240 ),
+            renderFlow:renderFlow
+        )
 
         startLooping()
     }

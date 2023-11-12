@@ -22,7 +22,7 @@ extension Lily.Stage
         
         var skyCubeMap: MTLTexture?
 
-        init( device:MTLDevice, viewCount:Int, mode:VisionMode = .shared ) {
+        public init( device:MTLDevice, viewCount:Int, mode:VisionMode = .shared ) {
             self.device = device
 
             lightingPipeline = try! makeLightingRenderPipelineState( viewCount:viewCount )
@@ -43,14 +43,11 @@ extension Lily.Stage
         
         func makeLightingRenderPipelineState( viewCount:Int ) throws -> MTLRenderPipelineState? {
             let desc = MTLRenderPipelineDescriptor()
-            
             let library = try! Lily.Stage.metalLibrary( of:device )
-            let vs = Lily.Metal.Shader( device:device, mtllib:library, shaderName:"lightingVs" )
-            let fs = Lily.Metal.Shader( device:device, mtllib:library, shaderName:"lightingFs" )
             
             desc.label = "Lighting"
-            desc.vertexShader( vs )
-            desc.fragmentShader( fs )
+            desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_LightingVs" ) )
+            desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_LightingFs" ) )
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
             desc.colorAttachments[0].pixelFormat = BufferFormats.GBuffer0
@@ -70,7 +67,7 @@ extension Lily.Stage
         }
         
         
-        func draw( with renderEncoder:MTLRenderCommandEncoder?, 
+        public func draw( with renderEncoder:MTLRenderCommandEncoder?, 
                    globalUniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>?,
                    renderTextures:RenderTextures
         )

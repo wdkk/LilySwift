@@ -8,7 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-import simd
+import Foundation
 
 open class Lily
 {

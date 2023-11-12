@@ -19,11 +19,11 @@ extension Lily.Stage
         var device:MTLDevice
         var commandQueue:MTLCommandQueue?
         
-        var shadowPassDesc:MTLRenderPassDescriptor?
-        var shadowDepthState: MTLDepthStencilState?
+        public var shadowPassDesc:MTLRenderPassDescriptor?
+        public var shadowDepthState: MTLDepthStencilState?
         
-        var GBufferPassDesc:MTLRenderPassDescriptor?
-        var GBufferDepthState:MTLDepthStencilState?
+        public var GBufferPassDesc:MTLRenderPassDescriptor?
+        public var GBufferDepthState:MTLDepthStencilState?
         
         public init( device:MTLDevice, renderTextures:RenderTextures ) {
             self.device = device
@@ -108,11 +108,11 @@ extension Lily.Stage
             return device.makeDepthStencilState( descriptor:desc ) 
         }
         
-        func setGBufferDestination( texture:MTLTexture? ) {
+        public func setGBufferDestination( texture:MTLTexture? ) {
             GBufferPassDesc?.colorAttachments[4].texture = texture
         }
         
-        func setDepth( texture:MTLTexture? ) {
+        public func setDepth( texture:MTLTexture? ) {
             GBufferPassDesc?.depthAttachment.texture = texture
         }
     }

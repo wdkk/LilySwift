@@ -21,7 +21,9 @@ struct VisionContentView: View
     
     var device = MTLCreateSystemDefaultDevice()
     
-    @State var renderEngine:Lily.Stage.StageRenderEngine?
+    @State var renderEngine:Lily.Stage.StandardRenderEngine?
+    
+    @State var renderFlow:DevEnv.Stage.RenderFlow?
     
     @State var mouseDrag = LLFloatv2()
         
@@ -40,7 +42,13 @@ struct VisionContentView: View
             Lily.UI.MetalView( 
                 device:device,
                 setup: { view in
-                    renderEngine = .init( device:device!, size:CGSize( 320, 240 ) )
+                    renderFlow = .init( device:device! )
+                    
+                    renderEngine = .init( 
+                        device:device!,
+                        size:CGSize( 320, 240 ),
+                        renderFlow:renderFlow!
+                    )
                 },
                 buildup: { view in
                     renderEngine?.changeScreenSize( size:view.scaledBounds.size )

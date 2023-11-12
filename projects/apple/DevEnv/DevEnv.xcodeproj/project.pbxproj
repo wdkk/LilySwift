@@ -13,6 +13,12 @@
 		5D2337F02A4882EB0065BB61 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D8EA06F263D5D0500DCD404 /* Assets.xcassets */; };
 		5D2337F12A4883480065BB61 /* DevViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8EA07B263D5D0500DCD404 /* DevViewController.swift */; };
 		5D2338062A4884D90065BB61 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2338052A4884D90065BB61 /* main.swift */; };
+		5D5F43502B0123A800614D79 /* DevEnv.Stage.RenderFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F434F2B0123A800614D79 /* DevEnv.Stage.RenderFlow.swift */; };
+		5D5F43512B0123A800614D79 /* DevEnv.Stage.RenderFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F434F2B0123A800614D79 /* DevEnv.Stage.RenderFlow.swift */; };
+		5D5F43522B0123A800614D79 /* DevEnv.Stage.RenderFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F434F2B0123A800614D79 /* DevEnv.Stage.RenderFlow.swift */; };
+		5D5F43542B0123FC00614D79 /* DevEnv.Family.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F43532B0123FB00614D79 /* DevEnv.Family.swift */; };
+		5D5F43552B0123FC00614D79 /* DevEnv.Family.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F43532B0123FB00614D79 /* DevEnv.Family.swift */; };
+		5D5F43562B0123FC00614D79 /* DevEnv.Family.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F43532B0123FB00614D79 /* DevEnv.Family.swift */; };
 		5D69BA7C2AE5152200D9323C /* VisionContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD583E12AA771BF00B5E6AE /* VisionContentView.swift */; };
 		5D84561D2AFA81B7004E48B3 /* LilySwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5D84561C2AFA81B7004E48B3 /* LilySwift */; };
 		5D84561F2AFA81DB004E48B3 /* LilySwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5D84561E2AFA81DB004E48B3 /* LilySwift */; };
@@ -69,6 +75,8 @@
 		5D2337E92A4882480065BB61 /* DevEnv(macOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DevEnv(macOS).entitlements"; sourceTree = "<group>"; };
 		5D2338052A4884D90065BB61 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5D2338192A488F1D0065BB61 /* InfoMac.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoMac.plist; sourceTree = "<group>"; };
+		5D5F434F2B0123A800614D79 /* DevEnv.Stage.RenderFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevEnv.Stage.RenderFlow.swift; sourceTree = "<group>"; };
+		5D5F43532B0123FB00614D79 /* DevEnv.Family.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevEnv.Family.swift; sourceTree = "<group>"; };
 		5D8EA04D263D5CD400DCD404 /* DevEnv-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DevEnv-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D8EA06F263D5D0500DCD404 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D8EA071263D5D0500DCD404 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -129,13 +137,22 @@
 			path = mac;
 			sourceTree = "<group>";
 		};
+		5D5F434E2B01237600614D79 /* Renderers */ = {
+			isa = PBXGroup;
+			children = (
+				5D5F434F2B0123A800614D79 /* DevEnv.Stage.RenderFlow.swift */,
+			);
+			path = Renderers;
+			sourceTree = "<group>";
+		};
 		5D8EA06D263D5D0500DCD404 /* DevEnv */ = {
 			isa = PBXGroup;
 			children = (
 				5DDA32822AFC0C8A004427C9 /* assets */,
 				5D8EA06E263D5D0500DCD404 /* App */,
-				5D8EA07A263D5D0500DCD404 /* views */,
-				5DD583FB2AA7778000B5E6AE /* base */,
+				5D5F434E2B01237600614D79 /* Renderers */,
+				5D8EA07A263D5D0500DCD404 /* Views */,
+				5DD583FB2AA7778000B5E6AE /* Base */,
 			);
 			path = DevEnv;
 			sourceTree = "<group>";
@@ -154,13 +171,13 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		5D8EA07A263D5D0500DCD404 /* views */ = {
+		5D8EA07A263D5D0500DCD404 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				5D8EA07B263D5D0500DCD404 /* DevViewController.swift */,
 				5DD583E12AA771BF00B5E6AE /* VisionContentView.swift */,
 			);
-			path = views;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		5D8EA07C263D5D0500DCD404 /* ios */ = {
@@ -213,14 +230,15 @@
 			path = vision;
 			sourceTree = "<group>";
 		};
-		5DD583FB2AA7778000B5E6AE /* base */ = {
+		5DD583FB2AA7778000B5E6AE /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				5D5F43532B0123FB00614D79 /* DevEnv.Family.swift */,
 				5D8EA07C263D5D0500DCD404 /* ios */,
 				5D2337EF2A4882C80065BB61 /* mac */,
 				5DD583FA2AA776F500B5E6AE /* vision */,
 			);
-			path = base;
+			path = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -371,6 +389,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D5F43512B0123A800614D79 /* DevEnv.Stage.RenderFlow.swift in Sources */,
+				5D5F43552B0123FC00614D79 /* DevEnv.Family.swift in Sources */,
 				5D2337F12A4883480065BB61 /* DevViewController.swift in Sources */,
 				5D2338062A4884D90065BB61 /* main.swift in Sources */,
 				5D2337E12A4882470065BB61 /* AppDelegate.swift in Sources */,
@@ -385,6 +405,8 @@
 				5D8EA087263D5D0500DCD404 /* DevViewController.swift in Sources */,
 				5D8EA08A263D5D0500DCD404 /* main.swift in Sources */,
 				5D8EA08B263D5D0500DCD404 /* SceneDelegate.swift in Sources */,
+				5D5F43502B0123A800614D79 /* DevEnv.Stage.RenderFlow.swift in Sources */,
+				5D5F43542B0123FC00614D79 /* DevEnv.Family.swift in Sources */,
 				5D8EA088263D5D0500DCD404 /* PageController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -394,6 +416,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D69BA7C2AE5152200D9323C /* VisionContentView.swift in Sources */,
+				5D5F43522B0123A800614D79 /* DevEnv.Stage.RenderFlow.swift in Sources */,
+				5D5F43562B0123FC00614D79 /* DevEnv.Family.swift in Sources */,
 				5DD583E02AA771BF00B5E6AE /* VisionApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

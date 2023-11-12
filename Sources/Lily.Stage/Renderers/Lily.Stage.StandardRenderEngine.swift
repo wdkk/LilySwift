@@ -14,7 +14,7 @@ import simd
 
 extension Lily.Stage
 {    
-    open class StageRenderEngine
+    open class StandardRenderEngine
     : BaseRenderEngine
     {        
         let maxBuffersInFlight:Int = 3
@@ -26,7 +26,7 @@ extension Lily.Stage
         
         var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
 
-        var renderFlow:RenderFlow
+        var renderFlow:BaseRenderFlow
         
         public var camera = Lily.Stage.Camera(
             perspectiveWith:LLFloatv3( 61, 26, 56 ),
@@ -40,13 +40,13 @@ extension Lily.Stage
     
         //var cursorPosition:LLFloatv2 = .zero
         
-        public init( device:MTLDevice, size:CGSize ) {
+        public init( device:MTLDevice, size:CGSize, renderFlow:BaseRenderFlow ) {
             self.device = device
             self.commandQueue = device.makeCommandQueue()
             
             self.uniforms = .init( device:device, ringSize:maxBuffersInFlight )
             
-            self.renderFlow = .init( device:device, uniforms:uniforms )
+            self.renderFlow = renderFlow
             
             super.init()
         }
@@ -118,7 +118,7 @@ extension Lily.Stage
         
         public func changeScreenSize( size:CGSize ) {
             screenSize = size.llSizeFloat
-            renderFlow.renderTextures.updateBuffers( size:size )
+            renderFlow.updateBuffers( size:size )
             camera.aspect = (size.width / size.height).f    // カメラのアス比を更新
         }
 
@@ -152,12 +152,9 @@ extension Lily.Stage
             )]
             
             let viewCount = 1
-            
-            let shadowViewport = renderFlow.renderTextures.shadowViewport()
-            let shadowScissor = renderFlow.renderTextures.shadowScissor()
-            
+        
             let destinationTexture = renderPassDescriptor.colorAttachments[0].texture
-            let depthTexture = renderFlow.renderTextures.depth
+            let depthTexture = renderPassDescriptor.depthAttachment.texture
             
             //-- 依存がある処理 --//
             // Uniformの更新
@@ -169,10 +166,9 @@ extension Lily.Stage
                 rasterizationRateMap:rasterizationRateMap,
                 viewports:viewports, 
                 viewCount:viewCount,
-                shadowViewport:shadowViewport, 
-                shadowScissor:shadowScissor, 
                 destinationTexture:destinationTexture, 
-                depthTexture:depthTexture
+                depthTexture:depthTexture,
+                uniforms:uniforms
             )
             
             commandBuffer.present( drawable )

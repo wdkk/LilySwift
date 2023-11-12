@@ -19,7 +19,7 @@ import Spatial
 
 extension Lily.Stage
 {              
-    public struct ContentStageConfiguration
+    public struct VisionFullyRenderConfiguration
     : CompositorLayerConfiguration 
     {
         public init() {}
@@ -42,7 +42,7 @@ extension Lily.Stage
         }
     }
     
-    open class VisionRenderEngine 
+    open class VisionFullyRenderEngine 
     : BaseRenderEngine
     {
         let maxBuffersInFlight = 3
@@ -58,7 +58,7 @@ extension Lily.Stage
         
         var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
         
-        var renderFlow:RenderFlow
+        var renderFlow:BaseRenderFlow
         
         public var camera = Lily.Stage.Camera(
             perspectiveWith:LLFloatv3( 0, 0, 0 ),
@@ -70,7 +70,7 @@ extension Lily.Stage
             far: 600.0
         )
         
-        public init( _ layerRenderer:LayerRenderer ) {
+        public init( _ layerRenderer:LayerRenderer, renderFlow:BaseRenderFlow ) {
             self.layerRenderer = layerRenderer
             self.worldTracking = WorldTrackingProvider()
             self.arSession = ARKitSession()
@@ -80,7 +80,7 @@ extension Lily.Stage
 
             self.uniforms = .init( device:device, ringSize:maxBuffersInFlight )
             
-            self.renderFlow = .init( device:device, uniforms:uniforms )
+            self.renderFlow = renderFlow
             
             super.init()
         }
@@ -120,7 +120,7 @@ extension Lily.Stage
         
         public func changeScreenSize( size:CGSize ) {
             screenSize = size.llSizeFloat
-            renderFlow.renderTextures.updateBuffers( size:size ) 
+            renderFlow.updateBuffers( size:size ) 
             camera.aspect = (size.width / size.height).f
         }
         
@@ -281,9 +281,6 @@ extension Lily.Stage
             let viewports = layerRenderDrawable.views.map { $0.textureMap.viewport }
             let viewCount = layerRenderer.configuration.layout == .layered ? layerRenderDrawable.views.count : 1
             
-            let shadowViewport = renderFlow.renderTextures.shadowViewport()
-            let shadowScissor = renderFlow.renderTextures.shadowScissor()
-            
             let destinationTexture = layerRenderDrawable.colorTextures[0]
             let depthTexture = layerRenderDrawable.depthTextures[0]
             
@@ -300,10 +297,9 @@ extension Lily.Stage
                 rasterizationRateMap:rasterizationRateMap,
                 viewports:viewports, 
                 viewCount:viewCount,
-                shadowViewport:shadowViewport, 
-                shadowScissor:shadowScissor, 
                 destinationTexture:destinationTexture, 
-                depthTexture:depthTexture
+                depthTexture:depthTexture,
+                uniforms:uniforms
             )
             
             layerRenderDrawable.encodePresent( commandBuffer:commandBuffer )

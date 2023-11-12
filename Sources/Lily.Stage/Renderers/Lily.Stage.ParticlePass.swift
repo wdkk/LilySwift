@@ -19,8 +19,8 @@ extension Lily.Stage
         var device:MTLDevice
         var commandQueue:MTLCommandQueue?
         
-        var particlePassDesc:MTLRenderPassDescriptor?
-        var particleDepthState: MTLDepthStencilState?
+        public var particlePassDesc:MTLRenderPassDescriptor?
+        public var particleDepthState: MTLDepthStencilState?
         
         public init( device:MTLDevice, renderTextures:RenderTextures ) {
             self.device = device
@@ -36,7 +36,6 @@ extension Lily.Stage
             renderTargetCount:Int
         )
         {
-            // テクスチャの差し替え
             particlePassDesc?.rasterizationRateMap = rasterizationRateMap
             #if os(visionOS)
             particlePassDesc?.renderTargetArrayLength = renderTargetCount
@@ -62,11 +61,11 @@ extension Lily.Stage
             return device.makeDepthStencilState( descriptor:desc ) 
         }
         
-        func setDestination( texture:MTLTexture? ) {
+        public func setDestination( texture:MTLTexture? ) {
             particlePassDesc?.colorAttachments[0].texture = texture
         }
         
-        func setDepth( texture:MTLTexture? ) {
+        public func setDepth( texture:MTLTexture? ) {
             particlePassDesc?.depthAttachment.texture = texture
         }
     }

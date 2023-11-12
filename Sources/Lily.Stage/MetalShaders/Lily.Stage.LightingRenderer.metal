@@ -111,7 +111,7 @@ struct LightingVOut
     float4 position [[position]];
 };
 
-vertex LightingVOut lightingVs( uint vid [[vertex_id]] )
+vertex LightingVOut Lily_Stage_LightingVs( uint vid [[vertex_id]] )
 {
     const float2 vertices[] = {
         float2(-1, -1),
@@ -129,7 +129,7 @@ struct LightingFOut
     float4 backBuffer [[ color(4) ]];
 };
 
-fragment LightingFOut lightingFs(
+fragment LightingFOut Lily_Stage_LightingFs(
     LightingVOut             in        [[ stage_in ]],
     lily_memory_float4       GBuffer0Mem [[ lily_memory(0) ]],
     lily_memory_float4       GBuffer1Mem [[ lily_memory(1) ]],

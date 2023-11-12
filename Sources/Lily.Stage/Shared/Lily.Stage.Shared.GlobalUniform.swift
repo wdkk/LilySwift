@@ -17,9 +17,9 @@ extension Lily.Stage.Shared
     {
         public struct CameraUniformArray
         {
-            var uniforms = ( CameraUniform(), CameraUniform(), CameraUniform() )
+            public var uniforms = ( CameraUniform(), CameraUniform(), CameraUniform() )
             
-            subscript( index:Int ) -> CameraUniform {
+            public subscript( index:Int ) -> CameraUniform {
                 get { 
                     return Mirror( reflecting:uniforms ).children[AnyIndex(index)].value as? CameraUniform ?? CameraUniform()
                 }
@@ -34,27 +34,27 @@ extension Lily.Stage.Shared
             }
         }
         
-        var cameraUniform = CameraUniform()
-        var shadowCameraUniforms = CameraUniformArray()
+        public var cameraUniform = CameraUniform()
+        public var shadowCameraUniforms = CameraUniformArray()
         
-        var invScreenSize:LLFloatv2 = .zero
-        var aspect:Float = 1.0
+        public var invScreenSize:LLFloatv2 = .zero
+        public var aspect:Float = 1.0
         
-        var sunDirection:LLFloatv3 = .zero
-        var projectionYScale:Float = 0.0
-        var ambientOcclusionContrast:Float = 0.0
-        var ambientOcclusionScale:Float = 0.0
-        var ambientLightScale:Float = 0.0
+        public var sunDirection:LLFloatv3 = .zero
+        public var projectionYScale:Float = 0.0
+        public var ambientOcclusionContrast:Float = 0.0
+        public var ambientOcclusionScale:Float = 0.0
+        public var ambientLightScale:Float = 0.0
         
-        var frameTime:Float = 0.0
+        public var frameTime:Float = 0.0
     }
     
     // Vision用のGlobalUniform
     public struct GlobalUniformArray
     {
-        var uniforms:( GlobalUniform, GlobalUniform )
+        public var uniforms:( GlobalUniform, GlobalUniform )
         
-        subscript( index:Int ) -> GlobalUniform {
+        public subscript( index:Int ) -> GlobalUniform {
             get { 
                 return Mirror( reflecting:uniforms ).children[AnyIndex(index)].value as? GlobalUniform ?? GlobalUniform()
             }

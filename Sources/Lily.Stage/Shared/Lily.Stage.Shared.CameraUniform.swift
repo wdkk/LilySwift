@@ -15,13 +15,13 @@ extension Lily.Stage.Shared
 {
     public struct CameraUniform
     {
-        var viewMatrix: float4x4 = .identity
-        var projectionMatrix: float4x4 = .identity
-        var viewProjectionMatrix: float4x4 = .identity
-        var invOrientationProjectionMatrix: float4x4 = .identity
-        var invViewProjectionMatrix: float4x4 = .identity
-        var invProjectionMatrix: float4x4 = .identity
-        var invViewMatrix: float4x4 = .identity
+        public var viewMatrix:LLMatrix4x4 = .identity
+        public var projectionMatrix:LLMatrix4x4 = .identity
+        public var viewProjectionMatrix:LLMatrix4x4 = .identity
+        public var invOrientationProjectionMatrix:LLMatrix4x4 = .identity
+        public var invViewProjectionMatrix:LLMatrix4x4 = .identity
+        public var invProjectionMatrix:LLMatrix4x4 = .identity
+        public var invViewMatrix:LLMatrix4x4 = .identity
         
         public init() {}
         

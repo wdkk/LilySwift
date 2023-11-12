@@ -44,7 +44,7 @@ extension Lily.Stage
         var modelMatrices:Lily.Metal.Buffer<LLMatrix4x4>?
         var statuses:Lily.Metal.Buffer<ParticleStatus>?
         
-        init( device:MTLDevice, viewCount:Int, mode:VisionMode = .shared ) {
+        public init( device:MTLDevice, viewCount:Int, mode:VisionMode = .shared ) {
             self.device = device
             self.mode = mode
             
@@ -55,12 +55,10 @@ extension Lily.Stage
             let renderPPDesc = MTLRenderPipelineDescriptor()
             
             let library = try! Lily.Stage.metalLibrary( of:device )
-            let vs = Lily.Metal.Shader( device:device, mtllib:library, shaderName:"particleVs" )
-            let fs = Lily.Metal.Shader( device:device, mtllib:library, shaderName:"particleFs" )
             
             renderPPDesc.label = "Particle Geometry"
-            renderPPDesc.vertexShader( vs )
-            renderPPDesc.fragmentShader( fs )
+            renderPPDesc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_ParticleVs" ) )
+            renderPPDesc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_ParticleFs" ) )
             renderPPDesc.rasterSampleCount = BufferFormats.sampleCount
             
             renderPPDesc.colorAttachments[0].pixelFormat = BufferFormats.backBuffer
@@ -109,7 +107,7 @@ extension Lily.Stage
             }
         }
         
-        func draw( 
+        public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>?,
             renderTextures:RenderTextures

@@ -19,17 +19,15 @@ extension Lily.Stage
         
         var objectPipeline: MTLRenderPipelineState?
         var objectShadowPipeline: MTLRenderPipelineState?
-        var models:[Model.Obj?] = []
-        var instanceBuffer:Lily.Metal.Buffer<float4x4>?
+        public var models:[Model.Obj?] = []
+        public var instanceBuffer:Lily.Metal.Buffer<float4x4>?
     
         let cameraCount:Int = Shared.Const.shadowCascadesCount + 1
         let maxModelCount:Int = 4
         
-        init( device:MTLDevice, viewCount:Int, mode:VisionMode = .shared ) {
+        public init( device:MTLDevice, viewCount:Int, mode:VisionMode = .shared ) {
             self.device = device
             let library = try! Lily.Stage.metalLibrary( of:device )
-            let vs = Lily.Metal.Shader( device:device, mtllib:library, shaderName:"objectVs" )
-            let fs = Lily.Metal.Shader( device:device, mtllib:library, shaderName:"objectFs" )
             
             loadAssets()
             
@@ -38,8 +36,8 @@ extension Lily.Stage
             let renderPPDesc = MTLRenderPipelineDescriptor()
     
             renderPPDesc.label = "Objects Geometry"
-            renderPPDesc.vertexShader( vs )
-            renderPPDesc.fragmentShader( fs )
+            renderPPDesc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_ObjectVs" ) )
+            renderPPDesc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_ObjectFs" ) )
             renderPPDesc.rasterSampleCount = BufferFormats.sampleCount
             
             renderPPDesc.colorAttachments[0].pixelFormat = BufferFormats.GBuffer0
@@ -54,7 +52,7 @@ extension Lily.Stage
             
             
             renderPPDesc.label = "Objects Shadow"
-            renderPPDesc.vertexFunction = library.makeFunction( name:"objectShadowVs" )
+            renderPPDesc.vertexFunction = library.makeFunction( name:"Lily_Stage_ObjectShadowVs" )
             renderPPDesc.fragmentFunction = nil 
             renderPPDesc.rasterSampleCount = BufferFormats.sampleCount
             renderPPDesc.colorAttachments[0].pixelFormat = .invalid
@@ -77,9 +75,8 @@ extension Lily.Stage
             }
         }
         
-        func loadAssets() {
+        public func loadAssets() {
             let assets = [
-                //"assets/Meshes/Trees/oak1.obj"
                 "assets/Meshes/cube.obj"
             ]
             
@@ -89,7 +86,7 @@ extension Lily.Stage
             }
         }
         
-        func generateObject( with commandBuffer:MTLCommandBuffer? ) {
+        public func generateObject( with commandBuffer:MTLCommandBuffer? ) {
             instanceBuffer?.update { acc in
                 for iid in 0 ..< maxModelCount * cameraCount {
                     // オブジェクトの位置
@@ -113,7 +110,7 @@ extension Lily.Stage
             }
         }
         
-        func draw( 
+        public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>?
         )
@@ -141,7 +138,7 @@ extension Lily.Stage
             }
         }
         
-        func drawShadows(
+        public func drawShadows(
             with renderEncoder:MTLRenderCommandEncoder?, 
             globalUniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>?,
             cascadeIndex:Int 

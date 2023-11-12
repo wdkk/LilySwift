@@ -24,8 +24,12 @@ struct VisionApp
         
         
         ImmersiveSpace( id:"LilyImmersiveSpace" ) {
-            CompositorLayer( configuration:Lily.Stage.ContentStageConfiguration() ) { layerRenderer in
-                let renderEngine = Lily.Stage.VisionRenderEngine( layerRenderer )
+            CompositorLayer( configuration:Lily.Stage.VisionFullyRenderConfiguration() ) { layerRenderer in
+                let renderFlow = DevEnv.Stage.RenderFlow( device:layerRenderer.device )
+                let renderEngine = Lily.Stage.VisionFullyRenderEngine( 
+                    layerRenderer,
+                    renderFlow:renderFlow
+                )
                 renderEngine.startRenderLoop()
             }
         }

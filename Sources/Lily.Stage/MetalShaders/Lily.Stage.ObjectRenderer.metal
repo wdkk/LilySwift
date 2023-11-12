@@ -29,7 +29,7 @@ struct ObjectVOut
     float3 normal;
 };
 
-vertex ObjectVOut objectVs(
+vertex ObjectVOut Lily_Stage_ObjectVs(
     const device Obj::Vertex* in [[ buffer(0) ]],
     const device float4x4* instances [[ buffer(1) ]],
     constant GlobalUniformArray & uniformArray [[ buffer(2) ]],
@@ -53,7 +53,7 @@ vertex ObjectVOut objectVs(
 }
 
 // フラグメントシェーダ
-fragment GBufferFOut objectFs(
+fragment GBufferFOut Lily_Stage_ObjectFs(
     const ObjectVOut in [[ stage_in ]]
 )
 {
@@ -70,7 +70,7 @@ fragment GBufferFOut objectFs(
     return output;
 }
 
-vertex ObjectVOut objectShadowVs(
+vertex ObjectVOut Lily_Stage_ObjectShadowVs(
     const device Obj::Vertex* in [[ buffer(0) ]],
     const device float4x4* modelMatrices [[ buffer(1) ]],
     const device uint* cascadeIndex [[ buffer(2) ]],
