@@ -52,13 +52,12 @@ extension Lily.Stage
         static public func create(
             device:MTLDevice,
             assetName: String,
-            scaleFactor:CGFloat = 1.0,
             sRGB: Bool = false,
             generateMips: Bool = false,
             storageMode:MTLResourceOptions = .storageModePrivate
         )
         throws 
-        -> MTLTexture 
+        -> MTLTexture?
         {
             let loader = MTKTextureLoader( device:device )
             
@@ -70,12 +69,8 @@ extension Lily.Stage
             ]
             
             do {
-                return try loader.newTexture( 
-                    name:assetName,
-                    scaleFactor:scaleFactor,
-                    bundle: Bundle.main,
-                    options:options
-                )
+                guard let asset = NSDataAsset( name:assetName ) else { return nil }
+                return try loader.newTexture( data:asset.data, options:options )
             }
             catch {
                 let reason = "Error loading texture (\(assetName)): \(error.localizedDescription)"

@@ -10,6 +10,12 @@
 
 import Metal
 import simd
+#if os(macOS)
+import AppKit
+#else
+import UIKit
+#endif
+
 import LilySwift
 
 extension DevEnv
@@ -36,12 +42,16 @@ extension DevEnv
         
         public func loadAssets() {
             let assets = [
-                "assets/Meshes/cube.obj"
+                "cube"
             ]
             
-            for path in assets {
-                guard let url = Bundle.main.url( forResource:path, withExtension:"" ) else { continue }
-                models.append( Lily.Stage.Model.Obj( device:device, url:url ) )
+            //for path in assets {
+                //guard let url = Bundle.main.url( forResource:path, withExtension:"" ) else { continue }
+                //models.append( Lily.Stage.Model.Obj( device:device, url:url ) )
+            //}
+            for asset_name in assets {
+                guard let asset = NSDataAsset( name:asset_name ) else { continue }
+                models.append( Lily.Stage.Model.Obj( device:device, data:asset.data ) )
             }
         }
         

@@ -115,6 +115,7 @@ extension Lily.Metal
         public func update( memory:LLAlignedMemoryAllocatable ) {
             let sz:Int = memory.allocatedLength
             if _length != sz { _mtlbuf = self.allocate( sz ) }
+            if sz == 0 { return }
             memcpy( _mtlbuf!.contents(), memory.pointer, sz )
         }
         

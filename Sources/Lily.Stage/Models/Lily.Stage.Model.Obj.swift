@@ -21,6 +21,10 @@ extension Lily.Stage.Model
             mesh = Obj.Loader( device:device ).load( from:url )
         }
         
+        public init( device:MTLDevice, data:Data ) {
+            mesh = Obj.Loader( device:device ).load( data:data )
+        }
+        
         public struct Vertex : Equatable, Hashable
         {
             public var position:LLFloatv3
@@ -181,6 +185,84 @@ extension Lily.Stage.Model
                 clear()
                 
                 guard let inputStream = InputStream(url: url) else { fatalError("Failed to open input stream") }
+                inputStream.open()
+                
+                var readBuffer = [UInt8]( repeating: 0, count: Int(Loader.bufferSize) )
+                var beginLine:Int = 0
+                var endLine:Int = 0
+                var endBuffer:Int = 0
+                var line = Data()
+                var lineNumber: UInt32 = 0
+                
+                while beginLine != endBuffer || inputStream.hasBytesAvailable {
+                    endLine = beginLine
+                    while true {
+                        if endLine >= endBuffer || readBuffer[endLine] == 0x0A { break }
+                        endLine += 1
+                    }
+                    
+                    let ptr = readBuffer.withUnsafeBytes { ($0.baseAddress! + beginLine).assumingMemoryBound(to:UInt8.self ) }
+                    line.append( ptr, count: endLine - beginLine )
+                    
+                    if endLine == endBuffer {
+                        let bytesRead = inputStream.read( &readBuffer, maxLength: Int(Loader.bufferSize) - 1)
+                        endBuffer = bytesRead
+                        beginLine = 0
+                    } 
+                    else {
+                        line.append("", count: 1)
+                        lineNumber += 1
+                        readLine(line, lineNumber: lineNumber)
+                        line.removeAll()
+                        line.count = 0
+                        beginLine = endLine + 1
+                    }
+                }
+                
+                inputStream.close()
+                
+                #if !targetEnvironment(simulator)
+                let vertex_buffer = device.makeBuffer( bytes:vertices, length: MemoryLayout<Vertex>.stride * vertices.count, options:[.storageModeShared])!
+                let index_buffer =  device.makeBuffer( bytes:indices, length: MemoryLayout<UInt16>.stride * indices.count, options:[.storageModeShared])!
+                
+                let new_mesh = Mesh(
+                    boundingRadius: boundingSphereRadius, 
+                    vertexBuffer: vertex_buffer,
+                    indexBuffer: index_buffer
+                )
+                #else
+                let vertex_buffer = device.makeBuffer( length:MemoryLayout<Vertex>.stride * vertices.count, options:[.storageModePrivate] )!
+                let index_buffer = device.makeBuffer( length: MemoryLayout<UInt16>.stride * indices.count, options:[.storageModePrivate] )!
+   
+                let blit_vertex_buffer = device.makeBuffer(
+                    bytes: vertices, length: MemoryLayout<Vertex>.stride * vertices.count )!
+                let blit_index_buffer = device.makeBuffer(
+                    bytes: indices, length: MemoryLayout<UInt16>.stride * indices.count )!
+                
+                let command_buffer = commandQueue.makeCommandBuffer()
+                let blit_encoder = command_buffer?.makeBlitCommandEncoder()
+                blit_encoder?.copy(from: blit_vertex_buffer, sourceOffset: 0, to: vertex_buffer, destinationOffset: 0, size:MemoryLayout<Vertex>.stride * vertices.count )
+                blit_encoder?.copy(from: blit_index_buffer, sourceOffset: 0, to: index_buffer, destinationOffset: 0, size:MemoryLayout<UInt16>.stride * indices.count )
+                blit_encoder?.endEncoding()
+                
+                command_buffer?.commit()
+                command_buffer?.waitUntilCompleted()
+                
+                let new_mesh = Mesh(
+                    boundingRadius: boundingSphereRadius, 
+                    vertexBuffer: vertex_buffer,
+                    indexBuffer: index_buffer
+                )
+                #endif
+                
+                clear()
+                return new_mesh
+            }
+            
+            func load( data:Data ) -> Mesh? {
+                clear()
+                
+                let inputStream = InputStream( data:data )
                 inputStream.open()
                 
                 var readBuffer = [UInt8]( repeating: 0, count: Int(Loader.bufferSize) )

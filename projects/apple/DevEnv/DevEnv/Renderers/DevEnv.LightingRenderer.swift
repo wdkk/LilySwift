@@ -21,7 +21,7 @@ extension DevEnv
             super.init( device:device, viewCount:viewCount )
 
             // Mipsを活用するためにKTXフォーマットを使う
-            skyCubeMap = try! Lily.Stage.Texture.create( device:device, filePath:"assets/Textures/skyCubeMap.ktx" )
+            skyCubeMap = try! Lily.Stage.Texture.create( device:device, assetName:"skyCubeMap" )!
                 .makeTextureView( pixelFormat:.rgba8Unorm_srgb )
         }
     }
