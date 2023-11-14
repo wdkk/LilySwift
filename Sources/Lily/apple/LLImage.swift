@@ -23,12 +23,23 @@ open class LLImage
 {
     var _imgc:LCImageSmPtr
     
-    public init( wid:Int, hgt:Int, type:LLImageType = .rgba8 ) { 
+    public init( wid:Int, hgt:Int, type:LLImageType = .rgbaf ) { 
         _imgc = LCImageMake( wid, hgt, type )
     }
     
     public init( _ path:LLString ) { 
         _imgc = LCImageMakeWithFile( path.lcStr )
+    }
+    
+    public init( assetName:LLString ) {
+        _imgc = LCImageMake( 0, 0, .rgbaf )
+        #if os(macOS)
+        guard let llimg = NSImage( named:assetName )?.llImage else { return }
+        LCImageCopy( llimg._imgc, self._imgc ) 
+        #else
+        guard let llimg = UIImage( named:assetName )?.llImage else { return }
+        LCImageCopy( llimg._imgc, self._imgc ) 
+        #endif
     }
     
     public init( _ imgptr:LCImageSmPtr ) {
@@ -48,6 +59,9 @@ open class LLImage
             self.init( wid: texture.width, hgt: texture.height, type: .rgbaf )
         }
         else if texture.pixelFormat == .rgba8Unorm {
+            self.init( wid: texture.width, hgt: texture.height, type: .rgba8 )
+        }
+        else if texture.pixelFormat == .rgba8Unorm_srgb {
             self.init( wid: texture.width, hgt: texture.height, type: .rgba8 )
         }
         else { return nil }
