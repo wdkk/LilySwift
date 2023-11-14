@@ -21,7 +21,7 @@ namespace Lily
         {
             namespace Const
             {
-                constant int shadowCascadeCount = 3;
+                constant int shadowCascadesCount = 3;
             };
         };
     };

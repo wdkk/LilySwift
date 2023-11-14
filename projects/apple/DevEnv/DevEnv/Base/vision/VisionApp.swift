@@ -20,12 +20,11 @@ struct VisionApp
         WindowGroup {
             VisionContentView()
         }
-        .windowStyle( .plain )
-        
+        .windowStyle( .volumetric )
         
         ImmersiveSpace( id:"LilyImmersiveSpace" ) {
             CompositorLayer( configuration:Lily.Stage.VisionFullyRenderConfiguration() ) { layerRenderer in
-                let renderFlow = DevEnv.Stage.RenderFlow( device:layerRenderer.device )
+                let renderFlow = DevEnv.RenderFlow( device:layerRenderer.device )
                 let renderEngine = Lily.Stage.VisionFullyRenderEngine( 
                     layerRenderer,
                     renderFlow:renderFlow

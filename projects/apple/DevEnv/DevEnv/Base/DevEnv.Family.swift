@@ -13,5 +13,4 @@ import LilySwift
 
 open class DevEnv
 {
-    public typealias Stage = Lily.Stage
 }

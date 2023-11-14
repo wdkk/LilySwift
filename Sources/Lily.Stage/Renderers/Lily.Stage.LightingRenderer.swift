@@ -15,23 +15,19 @@ extension Lily.Stage
 {
     open class LightingRenderer
     {        
-        var device: MTLDevice
+        public var device: MTLDevice
         
         var lightingDepthState: MTLDepthStencilState?
         var lightingPipeline: MTLRenderPipelineState?
         
-        var skyCubeMap: MTLTexture?
+        public var skyCubeMap: MTLTexture?
 
-        public init( device:MTLDevice, viewCount:Int, mode:VisionMode = .shared ) {
+        public init( device:MTLDevice, viewCount:Int ) {
             self.device = device
 
             lightingPipeline = try! makeLightingRenderPipelineState( viewCount:viewCount )
-            
             // ライティングデプスステートの作成
             lightingDepthState = makeLightingDepthState()
-            
-            // Mipsを活用するためにKTXフォーマットを使う
-            skyCubeMap = try! Texture.create( device:device, filePath:"assets/Textures/skyCubeMap.ktx" ).makeTextureView( pixelFormat:.rgba8Unorm_srgb )
         }
         
         func makeLightingDepthState() -> MTLDepthStencilState? {

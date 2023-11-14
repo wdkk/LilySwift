@@ -50,8 +50,7 @@ static float evaluateShadow(
     GlobalUniform            uniform,
     float3                   worldPosition,
     float                    eyeDepth,
-    depth2d_array<float>     shadowMap,
-    texture2d<float>         perlinMap
+    depth2d_array<float>     shadowMap
 )
 {
     constexpr sampler sam( min_filter::linear, mag_filter::linear, compare_func::less );
@@ -61,7 +60,7 @@ static float evaluateShadow(
     float shadow = 1.0;
     
     // カスケードシャドウの計算
-    for( c_idx = 0; c_idx < Const::shadowCascadeCount; c_idx++ ) {
+    for( c_idx = 0; c_idx < Const::shadowCascadesCount; c_idx++ ) {
         // ライトの位置
         lightSpacePos = uniform.shadowCameraUniforms[c_idx].viewProjectionMatrix * float4(worldPosition, 1);
         lightSpacePos /= lightSpacePos.w;
@@ -82,27 +81,7 @@ static float evaluateShadow(
             break;
         }
     }
-    
-    // 雲のシャドウ
-    /*
-    const float time = 2.2;
-    constexpr sampler psamp( min_filter::linear, mag_filter::linear, address::repeat );
-
-    // パーリンマップのx = l0 (layer0)
-    // 0.50以下 => 0.0, 0.5 ~ 0.7 => 0.0~1.0のエルミート補間, 0.7以上 => 1.0に. 第3引数の値で変化値が変わる
-    float l0 = smoothstep(0.5, 0.7, perlinMap.sample( psamp, fract( worldPosition.xz / 70.f ) - time * 0.008, level(0) ).x );
-    // パーリンマップのy = l1 (layer1)
-    float l1 = smoothstep(0.05, 0.8, perlinMap.sample( psamp, fract( worldPosition.xz / 25.f ) - float2( time, time * 0.5 ) * 0.03, level(0) ).y ) * 0.2 + 0.8;
-    // パーリンマップのz = l2 (layer2)
-    float l2 = perlinMap.sample( psamp, fract( worldPosition.xz / 10.f ) - float2( time * 0.5, time ) * 0.1, level(0) ).z * 0.15 + 0.75;
-    
-    // l0, l1, l2 を掛け算したものをクランプし0.0 ~ 0.75の値に収める. 1.0から引くことで0.25 ~ 1.0の値にする
-    float cloud = saturate( l0 * l1 * l2 ) * 0.75;
-    cloud = 1.0 - cloud;
-
-    shadow = min( shadow, cloud );
-    */
-    
+        
     return shadow;
 }
 
@@ -137,7 +116,6 @@ fragment LightingFOut Lily_Stage_LightingFs(
     lily_memory_depth        depthMem    [[ lily_memory(3) ]],
     depth2d_array <float>    shadowMap [[ texture(5) ]],
     texturecube <float>      cubeMap   [[ texture(6) ]],
-    texture2d <float>        perlinMap [[ texture(7) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(0) ]]
 )
 {    
@@ -167,7 +145,7 @@ fragment LightingFOut Lily_Stage_LightingFs(
     BRDFSet brdf = GBuffersToBRDF( GBuffer0, GBuffer1, GBuffer2 );
     
     // 影の量
-    const float shadowAmount = evaluateShadow( uniform, worldPosition, depth, shadowMap, perlinMap );
+    const float shadowAmount = evaluateShadow( uniform, worldPosition, depth, shadowMap );
     // 太陽の入射方向
     const float3 sunDirection = uniform.sunDirection;
 

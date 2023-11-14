@@ -15,24 +15,21 @@ extension Lily.Stage
 {      
     open class ObjectRenderer
     {
-        var device: MTLDevice
+        public var device: MTLDevice
         
         var objectPipeline: MTLRenderPipelineState?
         var objectShadowPipeline: MTLRenderPipelineState?
+        
         public var models:[Model.Obj?] = []
         public var instanceBuffer:Lily.Metal.Buffer<float4x4>?
     
-        let cameraCount:Int = Shared.Const.shadowCascadesCount + 1
-        let maxModelCount:Int = 4
+        public let cameraCount:Int = Shared.Const.shadowCascadesCount + 1
+        public var maxModelCount:Int = 4
         
-        public init( device:MTLDevice, viewCount:Int, mode:VisionMode = .shared ) {
+        public init( device:MTLDevice, viewCount:Int ) {
             self.device = device
             let library = try! Lily.Stage.metalLibrary( of:device )
-            
-            loadAssets()
-            
-            instanceBuffer = .init( device:device, count:maxModelCount * models.count * cameraCount )
-            
+
             let renderPPDesc = MTLRenderPipelineDescriptor()
     
             renderPPDesc.label = "Objects Geometry"
@@ -64,50 +61,6 @@ extension Lily.Stage
             renderPPDesc.maxVertexAmplificationCount = viewCount
                         
             objectShadowPipeline = try! device.makeRenderPipelineState( descriptor:renderPPDesc, options: [], reflection: nil)
-            
-            instanceBuffer?.update { acc in
-                for cam_idx in 0 ..< cameraCount {
-                    for idx in 0 ..< models.count {
-                        let b = idx + cam_idx
-                        acc[b] = .identity
-                    }
-                }
-            }
-        }
-        
-        public func loadAssets() {
-            let assets = [
-                "assets/Meshes/cube.obj"
-            ]
-            
-            for path in assets {
-                guard let url = Bundle.main.url( forResource:path, withExtension:"" ) else { continue }
-                models.append( Model.Obj( device:device, url:url ) )
-            }
-        }
-        
-        public func generateObject( with commandBuffer:MTLCommandBuffer? ) {
-            instanceBuffer?.update { acc in
-                for iid in 0 ..< maxModelCount * cameraCount {
-                    // オブジェクトの位置
-                    let world_pos = LLFloatv3( -10, -2.0, 5.0 + -2.5 * Float(iid) )
-                    
-                    let object_scale = LLFloatv3( 4.0, 4.0, 4.0 )
-                    
-                    let up = LLFloatv3( 0, 1, 0 )
-                    let right = normalize( cross( up, LLFloatv3( 1.0, 0.0, 1.0 ) ) )
-                    let fwd = cross( up, right )
-                    
-                    let world_matrix = float4x4(   
-                        LLFloatv4( fwd * object_scale, 0 ),
-                        LLFloatv4( up * object_scale, 0 ),
-                        LLFloatv4( right * object_scale, 0 ),
-                        LLFloatv4( world_pos, 1 )
-                    )
-                    
-                    acc[iid] = world_matrix
-                }
-            }
         }
         
         public func draw( 

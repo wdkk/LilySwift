@@ -13,11 +13,11 @@ import Metal
 
 extension Lily.Stage
 {
-    static var bundle:Bundle? {
+    public static var bundle:Bundle? {
         Bundle( path:LLPath.bundle() + "/LilySwift_LilySwift.bundle" )
     }
     
-    static func metalLibrary( of device:MTLDevice ) throws -> MTLLibrary {
+    public static func metalLibrary( of device:MTLDevice ) throws -> MTLLibrary {
         guard let bundle = bundle else { throw NSError( domain:"LilySwiftのバンドルが取得できませんでした", code:1 ) }
         return try device.makeDefaultLibrary( bundle:bundle )
     }

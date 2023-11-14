@@ -12,18 +12,18 @@ import Metal
 import MetalKit
 import LilySwift
 
-extension DevEnv.Stage
+extension DevEnv
 {   
     open class RenderFlow
-    : BaseRenderFlow
+    : Lily.Stage.BaseRenderFlow
     {
-        var renderTextures:RenderTextures
-        var deferredShadingPass:DeferredShadingPass?
-        var particlePass:ParticlePass?
+        var renderTextures:Lily.Stage.RenderTextures
+        var deferredShadingPass:Lily.Stage.DeferredShadingPass?
+        var particlePass:Lily.Stage.ParticlePass?
         
-        var objectRenderer:ObjectRenderer?
-        var particleRenderer:ParticleRenderer?
-        var lightingRenderer:LightingRenderer?
+        var objectRenderer:DevEnv.ObjectRenderer?
+        var lightingRenderer:DevEnv.LightingRenderer?
+        var particleRenderer:DevEnv.ParticleRenderer?
         
         public override init( device:MTLDevice ) {
             self.renderTextures = .init( device:device )
@@ -49,7 +49,7 @@ extension DevEnv.Stage
             viewCount:Int,
             destinationTexture:MTLTexture?,
             depthTexture:MTLTexture?,
-            uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
+            uniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>
         )
         {
             guard let deferred_shading_pass = deferredShadingPass, let particle_pass = particlePass else { return }
@@ -75,7 +75,7 @@ extension DevEnv.Stage
             objectRenderer?.generateObject( with:commandBuffer )
             
             // カスケードシャドウマップ
-            for c_idx in 0 ..< Shared.Const.shadowCascadesCount {
+            for c_idx in 0 ..< Lily.Stage.Shared.Const.shadowCascadesCount {
                 deferred_shading_pass.shadowPassDesc?.depthAttachment.slice = c_idx
                 
                 let shadow_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:deferred_shading_pass.shadowPassDesc! ) 

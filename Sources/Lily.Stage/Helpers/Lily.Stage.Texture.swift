@@ -15,7 +15,7 @@ extension Lily.Stage
 {
     open class Texture
     {
-        static func create(
+        static public func create(
             device:MTLDevice,
             filePath: String,
             sRGB: Bool = false,
@@ -49,7 +49,7 @@ extension Lily.Stage
             }
         }
         
-        static func create(
+        static public func create(
             device:MTLDevice,
             assetName: String,
             scaleFactor:CGFloat = 1.0,

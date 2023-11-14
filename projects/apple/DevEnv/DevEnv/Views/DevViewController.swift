@@ -15,7 +15,6 @@ import UIKit
 #endif
 import Metal
 import MetalKit
-
 import LilySwift
 
 class DevViewController
@@ -49,7 +48,7 @@ class DevViewController
 
     var renderEngine:Lily.Stage.StandardRenderEngine?
     
-    var renderFlow:DevEnv.Stage.RenderFlow?
+    var renderFlow:DevEnv.RenderFlow?
     
     var mouseDrag = LLFloatv2()
     
