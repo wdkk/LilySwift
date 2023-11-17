@@ -34,7 +34,7 @@ extension Lily.Stage
         }
         
         @discardableResult
-        public func updateBuffers( size:CGSize ) -> Bool {
+        public func updateBuffers( size:CGSize, viewCount:Int ) -> Bool {
             if GBuffer0 != nil && GBuffer0!.width.d == size.width && GBuffer0!.height.d == size.height { return false }
             
             // テクスチャ再生成の作業
@@ -51,6 +51,8 @@ extension Lily.Stage
             #else
             tex_desc.storageMode = .private
             #endif
+            tex_desc.textureType = .type2DArray
+            tex_desc.arrayLength = viewCount
             tex_desc.usage = [ tex_desc.usage, MTLTextureUsage.renderTarget ]
             
             // GBuffer0の再生成

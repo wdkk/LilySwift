@@ -19,7 +19,7 @@
 		5D5F43542B0123FC00614D79 /* DevEnv.Family.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F43532B0123FB00614D79 /* DevEnv.Family.swift */; };
 		5D5F43552B0123FC00614D79 /* DevEnv.Family.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F43532B0123FB00614D79 /* DevEnv.Family.swift */; };
 		5D5F43562B0123FC00614D79 /* DevEnv.Family.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F43532B0123FB00614D79 /* DevEnv.Family.swift */; };
-		5D69BA7C2AE5152200D9323C /* VisionContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD583E12AA771BF00B5E6AE /* VisionContentView.swift */; };
+		5D69BA7C2AE5152200D9323C /* VisionFullyContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD583E12AA771BF00B5E6AE /* VisionFullyContentView.swift */; };
 		5D84561D2AFA81B7004E48B3 /* LilySwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5D84561C2AFA81B7004E48B3 /* LilySwift */; };
 		5D84561F2AFA81DB004E48B3 /* LilySwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5D84561E2AFA81DB004E48B3 /* LilySwift */; };
 		5D8456212AFA81F9004E48B3 /* LilySwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5D8456202AFA81F9004E48B3 /* LilySwift */; };
@@ -103,7 +103,7 @@
 		5DD5361A23660C0C0076DDE8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5DD583D92AA771BF00B5E6AE /* DevEnv-visionOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DevEnv-visionOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DD583DF2AA771BF00B5E6AE /* VisionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionApp.swift; sourceTree = "<group>"; };
-		5DD583E12AA771BF00B5E6AE /* VisionContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionContentView.swift; sourceTree = "<group>"; };
+		5DD583E12AA771BF00B5E6AE /* VisionFullyContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionFullyContentView.swift; sourceTree = "<group>"; };
 		5DD583EB2AA771C300B5E6AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5DD583FC2AA777F600B5E6AE /* InfoVision.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoVision.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -186,7 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				5D8EA07B263D5D0500DCD404 /* DevViewController.swift */,
-				5DD583E12AA771BF00B5E6AE /* VisionContentView.swift */,
+				5DD583E12AA771BF00B5E6AE /* VisionFullyContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -430,7 +430,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D69BA7C2AE5152200D9323C /* VisionContentView.swift in Sources */,
+				5D69BA7C2AE5152200D9323C /* VisionFullyContentView.swift in Sources */,
 				5DAE74272B03DBB900445AE2 /* DevEnv.ParticleRenderer.swift in Sources */,
 				5DAE74232B03DB1500445AE2 /* DevEnv.LightingRenderer.swift in Sources */,
 				5D5F43522B0123A800614D79 /* DevEnv.RenderFlow.swift in Sources */,

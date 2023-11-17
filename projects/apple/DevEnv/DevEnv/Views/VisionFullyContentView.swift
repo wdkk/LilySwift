@@ -11,7 +11,7 @@
 import SwiftUI
 import LilySwift
 
-struct VisionContentView: View 
+struct VisionFullyContentView : View
 {
     @State private var showImmersiveSpace = false
     @State private var immersiveSpaceIsShown = false
@@ -42,7 +42,7 @@ struct VisionContentView: View
             Lily.UI.MetalView( 
                 device:device,
                 setup: { view in
-                    renderFlow = .init( device:device! )
+                    renderFlow = .init( device:device!, viewCount:2 )
                     
                     renderEngine = .init( 
                         device:device!,

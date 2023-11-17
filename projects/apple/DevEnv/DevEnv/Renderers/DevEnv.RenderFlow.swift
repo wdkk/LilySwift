@@ -25,21 +25,25 @@ extension DevEnv
         var lightingRenderer:DevEnv.LightingRenderer?
         var particleRenderer:DevEnv.ParticleRenderer?
         
-        public override init( device:MTLDevice ) {
+        let viewCount:Int
+        
+        public init( device:MTLDevice, viewCount:Int ) {
             self.renderTextures = .init( device:device )
             self.deferredShadingPass = .init( device:device, renderTextures:renderTextures )
             self.particlePass = .init( device:device, renderTextures:renderTextures )
+            
+            self.viewCount = viewCount
 
             // レンダラーの用意
-            objectRenderer = .init( device:device, viewCount:1 )
-            particleRenderer = .init( device:device, viewCount:1 )
-            lightingRenderer = .init( device:device, viewCount:1 )
+            objectRenderer = .init( device:device, viewCount:viewCount )
+            particleRenderer = .init( device:device, viewCount:viewCount )
+            lightingRenderer = .init( device:device, viewCount:viewCount )
             
             super.init( device:device )
         }
         
-        public override func updateBuffers(size: CGSize) {
-            renderTextures.updateBuffers( size:size )
+        public override func updateBuffers( size:CGSize ) {
+            renderTextures.updateBuffers( size:size, viewCount:viewCount )
         }
         
         public override func render(

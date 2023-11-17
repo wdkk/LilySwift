@@ -66,7 +66,7 @@ class DevViewController
         
         setupKeyInput()
         
-        renderFlow = .init( device:device! )
+        renderFlow = .init( device:device!, viewCount:1 )
         
         renderEngine = .init( 
             device:device!,
