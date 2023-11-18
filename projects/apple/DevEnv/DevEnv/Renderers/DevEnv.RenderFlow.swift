@@ -137,7 +137,6 @@ extension DevEnv
             deferred_shading_encoder?.endEncoding()
             
             // フォワードレンダリング : パーティクルの描画の設定
-            
             particle_pass.setDestination( texture:destinationTexture )
             particle_pass.setDepth( texture:depthTexture )
             

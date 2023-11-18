@@ -19,6 +19,8 @@ extension DevEnv
     open class ParticleRenderer
     : Lily.Stage.ParticleRenderer
     { 
+        public var maxParticleCount:Int = 256
+        
         public override init( device:MTLDevice, viewCount:Int ) {
             super.init( device:device, viewCount:viewCount )
             

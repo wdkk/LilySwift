@@ -42,7 +42,6 @@ extension Lily.Stage
         
         var particlePipeline: MTLRenderPipelineState!
         
-        public var maxParticleCount:Int = 256
         public var particles:Model.Quadrangles<ParticleVIn>?
         public var modelMatrices:Lily.Metal.Buffer<LLMatrix4x4>?
         public var statuses:Lily.Metal.Buffer<ParticleStatus>?
