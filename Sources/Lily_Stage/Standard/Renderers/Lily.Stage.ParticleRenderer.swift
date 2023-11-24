@@ -61,7 +61,7 @@ extension Lily.Stage
             renderPPDesc.depthAttachmentPixelFormat = BufferFormats.depth
             renderPPDesc.maxVertexAmplificationCount = viewCount
             
-            particlePipeline = try! device.makeRenderPipelineState(descriptor: renderPPDesc, options: [], reflection: nil)
+            particlePipeline = try! device.makeRenderPipelineState( descriptor:renderPPDesc, options: [], reflection: nil )
         }
         
         public func draw( 
@@ -76,7 +76,7 @@ extension Lily.Stage
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
             renderEncoder?.setVertexBuffer( modelMatrices?.metalBuffer, offset:0, index:2 )
             renderEncoder?.setVertexBuffer( statuses?.metalBuffer, offset:0, index:3 )
-            renderEncoder?.drawPrimitives( 
+            renderEncoder?.drawPrimitives(
                 type: .triangleStrip, 
                 vertexStart: 0, 
                 vertexCount: 4,

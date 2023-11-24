@@ -16,27 +16,24 @@ extension Lily.Stage.Playground2D
     open class RenderFlow
     : Lily.Stage.BaseRenderFlow
     {
-        var renderTextures:Lily.Stage.RenderTextures
-        var particlePass:Lily.Stage.ParticlePass?
+        var pass:Lily.Stage.Playground2D.Pass?
         
-        var renderer:Renderer?
+        var alphaRenderer:AlphaRenderer?
         
         let viewCount:Int
+        var screenSize:CGSize = .zero
         
         public init( device:MTLDevice, viewCount:Int ) {
-            self.renderTextures = .init( device:device )
-            self.particlePass = .init( device:device, renderTextures:renderTextures )
-            
+            self.pass = .init( device:device )
             self.viewCount = viewCount
-
             // レンダラーの用意
-            renderer = .init( device:device, viewCount:viewCount )
+            alphaRenderer = .init( device:device, viewCount:viewCount )
             
             super.init( device:device )
         }
         
         public override func updateBuffers( size:CGSize ) {
-            renderTextures.updateBuffers( size:size, viewCount:viewCount )
+            screenSize = size
         }
         
         public override func render(
@@ -49,39 +46,37 @@ extension Lily.Stage.Playground2D
             uniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>
         )
         {
-            guard let particle_pass = particlePass else { return }
-            
-            let shadowViewport = renderTextures.shadowViewport()
-            let shadowScissor = renderTextures.shadowScissor()
+            guard let pass = self.pass else { return }
             
             // 共通処理
-            particle_pass.updatePass( 
-                renderTextures:renderTextures,
+            pass.updatePass( 
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetCount:viewCount        
             )
             
             // フォワードレンダリング : パーティクルの描画の設定
-            particle_pass.setDestination( texture:destinationTexture )
-            particle_pass.setDepth( texture:depthTexture )
+            pass.setDestination( texture:destinationTexture )
+            pass.setDepth( texture:depthTexture )
+            pass.setClearColor( .white )
             
-            let particle_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:particle_pass.particlePassDesc! )
+            let encoder = commandBuffer.makeRenderCommandEncoder( descriptor:pass.passDesc! )
             
-            particle_encoder?
+            encoder?
             .label( "Playground 2D Render" )
             .cullMode( .none )
-            .depthStencilState( particle_pass.particleDepthState! )
+            .frontFacing( .counterClockwise )
+            .depthStencilState( pass.depthState! )
             .viewports( viewports )
             .vertexAmplification( count:viewCount, viewports:viewports )
             
             // Playground2Dレンダー描画
-            renderer?.draw(
-                with:particle_encoder,
+            alphaRenderer?.draw(
+                with:encoder,
                 globalUniforms:uniforms,
-                renderTextures:renderTextures
+                screenSize:screenSize
             )
             
-            particle_encoder?.endEncoding()
+            encoder?.endEncoding()
         }
     }
 }

@@ -19,7 +19,7 @@ extension Lily.Stage
 
 extension Lily.Stage.Playground2D
 {
-    public struct VertexIn
+    public struct PG2DVIn
     {
         var xy = LLFloatv2()    // -1.0 ~ 1.0, 中央が0.0のローカル座標系
         var uv = LLFloatv2()    // 0.0 ~ 1.0, 左上が0.0のラスタ座標系
@@ -32,14 +32,13 @@ extension Lily.Stage.Playground2D
         }
     }
             
-    open class Renderer
+    open class AlphaRenderer
     {
         public var device: MTLDevice
         
-        var particlePipeline: MTLRenderPipelineState!
+        var pipeline: MTLRenderPipelineState!
         
-        public var particles:Lily.Stage.Model.Quadrangles<VertexIn>?
-        public var modelMatrices:Lily.Metal.Buffer<LLMatrix4x4>?
+        public var particles:Lily.Stage.Model.Quadrangles<PG2DVIn>?
         public var statuses:Lily.Metal.Buffer<UnitStatus>?
         
         public init( device:MTLDevice, viewCount:Int ) {
@@ -57,20 +56,42 @@ extension Lily.Stage.Playground2D
             renderPPDesc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
             renderPPDesc.maxVertexAmplificationCount = viewCount
             
-            particlePipeline = try! device.makeRenderPipelineState(descriptor: renderPPDesc, options: [], reflection: nil)
+            pipeline = try! device.makeRenderPipelineState(descriptor: renderPPDesc, options: [], reflection: nil)
+            
+            let p = LLQuad<Lily.Stage.Playground2D.PG2DVIn>(
+                .init( xy:LLFloatv2( -1.0,  1.0 ), uv:LLFloatv2( 0.0, 0.0 ), texUV:LLFloatv2( 0.0, 0.0 ) ),
+                .init( xy:LLFloatv2(  1.0,  1.0 ), uv:LLFloatv2( 1.0, 0.0 ), texUV:LLFloatv2( 1.0, 0.0 ) ),
+                .init( xy:LLFloatv2( -1.0, -1.0 ), uv:LLFloatv2( 0.0, 1.0 ), texUV:LLFloatv2( 0.0, 1.0 ) ),
+                .init( xy:LLFloatv2(  1.0, -1.0 ), uv:LLFloatv2( 1.0, 1.0 ), texUV:LLFloatv2( 1.0, 1.0 ) )
+            )
+            
+            particles = .init( device:device, count:1024 )
+            particles?.vertice.update( repeating:p, count:particles!.count )
+            
+            statuses = .init( device:device, count:particles!.count )
+            statuses?.update( range:0..<particles!.count ) { us, _ in
+                us.state = .active
+                us.enabled = true
+                us.color = LLFloatv4( .random(in:0.0...1.0), .random(in:0.0...1.0), .random(in:0.0...1.0), .random(in:0.0...1.0) )
+                us.scale = LLFloatv2( 100.0, 100.0 )
+                us.position = LLFloatv2( .random(in:-1000...1000), .random(in:-1000...1000) )
+            }
         }
         
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
-            renderTextures:Lily.Stage.RenderTextures
+            screenSize:CGSize
         ) 
         {
-            renderEncoder?.setRenderPipelineState( particlePipeline )
+            renderEncoder?.setRenderPipelineState( pipeline )
+            
+            // プロジェクション行列を画面のピクセルサイズ変換に指定
+            var proj_matrix:LLMatrix4x4 = .pixelXYProjection( screenSize )
             
             renderEncoder?.setVertexBuffer( particles?.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
-            renderEncoder?.setVertexBuffer( modelMatrices?.metalBuffer, offset:0, index:2 )
+            renderEncoder?.setVertexBytes( &proj_matrix, length:MemoryLayout<LLMatrix4x4>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( statuses?.metalBuffer, offset:0, index:3 )
             renderEncoder?.drawPrimitives( 
                 type: .triangleStrip, 

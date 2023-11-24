@@ -10,18 +10,19 @@
 
 #import <metal_stdlib>
 #import <TargetConditionals.h>
-#import "../../Shaders/Lily.Stage.MemoryLess.h.metal"
+#import "../../Standard/Shaders/Lily.Stage.MemoryLess.h.metal"
 
-#import "../../Shared/Lily.Stage.Shared.Const.metal"
-#import "../../Shared/Lily.Stage.Shared.GlobalUniform.metal"
-#import "../../Shaders/Lily.Stage.StageRenderer.util.metal"
+#import "../../Standard/Shared/Lily.Stage.Shared.Const.metal"
+#import "../../Standard/Shared/Lily.Stage.Shared.GlobalUniform.metal"
+#import "../../Standard/Shaders/Lily.Stage.StageRenderer.util.metal"
 
 using namespace metal;
 using namespace Lily::Stage::Shared;
 
-struct ParticleVIn
+struct PG2DVIn
 {
-    float4 pos;
+    float2 xy;
+    float2 uv;
     float2 texUV;
 };
 
@@ -45,21 +46,24 @@ struct UnitStatus
     float state;    
 };
 
-struct ParticleVOut
+struct PG2DVOut
 {
-    float4 position [[ position ]];
+    float4 pos [[ position ]];
+    float2 xy;
+    float2 uv;
+    float2 texUV;
     float4 color;
 };
 
-struct ParticleResult 
+struct PG2DResult 
 {
     float4 backBuffer [[ color(0) ]];
 };
 
-vertex ParticleVOut Lily_Stage_Playground2DVs(
-    const device ParticleVIn* in [[ buffer(0) ]],
+vertex PG2DVOut Lily_Stage_Playground2DVs(
+    const device PG2DVIn* in [[ buffer(0) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
-    const device float4x4* modelMatrices [[ buffer(2) ]],
+    constant float4x4 &projMatrix [[ buffer(2) ]],
     const device UnitStatus* statuses [[ buffer(3) ]],
     ushort amp_id [[ amplification_id ]],
     uint vid [[ vertex_id ]],
@@ -67,43 +71,58 @@ vertex ParticleVOut Lily_Stage_Playground2DVs(
 )
 {
     GlobalUniform uniform = uniformArray.uniforms[amp_id];
-    float4x4 vpMatrix = uniform.cameraUniform.viewProjectionMatrix;
-    float4x4 mvpMatrix = vpMatrix * modelMatrices[iid];
-    UnitStatus status = statuses[vid];
-        
-    float4 pos1 = mvpMatrix * in[iid * 4 + 0].pos;
-    float4 pos2 = mvpMatrix * in[iid * 4 + 1].pos;
-    float4 pos3 = mvpMatrix * in[iid * 4 + 2].pos;
-    float4 pos4 = mvpMatrix * in[iid * 4 + 3].pos;
-    
-    float4 center_pos = (pos1 + pos2 + pos3 + pos4) / 4.0;
+    PG2DVIn vin = in[vid];
+    UnitStatus us = statuses[iid];
 
-    constexpr float3 square_vertices[] = { 
-        float3( -0.5, -0.5 , 0.0 ),
-        float3(  0.5, -0.5 , 0.0 ),
-        float3( -0.5,  0.5 , 0.0 ),
-        float3(  0.5,  0.5 , 0.0 )
-    };
-        
-    float4 billboard_pos = float4(
-        center_pos.x + square_vertices[vid].x * status.scale.x / uniform.aspect,
-        center_pos.y + square_vertices[vid].y * status.scale.y,
-        center_pos.z,
-        center_pos.w
+    float cosv = cos( us.angle );
+    float sinv = sin( us.angle );
+    float x = vin.xy.x;
+    float y = vin.xy.y;
+    float scx = us.scale.x * 0.5;
+    float scy = us.scale.y * 0.5;
+
+    float4 atlas_uv = us.atlasUV;
+
+    float min_u = atlas_uv[0];
+    float min_v = atlas_uv[1];
+    float max_u = atlas_uv[2];
+    float max_v = atlas_uv[3];
+
+    float u = vin.texUV[0];
+    float iu = 1.0 - u;
+    float v = vin.texUV[1];
+    float iv = 1.0 - v;
+
+    float2 tex_uv = float2( 
+        min_u * iu + max_u * u,
+        min_v * iv + max_v * v
     );
-    
-    ParticleVOut out;
-    out.position = billboard_pos;
-    out.color = status.color;
 
-    return out;
+    // アフィン変換
+    float2 v_coord = float2(
+        scx * cosv * x - sinv * scy * y + us.position.x,
+        scx * sinv * x + cosv * scy * y + us.position.y 
+    );
+
+    // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
+    float visibility = us.state * us.enabled * us.color[3] - 0.00001;
+    
+    PG2DVOut vout;
+    
+    vout.pos = projMatrix * float4( v_coord, visibility, 1 );
+    vout.xy = vin.xy;
+    vout.texUV = tex_uv;
+    vout.uv = vin.uv;
+    vout.color = us.color;
+
+    return vout;
 }
 
-fragment ParticleResult Lily_Stage_Playground2DFs(
-    const ParticleVOut in [[ stage_in ]]
+fragment PG2DResult Lily_Stage_Playground2DFs(
+    const PG2DVOut in [[ stage_in ]]
 )
 {
-    ParticleResult result;
+    PG2DResult result;
     result.backBuffer = in.color;
     return result;
 }
