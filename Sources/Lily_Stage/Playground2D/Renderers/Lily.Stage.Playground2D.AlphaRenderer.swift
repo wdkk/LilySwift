@@ -45,18 +45,18 @@ extension Lily.Stage.Playground2D
             self.device = device
             let library = try! Lily.Stage.metalLibrary( of:device )
             
-            let renderPPDesc = MTLRenderPipelineDescriptor()
-            renderPPDesc.label = "Playground 2D Particle Geometry"
-            renderPPDesc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2DVs" ) )
-            renderPPDesc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2DFs" ) )
-            renderPPDesc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
+            let desc = MTLRenderPipelineDescriptor()
+            desc.label = "Playground 2D Particle Geometry"
+            desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2DVs" ) )
+            desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2DFs" ) )
+            desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
-            renderPPDesc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.backBuffer
-            renderPPDesc.colorAttachments[0].composite( type:.alphaBlend )
-            renderPPDesc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
-            renderPPDesc.maxVertexAmplificationCount = viewCount
+            desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.backBuffer
+            desc.colorAttachments[0].composite( type:.alphaBlend )
+            desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
+            desc.maxVertexAmplificationCount = viewCount
             
-            pipeline = try! device.makeRenderPipelineState(descriptor: renderPPDesc, options: [], reflection: nil)
+            pipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
             
             let p = LLQuad<Lily.Stage.Playground2D.PG2DVIn>(
                 .init( xy:LLFloatv2( -1.0,  1.0 ), uv:LLFloatv2( 0.0, 0.0 ), texUV:LLFloatv2( 0.0, 0.0 ) ),

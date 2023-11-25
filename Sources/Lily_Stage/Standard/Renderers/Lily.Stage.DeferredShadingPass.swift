@@ -29,14 +29,49 @@ extension Lily.Stage
             self.device = device
             
             // シャドウレンダーパスの準備
-            shadowPassDesc = setupShadowRenderPassDescriptor( renderTextures.shadowMap )
+            shadowPassDesc = .make {
+                $0.depthAttachment.texture = renderTextures.shadowMap
+                $0.depthAttachment
+                .clearDepth( 0.0 )
+                .action( load:.clear, store:.store )
+            }
             // シャドウデプスステートの作成
-            shadowDepthState = makeShadowDepthState() 
+            shadowDepthState = device.makeDepthStencilState(descriptor: .make {
+                $0
+                .depthCompare( .greater )
+                .depthWriteEnabled( true )
+            })
             
             // G-Bufferのレンダーパスの準備
-            GBufferPassDesc = setupGBufferRenderPassDescriptor()
+            GBufferPassDesc = .make {
+                $0.depthAttachment
+                .clearDepth( 0.0 )
+                .action( load:.clear, store:.store )
+                
+                #if !targetEnvironment(simulator)
+                $0.colorAttachments[0].action( load:.dontCare, store:.dontCare )
+                $0.colorAttachments[1].action( load:.dontCare, store:.dontCare )
+                $0.colorAttachments[2].action( load:.dontCare, store:.dontCare )
+                $0.colorAttachments[3].clearColor( .white )
+                $0.colorAttachments[3].action( load:.clear, store:.dontCare )
+                #else
+                // シミュレータはテクスチャを保存する
+                $0.colorAttachments[0].action( load:.dontCare, store:.store )
+                $0.colorAttachments[1].action( load:.dontCare, store:.store )
+                $0.colorAttachments[2].action( load:.dontCare, store:.store )
+                $0.colorAttachments[3].clearColor( .white )
+                $0.colorAttachments[3].action( load:.clear, store:.store )
+                #endif
+                // colorAttachments[4]が毎フレームのバックバッファの受け取り口
+                $0.colorAttachments[4].action( load:.dontCare, store:.store )
+            }
+            
             // G-BufferのDepth stateの作成
-            GBufferDepthState = makeGBufferDepthState()
+            GBufferDepthState = device.makeDepthStencilState(descriptor: .make {
+                $0
+                .depthCompare( .greater )
+                .depthWriteEnabled( true )
+            })
         }
         
         public func updatePass( 
@@ -55,59 +90,7 @@ extension Lily.Stage
             GBufferPassDesc?.renderTargetArrayLength = renderTargetCount
             #endif
         }
-                
-        // シャドウマップディスクリプタの作成
-        func setupShadowRenderPassDescriptor( _ shadowMap:MTLTexture? ) -> MTLRenderPassDescriptor {
-            let desc = MTLRenderPassDescriptor()
-            desc.depthAttachment.texture = shadowMap
-            desc.depthAttachment
-            .clearDepth( 0.0 )
-            .action( load:.clear, store:.store )
-            return desc
-        }
-        
-        func makeShadowDepthState() -> MTLDepthStencilState? {
-            let desc = MTLDepthStencilDescriptor()
-            desc.depthCompareFunction = .greater
-            desc.isDepthWriteEnabled = true
-            return device.makeDepthStencilState( descriptor:desc ) 
-        }
-        
-        // G-Bufferのディスクリプタの作成
-        func setupGBufferRenderPassDescriptor() -> MTLRenderPassDescriptor {
-            let desc = MTLRenderPassDescriptor()
-            
-            desc.depthAttachment
-            .clearDepth( 0.0 )
-            .action( load:.clear, store:.store )
-            
-            #if !targetEnvironment(simulator)
-            desc.colorAttachments[0].action( load:.dontCare, store:.dontCare )
-            desc.colorAttachments[1].action( load:.dontCare, store:.dontCare )
-            desc.colorAttachments[2].action( load:.dontCare, store:.dontCare )
-            desc.colorAttachments[3].clearColor( .white )
-            desc.colorAttachments[3].action( load:.clear, store:.dontCare )
-            #else
-            // シミュレータはテクスチャを保存する
-            desc.colorAttachments[0].action( load:.dontCare, store:.store )
-            desc.colorAttachments[1].action( load:.dontCare, store:.store )
-            desc.colorAttachments[2].action( load:.dontCare, store:.store )
-            desc.colorAttachments[3].clearColor( .white )
-            desc.colorAttachments[3].action( load:.clear, store:.store )
-            #endif
-            // colorAttachments[4]が毎フレームのバックバッファの受け取り口
-            desc.colorAttachments[4].action( load:.dontCare, store:.store )
-            
-            return desc
-        }
-        
-        func makeGBufferDepthState() -> MTLDepthStencilState? {
-            let desc = MTLDepthStencilDescriptor()
-            desc.depthCompareFunction = .greater
-            desc.isDepthWriteEnabled = true
-            return device.makeDepthStencilState( descriptor:desc ) 
-        }
-        
+                        
         public func setGBufferDestination( texture:MTLTexture? ) {
             GBufferPassDesc?.colorAttachments[4].texture = texture
         }

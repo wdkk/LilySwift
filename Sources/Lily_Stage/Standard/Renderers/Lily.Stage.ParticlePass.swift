@@ -25,9 +25,19 @@ extension Lily.Stage
         public init( device:MTLDevice, renderTextures:RenderTextures ) {
             self.device = device
             // パーティクルのレンダーパスの準備
-            particlePassDesc = setupRenderPassDescriptor()
+            particlePassDesc = .make {
+                $0.depthAttachment
+                .action( load:.load, store:.store )
+                
+                $0.colorAttachments[0]
+                .action( load:.load, store:.store )
+            }
             // パーティクルのDepth stateの作成
-            particleDepthState = makeDepthState()
+            particleDepthState = device.makeDepthStencilState(descriptor:.make {
+                $0
+                .depthCompare( .greater )
+                .depthWriteEnabled( false )
+            })
         }
         
         public func updatePass(
@@ -40,25 +50,6 @@ extension Lily.Stage
             #if os(visionOS)
             particlePassDesc?.renderTargetArrayLength = renderTargetCount
             #endif
-        }
-                  
-        // パーティクルのディスクリプタの作成
-        func setupRenderPassDescriptor() -> MTLRenderPassDescriptor {
-            let desc = MTLRenderPassDescriptor()
-            
-            desc.depthAttachment
-            .action( load:.load, store:.store )
-            
-            desc.colorAttachments[0].action( load:.load, store:.store )
-
-            return desc
-        }
-        
-        func makeDepthState() -> MTLDepthStencilState? {
-            let desc = MTLDepthStencilDescriptor()
-            desc.depthCompareFunction = .greater
-            desc.isDepthWriteEnabled = false
-            return device.makeDepthStencilState( descriptor:desc ) 
         }
         
         public func setDestination( texture:MTLTexture? ) {
