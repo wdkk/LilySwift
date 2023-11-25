@@ -155,13 +155,12 @@ public extension LLImage
            dst_addr,
            dst_row_bytes,
            { 
-               if let buf = $1 {
-                   free( UnsafeMutableRawPointer( mutating: buf ) )
-               }
+               if let buf = $1 { free( UnsafeMutableRawPointer( mutating: buf ) ) }
            },
            nil, nil,
-           &result_buffer )
-        == kCVReturnSuccess else {
+           &result_buffer 
+        ) == kCVReturnSuccess 
+        else {
             free( dst_addr )
             return nil
         }

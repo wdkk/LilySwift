@@ -10,7 +10,6 @@
 
 #import <metal_stdlib>
 #import <TargetConditionals.h>
-#import "../../Standard/Shaders/Lily.Stage.MemoryLess.h.metal"
 
 #import "../../Standard/Shared/Lily.Stage.Shared.Const.metal"
 #import "../../Standard/Shared/Lily.Stage.Shared.GlobalUniform.metal"
@@ -105,11 +104,10 @@ vertex PG2DVOut Lily_Stage_Playground2DVs(
     );
 
     // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
-    float visibility = us.state * us.enabled * us.color[3] - 0.00001;
+    float visibility_z = us.state * us.enabled * us.color[3] - 0.00001;
     
     PG2DVOut vout;
-    
-    vout.pos = projMatrix * float4( v_coord, visibility, 1 );
+    vout.pos = projMatrix * float4( v_coord, visibility_z, 1 );
     vout.xy = vin.xy;
     vout.texUV = tex_uv;
     vout.uv = vin.uv;

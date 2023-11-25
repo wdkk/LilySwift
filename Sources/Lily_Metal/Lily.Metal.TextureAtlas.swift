@@ -226,7 +226,19 @@ extension Lily.Metal
                     image_rects.append( rc )
                     continue
                 }
-                // TODO: macOS向けNSImage対応
+#elseif os(macOS)
+                if nnv is NSImage {
+                    let uiimg = nnv as! NSImage
+                    guard let img = uiimg.llImage else { continue }
+                    if !img.available { continue }
+                    
+                    let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
+                    rc.image = img
+                    rc.label = key
+
+                    image_rects.append( rc )
+                    continue
+                }
 #endif
             }
             
@@ -282,7 +294,7 @@ extension Lily.Metal
                 _label_positions[label] = LLRegionMake( left, top, right, bottom )
             }
             
-            self.metalTexture = Texture( device:device, llImage:img_atlas ).metalTexture
+            self.metalTexture = try! Lily.Metal.Texture.create( device:device!, llImage:img_atlas )
             self.width = all_size.width.i32!
             self.height = all_size.height.i32!
             

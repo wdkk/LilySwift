@@ -18,6 +18,8 @@ extension Lily.Stage.Playground2D
     {
         var pass:Lily.Stage.Playground2D.Pass?
         
+        var storage:Storage
+        
         var alphaRenderer:AlphaRenderer?
         
         let viewCount:Int
@@ -25,6 +27,7 @@ extension Lily.Stage.Playground2D
         
         public init( device:MTLDevice, viewCount:Int ) {
             self.pass = .init( device:device )
+            self.storage = .init( device:device, capacity:1024 )
             self.viewCount = viewCount
             // レンダラーの用意
             alphaRenderer = .init( device:device, viewCount:viewCount )
@@ -73,6 +76,7 @@ extension Lily.Stage.Playground2D
             alphaRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
+                storage:storage,
                 screenSize:screenSize
             )
             

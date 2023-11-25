@@ -14,8 +14,7 @@ import simd
 import LilySwift
 
 extension DevEnv
-{   
-    
+{  
     open class ParticleRenderer
     : Lily.Stage.ParticleRenderer
     { 

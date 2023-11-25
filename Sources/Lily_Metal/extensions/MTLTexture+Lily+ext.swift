@@ -11,15 +11,16 @@
 /// コメント未済
 
 import Metal
+import MetalKit
 import QuartzCore
 
-public extension MTLTexture 
+extension MTLTexture 
 {
     private func getUnsafeMemory( mipmapLevel:Int = 0 ) -> UnsafeMutableRawPointer {
         let width    = self.width
         let height   = self.height
         let rowBytes = self.width * 4
-        let buf = UnsafeMutableRawPointer.allocate(byteCount: width * height * 4, alignment: 4)
+        let buf = UnsafeMutableRawPointer.allocate( byteCount:width * height * 4, alignment: 4 )
         
         self.getBytes( 
             buf, 
@@ -31,7 +32,7 @@ public extension MTLTexture
         return buf
     }
 
-    var cgImage:CGImage? {
+    public var cgImage:CGImage? {
         let p = getUnsafeMemory()
         
         let pColorSpace = CGColorSpaceCreateDeviceRGB()
