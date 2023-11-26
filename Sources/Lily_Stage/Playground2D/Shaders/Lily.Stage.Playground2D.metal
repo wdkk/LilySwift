@@ -25,6 +25,25 @@ struct PG2DVIn
     float2 texUV;
 };
 
+
+enum CompositeType : uint
+{
+    none  = 0,
+    alpha = 1,
+    add   = 2,
+    sub   = 3
+};
+    
+enum ShapeType : uint
+{
+    rectangle    = 0,
+    triangle     = 1,
+    circle       = 2,
+    blurryCircle = 3,
+    picture      = 100,
+    mask         = 101
+};
+
 struct UnitStatus
 {
     float4x4 matrix;
@@ -42,7 +61,9 @@ struct UnitStatus
     float life;
     float deltaLife;
     float enabled;
-    float state;    
+    float state;
+    CompositeType compositeType;
+    ShapeType shapeType;
 };
 
 struct PG2DVOut
@@ -59,7 +80,7 @@ struct PG2DResult
     float4 backBuffer [[ color(0) ]];
 };
 
-vertex PG2DVOut Lily_Stage_Playground2DVs(
+vertex PG2DVOut Lily_Stage_Playground2D_AlphaBlend_Vs(
     const device PG2DVIn* in [[ buffer(0) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
     constant float4x4 &projMatrix [[ buffer(2) ]],
@@ -72,6 +93,12 @@ vertex PG2DVOut Lily_Stage_Playground2DVs(
     GlobalUniform uniform = uniformArray.uniforms[amp_id];
     PG2DVIn vin = in[vid];
     UnitStatus us = statuses[iid];
+    
+    if( us.compositeType != CompositeType::alpha ) { 
+        PG2DVOut trush_vout;
+        trush_vout.pos = float4( 0, 0, -1000000, 0 );
+        return trush_vout;
+    }
 
     float cosv = cos( us.angle );
     float sinv = sin( us.angle );
@@ -116,7 +143,7 @@ vertex PG2DVOut Lily_Stage_Playground2DVs(
     return vout;
 }
 
-fragment PG2DResult Lily_Stage_Playground2DFs(
+fragment PG2DResult Lily_Stage_Playground2D_AlphaBlend_Fs(
     const PG2DVOut in [[ stage_in ]]
 )
 {

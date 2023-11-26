@@ -32,6 +32,8 @@ extension Lily.Stage.Playground2D
             // レンダラーの用意
             alphaRenderer = .init( device:device, viewCount:viewCount )
             
+            let idx = self.storage.request()
+            
             super.init( device:device )
         }
         

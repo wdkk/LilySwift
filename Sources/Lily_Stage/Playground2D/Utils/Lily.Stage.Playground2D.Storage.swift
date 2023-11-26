@@ -42,13 +42,23 @@ extension Lily.Stage.Playground2D
             particles?.vertice.update( repeating:p, count:capacity )
             
             statuses = .init( device:device, count:capacity )
-            statuses?.update( range:0..<capacity ) { us, _ in
+            statuses?.update( range:0..<capacity ) { us, idx in
+                us.state = .trush
+                us.enabled = false
+            }
+        }
+        
+        public func request() -> Int {
+            let idx = 0
+            statuses?.update( at:idx ) { us in
                 us.state = .active
                 us.enabled = true
                 us.color = LLFloatv4( .random(in:0.0...1.0), .random(in:0.0...1.0), .random(in:0.0...1.0), .random(in:0.0...1.0) )
-                us.scale = LLFloatv2( 100.0, 100.0 )
-                us.position = LLFloatv2( .random(in:-1000...1000), .random(in:-1000...1000) )
+                us.scale = LLFloatv2( 300.0, 300.0 )
+                us.position = LLFloatv2( .random(in:-500...500), .random(in:-500...500) )
+                us.compositeType = .alpha
             }
+            return idx
         }
     }
 }

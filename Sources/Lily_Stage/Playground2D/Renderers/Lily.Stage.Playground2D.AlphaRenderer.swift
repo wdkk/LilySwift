@@ -24,9 +24,9 @@ extension Lily.Stage.Playground2D
             let library = try! Lily.Stage.metalLibrary( of:device )
             
             let desc = MTLRenderPipelineDescriptor()
-            desc.label = "Playground 2D Geometry(Alpha)"
-            desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2DVs" ) )
-            desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2DFs" ) )
+            desc.label = "Playground 2D Geometry(AlphaBlend)"
+            desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_AlphaBlend_Vs" ) )
+            desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_AlphaBlend_Fs" ) )
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
             desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.backBuffer
