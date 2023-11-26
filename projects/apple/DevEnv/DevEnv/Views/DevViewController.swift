@@ -31,6 +31,7 @@ class DevViewController
         CATransaction.stop {
             me
             .rect( vc.rect )
+            
             vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
         }
     }

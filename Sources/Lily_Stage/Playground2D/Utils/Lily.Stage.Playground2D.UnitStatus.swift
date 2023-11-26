@@ -65,9 +65,11 @@ extension Lily.Stage.Playground2D
             1.0,                        // enabled = true
             LifeState.active.rawValue   // state = .active      
         )
-        fileprivate var types:(LLUInt32, LLUInt32) = (
+        fileprivate var types:(LLUInt32, LLUInt32, LLUInt32, LLUInt32) = (
             CompositeType.alpha.rawValue,
-            ShapeType.rectangle.rawValue
+            ShapeType.rectangle.rawValue,
+            0,
+            0
         )
         //-- メモリアラインメント範囲END --//
         

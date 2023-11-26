@@ -91,7 +91,7 @@ extension Lily.Metal
             let sz:Int = MemoryLayout<T>.stride
             if _length != sz { _mtlbuf = self.allocate( sz ) }
             let _ = withUnsafePointer(to: obj) { ptr in
-                memcpy( _mtlbuf!.contents(), ptr, sz )
+                copy( dst:_mtlbuf!, buf:ptr, length:sz )
             }
         }
         
@@ -100,35 +100,58 @@ extension Lily.Metal
             if _length != sz { _mtlbuf = self.allocate( sz ) }
             if sz == 0 { return }
             let _ = withUnsafePointer( to:elements ) { ptr in
-                memcpy( _mtlbuf!.contents(), ptr, sz )
+                copy( dst:_mtlbuf!, buf:ptr, length:sz )
             }
         }
         
         public func update( _ buf:UnsafeRawPointer?, length:Int ) {
             let sz:Int = length
+            if sz == 0 { return }
             if _length != sz { _mtlbuf = self.allocate( sz ) }
             if buf == nil { return }
-            if sz == 0 { return }
-            memcpy( _mtlbuf!.contents(), buf, sz )
+
+            copy( dst:_mtlbuf!, buf:buf, length:sz )
         }
         
         public func update( memory:LLAlignedMemoryAllocatable ) {
             let sz:Int = memory.allocatedLength
-            if _length != sz { _mtlbuf = self.allocate( sz ) }
             if sz == 0 { return }
-            memcpy( _mtlbuf!.contents(), memory.pointer, sz )
+            if _length != sz { _mtlbuf = self.allocate( sz ) }
+
+            copy( dst:_mtlbuf!, buf:memory.pointer, length:sz )
+        }
+        
+        // TODO: コピーの効率化を行いたい
+        private func copy( dst:MTLBuffer, buf:UnsafeRawPointer?, length:Int ) {
+            if buf == nil { return }
+            if length == 0 { return }
+            
+            let blit_buffer = device!.makeBuffer( bytes: buf!, length:length )!
+            
+            let commandQueue = device?.makeCommandQueue()!
+            let command_buffer = commandQueue?.makeCommandBuffer()
+            let blit_encoder = command_buffer?.makeBlitCommandEncoder()
+            
+            blit_encoder?.copy(from: blit_buffer, sourceOffset: 0, to:dst, destinationOffset: 0, size:length )
+            blit_encoder?.endEncoding()
+            
+            command_buffer?.commit()
+            command_buffer?.waitUntilCompleted()
         }
         
         /// メモリ確保
         private func allocate( _ buf:UnsafeRawPointer?, length:Int ) -> MTLBuffer? {
             if length == 0 { return nil }
             if buf == nil { return nil }
-            return device?.makeBuffer( bytes: buf!, length: length, options: .storageModeShared )
+            
+            let new_buffer = device!.makeBuffer( length: length, options: [.storageModePrivate] )
+            copy( dst:new_buffer!, buf:buf, length:length )
+            return new_buffer
         }
         
         private func allocate( _ length:Int ) -> MTLBuffer? {
             if length == 0 { return nil }
-            return device?.makeBuffer( length: length, options: .storageModeShared )
+            return device?.makeBuffer( length: length, options: [.storageModePrivate] )
         }
     }
     

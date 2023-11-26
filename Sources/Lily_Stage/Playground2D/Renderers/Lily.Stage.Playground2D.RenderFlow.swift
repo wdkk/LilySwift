@@ -32,7 +32,15 @@ extension Lily.Stage.Playground2D
             // レンダラーの用意
             alphaRenderer = .init( device:device, viewCount:viewCount )
             
-            let idx = self.storage.request()
+            let idx = storage.request()
+            storage.statuses?.update( at:idx ) { us in
+                us.state = .active
+                us.enabled = true
+                us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.2...1.0) )
+                us.scale = LLFloatv2( 100.0, 100.0 )
+                us.position = LLFloatv2( .random(in:-100...100), .random(in:-100...100) )
+                us.compositeType = .alpha
+            }
             
             super.init( device:device )
         }
@@ -62,7 +70,7 @@ extension Lily.Stage.Playground2D
             // フォワードレンダリング : パーティクルの描画の設定
             pass.setDestination( texture:destinationTexture )
             pass.setDepth( texture:depthTexture )
-            pass.setClearColor( .white )
+            pass.setClearColor( .antiqueWhite )
             
             let encoder = commandBuffer.makeRenderCommandEncoder( descriptor:pass.passDesc! )
             

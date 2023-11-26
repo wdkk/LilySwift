@@ -25,7 +25,6 @@ struct PG2DVIn
     float2 texUV;
 };
 
-
 enum CompositeType : uint
 {
     none  = 0,
@@ -64,6 +63,8 @@ struct UnitStatus
     float state;
     CompositeType compositeType;
     ShapeType shapeType;
+    uint  reserved0;
+    uint  reserved1;
 };
 
 struct PG2DVOut
@@ -90,8 +91,6 @@ vertex PG2DVOut Lily_Stage_Playground2D_AlphaBlend_Vs(
     uint iid [[ instance_id ]]
 )
 {
-    GlobalUniform uniform = uniformArray.uniforms[amp_id];
-    PG2DVIn vin = in[vid];
     UnitStatus us = statuses[iid];
     
     if( us.compositeType != CompositeType::alpha ) { 
@@ -99,7 +98,10 @@ vertex PG2DVOut Lily_Stage_Playground2D_AlphaBlend_Vs(
         trush_vout.pos = float4( 0, 0, -1000000, 0 );
         return trush_vout;
     }
-
+    
+    GlobalUniform uniform = uniformArray.uniforms[amp_id];
+    PG2DVIn vin = in[vid];
+    
     float cosv = cos( us.angle );
     float sinv = sin( us.angle );
     float x = vin.xy.x;
