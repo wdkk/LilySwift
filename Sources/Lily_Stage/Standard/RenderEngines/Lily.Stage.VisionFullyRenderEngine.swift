@@ -177,7 +177,7 @@ extension Lily.Stage
             
             let viewCount = drawable.views.count
    
-            uniforms.update { uni in
+            uniforms.commit { uni in
                 for view_idx in 0 ..< viewCount {
                     // TODO: アンカーなどからマトリクスを得ているが、アンカーとdrawableからcameraをつくるべき
                     // ビューマトリックスの更新0

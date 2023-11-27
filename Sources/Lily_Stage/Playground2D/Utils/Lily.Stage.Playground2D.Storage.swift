@@ -33,21 +33,21 @@ extension Lily.Stage.Playground2D
         
         public var count:Int { particles?.count ?? 0 }
         
-        public init( device:MTLDevice, capacity:Int ) {
-            let p = LLQuad<Lily.Stage.Playground2D.PG2DVIn>(
-                .init( xy:.init( -1.0,  1.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) ),
-                .init( xy:.init(  1.0,  1.0 ), uv:.init( 1.0, 0.0 ), texUV:.init( 1.0, 0.0 ) ),
-                .init( xy:.init( -1.0, -1.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 1.0 ) ),
-                .init( xy:.init(  1.0, -1.0 ), uv:.init( 1.0, 1.0 ), texUV:.init( 1.0, 1.0 ) )
-            )
-            
+        public init( device:MTLDevice, capacity:Int ) {            
             particles = .init( device:device, count:capacity )
-            particles?.vertice.update( repeating:p, count:capacity )
-            // TODO: シミュレータだと呼び出し必須なんだがこれをなんとかしたいところ
-            particles?.update()
+            particles?.update { acc, count in
+                let p = LLQuad<Lily.Stage.Playground2D.PG2DVIn>(
+                    .init( xy:.init( -1.0,  1.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) ),
+                    .init( xy:.init(  1.0,  1.0 ), uv:.init( 1.0, 0.0 ), texUV:.init( 1.0, 0.0 ) ),
+                    .init( xy:.init( -1.0, -1.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 1.0 ) ),
+                    .init( xy:.init(  1.0, -1.0 ), uv:.init( 1.0, 1.0 ), texUV:.init( 1.0, 1.0 ) )
+                )
+                
+                for idx in 0 ..< count { acc[idx] = p }
+            }
             
             statuses = .init( device:device, count:capacity )
-            statuses?.update( range:0..<capacity ) { us, idx in
+            statuses?.update( range:0..<capacity ) { us, _ in
                 us.state = .trush
                 us.enabled = false
             }
@@ -56,7 +56,10 @@ extension Lily.Stage.Playground2D
         }
         
         public func request() -> Int {
-            guard let idx = reuseIndice.popLast() else { return -1 }
+            guard let idx = reuseIndice.popLast() else { 
+                LLLogWarning( "Playground2D.Storage: ストレージの容量を超えたリクエストです. インデックス=-1を返します" )
+                return -1
+            }
             return idx
         }
         

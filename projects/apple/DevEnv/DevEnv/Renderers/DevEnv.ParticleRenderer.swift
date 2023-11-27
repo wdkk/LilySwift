@@ -40,14 +40,14 @@ extension DevEnv
                 p.pointee.p4 = .init( pos:.init(  0.5,  0.5, 0.0, 1.0 ), texUV:.init( 1.0, 1.0 ) )
             }
             
-            particles?.update()
+            particles?.commit()
         }
         
         func setupStatus() {
             statuses = .init( device:device, count:maxParticleCount )
             
-            statuses?.update { acc in
-                for i in 0 ..< maxParticleCount {
+            statuses?.update { acc, count in
+                for i in 0 ..< count {
                     acc[i] = .init( scale:.init( 4.0, 4.0 ), color:.init( 0.0, 0.0, 1.0, 0.5 ) )
                 }
             }
@@ -56,8 +56,8 @@ extension DevEnv
         func setupModelMatrix() {
             modelMatrices = .init( device:device, count:maxParticleCount )
             
-            modelMatrices?.update { acc in
-                for i in 0 ..< maxParticleCount {
+            modelMatrices?.update { acc, count in
+                for i in 0 ..< count {
                     let x = (i / 16).f * 5.0 - 40.0
                     let z = (i % 16).f * 5.0 - 40.0
                     

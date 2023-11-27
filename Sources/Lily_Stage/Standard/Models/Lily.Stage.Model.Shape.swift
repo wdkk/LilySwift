@@ -32,7 +32,7 @@ extension Lily.Stage.Model
             #endif
         }
         
-        public func update() {
+        public func commit() {
             buffer?.update( memory:self )
         }
         
@@ -43,9 +43,23 @@ extension Lily.Stage.Model
         public var memory:UnsafeMutablePointer<VerticeType>? {
             return UnsafeMutablePointer<VerticeType>( OpaquePointer( self.pointer ) )
         }
+                
+        public func update( action:( UnsafeMutableBufferPointer<VerticeType>, Int )->() ) {
+            guard let accessor = accessor else { return }
+            action( accessor, accessor.count )
+            commit()
+        }
         
-        public var vertice:UnsafeMutablePointer<VerticeType> {
-            return UnsafeMutablePointer<VerticeType>( OpaquePointer( self.pointer! ) )
+        public func update( at index:Int, iteration:( _ accessor:inout VerticeType )->() ) {
+            guard let accessor = accessor else { return }
+            iteration( &accessor[index] )
+            commit()
+        }
+        
+        public func update( range:Range<Int>, iteration:( _ accessor:inout VerticeType, _ index:Int )->() ) {
+            guard let accessor = accessor else { return }
+            range.forEach { iteration( &accessor[$0], $0 ) }
+            commit()
         }
     }
 }

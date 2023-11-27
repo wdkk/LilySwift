@@ -250,9 +250,9 @@ extension Lily.Metal
             gpuBuffer = .init( device:device, alignedMemory:cpuBuffer )
         }
         
-        public func update( action:( UnsafeMutableBufferPointer<T> )->() ) {
+        public func update( action:( UnsafeMutableBufferPointer<T>, Int )->() ) {
             guard let accessor = cpuBuffer.accessor else { return }
-            action( accessor )
+            action( accessor, accessor.count )
             gpuBuffer.update( memory:cpuBuffer )
         }
         

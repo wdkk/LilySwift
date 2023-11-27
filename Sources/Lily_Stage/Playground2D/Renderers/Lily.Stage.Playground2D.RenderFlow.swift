@@ -21,6 +21,8 @@ extension Lily.Stage.Playground2D
         var storage:Storage
         
         var alphaRenderer:AlphaRenderer?
+        var addRenderer:AddRenderer?
+        var subRenderer:SubRenderer?
         
         let viewCount:Int
         var screenSize:CGSize = .zero
@@ -29,18 +31,62 @@ extension Lily.Stage.Playground2D
             self.pass = .init( device:device )
             self.storage = .init( device:device, capacity:1024 )
             self.viewCount = viewCount
-            // レンダラーの用意
+            // レンダラーの作成
             alphaRenderer = .init( device:device, viewCount:viewCount )
+            addRenderer = .init( device:device, viewCount:viewCount )
+            subRenderer = .init( device:device, viewCount:viewCount )
             
-            let idx = storage.request()
-            storage.statuses?.update( at:idx ) { us in
+            let idx1 = storage.request()
+            storage.statuses?.update( at:idx1 ) { us in
                 us.state = .active
                 us.enabled = true
-                us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.2...1.0) )
-                us.scale = LLFloatv2( 100.0, 100.0 )
-                us.position = LLFloatv2( .random(in:-100...100), .random(in:-100...100) )
+                us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
+                us.scale = LLFloatv2( 300.0, 300.0 )
+                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
                 us.compositeType = .alpha
             }
+            
+            let idx2 = storage.request()
+            storage.statuses?.update( at:idx2 ) { us in
+                us.state = .active
+                us.enabled = true
+                us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
+                us.scale = LLFloatv2( 300.0, 300.0 )
+                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
+                us.compositeType = .add
+            }
+            
+            let idx3 = storage.request()
+            storage.statuses?.update( at:idx3 ) { us in
+                us.state = .active
+                us.enabled = true
+                us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
+                us.scale = LLFloatv2( 300.0, 300.0 )
+                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
+                us.compositeType = .add
+            }
+            
+            let idx4 = storage.request()
+            storage.statuses?.update( at:idx4 ) { us in
+                us.state = .active
+                us.enabled = true
+                us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
+                us.scale = LLFloatv2( 300.0, 300.0 )
+                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
+                us.compositeType = .sub
+            }
+            
+            let idx5 = storage.request()
+            storage.statuses?.update( at:idx5 ) { us in
+                us.state = .active
+                us.enabled = true
+                us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
+                us.scale = LLFloatv2( 300.0, 300.0 )
+                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
+                us.compositeType = .sub
+            }
+            
+            print( "ストレージ残り: \(storage.reuseIndice.count)" )
             
             super.init( device:device )
         }
@@ -70,7 +116,7 @@ extension Lily.Stage.Playground2D
             // フォワードレンダリング : パーティクルの描画の設定
             pass.setDestination( texture:destinationTexture )
             pass.setDepth( texture:depthTexture )
-            pass.setClearColor( .antiqueWhite )
+            pass.setClearColor( .darkKhaki )
             
             let encoder = commandBuffer.makeRenderCommandEncoder( descriptor:pass.passDesc! )
             
@@ -84,6 +130,20 @@ extension Lily.Stage.Playground2D
             
             // Playground2Dレンダー描画
             alphaRenderer?.draw(
+                with:encoder,
+                globalUniforms:uniforms,
+                storage:storage,
+                screenSize:screenSize
+            )
+            
+            addRenderer?.draw(
+                with:encoder,
+                globalUniforms:uniforms,
+                storage:storage,
+                screenSize:screenSize
+            )
+            
+            subRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
                 storage:storage,

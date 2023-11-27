@@ -30,7 +30,7 @@ extension DevEnv
             
             instanceBuffer = .init( device:device, count:maxModelCount * models.count * cameraCount )
             
-            instanceBuffer?.update { acc in
+            instanceBuffer?.update { acc, _ in
                 for cam_idx in 0 ..< cameraCount {
                     for idx in 0 ..< models.count {
                         let b = idx + cam_idx
@@ -52,7 +52,7 @@ extension DevEnv
         }
         
         public func generateObject( with commandBuffer:MTLCommandBuffer? ) {
-            instanceBuffer?.update { acc in
+            instanceBuffer?.update { acc, _ in
                 for iid in 0 ..< maxModelCount * cameraCount {
                     // オブジェクトの位置
                     let world_pos = LLFloatv3( -10, -2.0, 5.0 + -2.5 * Float(iid) )
