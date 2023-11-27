@@ -60,6 +60,7 @@ extension Lily.Stage.Playground2D
                 LLLogWarning( "Playground2D.Storage: ストレージの容量を超えたリクエストです. インデックス=-1を返します" )
                 return -1
             }
+            statuses?.accessor?[idx] = .reset
             return idx
         }
         

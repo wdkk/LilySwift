@@ -25,8 +25,8 @@ extension Lily.Stage.Playground2D
             
             let desc = MTLRenderPipelineDescriptor()
             desc.label = "Playground 2D Geometry(SubBlend)"
-            desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_SubBlend_Vs" ) )
-            desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_SubBlend_Fs" ) )
+            desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_Vs" ) )
+            desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_Fs" ) )
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
             desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.backBuffer
@@ -47,11 +47,15 @@ extension Lily.Stage.Playground2D
             renderEncoder?.setRenderPipelineState( pipeline )
             
             // プロジェクション行列を画面のピクセルサイズ変換に指定
-            var proj_matrix:LLMatrix4x4 = .pixelXYProjection( screenSize )
+            // シェーダの合成タイプの設定も行う
+            var local_uniform = LocalUniform( 
+                projectionMatrix:.pixelXYProjection( screenSize ),
+                shaderCompositeType:.sub
+            )
             
             renderEncoder?.setVertexBuffer( storage.particles?.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
-            renderEncoder?.setVertexBytes( &proj_matrix, length:MemoryLayout<LLMatrix4x4>.stride, index:2 ) 
+            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
             renderEncoder?.drawPrimitives( 
                 type: .triangleStrip, 

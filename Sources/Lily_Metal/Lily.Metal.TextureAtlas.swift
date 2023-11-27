@@ -163,21 +163,21 @@ extension Lily.Metal
             return self
         }
         
-#if os(iOS) || os(visionOS)
+        #if os(iOS) || os(visionOS)
         @discardableResult
         public func add( _ label:String, _ img:UIImage ) -> Self {
             _dictionaries[label] = img
             return self
         }
-#endif
+        #endif
         
-#if os(macOS)
+        #if os(macOS)
         @discardableResult
         public func add( _ label:String, _ img:NSImage ) -> Self {
             _dictionaries[label] = img
             return self
         }
-#endif
+        #endif
         
         @discardableResult
         public func commit() -> Self { 
@@ -213,7 +213,7 @@ extension Lily.Metal
                     image_rects.append( rc )
                     continue
                 }
-#if os(iOS) || os(visionOS)
+                #if os(iOS) || os(visionOS)
                 if nnv is UIImage {
                     let uiimg = nnv as! UIImage
                     let img = uiimg.llImage
@@ -226,7 +226,7 @@ extension Lily.Metal
                     image_rects.append( rc )
                     continue
                 }
-#elseif os(macOS)
+                #elseif os(macOS)
                 if nnv is NSImage {
                     let uiimg = nnv as! NSImage
                     guard let img = uiimg.llImage else { continue }
@@ -239,7 +239,7 @@ extension Lily.Metal
                     image_rects.append( rc )
                     continue
                 }
-#endif
+                #endif
             }
             
             // ソート

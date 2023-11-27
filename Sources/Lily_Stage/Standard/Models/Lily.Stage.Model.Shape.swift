@@ -31,11 +31,7 @@ extension Lily.Stage.Model
             buffer = Lily.Metal.AllocatedBuffer( device:device, alignedMemory: self )
             #endif
         }
-        
-        public func commit() {
-            buffer?.update( memory:self )
-        }
-        
+
         public var metalBuffer:MTLBuffer? {
             return buffer?.metalBuffer
         }
@@ -43,7 +39,27 @@ extension Lily.Stage.Model
         public var memory:UnsafeMutablePointer<VerticeType>? {
             return UnsafeMutablePointer<VerticeType>( OpaquePointer( self.pointer ) )
         }
-                
+
+        public func commit() {
+            buffer?.update( memory:self )
+        }
+        
+        public func updateWithoutCommit( action:( UnsafeMutableBufferPointer<VerticeType>, Int )->() ) {
+            guard let accessor = accessor else { return }
+            action( accessor, accessor.count )
+        }
+        
+        public func updateWithoutCommit( at index:Int, iteration:( _ accessor:inout VerticeType )->() ) {
+            guard let accessor = accessor else { return }
+            iteration( &accessor[index] )
+        }
+        
+        public func updateWithoutCommit( range:Range<Int>, iteration:( _ accessor:inout VerticeType, _ index:Int )->() ) {
+            guard let accessor = accessor else { return }
+            range.forEach { iteration( &accessor[$0], $0 ) }
+        }
+        
+        
         public func update( action:( UnsafeMutableBufferPointer<VerticeType>, Int )->() ) {
             guard let accessor = accessor else { return }
             action( accessor, accessor.count )

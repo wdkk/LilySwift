@@ -8,7 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-
 import Metal
 import simd
 
@@ -62,8 +61,8 @@ extension Lily.Stage.Playground2D
             0.0     // deltaLife
         )
         fileprivate var states:LLFloatv2 = LLFloatv2(
-            1.0,                        // enabled = true
-            LifeState.active.rawValue   // state = .active      
+            1.0,                        // enabled: 1.0 = true, 0.0 = false
+            LifeState.trush.rawValue   // state: .active or .trush    
         )
         fileprivate var types:(LLUInt32, LLUInt32, LLUInt32, LLUInt32) = (
             CompositeType.alpha.rawValue,
@@ -84,5 +83,22 @@ extension Lily.Stage.Playground2D
         
         public var compositeType:CompositeType { get { CompositeType( rawValue:types.0 )! } set { types.0 = newValue.rawValue } }
         public var shapeType:ShapeType { get { ShapeType( rawValue:types.1 )! } set { types.1 = newValue.rawValue } }
+        
+        static let reset = UnitStatus(
+            matrix: .identity, 
+            atlasUV: .init( 0.0, 0.0, 1.0, 1.0 ),
+            color: LLColor.black.floatv4, 
+            deltaColor: .zero, 
+            position: .zero,
+            deltaPosition: .zero, 
+            scale: .init( 100.0, 100.0 ),
+            deltaScale: .zero, 
+            angle: 0.0,
+            deltaAngle: 0.0, 
+            indices: .zero,
+            lifes: .init( 1.0, 0.0 ), 
+            states: .init( 1.0, 0.0 ), 
+            types: ( 0, 0, 0, 0 ) 
+        )
     }
 }

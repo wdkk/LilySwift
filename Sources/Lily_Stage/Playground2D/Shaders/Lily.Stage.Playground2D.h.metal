@@ -21,12 +21,7 @@
 using namespace metal;
 using namespace Lily::Stage::Shared;
 
-struct PG2DVIn
-{
-    float2 xy;
-    float2 uv;
-    float2 texUV;
-};
+// 列挙子
 
 enum CompositeType : uint
 {
@@ -44,6 +39,15 @@ enum ShapeType : uint
     blurryCircle = 3,
     picture      = 100,
     mask         = 101
+};
+
+// 構造体
+    
+struct PG2DVIn
+{
+    float2 xy;
+    float2 uv;
+    float2 texUV;
 };
 
 struct UnitStatus
@@ -69,6 +73,12 @@ struct UnitStatus
     uint  reserved0;
     uint  reserved1;
 };
+    
+struct LocalUniform
+{
+    float4x4 projectionMatrix;
+    CompositeType shaderCompositeType;
+};        
 
 struct PG2DVOut
 {
@@ -77,6 +87,7 @@ struct PG2DVOut
     float2 uv;
     float2 texUV;
     float4 color;
+    float  shapeType;
 };
 
 struct PG2DResult 

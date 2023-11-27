@@ -20,10 +20,10 @@
 using namespace metal;
 using namespace Lily::Stage::Shared;
 
-vertex PG2DVOut Lily_Stage_Playground2D_AlphaBlend_Vs(
+vertex PG2DVOut Lily_Stage_Playground2D_Vs(
     const device PG2DVIn* in [[ buffer(0) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
-    constant float4x4 &projMatrix [[ buffer(2) ]],
+    constant LocalUniform &localUniform [[ buffer(2) ]],
     const device UnitStatus* statuses [[ buffer(3) ]],
     ushort amp_id [[ amplification_id ]],
     uint vid [[ vertex_id ]],
@@ -32,7 +32,7 @@ vertex PG2DVOut Lily_Stage_Playground2D_AlphaBlend_Vs(
 {
     UnitStatus us = statuses[iid];
     
-    if( us.compositeType != CompositeType::alpha ) { 
+    if( us.compositeType != localUniform.shaderCompositeType ) { 
         PG2DVOut trush_vout;
         trush_vout.pos = float4( 0, 0, -1000000, 0 );
         return trush_vout;
@@ -75,21 +75,63 @@ vertex PG2DVOut Lily_Stage_Playground2D_AlphaBlend_Vs(
     float visibility_z = us.state * us.enabled * us.color[3] - 0.00001;
     
     PG2DVOut vout;
-    vout.pos = projMatrix * float4( v_coord, visibility_z, 1 );
+    vout.pos = localUniform.projectionMatrix * float4( v_coord, visibility_z, 1 );
     vout.xy = vin.xy;
     vout.texUV = tex_uv;
     vout.uv = vin.uv;
     vout.color = us.color;
+    vout.shapeType = float( us.shapeType );
 
     return vout;
 }
 
-fragment PG2DResult Lily_Stage_Playground2D_AlphaBlend_Fs(
+namespace Lily
+{
+    namespace Stage 
+    {
+        namespace Playground2D
+        {
+            float4 drawRectangle( PG2DVOut in ) {
+                return in.color;
+            }
+            
+            float4 drawCircle( PG2DVOut in ) {
+                float x = in.xy.x;
+                float y = in.xy.y;
+                float r = x * x + y * y;
+                if( r > 1.0 ) { discard_fragment(); }
+                return in.color;
+            } 
+        }
+    }
+}
+
+fragment PG2DResult Lily_Stage_Playground2D_Fs(
     const PG2DVOut in [[ stage_in ]]
 )
 {
+    ShapeType type = ShapeType( in.shapeType );
+    float4 color = float4( 0 );
+    switch( type ) {
+        case rectangle:
+            color = Lily::Stage::Playground2D::drawRectangle( in );
+            break;
+        case triangle:
+            break;
+        case circle:
+            color = Lily::Stage::Playground2D::drawCircle( in );
+            break;
+        case blurryCircle:
+            break;
+        case picture:
+            break;
+        case mask:
+            break;
+    }
+    
     PG2DResult result;
-    result.backBuffer = in.color;
+    result.backBuffer = color;
     return result;
 }
+
 

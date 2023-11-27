@@ -250,22 +250,41 @@ extension Lily.Metal
             gpuBuffer = .init( device:device, alignedMemory:cpuBuffer )
         }
         
+        public func commit() {
+            gpuBuffer.update( memory:cpuBuffer )
+        }
+
+        public func updateWithoutCommit( action:( UnsafeMutableBufferPointer<T>, Int )->() ) {
+            guard let accessor = cpuBuffer.accessor else { return }
+            action( accessor, accessor.count )
+        }
+        
+        public func updateWithoutCommit( at index:Int, iteration:( _ accessor:inout T )->() ) {
+            guard let accessor = cpuBuffer.accessor else { return }
+            iteration( &accessor[index] )
+        }
+        
+        public func updateWithoutCommit( range:Range<Int>, iteration:( _ accessor:inout T, _ index:Int )->() ) {
+            guard let accessor = cpuBuffer.accessor else { return }
+            range.forEach { iteration( &accessor[$0], $0 ) }
+        }    
+        
         public func update( action:( UnsafeMutableBufferPointer<T>, Int )->() ) {
             guard let accessor = cpuBuffer.accessor else { return }
             action( accessor, accessor.count )
-            gpuBuffer.update( memory:cpuBuffer )
+            commit()
         }
         
         public func update( at index:Int, iteration:( _ accessor:inout T )->() ) {
             guard let accessor = cpuBuffer.accessor else { return }
             iteration( &accessor[index] )
-            gpuBuffer.update( memory:cpuBuffer )
+            commit()
         }
         
         public func update( range:Range<Int>, iteration:( _ accessor:inout T, _ index:Int )->() ) {
             guard let accessor = cpuBuffer.accessor else { return }
             range.forEach { iteration( &accessor[$0], $0 ) }
-            gpuBuffer.update( memory:cpuBuffer )
+            commit()
         }
         
         public var accessor:UnsafeMutableBufferPointer<T>? { cpuBuffer.accessor }

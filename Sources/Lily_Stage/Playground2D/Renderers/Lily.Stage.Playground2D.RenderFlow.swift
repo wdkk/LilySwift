@@ -29,7 +29,7 @@ extension Lily.Stage.Playground2D
         
         public init( device:MTLDevice, viewCount:Int ) {
             self.pass = .init( device:device )
-            self.storage = .init( device:device, capacity:1024 )
+            self.storage = .init( device:device, capacity:20000 )
             self.viewCount = viewCount
             // レンダラーの作成
             alphaRenderer = .init( device:device, viewCount:viewCount )
@@ -37,54 +37,61 @@ extension Lily.Stage.Playground2D
             subRenderer = .init( device:device, viewCount:viewCount )
             
             let idx1 = storage.request()
-            storage.statuses?.update( at:idx1 ) { us in
+            storage.statuses?.updateWithoutCommit( at:idx1 ) { us in
                 us.state = .active
                 us.enabled = true
                 us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
                 us.scale = LLFloatv2( 300.0, 300.0 )
                 us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
                 us.compositeType = .alpha
+                us.shapeType = .rectangle
             }
             
             let idx2 = storage.request()
-            storage.statuses?.update( at:idx2 ) { us in
+            storage.statuses?.updateWithoutCommit( at:idx2 ) { us in
                 us.state = .active
                 us.enabled = true
                 us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
                 us.scale = LLFloatv2( 300.0, 300.0 )
                 us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
                 us.compositeType = .add
+                us.shapeType = .circle
             }
             
             let idx3 = storage.request()
-            storage.statuses?.update( at:idx3 ) { us in
+            storage.statuses?.updateWithoutCommit( at:idx3 ) { us in
                 us.state = .active
                 us.enabled = true
                 us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
                 us.scale = LLFloatv2( 300.0, 300.0 )
                 us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
                 us.compositeType = .add
+                us.shapeType = .circle
             }
             
             let idx4 = storage.request()
-            storage.statuses?.update( at:idx4 ) { us in
+            storage.statuses?.updateWithoutCommit( at:idx4 ) { us in
                 us.state = .active
                 us.enabled = true
                 us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
                 us.scale = LLFloatv2( 300.0, 300.0 )
                 us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
                 us.compositeType = .sub
+                us.shapeType = .circle
             }
             
             let idx5 = storage.request()
-            storage.statuses?.update( at:idx5 ) { us in
+            storage.statuses?.updateWithoutCommit( at:idx5 ) { us in
                 us.state = .active
                 us.enabled = true
                 us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
                 us.scale = LLFloatv2( 300.0, 300.0 )
                 us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
                 us.compositeType = .sub
+                us.shapeType = .rectangle
             }
+            
+            storage.statuses?.commit()
             
             print( "ストレージ残り: \(storage.reuseIndice.count)" )
             
