@@ -50,7 +50,8 @@ extension Lily.Stage.Playground2D
             // シェーダの合成タイプの設定も行う
             var local_uniform = LocalUniform( 
                 projectionMatrix:.pixelXYProjection( screenSize ),
-                shaderCompositeType:.alpha
+                shaderCompositeType:.alpha,
+                drawingType:.quadrangles
             )
             
             renderEncoder?.setVertexBuffer( storage.particles?.metalBuffer, offset:0, index:0 )
@@ -61,7 +62,36 @@ extension Lily.Stage.Playground2D
                 type: .triangleStrip, 
                 vertexStart: 0, 
                 vertexCount: 4,
-                instanceCount: storage.particles!.count
+                instanceCount: storage.capacity
+            )
+        }
+        
+        public func drawTriangle( 
+            with renderEncoder:MTLRenderCommandEncoder?,
+            globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
+            storage:Lily.Stage.Playground2D.Storage,
+            screenSize:CGSize
+        ) 
+        {
+            renderEncoder?.setRenderPipelineState( pipeline )
+            
+            // プロジェクション行列を画面のピクセルサイズ変換に指定
+            // シェーダの合成タイプの設定も行う
+            var local_uniform = LocalUniform( 
+                projectionMatrix:.pixelXYProjection( screenSize ),
+                shaderCompositeType:.alpha,
+                drawingType:.triangles
+            )
+            
+            renderEncoder?.setVertexBuffer( storage.particles?.metalBuffer, offset:0, index:0 )
+            renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
+            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
+            renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
+            renderEncoder?.drawPrimitives( 
+                type: .triangle, 
+                vertexStart: 0, 
+                vertexCount: 4,
+                instanceCount: storage.capacity
             )
         }
     }

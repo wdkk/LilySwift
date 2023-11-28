@@ -15,30 +15,6 @@ extension Lily.Stage.Playground2D
 {    
     public struct UnitStatus
     {
-        public enum LifeState : Float
-        {
-            case active = 1.0
-            case trush  = 0.0
-        }
-        
-        public enum CompositeType : LLUInt32
-        {
-            case none  = 0
-            case alpha = 1
-            case add   = 2
-            case sub   = 3
-        }
-        
-        public enum ShapeType : LLUInt32
-        {
-            case rectangle    = 0
-            case triangle     = 1
-            case circle       = 2
-            case blurryCircle = 3
-            case picture      = 100
-            case mask         = 101
-        }
-        
         //-- メモリアラインメント範囲START --//
         // 公開パラメータ
         public var matrix:LLMatrix4x4 = .identity

@@ -26,21 +26,23 @@ extension Lily.Stage.Playground2D
         
         let viewCount:Int
         var screenSize:CGSize = .zero
+        var particleCapacity:Int = 20000
         
         public init( device:MTLDevice, viewCount:Int ) {
             self.pass = .init( device:device )
-            self.storage = .init( device:device, capacity:20000 )
             self.viewCount = viewCount
             // レンダラーの作成
-            alphaRenderer = .init( device:device, viewCount:viewCount )
-            addRenderer = .init( device:device, viewCount:viewCount )
-            subRenderer = .init( device:device, viewCount:viewCount )
+            self.alphaRenderer = .init( device:device, viewCount:viewCount )
+            self.addRenderer = .init( device:device, viewCount:viewCount )
+            self.subRenderer = .init( device:device, viewCount:viewCount )
+            
+            self.storage = .init( device:device, capacity:particleCapacity )
             
             let idx1 = storage.request()
             storage.statuses?.updateWithoutCommit( at:idx1 ) { us in
                 us.state = .active
                 us.enabled = true
-                us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
+                us.color = LLFloatv4( 1.0, 0.2, 0.2, 0.7 )
                 us.scale = LLFloatv2( 300.0, 300.0 )
                 us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
                 us.compositeType = .alpha
@@ -51,11 +53,11 @@ extension Lily.Stage.Playground2D
             storage.statuses?.updateWithoutCommit( at:idx2 ) { us in
                 us.state = .active
                 us.enabled = true
-                us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
+                us.color = LLFloatv4( 0.2, 0.2, 1.0, 0.7 )
                 us.scale = LLFloatv2( 300.0, 300.0 )
                 us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
-                us.compositeType = .add
-                us.shapeType = .circle
+                us.compositeType = .alpha
+                us.shapeType = .triangle
             }
             
             let idx3 = storage.request()
@@ -91,9 +93,18 @@ extension Lily.Stage.Playground2D
                 us.shapeType = .rectangle
             }
             
-            storage.statuses?.commit()
+            let idx6 = storage.request()
+            storage.statuses?.updateWithoutCommit( at:idx6 ) { us in
+                us.state = .active
+                us.enabled = true
+                us.color = LLColor.black.floatv4
+                us.scale = LLFloatv2( 300.0, 300.0 )
+                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
+                us.compositeType = .alpha
+                us.shapeType = .blurryCircle
+            }
             
-            print( "ストレージ残り: \(storage.reuseIndice.count)" )
+            storage.statuses?.commit()
             
             super.init( device:device )
         }
@@ -143,6 +154,13 @@ extension Lily.Stage.Playground2D
                 screenSize:screenSize
             )
             
+            alphaRenderer?.drawTriangle(
+                with:encoder,
+                globalUniforms:uniforms,
+                storage:storage,
+                screenSize:screenSize
+            )
+            
             addRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
@@ -150,7 +168,21 @@ extension Lily.Stage.Playground2D
                 screenSize:screenSize
             )
             
+            addRenderer?.drawTriangle(
+                with:encoder,
+                globalUniforms:uniforms,
+                storage:storage,
+                screenSize:screenSize
+            )
+            
             subRenderer?.draw(
+                with:encoder,
+                globalUniforms:uniforms,
+                storage:storage,
+                screenSize:screenSize
+            )
+            
+            subRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
                 storage:storage,

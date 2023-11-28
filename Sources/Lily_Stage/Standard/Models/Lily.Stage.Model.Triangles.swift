@@ -12,7 +12,7 @@ import Metal
 
 extension Lily.Stage.Model
 {
-    // 四角形メッシュ形状メモリクラス
+    // 三角形メッシュ形状メモリクラス
     public class Triangles<VerticeType> 
     : Shape<LLTriple<VerticeType>>
     {

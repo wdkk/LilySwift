@@ -37,9 +37,25 @@ vertex PG2DVOut Lily_Stage_Playground2D_Vs(
         trush_vout.pos = float4( 0, 0, -1000000, 0 );
         return trush_vout;
     }
+
+    // 三角形が指定されているが, 描画が三角形でない場合
+    if( us.shapeType == ShapeType::triangle && localUniform.drawingType != DrawingType::triangles ) {
+        PG2DVOut trush_vout;
+        trush_vout.pos = float4( 0, 0, -1000000, 0 );
+        return trush_vout;    
+    }
+    
+    // 三角形以外が指定されているが、描画が三角形である場合
+    if( us.shapeType != ShapeType::triangle && localUniform.drawingType == DrawingType::triangles ) {
+        PG2DVOut trush_vout;
+        trush_vout.pos = float4( 0, 0, -1000000, 0 );
+        return trush_vout;    
+    }
+    
+    const int offset = localUniform.drawingOffset;
     
     GlobalUniform uniform = uniformArray.uniforms[amp_id];
-    PG2DVIn vin = in[vid];
+    PG2DVIn vin = in[offset + vid];
     
     float cosv = cos( us.angle );
     float sinv = sin( us.angle );
@@ -91,7 +107,7 @@ namespace Lily
     {
         namespace Playground2D
         {
-            float4 drawRectangle( PG2DVOut in ) {
+            float4 drawPlane( PG2DVOut in ) {
                 return in.color;
             }
             
@@ -101,6 +117,18 @@ namespace Lily
                 float r = x * x + y * y;
                 if( r > 1.0 ) { discard_fragment(); }
                 return in.color;
+            } 
+            
+            float4 drawBlurryCircle( PG2DVOut in ) {
+                float x = in.xy.x;
+                float y = in.xy.y;
+                float r = sqrt( x * x + y * y );
+                if( r > 1.0 ) { discard_fragment(); }
+                
+                float4 c = in.color;
+                c[3] *= (1.0 + cos( r * M_PI_F )) * 0.5;
+
+                return c;
             } 
         }
     }
@@ -114,14 +142,16 @@ fragment PG2DResult Lily_Stage_Playground2D_Fs(
     float4 color = float4( 0 );
     switch( type ) {
         case rectangle:
-            color = Lily::Stage::Playground2D::drawRectangle( in );
+            color = Lily::Stage::Playground2D::drawPlane( in );
             break;
         case triangle:
+            color = Lily::Stage::Playground2D::drawPlane( in );
             break;
         case circle:
             color = Lily::Stage::Playground2D::drawCircle( in );
             break;
         case blurryCircle:
+            color = Lily::Stage::Playground2D::drawBlurryCircle( in );
             break;
         case picture:
             break;

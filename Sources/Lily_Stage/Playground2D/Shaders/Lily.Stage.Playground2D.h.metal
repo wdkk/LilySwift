@@ -40,6 +40,12 @@ enum ShapeType : uint
     picture      = 100,
     mask         = 101
 };
+    
+enum DrawingType : uint
+{
+    quadrangles = 0,
+    triangles   = 1
+};        
 
 // 構造体
     
@@ -78,6 +84,8 @@ struct LocalUniform
 {
     float4x4 projectionMatrix;
     CompositeType shaderCompositeType;
+    DrawingType   drawingType;
+    int           drawingOffset;
 };        
 
 struct PG2DVOut
