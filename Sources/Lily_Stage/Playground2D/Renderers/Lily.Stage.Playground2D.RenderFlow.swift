@@ -36,10 +36,11 @@ extension Lily.Stage.Playground2D
             self.addRenderer = .init( device:device, viewCount:viewCount )
             self.subRenderer = .init( device:device, viewCount:viewCount )
             
-            self.storage = .init( device:device, capacity:particleCapacity, textures:["lily"] )
+            self.storage = .init( device:device, capacity:particleCapacity, textures:["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"] )
             
             super.init( device:device )
             
+            /*
             let idx1 = storage.request()
             storage.statuses?.updateWithoutCommit( at:idx1 ) { us in
                 us.state = .active
@@ -105,6 +106,7 @@ extension Lily.Stage.Playground2D
                 us.compositeType = .alpha
                 us.shapeType = .blurryCircle
             }
+            */
             
             let idx7 = storage.request()
             storage.statuses?.updateWithoutCommit( at:idx7 ) { us in
@@ -116,9 +118,22 @@ extension Lily.Stage.Playground2D
                 us.compositeType = .alpha
                 us.shapeType = .picture
                 let reg = self.storage.textureAtlas.parts( "lily" ).region
-                us.atlasUV = .init( reg!.top.f, reg!.left.f, reg!.bottom.f, reg!.right.f )
+                us.atlasUV = .init( reg!.left.f, reg!.top.f, reg!.right.f, reg!.bottom.f )
             }
             
+            let idx8 = storage.request()
+            storage.statuses?.updateWithoutCommit( at:idx8 ) { us in
+                us.state = .active
+                us.enabled = true
+                us.color = LLColor.black.floatv4
+                us.scale = LLFloatv2( 256, 256 )
+                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
+                us.compositeType = .alpha
+                us.shapeType = .mask
+                let reg = self.storage.textureAtlas.parts( "mask-star" ).region
+                us.atlasUV = .init( reg!.left.f, reg!.top.f, reg!.right.f, reg!.bottom.f )
+            }
+      
             storage.statuses?.commit()
         }
         

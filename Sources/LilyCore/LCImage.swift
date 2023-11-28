@@ -270,8 +270,10 @@ public func LCImage2UIImage( _ img_:LCImageSmPtr ) -> UIImage? {
     // rgba8bitに変換
     LCImageConvertType( lcimg, .rgba8 )
     
-    let color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
-    
+    // TODO: linerSRGBの適用が正しいかは判断に悩むところ(textureAtlasを作る時にこちらで整合性が取れた)
+    var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
+    if let sRGB_space = CGColorSpace( name:CGColorSpace.linearSRGB ) { color_space = sRGB_space }
+        
     guard let memory:LLBytePtr = LCImageRawMemory( lcimg ) else { return nil }
     let cg_context:CGContext? = CGContext(
         data: memory, width: wid, height: hgt,
@@ -294,17 +296,18 @@ public func LCImage2UIImage( _ img_:LCImageSmPtr ) -> UIImage? {
 public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {    
     let wid:Int = img_.size.width.i!
     let hgt:Int = img_.size.height.i!
+    let rect = CGRect( 0, 0, wid, hgt )
     
     let lcimg:LCImageSmPtr = LCImageMake( wid, hgt, .rgbaf )
     
     guard let input_image_ref:CGImage = img_.cgImage else { return LCImageSmPtr() } 
     
+    // TODO: linerSRGBの適用が正しいかは判断に悩むところ(textureAtlasを作る時にこちらで整合性が取れた)
     var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
-    //if let sRGB_space = CGColorSpace( name:CGColorSpace.linearSRGB ) { color_space = sRGB_space }
+    if let sRGB_space = CGColorSpace( name:CGColorSpace.linearSRGB ) { color_space = sRGB_space }
     
-    guard let memory = LCImageRawMemory( lcimg ) else { return LCImageSmPtr() }
     guard let cg_context = CGContext( 
-        data: memory,
+        data: nil,
         width: wid,
         height: hgt,
         bitsPerComponent: 8,
@@ -314,8 +317,8 @@ public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {
             & CGImageAlphaInfo.premultipliedLast.rawValue 
             & CGImageAlphaInfo.noneSkipLast.rawValue
     )
-    else { return LCImageSmPtr() }     
-
+    else { return LCImageSmPtr() }
+    
     cg_context.draw( input_image_ref, in: CGRect( 0, 0, wid.cgf, hgt.cgf ) )
     
     guard let conv_img:CGImage = cg_context.makeImage() else { return LCImageSmPtr() }
@@ -335,8 +338,9 @@ public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {
                 pixel_data[x * 4 + y * row + 2],
                 pixel_data[x * 4 + y * row + 3] 
             )
-        
-            mat[y][x] = LLColor8tof( c8 )
+            
+            var cf = LLColor8tof( c8 )
+            mat[y][x] = cf
         }
     }
 
@@ -354,16 +358,66 @@ public func LCImage2NSImage( _ img_:LCImageSmPtr ) -> NSImage {
         return NSImage(size: CGSize( LCImageWidth( img_ ), LCImageHeight( img_ ) ) )
     }
     
-    return NSImage(cgImage: cg_img.takeUnretainedValue(), 
-                   size: CGSize( LCImageWidth( img_ ), LCImageHeight( img_ ) ) )
+    return NSImage(
+        cgImage: cg_img.takeUnretainedValue(), 
+        size: CGSize( LCImageWidth( img_ ), LCImageHeight( img_ ) )
+    )
 }
 
 public func NSImage2LCImage( _ img_:NSImage ) -> LCImageSmPtr {
-    var nsimage_rect:CGRect = CGRect( 0, 0, img_.size.width, img_.size.height )
-    let cgimg:CGImage = img_.cgImage( forProposedRect:&nsimage_rect, 
-                                      context: nil,
-                                      hints: nil)!
-    return CGImage2LCImage( cgimg )
+    let wid = img_.size.width.i!
+    let hgt = img_.size.height.i!
+    var nsimage_rect:CGRect = CGRect( 0, 0, wid, hgt )
+    
+    // TODO: linerSRGBの適用が正しいかは判断に悩むところ(textureAtlasを作る時にこちらで整合性が取れた)
+    var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
+    if let sRGB_space = CGColorSpace( name:CGColorSpace.linearSRGB ) { color_space = sRGB_space }
+    
+    guard let cg_context = CGContext( 
+        data: nil,
+        width: wid,
+        height: hgt,
+        bitsPerComponent: 8,
+        bytesPerRow: wid * 4,
+        space: color_space,
+        bitmapInfo: CGBitmapInfo.alphaInfoMask.rawValue 
+        & CGImageAlphaInfo.premultipliedLast.rawValue 
+        & CGImageAlphaInfo.noneSkipLast.rawValue
+    )
+    else { return LCImageSmPtr() } 
+    
+    let graphicsContext = NSGraphicsContext( cgContext:cg_context, flipped:false )
+    let currentContext = NSGraphicsContext.current
+    NSGraphicsContext.current = graphicsContext
+    img_.draw( in:nsimage_rect )
+    NSGraphicsContext.current = currentContext
+    
+    guard let conv_img:CGImage = cg_context.makeImage() else { return LCImageSmPtr() }
+    
+    guard let provider:CGDataProvider = conv_img.dataProvider else { return LCImageSmPtr() }
+    let input_data:CFData? = provider.data
+    let row:Int = conv_img.bytesPerRow
+
+    let lcimg:LCImageSmPtr = LCImageMake( wid, hgt, .rgbaf )
+    
+    guard let pixel_data:UnsafePointer<UInt8> = CFDataGetBytePtr( input_data ) else { return LCImageSmPtr() }
+    guard let mat:LLColorMatrix = LCImageRGBAfMatrix( lcimg ) else { return LCImageSmPtr() }
+
+    for y in 0 ..< hgt {
+        for x in 0 ..< wid {
+             let c8 = LLColor8Make(
+                pixel_data[x * 4 + y * row],
+                pixel_data[x * 4 + y * row + 1],
+                pixel_data[x * 4 + y * row + 2],
+                pixel_data[x * 4 + y * row + 3] 
+            )
+        
+            var cf = LLColor8tof( c8 )      
+            mat[y][x] = cf
+        }
+    }
+    
+    return lcimg
 }
 #endif
 
@@ -384,9 +438,10 @@ public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> Unmanaged<CGImage>? {
         & CGImageAlphaInfo.noneSkipLast.rawValue    // TODO: 必要か否か確認
     )
     
+    // TODO: linerSRGBの適用が正しいかは判断に悩むところ(textureAtlasを作る時にこちらで整合性が取れた)
     var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
-    //if let sRGB_space = CGColorSpace( name:CGColorSpace.linearSRGB ) { color_space = sRGB_space }
-    
+    if let sRGB_space = CGColorSpace( name:CGColorSpace.linearSRGB ) { color_space = sRGB_space }
+        
     let cg_context:CGContext? = CGContext( data: memory, width: wid, height: hgt,
                                            bitsPerComponent: 8,
                                            bytesPerRow: wid * 4,
@@ -409,16 +464,6 @@ public func CGImage2LCImage( _ img_:CGImage ) -> LCImageSmPtr {
     let lcimg:LCImageSmPtr = LCImageMake( width, height, .rgba8 )
     let memory:LLBytePtr? = LCImageRawMemory( lcimg )
     CFDataGetBytes( data, CFRangeMake( 0, length ), memory )
-    let matrix:LLColor8Matrix = LCImageRGBA8Matrix( lcimg )!
-    
-    // TODO: macOS 14ではスワップが不要になった?
-    /*
-    for y in 0 ..< height { 
-        for x in 0 ..< width {
-            LLSwap( &matrix[y][x].R, &matrix[y][x].B )
-        }
-    }
-    */
     
     return lcimg
 }

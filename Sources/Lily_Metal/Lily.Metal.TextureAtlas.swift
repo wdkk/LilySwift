@@ -139,8 +139,8 @@ extension Lily.Metal
     open class TextureAtlas
     {
         var device:MTLDevice?
-        private var _dictionaries:[String:Any?] = [:]
-        private var _label_positions:[String:LLRegion] = [:]
+        private var labels:[String:Any?] = [:]
+        private var positions:[String:LLRegion] = [:]
         public var metalTexture:MTLTexture?
         public private(set) var width:Int32 = 0
         public private(set) var height:Int32 = 0
@@ -151,20 +151,20 @@ extension Lily.Metal
         
         @discardableResult
         public func reserve( _ label:String, _ path:String ) -> Self {
-            _dictionaries[label] = path
+            labels[label] = path
             return self
         }
         
         @discardableResult
         public func reserve( _ label:String, _ img:LLImage ) -> Self {
-            _dictionaries[label] = img
+            labels[label] = img
             return self
         }
         
         #if os(iOS) || os(visionOS)
         @discardableResult
         public func reserve( _ label:String, _ img:UIImage ) -> Self {
-            _dictionaries[label] = img
+            labels[label] = img
             return self
         }
         #endif
@@ -172,7 +172,7 @@ extension Lily.Metal
         #if os(macOS)
         @discardableResult
         public func reserve( _ label:String, _ img:NSImage ) -> Self {
-            _dictionaries[label] = img
+            labels[label] = img
             return self
         }
         #endif
@@ -183,7 +183,7 @@ extension Lily.Metal
             
             var image_rects:[ImagePosUnit] = []
             
-            for (key, v) in self._dictionaries {
+            for (label, v) in self.labels {
                 // nullの場合処理しない
                 guard let nnv = v else { continue }
                 
@@ -195,7 +195,7 @@ extension Lily.Metal
                     
                     let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
                     rc.image = img
-                    rc.label = key
+                    rc.label = label
                     
                     image_rects.append( rc )
                     continue
@@ -206,7 +206,7 @@ extension Lily.Metal
                     
                     let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
                     rc.image = img
-                    rc.label = key
+                    rc.label = label
                     
                     image_rects.append( rc )
                     continue
@@ -219,7 +219,7 @@ extension Lily.Metal
                     
                     let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
                     rc.image = img
-                    rc.label = key
+                    rc.label = label
                     
                     image_rects.append( rc )
                     continue
@@ -232,7 +232,7 @@ extension Lily.Metal
                     
                     let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
                     rc.image = img
-                    rc.label = key
+                    rc.label = label
 
                     image_rects.append( rc )
                     continue
@@ -261,8 +261,8 @@ extension Lily.Metal
             // 全体画像
             let img_atlas = LLImage( wid:all_size.width, hgt:all_size.height, type:.rgba8 )
             
-            _label_positions.removeAll()
-            _dictionaries.removeAll()
+            positions.removeAll()
+            //labels.removeAll()
             
             for imgrc in image_rects {
                 guard let img = imgrc.image else { continue }
@@ -289,7 +289,7 @@ extension Lily.Metal
                 let right = (px + wid).d / all_size.width.d
                 let bottom = (py + hgt).d / all_size.height.d            
                 
-                _label_positions[label] = LLRegionMake( left, top, right, bottom )
+                positions[label] = LLRegionMake( left, top, right, bottom )
             }
             
             self.metalTexture = try! Lily.Metal.Texture.create( device:device!, llImage:img_atlas )
@@ -302,7 +302,8 @@ extension Lily.Metal
         public func parts( _ key:String ) -> TextureAtlasParts {
             return TextureAtlasParts( 
                 metalTexture: self.metalTexture,
-                region: self._label_positions[key] )
+                region: self.positions[key]
+            )
         }
     }
     

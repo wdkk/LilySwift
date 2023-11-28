@@ -71,17 +71,15 @@ vertex PG2DVOut Lily_Stage_Playground2D_Vs(
     float max_u = atlas_uv[2];
     float max_v = atlas_uv[3];
 
-    float u = vin.texUV[0];
-    float iu = 1.0 - u;
-    float v = vin.texUV[1];
-    float iv = 1.0 - v;
+    float u = vin.texUV.x;
+    float v = vin.texUV.y;
 
     float2 tex_uv = float2( 
-        min_u * iu + max_u * u,
-        min_v * iv + max_v * v
+        min_u * (1.0-u) + max_u * u,
+        min_v * (1.0-v) + max_v * v
     );
 
-    // アフィン変換
+    // xy座標のアフィン変換
     float2 v_coord = float2(
         scx * cosv * x - sinv * scy * y + us.position.x,
         scx * sinv * x + cosv * scy * y + us.position.y 
@@ -132,10 +130,21 @@ namespace Lily
             } 
             
             float4 drawPicture( PG2DVOut in, texture2d<float> tex ) {
-                constexpr sampler sampler( mip_filter::linear, mag_filter::linear, min_filter::linear );
+                constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
                 
                 if( is_null_texture( tex ) ) { discard_fragment(); }
                 return tex.sample( sampler, in.texUV );
+            } 
+            
+            float4 drawMask( PG2DVOut in, texture2d<float> tex ) {
+                constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
+                
+                if( is_null_texture( tex ) ) { discard_fragment(); }
+                
+                float4 tex_c = tex.sample( sampler, in.texUV );
+                float4 c = in.color;
+                c[3] *= tex_c[0];
+                return c;
             } 
         }
     }
@@ -165,6 +174,7 @@ fragment PG2DResult Lily_Stage_Playground2D_Fs(
             color = Lily::Stage::Playground2D::drawPicture( in, tex );
             break;
         case mask:
+            color = Lily::Stage::Playground2D::drawMask( in, tex );
             break;
     }
     
