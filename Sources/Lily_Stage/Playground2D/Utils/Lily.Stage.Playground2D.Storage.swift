@@ -31,6 +31,8 @@ extension Lily.Stage.Playground2D
         public var statuses:Lily.Metal.Buffer<UnitStatus>?
         public var reuseIndice:[Int]
         
+        public var textureAtlas:Lily.Metal.TextureAtlas
+        
         public var capacity:Int
         
         static let quadrangleVertice = LLQuad<Lily.Stage.Playground2D.PG2DVIn>(
@@ -47,23 +49,28 @@ extension Lily.Stage.Playground2D
             .init( xy:.init(  0.0,  0.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) )
         )
         
-        public init( device:MTLDevice, capacity:Int ) {
+        public init( device:MTLDevice, capacity:Int, textures:[String] ) {
             self.capacity = capacity
-            particles = .init( device:device, count:2 )
-            particles?.update { acc, _ in
+            self.particles = .init( device:device, count:2 )
+            self.particles?.update { acc, _ in
                 acc[0] = Self.quadrangleVertice
                 acc[1] = Self.triangleVertice
             }
             
-            statuses = .init( device:device, count:capacity )
-            statuses?.update( range:0..<capacity ) { us, _ in
+            self.statuses = .init( device:device, count:capacity )
+            self.statuses?.update( range:0..<capacity ) { us, _ in
                 us.state = .trush
                 us.enabled = false
             }
             
-            reuseIndice = .init( (0..<capacity).reversed() )
+            self.reuseIndice = .init( (0..<capacity).reversed() )
+            
+            self.textureAtlas = .init( device:device )
+            textures.forEach { self.textureAtlas.reserve( $0, $0 ) }
+            self.textureAtlas.commit()
         }
         
+        // パーティクルの確保をリクエストする
         public func request() -> Int {
             guard let idx = reuseIndice.popLast() else { 
                 LLLogWarning( "Playground2D.Storage: ストレージの容量を超えたリクエストです. インデックス=-1を返します" )
@@ -74,6 +81,7 @@ extension Lily.Stage.Playground2D
             return idx
         }
         
+        // パーティクルをデータ的廃棄する
         public func trush( index idx:Int ) {
             statuses?.update( at:idx ) { us in
                 us.state = .trush

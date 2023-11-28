@@ -132,7 +132,7 @@ extension Lily.Metal
             device:MTLDevice,
             width:Int,
             height:Int,
-            pixelFormat:MTLPixelFormat = .rgba8Unorm,
+            pixelFormat:MTLPixelFormat = .rgba8Unorm_srgb,
             usage:MTLTextureUsage = [.shaderRead, .shaderWrite] 
         )
         -> MTLTexture?
@@ -143,7 +143,7 @@ extension Lily.Metal
                 height: height,
                 mipmapped: false 
             )
-            
+
             tex_desc.usage = usage
             
             return device.makeTexture( descriptor:tex_desc )

@@ -57,6 +57,7 @@ extension Lily.Stage.Playground2D
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 )  
             renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
+            renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:0 )
             renderEncoder?.drawPrimitives( 
                 type: .triangleStrip, 
                 vertexStart: 0, 
@@ -86,6 +87,7 @@ extension Lily.Stage.Playground2D
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
+            renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:0 )
             renderEncoder?.drawPrimitives( 
                 type: .triangle, 
                 vertexStart: 0, 

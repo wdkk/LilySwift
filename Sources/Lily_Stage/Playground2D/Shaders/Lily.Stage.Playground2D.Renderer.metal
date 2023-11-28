@@ -130,12 +130,20 @@ namespace Lily
 
                 return c;
             } 
+            
+            float4 drawPicture( PG2DVOut in, texture2d<float> tex ) {
+                constexpr sampler sampler( mip_filter::linear, mag_filter::linear, min_filter::linear );
+                
+                if( is_null_texture( tex ) ) { discard_fragment(); }
+                return tex.sample( sampler, in.texUV );
+            } 
         }
     }
 }
 
 fragment PG2DResult Lily_Stage_Playground2D_Fs(
-    const PG2DVOut in [[ stage_in ]]
+    const PG2DVOut in [[ stage_in ]],
+    texture2d<float> tex [[ texture(0) ]]
 )
 {
     ShapeType type = ShapeType( in.shapeType );
@@ -154,6 +162,7 @@ fragment PG2DResult Lily_Stage_Playground2D_Fs(
             color = Lily::Stage::Playground2D::drawBlurryCircle( in );
             break;
         case picture:
+            color = Lily::Stage::Playground2D::drawPicture( in, tex );
             break;
         case mask:
             break;

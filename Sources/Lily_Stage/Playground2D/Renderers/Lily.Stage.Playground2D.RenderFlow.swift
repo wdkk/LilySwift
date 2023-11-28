@@ -36,7 +36,9 @@ extension Lily.Stage.Playground2D
             self.addRenderer = .init( device:device, viewCount:viewCount )
             self.subRenderer = .init( device:device, viewCount:viewCount )
             
-            self.storage = .init( device:device, capacity:particleCapacity )
+            self.storage = .init( device:device, capacity:particleCapacity, textures:["lily"] )
+            
+            super.init( device:device )
             
             let idx1 = storage.request()
             storage.statuses?.updateWithoutCommit( at:idx1 ) { us in
@@ -104,9 +106,20 @@ extension Lily.Stage.Playground2D
                 us.shapeType = .blurryCircle
             }
             
-            storage.statuses?.commit()
+            let idx7 = storage.request()
+            storage.statuses?.updateWithoutCommit( at:idx7 ) { us in
+                us.state = .active
+                us.enabled = true
+                us.color = LLColor.black.floatv4
+                us.scale = LLFloatv2( 256, 256 )
+                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
+                us.compositeType = .alpha
+                us.shapeType = .picture
+                let reg = self.storage.textureAtlas.parts( "lily" ).region
+                us.atlasUV = .init( reg!.top.f, reg!.left.f, reg!.bottom.f, reg!.right.f )
+            }
             
-            super.init( device:device )
+            storage.statuses?.commit()
         }
         
         public override func updateBuffers( size:CGSize ) {

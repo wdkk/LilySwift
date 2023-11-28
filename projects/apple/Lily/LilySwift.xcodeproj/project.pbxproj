@@ -1446,13 +1446,13 @@
 		5DEC51942AF8E9B900D13197 /* Renderers */ = {
 			isa = PBXGroup;
 			children = (
+				5DEC519B2AF8E9B900D13197 /* Lily.Stage.RenderTextures.swift */,
 				5DEC51962AF8E9B900D13197 /* Lily.Stage.DeferredShadingPass.swift */,
 				5DEC51972AF8E9B900D13197 /* Lily.Stage.ParticlePass.swift */,
+				5DEC519E2AF8E9B900D13197 /* Lily.Stage.RenderFlow.swift */,
 				5DEC519C2AF8E9B900D13197 /* Lily.Stage.ObjectRenderer.swift */,
 				5DEC519A2AF8E9B900D13197 /* Lily.Stage.LightingRenderer.swift */,
 				5DEC519D2AF8E9B900D13197 /* Lily.Stage.ParticleRenderer.swift */,
-				5DEC519B2AF8E9B900D13197 /* Lily.Stage.RenderTextures.swift */,
-				5DEC519E2AF8E9B900D13197 /* Lily.Stage.RenderFlow.swift */,
 			);
 			path = Renderers;
 			sourceTree = "<group>";

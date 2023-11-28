@@ -142,30 +142,28 @@ extension Lily.Metal
         private var _dictionaries:[String:Any?] = [:]
         private var _label_positions:[String:LLRegion] = [:]
         public var metalTexture:MTLTexture?
-        public private(set) var label:String
         public private(set) var width:Int32 = 0
         public private(set) var height:Int32 = 0
         
-        public init( device:MTLDevice?, label:String ) {
+        public init( device:MTLDevice? ) {
             self.device = device
-            self.label = label
         }
         
         @discardableResult
-        public func add( _ label:String, _ path:String ) -> Self {
+        public func reserve( _ label:String, _ path:String ) -> Self {
             _dictionaries[label] = path
             return self
         }
         
         @discardableResult
-        public func add( _ label:String, _ img:LLImage ) -> Self {
+        public func reserve( _ label:String, _ img:LLImage ) -> Self {
             _dictionaries[label] = img
             return self
         }
         
         #if os(iOS) || os(visionOS)
         @discardableResult
-        public func add( _ label:String, _ img:UIImage ) -> Self {
+        public func reserve( _ label:String, _ img:UIImage ) -> Self {
             _dictionaries[label] = img
             return self
         }
@@ -173,7 +171,7 @@ extension Lily.Metal
         
         #if os(macOS)
         @discardableResult
-        public func add( _ label:String, _ img:NSImage ) -> Self {
+        public func reserve( _ label:String, _ img:NSImage ) -> Self {
             _dictionaries[label] = img
             return self
         }
@@ -192,7 +190,7 @@ extension Lily.Metal
                 // nnvの中身の種類によって登録方法を変えていく
                 if nnv is String {
                     let path = nnv as! String
-                    let img = LLImage( path )
+                    let img = LLImage( assetName:path )
                     if !img.available { continue }
                     
                     let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
@@ -254,7 +252,7 @@ extension Lily.Metal
             }
             
             let tree = TextureTree()
-            let all_size = tree.pack( imageUnits: image_rects )
+            let all_size = tree.pack( imageUnits:image_rects )
             
             if all_size.width > 16384 || all_size.height > 16384 {
                 LLLog( "テクスチャのサイズが許容量を超えました." )
