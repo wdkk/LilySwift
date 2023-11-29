@@ -18,6 +18,7 @@ extension Lily.Stage.Playground2D
     {
         var pass:Lily.Stage.Playground2D.Pass?
         
+        var adapter = PGAdapter()
         var storage:Storage
         
         var alphaRenderer:AlphaRenderer?
@@ -36,9 +37,19 @@ extension Lily.Stage.Playground2D
             self.addRenderer = .init( device:device, viewCount:viewCount )
             self.subRenderer = .init( device:device, viewCount:viewCount )
             
-            self.storage = .init( device:device, capacity:particleCapacity, textures:["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"] )
+            self.storage = .init( 
+                device:device, 
+                capacity:particleCapacity, 
+                textures:["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+            )
             
             super.init( device:device )
+            
+            PGAdapter.current = adapter
+            PGAdapter.current?.storage = storage
+            
+            PGRectangle()
+            .color( .red )
             
             /*
             let idx1 = storage.request()
@@ -106,7 +117,6 @@ extension Lily.Stage.Playground2D
                 us.compositeType = .alpha
                 us.shapeType = .blurryCircle
             }
-            */
             
             let idx7 = storage.request()
             storage.statuses?.updateWithoutCommit( at:idx7 ) { us in
@@ -135,6 +145,7 @@ extension Lily.Stage.Playground2D
             }
       
             storage.statuses?.commit()
+             */
         }
         
         public override func updateBuffers( size:CGSize ) {
