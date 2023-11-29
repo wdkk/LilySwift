@@ -15,8 +15,8 @@ extension Lily.Stage.Playground2D
     public class PGTriangle : PGActor
     {        
         @discardableResult
-        public override init() {
-            super.init()
+        public override init( pool:PGPool = PGPool.current! ) {
+            super.init( pool:pool )
             status.shapeType = .triangle
             status.compositeType = .alpha
         }
@@ -25,8 +25,8 @@ extension Lily.Stage.Playground2D
     public class PGAddTriangle : PGActor
     {        
         @discardableResult
-        public override init() {
-            super.init()
+        public override init( pool:PGPool = PGPool.current! ) {
+            super.init( pool:pool )
             status.shapeType = .triangle
             status.compositeType = .add
         }
@@ -35,8 +35,8 @@ extension Lily.Stage.Playground2D
     public class PGSubTriangle : PGActor
     {        
         @discardableResult
-        public override init() {
-            super.init()
+        public override init( pool:PGPool = PGPool.current! ) {
+            super.init( pool:pool )
             status.shapeType = .triangle
             status.compositeType = .sub
         }

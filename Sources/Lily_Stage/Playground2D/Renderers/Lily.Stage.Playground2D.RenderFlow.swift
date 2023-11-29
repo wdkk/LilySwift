@@ -18,7 +18,7 @@ extension Lily.Stage.Playground2D
     {
         var pass:Lily.Stage.Playground2D.Pass?
         
-        var pool = PGPool()
+        var pool:PGPool
         var storage:Storage
         
         var alphaRenderer:AlphaRenderer?
@@ -43,10 +43,12 @@ extension Lily.Stage.Playground2D
                 textures:["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
             )
             
+            self.pool = PGPool()
+            self.pool.storage = self.storage
+        
             super.init( device:device )
             
             PGPool.current = pool
-            PGPool.current?.storage = storage
             
             PGRectangle()
             .color( .random )

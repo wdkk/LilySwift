@@ -76,8 +76,6 @@ struct UnitStatus
     float state;
     CompositeType compositeType;
     ShapeType shapeType;
-    uint  reserved0;
-    uint  reserved1;
 };
     
 struct LocalUniform

@@ -15,8 +15,8 @@ extension Lily.Stage.Playground2D
     public class PGBlurryCircle : PGActor
     {        
         @discardableResult
-        public override init() {
-            super.init()
+        public override init( pool:PGPool = PGPool.current! ) {
+            super.init( pool:pool )
             status.shapeType = .blurryCircle
             status.compositeType = .alpha
         }
@@ -25,8 +25,8 @@ extension Lily.Stage.Playground2D
     public class PGAddBlurryCircle : PGActor
     {        
         @discardableResult
-        public override init() {
-            super.init()
+        public override init( pool:PGPool = PGPool.current! ) {
+            super.init( pool:pool )
             status.shapeType = .blurryCircle
             status.compositeType = .add
         }
@@ -35,8 +35,8 @@ extension Lily.Stage.Playground2D
     public class PGSubBlurryCircle : PGActor
     {        
         @discardableResult
-        public override init() {
-            super.init()
+        public override init( pool:PGPool = PGPool.current! ) {
+            super.init( pool:pool )
             status.shapeType = .blurryCircle
             status.compositeType = .sub
         }

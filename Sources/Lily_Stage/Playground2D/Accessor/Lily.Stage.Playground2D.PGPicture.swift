@@ -15,8 +15,8 @@ extension Lily.Stage.Playground2D
     public class PGPicture : PGActor
     {        
         @discardableResult
-        public init( _ assetName:String ) {
-            super.init()
+        public init( pool:PGPool = PGPool.current!, _ assetName:String ) {
+            super.init( pool:pool )
             status.shapeType = .picture
             status.compositeType = .alpha
             status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV
@@ -26,8 +26,8 @@ extension Lily.Stage.Playground2D
     public class PGAddPicture : PGActor
     {        
         @discardableResult
-        public init( _ assetName:String ) {
-            super.init()
+        public init( pool:PGPool = PGPool.current!, _ assetName:String ) {
+            super.init( pool:pool )
             status.shapeType = .picture
             status.compositeType = .add
             status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV
@@ -37,8 +37,8 @@ extension Lily.Stage.Playground2D
     public class PGSubPicture : PGActor
     {        
         @discardableResult
-        public init( _ assetName:String ) {
-            super.init()
+        public init( pool:PGPool = PGPool.current!, _ assetName:String ) {
+            super.init( pool:pool )
             status.shapeType = .picture
             status.compositeType = .sub
             status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV
