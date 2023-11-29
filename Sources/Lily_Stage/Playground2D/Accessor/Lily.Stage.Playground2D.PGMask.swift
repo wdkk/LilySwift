@@ -12,33 +12,36 @@ import Metal
 
 extension Lily.Stage.Playground2D
 {
-    public class PGRectangle : PGActor
+    public class PGMask : PGActor
     {        
         @discardableResult
-        public override init() {
+        public init( _ assetName:String ) {
             super.init()
-            status.shapeType = .rectangle
+            status.shapeType = .mask
             status.compositeType = .alpha
+            status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV
         }
     }
     
-    public class PGAddRectangle : PGActor
+    public class PGAddMask : PGActor
     {        
         @discardableResult
-        public override init() {
+        public init( _ assetName:String ) {
             super.init()
-            status.shapeType = .rectangle
+            status.shapeType = .mask
             status.compositeType = .add
+            status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV
         }
     }
     
-    public class PGSubRectangle : PGActor
+    public class PGSubMask : PGActor
     {        
         @discardableResult
-        public override init() {
+        public init( _ assetName:String ) {
             super.init()
-            status.shapeType = .rectangle
+            status.shapeType = .mask
             status.compositeType = .sub
+            status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV
         }
     }
 }

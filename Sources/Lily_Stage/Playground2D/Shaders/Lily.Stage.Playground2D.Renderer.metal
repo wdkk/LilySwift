@@ -130,14 +130,14 @@ namespace Lily
             } 
             
             float4 drawPicture( PG2DVOut in, texture2d<float> tex ) {
-                constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
+                constexpr sampler sampler( mip_filter::linear, mag_filter::linear, min_filter::linear );
                 
                 if( is_null_texture( tex ) ) { discard_fragment(); }
                 return tex.sample( sampler, in.texUV );
             } 
             
             float4 drawMask( PG2DVOut in, texture2d<float> tex ) {
-                constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
+                constexpr sampler sampler( mip_filter::linear, mag_filter::linear, min_filter::linear );
                 
                 if( is_null_texture( tex ) ) { discard_fragment(); }
                 

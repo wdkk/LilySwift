@@ -13,12 +13,15 @@ import simd
 
 extension Lily.Stage.Playground2D
 {   
-    open class PGAdapter
+    open class PGPool
     {   
-        public static var current:PGAdapter? = nil
-
+        public static var current:PGPool? = nil
+        public init() {}
+        
+        public private(set) var shapes:Set<PGActor> = []
         public var storage:Storage?
         
-        public init() {}
+        public func insertShape( _ shape:PGActor ) { shapes.insert( shape ) }
+        public func removeShape( _ shape:PGActor ) { shapes.remove( shape ) }
     }
 }

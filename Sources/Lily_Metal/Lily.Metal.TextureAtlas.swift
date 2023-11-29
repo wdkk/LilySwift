@@ -268,7 +268,7 @@ extension Lily.Metal
                 guard let img = imgrc.image else { continue }
                 
                 let imgf = img.clone()
-                imgf.convertType(to: .rgba8 )
+                imgf.convertType( to:.rgba8 )
                 
                 let label = imgrc.label
                 let px = imgrc.x
@@ -284,10 +284,10 @@ extension Lily.Metal
                     }
                 }
                 
-                let left  = px.d / all_size.width.d
-                let top   = py.d / all_size.height.d
-                let right = (px + wid).d / all_size.width.d
-                let bottom = (py + hgt).d / all_size.height.d            
+                let left  = (px.d + 0.125) / all_size.width.d
+                let top   = (py.d + 0.125) / all_size.height.d
+                let right = ((px + wid).d - 0.125) / all_size.width.d
+                let bottom = ((py + hgt).d - 0.125) / all_size.height.d            
                 
                 positions[label] = LLRegionMake( left, top, right, bottom )
             }
@@ -300,15 +300,16 @@ extension Lily.Metal
         }
         
         public func parts( _ key:String ) -> TextureAtlasParts {
+            let reg = self.positions[key] ?? .zero
             return TextureAtlasParts( 
                 metalTexture: self.metalTexture,
-                region: self.positions[key]
+                atlasUV:.init( reg.left.f, reg.top.f, reg.right.f, reg.bottom.f )
             )
         }
     }
     
     public struct TextureAtlasParts {
         var metalTexture:MTLTexture?
-        var region:LLRegion?
+        var atlasUV:LLFloatv4
     }
 }

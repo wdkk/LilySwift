@@ -12,32 +12,32 @@ import Metal
 
 extension Lily.Stage.Playground2D
 {
-    public class PGRectangle : PGActor
+    public class PGTriangle : PGActor
     {        
         @discardableResult
         public override init() {
             super.init()
-            status.shapeType = .rectangle
+            status.shapeType = .triangle
             status.compositeType = .alpha
         }
     }
     
-    public class PGAddRectangle : PGActor
+    public class PGAddTriangle : PGActor
     {        
         @discardableResult
         public override init() {
             super.init()
-            status.shapeType = .rectangle
+            status.shapeType = .triangle
             status.compositeType = .add
         }
     }
     
-    public class PGSubRectangle : PGActor
+    public class PGSubTriangle : PGActor
     {        
         @discardableResult
         public override init() {
             super.init()
-            status.shapeType = .rectangle
+            status.shapeType = .triangle
             status.compositeType = .sub
         }
     }

@@ -18,7 +18,7 @@ extension Lily.Stage.Playground2D
     {
         var pass:Lily.Stage.Playground2D.Pass?
         
-        var adapter = PGAdapter()
+        var pool = PGPool()
         var storage:Storage
         
         var alphaRenderer:AlphaRenderer?
@@ -45,107 +45,50 @@ extension Lily.Stage.Playground2D
             
             super.init( device:device )
             
-            PGAdapter.current = adapter
-            PGAdapter.current?.storage = storage
+            PGPool.current = pool
+            PGPool.current?.storage = storage
             
             PGRectangle()
-            .color( .red )
+            .color( .random )
+            .scale( width: 300.0, height: 300.0 )
+            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
             
-            /*
-            let idx1 = storage.request()
-            storage.statuses?.updateWithoutCommit( at:idx1 ) { us in
-                us.state = .active
-                us.enabled = true
-                us.color = LLFloatv4( 1.0, 0.2, 0.2, 0.7 )
-                us.scale = LLFloatv2( 300.0, 300.0 )
-                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
-                us.compositeType = .alpha
-                us.shapeType = .rectangle
-            }
+            PGTriangle()
+            .color( .random )
+            .scale( width: 300.0, height: 300.0 )
+            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
             
-            let idx2 = storage.request()
-            storage.statuses?.updateWithoutCommit( at:idx2 ) { us in
-                us.state = .active
-                us.enabled = true
-                us.color = LLFloatv4( 0.2, 0.2, 1.0, 0.7 )
-                us.scale = LLFloatv2( 300.0, 300.0 )
-                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
-                us.compositeType = .alpha
-                us.shapeType = .triangle
-            }
+            PGAddCircle()
+            .color( .random )
+            .scale( width: 300.0, height: 300.0 )
+            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
             
-            let idx3 = storage.request()
-            storage.statuses?.updateWithoutCommit( at:idx3 ) { us in
-                us.state = .active
-                us.enabled = true
-                us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
-                us.scale = LLFloatv2( 300.0, 300.0 )
-                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
-                us.compositeType = .add
-                us.shapeType = .circle
-            }
+            PGSubCircle()
+            .color( .random )
+            .scale( width: 300.0, height: 300.0 )
+            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
+        
+            PGSubRectangle()
+            .color( .random )
+            .scale( width: 300.0, height: 300.0 )
+            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
             
-            let idx4 = storage.request()
-            storage.statuses?.updateWithoutCommit( at:idx4 ) { us in
-                us.state = .active
-                us.enabled = true
-                us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
-                us.scale = LLFloatv2( 300.0, 300.0 )
-                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
-                us.compositeType = .sub
-                us.shapeType = .circle
-            }
+            PGBlurryCircle()
+            .color( .random )
+            .scale( width: 300.0, height: 300.0 )
+            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
             
-            let idx5 = storage.request()
-            storage.statuses?.updateWithoutCommit( at:idx5 ) { us in
-                us.state = .active
-                us.enabled = true
-                us.color = LLFloatv4( .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.0...0.8), .random(in:0.4...0.6) )
-                us.scale = LLFloatv2( 300.0, 300.0 )
-                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
-                us.compositeType = .sub
-                us.shapeType = .rectangle
-            }
+            PGPicture( "lily" )
+            .color( .random )
+            .scale( width: 300.0, height: 300.0 )
+            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
             
-            let idx6 = storage.request()
-            storage.statuses?.updateWithoutCommit( at:idx6 ) { us in
-                us.state = .active
-                us.enabled = true
-                us.color = LLColor.black.floatv4
-                us.scale = LLFloatv2( 300.0, 300.0 )
-                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
-                us.compositeType = .alpha
-                us.shapeType = .blurryCircle
-            }
+            PGMask( "mask-star" )
+            .color( .random )
+            .scale( width: 300.0, height: 300.0 )
+            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
             
-            let idx7 = storage.request()
-            storage.statuses?.updateWithoutCommit( at:idx7 ) { us in
-                us.state = .active
-                us.enabled = true
-                us.color = LLColor.black.floatv4
-                us.scale = LLFloatv2( 256, 256 )
-                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
-                us.compositeType = .alpha
-                us.shapeType = .picture
-                let reg = self.storage.textureAtlas.parts( "lily" ).region
-                us.atlasUV = .init( reg!.left.f, reg!.top.f, reg!.right.f, reg!.bottom.f )
-            }
-            
-            let idx8 = storage.request()
-            storage.statuses?.updateWithoutCommit( at:idx8 ) { us in
-                us.state = .active
-                us.enabled = true
-                us.color = LLColor.black.floatv4
-                us.scale = LLFloatv2( 256, 256 )
-                us.position = LLFloatv2( .random(in:-300...300), .random(in:-300...300) )
-                us.compositeType = .alpha
-                us.shapeType = .mask
-                let reg = self.storage.textureAtlas.parts( "mask-star" ).region
-                us.atlasUV = .init( reg!.left.f, reg!.top.f, reg!.right.f, reg!.bottom.f )
-            }
-      
-            storage.statuses?.commit()
-             */
+            PGPool.current?.storage?.statuses?.commit()
         }
         
         public override func updateBuffers( size:CGSize ) {
