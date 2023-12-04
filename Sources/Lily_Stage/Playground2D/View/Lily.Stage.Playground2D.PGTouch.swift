@@ -10,7 +10,7 @@
 
 import Foundation
 
-extension Lily.View.Playground2D
+extension Lily.Stage.Playground2D
 { 
     public struct PGTouch
     {

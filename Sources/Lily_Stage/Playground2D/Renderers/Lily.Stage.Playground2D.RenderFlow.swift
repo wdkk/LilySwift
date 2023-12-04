@@ -66,6 +66,17 @@ extension Lily.Stage.Playground2D
         )
         {
             guard let pass = self.pass else { return }
+        
+            PGPool.current?.storage?.statuses?.update { acc, _ in
+                for i in 0 ..< acc.count {
+                    if acc[i].enabled == false || acc[i].state == .trush { continue }
+                    acc[i].position += acc[i].deltaPosition
+                    acc[i].scale += acc[i].deltaScale
+                    acc[i].angle += acc[i].deltaAngle
+                    acc[i].color += acc[i].deltaColor
+                    acc[i].life += acc[i].deltaLife
+                }
+            }
             
             // 共通処理
             pass.updatePass( 
@@ -76,7 +87,7 @@ extension Lily.Stage.Playground2D
             // フォワードレンダリング : パーティクルの描画の設定
             pass.setDestination( texture:destinationTexture )
             pass.setDepth( texture:depthTexture )
-            pass.setClearColor( .darkKhaki )
+            pass.setClearColor( .darkGrey )
             
             let encoder = commandBuffer.makeRenderCommandEncoder( descriptor:pass.passDesc! )
             

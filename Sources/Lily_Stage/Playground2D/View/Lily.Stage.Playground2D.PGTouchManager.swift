@@ -9,33 +9,24 @@
 //
 
 import Foundation
-#if os(iOS) || targetEnvironment(macCatalyst)
+#if os(iOS) || os(visionOS) || targetEnvironment(macCatalyst)
 import UIKit
 #endif
 
-extension Lily.View.Playground2D
+extension Lily.Stage.Playground2D
 { 
     public class PGTouchManager
     {
-#if os(iOS) || targetEnvironment(macCatalyst)
+#if os(iOS) || os(visionOS) || targetEnvironment(macCatalyst)
         public var allTouches = [UITouch]()
 #endif
         public var units = [PGTouch]( repeating: .init(), count:20 )
         public var starts = [PGTouch]( repeating: .init(), count:20 )
         
         // タッチに関わる配列
-        public var touches:[PGTouch] {
-            return units.filter {
-                $0.state == .began ||
-                $0.state == .touch ||
-                $0.state == .release 
-            }
-        }
-        
-        // タッチ完了状態に絞って配列
-        public var releases:[PGTouch] {
-            return units.filter { $0.state == .release }
-        }
+        public var touches:[PGTouch] { units.filter { $0.state == .began || $0.state == .touch || $0.state == .release } }
+        // タッチ完了状態に絞った配列
+        public var releases:[PGTouch] { units.filter { $0.state == .release } }
         
         public func changeBegansToTouches() {
             for i in 0 ..< units.count { 

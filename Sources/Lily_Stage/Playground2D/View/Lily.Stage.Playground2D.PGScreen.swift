@@ -14,7 +14,7 @@ import UIKit
 import AppKit
 #endif
 
-extension Lily.View.Playground2D
+extension Lily.Stage.Playground2D
 { 
     open class PGScreen
     {
@@ -55,8 +55,6 @@ extension Lily.View.Playground2D
         // MARK: - ユーティリティ
         
         // 全ての形状を削除する
-        public static func removeAllShapes() {
-            current.removeAllShapes()      
-        }
+        public static func removeAllShapes() { current.removeAllShapes() }
     }
 }
