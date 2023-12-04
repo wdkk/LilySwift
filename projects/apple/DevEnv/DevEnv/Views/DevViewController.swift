@@ -17,6 +17,64 @@ import Metal
 import MetalKit
 import LilySwift
 
+class DevViewController 
+: Lily.View.Playground2D.PGViewController
+{
+    public let pg2d = Lily.Stage.Playground2D()
+    override func setup() {
+        super.setup()
+        buildupHandler = pg2d.design
+    }
+}
+
+extension Lily.Stage.Playground2D
+{
+    /// パーティクルのセットアップ
+    func design() {        
+        PGRectangle()
+        .color( .random )
+        .scale( width: 300.0, height: 300.0 )
+        .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
+        
+        PGTriangle()
+        .color( .random )
+        .scale( width: 300.0, height: 300.0 )
+        .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
+        
+        PGAddCircle()
+        .color( .random )
+        .scale( width: 300.0, height: 300.0 )
+        .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
+        
+        PGSubCircle()
+        .color( .random )
+        .scale( width: 300.0, height: 300.0 )
+        .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
+        
+        PGSubRectangle()
+        .color( .random )
+        .scale( width: 300.0, height: 300.0 )
+        .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
+        
+        PGBlurryCircle()
+        .color( .random )
+        .scale( width: 300.0, height: 300.0 )
+        .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
+        
+        PGPicture( "lily" )
+        .color( .random )
+        .scale( width: 300.0, height: 300.0 )
+        .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
+        
+        PGMask( "mask-star" )
+        .color( .random )
+        .scale( width: 300.0, height: 300.0 )
+        .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
+    }
+}
+
+/*
+
 class DevViewController
 : Lily.View.ViewController
 {
@@ -142,3 +200,5 @@ class DevViewController
         mouseDrag = .zero
     }
 }
+ 
+*/

@@ -18,16 +18,16 @@ extension Lily.Stage.Playground2D
     {
         var pass:Lily.Stage.Playground2D.Pass?
         
-        var pool:PGPool
-        var storage:Storage
+        public private(set) var pool:PGPool
+        public private(set) var storage:Storage
         
         var alphaRenderer:AlphaRenderer?
         var addRenderer:AddRenderer?
         var subRenderer:SubRenderer?
         
-        let viewCount:Int
-        var screenSize:CGSize = .zero
-        var particleCapacity:Int = 20000
+        public let viewCount:Int
+        public private(set) var screenSize:CGSize = .zero
+        public private(set) var particleCapacity:Int = 20000
         
         public init( device:MTLDevice, viewCount:Int ) {
             self.pass = .init( device:device )
@@ -39,9 +39,9 @@ extension Lily.Stage.Playground2D
             
             self.storage = .init( 
                 device:device, 
-                capacity:particleCapacity, 
-                textures:["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+                capacity:particleCapacity
             )
+            self.storage.addTextures( ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"] )
             
             self.pool = PGPool()
             self.pool.storage = self.storage
@@ -49,48 +49,6 @@ extension Lily.Stage.Playground2D
             super.init( device:device )
             
             PGPool.current = pool
-            
-            PGRectangle()
-            .color( .random )
-            .scale( width: 300.0, height: 300.0 )
-            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
-            
-            PGTriangle()
-            .color( .random )
-            .scale( width: 300.0, height: 300.0 )
-            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
-            
-            PGAddCircle()
-            .color( .random )
-            .scale( width: 300.0, height: 300.0 )
-            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
-            
-            PGSubCircle()
-            .color( .random )
-            .scale( width: 300.0, height: 300.0 )
-            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
-        
-            PGSubRectangle()
-            .color( .random )
-            .scale( width: 300.0, height: 300.0 )
-            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
-            
-            PGBlurryCircle()
-            .color( .random )
-            .scale( width: 300.0, height: 300.0 )
-            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
-            
-            PGPicture( "lily" )
-            .color( .random )
-            .scale( width: 300.0, height: 300.0 )
-            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
-            
-            PGMask( "mask-star" )
-            .color( .random )
-            .scale( width: 300.0, height: 300.0 )
-            .position( cx: (-300...300).randomize, cy: (-300...300).randomize )
-            
-            PGPool.current?.storage?.statuses?.commit()
         }
         
         public override func updateBuffers( size:CGSize ) {

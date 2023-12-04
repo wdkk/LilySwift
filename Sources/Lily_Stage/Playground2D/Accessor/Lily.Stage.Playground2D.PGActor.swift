@@ -100,10 +100,13 @@ extension Lily.Stage.Playground2D
                 self.intervalField = nil
                 self.completionField = nil
                 
-                storage.trush( index:self.index )
-                
-                pool.removeShape( self )
+                trush()
             }
+        }
+        
+        public func trush() {
+            storage.trush( index:self.index )
+            pool.removeShape( self )
         }
     }
 }

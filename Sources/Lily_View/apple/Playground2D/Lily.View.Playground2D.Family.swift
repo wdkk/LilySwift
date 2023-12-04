@@ -10,9 +10,7 @@
 
 import Metal
 
-extension Lily.Stage
+extension Lily.View
 {
-    open class Playground2D {
-        public init() {}
-    }
+    open class Playground2D {}
 }

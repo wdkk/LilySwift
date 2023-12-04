@@ -23,5 +23,9 @@ extension Lily.Stage.Playground2D
         
         public func insertShape( _ shape:PGActor ) { shapes.insert( shape ) }
         public func removeShape( _ shape:PGActor ) { shapes.remove( shape ) }
+        
+        func removeAllShapes() {
+            shapes.forEach { $0.trush() }
+        }
     }
 }

@@ -49,7 +49,7 @@ extension Lily.Stage.Playground2D
             .init( xy:.init(  0.0,  0.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) )
         )
         
-        public init( device:MTLDevice, capacity:Int, textures:[String] ) {
+        public init( device:MTLDevice, capacity:Int ) {
             self.capacity = capacity
             self.particles = .init( device:device, count:2 )
             self.particles?.update { acc, _ in
@@ -66,6 +66,9 @@ extension Lily.Stage.Playground2D
             self.reuseIndice = .init( (0..<capacity).reversed() )
             
             self.textureAtlas = .init( device:device )
+        }
+        
+        public func addTextures( _ textures:[String] ) {
             textures.forEach { self.textureAtlas.reserve( $0, $0 ) }
             self.textureAtlas.commit()
         }
