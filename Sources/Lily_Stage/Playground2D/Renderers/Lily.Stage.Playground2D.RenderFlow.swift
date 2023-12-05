@@ -26,6 +26,8 @@ extension Lily.Stage.Playground2D
         var subRenderer:SubRenderer?
         
         public let viewCount:Int
+        
+        public var clearColor:LLColor = .white
         public private(set) var screenSize:CGSize = .zero
         public private(set) var particleCapacity:Int = 20000
         
@@ -86,10 +88,15 @@ extension Lily.Stage.Playground2D
                 renderTargetCount:viewCount        
             )
             
+            var clear_color:LLColor = self.clearColor
+            clear_color.R = pow( clear_color.R, 2.2 )
+            clear_color.G = pow( clear_color.G, 2.2 )
+            clear_color.B = pow( clear_color.B, 2.2 )
+            
             // フォワードレンダリング : パーティクルの描画の設定
             pass.setDestination( texture:destinationTexture )
             pass.setDepth( texture:depthTexture )
-            pass.setClearColor( .darkGrey )
+            pass.setClearColor( clear_color )
             
             let encoder = commandBuffer.makeRenderCommandEncoder( descriptor:pass.passDesc! )
             

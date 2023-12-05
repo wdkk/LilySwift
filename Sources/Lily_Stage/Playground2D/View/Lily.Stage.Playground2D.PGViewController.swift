@@ -76,9 +76,13 @@ extension Lily.Stage.Playground2D
         }
         .draw( caller:self ) { me, vc, status in
             // 時間の更新
-            Lily.Stage.Playground2D.PGActor.ActorTimer.shared.update()
+            PGActor.ActorTimer.shared.update()
             // ハンドラのコール
             vc.loopHandler?()
+            // 変更の確定
+            vc.renderFlow?.pool.storage?.statuses?.commit()
+            vc.renderFlow?.clearColor = PGScreen.clearColor
+            
             // Shapeの更新/終了処理を行う
             vc.checkShapesStatus()
             
@@ -86,7 +90,6 @@ extension Lily.Stage.Playground2D
                 with:status.drawable,
                 renderPassDescriptor:status.renderPassDesc,
                 completion: { commandBuffer in
-                    //commandBuffer?.waitUntilCompleted() 
                     self.touchManager.changeBegansToTouches()
                     self.touchManager.resetReleases()
                 }
@@ -107,14 +110,6 @@ extension Lily.Stage.Playground2D
                 args.touches
                 .filter { $0 == vc.touchManager.allTouches[i] }
                 .forEach { _ in vc.touchManager.allTouches.remove( at:i ) }
-                /*
-                for touch in args.touches {
-                    if touch == vc.touchManager.allTouches[i] {
-                        vc.touchManager.allTouches.remove( at:i )
-                        break
-                    }
-                }
-                */
             }
         }
         .touchesCancelled( caller:self ) { me, vc, args in
@@ -144,7 +139,9 @@ extension Lily.Stage.Playground2D
             PGActor.ActorTimer.shared.update()
             // ハンドラのコール
             vc.loopHandler?()
+            // 変更の確定
             vc.renderFlow?.pool.storage?.statuses?.commit()
+            vc.renderFlow?.clearColor = PGScreen.clearColor
             
             // Shapeの更新/終了処理を行う
             vc.checkShapesStatus()
@@ -153,7 +150,6 @@ extension Lily.Stage.Playground2D
                 with:status.drawable,
                 renderPassDescriptor:status.renderPassDesc,
                 completion: { commandBuffer in
-                    //commandBuffer?.waitUntilCompleted() 
                     self.touchManager.changeBegansToTouches()
                     self.touchManager.resetReleases()
                 }
@@ -231,13 +227,13 @@ extension Lily.Stage.Playground2D
 extension Lily.Stage.Playground2D.PGViewController
 {
     public typealias Here = Lily.Stage.Playground2D
-    public func recogizeTouches( touches all_touches:[UITouch] ) {
+    public func recogizeTouches( touches allTouches:[UITouch] ) {
         // タッチ情報の配列をリセット
         self.touchManager.clear()
         
         // タッチ数
         var idx = 0
-        for touch in all_touches {
+        for touch in allTouches {
             // point座標系を取得
             let lt_pos = touch.location( in: self.view )
             
@@ -257,14 +253,14 @@ extension Lily.Stage.Playground2D.PGViewController
                 default: state = .release
             }
             
-            let lb_touch = Here.PGTouch(
+            let pg_touch = Here.PGTouch(
                 xy: pix_o_pos,  // 中心を0とした座標
                 uv: pix_lt_pos, // 左上を0とした座標
                 state: state    // タッチ状態
             )
             
-            if touch.phase == .began { self.touchManager.starts[idx] = lb_touch }            
-            self.touchManager.units[idx] = lb_touch
+            if touch.phase == .began { self.touchManager.starts[idx] = pg_touch }            
+            self.touchManager.units[idx] = pg_touch
             self.touchManager.units[idx].startPos = self.touchManager.starts[idx].xy
             
             idx += 1

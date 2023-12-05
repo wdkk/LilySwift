@@ -40,7 +40,7 @@ extension Lily.Stage.Playground2D
         public static var touches:[PGTouch] { current.touches }
         public static var releases:[PGTouch] { current.releases }
         
-        public static var shapes:Set<Lily.Stage.Playground2D.PGActor> { current.shapes }
+        public static var shapes:Set<PGActor> { current.shapes }
         
         public static var elapsedTime:Double { current.elapsedTime }
         

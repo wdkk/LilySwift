@@ -178,6 +178,8 @@ fragment PG2DResult Lily_Stage_Playground2D_Fs(
             break;
     }
     
+    color.xyz = pow( color.xyz, float3( 2.2 ) );
+    
     PG2DResult result;
     result.backBuffer = color;
     return result;

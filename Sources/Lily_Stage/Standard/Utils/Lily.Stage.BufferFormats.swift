@@ -16,9 +16,9 @@ extension Lily.Stage
 {
     public enum BufferFormats
     {
-        public static let backBuffer:MTLPixelFormat = .bgra8Unorm
+        public static let backBuffer:MTLPixelFormat = .bgra8Unorm_srgb
         
-        public static let GBuffer0:MTLPixelFormat = .bgra8Unorm
+        public static let GBuffer0:MTLPixelFormat = .bgra8Unorm_srgb
         public static let GBuffer1:MTLPixelFormat = .rgba8Unorm
         public static let GBuffer2:MTLPixelFormat = .rgba8Unorm
         public static let GBufferDepth:MTLPixelFormat = .r32Float
