@@ -51,8 +51,10 @@ extension Lily.Stage.Playground2D
             PGPool.current = pool
         }
         
-        public override func updateBuffers( size:CGSize ) {
-            screenSize = size
+        public override func changeSize( scaledSize:CGSize ) {
+            screenSize = scaledSize
+            screenSize.width /= LLSystem.retinaScale
+            screenSize.height /= LLSystem.retinaScale
         }
         
         public override func render(

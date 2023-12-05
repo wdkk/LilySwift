@@ -42,8 +42,8 @@ extension DevEnv
             super.init( device:device )
         }
         
-        public override func updateBuffers( size:CGSize ) {
-            renderTextures.updateBuffers( size:size, viewCount:viewCount )
+        public override func changeSize( scaledSize:CGSize ) {
+            renderTextures.updateBuffers( size:scaledSize, viewCount:viewCount )
         }
         
         public override func render(

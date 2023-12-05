@@ -80,7 +80,7 @@ extension Lily.View
         /// Metalの初期化 / Metal Layerの準備
         open func setupMetal( device:MTLDevice? ) {
             metalLayer.device = device
-            metalLayer.pixelFormat = .bgra8Unorm_srgb
+            metalLayer.pixelFormat = .bgra8Unorm
             metalLayer.framebufferOnly = false
             metalLayer.contentsScale = LLSystem.retinaScale.cgf
             metalLayer.frame = self.bounds

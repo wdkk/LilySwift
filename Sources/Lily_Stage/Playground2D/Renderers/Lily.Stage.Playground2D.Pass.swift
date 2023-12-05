@@ -72,5 +72,10 @@ extension Lily.Stage.Playground2D
             passDesc?.colorAttachments[0].clearColor( color )
             passDesc?.colorAttachments[0].action( load:.clear, store:.store )
         }
+        
+        public func setClearColor( _ color:MTLClearColor ) {
+            passDesc?.colorAttachments[0].clearColor( color )
+            passDesc?.colorAttachments[0].action( load:.clear, store:.store )
+        }
     }
 }

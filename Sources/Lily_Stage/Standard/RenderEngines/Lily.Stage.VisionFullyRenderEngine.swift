@@ -120,7 +120,7 @@ extension Lily.Stage
         
         public func changeScreenSize( size:CGSize ) {
             screenSize = size.llSizeFloat
-            renderFlow.updateBuffers( size:size ) 
+            renderFlow.changeSize( scaledSize:size ) 
             camera.aspect = (size.width / size.height).f
         }
         
