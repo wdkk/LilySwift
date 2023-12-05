@@ -49,6 +49,16 @@ extension Lily.Stage.Playground2D
             )
         }
         
+        public var randomPoint:LLPoint { coordRegion.randomPoint }
+        
+        // MARK: - タッチ情報ヘルパ
+        private var latest_touch = PGTouch( xy:.zero, uv: .zero, state:.touch )
+        public var latestTouch:PGTouch {
+            if let touch = touches.first { latest_touch = touch }
+            return latest_touch
+        }
+        
+        // MARK: - パーティクル情報
         public var shapes:Set<PGActor> { renderFlow!.pool.shapes }
         // TODO: 表示からの経過時間(sharedを避けたい)
         public var elapsedTime:Double { PGActor.ActorTimer.shared.elapsedTime }
@@ -64,7 +74,6 @@ extension Lily.Stage.Playground2D
         }
         .buildup( caller:self ) { me, vc in
             PGScreen.current = self
-            
             vc.removeAllShapes()
             
             CATransaction.stop {
@@ -75,13 +84,14 @@ extension Lily.Stage.Playground2D
             vc.buildupHandler?()
         }
         .draw( caller:self ) { me, vc, status in
+            PGScreen.current = self
             // 時間の更新
             PGActor.ActorTimer.shared.update()
             // ハンドラのコール
             vc.loopHandler?()
             // 変更の確定
             vc.renderFlow?.pool.storage?.statuses?.commit()
-            vc.renderFlow?.clearColor = PGScreen.clearColor
+            vc.renderFlow?.clearColor = self.clearColor
             
             // Shapeの更新/終了処理を行う
             vc.checkShapesStatus()
@@ -123,7 +133,6 @@ extension Lily.Stage.Playground2D
         }
         .buildup( caller:self ) { me, vc in
             PGScreen.current = self
-            
             vc.removeAllShapes()
             
             CATransaction.stop {
@@ -135,13 +144,14 @@ extension Lily.Stage.Playground2D
             vc.renderFlow?.pool.storage?.statuses?.commit()
         }
         .draw( caller:self ) { me, vc, status in
+            PGScreen.current = self
             // 時間の更新
             PGActor.ActorTimer.shared.update()
             // ハンドラのコール
             vc.loopHandler?()
             // 変更の確定
             vc.renderFlow?.pool.storage?.statuses?.commit()
-            vc.renderFlow?.clearColor = PGScreen.clearColor
+            vc.renderFlow?.clearColor = self.clearColor
             
             // Shapeの更新/終了処理を行う
             vc.checkShapesStatus()

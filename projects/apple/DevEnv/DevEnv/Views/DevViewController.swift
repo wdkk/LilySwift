@@ -72,7 +72,7 @@ extension Lily.Stage.Playground2D
         }
     }
     */
-     
+    
     func design() {
         PGScreen.clearColor = .darkGrey
         
