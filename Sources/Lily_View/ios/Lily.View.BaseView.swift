@@ -18,6 +18,15 @@ extension Lily.View
     : UIView
     , LLUILifeEvent
     {    
+        public struct TouchObj 
+        {
+            public var touches:Set<UITouch> 
+            public var event:UIEvent?
+        }
+        
+        public typealias Me = Lily.View.BaseView
+        public typealias TouchField = Lily.Field.ViewEvent<Me, TouchObj>
+        
         public var _mutex = RecursiveMutex()
         public var setupField:(any LLField)?
         public var buildupField:(any LLField)?
@@ -67,16 +76,7 @@ extension Lily.View
 }
 
 extension Lily.View.BaseView
-{
-    public struct TouchObj 
-    {
-        public var touches:Set<UITouch> 
-        public var event:UIEvent?
-    }
-    
-    public typealias Me = Lily.View.BaseView
-    public typealias TouchField = Lily.Field.ViewEvent<Me, TouchObj>
-    
+{    
     public func touchesBegan( _ action:@escaping (Me, TouchObj)->() ) 
     -> Self 
     {

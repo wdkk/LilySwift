@@ -170,7 +170,6 @@ extension Lily.Stage.Playground2D
         .mouseLeftUp( caller:self ) { me, caller, args in
             caller.recogizeMouse( pos:args.position, phase:.ended, event:args.event )
         }
-
         #endif
                 
         func checkShapesStatus() {

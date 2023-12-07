@@ -15,10 +15,88 @@
 #import "../../Standard/Shared/Lily.Stage.Shared.GlobalUniform.metal"
 #import "../../Standard/Shaders/Lily.Stage.StageRenderer.util.metal"
 
-#import "Lily.Stage.Playground2D.h.metal"
-
 using namespace metal;
 using namespace Lily::Stage::Shared;
+
+//// 列挙子 ////
+enum CompositeType : uint
+{
+    none  = 0,
+    alpha = 1,
+    add   = 2,
+    sub   = 3
+};
+    
+enum ShapeType : uint
+{
+    rectangle    = 0,
+    triangle     = 1,
+    circle       = 2,
+    blurryCircle = 3,
+    picture      = 100,
+    mask         = 101
+};
+    
+enum DrawingType : uint
+{
+    quadrangles = 0,
+    triangles   = 1
+};        
+
+//// 構造体 ////
+    
+struct PG2DVIn
+{
+    float2 xy;
+    float2 uv;
+    float2 texUV;
+};
+
+struct UnitStatus
+{
+    float4x4 matrix;
+    float4 atlasUV;
+    float4 color;
+    float4 deltaColor;
+    float2 position;
+    float2 deltaPosition;
+    float2 scale;
+    float2 deltaScale;
+    float angle;
+    float deltaAngle;
+    float zindex; 
+    float array_index;
+    float life;
+    float deltaLife;
+    float enabled;
+    float state;
+    CompositeType compositeType;
+    ShapeType shapeType;
+};
+    
+struct LocalUniform
+{
+    float4x4 projectionMatrix;
+    CompositeType shaderCompositeType;
+    DrawingType   drawingType;
+    int           drawingOffset;
+};        
+
+struct PG2DVOut
+{
+    float4 pos [[ position ]];
+    float2 xy;
+    float2 uv;
+    float2 texUV;
+    float4 color;
+    float  shapeType;
+};
+
+struct PG2DResult 
+{
+    float4 backBuffer [[ color(0) ]];
+};
+
 
 vertex PG2DVOut Lily_Stage_Playground2D_Vs(
     const device PG2DVIn* in [[ buffer(0) ]],

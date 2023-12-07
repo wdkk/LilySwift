@@ -27,11 +27,18 @@ extension Lily.View
             public let event:NSEvent?
         }
         
-        public var isUserInteractionEnabled: Bool = true
-     
+        public struct TouchObj 
+        {
+            public var touches:Set<NSTouch> 
+            public var event:NSEvent?
+        }
+        
         public typealias Me = Lily.View.VCView
         public typealias MouseField = Lily.Field.ViewEvent<Me, MouseObj>
+        public typealias TouchField = Lily.Field.ViewEvent<Me, TouchObj>
         
+        public var isUserInteractionEnabled: Bool = true
+     
         public var setupField:(any LLField)?
         public var buildupField:(any LLField)?
         public var teardownField:(any LLField)?
@@ -50,6 +57,11 @@ extension Lily.View
         public var mouseRightUpInsideField:MouseField?
         public var mouseOverField:MouseField?
         public var mouseOutField:MouseField?
+        
+        public var touchesBeganField:TouchField?
+        public var touchesMovedField:TouchField?
+        public var touchesEndedField:TouchField?
+        public var touchesCancelledField:TouchField?
                  
         private weak var _vc:ViewController?
         private weak var _capture_view:BaseView?
@@ -258,143 +270,64 @@ extension Lily.View
         
         // MARK: - イベント関数(タッチ)
         
-        // TODO: タッチ処理は未実装
-        //private var _current_touches_state = LLTouchesState()
-        
-        open override func touchesBegan( with event: NSEvent ) {
+        open override func touchesBegan( with event:NSEvent ) {
             if !isEnabled { return }
             
-            /*
-             let touches = event.touches( for: self )
-             let preview_touches_state = _current_touches_state
-             _current_touches_state = LLTouchesState( touches )
-             */
-            
+            let touches = event.touches( for:self )
             let pt_on_win = event.locationInWindow
             let result = pick( pt_on_win.llPoint )
-            if( result.view != nil ) {
-                /*
-                 let arg = LLIndirectTouchArg( result.view,
-                 cursor_pos: pt_on_win.llPoint,
-                 preview:preview_touches_state,
-                 current:_current_touches_state,
-                 event: event )
-                 result.view?.igTouch.began.ignite( arg )
-                 */
+            
+            if result.view != nil {
+                result.view?.touchesBeganField?.appear( .init( touches:touches, event:event ) )
                 return
             }
             
-            /*
-             let arg = LLIndirectTouchArg( _vc,
-             cursor_pos: pt_on_win.llPoint,
-             preview:preview_touches_state,
-             current:_current_touches_state,
-             event: event )
-             _vc?.igTouch.began.ignite( arg )
-             */
+            self.touchesBeganField?.appear( .init( touches:touches, event:event ) )
         }
         
         open override func touchesMoved( with event: NSEvent ) {
             if !isEnabled { return }
             
-            /*
-             let touches = event.touches( for: self )
-             
-             let preview_touches_state = _current_touches_state
-             _current_touches_state = LLTouchesState( touches )
-             */
-            
+            let touches = event.touches( for: self )
             let pt_on_win = event.locationInWindow
-            
             let result = pick( pt_on_win.llPoint )
+            
             if result.view != nil {
-                /*
-                 let arg = LLIndirectTouchArg( result.view,
-                 cursor_pos: pt_on_win.llPoint,
-                 preview:preview_touches_state,
-                 current:_current_touches_state,
-                 event: event )
-                 result.view?.igTouch.moved.ignite( arg )
-                 */
+                result.view?.touchesMovedField?.appear( .init( touches:touches, event:event ) )
                 return
             }
             
-            /*
-             let arg = LLIndirectTouchArg( _vc,
-             cursor_pos: pt_on_win.llPoint,
-             preview:preview_touches_state,
-             current:_current_touches_state,
-             event: event )
-             _vc?.igTouch.moved.ignite( arg )
-             */
+            self.touchesMovedField?.appear( .init( touches:touches, event:event ) )
         }
         
         open override func touchesEnded( with event: NSEvent ) {
             if !isEnabled { return }
             
-            /*
-             let touches = event.touches( for: self )
-             let preview_touches_state = _current_touches_state
-             _current_touches_state = LLTouchesState( touches )
-             */
-            
+            let touches = event.touches( for: self )
             let pt_on_win = event.locationInWindow
-            
             let result = pick( pt_on_win.llPoint )
-            if( result.view != nil ) {
-                /*
-                 let arg = LLIndirectTouchArg( result.view,
-                 cursor_pos: pt_on_win.llPoint,
-                 preview:preview_touches_state,
-                 current:_current_touches_state,
-                 event: event )
-                 result.view?.igTouch.ended.ignite( arg )
-                 */
+            
+            if result.view != nil {
+                result.view?.touchesEndedField?.appear( .init( touches:touches, event:event ) )
                 return
             }
             
-            /*
-             let arg = LLIndirectTouchArg( _vc,
-             cursor_pos: pt_on_win.llPoint,
-             preview:preview_touches_state,
-             current:_current_touches_state,
-             event: event )
-             _vc?.igTouch.ended.ignite( arg )
-             */
+            self.touchesEndedField?.appear( .init( touches:touches, event:event ) )
         }
         
         open override func touchesCancelled( with event: NSEvent ) {
             if !isEnabled { return }
             
-            /*
-             let touches = event.allTouches()
-             let preview_touches_state = _current_touches_state
-             _current_touches_state = LLTouchesState( touches )
-             */
-            
+            let touches = event.touches( for: self )
             let pt_on_win = event.locationInWindow
-            
             let result = pick( pt_on_win.llPoint )
-            if( result.view != nil ) {
-                /*
-                 let arg = LLIndirectTouchArg( result.view,
-                 cursor_pos: pt_on_win.llPoint,
-                 preview:preview_touches_state,
-                 current:_current_touches_state,
-                 event: event )
-                 result.view?.igTouch.cancelled.ignite( arg )
-                 */
+            
+            if result.view != nil {
+                result.view?.touchesCancelledField?.appear( .init( touches:touches, event:event ) )
                 return
             }
             
-            /*
-             let arg = LLIndirectTouchArg( _vc,
-             cursor_pos: pt_on_win.llPoint,
-             preview:preview_touches_state,
-             current:_current_touches_state,
-             event: event )
-             _vc?.igTouch.cancelled.ignite( arg )
-             */
+            self.touchesCancelledField?.appear( .init( touches:touches, event:event ) )
         }
         
         // MARK: - イベント関数(タブレット)

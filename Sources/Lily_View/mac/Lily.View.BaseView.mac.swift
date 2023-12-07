@@ -27,9 +27,16 @@ extension Lily.View
             public let event:NSEvent?
         }
         
+        public struct TouchObj 
+        {
+            public var touches:Set<NSTouch> 
+            public var event:NSEvent?
+        }
+        
         public typealias Me = Lily.View.BaseView
         public typealias MouseField = Lily.Field.ViewEvent<Me, MouseObj>
-        
+        public typealias TouchField = Lily.Field.ViewEvent<Me, TouchObj>
+      
         public var _mutex = Lily.View.RecursiveMutex()
         public var isUserInteractionEnabled = true
         public var setupField:(any LLField)?
@@ -50,6 +57,12 @@ extension Lily.View
         public var mouseRightUpInsideField:MouseField?
         public var mouseOverField:MouseField?
         public var mouseOutField:MouseField?
+        
+        public var touchesBeganField:TouchField?
+        public var touchesMovedField:TouchField?
+        public var touchesEndedField:TouchField?
+        public var touchesEndedInsideField:TouchField?
+        public var touchesCancelledField:TouchField?
         
         func initViewAttributes() {
             self.anchorPoint = CGPoint( x:0.5, y:0.5 )
@@ -91,7 +104,7 @@ extension Lily.View
         open func pick( _ global_pt: LLPoint ) -> ( view:BaseView?, local_pt:LLPoint ) {
             // 子レイヤーたちを先にあたる。該当があればそのViewを返して処理終了
             if sublayers != nil {
-                let sorted_sublayers = sublayers!.sorted { ( l1:CALayer, l2:CALayer ) -> Bool in
+                let sorted_sublayers = sublayers!.sorted { l1, l2 -> Bool in
                     return l1.zPosition > l2.zPosition
                 }.reversed()
                 
@@ -241,6 +254,7 @@ extension Lily.View.BaseView
     }
 }
 
+// MARK: - メソッドチェーン: マウスイベント
 extension Lily.View.BaseView
 {
     public func mouseLeftDown( _ action:@escaping (Me, MouseObj)->() ) 
@@ -366,6 +380,66 @@ extension Lily.View.BaseView
     -> Self 
     {
         mouseOutField = .init( me:self, caller:caller, action:action )
+        return self
+    }
+}
+
+// MARK: - メソッドチェーン: タッチイベント
+extension Lily.View.BaseView
+{
+    public func touchesBegan( _ action:@escaping (Me, TouchObj)->() ) 
+    -> Self 
+    {
+        touchesBeganField = .init( me:self, action:action )
+        return self
+    }
+    
+    public func touchesBegan<TCaller:AnyObject>( caller:TCaller, _ action:@escaping (Me, TCaller, TouchObj)->() )
+    -> Self 
+    {
+        touchesBeganField = .init( me:self, caller:caller, action:action )
+        return self
+    }
+    
+    public func touchesMoved( _ action:@escaping (Me, TouchObj)->() ) 
+    -> Self 
+    {
+        touchesMovedField = .init( me:self, action:action )
+        return self
+    }
+    
+    public func touchesMoved<TCaller:AnyObject>( caller:TCaller, _ action:@escaping (Me, TCaller, TouchObj)->() )
+    -> Self 
+    {
+        touchesMovedField = .init( me:self, caller:caller, action:action )
+        return self
+    }
+    
+    public func touchesEnded( _ action:@escaping (Me, TouchObj)->() ) 
+    -> Self 
+    {
+        touchesEndedField = .init( me:self, action:action )
+        return self
+    }
+    
+    public func touchesEnded<TCaller:AnyObject>( caller:TCaller, _ action:@escaping (Me, TCaller, TouchObj)->() )
+    -> Self 
+    {
+        touchesEndedField = .init( me:self, caller:caller, action:action )
+        return self
+    }
+    
+    public func touchesCancelled( _ action:@escaping (Me, TouchObj)->() ) 
+    -> Self 
+    {
+        touchesCancelledField = .init( me:self, action:action )
+        return self
+    }
+    
+    public func touchesCancelled<TCaller:AnyObject>( caller:TCaller, _ action:@escaping (Me, TCaller, TouchObj)->() )
+    -> Self 
+    {
+        touchesCancelledField = .init( me:self, caller:caller, action:action )
         return self
     }
 }
