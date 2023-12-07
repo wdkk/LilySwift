@@ -72,7 +72,7 @@ extension Lily.Stage
                     LLFloatv4( 0,   0, ws,  0 ) 
                 )
             }
-            // TODO: シャドウカメラ用の行列?
+            // シャドウカメラ用の行列?
             else {
                 let ys = 2.0 / width
                 let xs = ys / aspect

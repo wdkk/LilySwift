@@ -105,8 +105,6 @@ extension Lily.View
             if v.width == 0.0 || v.height == 0.0 { return }
             
             _mutex.lock {
-                // TODO: カラーセットの処理はSwiftUIに合わせて見直し
-                //self.view.backgroundColor = Lily.View.ColorSet.shared["view","background"].uiColor
                 self.buildup()
                 (self.view as? LLUILifeEvent)?.rebuild()
             }

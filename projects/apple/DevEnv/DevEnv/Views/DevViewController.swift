@@ -13,12 +13,10 @@ import AppKit
 #else
 import UIKit
 #endif
-import Metal
-import MetalKit
 import LilySwift
 
 class DevViewController 
-: Lily.Stage.Playground2D.PGViewController
+: Lily.Stage.Playground2D.PGScreen
 {
     public let pg2d = Lily.Stage.Playground2D()
     override func setup() {
@@ -73,14 +71,12 @@ extension Lily.Stage.Playground2D
     }
     */
     
-    func design() {
-        PGScreen.clearColor = .darkGrey
-        
-        PGPicture( "lily" )
+    func design( screen:PGScreen ) {
+        screen.clearColor = .darkGrey
     }
 
-    func update() {
-        for touch in PGScreen.touches {
+    func update( screen:PGScreen ) {
+        for touch in screen.touches {
             for _ in 0 ..< 8 {
                 let speed = (2.0...4.0).randomize
                 let rad  = (0.0...2.0 * Double.pi).randomize
@@ -94,7 +90,8 @@ extension Lily.Stage.Playground2D
                 )
                 .scale(
                     width:(5.0...40.0).randomize,
-                    height:(5.0...40.0).randomize )
+                    height:(5.0...40.0).randomize
+                )
                 .angle( .random )
                 .deltaAngle( degrees: (-2.0...2.0).randomize )
                 .life( 1.0 )

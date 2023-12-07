@@ -20,7 +20,16 @@ extension Lily.View
     open class BaseView 
     : CALayer
     , LLUILifeEvent
-    {    
+    { 
+        public struct MouseObj 
+        {
+            public let position:LLPoint
+            public let event:NSEvent?
+        }
+        
+        public typealias Me = Lily.View.BaseView
+        public typealias MouseField = Lily.Field.ViewEvent<Me, MouseObj>
+        
         public var _mutex = Lily.View.RecursiveMutex()
         public var isUserInteractionEnabled = true
         public var setupField:(any LLField)?
@@ -29,6 +38,18 @@ extension Lily.View
         public func setup() {}
         public func buildup() {}
         public func teardown() {}
+        
+        public var mouseMovedField:MouseField?
+        public var mouseLeftDownField:MouseField?
+        public var mouseLeftDraggedField:MouseField?
+        public var mouseLeftUpField:MouseField?
+        public var mouseLeftUpInsideField:MouseField?
+        public var mouseRightDownField:MouseField?
+        public var mouseRightDraggedField:MouseField?
+        public var mouseRightUpField:MouseField?
+        public var mouseRightUpInsideField:MouseField?
+        public var mouseOverField:MouseField?
+        public var mouseOutField:MouseField?
         
         func initViewAttributes() {
             self.anchorPoint = CGPoint( x:0.5, y:0.5 )
@@ -100,7 +121,7 @@ public extension Lily.View.BaseView
         // CALayer側
         guard let sublayers = self.sublayers else { return }
         for child in sublayers {
-            if let llui = child as? LLUILifeEvent { llui.rebuild() }
+            (child as? LLUILifeEvent)?.rebuild()
         }
     }
 
@@ -108,7 +129,7 @@ public extension Lily.View.BaseView
         // CALayer側
         guard let sublayers = self.sublayers else { return }
         for child in sublayers {
-            if let llui = child as? LLUILifeEvent { llui.teardown() }
+            (child as? LLUILifeEvent)?.teardown()
         }
     }
 }
@@ -216,6 +237,135 @@ extension Lily.View.BaseView
     @discardableResult
     public func maskToBounds( _ torf:Bool ) -> Self {
         masksToBounds = torf
+        return self
+    }
+}
+
+extension Lily.View.BaseView
+{
+    public func mouseLeftDown( _ action:@escaping (Me, MouseObj)->() ) 
+    -> Self 
+    {
+        mouseLeftDownField = .init( me:self, action:action )
+        return self
+    } 
+    
+    public func mouseLeftDown<TCaller:AnyObject>( caller:TCaller, _ action:@escaping (Me, TCaller, MouseObj)->() )
+    -> Self 
+    {
+        mouseLeftDownField = .init( me:self, caller:caller, action:action )
+        return self
+    }
+    
+    public func mouseLeftDragged( _ action:@escaping (Me, MouseObj)->() ) 
+    -> Self 
+    {
+        mouseLeftDraggedField = .init( me:self, action:action )
+        return self
+    } 
+    
+    public func mouseLeftDragged<TCaller:AnyObject>( caller:TCaller, _ action:@escaping (Me, TCaller, MouseObj)->() )
+    -> Self 
+    {
+        mouseLeftDraggedField = .init( me:self, caller:caller, action:action )
+        return self
+    }
+    
+    public func mouseLeftUp( _ action:@escaping (Me, MouseObj)->() ) 
+    -> Self 
+    {
+        mouseLeftUpField = .init( me:self, action:action )
+        return self
+    } 
+    
+    public func mouseLeftUp<TCaller:AnyObject>( caller:TCaller, _ action:@escaping (Me, TCaller, MouseObj)->() )
+    -> Self 
+    {
+        mouseLeftUpField = .init( me:self, caller:caller, action:action )
+        return self
+    }
+    
+    public func mouseLeftUpInside( _ action:@escaping (Me, MouseObj)->() ) 
+    -> Self 
+    {
+        mouseLeftUpInsideField = .init( me:self, action:action )
+        return self
+    }
+    
+    public func mouseLeftUpInside<TCaller:AnyObject>( caller:TCaller, _ action:@escaping (Me, TCaller, MouseObj)->() )
+    -> Self 
+    {
+        mouseLeftUpInsideField = .init( me:self, caller:caller, action:action )
+        return self
+    }
+    
+    public func mouseRightDown( _ action:@escaping (Me, MouseObj)->() ) 
+    -> Self 
+    {
+        mouseRightDownField = .init( me:self, action:action )
+        return self
+    }
+    
+    public func mouseRightDown<TCaller:AnyObject>( caller:TCaller, _ action:@escaping (Me, TCaller, MouseObj)->() )
+    -> Self 
+    {
+        mouseRightDownField = .init( me:self, caller:caller, action:action )
+        return self
+    }
+    
+    public func mouseRightDragged( _ action:@escaping (Me, MouseObj)->() ) 
+    -> Self 
+    {
+        mouseRightDraggedField = .init( me:self, action:action )
+        return self
+    } 
+    
+    public func mouseRightDragged<TCaller:AnyObject>( caller:TCaller, _ action:@escaping (Me, TCaller, MouseObj)->() )
+    -> Self 
+    {
+        mouseRightDraggedField = .init( me:self, caller:caller, action:action )
+        return self
+    }
+    
+    public func mouseRightUp( _ action:@escaping (Me, MouseObj)->() ) 
+    -> Self 
+    {
+        mouseRightUpField = .init( me:self, action:action )
+        return self
+    } 
+    
+    public func mouseRightUp<TCaller:AnyObject>( caller:TCaller, _ action:@escaping (Me, TCaller, MouseObj)->() )
+    -> Self 
+    {
+        mouseRightUpField = .init( me:self, caller:caller, action:action )
+        return self
+    }
+    
+    public func mouseRightUpInside( _ action:@escaping (Me, MouseObj)->() ) 
+    -> Self 
+    {
+        mouseRightUpInsideField = .init( me:self, action:action )
+        return self
+    }
+    
+    public func mouseRightUpInside<TCaller:AnyObject>( caller:TCaller, _ action:@escaping (Me, TCaller, MouseObj)->() )
+    -> Self 
+    {
+        mouseRightUpInsideField = .init( me:self, caller:caller, action:action )
+        return self
+    }
+    
+    public func mouseOver( _ action:@escaping (Me, MouseObj)->() ) 
+    -> Self 
+    {
+        mouseOverField = .init( me:self, action:action )
+        return self
+    } 
+    
+    public func mouseOut<TCaller:AnyObject>( caller:TCaller, _ action:@escaping (Me, TCaller, MouseObj)->() )
+    -> Self 
+    {
+        mouseOutField = .init( me:self, caller:caller, action:action )
         return self
     }
 }

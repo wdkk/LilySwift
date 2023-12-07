@@ -55,7 +55,7 @@ public extension Lily.View.VCManager
         }
         set {
             self.extraObjects["statusBarVisible"] = newValue
-            // TODO: visionOS無効対応
+            // visionOS無効対応
 #if os(iOS)
             setNeedsStatusBarAppearanceUpdate() 
 #endif
@@ -69,7 +69,7 @@ public extension Lily.View.VCManager
     override var supportedInterfaceOrientations : UIInterfaceOrientationMask { return .all }
     
     func readyNotificationByOrientation() {
-        // TODO: visionOS無効対応
+        // visionOS無効対応
 #if os(iOS)
         NotificationCenter.default.addObserver( self, 
                                                 selector: #selector( Self.changeOrientation(notification:) ),

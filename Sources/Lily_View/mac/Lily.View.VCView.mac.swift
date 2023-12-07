@@ -21,7 +21,16 @@ extension Lily.View
     , CALayerDelegate
     , LLUILifeEvent
     {
+        public struct MouseObj 
+        {
+            public let position:LLPoint
+            public let event:NSEvent?
+        }
+        
         public var isUserInteractionEnabled: Bool = true
+     
+        public typealias Me = Lily.View.VCView
+        public typealias MouseField = Lily.Field.ViewEvent<Me, MouseObj>
         
         public var setupField:(any LLField)?
         public var buildupField:(any LLField)?
@@ -30,27 +39,21 @@ extension Lily.View
         public func buildup() {}
         public func teardown() {}
         
-        /*    
-         public lazy var styleField = LLViewStyleFieldMap()
-         public var layoutField: LLFieldLegacy?
-         
-         public lazy var mouseMovedField = LLMouseFieldMap()
-         public lazy var mouseLeftDownField = LLMouseFieldMap()
-         public lazy var mouseLeftDraggedField = LLMouseFieldMap()
-         public lazy var mouseLeftUpField = LLMouseFieldMap()
-         public lazy var mouseLeftUpInsideField = LLMouseFieldMap()
-         public lazy var mouseRightDownField = LLMouseFieldMap()
-         public lazy var mouseRightDraggedField = LLMouseFieldMap()
-         public lazy var mouseRightUpField = LLMouseFieldMap()
-         public lazy var mouseRightUpInsideField = LLMouseFieldMap()
-         public lazy var mouseOverField = LLMouseFieldMap()
-         public lazy var mouseOutField = LLMouseFieldMap()
-         
-         private weak var _capture_view:LLView?
-         private weak var _dragging_view:LLView?
-         */
-        
+        public var mouseMovedField:MouseField?
+        public var mouseLeftDownField:MouseField?
+        public var mouseLeftDraggedField:MouseField?
+        public var mouseLeftUpField:MouseField?
+        public var mouseLeftUpInsideField:MouseField?
+        public var mouseRightDownField:MouseField?
+        public var mouseRightDraggedField:MouseField?
+        public var mouseRightUpField:MouseField?
+        public var mouseRightUpInsideField:MouseField?
+        public var mouseOverField:MouseField?
+        public var mouseOutField:MouseField?
+                 
         private weak var _vc:ViewController?
+        private weak var _capture_view:BaseView?
+        private weak var _dragging_view:BaseView?
         
         // layer-backed NSView properties
         override open var isFlipped: Bool { return true }
@@ -74,13 +77,19 @@ extension Lily.View
         public var _mutex = Lily.View.RecursiveMutex()
         
         private func addEvents() {
-            NSEvent.addLocalMonitorForEvents( matching: [.mouseMoved], handler: eventMouseMoved(event:) )
-            NSEvent.addLocalMonitorForEvents( matching: [.leftMouseDown], handler: eventMouseLeftDown(event:) )
-            NSEvent.addLocalMonitorForEvents( matching: [.leftMouseDragged], handler: eventMouseLeftDragged(event:) )
-            NSEvent.addLocalMonitorForEvents( matching: [.leftMouseUp], handler: eventMouseLeftUp(event:) )
-            NSEvent.addLocalMonitorForEvents( matching: [.rightMouseDown], handler: eventMouseRightDown(event:) )
-            NSEvent.addLocalMonitorForEvents( matching: [.rightMouseDragged], handler: eventMouseRightDragged(event:) )
-            NSEvent.addLocalMonitorForEvents( matching: [.rightMouseUp], handler: eventMouseRightUp(event:) )
+
+            NSEvent.addLocalMonitorForEvents( 
+                matching: [.mouseMoved], 
+                handler: eventMouseMoved(event:) 
+            )
+            NSEvent.addLocalMonitorForEvents( 
+                matching: [.leftMouseDown, .leftMouseDragged, .leftMouseUp],
+                handler: eventMouseLeft(event:)
+            )
+            NSEvent.addLocalMonitorForEvents(
+                matching: [.rightMouseDown, .rightMouseDragged, .rightMouseUp],
+                handler: eventMouseRight(event:) 
+            )
         }
         
         // 指定座標のBaseViewのピック
@@ -102,23 +111,19 @@ extension Lily.View
         }
         
         // キャプチャしているビューの変更関数(各イベント関数内で呼び出し)
-        open func changeCaptureView( target:BaseView?, globalPosition: CGPoint, event: NSEvent ) {
-            /*
-             if _capture_view == target { return }
-             if _dragging_view != nil { return }
-             
-             target?.igMouse.over.ignite( 
-             LLMouseArg( target, pos: target!.convert(globalPosition, from: nil).llPoint, event: event )
-             )
-             
-             _capture_view?.igMouse.out.ignite(
-             LLMouseArg( _capture_view, 
-             pos: _capture_view!.convert(globalPosition, from: nil).llPoint,
-             event: event ) 
-             )
-             
-             _capture_view = target
-             */
+        open func changeCaptureView( target:BaseView?, globalPosition: CGPoint, event:NSEvent ) {
+            if _capture_view == target { return }
+            if _dragging_view != nil { return }
+        
+            target?.mouseOverField?.appear(
+                .init( position:target!.convert(globalPosition, from: nil).llPoint, event:event )
+            ) 
+            
+            _capture_view?.mouseOutField?.appear(
+                .init( position:_capture_view!.convert(globalPosition, from: nil).llPoint, event:event )
+            )
+                         
+            _capture_view = target
         }
         
         // MARK: - イベント関数(マウス)
@@ -127,218 +132,126 @@ extension Lily.View
             
             Tablet.updateState( event: event )
             
-            /*
-             let pt_on_win = event.locationInWindow
-             
-             let result = pick( pt_on_win.llPoint )
-             if result.view != nil {
-             changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
-             // BaseViewのイベントを代わりに発火させる
-             result.view?.mouseMovedField.appear( LLMouseArg( result.localPosition, event ) )
-             
-             return event
-             }
-             
-             // 該当するビューがなかった場合、ビューコントローラのビューイベントを発火させる
-             let pt_on_view = self.convert( pt_on_win, from: nil ).llPoint
-             changeCaptureView( target: nil, globalPosition: pt_on_win, event: event )
-             self.mouseMovedField.appear(
-             LLMouseArg( pt_on_view, event ) 
-             )
-             */
-            
+            let pt_on_win = event.locationInWindow
+
+            let result = pick( pt_on_win.llPoint )
+            if result.view != nil {
+                changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
+                // ターゲットのviewのイベントを起こす
+                result.view?.mouseMovedField?.appear( .init( position:result.localPosition, event:event ) )
+                return event
+            }
+
+            // 該当するビューがなかった場合、VCView自身のイベントフィールドを起こす
+            let pt_on_view = self.convert( pt_on_win, from: nil ).llPoint
+            changeCaptureView( target: nil, globalPosition: pt_on_win, event: event )
+            self.mouseMovedField?.appear( .init( position:pt_on_view, event:event ) )
+
             return event
         }
-        
-        open func eventMouseLeftDown( event:NSEvent ) -> NSEvent? {
+
+        open func eventMouseLeft( event:NSEvent ) -> NSEvent? {
             if !isEnabled { return event }
             
             Tablet.updateState( event: event )
             
-            /*
-             let pt_on_win = event.locationInWindow
-             
-             let result = pick( pt_on_win.llPoint )
-             if result.view != nil {
-             _dragging_view = result.view
-             changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
-             
-             if let v = _dragging_view, v.isEnabled { v.styleField.action?.appear() }
-             
-             // BaseViewのイベントを代わりに発火させる
-             result.view?.actionBeganField.appear( LLActionArg( [ result.localPosition ] ) )
-             result.view?.mouseLeftDownField.appear( LLMouseArg( result.localPosition, event ) )
-             
-             return event
-             }
-             
-             // 該当するビューがなかった場合、ビューコントローラのビューイベントを発火させる
-             let pt_on_view = self.convert( pt_on_win, from: nil ).llPoint
-             changeCaptureView( target: nil, globalPosition: pt_on_win, event: event )
-             self.mouseLeftDownField.appear(
-             LLMouseArg( pt_on_view, event ) 
-             )
-             */
+            let pt_on_win = event.locationInWindow
+
+            let result = pick( pt_on_win.llPoint )
+            if result.view != nil {
+                // ターゲットのviewのイベントを起こす
+                switch( event.type ) {
+                case .leftMouseDown:
+                    _dragging_view = result.view
+                    changeCaptureView( target: result.view, globalPosition: pt_on_win, event:event )
+                    result.view?.mouseLeftDownField?.appear( .init( position:result.localPosition, event:event ) )
+                case .leftMouseDragged:
+                    _dragging_view = result.view
+                    changeCaptureView( target: result.view, globalPosition: pt_on_win, event:event )
+                    result.view?.mouseLeftDraggedField?.appear( .init( position:result.localPosition, event:event ) )    
+                case .leftMouseUp:
+                    // [マウス左アップ]
+                    _dragging_view?.mouseLeftUpField?.appear( .init( position:result.localPosition, event:event ) )
+                    // [UI内部マウス左アップ]
+                    if _dragging_view == result.view {
+                        _dragging_view?.mouseLeftUpInsideField?.appear( .init( position:result.localPosition, event:event ) )
+                    }
+                    _dragging_view = nil
+                    changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
+                default: break
+                }
+                return event
+            }
+
+            // 該当するビューがなかった場合、ビューコントローラのビューイベントを発火させる
+            let pt_on_view = self.convert( pt_on_win, from: nil ).llPoint
+            switch( event.type ) {
+            case .leftMouseDown:
+                _dragging_view = result.view
+                changeCaptureView( target: result.view, globalPosition: pt_on_win, event:event )
+                self.mouseLeftDownField?.appear( .init( position:pt_on_view, event:event ) )
+            case .leftMouseDragged:
+                _dragging_view = result.view
+                changeCaptureView( target: result.view, globalPosition: pt_on_win, event:event )
+                self.mouseLeftDraggedField?.appear( .init( position:pt_on_view, event:event ) )   
+            case .leftMouseUp:
+                self.mouseLeftUpField?.appear( .init( position:pt_on_view, event:event ) )
+                changeCaptureView( target: nil, globalPosition:pt_on_win, event: event )
+            default: break
+            }
             
             return event
         }
         
-        open func eventMouseLeftDragged( event:NSEvent ) -> NSEvent? {
+        open func eventMouseRight( event:NSEvent ) -> NSEvent? {
             if !isEnabled { return event }
             
             Tablet.updateState( event: event )
             
-            /*
-             let pt_on_win = event.locationInWindow
-             
-             if _capture_view != nil {
-             let localPosition = _capture_view!.convert( pt_on_win, to: nil ).llPoint
-             // BaseViewのイベントを代わりに発火させる
-             _capture_view?.actionMovedField.appear( LLActionArg( [ localPosition ] ) )
-             _capture_view?.mouseLeftDraggedField.appear( LLMouseArg( localPosition, event ) )
-             
-             return event
-             }
-             
-             // 該当するビューがなかった場合、ビューコントローラのビューイベントを発火させる     
-             let pt_on_view = self.convert(pt_on_win, from: nil).llPoint
-             self.mouseLeftDraggedField.appear(
-             LLMouseArg( pt_on_view, event ) 
-             )
-             */
-            return event
-        }
-        
-        open func eventMouseLeftUp( event:NSEvent ) -> NSEvent? {
-            if !isEnabled { return event }
-            
-            Tablet.updateState( event: event )
-            
-            /*
-             let pt_on_win  = event.locationInWindow
-             
-             let result = pick( pt_on_win.llPoint )
-             if _dragging_view != nil {
-             if let v = _dragging_view, v.isEnabled { v.styleField.default?.appear() }
-             
-             // [マウス左アップ]
-             _dragging_view?.actionEndedField.appear( LLActionArg( [ result.localPosition ] ) )
-             _dragging_view?.mouseLeftUpField.appear( LLMouseArg( result.localPosition, event ) )
-             
-             // [UI内部マウス左アップ]
-             if _dragging_view == result.view {
-             _dragging_view?.mouseLeftUpInsideField.appear(
-             LLMouseArg( result.localPosition, event ) 
-             )
-             }
-             
-             _dragging_view = nil
-             changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
-             return event
-             }
-             
-             // 該当するビューがなかった場合、ビューコントローラのビューイベントを発火させる
-             let pt_on_view = self.convert(pt_on_win, from: nil).llPoint
-             changeCaptureView( target: nil, globalPosition: pt_on_win, event: event )
-             self.mouseLeftUpField.appear(
-             LLMouseArg( pt_on_view, event ) 
-             )
-             */
-            
-            return event
-        }
-        
-        open func eventMouseRightDown( event:NSEvent ) -> NSEvent? {
-            if !isEnabled { return event }
-            
-            Tablet.updateState( event: event )
-            
-            /*
-             let pt_on_win  = event.locationInWindow
-             
-             let result = pick( pt_on_win.llPoint )
-             if result.view != nil {
-             _dragging_view = result.view
-             changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
-             
-             if let v = _dragging_view, v.isEnabled { v.styleField.action?.appear() }
-             
-             result.view?.actionBeganField.appear( LLActionArg( [ result.localPosition ] ) )
-             result.view?.mouseLeftDownField.appear( LLMouseArg( result.localPosition, event ) )
-             
-             return event
-             }
-             
-             let pt_on_view = self.convert(pt_on_win, from: nil).llPoint
-             changeCaptureView( target: nil, globalPosition: pt_on_win, event: event )
-             self.mouseRightDownField.appear(
-             LLMouseArg( pt_on_view, event ) 
-             )
-             */
-            
-            return event
-        }
-        
-        open func eventMouseRightDragged( event:NSEvent ) -> NSEvent? {
-            if !isEnabled { return event }
-            
-            Tablet.updateState( event: event )
-            
-            /*
-             let pt_on_win = event.locationInWindow
-             
-             if _capture_view != nil {            
-             let localPosition = _capture_view!.convert( pt_on_win, to: nil ).llPoint
-             
-             _capture_view?.actionMovedField.appear( LLActionArg( [ localPosition ] ) )
-             _capture_view?.mouseRightDraggedField.appear( LLMouseArg( localPosition, event ) )
-             
-             return event
-             }
-             
-             let pt_on_view = self.convert(pt_on_win, from: nil).llPoint
-             self.mouseRightDraggedField.appear(
-             LLMouseArg( pt_on_view, event )
-             )
-             */
-            
-            return event
-        }
-        
-        open func eventMouseRightUp( event:NSEvent ) -> NSEvent? {
-            if !isEnabled { return event }
-            
-            Tablet.updateState( event: event )
-            
-            /*
-             let pt_on_win  = event.locationInWindow
-             
-             let result = pick( pt_on_win.llPoint )
-             if _dragging_view != nil {
-             if let v = _dragging_view, v.isEnabled { v.styleField.default?.appear() }
-             
-             // [マウス右アップ]
-             _dragging_view?.actionEndedField.appear( LLActionArg( [ result.localPosition ] ) )
-             _dragging_view?.mouseRightUpField.appear( LLMouseArg( result.localPosition, event ) )
-             
-             // [UI内部マウス右アップ]
-             if _dragging_view == result.view {
-             _dragging_view?.mouseRightUpInsideField.appear( 
-             LLMouseArg( result.localPosition, event )
-             )
-             }
-             
-             _dragging_view = nil
-             changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
-             return event
-             }
-             
-             let pt_on_view = self.convert( pt_on_win, from: nil ).llPoint
-             changeCaptureView( target: nil, globalPosition: pt_on_win, event: event )
-             self.mouseRightUpField.appear(
-             LLMouseArg( pt_on_view, event )
-             )
-             */
+            let pt_on_win = event.locationInWindow
+
+            let result = pick( pt_on_win.llPoint )
+            if result.view != nil {
+                // ターゲットのviewのイベントを起こす
+                switch( event.type ) {
+                case .leftMouseDown:
+                    _dragging_view = result.view
+                    changeCaptureView( target: result.view, globalPosition: pt_on_win, event:event )
+                    result.view?.mouseRightDownField?.appear( .init( position:result.localPosition, event:event ) )
+                case .leftMouseDragged:
+                    _dragging_view = result.view
+                    changeCaptureView( target: result.view, globalPosition: pt_on_win, event:event )
+                    result.view?.mouseRightDraggedField?.appear( .init( position:result.localPosition, event:event ) )    
+                case .leftMouseUp:
+                    // [マウス左アップ]
+                    _dragging_view?.mouseRightUpField?.appear( .init( position:result.localPosition, event:event ) )
+                    // [UI内部マウス左アップ]
+                    if _dragging_view == result.view {
+                        _dragging_view?.mouseRightUpInsideField?.appear( .init( position:result.localPosition, event:event ) )
+                    }
+                    _dragging_view = nil
+                    changeCaptureView( target: result.view, globalPosition: pt_on_win, event: event )
+                default: break
+                }
+                return event
+            }
+
+            // 該当するビューがなかった場合、ビューコントローラのビューイベントを発火させる
+            let pt_on_view = self.convert( pt_on_win, from: nil ).llPoint
+            switch( event.type ) {
+            case .leftMouseDown:
+                _dragging_view = result.view
+                changeCaptureView( target: result.view, globalPosition: pt_on_win, event:event )
+                self.mouseRightDownField?.appear( .init( position:pt_on_view, event:event ) )
+            case .leftMouseDragged:
+                _dragging_view = result.view
+                changeCaptureView( target: result.view, globalPosition: pt_on_win, event:event )
+                self.mouseRightDraggedField?.appear( .init( position:pt_on_view, event:event ) )   
+            case .leftMouseUp:
+                self.mouseRightUpField?.appear( .init( position:pt_on_view, event:event ) )
+                changeCaptureView( target: nil, globalPosition:pt_on_win, event: event )
+            default: break
+            }
             
             return event
         }
