@@ -13,8 +13,86 @@ import AppKit
 #else
 import UIKit
 #endif
+import Metal
 import LilySwift
 
+typealias PG2D = Lily.Stage.Playground2D
+typealias PGScreen = PG2D.PGScreen
+typealias PGPool = PG2D.PGPool
+typealias PGSctor = PG2D.PGActor
+typealias PGRectangle = PG2D.PGRectangle
+typealias PGAddRectangle = PG2D.PGAddRectangle
+typealias PGSubRectangle = PG2D.PGSubRectangle
+typealias PGTriangle = PG2D.PGTriangle
+typealias PGAddTriangle = PG2D.PGAddTriangle
+typealias PGSubTriangle = PG2D.PGSubTriangle
+typealias PGCircle = PG2D.PGCircle
+typealias PGAddCircle = PG2D.PGAddCircle
+typealias PGSubCircle = PG2D.PGSubCircle
+typealias PGBlurryCircle = PG2D.PGBlurryCircle
+typealias PGAddBlurryCircle = PG2D.PGAddBlurryCircle
+typealias PGSubBlurryCircle = PG2D.PGSubBlurryCircle
+typealias PGPicture = PG2D.PGPicture
+typealias PGAddPicture = PG2D.PGAddPicture
+typealias PGSubPicture = PG2D.PGSubPicture
+typealias PGMask = PG2D.PGMask
+typealias PGAddMask = PG2D.PGAddMask
+typealias PGSubMask = PG2D.PGSubMask
+
+class DevViewController 
+: PGScreen
+{
+    var device:MTLDevice!
+    
+    init() {
+        self.device = MTLCreateSystemDefaultDevice()
+        super.init( device:device )
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setup() {
+        super.setup()
+        buildupHandler = design
+        loopHandler = update
+    }
+}
+
+func design( screen:PGScreen ) {
+    screen.clearColor = .darkGrey
+}
+
+func update( screen:PGScreen ) {
+    for touch in screen.touches {
+        for _ in 0 ..< 8 {
+            let speed = (2.0...4.0).randomize
+            let rad  = (0.0...2.0 * Double.pi).randomize
+            
+            PGAddBlurryCircle()
+            .color( LLColor( 0.4, 0.6, 0.95, 1.0 ) )
+            .position( touch.xy )
+            .deltaPosition( 
+                dx: speed * cos( rad ),
+                dy: speed * sin( rad ) 
+            )
+            .scale(
+                width:(5.0...40.0).randomize,
+                height:(5.0...40.0).randomize
+            )
+            .angle( .random )
+            .deltaAngle( degrees: (-2.0...2.0).randomize )
+            .life( 1.0 )
+            .deltaLife( -0.016 )
+            .alpha( 1.0 )
+            .deltaAlpha( -0.016 )
+        }
+    }
+}
+
+
+/*
 class DevViewController 
 : Lily.Stage.Playground2D.PGScreen
 {
@@ -102,9 +180,9 @@ extension Lily.Stage.Playground2D
         }
     }
 }
+*/
 
 /*
-
 class DevViewController
 : Lily.View.ViewController
 {
@@ -117,9 +195,7 @@ class DevViewController
     }
     .buildup( caller:self ) { me, vc in
         CATransaction.stop {
-            me
-            .rect( vc.rect )
-            
+            me.rect( vc.rect )
             vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
         }
     }

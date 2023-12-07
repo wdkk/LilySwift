@@ -8,9 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-import Foundation
 import Metal
-import QuartzCore
 
 #if os(iOS) || os(visionOS)
 import UIKit
@@ -23,7 +21,7 @@ extension Lily.Stage.Playground2D
     open class PGScreen
     : Lily.View.ViewController
     {
-        lazy var device:MTLDevice? = MTLCreateSystemDefaultDevice()
+        var device:MTLDevice
         var renderEngine:Lily.Stage.StandardRenderEngine?
         var renderFlow:RenderFlow?
         
@@ -68,7 +66,7 @@ extension Lily.Stage.Playground2D
         open var loopHandler:(( PGScreen )->Void)?
         
         #if os(iOS) || os(visionOS)
-        public lazy var metalView = Lily.View.MetalView( device:device! )
+        public lazy var metalView = Lily.View.MetalView( device:device )
         .setup( caller:self ) { me, vc in
             me.bgColor( .grey )
         }
@@ -192,13 +190,22 @@ extension Lily.Stage.Playground2D
             renderFlow!.pool.removeAllShapes()
         }
         
+        public init( device:MTLDevice ) {
+            self.device = device
+            super.init()
+        }
+        
+        required public init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
         open override func setup() {
             super.setup()
             addSubview( metalView )
             
-            renderFlow = .init( device:device!, viewCount:1 )
+            renderFlow = .init( device:device, viewCount:1 )
             
-            renderEngine = .init( device:device!, size:CGSize( 320, 240 ), renderFlow:renderFlow! )
+            renderEngine = .init( device:device, size:CGSize( 320, 240 ), renderFlow:renderFlow! )
 
             // 時間の初期化
             PGActor.ActorTimer.shared.start()

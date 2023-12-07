@@ -28,16 +28,12 @@ extension Lily.Stage.Playground2D
         public var angle:LLFloat = 0.0
         public var deltaAngle:LLFloat = 0.0
         // 内部パラメータ
-        fileprivate var indices:LLFloatv2 = LLFloatv2(
-            0.0,    // zIndex
-            0.0     // arrayIndex
-        )
         fileprivate var lifes:LLFloatv2 = LLFloatv2(
             1.0,    // life
             0.0     // deltaLife
         )
         fileprivate var states:LLFloatv2 = LLFloatv2(
-            1.0,                        // enabled: 1.0 = true, 0.0 = false
+            1.0,                       // enabled: 1.0 = true, 0.0 = false
             LifeState.trush.rawValue   // state: .active or .trush    
         )
         fileprivate var types:(LLUInt32, LLUInt32) = (
@@ -47,8 +43,6 @@ extension Lily.Stage.Playground2D
         //-- メモリアラインメント範囲END --//
         
         // アクセサ
-        public var arrayIndex:Int { get { indices.y.i! } set { indices.y = newValue.f } }
-
         public var life:LLFloat { get { lifes.x } set { lifes.x = newValue } }
         public var deltaLife:LLFloat { get { lifes.y } set { lifes.y = newValue } }
 
@@ -68,8 +62,7 @@ extension Lily.Stage.Playground2D
             scale: .init( 100.0, 100.0 ),
             deltaScale: .zero, 
             angle: 0.0,
-            deltaAngle: 0.0, 
-            indices: .zero,
+            deltaAngle: 0.0,
             lifes: .init( 1.0, 0.0 ), 
             states: .init( 1.0, 0.0 ), 
             types: ( 0, 0 ) 

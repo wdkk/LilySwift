@@ -64,8 +64,6 @@ struct UnitStatus
     float2 deltaScale;
     float angle;
     float deltaAngle;
-    float zindex; 
-    float array_index;
     float life;
     float deltaLife;
     float enabled;
@@ -76,7 +74,7 @@ struct UnitStatus
     
 struct LocalUniform
 {
-    float4x4 projectionMatrix;
+    float4x4      projectionMatrix;
     CompositeType shaderCompositeType;
     DrawingType   drawingType;
     int           drawingOffset;

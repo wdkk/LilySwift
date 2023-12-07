@@ -35,14 +35,14 @@ extension Lily.Stage.Playground2D
         
         public var capacity:Int
         
-        static let quadrangleVertice = LLQuad<Lily.Stage.Playground2D.PG2DVIn>(
+        static let defaultQuadrangleVertice = LLQuad<Lily.Stage.Playground2D.PG2DVIn>(
             .init( xy:.init( -1.0,  1.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) ),
             .init( xy:.init(  1.0,  1.0 ), uv:.init( 1.0, 0.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xy:.init( -1.0, -1.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 1.0 ) ),
             .init( xy:.init(  1.0, -1.0 ), uv:.init( 1.0, 1.0 ), texUV:.init( 1.0, 1.0 ) )
         )
         
-        static let triangleVertice = LLQuad<Lily.Stage.Playground2D.PG2DVIn>(
+        static let defaultTriangleVertice = LLQuad<Lily.Stage.Playground2D.PG2DVIn>(
             .init( xy:.init(  0.0,  1.15470053838 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 0.0 ) ),
             .init( xy:.init( -1.0, -0.57735026919 ), uv:.init(-1.0, 1.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xy:.init(  1.0, -0.57735026919 ), uv:.init( 1.0,-1.0 ), texUV:.init( 0.0, 1.0 ) ),
@@ -53,8 +53,8 @@ extension Lily.Stage.Playground2D
             self.capacity = capacity
             self.particles = .init( device:device, count:2 )
             self.particles?.update { acc, _ in
-                acc[0] = Self.quadrangleVertice
-                acc[1] = Self.triangleVertice
+                acc[0] = Self.defaultQuadrangleVertice
+                acc[1] = Self.defaultTriangleVertice
             }
             
             self.statuses = .init( device:device, count:capacity )
