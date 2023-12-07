@@ -22,42 +22,52 @@ extension Lily.Stage.Playground2D
     public struct PGScreenView : UIViewControllerRepresentable
     {
         var device:MTLDevice
-        @State var pgScreen:PGScreen?
- 
-        public init( device:MTLDevice ) {
+        public var design:(( PGScreen )->Void)?
+        public var update:(( PGScreen )->Void)?
+        
+        public init( 
+            device:MTLDevice,
+            design:(( PGScreen )->Void)? = nil,
+            update:(( PGScreen )->Void)? = nil )
+        {
             self.device = device
+            self.design = design
+            self.update = update
         }
         
         public func makeUIViewController( context:Context ) -> PGScreen {
-            pgScreen = PGScreen( device:device )
-            return pgScreen!
+            var screen = PGScreen( device:device )
+            screen.buildupHandler = self.design
+            screen.loopHandler = self.update
+            return screen
         }
         
         public func updateUIViewController( _ uiViewController:PGScreen, context:Context ) {
             uiViewController.rebuild()
-        }
-        
-        public func onDesign( f:@escaping ( PGScreen )->Void ) -> Self {
-            pgScreen?.buildupHandler = f
-            return self
-        }
-        
-        public func onUpdate( f:@escaping ( PGScreen )->Void ) -> Self {
-            pgScreen?.loopHandler = f
-            return self
         }
     }
     #elseif os(macOS)
     public struct PGScreenView : NSViewControllerRepresentable
     {
         var device:MTLDevice
+        public var design:(( PGScreen )->Void)?
+        public var update:(( PGScreen )->Void)?
         
-        public init( device:MTLDevice ) {
+        public init( 
+            device:MTLDevice,
+            design:(( PGScreen )->Void)? = nil,
+            update:(( PGScreen )->Void)? = nil )
+        {
             self.device = device
+            self.design = design
+            self.update = update
         }
         
         public func makeNSViewController( context:Context ) -> PGScreen {
-            return PGScreen( device:device )
+            var screen = PGScreen( device:device )
+            screen.buildupHandler = self.design
+            screen.loopHandler = self.update
+            return screen
         }
         
         public func updateNSViewController( _ nsViewController:PGScreen, context: Context ) {
