@@ -71,6 +71,7 @@ extension Lily.Stage.Playground2D
         public lazy var metalView = Lily.View.MetalView( device:device )
         .setup( caller:self ) { me, vc in
             me.bgColor( .grey )
+            me.isMultipleTouchEnabled = true
         }
         .buildup( caller:self ) { me, vc in
             vc.removeAllShapes()
@@ -103,8 +104,7 @@ extension Lily.Stage.Playground2D
                 }
             ) 
         }
-        .touchesBegan( caller:self )
-        { me, vc, args in
+        .touchesBegan( caller:self ) { me, vc, args in
             args.touches.forEach { vc.touchManager.allTouches.append( $0 ) }
             vc.recogizeTouches( touches:vc.touchManager.allTouches )
         }
