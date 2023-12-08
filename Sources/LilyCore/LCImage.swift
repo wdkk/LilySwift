@@ -341,8 +341,7 @@ public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {
                 pixel_data[x * 4 + y * row + 3] 
             )
             
-            var cf = LLColor8tof( c8 )
-            mat[y][x] = cf
+            mat[y][x] = LLColor8tof( c8 )
         }
     }
 
