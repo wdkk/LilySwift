@@ -28,6 +28,7 @@ extension Lily.Stage.Playground2D
         public let viewCount:Int
         
         public var clearColor:LLColor = .white
+        
         public private(set) var screenSize:CGSize = .zero
         public private(set) var particleCapacity:Int
         

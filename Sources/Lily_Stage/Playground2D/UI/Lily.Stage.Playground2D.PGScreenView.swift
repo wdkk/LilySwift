@@ -22,28 +22,42 @@ extension Lily.Stage.Playground2D
     public struct PGScreenView : UIViewControllerRepresentable
     {
         var device:MTLDevice
-        public var setup:(( PGScreen, inout Lily.Stage.ShaderEnvironment, inout Int, inout [String] )->Void)?
+        var environment:Lily.Stage.ShaderEnvironment
+        var particleCapacity:Int
+        var textures:[String]
         public var design:(( PGScreen )->Void)?
         public var update:(( PGScreen )->Void)?
         
         public init( 
             device:MTLDevice,
-            setup:(( PGScreen, inout Lily.Stage.ShaderEnvironment, inout Int, inout [String] )->Void)? = nil,
+            environment:Lily.Stage.ShaderEnvironment = .metallib,
+            particleCapacity:Int = 20000,
+            textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
             design:(( PGScreen )->Void)? = nil,
-            update:(( PGScreen )->Void)? = nil )
+            update:(( PGScreen )->Void)? = nil 
+        )
         {
             self.device = device
             
-            self.setup = setup
+            self.environment = environment
+            self.particleCapacity = particleCapacity
+            self.textures = textures
+            
             self.design = design
             self.update = update
         }
         
         public func makeUIViewController( context:Context ) -> PGScreen {
-            let screen = PGScreen( device:device )
-            screen.setupHandler = self.setup
+            let screen = PGScreen(
+                device:device,
+                environment:self.environment,
+                particleCapacity:self.particleCapacity,
+                textures:self.textures 
+            )
+            
             screen.buildupHandler = self.design
             screen.loopHandler = self.update
+            
             return screen
         }
         
@@ -56,28 +70,42 @@ extension Lily.Stage.Playground2D
     {
         var device:MTLDevice
         
-        public var setup:(( PGScreen, inout Lily.Stage.ShaderEnvironment, inout Int, inout [String] )->Void)?
+        var environment:Lily.Stage.ShaderEnvironment
+        var particleCapacity:Int
+        var textures:[String]
         public var design:(( PGScreen )->Void)?
         public var update:(( PGScreen )->Void)?
         
         public init( 
             device:MTLDevice,
-            setup:(( PGScreen, inout Lily.Stage.ShaderEnvironment, inout Int, inout [String] )->Void)? = nil,
+            environment:Lily.Stage.ShaderEnvironment = .metallib,
+            particleCapacity:Int = 20000,
+            textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
             design:(( PGScreen )->Void)? = nil,
-            update:(( PGScreen )->Void)? = nil )
+            update:(( PGScreen )->Void)? = nil 
+        )
         {
             self.device = device
             
-            self.setup = setup
+            self.environment = environment
+            self.particleCapacity = particleCapacity
+            self.textures = textures
+            
             self.design = design
             self.update = update
         }
         
         public func makeNSViewController( context:Context ) -> PGScreen {
-            let screen = PGScreen( device:device )
-            screen.setupHandler = self.setup
+            let screen = PGScreen(
+                device:device,
+                environment:self.environment,
+                particleCapacity:self.particleCapacity,
+                textures:self.textures 
+            )
+            
             screen.buildupHandler = self.design
             screen.loopHandler = self.update
+            
             return screen
         }
         

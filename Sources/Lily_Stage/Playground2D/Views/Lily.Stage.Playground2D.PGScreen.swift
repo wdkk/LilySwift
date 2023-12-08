@@ -26,6 +26,10 @@ extension Lily.Stage.Playground2D
         var renderFlow:RenderFlow?
         
         public var clearColor:LLColor = .white
+        
+        public var environment:Lily.Stage.ShaderEnvironment
+        public var particleCapacity:Int
+        public var textures:[String]
 
         public let touchManager = PGTouchManager()
         public var touches:[PGTouch] { return touchManager.touches }
@@ -60,7 +64,6 @@ extension Lily.Stage.Playground2D
         public var shapes:Set<PGActor> { renderFlow!.pool.shapes }
         
         // 外部処理ハンドラ
-        public var setupHandler:(( PGScreen, inout Lily.Stage.ShaderEnvironment, inout Int, inout [String] )->Void)?
         public var buildupHandler:(( PGScreen )->Void)?
         public var loopHandler:(( PGScreen )->Void)?
         
@@ -189,8 +192,19 @@ extension Lily.Stage.Playground2D
             renderFlow!.pool.removeAllShapes()
         }
         
-        public init( device:MTLDevice ) {
+        public init( 
+            device:MTLDevice, 
+            environment:Lily.Stage.ShaderEnvironment = .string,
+            particleCapacity:Int = 20000,
+            textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+        )
+        {
             self.device = device
+            
+            self.environment = environment
+            self.particleCapacity = particleCapacity
+            self.textures = textures
+            
             super.init()
         }
         
@@ -201,19 +215,13 @@ extension Lily.Stage.Playground2D
         open override func setup() {
             super.setup()
             addSubview( metalView )
-            
-            var environment:Lily.Stage.ShaderEnvironment = .metallib
-            var capacity:Int = 20000
-            var textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
-            
-            setupHandler?( self, &environment, &capacity, &textures )
-            
+                                    
             renderFlow = .init( 
                 device:device,
                 viewCount:1,
-                environment:environment,
-                particleCapacity:capacity,
-                textures:textures
+                environment:self.environment,
+                particleCapacity:self.particleCapacity,
+                textures:self.textures
             )
             
             renderEngine = .init( device:device, size:CGSize( 320, 240 ), renderFlow:renderFlow! )
