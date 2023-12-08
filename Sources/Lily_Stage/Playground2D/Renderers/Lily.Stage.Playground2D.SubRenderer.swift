@@ -19,14 +19,23 @@ extension Lily.Stage.Playground2D
         
         var pipeline: MTLRenderPipelineState!
         
-        public init( device:MTLDevice, viewCount:Int ) {
+        public init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
             self.device = device
             let library = try! Lily.Stage.metalLibrary( of:device )
             
             let desc = MTLRenderPipelineDescriptor()
             desc.label = "Playground 2D Geometry(SubBlend)"
-            desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_Vs" ) )
-            desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_Fs" ) )
+            
+            if environment == .metallib {
+                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_Vs" ) )
+                desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_Fs" ) )
+            }
+            else if environment == .string {
+                let stringShader = Lily.Stage.Playground2D.ShaderString.shared( device:device )
+                desc.vertexShader( stringShader.vertexShader )
+                desc.fragmentShader( stringShader.fragmentShader )            
+            }
+
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
             desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.backBuffer

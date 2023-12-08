@@ -9,8 +9,14 @@
 //
 
 import Metal
+import MetalKit
+import simd
 
 extension Lily.Stage
 {
-    open class Playground2D {}
+    public enum ShaderEnvironment
+    {
+        case metallib
+        case string
+    }
 }

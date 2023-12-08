@@ -29,21 +29,42 @@ extension Lily.Stage.Playground2D
         
         public var clearColor:LLColor = .white
         public private(set) var screenSize:CGSize = .zero
-        public private(set) var particleCapacity:Int = 20000
+        public private(set) var particleCapacity:Int
         
-        public init( device:MTLDevice, viewCount:Int ) {
+        public init(
+            device:MTLDevice,
+            viewCount:Int,
+            environment:Lily.Stage.ShaderEnvironment,
+            particleCapacity:Int,
+            textures:[String]
+        ) 
+        {
             self.pass = .init( device:device )
             self.viewCount = viewCount
+            self.particleCapacity = particleCapacity
+            
             // レンダラーの作成
-            self.alphaRenderer = .init( device:device, viewCount:viewCount )
-            self.addRenderer = .init( device:device, viewCount:viewCount )
-            self.subRenderer = .init( device:device, viewCount:viewCount )
+            self.alphaRenderer = .init( 
+                device:device,
+                environment:environment,
+                viewCount:viewCount
+            )
+            self.addRenderer = .init( 
+                device:device,
+                environment:environment,
+                viewCount:viewCount
+            )
+            self.subRenderer = .init( 
+                device:device,
+                environment:environment,
+                viewCount:viewCount
+            )
             
             self.storage = .init( 
                 device:device, 
                 capacity:particleCapacity
             )
-            self.storage.addTextures( ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"] )
+            self.storage.addTextures( textures )
             
             self.pool = PGPool()
             self.pool.storage = self.storage

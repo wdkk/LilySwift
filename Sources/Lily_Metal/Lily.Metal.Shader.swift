@@ -50,6 +50,7 @@ extension Lily.Metal
             }
             catch {
                 LLLogWarning( "例外:シェーダの作成に失敗しました." )
+                print( error )
                 function = nil
             }
         }
@@ -67,6 +68,7 @@ extension Lily.Metal
             }
             catch {
                 LLLogWarning( "例外:シェーダの作成に失敗しました." )
+                print( error )
                 function = nil
             }
         }
@@ -90,6 +92,7 @@ extension Lily.Metal
             }
             catch {
                 LLLogWarning( "例外:シェーダの作成に失敗しました." )
+                print( error )
                 function = nil
             }
         }
@@ -98,7 +101,7 @@ extension Lily.Metal
         private func make( withCode code:String, shaderName:String ) {
             do {
                 guard let lib = try device?.makeLibrary( source: code, options:nil ) 
-                else { 
+                else {
                     LLLogWarning( "シェーダの作成に失敗しました." )
                     return
                 }
@@ -106,6 +109,7 @@ extension Lily.Metal
             }
             catch {
                 LLLogWarning( "例外:シェーダの作成に失敗しました." )
+                print( error )
                 function = nil
             }
         }

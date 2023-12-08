@@ -58,12 +58,11 @@ extension Lily.Stage.Playground2D
         
         // MARK: - パーティクル情報
         public var shapes:Set<PGActor> { renderFlow!.pool.shapes }
-        // TODO: 表示からの経過時間(sharedを避けたい)
-        public var elapsedTime:Double { PGActor.ActorTimer.shared.elapsedTime }
         
-        // 外部処理ハンドラ 
-        open var buildupHandler:(( PGScreen )->Void)?
-        open var loopHandler:(( PGScreen )->Void)?
+        // 外部処理ハンドラ
+        public var setupHandler:(( PGScreen, inout Lily.Stage.ShaderEnvironment, inout Int, inout [String] )->Void)?
+        public var buildupHandler:(( PGScreen )->Void)?
+        public var loopHandler:(( PGScreen )->Void)?
         
         #if os(iOS) || os(visionOS)
         public lazy var metalView = Lily.View.MetalView( device:device )
@@ -123,7 +122,7 @@ extension Lily.Stage.Playground2D
         }
         
         #elseif os(macOS)
-        public lazy var metalView = Lily.View.MetalView( device:device! )
+        public lazy var metalView = Lily.View.MetalView( device:device )
         .setup( caller:self ) { me, vc in
             me.bgColor( .grey )
         }
@@ -203,7 +202,19 @@ extension Lily.Stage.Playground2D
             super.setup()
             addSubview( metalView )
             
-            renderFlow = .init( device:device, viewCount:1 )
+            var environment:Lily.Stage.ShaderEnvironment = .metallib
+            var capacity:Int = 20000
+            var textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+            
+            setupHandler?( self, &environment, &capacity, &textures )
+            
+            renderFlow = .init( 
+                device:device,
+                viewCount:1,
+                environment:environment,
+                particleCapacity:capacity,
+                textures:textures
+            )
             
             renderEngine = .init( device:device, size:CGSize( 320, 240 ), renderFlow:renderFlow! )
 

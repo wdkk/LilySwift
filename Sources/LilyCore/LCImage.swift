@@ -271,7 +271,8 @@ public func LCImage2UIImage( _ img_:LCImageSmPtr ) -> UIImage? {
     LCImageConvertType( lcimg, .rgba8 )
     
     // TODO: linerSRGBの適用が正しいかは判断に悩むところ(ピクセルフォーマットgbra8unorm_sRGBを指定したときはlinearSRGBが合致した)
-    var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
+    let color_space = CGColorSpaceCreateDeviceRGB()
+    //var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
     //if let sRGB_space = CGColorSpace( name:CGColorSpace.linearSRGB ) { color_space = sRGB_space }
         
     guard let memory:LLBytePtr = LCImageRawMemory( lcimg ) else { return nil }
@@ -303,7 +304,8 @@ public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {
     guard let input_image_ref:CGImage = img_.cgImage else { return LCImageSmPtr() } 
     
     // TODO: linerSRGBの適用が正しいかは判断に悩むところ(ピクセルフォーマットgbra8unorm_sRGBを指定したときはlinearSRGBが合致した)
-    var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
+    let color_space = CGColorSpaceCreateDeviceRGB()
+    //var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
     //if let sRGB_space = CGColorSpace( name:CGColorSpace.linearSRGB ) { color_space = sRGB_space }
     
     guard let cg_context = CGContext( 
@@ -319,7 +321,7 @@ public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {
     )
     else { return LCImageSmPtr() }
     
-    cg_context.draw( input_image_ref, in: CGRect( 0, 0, wid.cgf, hgt.cgf ) )
+    cg_context.draw( input_image_ref, in:rect )
     
     guard let conv_img:CGImage = cg_context.makeImage() else { return LCImageSmPtr() }
     
@@ -370,7 +372,8 @@ public func NSImage2LCImage( _ img_:NSImage ) -> LCImageSmPtr {
     var nsimage_rect:CGRect = CGRect( 0, 0, wid, hgt )
     
     // TODO: linerSRGBの適用が正しいかは判断に悩むところ(ピクセルフォーマットgbra8unorm_sRGBを指定したときはlinearSRGBが合致した)
-    var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
+    let color_space = CGColorSpaceCreateDeviceRGB()
+    //var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
     //if let sRGB_space = CGColorSpace( name:CGColorSpace.linearSRGB ) { color_space = sRGB_space }
     
     guard let cg_context = CGContext( 
@@ -412,8 +415,7 @@ public func NSImage2LCImage( _ img_:NSImage ) -> LCImageSmPtr {
                 pixel_data[x * 4 + y * row + 3] 
             )
         
-            var cf = LLColor8tof( c8 )      
-            mat[y][x] = cf
+            mat[y][x] = LLColor8tof( c8 )
         }
     }
     
@@ -439,7 +441,8 @@ public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> Unmanaged<CGImage>? {
     )
     
     // TODO: linerSRGBの適用が正しいかは判断に悩むところ(ピクセルフォーマットgbra8unorm_sRGBを指定したときはlinearSRGBが合致した)
-    var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
+    let color_space = CGColorSpaceCreateDeviceRGB()
+    //var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
     //if let sRGB_space = CGColorSpace( name:CGColorSpace.linearSRGB ) { color_space = sRGB_space }
         
     let cg_context:CGContext? = CGContext( data: memory, width: wid, height: hgt,

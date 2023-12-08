@@ -7,7 +7,7 @@ let package = Package(
     name: "LilySwift",
     platforms: [
         .iOS(.v15),
-        .macOS(.v12),       // Monterey later
+        .macOS(.v12),
         .macCatalyst(.v15),
         .visionOS(.v1)
     ],
@@ -25,7 +25,7 @@ let package = Package(
             dependencies: [],
             path: "./Sources/",
             swiftSettings: [
-                .define("DEBUG", .when( platforms:[.iOS, .macOS, .macCatalyst, .visionOS], configuration:.debug))
+                .define( "DEBUG", .when( platforms:[.iOS, .macOS, .macCatalyst, .visionOS], configuration:.debug ) )
             ]
         )
     ]
