@@ -21,12 +21,12 @@ extension Lily.Stage.Playground2D
         
         public init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
             self.device = device
-            let library = try! Lily.Stage.metalLibrary( of:device )
-            
+           
             let desc = MTLRenderPipelineDescriptor()
             desc.label = "Playground 2D Geometry(SubBlend)"
             
             if environment == .metallib {
+                let library = try! Lily.Stage.metalLibrary( of:device )
                 desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_Vs" ) )
                 desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_Fs" ) )
             }
