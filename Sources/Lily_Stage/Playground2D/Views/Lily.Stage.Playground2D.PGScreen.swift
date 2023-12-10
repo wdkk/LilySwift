@@ -255,7 +255,7 @@ extension Lily.Stage.Playground2D.PGScreen
         var idx = 0
         for touch in allTouches {
             // point座標系を取得
-            let lt_pos = touch.location( in: self.view )
+            let lt_pos = touch.location( in:self.view )
             
             // MetalViewの中心座標を取得
             let o = metalView.center
