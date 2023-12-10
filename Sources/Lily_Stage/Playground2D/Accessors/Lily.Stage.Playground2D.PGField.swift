@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+/// コメント未済
+
 import Metal
 import simd
 
