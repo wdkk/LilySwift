@@ -105,7 +105,8 @@ extension Lily.Stage.Playground2D
             ) 
         }
         .touchesBegan( caller:self ) { me, vc, args in
-            args.touches.forEach { vc.touchManager.allTouches.append( $0 ) }
+            vc.touchManager.allTouches.removeAll()
+            args.event?.allTouches?.forEach { vc.touchManager.allTouches.append( $0 ) }
             vc.recogizeTouches( touches:vc.touchManager.allTouches )
         }
         .touchesMoved( caller:self ) { me, vc, args in
@@ -115,7 +116,7 @@ extension Lily.Stage.Playground2D
             vc.recogizeTouches( touches:vc.touchManager.allTouches )
             
             for i in (0 ..< vc.touchManager.allTouches.count).reversed() {
-                args.touches
+                args.event?.allTouches?
                 .filter { $0 == vc.touchManager.allTouches[i] }
                 .forEach { _ in vc.touchManager.allTouches.remove( at:i ) }
             }
