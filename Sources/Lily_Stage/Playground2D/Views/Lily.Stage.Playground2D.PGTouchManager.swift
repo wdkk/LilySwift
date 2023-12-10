@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+/// コメント未済
+
 import Foundation
 #if os(iOS) || os(visionOS) || targetEnvironment(macCatalyst)
 import UIKit
