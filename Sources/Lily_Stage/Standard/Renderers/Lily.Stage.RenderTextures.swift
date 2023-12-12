@@ -47,7 +47,12 @@ extension Lily.Stage
             
             tex_desc.sampleCount = BufferFormats.sampleCount
             #if !targetEnvironment(simulator)
-            tex_desc.storageMode = .memoryless
+            if #available( macCatalyst 14.0, * ) {
+                tex_desc.storageMode = .memoryless
+            }
+            else {
+                tex_desc.storageMode = .private            
+            }
             #else
             tex_desc.storageMode = .private
             #endif
