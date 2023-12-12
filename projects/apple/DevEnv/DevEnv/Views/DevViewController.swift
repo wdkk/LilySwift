@@ -62,6 +62,9 @@ class DevViewController
 
 func design( screen:PGScreen ) {
     screen.clearColor = .darkGrey
+    
+    PGPicture( "lily" )
+    .scale( square:256 )
 }
 
 func update( screen:PGScreen ) {
