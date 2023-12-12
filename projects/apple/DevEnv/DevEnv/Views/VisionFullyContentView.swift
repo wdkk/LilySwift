@@ -43,12 +43,16 @@ struct VisionFullyContentView : View
             Lily.UI.MetalView( 
                 device:device,
                 setup: { view in
-                    renderFlow = .init( device:device!, viewCount:Lily.Stage.fullyViewCount )
+                    renderFlow = .init( 
+                        device:device!, 
+                        viewCount:Lily.Stage.fullyViewCount
+                    )
                     
                     renderEngine = .init( 
                         device:device!,
                         size:CGSize( 320, 240 ),
-                        renderFlow:renderFlow!
+                        renderFlow:renderFlow!,
+                        buffersInFlight:3
                     )
                 },
                 buildup: { view in

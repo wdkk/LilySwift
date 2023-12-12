@@ -35,9 +35,9 @@ extension Lily.Stage.Playground2D
         public init(
             device:MTLDevice,
             viewCount:Int,
-            environment:Lily.Stage.ShaderEnvironment,
-            particleCapacity:Int,
-            textures:[String]
+            environment:Lily.Stage.ShaderEnvironment = .metallib,
+            particleCapacity:Int = 20000,
+            textures:[String] = []
         ) 
         {
             self.pass = .init( device:device )

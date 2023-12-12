@@ -17,7 +17,7 @@ extension Lily.Stage
     open class StandardRenderEngine
     : BaseRenderEngine
     {        
-        let maxBuffersInFlight:Int = 3
+        let maxBuffersInFlight:Int
         lazy var inFlightSemaphore = DispatchSemaphore( value:maxBuffersInFlight )
         
         var device:MTLDevice
@@ -40,9 +40,10 @@ extension Lily.Stage
     
         //var cursorPosition:LLFloatv2 = .zero
         
-        public init( device:MTLDevice, size:CGSize, renderFlow:BaseRenderFlow ) {
+        public init( device:MTLDevice, size:CGSize, renderFlow:BaseRenderFlow, buffersInFlight:Int ) {
             self.device = device
             self.commandQueue = device.makeCommandQueue()
+            self.maxBuffersInFlight = buffersInFlight
             
             self.uniforms = .init( device:device, ringSize:maxBuffersInFlight )
             

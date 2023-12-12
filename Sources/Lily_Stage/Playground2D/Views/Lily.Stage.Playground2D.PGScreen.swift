@@ -227,7 +227,12 @@ extension Lily.Stage.Playground2D
                 textures:self.textures
             )
             
-            renderEngine = .init( device:device, size:CGSize( 320, 240 ), renderFlow:renderFlow! )
+            renderEngine = .init( 
+                device:device, 
+                size:CGSize( 320, 240 ), 
+                renderFlow:renderFlow!,
+                buffersInFlight:1
+            )
 
             // 時間の初期化
             PGActor.ActorTimer.shared.start()

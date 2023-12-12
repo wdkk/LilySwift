@@ -237,7 +237,8 @@ class DevViewController
         renderEngine = .init( 
             device:device!,
             size:CGSize( 320, 240 ),
-            renderFlow:renderFlow!
+            renderFlow:renderFlow!,
+            buffersInFlight:3
         )
 
         startLooping()
