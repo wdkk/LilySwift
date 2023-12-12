@@ -52,7 +52,9 @@ extension Lily.Stage
             desc.colorAttachments[3].pixelFormat = BufferFormats.GBufferDepth
             desc.colorAttachments[4].pixelFormat = BufferFormats.backBuffer
             desc.depthAttachmentPixelFormat = BufferFormats.depth
-            desc.maxVertexAmplificationCount = viewCount
+            if #available( macCatalyst 13.4, * ) {
+                desc.maxVertexAmplificationCount = viewCount
+            }
             
             do {
                 return try device.makeRenderPipelineState( descriptor:desc )

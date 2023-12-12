@@ -30,37 +30,39 @@ extension Lily.Stage
             self.device = device
             let library = try! Lily.Stage.metalLibrary( of:device )
 
-            let renderPPDesc = MTLRenderPipelineDescriptor()
+            let desc = MTLRenderPipelineDescriptor()
     
-            renderPPDesc.label = "Objects Geometry"
-            renderPPDesc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_ObjectVs" ) )
-            renderPPDesc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_ObjectFs" ) )
-            renderPPDesc.rasterSampleCount = BufferFormats.sampleCount
+            desc.label = "Objects Geometry"
+            desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_ObjectVs" ) )
+            desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_ObjectFs" ) )
+            desc.rasterSampleCount = BufferFormats.sampleCount
             
-            renderPPDesc.colorAttachments[0].pixelFormat = BufferFormats.GBuffer0
-            renderPPDesc.colorAttachments[1].pixelFormat = BufferFormats.GBuffer1
-            renderPPDesc.colorAttachments[2].pixelFormat = BufferFormats.GBuffer2
-            renderPPDesc.colorAttachments[3].pixelFormat = BufferFormats.GBufferDepth
-            renderPPDesc.colorAttachments[4].pixelFormat = BufferFormats.backBuffer
-            renderPPDesc.depthAttachmentPixelFormat = BufferFormats.depth
-            renderPPDesc.maxVertexAmplificationCount = viewCount
+            desc.colorAttachments[0].pixelFormat = BufferFormats.GBuffer0
+            desc.colorAttachments[1].pixelFormat = BufferFormats.GBuffer1
+            desc.colorAttachments[2].pixelFormat = BufferFormats.GBuffer2
+            desc.colorAttachments[3].pixelFormat = BufferFormats.GBufferDepth
+            desc.colorAttachments[4].pixelFormat = BufferFormats.backBuffer
+            desc.depthAttachmentPixelFormat = BufferFormats.depth
+            desc.maxVertexAmplificationCount = viewCount
             
-            objectPipeline = try! device.makeRenderPipelineState(descriptor: renderPPDesc, options: [], reflection: nil)
+            objectPipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
             
             
-            renderPPDesc.label = "Objects Shadow"
-            renderPPDesc.vertexFunction = library.makeFunction( name:"Lily_Stage_ObjectShadowVs" )
-            renderPPDesc.fragmentFunction = nil 
-            renderPPDesc.rasterSampleCount = BufferFormats.sampleCount
-            renderPPDesc.colorAttachments[0].pixelFormat = .invalid
-            renderPPDesc.colorAttachments[1].pixelFormat = .invalid
-            renderPPDesc.colorAttachments[2].pixelFormat = .invalid
-            renderPPDesc.colorAttachments[3].pixelFormat = .invalid
-            renderPPDesc.colorAttachments[4].pixelFormat = .invalid
-            renderPPDesc.depthAttachmentPixelFormat = BufferFormats.depth
-            renderPPDesc.maxVertexAmplificationCount = viewCount
+            desc.label = "Objects Shadow"
+            desc.vertexFunction = library.makeFunction( name:"Lily_Stage_ObjectShadowVs" )
+            desc.fragmentFunction = nil 
+            desc.rasterSampleCount = BufferFormats.sampleCount
+            desc.colorAttachments[0].pixelFormat = .invalid
+            desc.colorAttachments[1].pixelFormat = .invalid
+            desc.colorAttachments[2].pixelFormat = .invalid
+            desc.colorAttachments[3].pixelFormat = .invalid
+            desc.colorAttachments[4].pixelFormat = .invalid
+            desc.depthAttachmentPixelFormat = BufferFormats.depth
+            if #available( macCatalyst 13.4, * ) {
+                desc.maxVertexAmplificationCount = viewCount
+            }
                         
-            objectShadowPipeline = try! device.makeRenderPipelineState( descriptor:renderPPDesc, options: [], reflection: nil)
+            objectShadowPipeline = try! device.makeRenderPipelineState( descriptor:desc, options: [], reflection: nil)
         }
         
         public func draw( 

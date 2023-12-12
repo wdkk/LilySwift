@@ -50,18 +50,20 @@ extension Lily.Stage
             self.device = device
             let library = try! Lily.Stage.metalLibrary( of:device )
             
-            let renderPPDesc = MTLRenderPipelineDescriptor()
-            renderPPDesc.label = "Particle Geometry"
-            renderPPDesc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_ParticleVs" ) )
-            renderPPDesc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_ParticleFs" ) )
-            renderPPDesc.rasterSampleCount = BufferFormats.sampleCount
+            let desc = MTLRenderPipelineDescriptor()
+            desc.label = "Particle Geometry"
+            desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_ParticleVs" ) )
+            desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_ParticleFs" ) )
+            desc.rasterSampleCount = BufferFormats.sampleCount
             
-            renderPPDesc.colorAttachments[0].pixelFormat = BufferFormats.backBuffer
-            renderPPDesc.colorAttachments[0].composite( type:.alphaBlend )
-            renderPPDesc.depthAttachmentPixelFormat = BufferFormats.depth
-            renderPPDesc.maxVertexAmplificationCount = viewCount
+            desc.colorAttachments[0].pixelFormat = BufferFormats.backBuffer
+            desc.colorAttachments[0].composite( type:.alphaBlend )
+            desc.depthAttachmentPixelFormat = BufferFormats.depth
+            if #available( macCatalyst 13.4, * ) {
+                desc.maxVertexAmplificationCount = viewCount
+            }
             
-            particlePipeline = try! device.makeRenderPipelineState( descriptor:renderPPDesc, options: [], reflection: nil )
+            particlePipeline = try! device.makeRenderPipelineState( descriptor:desc, options: [], reflection: nil )
         }
         
         public func draw( 

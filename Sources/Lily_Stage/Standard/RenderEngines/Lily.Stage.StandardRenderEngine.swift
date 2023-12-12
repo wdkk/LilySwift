@@ -140,7 +140,7 @@ extension Lily.Stage
             _ = inFlightSemaphore.wait( timeout:.distantFuture )
             
             //-- 依存があるレンダリング定数設定 --//
-            let rasterizationRateMap:MTLRasterizationRateMap? = nil
+            let rasterizationRateMap:Lily.Metal.RasterizationRateMap? = nil
             
             let viewports = [ MTLViewport(
                 originX:0, 

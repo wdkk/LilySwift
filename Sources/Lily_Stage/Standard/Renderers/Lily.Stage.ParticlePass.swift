@@ -42,11 +42,13 @@ extension Lily.Stage
         
         public func updatePass(
             renderTextures:RenderTextures,
-            rasterizationRateMap:MTLRasterizationRateMap?,
+            rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             renderTargetCount:Int
         )
         {
+            #if !targetEnvironment(macCatalyst)
             particlePassDesc?.rasterizationRateMap = rasterizationRateMap
+            #endif
             #if os(visionOS)
             particlePassDesc?.renderTargetArrayLength = renderTargetCount
             #endif

@@ -48,7 +48,7 @@ extension DevEnv
         
         public override func render(
             commandBuffer:MTLCommandBuffer,
-            rasterizationRateMap:MTLRasterizationRateMap?,
+            rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             viewports:[MTLViewport],
             viewCount:Int,
             destinationTexture:MTLTexture?,

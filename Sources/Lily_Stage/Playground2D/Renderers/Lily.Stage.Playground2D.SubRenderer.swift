@@ -41,7 +41,9 @@ extension Lily.Stage.Playground2D
             desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.backBuffer
             desc.colorAttachments[0].composite( type:.sub )
             desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
-            desc.maxVertexAmplificationCount = viewCount
+            if #available( macCatalyst 13.4, * ) {
+                desc.maxVertexAmplificationCount = viewCount
+            }
             
             pipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
         }

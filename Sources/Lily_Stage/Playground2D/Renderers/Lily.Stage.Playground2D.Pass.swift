@@ -45,11 +45,13 @@ extension Lily.Stage.Playground2D
         
         // 公開ファンクション
         public func updatePass(
-            rasterizationRateMap:MTLRasterizationRateMap?,
+            rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             renderTargetCount:Int
         )
         {
+            #if !targetEnvironment(macCatalyst)
             passDesc?.rasterizationRateMap = rasterizationRateMap
+            #endif
             #if os(visionOS)
             passDesc?.renderTargetArrayLength = renderTargetCount
             #endif

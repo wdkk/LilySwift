@@ -276,7 +276,7 @@ extension Lily.Stage
             layerRenderDrawable.deviceAnchor = deviceAnchor
             
             //-- 依存があるレンダリング定数設定 --//
-            let rasterizationRateMap:MTLRasterizationRateMap? = layerRenderDrawable.rasterizationRateMaps.first
+            let rasterizationRateMap:Lily.Metal.RasterizationRateMap? = layerRenderDrawable.rasterizationRateMaps.first
             
             let viewports = layerRenderDrawable.views.map { $0.textureMap.viewport }
             let viewCount = layerRenderer.configuration.layout == .layered ? layerRenderDrawable.views.count : 1

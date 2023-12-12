@@ -76,7 +76,7 @@ extension Lily.Stage
         
         public func updatePass( 
             renderTextures:RenderTextures, 
-            rasterizationRateMap:MTLRasterizationRateMap?,
+            rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             renderTargetCount:Int
         ) 
         {            
@@ -85,7 +85,9 @@ extension Lily.Stage
             GBufferPassDesc?.colorAttachments[1].texture = renderTextures.GBuffer1
             GBufferPassDesc?.colorAttachments[2].texture = renderTextures.GBuffer2
             GBufferPassDesc?.colorAttachments[3].texture = renderTextures.GBufferDepth
+            #if !targetEnvironment(macCatalyst)
             GBufferPassDesc?.rasterizationRateMap = rasterizationRateMap
+            #endif
             #if os(visionOS)
             GBufferPassDesc?.renderTargetArrayLength = renderTargetCount
             #endif

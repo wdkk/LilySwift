@@ -35,7 +35,7 @@ extension Lily.Stage
         
         open func render(
             commandBuffer:MTLCommandBuffer,
-            rasterizationRateMap:MTLRasterizationRateMap?,
+            rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             viewports:[MTLViewport],
             viewCount:Int,
             destinationTexture:MTLTexture?,

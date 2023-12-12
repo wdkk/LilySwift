@@ -36,13 +36,15 @@ extension Lily.Stage.Playground2D
                 desc.vertexShader( stringShader.vertexShader )
                 desc.fragmentShader( stringShader.fragmentShader )            
             }
-
+            
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
             desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.backBuffer
             desc.colorAttachments[0].composite( type:.alphaBlend )
             desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
-            desc.maxVertexAmplificationCount = viewCount
+            if #available( macCatalyst 13.4, * ) {
+                desc.maxVertexAmplificationCount = viewCount
+            }
             
             pipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
         }
