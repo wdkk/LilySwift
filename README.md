@@ -1,7 +1,7 @@
 LilySwift ライブラリ
 =================
 
-update : 2023.11.06
+update : 2023.12.12
 
 渡辺電気株式会社でSwiftに関するコードを整理しているiOS/macOS向けライブラリです。
 よく使う基本モジュール, UIKitのユーティリティ, Metalのユーティリティなどを含みます。
@@ -16,23 +16,23 @@ update : 2023.11.06
 * **Lily** 
   - メインとなるSwiftモジュール群です。LilyCoreモジュールのラッパーオブジェクト、Metalのモジュール、ユーティリティなどを含みます。
   
-* **Lily.View** 
+* **Lily_View** 
   - iOS, macOSのビューに関するモジュール群です。AppKit,UIKitを用いるレイヤです。
 
-* **Lily.Metal**
+* **Lily_Metal**
   - Metalを用いるヘルパーユーティリティ群です。オブジェクトや各種拡張を含みます。
 
-* **Lily.Stage**
+* **Lily_Stage**
   - Metalを用いたグラフィックス処理のモジュール群です。パイプラインをまとめています。
 
-* **Lily.UI**
-  - Lily.ViewのSwiftUI向けモジュールです。
+* **Lily_UI**
+  - Lily_ViewのSwiftUI向けモジュールです。
 
-## 開発環境 ( Environment )
+## 検証している環境 ( Environment )
 
 * XCode 15.0
-* iOS 15.0
-* macOS 13.0
+* iOS 17.1
+* macOS 14.1 (with macCatalyst)
 
 ## 利用手順( Usage )
 
