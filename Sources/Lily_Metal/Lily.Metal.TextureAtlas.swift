@@ -284,10 +284,10 @@ extension Lily.Metal
                     }
                 }
                 
-                let left  = (px.d + 0.175) / all_size.width.d
-                let top   = (py.d + 0.175) / all_size.height.d
-                let right = ((px + wid).d - 0.175) / all_size.width.d
-                let bottom = ((py + hgt).d - 0.175) / all_size.height.d            
+                let left  = (px.d + 0.225) / all_size.width.d
+                let top   = (py.d + 0.225) / all_size.height.d
+                let right = ((px + wid).d - 0.225) / all_size.width.d
+                let bottom = ((py + hgt).d - 0.225) / all_size.height.d            
                 
                 positions[label] = LLRegionMake( left, top, right, bottom )
             }
