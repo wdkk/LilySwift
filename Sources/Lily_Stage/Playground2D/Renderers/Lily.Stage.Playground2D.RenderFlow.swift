@@ -36,7 +36,7 @@ extension Lily.Stage.Playground2D
             device:MTLDevice,
             viewCount:Int,
             environment:Lily.Stage.ShaderEnvironment = .metallib,
-            particleCapacity:Int = 20000,
+            particleCapacity:Int = 10000,
             textures:[String] = []
         ) 
         {

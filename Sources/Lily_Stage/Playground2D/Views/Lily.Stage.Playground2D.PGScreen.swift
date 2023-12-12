@@ -198,7 +198,7 @@ extension Lily.Stage.Playground2D
         public init( 
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
-            particleCapacity:Int = 20000,
+            particleCapacity:Int = 10000,
             textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
         )
         {
@@ -228,7 +228,7 @@ extension Lily.Stage.Playground2D
             )
             
             renderEngine = .init( 
-                device:device, 
+                device:device,
                 size:CGSize( 320, 240 ), 
                 renderFlow:renderFlow!,
                 buffersInFlight:1
