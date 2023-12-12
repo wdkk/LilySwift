@@ -37,19 +37,19 @@ extension Lily.Stage.Playground2D
         public var touches:[PGTouch] { return touchManager.touches }
         public var releases:[PGTouch] { return touchManager.releases }
         
-        public var coordMinX:Double { -(metalView.width * 0.5) }
-        public var coordMaxX:Double { metalView.width * 0.5 }
-        public var coordMinY:Double { -(metalView.height * 0.5) }
-        public var coordMaxY:Double { metalView.height * 0.5 }
+        public var minX:Double { -(metalView.width * 0.5) }
+        public var maxX:Double { metalView.width * 0.5 }
+        public var minY:Double { -(metalView.height * 0.5) }
+        public var maxY:Double { metalView.height * 0.5 }
         
         public var screenSize:LLSizeFloat { LLSizeFloat( width, height ) }
         
         public var coordRegion:LLRegion { 
             return LLRegion(
-                left:coordMinX,
-                top:coordMaxY,
-                right:coordMaxX,
-                bottom:coordMinY 
+                left:minX,
+                top:maxY,
+                right:maxX,
+                bottom:minY 
             )
         }
         
