@@ -23,6 +23,7 @@ extension Lily.Stage.Playground2D
 
         #import <simd/simd.h>
         
+        //-- Lily.Stage.Shared.Const.metal --//
         namespace Lily
         {
             namespace Stage 
@@ -37,6 +38,7 @@ extension Lily.Stage.Playground2D
             };
         };
         
+        //-- Lily.Stage.Shared.CameraUniform.metal --//
         namespace Lily
         {
             namespace Stage 
@@ -57,6 +59,7 @@ extension Lily.Stage.Playground2D
             };
         };
         
+        //-- Lily.Stage.Shared.GlobalUniform.metal --//
         namespace Lily
         {
             namespace Stage 
@@ -89,6 +92,42 @@ extension Lily.Stage.Playground2D
             };
         };
         
+        //-- Lily.Stage.MemoryLess.h.metal --//
+        #if ( !TARGET_OS_SIMULATOR || TARGET_OS_MACCATALYST )
+        #define LILY_MEMORY_LESS 1
+        #endif
+
+        #if LILY_MEMORY_LESS
+        #define lily_memory(i)      color(i) 
+        #define lily_memory_float4  float4
+        #define lily_memory_depth   float
+        #else
+        #define lily_memory(i)      texture(i)
+        #define lily_memory_float4  texture2d<float>
+        #define lily_memory_depth   depth2d<float>
+        #endif
+        
+        //-- Lily.Stage.MemoryLess.metal --//
+        namespace Lily
+        {
+            namespace Stage 
+            {
+                namespace MemoryLess
+                {
+                    #if LILY_MEMORY_LESS
+                    float4 float4OfPos( uint2 pos, float4 mem ) { return mem; };
+                    float depthOfPos( uint2 pos, float mem ) { return mem; };
+                    #else
+                    float4 float4OfPos( uint2 pos, texture2d<float> mem ) { return mem.read( pos ); };
+                    float depthOfPos( uint2 pos, depth2d<float> mem ) { return mem.read( pos ); };
+                    #endif
+                };
+            };
+        };
+        
+        //-- Lily.Stage.StageRenderer.util.metal --//
+        
+        using namespace Lily::Stage;
         using namespace Lily::Stage::Shared;
         
         // G-BufferのFragmentの出力構造体
@@ -212,7 +251,17 @@ extension Lily.Stage.Playground2D
         
         struct PG2DResult 
         {
-            float4 backBuffer [[ color(0) ]];
+            float4 particleTexture [[ color(0) ]];
+        };
+        
+        struct SRGBVOut
+        {
+            float4 position [[position]];
+        };
+            
+        struct SRGBFOut
+        {
+            float4 backBuffer [[ color(1) ]];
         };
         
         """ }
@@ -327,7 +376,7 @@ extension Lily.Stage.Playground2D
                         
                         float4 c = in.color;
                         c[3] *= (1.0 + cos( r * M_PI_F )) * 0.5;
-        
+
                         return c;
                     } 
                     
@@ -351,10 +400,11 @@ extension Lily.Stage.Playground2D
                 }
             }
         }
-        
+
         fragment PG2DResult Lily_Stage_Playground2D_Fs(
             const PG2DVOut in [[ stage_in ]],
-            texture2d<float> tex [[ texture(0) ]]
+            lily_memory_float4 out [[ lily_memory(0) ]],
+            texture2d<float> tex [[ texture(1) ]]
         )
         {
             ShapeType type = ShapeType( in.shapeType );
@@ -380,16 +430,52 @@ extension Lily.Stage.Playground2D
                     break;
             }
             
+            PG2DResult result;
+            result.particleTexture = color;
+            return result;
+        }
+        """ }
+
+        static var sRGBVertexShader:String { """
+        vertex SRGBVOut Lily_Stage_Playground2D_SRGB_Vs( uint vid [[vertex_id]] )
+        {
+            const float2 vertices[] = {
+                float2(-1, -1),
+                float2( 3, -1),
+                float2(-1,  3)
+            };
+
+            SRGBVOut out;
+            out.position = float4( vertices[vid], 1.0, 1.0 );
+            return out;
+        }
+        """ }
+        
+        static var sRGBFragmentShader:String { """
+        fragment SRGBFOut Lily_Stage_Playground2D_SRGB_Fs(
+            SRGBVOut                 in        [[ stage_in ]],
+            lily_memory_float4       particleTexture [[ lily_memory(0) ]],
+            constant GlobalUniformArray& uniformArray [[ buffer(0) ]]
+        )
+        {    
+            const GlobalUniform uniform = uniformArray.uniforms[0];
+            
+            const auto pixelPos = uint2( floor( in.position.xy ) );
+            
+            float4 color = MemoryLess::float4OfPos( pixelPos, particleTexture );
             color.xyz = pow( color.xyz, float3( 2.2 ) );
             
-            PG2DResult result;
-            result.backBuffer = color;
-            return result;
+            SRGBFOut out;
+            out.backBuffer = color;
+            
+            return out;
         }
         """ }
         
         public let vertexShader:Lily.Metal.Shader
         public let fragmentShader:Lily.Metal.Shader
+        public let sRGBVertexShader:Lily.Metal.Shader
+        public let sRGBFragmentShader:Lily.Metal.Shader
         
         public static func shared( device:MTLDevice ) -> ShaderString {
             if instance == nil { instance = .init( device:device ) }
@@ -410,6 +496,18 @@ extension Lily.Stage.Playground2D
                 device:device,
                 code: Self.imports + Self.defines + Self.fragmentShader,
                 shaderName:"Lily_Stage_Playground2D_Fs" 
+            )
+            
+            self.sRGBVertexShader = .init(
+                device:device, 
+                code: Self.imports + Self.defines + Self.sRGBVertexShader,
+                shaderName:"Lily_Stage_Playground2D_SRGB_Vs" 
+            )
+            
+            self.sRGBFragmentShader = .init(
+                device:device,
+                code: Self.imports + Self.defines + Self.sRGBFragmentShader,
+                shaderName:"Lily_Stage_Playground2D_SRGB_Fs" 
             )
         }
     }

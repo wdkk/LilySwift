@@ -39,8 +39,9 @@ extension Lily.Stage.Playground2D
             
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
-            desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.backBuffer
+            desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.particleBuffer
             desc.colorAttachments[0].composite( type:.alphaBlend )
+            desc.colorAttachments[1].pixelFormat = Lily.Stage.BufferFormats.backBuffer
             desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
@@ -52,6 +53,7 @@ extension Lily.Stage.Playground2D
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
+            renderTextures:Lily.Stage.Playground2D.RenderTextures,
             storage:Lily.Stage.Playground2D.Storage,
             screenSize:CGSize
         ) 
@@ -70,7 +72,8 @@ extension Lily.Stage.Playground2D
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
-            renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:0 )
+            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.particleTexture, index:0 )
+            renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
                 type: .triangleStrip, 
                 vertexStart: 0, 
@@ -82,6 +85,7 @@ extension Lily.Stage.Playground2D
         public func drawTriangle( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
+            renderTextures:Lily.Stage.Playground2D.RenderTextures,
             storage:Lily.Stage.Playground2D.Storage,
             screenSize:CGSize
         ) 
@@ -100,7 +104,8 @@ extension Lily.Stage.Playground2D
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
-            renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:0 )
+            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.particleTexture, index:0 )
+            renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
                 type: .triangle, 
                 vertexStart: 0, 

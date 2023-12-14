@@ -17,6 +17,7 @@ extension Lily.Stage.Playground2D
     : Lily.Stage.BaseRenderFlow
     {
         var pass:Lily.Stage.Playground2D.Pass?
+        var renderTextures:Lily.Stage.Playground2D.RenderTextures
         
         public private(set) var pool:PGPool
         public private(set) var storage:Storage
@@ -24,6 +25,8 @@ extension Lily.Stage.Playground2D
         var alphaRenderer:AlphaRenderer?
         var addRenderer:AddRenderer?
         var subRenderer:SubRenderer?
+        
+        var sRGBRenderer:SRGBRenderer?
         
         public let viewCount:Int
         
@@ -44,6 +47,8 @@ extension Lily.Stage.Playground2D
             self.viewCount = viewCount
             self.particleCapacity = particleCapacity
             
+            self.renderTextures = .init( device:device )
+            
             // レンダラーの作成
             self.alphaRenderer = .init( 
                 device:device,
@@ -56,6 +61,12 @@ extension Lily.Stage.Playground2D
                 viewCount:viewCount
             )
             self.subRenderer = .init( 
+                device:device,
+                environment:environment,
+                viewCount:viewCount
+            )
+            
+            self.sRGBRenderer = .init( 
                 device:device,
                 environment:environment,
                 viewCount:viewCount
@@ -79,6 +90,8 @@ extension Lily.Stage.Playground2D
             screenSize = scaledSize
             screenSize.width /= LLSystem.retinaScale
             screenSize.height /= LLSystem.retinaScale
+            
+            renderTextures.updateBuffers( size:scaledSize, viewCount:viewCount )
         }
         
         public override func render(
@@ -106,14 +119,12 @@ extension Lily.Stage.Playground2D
             
             // 共通処理
             pass.updatePass( 
+                renderTextures:renderTextures,
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetCount:viewCount        
             )
             
-            var clear_color:LLColor = self.clearColor
-            clear_color.R = pow( clear_color.R, 2.2 )
-            clear_color.G = pow( clear_color.G, 2.2 )
-            clear_color.B = pow( clear_color.B, 2.2 )
+            let clear_color = self.clearColor
             
             // フォワードレンダリング : パーティクルの描画の設定
             pass.setDestination( texture:destinationTexture )
@@ -134,6 +145,7 @@ extension Lily.Stage.Playground2D
             alphaRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
+                renderTextures:renderTextures,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -141,6 +153,7 @@ extension Lily.Stage.Playground2D
             alphaRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
+                renderTextures:renderTextures,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -148,6 +161,7 @@ extension Lily.Stage.Playground2D
             addRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
+                renderTextures:renderTextures,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -155,6 +169,7 @@ extension Lily.Stage.Playground2D
             addRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
+                renderTextures:renderTextures,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -162,6 +177,7 @@ extension Lily.Stage.Playground2D
             subRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
+                renderTextures:renderTextures,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -169,8 +185,15 @@ extension Lily.Stage.Playground2D
             subRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
+                renderTextures:renderTextures,
                 storage:storage,
                 screenSize:screenSize
+            )
+            
+            // sRGB変換
+            sRGBRenderer?.draw(
+                with:encoder,
+                renderTextures:renderTextures
             )
             
             encoder?.endEncoding()

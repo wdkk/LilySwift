@@ -30,9 +30,14 @@ extension Lily.Stage.Playground2D
                 .action( load:.clear, store:.store )
                 .clearDepth( 0.0 )
                 
-                $0.colorAttachments[0]
-                .action( load:.clear, store:.store )
-                .clearColor( .lightGrey )
+                #if !targetEnvironment(simulator)
+                $0.colorAttachments[0].action( load:.clear, store:.dontCare ).clearColor( .lightGrey )
+                #else
+                // シミュレータはテクスチャを保存する
+                $0.colorAttachments[0].action( load:.clear, store:.store ).clearColor( .lightGrey )
+                #endif
+                // colorAttachments[1]が毎フレームのバックバッファの受け取り口
+                $0.colorAttachments[1].action( load:.dontCare, store:.store )
             }
             
             // Depth stateの作成
@@ -45,10 +50,12 @@ extension Lily.Stage.Playground2D
         
         // 公開ファンクション
         public func updatePass(
+            renderTextures:RenderTextures,
             rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             renderTargetCount:Int
         )
         {
+            passDesc?.colorAttachments[0].texture = renderTextures.particleTexture
             #if !targetEnvironment(macCatalyst)
             passDesc?.rasterizationRateMap = rasterizationRateMap
             #endif
@@ -58,7 +65,7 @@ extension Lily.Stage.Playground2D
         }
         
         public func setDestination( texture:MTLTexture? ) {
-            passDesc?.colorAttachments[0].texture = texture
+            passDesc?.colorAttachments[1].texture = texture
         }
         
         public func setDepth( texture:MTLTexture? ) {
@@ -68,16 +75,16 @@ extension Lily.Stage.Playground2D
         public func setClearColor( _ color:LLColor? ) {
             guard let color = color else {
                 passDesc?.colorAttachments[0].clearColor( .clear )
-                passDesc?.colorAttachments[0].action( load:.load, store:.store )
+                passDesc?.colorAttachments[0].action( load:.load, store:.dontCare )
                 return
             }
             passDesc?.colorAttachments[0].clearColor( color )
-            passDesc?.colorAttachments[0].action( load:.clear, store:.store )
+            passDesc?.colorAttachments[0].action( load:.clear, store:.dontCare )
         }
         
         public func setClearColor( _ color:MTLClearColor ) {
             passDesc?.colorAttachments[0].clearColor( color )
-            passDesc?.colorAttachments[0].action( load:.clear, store:.store )
+            passDesc?.colorAttachments[0].action( load:.clear, store:.dontCare )
         }
     }
 }
