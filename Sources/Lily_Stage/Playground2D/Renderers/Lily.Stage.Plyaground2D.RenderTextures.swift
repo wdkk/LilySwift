@@ -51,13 +51,14 @@ extension Lily.Stage.Playground2D
             #else
             tex_desc.storageMode = .private
             #endif
+            
             if viewCount > 1 {
                 tex_desc.textureType = .type2DArray
                 tex_desc.arrayLength = viewCount
             }
-            tex_desc.usage = [ tex_desc.usage, MTLTextureUsage.renderTarget ]
+            tex_desc.usage = [ tex_desc.usage, .renderTarget, .shaderRead ]
             
-            // GBuffer0の再生成
+            // particleTextureの再生成
             tex_desc.pixelFormat = Lily.Stage.BufferFormats.particleBuffer
             particleTexture = device.makeTexture( descriptor:tex_desc )
             

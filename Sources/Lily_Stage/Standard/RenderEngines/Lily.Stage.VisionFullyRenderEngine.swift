@@ -45,7 +45,7 @@ extension Lily.Stage
     open class VisionFullyRenderEngine 
     : BaseRenderEngine
     {
-        let maxBuffersInFlight
+        let maxBuffersInFlight:Int
         lazy var inFlightSemaphore = DispatchSemaphore( value:maxBuffersInFlight )
         
         let arSession: ARKitSession
@@ -77,7 +77,7 @@ extension Lily.Stage
             
             self.device = layerRenderer.device
             self.commandQueue = self.device.makeCommandQueue()!
-            self.maxBuffersInFlight = bufffersInFlight
+            self.maxBuffersInFlight = buffersInFlight
             
             self.uniforms = .init( device:device, ringSize:maxBuffersInFlight )
             

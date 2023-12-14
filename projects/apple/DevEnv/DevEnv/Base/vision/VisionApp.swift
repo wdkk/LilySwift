@@ -28,7 +28,8 @@ struct VisionApp
                 let renderFlow = DevEnv.RenderFlow( device:layerRenderer.device, viewCount:Lily.Stage.fullyViewCount )
                 let renderEngine = Lily.Stage.VisionFullyRenderEngine( 
                     layerRenderer,
-                    renderFlow:renderFlow
+                    renderFlow:renderFlow,
+                    buffersInFlight:3
                 )
                 renderEngine.startRenderLoop()
             }

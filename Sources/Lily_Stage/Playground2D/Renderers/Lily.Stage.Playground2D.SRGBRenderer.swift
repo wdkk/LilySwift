@@ -39,7 +39,6 @@ extension Lily.Stage.Playground2D
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
             desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.particleBuffer
-            desc.colorAttachments[0].composite( type:.sub )
             desc.colorAttachments[1].pixelFormat = Lily.Stage.BufferFormats.backBuffer
             desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {

@@ -31,13 +31,13 @@ extension Lily.Stage.Playground2D
                 .clearDepth( 0.0 )
                 
                 #if !targetEnvironment(simulator)
-                $0.colorAttachments[0].action( load:.clear, store:.dontCare ).clearColor( .lightGrey )
+                $0.colorAttachments[0].action( load:.clear, store:.dontCare ).clearColor( .darkGrey )
                 #else
                 // シミュレータはテクスチャを保存する
-                $0.colorAttachments[0].action( load:.clear, store:.store ).clearColor( .lightGrey )
+                $0.colorAttachments[0].action( load:.clear, store:.store ).clearColor( .darkGrey )
                 #endif
                 // colorAttachments[1]が毎フレームのバックバッファの受け取り口
-                $0.colorAttachments[1].action( load:.dontCare, store:.store )
+                $0.colorAttachments[1].action( load:.clear, store:.store ).clearColor( .darkGrey )
             }
             
             // Depth stateの作成

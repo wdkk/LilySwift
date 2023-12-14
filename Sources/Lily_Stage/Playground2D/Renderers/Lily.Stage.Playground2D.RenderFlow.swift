@@ -124,12 +124,10 @@ extension Lily.Stage.Playground2D
                 renderTargetCount:viewCount        
             )
             
-            let clear_color = self.clearColor
-            
             // フォワードレンダリング : パーティクルの描画の設定
             pass.setDestination( texture:destinationTexture )
             pass.setDepth( texture:depthTexture )
-            pass.setClearColor( clear_color )
+            pass.setClearColor( self.clearColor )
             
             let encoder = commandBuffer.makeRenderCommandEncoder( descriptor:pass.passDesc! )
             

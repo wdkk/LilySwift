@@ -46,7 +46,10 @@ class DevViewController
     
     init() {
         self.device = MTLCreateSystemDefaultDevice()
-        super.init( device:device )
+        super.init( 
+            device:device,
+            textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+        )
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -62,6 +65,9 @@ class DevViewController
 
 func design( screen:PGScreen ) {
     screen.clearColor = .darkGrey
+    
+    PGPicture( "lily" )
+    .position(cx: 0, cy: -200 )
     
     for _ in 0 ..< 160 {
        PGAddMask( "mask-smoke" )

@@ -197,7 +197,7 @@ extension Lily.Stage.Playground2D
         
         public init( 
             device:MTLDevice, 
-            environment:Lily.Stage.ShaderEnvironment = .string,
+            environment:Lily.Stage.ShaderEnvironment = .metallib,
             particleCapacity:Int = 10000,
             textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
         )

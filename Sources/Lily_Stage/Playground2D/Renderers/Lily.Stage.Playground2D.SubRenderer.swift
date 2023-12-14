@@ -41,6 +41,7 @@ extension Lily.Stage.Playground2D
             desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.particleBuffer
             desc.colorAttachments[0].composite( type:.sub )
             desc.colorAttachments[1].pixelFormat = Lily.Stage.BufferFormats.backBuffer
+            desc.colorAttachments[1].composite( type:.sub )
             desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
@@ -70,7 +71,6 @@ extension Lily.Stage.Playground2D
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
-            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.particleTexture, index:0 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
                 type: .triangleStrip, 
@@ -102,7 +102,6 @@ extension Lily.Stage.Playground2D
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
-            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.particleTexture, index:0 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
                 type: .triangle, 
