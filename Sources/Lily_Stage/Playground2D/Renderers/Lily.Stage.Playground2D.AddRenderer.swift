@@ -33,8 +33,8 @@ extension Lily.Stage.Playground2D
             }
             else if environment == .string {
                 let stringShader = Lily.Stage.Playground2D.ShaderString.shared( device:device )
-                desc.vertexShader( stringShader.vertexShader )
-                desc.fragmentShader( stringShader.fragmentShader )            
+                desc.vertexShader( stringShader.playground2DVertexShader )
+                desc.fragmentShader( stringShader.playground2DFragmentShader )            
             }
 
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount

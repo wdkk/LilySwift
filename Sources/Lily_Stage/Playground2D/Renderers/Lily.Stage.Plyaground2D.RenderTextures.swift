@@ -56,7 +56,7 @@ extension Lily.Stage.Playground2D
                 tex_desc.textureType = .type2DArray
                 tex_desc.arrayLength = viewCount
             }
-            tex_desc.usage = [ tex_desc.usage, .renderTarget, .shaderRead ]
+            tex_desc.usage = [ tex_desc.usage, .renderTarget ]
             
             // particleTextureの再生成
             tex_desc.pixelFormat = Lily.Stage.BufferFormats.particleBuffer

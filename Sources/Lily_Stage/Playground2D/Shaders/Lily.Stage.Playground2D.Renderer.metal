@@ -95,7 +95,6 @@ struct PG2DVOut
 struct PG2DResult 
 {
     float4 particleTexture [[ color(0) ]];
-    float4 backBuffer [[ color(1 )]];
 };
 
 
@@ -259,7 +258,6 @@ fragment PG2DResult Lily_Stage_Playground2D_Fs(
     
     PG2DResult result;
     result.particleTexture = color;
-    result.backBuffer = color;
     return result;
 }
 
@@ -292,10 +290,10 @@ fragment SRGBFOut Lily_Stage_Playground2D_SRGB_Fs(
 )
 {    
     const auto pixelPos = uint2( floor( in.position.xy ) );
-    
+
     float4 color = MemoryLess::float4OfPos( pixelPos, particleTexture );
     color.xyz = pow( color.xyz, float3( 2.2 ) );
-    
+
     SRGBFOut out;
     out.backBuffer = color;
     

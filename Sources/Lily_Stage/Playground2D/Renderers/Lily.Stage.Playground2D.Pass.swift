@@ -75,16 +75,28 @@ extension Lily.Stage.Playground2D
         public func setClearColor( _ color:LLColor? ) {
             guard let color = color else {
                 passDesc?.colorAttachments[0].clearColor( .clear )
+                #if !targetEnvironment(simulator)
                 passDesc?.colorAttachments[0].action( load:.load, store:.dontCare )
+                #else
+                passDesc?.colorAttachments[0].action( load:.load, store:.store )
+                #endif
                 return
             }
             passDesc?.colorAttachments[0].clearColor( color )
+            #if !targetEnvironment(simulator)
             passDesc?.colorAttachments[0].action( load:.clear, store:.dontCare )
+            #else
+            passDesc?.colorAttachments[0].action( load:.clear, store:.store )
+            #endif
         }
         
         public func setClearColor( _ color:MTLClearColor ) {
             passDesc?.colorAttachments[0].clearColor( color )
+            #if !targetEnvironment(simulator)
             passDesc?.colorAttachments[0].action( load:.clear, store:.dontCare )
+            #else
+            passDesc?.colorAttachments[0].action( load:.clear, store:.store )
+            #endif
         }
     }
 }

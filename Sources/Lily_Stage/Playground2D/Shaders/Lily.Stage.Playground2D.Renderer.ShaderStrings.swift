@@ -15,7 +15,7 @@ extension Lily.Stage.Playground2D
 {   
     open class ShaderString 
     {
-        static var imports:String { """
+        static var importsCode:String { """
         #import <metal_stdlib>
         #import <TargetConditionals.h>
         
@@ -176,7 +176,7 @@ extension Lily.Stage.Playground2D
         
         """ }
         
-        static var defines:String { """
+        static var definesCode:String { """
         //// 列挙子 ////
         enum CompositeType : uint
         {
@@ -266,7 +266,7 @@ extension Lily.Stage.Playground2D
         
         """ }
         
-        static var vertexShader:String { """
+        static var vertexShaderCode:String { """
         
         vertex PG2DVOut Lily_Stage_Playground2D_Vs(
             const device PG2DVIn* in [[ buffer(0) ]],
@@ -349,7 +349,7 @@ extension Lily.Stage.Playground2D
         
         """ }
         
-        static var fragmentShader:String { """
+        static var fragmentShaderCode:String { """
         namespace Lily
         {
             namespace Stage 
@@ -436,7 +436,7 @@ extension Lily.Stage.Playground2D
         }
         """ }
 
-        static var sRGBVertexShader:String { """
+        static var sRGBVertexShaderCode:String { """
         vertex SRGBVOut Lily_Stage_Playground2D_SRGB_Vs( uint vid [[vertex_id]] )
         {
             const float2 vertices[] = {
@@ -451,20 +451,17 @@ extension Lily.Stage.Playground2D
         }
         """ }
         
-        static var sRGBFragmentShader:String { """
+        static var sRGBFragmentShaderCode:String { """
         fragment SRGBFOut Lily_Stage_Playground2D_SRGB_Fs(
-            SRGBVOut                 in        [[ stage_in ]],
-            lily_memory_float4       particleTexture [[ lily_memory(0) ]],
-            constant GlobalUniformArray& uniformArray [[ buffer(0) ]]
+            SRGBVOut                 in               [[ stage_in ]],
+            lily_memory_float4       particleTexture  [[ lily_memory(0) ]]
         )
         {    
-            const GlobalUniform uniform = uniformArray.uniforms[0];
-            
             const auto pixelPos = uint2( floor( in.position.xy ) );
-            
+
             float4 color = MemoryLess::float4OfPos( pixelPos, particleTexture );
             color.xyz = pow( color.xyz, float3( 2.2 ) );
-            
+
             SRGBFOut out;
             out.backBuffer = color;
             
@@ -472,8 +469,8 @@ extension Lily.Stage.Playground2D
         }
         """ }
         
-        public let vertexShader:Lily.Metal.Shader
-        public let fragmentShader:Lily.Metal.Shader
+        public let playground2DVertexShader:Lily.Metal.Shader
+        public let playground2DFragmentShader:Lily.Metal.Shader
         public let sRGBVertexShader:Lily.Metal.Shader
         public let sRGBFragmentShader:Lily.Metal.Shader
         
@@ -486,27 +483,27 @@ extension Lily.Stage.Playground2D
         private init( device:MTLDevice ) {
             //LLLog( "文字列からシェーダを生成しています." )
             
-            self.vertexShader = .init(
+            self.playground2DVertexShader = .init(
                 device:device, 
-                code: Self.imports + Self.defines + Self.vertexShader,
+                code: Self.importsCode + Self.definesCode + Self.vertexShaderCode,
                 shaderName:"Lily_Stage_Playground2D_Vs" 
             )
             
-            self.fragmentShader = .init(
+            self.playground2DFragmentShader = .init(
                 device:device,
-                code: Self.imports + Self.defines + Self.fragmentShader,
+                code: Self.importsCode + Self.definesCode + Self.fragmentShaderCode,
                 shaderName:"Lily_Stage_Playground2D_Fs" 
             )
             
             self.sRGBVertexShader = .init(
                 device:device, 
-                code: Self.imports + Self.defines + Self.sRGBVertexShader,
+                code: Self.importsCode + Self.definesCode + Self.sRGBVertexShaderCode,
                 shaderName:"Lily_Stage_Playground2D_SRGB_Vs" 
             )
             
             self.sRGBFragmentShader = .init(
                 device:device,
-                code: Self.imports + Self.defines + Self.sRGBFragmentShader,
+                code: Self.importsCode + Self.definesCode + Self.sRGBFragmentShaderCode,
                 shaderName:"Lily_Stage_Playground2D_SRGB_Fs" 
             )
         }
