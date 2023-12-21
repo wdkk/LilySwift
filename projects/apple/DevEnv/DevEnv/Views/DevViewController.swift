@@ -67,6 +67,29 @@ class DevViewController
 func design( screen:PGScreen ) {
     screen.clearColor = .darkGrey
     
+    PGCircle()
+    .scale( square:200 )
+    .position( cx: -50, cy: 150 ) 
+    .color( .red )
+    .zIndex( 1.0 )
+
+    PGCircle()
+    .scale( square:200 )
+    .position( cx: 50, cy: 150 ) 
+    .color( .blue )
+    .zIndex( 0.0 )
+
+    PGAddCircle()
+    .scale( square:200 )
+    .position( cx: -50, cy: -150 ) 
+    .color( .red )
+
+    PGAddCircle()
+    .scale( square:200 )
+    .position( cx: 50, cy: -150 ) 
+    .color( .blue )
+    
+    /*
     for _ in 0 ..< 160 {
        PGAddMask( "mask-smoke" )
        .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
@@ -102,6 +125,7 @@ func design( screen:PGScreen ) {
            .life( 1.0 )
        }
    }
+   */
 }
 
 /*

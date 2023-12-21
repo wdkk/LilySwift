@@ -435,6 +435,30 @@ extension Lily.Stage.Playground2D.PGActor
     }
     
     @discardableResult
+    public func zIndex( _ index:LLFloatConvertable ) -> Self {
+        status.zIndex = index.f
+        return self
+    }
+    
+    @discardableResult
+    public func zIndex( _ calc:( Here.PGActor )->LLFloat ) -> Self {
+        status.zIndex = calc( self )
+        return self
+    }
+    
+    @discardableResult
+    public func zIndex<T:BinaryInteger>( _ calc:( Here.PGActor )->T ) -> Self {
+        status.zIndex = Float( calc( self ) )
+        return self
+    }
+    
+    @discardableResult
+    public func zIndex<T:BinaryFloatingPoint>( _ calc:( Here.PGActor )->T ) -> Self {
+        status.zIndex = Float( calc( self ) )
+        return self
+    }
+    
+    @discardableResult
     public func enabled( _ torf:Bool ) -> Self {
         status.enabled = torf
         return self

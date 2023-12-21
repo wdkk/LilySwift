@@ -68,6 +68,10 @@ struct UnitStatus
     float deltaAngle;
     float life;
     float deltaLife;
+    float zIndex;
+    float _reserved;
+    float _reserved2;
+    float _reserved3;
     float enabled;
     float state;
     CompositeType compositeType;
@@ -132,7 +136,7 @@ vertex PG2DVOut Lily_Stage_Playground2D_Vs(
     
     const int offset = localUniform.drawingOffset;
     
-    GlobalUniform uniform = uniformArray.uniforms[amp_id];
+    //GlobalUniform uniform = uniformArray.uniforms[amp_id];
     PG2DVIn vin = in[offset + vid];
     
     float cosv = cos( us.angle );
@@ -158,8 +162,7 @@ vertex PG2DVOut Lily_Stage_Playground2D_Vs(
     );
 
     // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
-    //float visibility_z = us.state * us.enabled * us.color[3] - 0.00001;
-    float visibility_y = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : 9999999.0;
+    float visibility_y = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : 999999.0;
     
     // xy座標のアフィン変換
     float2 v_coord = float2(
@@ -168,7 +171,7 @@ vertex PG2DVOut Lily_Stage_Playground2D_Vs(
     );
 
     PG2DVOut vout;
-    vout.pos = localUniform.projectionMatrix * float4( v_coord, 1.0, 1 );
+    vout.pos = localUniform.projectionMatrix * float4( v_coord, us.zIndex, 1 );
     vout.xy = vin.xy;
     vout.texUV = tex_uv;
     vout.uv = vin.uv;
