@@ -112,21 +112,21 @@ vertex PG2DVOut Lily_Stage_Playground2D_Vs(
     
     if( us.compositeType != localUniform.shaderCompositeType ) { 
         PG2DVOut trush_vout;
-        trush_vout.pos = float4( 0, 0, -1000000, 0 );
+        trush_vout.pos = float4( 0, 9999999, 1.0, 0 );
         return trush_vout;
     }
 
     // 三角形が指定されているが, 描画が三角形でない場合
     if( us.shapeType == ShapeType::triangle && localUniform.drawingType != DrawingType::triangles ) {
         PG2DVOut trush_vout;
-        trush_vout.pos = float4( 0, 0, -1000000, 0 );
+        trush_vout.pos = float4( 0, 9999999, 1.0, 0 );
         return trush_vout;    
     }
     
     // 三角形以外が指定されているが、描画が三角形である場合
     if( us.shapeType != ShapeType::triangle && localUniform.drawingType == DrawingType::triangles ) {
         PG2DVOut trush_vout;
-        trush_vout.pos = float4( 0, 0, -1000000, 0 );
+        trush_vout.pos = float4( 0, 9999999, 1.0, 0 );
         return trush_vout;    
     }
     
@@ -157,17 +157,18 @@ vertex PG2DVOut Lily_Stage_Playground2D_Vs(
         min_v * (1.0-v) + max_v * v
     );
 
+    // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
+    //float visibility_z = us.state * us.enabled * us.color[3] - 0.00001;
+    float visibility_y = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : 9999999.0;
+    
     // xy座標のアフィン変換
     float2 v_coord = float2(
         scx * cosv * x - sinv * scy * y + us.position.x,
-        scx * sinv * x + cosv * scy * y + us.position.y 
+        scx * sinv * x + cosv * scy * y + us.position.y + visibility_y
     );
 
-    // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
-    float visibility_z = us.state * us.enabled * us.color[3] - 0.00001;
-    
     PG2DVOut vout;
-    vout.pos = localUniform.projectionMatrix * float4( v_coord, visibility_z, 1 );
+    vout.pos = localUniform.projectionMatrix * float4( v_coord, 1.0, 1 );
     vout.xy = vin.xy;
     vout.texUV = tex_uv;
     vout.uv = vin.uv;
@@ -280,7 +281,7 @@ vertex SRGBVOut Lily_Stage_Playground2D_SRGB_Vs( uint vid [[vertex_id]] )
     };
 
     SRGBVOut out;
-    out.position = float4( vertices[vid], 1.0, 1.0 );
+    out.position = float4( vertices[vid], 0.0, 1.0 );
     return out;
 }
 

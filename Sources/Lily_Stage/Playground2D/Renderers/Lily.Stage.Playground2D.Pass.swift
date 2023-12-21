@@ -44,7 +44,7 @@ extension Lily.Stage.Playground2D
             depthState = device.makeDepthStencilState( descriptor:.make {
                 $0
                 .depthCompare( .greaterEqual )
-                .depthWriteEnabled( false )
+                .depthWriteEnabled( true )
             } )
         }
         

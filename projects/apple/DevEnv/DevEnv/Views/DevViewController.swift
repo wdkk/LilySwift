@@ -48,7 +48,7 @@ class DevViewController
         self.device = MTLCreateSystemDefaultDevice()
         super.init( 
             device:device,
-            environment:.string,
+            environment:.metallib,
             textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
         )
     }
