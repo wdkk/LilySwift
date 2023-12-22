@@ -230,7 +230,10 @@ namespace Lily
                 constexpr sampler sampler( mip_filter::linear, mag_filter::linear, min_filter::linear );
                 
                 if( is_null_texture( tex ) ) { discard_fragment(); }
-                return tex.sample( sampler, in.texUV );
+                float4 tex_c = tex.sample( sampler, in.texUV );
+                float4 c = in.color;
+                tex_c[3] *= c[3];
+                return tex_c;
             } 
             
             float4 drawMask( PG2DVOut in, texture2d<float> tex ) {
