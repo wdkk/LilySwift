@@ -20,6 +20,7 @@ using namespace metal;
 using namespace Lily::Stage;
 using namespace Lily::Stage::Shared;
 
+//// マクロ定義 ////
 #define TOO_FAR 999999.0
 #define Z_INDEX_MIN 0.0
 #define Z_INDEX_MAX 99999.0
@@ -103,6 +104,16 @@ struct PG2DVOut
 struct PG2DResult 
 {
     float4 particleTexture [[ color(0) ]];
+};
+
+struct SRGBVOut
+{
+    float4 position [[ position ]];
+};
+    
+struct SRGBFOut
+{
+    float4 backBuffer [[ color(1) ]];
 };
 
 
@@ -268,16 +279,6 @@ fragment PG2DResult Lily_Stage_Playground2D_Fs(
     result.particleTexture = color;
     return result;
 }
-
-struct SRGBVOut
-{
-    float4 position [[ position ]];
-};
-    
-struct SRGBFOut
-{
-    float4 backBuffer [[ color(1) ]];
-};
 
 vertex SRGBVOut Lily_Stage_Playground2D_SRGB_Vs( uint vid [[vertex_id]] )
 {

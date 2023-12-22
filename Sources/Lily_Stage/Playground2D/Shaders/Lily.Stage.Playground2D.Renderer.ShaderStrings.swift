@@ -177,6 +177,11 @@ extension Lily.Stage.Playground2D
         """ }
         
         static var definesCode:String { """
+        //// マクロ定義 ////
+        #define TOO_FAR 999999.0
+        #define Z_INDEX_MIN 0.0
+        #define Z_INDEX_MAX 99999.0
+        
         //// 列挙子 ////
         enum CompositeType : uint
         {
@@ -201,7 +206,7 @@ extension Lily.Stage.Playground2D
             quadrangles = 0,
             triangles   = 1
         };        
-        
+
         //// 構造体 ////
             
         struct PG2DVIn
@@ -210,7 +215,7 @@ extension Lily.Stage.Playground2D
             float2 uv;
             float2 texUV;
         };
-        
+
         struct UnitStatus
         {
             float4x4 matrix;
@@ -225,6 +230,10 @@ extension Lily.Stage.Playground2D
             float deltaAngle;
             float life;
             float deltaLife;
+            float zIndex;
+            float _reserved;
+            float _reserved2;
+            float _reserved3;
             float enabled;
             float state;
             CompositeType compositeType;
@@ -238,7 +247,7 @@ extension Lily.Stage.Playground2D
             DrawingType   drawingType;
             int           drawingOffset;
         };        
-        
+
         struct PG2DVOut
         {
             float4 pos [[ position ]];
@@ -248,7 +257,7 @@ extension Lily.Stage.Playground2D
             float4 color;
             float  shapeType;
         };
-        
+
         struct PG2DResult 
         {
             float4 particleTexture [[ color(0) ]];
@@ -256,14 +265,13 @@ extension Lily.Stage.Playground2D
         
         struct SRGBVOut
         {
-            float4 position [[position]];
+            float4 position [[ position ]];
         };
             
         struct SRGBFOut
         {
             float4 backBuffer [[ color(1) ]];
         };
-        
         """ }
         
         static var vertexShaderCode:String { """
@@ -282,27 +290,27 @@ extension Lily.Stage.Playground2D
             
             if( us.compositeType != localUniform.shaderCompositeType ) { 
                 PG2DVOut trush_vout;
-                trush_vout.pos = float4( 0, 0, -1000000, 0 );
+                trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
                 return trush_vout;
             }
-        
+
             // 三角形が指定されているが, 描画が三角形でない場合
             if( us.shapeType == ShapeType::triangle && localUniform.drawingType != DrawingType::triangles ) {
                 PG2DVOut trush_vout;
-                trush_vout.pos = float4( 0, 0, -1000000, 0 );
+                trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
                 return trush_vout;    
             }
             
             // 三角形以外が指定されているが、描画が三角形である場合
             if( us.shapeType != ShapeType::triangle && localUniform.drawingType == DrawingType::triangles ) {
                 PG2DVOut trush_vout;
-                trush_vout.pos = float4( 0, 0, -1000000, 0 );
+                trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
                 return trush_vout;    
             }
             
             const int offset = localUniform.drawingOffset;
             
-            GlobalUniform uniform = uniformArray.uniforms[amp_id];
+            //GlobalUniform uniform = uniformArray.uniforms[amp_id];
             PG2DVIn vin = in[offset + vid];
             
             float cosv = cos( us.angle );
@@ -311,39 +319,39 @@ extension Lily.Stage.Playground2D
             float y = vin.xy.y;
             float scx = us.scale.x * 0.5;
             float scy = us.scale.y * 0.5;
-        
+
             float4 atlas_uv = us.atlasUV;
-        
+
             float min_u = atlas_uv[0];
             float min_v = atlas_uv[1];
             float max_u = atlas_uv[2];
             float max_v = atlas_uv[3];
-        
+
             float u = vin.texUV.x;
             float v = vin.texUV.y;
-        
+
             float2 tex_uv = float2( 
                 min_u * (1.0-u) + max_u * u,
                 min_v * (1.0-v) + max_v * v
             );
-        
+
+            // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
+            float visibility_y = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : TOO_FAR;
+            
             // xy座標のアフィン変換
             float2 v_coord = float2(
                 scx * cosv * x - sinv * scy * y + us.position.x,
-                scx * sinv * x + cosv * scy * y + us.position.y 
+                scx * sinv * x + cosv * scy * y + us.position.y + visibility_y
             );
-        
-            // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
-            float visibility_z = us.state * us.enabled * us.color[3] - 0.00001;
-            
+
             PG2DVOut vout;
-            vout.pos = localUniform.projectionMatrix * float4( v_coord, visibility_z, 1 );
+            vout.pos = localUniform.projectionMatrix * float4( v_coord, 1.0 - us.zIndex / Z_INDEX_MAX, 1 );
             vout.xy = vin.xy;
             vout.texUV = tex_uv;
             vout.uv = vin.uv;
             vout.color = us.color;
             vout.shapeType = float( us.shapeType );
-        
+
             return vout;
         }
         
@@ -403,7 +411,6 @@ extension Lily.Stage.Playground2D
 
         fragment PG2DResult Lily_Stage_Playground2D_Fs(
             const PG2DVOut in [[ stage_in ]],
-            lily_memory_float4 out [[ lily_memory(0) ]],
             texture2d<float> tex [[ texture(1) ]]
         )
         {
@@ -446,7 +453,7 @@ extension Lily.Stage.Playground2D
             };
 
             SRGBVOut out;
-            out.position = float4( vertices[vid], 1.0, 1.0 );
+            out.position = float4( vertices[vid], 0.0, 1.0 );
             return out;
         }
         """ }
