@@ -77,7 +77,7 @@ func design( screen:PGScreen ) {
     .scale( square:200 )
     .position( cx: 50, cy: 150 ) 
     .color( .blue )
-    .zIndex( 0.0 )
+    .zIndex( 99999 )
 
     PGAddCircle()
     .scale( square:200 )

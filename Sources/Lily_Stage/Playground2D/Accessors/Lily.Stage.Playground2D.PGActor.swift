@@ -15,6 +15,9 @@ extension Lily.Stage.Playground2D
 {   
     open class PGActor : Hashable
     {
+        fileprivate static let Z_INDEX_MIN:Float = 0.0
+        fileprivate static let Z_INDEX_MAX:Float = 99999.0
+        
         public typealias Here = Lily.Stage.Playground2D
         // Hashableの実装
         public static func == ( lhs:PGActor, rhs:PGActor ) -> Bool { lhs === rhs }
@@ -436,27 +439,28 @@ extension Lily.Stage.Playground2D.PGActor
     
     @discardableResult
     public func zIndex( _ index:LLFloatConvertable ) -> Self {
-        status.zIndex = index.f
+        status.zIndex = LLWithin( min:Self.Z_INDEX_MIN, index.f, max:Self.Z_INDEX_MAX ) 
         return self
     }
     
     @discardableResult
     public func zIndex( _ calc:( Here.PGActor )->LLFloat ) -> Self {
-        status.zIndex = calc( self )
+        status.zIndex = LLWithin( min:Self.Z_INDEX_MIN, calc( self ), max:Self.Z_INDEX_MAX )
         return self
     }
     
     @discardableResult
     public func zIndex<T:BinaryInteger>( _ calc:( Here.PGActor )->T ) -> Self {
-        status.zIndex = Float( calc( self ) )
+        status.zIndex = LLWithin( min:Self.Z_INDEX_MIN, Float( calc( self ) ), max:Self.Z_INDEX_MAX )
         return self
     }
     
     @discardableResult
     public func zIndex<T:BinaryFloatingPoint>( _ calc:( Here.PGActor )->T ) -> Self {
-        status.zIndex = Float( calc( self ) )
+        status.zIndex = LLWithin( min:Self.Z_INDEX_MIN, Float( calc( self ) ), max:Self.Z_INDEX_MAX )
         return self
     }
+                                  
     
     @discardableResult
     public func enabled( _ torf:Bool ) -> Self {
@@ -503,7 +507,9 @@ extension Lily.Stage.Playground2D.PGActor
     
     @discardableResult
     public func color( red:LLFloatConvertable, green:LLFloatConvertable,
-                blue:LLFloatConvertable, alpha:LLFloatConvertable = 1.0 ) -> Self {
+                blue:LLFloatConvertable, alpha:LLFloatConvertable = 1.0 ) 
+    -> Self
+    {
         status.color = LLFloatv4( red.f, green.f, blue.f, alpha.f )
         return self
     }
@@ -613,7 +619,9 @@ extension Lily.Stage.Playground2D.PGActor
     
     @discardableResult
     public func deltaColor( red:LLFloatConvertable, green:LLFloatConvertable,
-                     blue:LLFloatConvertable, alpha:LLFloatConvertable = 0.0 ) -> Self {
+                     blue:LLFloatConvertable, alpha:LLFloatConvertable = 0.0 )
+    -> Self
+    {
         status.deltaColor = LLFloatv4( red.f, green.f, blue.f, alpha.f )
         return self
     }

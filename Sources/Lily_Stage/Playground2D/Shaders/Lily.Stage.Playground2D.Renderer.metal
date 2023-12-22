@@ -20,6 +20,10 @@ using namespace metal;
 using namespace Lily::Stage;
 using namespace Lily::Stage::Shared;
 
+#define TOO_FAR 999999.0
+#define Z_INDEX_MIN 0.0
+#define Z_INDEX_MAX 99999.0
+
 //// 列挙子 ////
 enum CompositeType : uint
 {
@@ -116,21 +120,21 @@ vertex PG2DVOut Lily_Stage_Playground2D_Vs(
     
     if( us.compositeType != localUniform.shaderCompositeType ) { 
         PG2DVOut trush_vout;
-        trush_vout.pos = float4( 0, 9999999, 1.0, 0 );
+        trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
         return trush_vout;
     }
 
     // 三角形が指定されているが, 描画が三角形でない場合
     if( us.shapeType == ShapeType::triangle && localUniform.drawingType != DrawingType::triangles ) {
         PG2DVOut trush_vout;
-        trush_vout.pos = float4( 0, 9999999, 1.0, 0 );
+        trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
         return trush_vout;    
     }
     
     // 三角形以外が指定されているが、描画が三角形である場合
     if( us.shapeType != ShapeType::triangle && localUniform.drawingType == DrawingType::triangles ) {
         PG2DVOut trush_vout;
-        trush_vout.pos = float4( 0, 9999999, 1.0, 0 );
+        trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
         return trush_vout;    
     }
     
@@ -162,7 +166,7 @@ vertex PG2DVOut Lily_Stage_Playground2D_Vs(
     );
 
     // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
-    float visibility_y = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : 999999.0;
+    float visibility_y = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : TOO_FAR;
     
     // xy座標のアフィン変換
     float2 v_coord = float2(
@@ -171,7 +175,7 @@ vertex PG2DVOut Lily_Stage_Playground2D_Vs(
     );
 
     PG2DVOut vout;
-    vout.pos = localUniform.projectionMatrix * float4( v_coord, us.zIndex, 1 );
+    vout.pos = localUniform.projectionMatrix * float4( v_coord, 1.0 - us.zIndex / Z_INDEX_MAX, 1 );
     vout.xy = vin.xy;
     vout.texUV = tex_uv;
     vout.uv = vin.uv;
