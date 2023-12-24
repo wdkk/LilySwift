@@ -1,7 +1,7 @@
 LilySwift ライブラリ
 =================
 
-update : 2023.12.12
+update : 2023.12.24
 
 渡辺電気株式会社でSwiftに関するコードを整理しているiOS/macOS向けライブラリです。
 よく使う基本モジュール, UIKitのユーティリティ, Metalのユーティリティなどを含みます。
@@ -48,17 +48,26 @@ Lilyのビルドを通すまでの手順を説明します。
 
 1. [File] > [Add Packages] を選択します。
 
-2. Package選択画面の右上の[検索フィールド]で以下を入力します.
+2. Package選択画面の右上の[検索フィールド]で以下を入力します。
   - https://github.com/wdkk/LilySwift.git
 
 3. [LilySwift]が表示されるのでこれを選択します
 
 4. Dependency Ruleを設定します。
-  - [Brunch]を選択
-  - 現在は"dev-5.0"で開発中のブランチとなります
+  - "Up to Next Major Version" を選択します。
+  - バージョン範囲は、5.0.0 < 6.0.0 を指定します。
 
-5. Addボタンを押します。
+5. [Add Package] ボタンを押します。
 
+
+#### c. LilySwiftのインポート ( Import LilySwift Library )
+
+1. Swiftのコード内でLilySwiftをimportしてください。
+```
+import LilySwift
+```
+
+2. LilySwiftのモジュールが利用可能になります。
 
 ## ライブラリの成り立ち( Library structure )
 
