@@ -66,8 +66,12 @@ class DevViewController
 }
 
 func design( screen:PGScreen ) {
+    PGPicture( "lily" )
+    .scale( square:256.0 )
+
+    /*
     screen.clearColor = .darkGrey
-    
+     
     for _ in 0 ..< 160 {
        PGAddMask( "mask-smoke" )
        .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
@@ -102,7 +106,8 @@ func design( screen:PGScreen ) {
            .scale( square: 80.0 )
            .life( 1.0 )
        }
-   }
+    }
+    */
 }
 
 /*

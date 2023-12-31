@@ -389,7 +389,7 @@ extension Lily.Stage.Playground2D
                     } 
                     
                     float4 drawPicture( PG2DVOut in, texture2d<float> tex ) {
-                        constexpr sampler sampler( mip_filter::linear, mag_filter::linear, min_filter::linear );
+                        constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
                         
                         if( is_null_texture( tex ) ) { discard_fragment(); }
                         float4 tex_c = tex.sample( sampler, in.texUV );
@@ -399,7 +399,7 @@ extension Lily.Stage.Playground2D
                     } 
                     
                     float4 drawMask( PG2DVOut in, texture2d<float> tex ) {
-                        constexpr sampler sampler( mip_filter::linear, mag_filter::linear, min_filter::linear );
+                        constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
                         
                         if( is_null_texture( tex ) ) { discard_fragment(); }
                         
