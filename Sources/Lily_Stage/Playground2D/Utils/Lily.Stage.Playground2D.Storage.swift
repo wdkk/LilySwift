@@ -51,13 +51,14 @@ extension Lily.Stage.Playground2D
         
         public init( device:MTLDevice, capacity:Int ) {
             self.capacity = capacity
-            self.particles = .init( device:device, count:2 )
+            
+            self.particles = .init( device:device, count:2 )    // 四角と三角を1つずつ
             self.particles?.update { acc, _ in
                 acc[0] = Self.defaultQuadrangleVertice
                 acc[1] = Self.defaultTriangleVertice
             }
             
-            self.statuses = .init( device:device, count:capacity )
+            self.statuses = .init( device:device, count:capacity + 1 )  // 1つ余分に確保
             self.statuses?.update( range:0..<capacity ) { us, _ in
                 us.state = .trush
                 us.enabled = false
@@ -76,8 +77,8 @@ extension Lily.Stage.Playground2D
         // パーティクルの確保をリクエストする
         public func request() -> Int {
             guard let idx = reuseIndice.popLast() else { 
-                LLLogWarning( "Playground2D.Storage: ストレージの容量を超えたリクエストです. インデックス=-1を返します" )
-                return -1
+                LLLogWarning( "Playground2D.Storage: ストレージの容量を超えたリクエストです. インデックス=capacityを返します" )
+                return capacity
             }
             statuses?.accessor?[idx] = .reset
             

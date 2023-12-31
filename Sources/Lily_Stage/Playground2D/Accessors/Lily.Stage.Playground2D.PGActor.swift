@@ -26,7 +26,8 @@ extension Lily.Stage.Playground2D
         public private(set) var index:Int
         public private(set) var pool:PGPool
         public private(set) var storage:Storage
-        public private(set) var statusAccessor:UnsafeMutableBufferPointer<UnitStatus>
+        public private(set) var statusAccessor:UnsafeMutableBufferPointer<UnitStatus>?
+        public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>!
                 
         public var iterateField:PGField<PGActor, LLEmpty>?
         public var intervalField:ActorInterval?
@@ -35,20 +36,29 @@ extension Lily.Stage.Playground2D
         public init( pool:PGPool = PGPool.current! ) {   
             self.pool = pool
             self.storage = pool.storage!
-            self.statusAccessor = storage.statuses!.accessor!
+            self.statusAccessor = storage.statuses?.accessor
             
-            self.index = storage.request()
+            self.index = storage.request() 
+
+            self.currentPointer = self.statusAccessor!.baseAddress! + self.index
             
-            status.state = .active
-            status.enabled = true
-            status.shapeType = .rectangle
+            if self.index < self.storage.capacity {
+                status.state = .active
+                status.enabled = true
+                status.shapeType = .rectangle
+            }
+            else {
+                status.state = .trush
+                status.enabled = false
+                status.shapeType = .rectangle
+            }
             
             pool.insertShape( self )
         }
         
-        public var status:UnitStatus! {
-            get { statusAccessor[index] }
-            set { statusAccessor[index] = newValue }
+        public var status:UnitStatus {
+            get { currentPointer.pointee }
+            set { currentPointer.pointee = newValue }
         }
        
         @discardableResult
@@ -195,8 +205,8 @@ extension Lily.Stage.Playground2D.PGActor
     }
     
     public var enabled:Bool { 
-        get { return status.enabled }
-        set { status.enabled = newValue }
+        get { if self.index < self.storage.capacity { return status.enabled } else { return false } }
+        set { if self.index < self.storage.capacity { status.enabled = newValue } }
     }
     
     public var life:Float { 

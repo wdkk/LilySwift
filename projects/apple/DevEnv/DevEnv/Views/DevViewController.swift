@@ -49,6 +49,7 @@ class DevViewController
         super.init( 
             device:device,
             environment:.string,
+            particleCapacity:10000,
             textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
         )
     }
@@ -67,10 +68,6 @@ class DevViewController
 func design( screen:PGScreen ) {
     screen.clearColor = .darkGrey
     
-    PGPicture( "lily" )
-    .alpha( 0.5 )
-
-/*    
     for _ in 0 ..< 160 {
        PGAddMask( "mask-smoke" )
        .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
@@ -106,7 +103,6 @@ func design( screen:PGScreen ) {
            .life( 1.0 )
        }
    }
-*/
 }
 
 /*
