@@ -29,6 +29,7 @@
 		5D8EA089263D5D0500DCD404 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8EA07E263D5D0500DCD404 /* AppDelegate.swift */; };
 		5D8EA08A263D5D0500DCD404 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8EA07F263D5D0500DCD404 /* main.swift */; };
 		5D8EA08B263D5D0500DCD404 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8EA080263D5D0500DCD404 /* SceneDelegate.swift */; };
+		5DA1230E2B47299600FA0A04 /* DevViewController.PG2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA1230D2B47299600FA0A04 /* DevViewController.PG2D.swift */; };
 		5DAE741D2B03D2F400445AE2 /* DevEnv.ObjectRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DAE741C2B03D2F400445AE2 /* DevEnv.ObjectRenderer.swift */; };
 		5DAE741E2B03D2F400445AE2 /* DevEnv.ObjectRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DAE741C2B03D2F400445AE2 /* DevEnv.ObjectRenderer.swift */; };
 		5DAE741F2B03D2F400445AE2 /* DevEnv.ObjectRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DAE741C2B03D2F400445AE2 /* DevEnv.ObjectRenderer.swift */; };
@@ -96,6 +97,7 @@
 		5D8EA080263D5D0500DCD404 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5D9A4E9823EC850A00210B1B /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
 		5D9A4E9923EC850A00210B1B /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
+		5DA1230D2B47299600FA0A04 /* DevViewController.PG2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevViewController.PG2D.swift; sourceTree = "<group>"; };
 		5DACEE95235C7167001143BF /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		5DAE741C2B03D2F400445AE2 /* DevEnv.ObjectRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevEnv.ObjectRenderer.swift; sourceTree = "<group>"; };
 		5DAE74202B03DB1500445AE2 /* DevEnv.LightingRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevEnv.LightingRenderer.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				5D8EA07B263D5D0500DCD404 /* DevViewController.swift */,
+				5DA1230D2B47299600FA0A04 /* DevViewController.PG2D.swift */,
 				5DD583E12AA771BF00B5E6AE /* VisionFullyContentView.swift */,
 			);
 			path = Views;
@@ -416,6 +419,7 @@
 				5D8EA089263D5D0500DCD404 /* AppDelegate.swift in Sources */,
 				5DAE74212B03DB1500445AE2 /* DevEnv.LightingRenderer.swift in Sources */,
 				5D8EA087263D5D0500DCD404 /* DevViewController.swift in Sources */,
+				5DA1230E2B47299600FA0A04 /* DevViewController.PG2D.swift in Sources */,
 				5DAE741D2B03D2F400445AE2 /* DevEnv.ObjectRenderer.swift in Sources */,
 				5D8EA08A263D5D0500DCD404 /* main.swift in Sources */,
 				5DAE74252B03DBB900445AE2 /* DevEnv.ParticleRenderer.swift in Sources */,
