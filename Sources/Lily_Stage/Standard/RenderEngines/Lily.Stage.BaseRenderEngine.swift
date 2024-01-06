@@ -27,6 +27,7 @@ extension Lily.Stage
         -> Shared.GlobalUniform 
         {
             var guni = Shared.GlobalUniform()
+            
             guni.cameraUniform = cameraUniform
             guni.frameTime = max( 0.001, onFrame.f * (1.0 / 60.0) )
             guni.invScreenSize = LLFloatv2( 1.0 / screenSize.width, 1.0 / screenSize.height )

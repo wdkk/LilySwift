@@ -230,7 +230,7 @@ extension Lily.Stage.Playground2D
             renderEngine = .init( 
                 device:device,
                 size:CGSize( 320, 240 ), 
-                renderFlow:renderFlow!,
+                renderFlows:[renderFlow!],
                 buffersInFlight:1
             )
 

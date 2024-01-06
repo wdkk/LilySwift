@@ -18,12 +18,13 @@ extension DevEnv
     : Lily.Stage.BaseRenderFlow
     {
         var renderTextures:Lily.Stage.RenderTextures
+        
         var deferredShadingPass:Lily.Stage.DeferredShadingPass?
         var particlePass:Lily.Stage.ParticlePass?
         
         var objectRenderer:DevEnv.ObjectRenderer?
         var lightingRenderer:DevEnv.LightingRenderer?
-        var particleRenderer:DevEnv.ParticleRenderer?
+        //var particleRenderer:DevEnv.ParticleRenderer?
         
         let viewCount:Int
         
@@ -36,7 +37,7 @@ extension DevEnv
 
             // レンダラーの用意
             objectRenderer = .init( device:device, viewCount:viewCount )
-            particleRenderer = .init( device:device, viewCount:viewCount )
+            //particleRenderer = .init( device:device, viewCount:viewCount )
             lightingRenderer = .init( device:device, viewCount:viewCount )
             
             super.init( device:device )
@@ -136,6 +137,7 @@ extension DevEnv
 
             deferred_shading_encoder?.endEncoding()
             
+            /*
             // フォワードレンダリング : パーティクルの描画の設定
             particle_pass.setDestination( texture:destinationTexture )
             particle_pass.setDepth( texture:depthTexture )
@@ -157,6 +159,7 @@ extension DevEnv
             )
             
             particle_encoder?.endEncoding()
+            */
         }
     }
 }

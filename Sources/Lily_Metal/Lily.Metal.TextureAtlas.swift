@@ -254,6 +254,13 @@ extension Lily.Metal
             let tree = TextureTree()
             let all_size = tree.pack( imageUnits:image_rects )
             
+            if all_size.width == 0 || all_size.height == 0 {
+                self.metalTexture = try! Lily.Metal.Texture.create( device:device!, llImage:LLImage( wid:64, hgt:64 ) )
+                self.width = 64
+                self.height = 64
+                return self
+            }
+            
             if all_size.width > 16384 || all_size.height > 16384 {
                 LLLog( "テクスチャのサイズが許容量を超えました." )
             }

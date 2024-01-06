@@ -26,7 +26,7 @@ extension Lily.Stage
         
         var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
 
-        var renderFlow:BaseRenderFlow
+        var renderFlows:[BaseRenderFlow] = []
         
         public var camera = Lily.Stage.Camera(
             perspectiveWith:LLFloatv3( 61, 26, 56 ),
@@ -40,14 +40,14 @@ extension Lily.Stage
     
         //var cursorPosition:LLFloatv2 = .zero
         
-        public init( device:MTLDevice, size:CGSize, renderFlow:BaseRenderFlow, buffersInFlight:Int ) {
+        public init( device:MTLDevice, size:CGSize, renderFlows:[BaseRenderFlow], buffersInFlight:Int ) {
             self.device = device
             self.commandQueue = device.makeCommandQueue()
             self.maxBuffersInFlight = buffersInFlight
             
             self.uniforms = .init( device:device, ringSize:maxBuffersInFlight )
             
-            self.renderFlow = renderFlow
+            self.renderFlows = renderFlows
             
             super.init()
         }
@@ -119,7 +119,7 @@ extension Lily.Stage
         
         public func changeScreenSize( size:CGSize ) {
             screenSize = size.llSizeFloat
-            renderFlow.changeSize( scaledSize:size )
+            renderFlows.forEach { $0.changeSize( scaledSize:size ) }
             camera.aspect = (size.width / size.height).f    // カメラのアス比を更新
         }
 
@@ -162,15 +162,17 @@ extension Lily.Stage
             self.updateGlobalUniform()
             
             // 共通処理
-            renderFlow.render(
-                commandBuffer:commandBuffer,
-                rasterizationRateMap:rasterizationRateMap,
-                viewports:viewports, 
-                viewCount:viewCount,
-                destinationTexture:destinationTexture, 
-                depthTexture:depthTexture,
-                uniforms:uniforms
-            )
+            renderFlows.forEach { 
+                $0.render(
+                    commandBuffer:commandBuffer,
+                    rasterizationRateMap:rasterizationRateMap,
+                    viewports:viewports, 
+                    viewCount:viewCount,
+                    destinationTexture:destinationTexture, 
+                    depthTexture:depthTexture,
+                    uniforms:uniforms
+                ) 
+            }
             
             commandBuffer.present( drawable )
             commandBuffer.commit()

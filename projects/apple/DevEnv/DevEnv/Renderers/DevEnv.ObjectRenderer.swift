@@ -42,7 +42,7 @@ extension DevEnv
         
         public func loadAssets() {
             let assets = [
-                "cube"
+                "acacia1"
             ]
             
             for asset_name in assets {

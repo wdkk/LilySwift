@@ -58,7 +58,7 @@ extension Lily.Stage
         
         var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
         
-        var renderFlow:BaseRenderFlow
+        var renderFlows:[BaseRenderFlow] = []
         
         public var camera = Lily.Stage.Camera(
             perspectiveWith:LLFloatv3( 0, 0, 0 ),
@@ -70,7 +70,7 @@ extension Lily.Stage
             far: 600.0
         )
         
-        public init( _ layerRenderer:LayerRenderer, renderFlow:BaseRenderFlow, buffersInFlight:Int ) {
+        public init( _ layerRenderer:LayerRenderer, renderFlows:[BaseRenderFlow], buffersInFlight:Int ) {
             self.layerRenderer = layerRenderer
             self.worldTracking = WorldTrackingProvider()
             self.arSession = ARKitSession()
@@ -81,7 +81,7 @@ extension Lily.Stage
             
             self.uniforms = .init( device:device, ringSize:maxBuffersInFlight )
             
-            self.renderFlow = renderFlow
+            self.renderFlows = renderFlows
             
             super.init()
         }
@@ -121,7 +121,7 @@ extension Lily.Stage
         
         public func changeScreenSize( size:CGSize ) {
             screenSize = size.llSizeFloat
-            renderFlow.changeSize( scaledSize:size ) 
+            renderFlows.forEach { $0.changeSize( scaledSize:size ) }
             camera.aspect = (size.width / size.height).f
         }
         
@@ -293,15 +293,17 @@ extension Lily.Stage
             )
             
             // 共通処理
-            renderFlow.render(
-                commandBuffer:commandBuffer,
-                rasterizationRateMap:rasterizationRateMap,
-                viewports:viewports, 
-                viewCount:viewCount,
-                destinationTexture:destinationTexture, 
-                depthTexture:depthTexture,
-                uniforms:uniforms
-            )
+            renderFlows.forEach {
+                $0.render(
+                    commandBuffer:commandBuffer,
+                    rasterizationRateMap:rasterizationRateMap,
+                    viewports:viewports, 
+                    viewCount:viewCount,
+                    destinationTexture:destinationTexture, 
+                    depthTexture:depthTexture,
+                    uniforms:uniforms
+                )
+            }
             
             layerRenderDrawable.encodePresent( commandBuffer:commandBuffer )
             

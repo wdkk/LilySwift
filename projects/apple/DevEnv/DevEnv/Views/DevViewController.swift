@@ -45,7 +45,9 @@ class DevViewController
     }
 
     var renderEngine:Lily.Stage.StandardRenderEngine?
+    
     var renderFlow:DevEnv.RenderFlow?
+    var pgRenderFlow:Lily.Stage.Playground3D.RenderFlow?
     
     var mouseDrag = LLFloatv2()
     
@@ -65,10 +67,12 @@ class DevViewController
         
         renderFlow = .init( device:device!, viewCount:1 )
         
+        pgRenderFlow = .init( device:device!, viewCount:1, renderTextures:renderFlow!.renderTextures )
+        
         renderEngine = .init( 
             device:device!,
             size:CGSize( 320, 240 ),
-            renderFlow:renderFlow!,
+            renderFlows:[ renderFlow!, pgRenderFlow! ],
             buffersInFlight:3
         )
 
