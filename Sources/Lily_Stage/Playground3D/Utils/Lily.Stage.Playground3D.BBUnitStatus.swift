@@ -13,7 +13,7 @@ import simd
 
 extension Lily.Stage.Playground3D
 {    
-    public struct UnitStatus
+    public struct BBUnitStatus
     {
         //-- メモリアラインメント範囲START --//
         // 公開パラメータ
@@ -25,7 +25,7 @@ extension Lily.Stage.Playground3D
         private var _reserved:LLFloat = 0.0
         public var deltaPosition:LLFloatv3 = .zero
         private var _reserved2:LLFloat = 0.0
-        public var scale:LLFloatv2 = .init( 100.0, 100.0 )
+        public var scale:LLFloatv2 = .init( 1.0, 1.0 )
         public var deltaScale:LLFloatv2 = .zero
         public var angle:LLFloat = 0.0
         public var deltaAngle:LLFloat = 0.0
@@ -54,7 +54,7 @@ extension Lily.Stage.Playground3D
         public var compositeType:CompositeType { get { CompositeType( rawValue:types.0 )! } set { types.0 = newValue.rawValue } }
         public var shapeType:ShapeType { get { ShapeType( rawValue:types.1 )! } set { types.1 = newValue.rawValue } }
         
-        static let reset = UnitStatus(
+        static let reset = BBUnitStatus(
             matrix: .identity, 
             atlasUV: .init( 0.0, 0.0, 1.0, 1.0 ),
             color: LLColor.black.floatv4, 
@@ -63,7 +63,7 @@ extension Lily.Stage.Playground3D
             _reserved: 0.0,
             deltaPosition: .zero,
             _reserved2: 0.0,
-            scale: .init( 100.0, 100.0 ),
+            scale: .init( 1.0, 1.0 ),
             deltaScale: .zero, 
             angle: 0.0,
             deltaAngle: 0.0,

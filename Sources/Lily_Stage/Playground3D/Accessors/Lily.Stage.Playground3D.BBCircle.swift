@@ -12,32 +12,32 @@ import Metal
 
 extension Lily.Stage.Playground3D
 {
-    public class PGRectangle : PGActor
+    public class BBCircle : BBActor
     {        
         @discardableResult
-        public override init( pool:PGPool = PGPool.current! ) {
+        public override init( pool:BBPool = BBPool.current! ) {
             super.init( pool:pool )
-            status.shapeType = .rectangle
+            status.shapeType = .circle
             status.compositeType = .alpha
         }
     }
     
-    public class PGAddRectangle : PGActor
+    public class BBAddCircle : BBActor
     {        
         @discardableResult
-        public override init( pool:PGPool = PGPool.current! ) {
+        public override init( pool:BBPool = BBPool.current! ) {
             super.init( pool:pool )
-            status.shapeType = .rectangle
+            status.shapeType = .circle
             status.compositeType = .add
         }
     }
     
-    public class PGSubRectangle : PGActor
+    public class BBSubCircle : BBActor
     {        
         @discardableResult
-        public override init( pool:PGPool = PGPool.current! ) {
+        public override init( pool:BBPool = BBPool.current! ) {
             super.init( pool:pool )
-            status.shapeType = .rectangle
+            status.shapeType = .circle
             status.compositeType = .sub
         }
     }

@@ -13,27 +13,24 @@ import simd
 
 extension Lily.Stage.Playground3D
 {   
-    open class PGActor : Hashable
+    open class BBActor : Hashable
     {
-        fileprivate static let Z_INDEX_MIN:Float = 0.0
-        fileprivate static let Z_INDEX_MAX:Float = 99999.0
-        
         public typealias Here = Lily.Stage.Playground3D
         // Hashableの実装
-        public static func == ( lhs:PGActor, rhs:PGActor ) -> Bool { lhs === rhs }
+        public static func == ( lhs:BBActor, rhs:BBActor ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
     
         public private(set) var index:Int
-        public private(set) var pool:PGPool
-        public private(set) var storage:Storage
-        public private(set) var statusAccessor:UnsafeMutableBufferPointer<UnitStatus>?
-        public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>!
+        public private(set) var pool:BBPool
+        public private(set) var storage:BBStorage
+        public private(set) var statusAccessor:UnsafeMutableBufferPointer<BBUnitStatus>?
+        public private(set) var currentPointer:UnsafeMutablePointer<BBUnitStatus>!
                 
-        public var iterateField:PGField<PGActor, LLEmpty>?
+        public var iterateField:BBField<BBActor, LLEmpty>?
         public var intervalField:ActorInterval?
-        public var completionField:PGField<PGActor, LLEmpty>?
+        public var completionField:BBField<BBActor, LLEmpty>?
         
-        public init( pool:PGPool = PGPool.current! ) {   
+        public init( pool:BBPool = BBPool.current! ) {   
             self.pool = pool
             self.storage = pool.storage!
             self.statusAccessor = storage.statuses?.accessor
@@ -56,14 +53,14 @@ extension Lily.Stage.Playground3D
             pool.insertShape( self )
         }
         
-        public var status:UnitStatus {
+        public var status:BBUnitStatus {
             get { currentPointer.pointee }
             set { currentPointer.pointee = newValue }
         }
        
         @discardableResult
-        public func iterate( _ f:@escaping ( PGActor )->Void ) -> Self {
-            self.iterateField = PGField( me:self, action:f )
+        public func iterate( _ f:@escaping ( BBActor )->Void ) -> Self {
+            self.iterateField = BBField( me:self, action:f )
             return self
         }
         
@@ -72,11 +69,11 @@ extension Lily.Stage.Playground3D
         }
         
         @discardableResult
-        public func interval( sec:Double, f:@escaping ( PGActor )->Void ) -> Self {
+        public func interval( sec:Double, f:@escaping ( BBActor )->Void ) -> Self {
             self.intervalField = ActorInterval(
                 sec:sec,
                 prev:ActorTimer.shared.nowTime,
-                field:PGField( me:self, action:f )
+                field:BBField( me:self, action:f )
             )
             return self
         }
@@ -98,8 +95,8 @@ extension Lily.Stage.Playground3D
         }
         
         @discardableResult
-        public func completion( _ f:@escaping ( PGActor )->Void ) -> Self {
-            self.completionField = PGField( me:self, action:f )
+        public func completion( _ f:@escaping ( BBActor )->Void ) -> Self {
+            self.completionField = BBField( me:self, action:f )
             return self
         }
         
@@ -125,7 +122,7 @@ extension Lily.Stage.Playground3D
 }
 
 // 内部クラスなど
-extension Lily.Stage.Playground3D.PGActor
+extension Lily.Stage.Playground3D.BBActor
 {
     public class ActorTimer
     {
@@ -151,12 +148,12 @@ extension Lily.Stage.Playground3D.PGActor
     {
         var sec:Double = 1.0
         var prev:Double = 0.0
-        var field:Here.PGField<Here.PGActor, LLEmpty>
+        var field:Here.BBField<Here.BBActor, LLEmpty>
         
         public init(
             sec:Double,
             prev:Double, 
-            field:Here.PGField<Here.PGActor, LLEmpty> 
+            field:Here.BBField<Here.BBActor, LLEmpty> 
         ) 
         {
             self.sec = sec
@@ -167,7 +164,7 @@ extension Lily.Stage.Playground3D.PGActor
 }
 
 // プロパティ
-extension Lily.Stage.Playground3D.PGActor
+extension Lily.Stage.Playground3D.BBActor
 {
     public var position:LLFloatv3 { 
         get { return status.position }
@@ -262,7 +259,7 @@ extension Lily.Stage.Playground3D.PGActor
 }
 
 // MARK: - 基本パラメータ情報の各種メソッドチェーンアクセサ
-extension Lily.Stage.Playground3D.PGActor
+extension Lily.Stage.Playground3D.BBActor
 {
     @discardableResult
     public func position( _ p:LLFloatv3 ) -> Self {
@@ -283,7 +280,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
     
     @discardableResult
-    public func position( _ calc:( Here.PGActor )->LLFloatv3 ) -> Self {
+    public func position( _ calc:( Here.BBActor )->LLFloatv3 ) -> Self {
         let pf = calc( self )
         status.position = pf
         return self
@@ -303,7 +300,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
 
     @discardableResult
-    public func cx( _ calc:( Here.PGActor )->LLFloat ) -> Self {
+    public func cx( _ calc:( Here.BBActor )->LLFloat ) -> Self {
         status.position.x = calc( self )
         return self
     }
@@ -322,7 +319,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
 
     @discardableResult
-    public func cy( _ calc:( Here.PGActor )->LLFloat ) -> Self {
+    public func cy( _ calc:( Here.BBActor )->LLFloat ) -> Self {
         status.position.y = calc( self )
         return self
     }
@@ -340,7 +337,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
 
     @discardableResult
-    public func cz( _ calc:( Here.PGActor )->LLFloat ) -> Self {
+    public func cz( _ calc:( Here.BBActor )->LLFloat ) -> Self {
         status.position.z = calc( self )
         return self
     }
@@ -365,7 +362,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
     
     @discardableResult
-    public  func scale( _ calc:( Here.PGActor )->LLSizeFloat ) -> Self {
+    public  func scale( _ calc:( Here.BBActor )->LLSizeFloat ) -> Self {
         let sf = calc( self )
         status.scale = LLFloatv2( sf.width, sf.height )
         return self
@@ -397,7 +394,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
 
     @discardableResult
-    public func width( _ calc:( Here.PGActor )->Float ) -> Self {
+    public func width( _ calc:( Here.BBActor )->Float ) -> Self {
         status.scale.x = calc( self )
         return self
     }
@@ -416,7 +413,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
 
     @discardableResult
-    public func height( _ calc:( Here.PGActor )->Float ) -> Self {
+    public func height( _ calc:( Here.BBActor )->Float ) -> Self {
         status.scale.y = calc( self )
         return self
     }
@@ -441,20 +438,20 @@ extension Lily.Stage.Playground3D.PGActor
     }
     
     @discardableResult
-    public func angle( _ calc:( Here.PGActor )->LLAngle ) -> Self {
+    public func angle( _ calc:( Here.BBActor )->LLAngle ) -> Self {
         let ang = calc( self )
         status.angle = ang.radians.f
         return self
     }
     
     @discardableResult
-    public func angle<T:BinaryInteger>( _ calc:( Here.PGActor )->T ) -> Self {
+    public func angle<T:BinaryInteger>( _ calc:( Here.BBActor )->T ) -> Self {
         status.angle = Float( calc( self ) )
         return self
     }
     
     @discardableResult
-    public func angle<T:BinaryFloatingPoint>( _ calc:( Here.PGActor )->T ) -> Self {
+    public func angle<T:BinaryFloatingPoint>( _ calc:( Here.BBActor )->T ) -> Self {
         status.angle = Float( calc( self ) )
         return self
     }
@@ -466,7 +463,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
     
     @discardableResult
-    public func enabled( _ calc:( Here.PGActor )->Bool ) -> Self {
+    public func enabled( _ calc:( Here.BBActor )->Bool ) -> Self {
         status.enabled = calc( self )
         return self
     }
@@ -484,7 +481,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
     
     @discardableResult
-    public func life( _ calc:( Here.PGActor )->Float ) -> Self {
+    public func life( _ calc:( Here.BBActor )->Float ) -> Self {
         status.life = calc( self )
         return self
     }
@@ -512,7 +509,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
     
     @discardableResult
-    public func color( _ calc:( Here.PGActor )->LLColor ) -> Self {
+    public func color( _ calc:( Here.BBActor )->LLColor ) -> Self {
         status.color = calc( self ).floatv4
         return self
     }
@@ -531,7 +528,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
     
     @discardableResult
-    public func alpha( _ calc:( Here.PGActor )->Float ) -> Self {
+    public func alpha( _ calc:( Here.BBActor )->Float ) -> Self {
         status.color.w = calc( self )
         return self
     }
@@ -563,14 +560,14 @@ extension Lily.Stage.Playground3D.PGActor
     }
     
     @discardableResult
-    public func deltaPosition( _ calc:( Here.PGActor )->LLFloatv3 ) -> Self {
+    public func deltaPosition( _ calc:( Here.BBActor )->LLFloatv3 ) -> Self {
         let pf = calc( self )
         status.deltaPosition = pf
         return self
     }
     
     @discardableResult
-    public func deltaPosition<T:BinaryFloatingPoint>( _ calc:( Here.PGActor )->(T,T,T) ) -> Self {
+    public func deltaPosition<T:BinaryFloatingPoint>( _ calc:( Here.BBActor )->(T,T,T) ) -> Self {
         let pos = calc( self )
         status.deltaPosition = LLFloatv3( Float(pos.0), Float(pos.1), Float(pos.2) )
         return self
@@ -596,7 +593,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
     
     @discardableResult
-    public func deltaScale( _ calc:( Here.PGActor )->LLSizeFloat ) -> Self {
+    public func deltaScale( _ calc:( Here.BBActor )->LLSizeFloat ) -> Self {
         let sf = calc( self )
         status.deltaScale = LLFloatv2( sf.width, sf.height )
         return self
@@ -637,7 +634,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
 
     @discardableResult
-    public func deltaAlpha( _ calc:( Here.PGActor )->Float ) -> Self {
+    public func deltaAlpha( _ calc:( Here.BBActor )->Float ) -> Self {
         status.deltaColor.w = calc( self )
         return self
     }
@@ -662,19 +659,19 @@ extension Lily.Stage.Playground3D.PGActor
     }
     
     @discardableResult
-    public func deltaAngle( _ calc:( Here.PGActor )->LLAngle ) -> Self {
+    public func deltaAngle( _ calc:( Here.BBActor )->LLAngle ) -> Self {
         status.deltaAngle = calc( self ).radians.f
         return self
     }
     
     @discardableResult
-    public func deltaAngle<T:BinaryInteger>( _ calc:( Here.PGActor )->T ) -> Self {
+    public func deltaAngle<T:BinaryInteger>( _ calc:( Here.BBActor )->T ) -> Self {
         status.deltaAngle = Float( calc( self ) )
         return self
     }
     
     @discardableResult
-    public func deltaAngle<T:BinaryFloatingPoint>( _ calc:( Here.PGActor )->T ) -> Self {
+    public func deltaAngle<T:BinaryFloatingPoint>( _ calc:( Here.BBActor )->T ) -> Self {
         status.deltaAngle = Float( calc( self ) )
         return self
     }
@@ -693,7 +690,7 @@ extension Lily.Stage.Playground3D.PGActor
     }
 
     @discardableResult
-    public func deltaLife( _ calc:( Here.PGActor )->Float ) -> Self {
+    public func deltaLife( _ calc:( Here.BBActor )->Float ) -> Self {
         status.deltaLife = calc( self )
         return self
     }

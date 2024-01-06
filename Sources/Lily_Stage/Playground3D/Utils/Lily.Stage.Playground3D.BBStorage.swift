@@ -25,10 +25,10 @@ extension Lily.Stage.Playground3D
         }
     }
     
-    open class Storage
+    open class BBStorage
     {
         public var particles:Lily.Stage.Model.Quadrangles<PG3DVIn>?
-        public var statuses:Lily.Metal.Buffer<UnitStatus>?
+        public var statuses:Lily.Metal.Buffer<BBUnitStatus>?
         public var reuseIndice:[Int]
         
         public var textureAtlas:Lily.Metal.TextureAtlas

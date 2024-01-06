@@ -10,41 +10,36 @@
 
 import Metal
 import MetalKit
-import LilySwift
 
-extension DevEnv
+extension Lily.Stage.Playground3D
 {   
-    open class RenderFlow
+    open class ModelRenderFlow
     : Lily.Stage.BaseRenderFlow
     {
-        var renderTextures:Lily.Stage.RenderTextures
+        weak var renderTextures:Lily.Stage.RenderTextures?
         
         var deferredShadingPass:Lily.Stage.DeferredShadingPass?
-        var particlePass:Lily.Stage.ParticlePass?
         
-        var objectRenderer:DevEnv.ObjectRenderer?
-        var lightingRenderer:DevEnv.LightingRenderer?
-        var particleRenderer:DevEnv.ParticleRenderer?
-        
+        var modelObjectRenderer:ModelObjectRenderer?
+        var modelLightingRenderer:ModelLightingRenderer?
+
         let viewCount:Int
         
-        public init( device:MTLDevice, viewCount:Int ) {
-            self.renderTextures = .init( device:device )
+        public init( device:MTLDevice, viewCount:Int, renderTextures:Lily.Stage.RenderTextures ) {
+            self.renderTextures = renderTextures
             self.deferredShadingPass = .init( device:device, renderTextures:renderTextures )
-            self.particlePass = .init( device:device, renderTextures:renderTextures )
             
             self.viewCount = viewCount
 
             // レンダラーの用意
-            objectRenderer = .init( device:device, viewCount:viewCount )
-            particleRenderer = .init( device:device, viewCount:viewCount )
-            lightingRenderer = .init( device:device, viewCount:viewCount )
+            modelObjectRenderer = .init( device:device, viewCount:viewCount )
+            modelLightingRenderer = .init( device:device, viewCount:viewCount )
             
             super.init( device:device )
         }
         
         public override func changeSize( scaledSize:CGSize ) {
-            renderTextures.updateBuffers( size:scaledSize, viewCount:viewCount )
+            renderTextures!.updateBuffers( size:scaledSize, viewCount:viewCount )
         }
         
         public override func render(
@@ -57,27 +52,21 @@ extension DevEnv
             uniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>
         )
         {
-            guard let deferred_shading_pass = deferredShadingPass, let particle_pass = particlePass else { return }
+            guard let deferred_shading_pass = deferredShadingPass else { return }
             
-            let shadowViewport = renderTextures.shadowViewport()
-            let shadowScissor = renderTextures.shadowScissor()
+            let shadowViewport = renderTextures!.shadowViewport()
+            let shadowScissor = renderTextures!.shadowScissor()
             
             // 共通処理
             // パスの更新
             deferred_shading_pass.updatePass( 
-                renderTextures:renderTextures,
+                renderTextures:renderTextures!,
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetCount:viewCount
             )
             
-            particle_pass.updatePass( 
-                renderTextures:renderTextures,
-                rasterizationRateMap:rasterizationRateMap,
-                renderTargetCount:viewCount        
-            )
-            
             // オブジェクトの生成
-            objectRenderer?.generateObject( with:commandBuffer )
+            modelObjectRenderer?.generateObject( with:commandBuffer )
             
             // カスケードシャドウマップ
             for c_idx in 0 ..< Lily.Stage.Shared.Const.shadowCascadesCount {
@@ -99,7 +88,7 @@ extension DevEnv
                 shadow_encoder?.setVertexBytes( &vp_matrix, length:MemoryLayout<float4x4>.stride, index:3 )
                 
                 // 陰影の描画
-                objectRenderer?.drawShadows(
+                modelObjectRenderer?.drawShadows(
                     with:shadow_encoder, 
                     globalUniforms:uniforms, 
                     cascadeIndex:c_idx 
@@ -123,41 +112,19 @@ extension DevEnv
             .vertexAmplification( count:viewCount, viewports:viewports )
             
             // オブジェクトの描画
-            objectRenderer?.draw( 
+            modelObjectRenderer?.draw( 
                 with:deferred_shading_encoder, 
                 globalUniforms:uniforms
             )
 
             // ライティングの描画
-            lightingRenderer?.draw(
+            modelLightingRenderer?.draw(
                 with:deferred_shading_encoder, 
                 globalUniforms:uniforms, 
-                renderTextures:renderTextures
+                renderTextures:renderTextures!
             )
 
             deferred_shading_encoder?.endEncoding()
-            
-            // フォワードレンダリング : パーティクルの描画の設定
-            particle_pass.setDestination( texture:destinationTexture )
-            particle_pass.setDepth( texture:depthTexture )
-            
-            let particle_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:particle_pass.passDesc! )
-            
-            particle_encoder?
-            .label( "Particle Render" )
-            .cullMode( .none )
-            .depthStencilState( particle_pass.depthState! )
-            .viewports( viewports )
-            .vertexAmplification( count:viewCount, viewports:viewports )
-            
-            // 半透明パーティクル描画
-            particleRenderer?.draw(
-                with:particle_encoder,
-                globalUniforms:uniforms,
-                renderTextures:renderTextures
-            )
-            
-            particle_encoder?.endEncoding()
         }
     }
 }

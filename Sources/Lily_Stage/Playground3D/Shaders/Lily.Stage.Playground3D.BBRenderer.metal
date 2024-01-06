@@ -22,7 +22,6 @@ using namespace Lily::Stage::Shared;
 
 //// マクロ定義 ////
 #define TOO_FAR 999999.0
-
 //// 列挙子 ////
 enum CompositeType : uint
 {
@@ -57,7 +56,7 @@ struct PG3DVIn
     float2 texUV;
 };
 
-struct UnitStatus
+struct BBUnitStatus
 {
     float4x4 matrix;
     float4 atlasUV;
@@ -79,9 +78,8 @@ struct UnitStatus
     ShapeType shapeType;
 };
     
-struct LocalUniform
+struct BBLocalUniform
 {
-    float4x4      projectionMatrix;
     CompositeType shaderCompositeType;
     DrawingType   drawingType;
     int           drawingOffset;
@@ -114,17 +112,17 @@ struct SRGBFOut
 };
 */
 
-vertex PG3DVOut Lily_Stage_Playground3D_Vs(
+vertex PG3DVOut Lily_Stage_Playground3D_Billboard_Vs(
     const device PG3DVIn* in [[ buffer(0) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
-    constant LocalUniform &localUniform [[ buffer(2) ]],
-    const device UnitStatus* statuses [[ buffer(3) ]],
+    constant BBLocalUniform &localUniform [[ buffer(2) ]],
+    const device BBUnitStatus* statuses [[ buffer(3) ]],
     ushort amp_id [[ amplification_id ]],
     uint vid [[ vertex_id ]],
     uint iid [[ instance_id ]]
 )
 {
-    UnitStatus us = statuses[iid];
+    BBUnitStatus us = statuses[iid];
     
     if( us.compositeType != localUniform.shaderCompositeType ) { 
         PG3DVOut trush_vout;
@@ -148,16 +146,9 @@ vertex PG3DVOut Lily_Stage_Playground3D_Vs(
     
     const int offset = localUniform.drawingOffset;
         
-    float4x4 modelMatrix = float4x4(
-        float4(   1,   0,   0,   0 ),
-        float4(   0,   1,   0,   0 ),
-        float4(   0,   0,   1,   0 ),
-        float4(   0,   0,   0,   1 )
-    );
-    
     GlobalUniform uniform = uniformArray.uniforms[amp_id];
     float4x4 vpMatrix = uniform.cameraUniform.viewProjectionMatrix;
-    float4x4 mvpMatrix = vpMatrix * modelMatrix;
+    float4x4 mvpMatrix = vpMatrix;  // TODO: 今の所モデルマトリクスはない
     
     PG3DVIn vin = in[offset + vid];
     
@@ -176,10 +167,10 @@ vertex PG3DVOut Lily_Stage_Playground3D_Vs(
     float4 center_pos = (pos1 + pos2 + pos3 + pos4) / 4.0;
 
     constexpr float3 square_vertices[] = { 
-        float3( -0.5, -0.5 , 0.0 ),
-        float3(  0.5, -0.5 , 0.0 ),
-        float3( -0.5,  0.5 , 0.0 ),
-        float3(  0.5,  0.5 , 0.0 )
+        float3( -1.0, -1.0, 0.0 ),
+        float3(  1.0, -1.0, 0.0 ),
+        float3( -1.0,  1.0, 0.0 ),
+        float3(  1.0,  1.0, 0.0 )
     };
     
     float4 atlas_uv = us.atlasUV;
@@ -199,17 +190,7 @@ vertex PG3DVOut Lily_Stage_Playground3D_Vs(
 
     // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
     float visibility_z = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : TOO_FAR;
-    
-    /*
-    // xy座標のアフィン変換
-    float4 v_coord = float4(
-        scx * cosv * x - sinv * scy * y + us.position.x / uniform.aspect,
-        scx * sinv * x + cosv * scy * y + us.position.y,
-        us.position.z + visibility_z,
-        1.0
-    );
-    */
-    
+        
     float xx = square_vertices[vid].x;
     float yy = square_vertices[vid].y;
     
@@ -286,7 +267,7 @@ namespace Lily
     }
 }
 
-fragment PG3DResult Lily_Stage_Playground3D_Fs(
+fragment PG3DResult Lily_Stage_Playground3D_Billboard_Fs(
     const PG3DVOut in [[ stage_in ]],
     texture2d<float> tex [[ texture(1) ]]
 )

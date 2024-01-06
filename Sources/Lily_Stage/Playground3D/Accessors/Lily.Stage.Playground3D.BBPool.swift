@@ -13,16 +13,16 @@ import simd
 
 extension Lily.Stage.Playground3D
 {   
-    open class PGPool
+    open class BBPool
     {   
-        public static var current:PGPool? = nil
+        public static var current:BBPool? = nil
         public init() {}
         
-        public private(set) var shapes:Set<PGActor> = []
-        public var storage:Storage?
+        public private(set) var shapes:Set<BBActor> = []
+        public var storage:BBStorage?
         
-        public func insertShape( _ shape:PGActor ) { shapes.insert( shape ) }
-        public func removeShape( _ shape:PGActor ) { shapes.remove( shape ) }
+        public func insertShape( _ shape:BBActor ) { shapes.insert( shape ) }
+        public func removeShape( _ shape:BBActor ) { shapes.remove( shape ) }
         
         func removeAllShapes() {
             shapes.forEach { $0.trush() }

@@ -13,7 +13,7 @@ import simd
 
 extension Lily.Stage.Playground3D
 {
-    open class AlphaRenderer
+    open class BBAlphaRenderer
     {
         public var device: MTLDevice
         
@@ -27,8 +27,8 @@ extension Lily.Stage.Playground3D
             
             if environment == .metallib {
                 let library = try! Lily.Stage.metalLibrary( of:device )
-                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground3D_Vs" ) )
-                desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground3D_Fs" ) )
+                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground3D_Billboard_Vs" ) )
+                desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground3D_Billboard_Fs" ) )
             }
             /*
             else if environment == .string {
@@ -54,23 +54,20 @@ extension Lily.Stage.Playground3D
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
             renderTextures:Lily.Stage.RenderTextures,
-            storage:Lily.Stage.Playground3D.Storage,
-            screenSize:CGSize
+            storage:Lily.Stage.Playground3D.BBStorage
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )
             
-            // プロジェクション行列を画面のピクセルサイズ変換に指定
             // シェーダの合成タイプの設定も行う
-            var local_uniform = LocalUniform( 
-                projectionMatrix:.pixelXYProjection( screenSize ),
+            var local_uniform = BBLocalUniform( 
                 shaderCompositeType:.alpha,
                 drawingType:.quadrangles
             )
             
             renderEncoder?.setVertexBuffer( storage.particles?.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
-            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
+            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<BBLocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
@@ -85,23 +82,20 @@ extension Lily.Stage.Playground3D
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
             renderTextures:Lily.Stage.RenderTextures,
-            storage:Lily.Stage.Playground3D.Storage,
-            screenSize:CGSize
+            storage:Lily.Stage.Playground3D.BBStorage
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )
             
-            // プロジェクション行列を画面のピクセルサイズ変換に指定
             // シェーダの合成タイプの設定も行う
-            var local_uniform = LocalUniform( 
-                projectionMatrix:.pixelXYProjection( screenSize ),
+            var local_uniform = BBLocalUniform(
                 shaderCompositeType:.alpha,
                 drawingType:.triangles
             )
             
             renderEncoder?.setVertexBuffer( storage.particles?.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
-            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
+            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<BBLocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 

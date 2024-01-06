@@ -13,20 +13,17 @@ import simd
 
 extension Lily.Stage.Playground3D
 {    
-    public struct LocalUniform
+    public struct BBLocalUniform
     {        
-        var projectionMatrix:LLMatrix4x4
         var shaderCompositeType:LLUInt32
         var drawingType:LLUInt32
         var drawingOffset:LLInt32
         
         public init(
-            projectionMatrix: LLMatrix4x4 = .identity,
             shaderCompositeType: CompositeType = .none,
             drawingType:DrawingType = .quadrangles
         ) 
         {
-            self.projectionMatrix = projectionMatrix
             self.shaderCompositeType = shaderCompositeType.rawValue
             self.drawingType = drawingType.rawValue
             self.drawingOffset = drawingType == .quadrangles ? 0 : 4

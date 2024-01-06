@@ -14,7 +14,7 @@ import simd
 
 extension Lily.Stage.Playground3D
 {
-    open class Pass
+    open class BBPass
     { 
         var device:MTLDevice
         var commandQueue:MTLCommandQueue?

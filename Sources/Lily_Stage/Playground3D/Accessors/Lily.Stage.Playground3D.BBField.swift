@@ -15,7 +15,7 @@ import simd
 
 extension Lily.Stage.Playground3D
 {   
-    public class PGField<TMe:AnyObject, TObj>
+    public class BBField<TMe:AnyObject, TObj>
     : LLField
     {    
         public private(set) var relayFunc:((TObj)->Void)?
