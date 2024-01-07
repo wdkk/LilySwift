@@ -49,7 +49,7 @@ enum DrawingType : uint
 
 //// 構造体 ////
     
-struct PG3DVIn
+struct PG3DBBVIn
 {
     float4 xyzw;
     float2 uv;
@@ -85,7 +85,7 @@ struct BBLocalUniform
     int           drawingOffset;
 };        
 
-struct PG3DVOut
+struct PG3DBBVOut
 {
     float4 pos [[ position ]];
     float2 xy;
@@ -112,8 +112,8 @@ struct SRGBFOut
 };
 */
 
-vertex PG3DVOut Lily_Stage_Playground3D_Billboard_Vs(
-    const device PG3DVIn* in [[ buffer(0) ]],
+vertex PG3DBBVOut Lily_Stage_Playground3D_Billboard_Vs(
+    const device PG3DBBVIn* in [[ buffer(0) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
     constant BBLocalUniform &localUniform [[ buffer(2) ]],
     const device BBUnitStatus* statuses [[ buffer(3) ]],
@@ -125,21 +125,21 @@ vertex PG3DVOut Lily_Stage_Playground3D_Billboard_Vs(
     BBUnitStatus us = statuses[iid];
     
     if( us.compositeType != localUniform.shaderCompositeType ) { 
-        PG3DVOut trush_vout;
+        PG3DBBVOut trush_vout;
         trush_vout.pos = float4( 0, 0, TOO_FAR, 0 );
         return trush_vout;
     }
 
     // 三角形が指定されているが, 描画が三角形でない場合
     if( us.shapeType == ShapeType::triangle && localUniform.drawingType != DrawingType::triangles ) {
-        PG3DVOut trush_vout;
+        PG3DBBVOut trush_vout;
         trush_vout.pos = float4( 0, 0, TOO_FAR, 0 );
         return trush_vout;    
     }
     
     // 三角形以外が指定されているが、描画が三角形である場合
     if( us.shapeType != ShapeType::triangle && localUniform.drawingType == DrawingType::triangles ) {
-        PG3DVOut trush_vout;
+        PG3DBBVOut trush_vout;
         trush_vout.pos = float4( 0, 0, TOO_FAR, 0 );
         return trush_vout;    
     }
@@ -147,61 +147,72 @@ vertex PG3DVOut Lily_Stage_Playground3D_Billboard_Vs(
     const int offset = localUniform.drawingOffset;
         
     GlobalUniform uniform = uniformArray.uniforms[amp_id];
+    
+    PG3DBBVIn vin = in[offset + vid];
+        
+    float4x4 modelMatrix = float4x4(
+        float4( 1, 0, 0, 0 ),
+        float4( 0, 1, 0, 0 ),
+        float4( 0, 0, 1, 0 ),
+        float4( us.position, 1 )
+    );
+    
     float4x4 vpMatrix = uniform.cameraUniform.viewProjectionMatrix;
-    float4x4 mvpMatrix = vpMatrix;  // TODO: 今の所モデルマトリクスはない
+    float4x4 mvpMatrix = vpMatrix * modelMatrix;
     
-    PG3DVIn vin = in[offset + vid];
-    
-    float cosv = cos( us.angle );
-    float sinv = sin( us.angle );
-    float x = vin.xyzw.x;
-    float y = vin.xyzw.y;
-    float scx = us.scale.x * 0.5;
-    float scy = us.scale.y * 0.5;
-    
-    float4 pos1 = mvpMatrix * in[iid * 4 + 0].xyzw;
-    float4 pos2 = mvpMatrix * in[iid * 4 + 1].xyzw;
-    float4 pos3 = mvpMatrix * in[iid * 4 + 2].xyzw;
-    float4 pos4 = mvpMatrix * in[iid * 4 + 3].xyzw;
+    float4 pos1 = mvpMatrix * in[offset + 0].xyzw;
+    float4 pos2 = mvpMatrix * in[offset + 1].xyzw;
+    float4 pos3 = mvpMatrix * in[offset + 2].xyzw;
+    float4 pos4 = mvpMatrix * in[offset + 3].xyzw;
     
     float4 center_pos = (pos1 + pos2 + pos3 + pos4) / 4.0;
 
-    constexpr float3 square_vertices[] = { 
-        float3( -1.0, -1.0, 0.0 ),
-        float3(  1.0, -1.0, 0.0 ),
-        float3( -1.0,  1.0, 0.0 ),
-        float3(  1.0,  1.0, 0.0 )
+    constexpr float2 square_vertices[] = { 
+        float2( -1.0, -1.0 ),
+        float2(  1.0, -1.0 ),
+        float2( -1.0,  1.0 ),
+        float2(  1.0,  1.0 )
+    };
+    
+    constexpr float2 triangle_vertices[] = { 
+        float2(  0.0,  1.15470053838 ),
+        float2( -1.0, -0.57735026919 ),
+        float2(  1.0, -0.57735026919 ),
+        float2(  0.0,  0.0 )
     };
     
     float4 atlas_uv = us.atlasUV;
 
-    float min_u = atlas_uv[0];
-    float min_v = atlas_uv[1];
-    float max_u = atlas_uv[2];
-    float max_v = atlas_uv[3];
+    float2 min_uv = atlas_uv.xy;
+    float2 max_uv = atlas_uv.zw;
 
     float u = vin.texUV.x;
     float v = vin.texUV.y;
+    
+    float cosv = cos( us.angle );
+    float sinv = sin( us.angle );
+    float scx = us.scale.x * 0.5;
+    float scy = us.scale.y * 0.5;
 
     float2 tex_uv = float2( 
-        min_u * (1.0-u) + max_u * u,
-        min_v * (1.0-v) + max_v * v
+        min_uv[0] * (1.0-u) + max_uv[0] * u,
+        min_uv[1] * (1.0-v) + max_uv[1] * v
     );
 
     // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
     float visibility_z = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : TOO_FAR;
         
-    float xx = square_vertices[vid].x;
-    float yy = square_vertices[vid].y;
+    // ビルボード内ローカル座標
+    float2 loc_pos = us.shapeType == ShapeType::triangle ? triangle_vertices[vid] : square_vertices[vid];
     
     float4 billboard_pos = float4(
-        center_pos.x + (scx * cosv * xx - sinv * scy * yy) / uniform.aspect,
-        center_pos.y + (scx * sinv * xx + cosv * scy * yy),
+        center_pos.x + (scx * cosv * loc_pos.x - sinv * scy * loc_pos.y) / uniform.aspect,
+        center_pos.y + (scx * sinv * loc_pos.x + cosv * scy * loc_pos.y),
         center_pos.z + visibility_z,
         center_pos.w
     );
-    
-    PG3DVOut vout;
+
+    PG3DBBVOut vout;
     vout.pos = billboard_pos;
     vout.xy = vin.xyzw.xy;
     vout.texUV = tex_uv;
@@ -218,11 +229,11 @@ namespace Lily
     {
         namespace Playground3D
         {
-            float4 drawPlane( PG3DVOut in ) {
+            float4 drawPlane( PG3DBBVOut in ) {
                 return in.color;
             }
             
-            float4 drawCircle( PG3DVOut in ) {
+            float4 drawCircle( PG3DBBVOut in ) {
                 float x = in.xy.x;
                 float y = in.xy.y;
                 float r = x * x + y * y;
@@ -230,7 +241,7 @@ namespace Lily
                 return in.color;
             } 
             
-            float4 drawBlurryCircle( PG3DVOut in ) {
+            float4 drawBlurryCircle( PG3DBBVOut in ) {
                 float x = in.xy.x;
                 float y = in.xy.y;
                 float r = sqrt( x * x + y * y );
@@ -242,7 +253,7 @@ namespace Lily
                 return c;
             } 
             
-            float4 drawPicture( PG3DVOut in, texture2d<float> tex ) {
+            float4 drawPicture( PG3DBBVOut in, texture2d<float> tex ) {
                 constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
                 
                 if( is_null_texture( tex ) ) { discard_fragment(); }
@@ -253,7 +264,7 @@ namespace Lily
                 return tex_c;
             } 
             
-            float4 drawMask( PG3DVOut in, texture2d<float> tex ) {
+            float4 drawMask( PG3DBBVOut in, texture2d<float> tex ) {
                 constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
                 
                 if( is_null_texture( tex ) ) { discard_fragment(); }
@@ -268,7 +279,7 @@ namespace Lily
 }
 
 fragment PG3DResult Lily_Stage_Playground3D_Billboard_Fs(
-    const PG3DVOut in [[ stage_in ]],
+    const PG3DBBVOut in [[ stage_in ]],
     texture2d<float> tex [[ texture(1) ]]
 )
 {

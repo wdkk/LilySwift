@@ -66,6 +66,7 @@ class DevViewController
 }
 
 func design( stage:PGStage ) {
+    /*
     for i in 0 ..< 256 {
         let x = (i / 16).f * 5.0 - 40.0
         let z = (i % 16).f * 5.0 - 40.0
@@ -77,25 +78,23 @@ func design( stage:PGStage ) {
         )
         .scale( square:4.0 )
     }
+    */
     
-    
-    /*
     for _ in 0 ..< 160 {
-        //BBSubMask( "mask-smoke" )
-        BBRectangle()
-        .color( LLColor( 0.9, 0.55, 0.25, 1.0 ) )
+        BBAddMask( "mask-smoke" )
+        .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
         .position(
-            cx:(-1.0 ... 1.0).randomize,
+            cx:(-10.0 ... 10.0).randomize,
             cy:(-2.0 ... 2.0).randomize,
-            cz:-20
+            cz:(-10.0 ... 10.0).randomize
         )
         .deltaPosition( 
             dx:(-0.01...0.01).randomize,
             dy:(0.03...0.25).randomize,
-            dz:0
+            dz:(-0.01...0.01).randomize
         )
-        .scale( square: 10.0 )
-        .deltaScale( dw: 0.02, dh: 0.02 )
+        .scale( square: 15.0 )
+        .deltaScale( dw: 0.2, dh: 0.2 )
         .angle( .random )
         .deltaAngle( degrees:(-2.0...2.0).randomize )
         .life( .random )
@@ -111,15 +110,14 @@ func design( stage:PGStage ) {
         .completion {
             $0
             .position( 
-                cx:(-1.0 ... 1.0).randomize,
+                cx:(-10.0 ... 10.0).randomize,
                 cy:(-2.0 ... 2.0).randomize,
-                cz:-10
+                cz:(-10.0 ... 10.0).randomize
             )
-            .scale( square: 10.0 )
+            .scale( square: 15.0 )
             .life( 1.0 )
         }
     }
-    */
 }
 
 func update( stage:PGStage ) {
