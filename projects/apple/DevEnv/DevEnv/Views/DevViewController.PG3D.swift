@@ -90,7 +90,7 @@ func design( stage:PGStage ) {
         )
         .deltaPosition( 
             dx:(-0.01...0.01).randomize,
-            dy:(0.03...0.25).randomize,
+            dy:(0.03...0.45).randomize,
             dz:(-0.01...0.01).randomize
         )
         .scale( square: 15.0 )

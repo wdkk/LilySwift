@@ -18,7 +18,7 @@ extension Lily.Stage
     {
         public static let backBuffer:MTLPixelFormat = .bgra8Unorm_srgb
         
-        public static let particleBuffer:MTLPixelFormat = .bgra8Unorm
+        public static let linearSRGBBuffer:MTLPixelFormat = .bgra8Unorm
         
         public static let GBuffer0:MTLPixelFormat = .bgra8Unorm_srgb
         public static let GBuffer1:MTLPixelFormat = .rgba8Unorm

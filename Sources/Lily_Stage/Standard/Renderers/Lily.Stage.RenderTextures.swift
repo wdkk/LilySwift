@@ -65,19 +65,23 @@ extension Lily.Stage
             // GBuffer0の再生成
             tex_desc.pixelFormat = BufferFormats.GBuffer0
             GBuffer0 = device.makeTexture( descriptor:tex_desc )
+            GBuffer0?.label = "GBuffer0"
             
             // GBuffer1の再生成
             tex_desc.pixelFormat = BufferFormats.GBuffer1
             GBuffer1 = device.makeTexture( descriptor:tex_desc )
+            GBuffer1?.label = "GBuffer1"
             
             // GBuffer2の再生成
             tex_desc.pixelFormat = BufferFormats.GBuffer2
             GBuffer2 = device.makeTexture( descriptor:tex_desc )
+            GBuffer2?.label = "GBuffer2"
             
             // GDepthの再生成
             tex_desc.storageMode = .private
             tex_desc.pixelFormat = BufferFormats.GBufferDepth
             GBufferDepth = device.makeTexture( descriptor:tex_desc )
+            GBufferDepth?.label = "GBufferDepth"
             
             return true
         }

@@ -17,6 +17,8 @@ extension Lily.Stage.Playground3D
     : Lily.Stage.BaseRenderFlow
     {
         var pass:Lily.Stage.Playground3D.BBPass?
+        
+        weak var mediumTextures:BBMediumRenderTextures?
         weak var renderTextures:Lily.Stage.RenderTextures?
         
         public private(set) var pool:BBPool
@@ -25,9 +27,7 @@ extension Lily.Stage.Playground3D
         var alphaRenderer:BBAlphaRenderer?
         var addRenderer:BBAddRenderer?
         var subRenderer:BBSubRenderer?
-        
-        //var sRGBRenderer:SRGBRenderer?
-        
+          
         public let viewCount:Int
         
         public private(set) var particleCapacity:Int
@@ -35,6 +35,7 @@ extension Lily.Stage.Playground3D
         public init(
             device:MTLDevice,
             viewCount:Int,
+            BBMediumTextures:BBMediumRenderTextures,
             renderTextures:Lily.Stage.RenderTextures,
             environment:Lily.Stage.ShaderEnvironment = .metallib,
             particleCapacity:Int = 10000,
@@ -44,6 +45,8 @@ extension Lily.Stage.Playground3D
             self.pass = .init( device:device )
             self.viewCount = viewCount
             self.particleCapacity = particleCapacity
+            
+            self.mediumTextures = BBMediumTextures
             
             self.renderTextures = renderTextures
             
@@ -64,14 +67,6 @@ extension Lily.Stage.Playground3D
                 viewCount:viewCount
             )
             
-            /*
-            self.sRGBRenderer = .init( 
-                device:device,
-                environment:environment,
-                viewCount:viewCount
-            )
-            */
-            
             self.storage = .init( 
                 device:device, 
                 capacity:particleCapacity
@@ -87,6 +82,7 @@ extension Lily.Stage.Playground3D
         }
         
         public override func changeSize( scaledSize:CGSize ) {
+            mediumTextures?.updateBuffers( size:scaledSize, viewCount:self.viewCount )
         }
         
         public override func render(
@@ -106,7 +102,6 @@ extension Lily.Stage.Playground3D
                 return
             }
             
-        
             BBPool.current?.storage?.statuses?.update { acc, _ in
                 for i in 0 ..< acc.count {
                     if acc[i].enabled == false || acc[i].state == .trush { continue }
@@ -120,6 +115,7 @@ extension Lily.Stage.Playground3D
             
             // 共通処理
             pass.updatePass( 
+                mediumTextures:mediumTextures!,
                 renderTextures:renderTextures,
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetCount:viewCount        
@@ -182,14 +178,6 @@ extension Lily.Stage.Playground3D
                 storage:storage
             )
 
-            /*
-            // sRGB変換
-            sRGBRenderer?.draw(
-                with:encoder,
-                renderTextures:renderTextures
-            )
-            */
-            
             encoder?.endEncoding()
         }
     }

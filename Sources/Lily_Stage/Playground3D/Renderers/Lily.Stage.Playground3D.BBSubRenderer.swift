@@ -30,18 +30,18 @@ extension Lily.Stage.Playground3D
                 desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground3D_Billboard_Vs" ) )
                 desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground3D_Billboard_Fs" ) )
             }
-            /*
             else if environment == .string {
-                let stringShader = Lily.Stage.Playground3D.ShaderString.shared( device:device )
-                desc.vertexShader( stringShader.playground3DVertexShader )
-                desc.fragmentShader( stringShader.playground3DFragmentShader )            
+                let stringShader = Lily.Stage.Playground3D.BBShaderString.shared( device:device )
+                desc.vertexShader( stringShader.playground3DBillboardVertexShader )
+                desc.fragmentShader( stringShader.playground3DBillboardFragmentShader )            
             }
-            */
             
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
-            desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.backBuffer
-            desc.colorAttachments[0].composite( type:.sub )
+            desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.linearSRGBBuffer
+            desc.colorAttachments[0].composite( type:.add )
+            desc.colorAttachments[1].pixelFormat = Lily.Stage.BufferFormats.backBuffer
+            desc.colorAttachments[1].composite( type:.add )
             desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount

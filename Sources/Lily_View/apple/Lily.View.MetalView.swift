@@ -165,6 +165,7 @@ extension Lily.View
                 depthTexture!.height != depth_desc.height
             {
                 depthTexture = device.makeTexture( descriptor: depth_desc )
+                depthTexture?.label = "MetalView DepthTexture"
             }
         }
     }

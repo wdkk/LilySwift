@@ -26,10 +26,12 @@ extension Lily.Stage.Playground3D
         var device:MTLDevice
         var renderEngine:Lily.Stage.StandardRenderEngine?
         
+        var BBMediumTextures:Lily.Stage.Playground3D.BBMediumRenderTextures
         var renderTextures:Lily.Stage.RenderTextures
         
         var modelRenderFlow:ModelRenderFlow?
         var BBRenderFlow:BBRenderFlow?
+        var SRGBRenderFlow:SRGBRenderFlow?
         
         public var clearColor:LLColor = .white
         
@@ -39,8 +41,6 @@ extension Lily.Stage.Playground3D
         
         public var screenSize:LLSizeFloat { LLSizeFloat( width, height ) }
     
-        public var randomPoint:LLFloatv3 { LLFloatv3( ) }
-        
         // MARK: - パーティクル情報
         public var shapes:Set<BBActor> { BBRenderFlow!.pool.shapes }
         
@@ -101,7 +101,7 @@ extension Lily.Stage.Playground3D
         }
         .draw( caller:self ) { me, vc, status in
             // 時間の更新
-            PGActor.ActorTimer.shared.update()
+            BBActor.ActorTimer.shared.update()
             // ハンドラのコール
             vc.loopHandler?( self )
             // 変更の確定
@@ -137,7 +137,7 @@ extension Lily.Stage.Playground3D
         }
         
         func removeAllShapes() {
-            BBRenderFlow!.pool.removeAllShapes()
+            BBRenderFlow?.pool.removeAllShapes()
         }
         
         public init( 
@@ -153,6 +153,7 @@ extension Lily.Stage.Playground3D
             self.particleCapacity = particleCapacity
             self.textures = textures
             
+            self.BBMediumTextures = .init(device:device )
             self.renderTextures = .init( device:device )
             
             super.init()
@@ -175,16 +176,25 @@ extension Lily.Stage.Playground3D
             BBRenderFlow = .init( 
                 device:device,
                 viewCount:1,
+                BBMediumTextures:self.BBMediumTextures,
                 renderTextures:self.renderTextures,
                 environment:self.environment,
                 particleCapacity:self.particleCapacity,
                 textures:self.textures
             )
             
+            SRGBRenderFlow = .init( 
+                device:device,
+                viewCount:1,
+                BBMediumTextures:self.BBMediumTextures,
+                renderTextures:self.renderTextures,
+                environment:self.environment
+            )
+            
             renderEngine = .init( 
                 device:device,
                 size:CGSize( 320, 240 ), 
-                renderFlows:[modelRenderFlow!, BBRenderFlow!],
+                renderFlows:[modelRenderFlow!, BBRenderFlow!, SRGBRenderFlow!],
                 buffersInFlight:1
             )
 

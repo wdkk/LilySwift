@@ -46,7 +46,6 @@ struct VisionFullyContentView : View
     
     @State var renderEngine:Lily.Stage.StandardRenderEngine?
     
-    //@State var renderFlow:DevEnv.RenderFlow?
     @State var renderFlow:Lily.Stage.Playground2D.RenderFlow?
     
     @State var mouseDrag = LLFloatv2()
@@ -59,7 +58,7 @@ struct VisionFullyContentView : View
     
     var body: some View {
         VStack {
-            Toggle( "Show Immersive Space", isOn: $showImmersiveSpace )
+            Toggle( "イマーシブ空間を開く", isOn: $showImmersiveSpace )
             .toggleStyle( .button )
             .padding()
             

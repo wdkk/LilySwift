@@ -39,7 +39,7 @@ extension Lily.Stage.Playground2D
 
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
-            desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.particleBuffer
+            desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.linearSRGBBuffer
             desc.colorAttachments[0].composite( type:.add )
             desc.colorAttachments[1].pixelFormat = Lily.Stage.BufferFormats.backBuffer
             desc.colorAttachments[1].composite( type:.add )

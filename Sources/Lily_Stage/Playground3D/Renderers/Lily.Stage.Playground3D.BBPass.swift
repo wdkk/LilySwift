@@ -30,6 +30,9 @@ extension Lily.Stage.Playground3D
                 .action( load:.load, store:.store )
                 
                 $0.colorAttachments[0]
+                .action( load:.clear, store:.store )
+                
+                $0.colorAttachments[1]
                 .action( load:.load, store:.store )
             }
             // パーティクルのDepth stateの作成
@@ -41,11 +44,13 @@ extension Lily.Stage.Playground3D
         }
         
         public func updatePass(
+            mediumTextures:BBMediumRenderTextures,
             renderTextures:Lily.Stage.RenderTextures,
             rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             renderTargetCount:Int
         )
         {
+            passDesc?.colorAttachments[0].texture = mediumTextures.billboardTexture
             #if !targetEnvironment(macCatalyst)
             passDesc?.rasterizationRateMap = rasterizationRateMap
             #endif
@@ -55,7 +60,7 @@ extension Lily.Stage.Playground3D
         }
         
         public func setDestination( texture:MTLTexture? ) {
-            passDesc?.colorAttachments[0].texture = texture
+            passDesc?.colorAttachments[1].texture = texture
         }
         
         public func setDepth( texture:MTLTexture? ) {

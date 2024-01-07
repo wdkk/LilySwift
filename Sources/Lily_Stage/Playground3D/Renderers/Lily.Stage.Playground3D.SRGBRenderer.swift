@@ -11,7 +11,7 @@
 import Metal
 import simd
 
-extension Lily.Stage.Playground2D
+extension Lily.Stage.Playground3D
 {
     open class SRGBRenderer
     {
@@ -23,24 +23,22 @@ extension Lily.Stage.Playground2D
             self.device = device
            
             let desc = MTLRenderPipelineDescriptor()
-            desc.label = "Playground 2D convert sRGB"
+            desc.label = "Playground 3D convert sRGB"
             
             if environment == .metallib {
                 let library = try! Lily.Stage.metalLibrary( of:device )
-                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_SRGB_Vs" ) )
-                desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_SRGB_Fs" ) )
+                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground3D_SRGB_Vs" ) )
+                desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground3D_SRGB_Fs" ) )
             }
             else if environment == .string {
-                let stringShader = Lily.Stage.Playground2D.ShaderString.shared( device:device )
+                let stringShader = Lily.Stage.Playground3D.SRGBShaderString.shared( device:device )
                 desc.vertexShader( stringShader.sRGBVertexShader )
                 desc.fragmentShader( stringShader.sRGBFragmentShader )            
             }
 
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
-            desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.linearSRGBBuffer
-            desc.colorAttachments[1].pixelFormat = Lily.Stage.BufferFormats.backBuffer
-            desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
+            desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.backBuffer
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
             }
@@ -48,14 +46,14 @@ extension Lily.Stage.Playground2D
             pipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
         }
         
-        public func draw( 
+
+        public func draw(
             with renderEncoder:MTLRenderCommandEncoder?,
-            renderTextures:Lily.Stage.Playground2D.RenderTextures
+            mediumTextures:Lily.Stage.Playground3D.BBMediumRenderTextures
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )
-        
-            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.particleTexture, index:0 )
+            renderEncoder?.setFragmentTexture( mediumTextures.billboardTexture, index:0 )
             renderEncoder?.drawPrimitives( type:.triangle, vertexStart:0, vertexCount:3 )
         }
     }
