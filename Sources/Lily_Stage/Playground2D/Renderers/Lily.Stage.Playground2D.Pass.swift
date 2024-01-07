@@ -50,12 +50,12 @@ extension Lily.Stage.Playground2D
         
         // 公開ファンクション
         public func updatePass(
-            renderTextures:RenderTextures,
+            mediumTextures:MediumTexture,
             rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             renderTargetCount:Int
         )
         {
-            passDesc?.colorAttachments[0].texture = renderTextures.particleTexture
+            passDesc?.colorAttachments[0].texture = mediumTextures.particleTexture
             #if !targetEnvironment(macCatalyst)
             passDesc?.rasterizationRateMap = rasterizationRateMap
             #endif

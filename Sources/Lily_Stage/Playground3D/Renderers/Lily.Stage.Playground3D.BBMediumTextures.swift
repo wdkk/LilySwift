@@ -41,7 +41,7 @@ extension Lily.Stage.Playground3D
             )
             
             tex_desc.sampleCount = Lily.Stage.BufferFormats.sampleCount
-            tex_desc.storageMode = .managed
+            tex_desc.storageMode = .private
             
             if viewCount > 1 {
                 tex_desc.textureType = .type2DArray

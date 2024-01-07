@@ -17,7 +17,7 @@ extension Lily.Stage.Playground2D
     : Lily.Stage.BaseRenderFlow
     {
         var pass:Lily.Stage.Playground2D.Pass?
-        var renderTextures:Lily.Stage.Playground2D.RenderTextures
+        var mediumTextures:Lily.Stage.Playground2D.MediumTexture
         
         public private(set) var pool:PGPool
         public private(set) var storage:Storage
@@ -47,7 +47,7 @@ extension Lily.Stage.Playground2D
             self.viewCount = viewCount
             self.particleCapacity = particleCapacity
             
-            self.renderTextures = .init( device:device )
+            self.mediumTextures = .init( device:device )
             
             // レンダラーの作成
             self.alphaRenderer = .init( 
@@ -91,7 +91,7 @@ extension Lily.Stage.Playground2D
             screenSize.width /= LLSystem.retinaScale
             screenSize.height /= LLSystem.retinaScale
             
-            renderTextures.updateBuffers( size:scaledSize, viewCount:viewCount )
+            mediumTextures.updateBuffers( size:scaledSize, viewCount:viewCount )
         }
         
         public override func render(
@@ -119,7 +119,7 @@ extension Lily.Stage.Playground2D
             
             // 共通処理
             pass.updatePass( 
-                renderTextures:renderTextures,
+                mediumTextures:mediumTextures,
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetCount:viewCount        
             )
@@ -143,7 +143,7 @@ extension Lily.Stage.Playground2D
             alphaRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
-                renderTextures:renderTextures,
+                mediumTextures:mediumTextures,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -151,7 +151,7 @@ extension Lily.Stage.Playground2D
             alphaRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
-                renderTextures:renderTextures,
+                mediumTextures:mediumTextures,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -159,7 +159,7 @@ extension Lily.Stage.Playground2D
             addRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
-                renderTextures:renderTextures,
+                mediumTextures:mediumTextures,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -167,7 +167,7 @@ extension Lily.Stage.Playground2D
             addRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
-                renderTextures:renderTextures,
+                mediumTextures:mediumTextures,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -175,7 +175,7 @@ extension Lily.Stage.Playground2D
             subRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
-                renderTextures:renderTextures,
+                mediumTextures:mediumTextures,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -183,7 +183,7 @@ extension Lily.Stage.Playground2D
             subRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
-                renderTextures:renderTextures,
+                mediumTextures:mediumTextures,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -191,7 +191,7 @@ extension Lily.Stage.Playground2D
             // sRGB変換
             sRGBRenderer?.draw(
                 with:encoder,
-                renderTextures:renderTextures
+                mediumTextures:mediumTextures
             )
             
             encoder?.endEncoding()

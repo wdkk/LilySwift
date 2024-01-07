@@ -50,12 +50,12 @@ extension Lily.Stage.Playground2D
         
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
-            renderTextures:Lily.Stage.Playground2D.RenderTextures
+            mediumTextures:Lily.Stage.Playground2D.MediumTexture
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )
         
-            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.particleTexture, index:0 )
+            renderEncoder?.setFragmentMemoryLessTexture( mediumTextures.particleTexture, index:0 )
             renderEncoder?.drawPrimitives( type:.triangle, vertexStart:0, vertexCount:3 )
         }
     }

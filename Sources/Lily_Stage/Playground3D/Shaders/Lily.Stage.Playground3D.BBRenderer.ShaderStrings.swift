@@ -11,6 +11,7 @@
 import Metal
 import simd
 
+// TODO: 未実装
 extension Lily.Stage.Playground3D
 {   
     open class BBShaderString
