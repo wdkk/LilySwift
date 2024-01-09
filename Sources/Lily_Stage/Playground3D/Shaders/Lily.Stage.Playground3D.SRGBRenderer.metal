@@ -10,15 +10,8 @@
 
 #import <metal_stdlib>
 #import <TargetConditionals.h>
-#import "../../Standard/Shaders/Lily.Stage.MemoryLess.h.metal"
-
-#import "../../Standard/Shared/Lily.Stage.Shared.Const.metal"
-#import "../../Standard/Shared/Lily.Stage.Shared.GlobalUniform.metal"
-#import "../../Standard/Shaders/Lily.Stage.StageRenderer.util.metal"
 
 using namespace metal;
-using namespace Lily::Stage;
-using namespace Lily::Stage::Shared;
 
 struct SRGBVOut
 {

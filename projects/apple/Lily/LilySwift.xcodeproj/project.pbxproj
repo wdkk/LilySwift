@@ -1251,12 +1251,8 @@
 		5D113F1A2B494A160008AAF5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				5DD054B52B4D516900F93192 /* Billboard */,
 				5D113F1B2B494A310008AAF5 /* Lily.Stage.Playground3D.Family.swift */,
-				5D113F1F2B494BA20008AAF5 /* Lily.Stage.Playground3D.BBEnum.swift */,
-				5D113F272B494C990008AAF5 /* Lily.Stage.Playground3D.BBUnitStatus.swift */,
-				5D113F232B494C0F0008AAF5 /* Lily.Stage.Playground3D.BBLocalUniform.swift */,
-				5D113F2B2B494D120008AAF5 /* Lily.Stage.Playground3D.BBStorage.swift */,
+				5DD054B52B4D516900F93192 /* Billboard */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1294,15 +1290,7 @@
 		5D1E6CAE2B16617C00B6374D /* Accessors */ = {
 			isa = PBXGroup;
 			children = (
-				5D252DC92B171C4200097118 /* Lily.Stage.Playground2D.PGField.swift */,
-				5D252DC52B171C0E00097118 /* Lily.Stage.Playground2D.PGPool.swift */,
-				5D1E6CAF2B16619B00B6374D /* Lily.Stage.Playground2D.PGActor.swift */,
-				5D252DCD2B1732DD00097118 /* Lily.Stage.Playground2D.PGRectangle.swift */,
-				5DDCB1B02B179927006C08B1 /* Lily.Stage.Playground2D.PGTriangle.swift */,
-				5DDCB1B42B179973006C08B1 /* Lily.Stage.Playground2D.PGCircle.swift */,
-				5DDCB1B82B1799A9006C08B1 /* Lily.Stage.Playground2D.PGBlurryCircle.swift */,
-				5DDCB1BC2B1799F8006C08B1 /* Lily.Stage.Playground2D.PGPicture.swift */,
-				5DDCB1C02B179A7D006C08B1 /* Lily.Stage.Playground2D.PGMask.swift */,
+				5DD054BB2B4D53A800F93192 /* Particle */,
 			);
 			path = Accessors;
 			sourceTree = "<group>";
@@ -1310,10 +1298,8 @@
 		5D30369C2B0D05C600F57D1E /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
-				5DE802A92B0D06EC00984E61 /* Lily.Stage.Playground2D.Renderer.metal */,
-				5D452B092B22F21700838C1F /* Lily.Stage.Playground2D.Renderer.ShaderStrings.swift */,
-				5DD054A82B4D34B600F93192 /* Lily.Stage.Playground2D.SRGBRenderer.metal */,
-				5DD054AC2B4D34F200F93192 /* Lily.Stage.Playground2D.SRGBRenderer.SharedStrings.swift */,
+				5DD054B82B4D534F00F93192 /* Particle */,
+				5DD054B92B4D535A00F93192 /* sRGB */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -1353,8 +1339,8 @@
 		5D62544E2B11070900B57EE0 /* Renderers */ = {
 			isa = PBXGroup;
 			children = (
-				5DD054B72B4D51EE00F93192 /* sRGB */,
 				5DD054B62B4D51E300F93192 /* Particle */,
+				5DD054B72B4D51EE00F93192 /* sRGB */,
 			);
 			path = Renderers;
 			sourceTree = "<group>";
@@ -1685,10 +1671,7 @@
 			isa = PBXGroup;
 			children = (
 				5DBD1A112B124308004CA92A /* Lily.Stage.Playground2D.Family.swift */,
-				5D71DA5C2B15DC1D009DF66F /* Lily.Stage.Playground2D.Enum.swift */,
-				5DE802AE2B0D0FA600984E61 /* Lily.Stage.Playground2D.UnitStatus.swift */,
-				5D3EB0A32B150E1200441252 /* Lily.Stage.Playground2D.LocalUniform.swift */,
-				5DBD1A152B1244A6004CA92A /* Lily.Stage.Playground2D.Storage.swift */,
+				5DD054BA2B4D539100F93192 /* Particle */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1773,6 +1756,10 @@
 		5DD054B52B4D516900F93192 /* Billboard */ = {
 			isa = PBXGroup;
 			children = (
+				5D113F1F2B494BA20008AAF5 /* Lily.Stage.Playground3D.BBEnum.swift */,
+				5D113F272B494C990008AAF5 /* Lily.Stage.Playground3D.BBUnitStatus.swift */,
+				5D113F232B494C0F0008AAF5 /* Lily.Stage.Playground3D.BBLocalUniform.swift */,
+				5D113F2B2B494D120008AAF5 /* Lily.Stage.Playground3D.BBStorage.swift */,
 			);
 			path = Billboard;
 			sourceTree = "<group>";
@@ -1798,6 +1785,51 @@
 				5D4869472B2AF8CD00164205 /* Lily.Stage.Playground2D.SRGBRenderer.swift */,
 			);
 			path = sRGB;
+			sourceTree = "<group>";
+		};
+		5DD054B82B4D534F00F93192 /* Particle */ = {
+			isa = PBXGroup;
+			children = (
+				5DE802A92B0D06EC00984E61 /* Lily.Stage.Playground2D.Renderer.metal */,
+				5D452B092B22F21700838C1F /* Lily.Stage.Playground2D.Renderer.ShaderStrings.swift */,
+			);
+			path = Particle;
+			sourceTree = "<group>";
+		};
+		5DD054B92B4D535A00F93192 /* sRGB */ = {
+			isa = PBXGroup;
+			children = (
+				5DD054A82B4D34B600F93192 /* Lily.Stage.Playground2D.SRGBRenderer.metal */,
+				5DD054AC2B4D34F200F93192 /* Lily.Stage.Playground2D.SRGBRenderer.SharedStrings.swift */,
+			);
+			path = sRGB;
+			sourceTree = "<group>";
+		};
+		5DD054BA2B4D539100F93192 /* Particle */ = {
+			isa = PBXGroup;
+			children = (
+				5D71DA5C2B15DC1D009DF66F /* Lily.Stage.Playground2D.Enum.swift */,
+				5DE802AE2B0D0FA600984E61 /* Lily.Stage.Playground2D.UnitStatus.swift */,
+				5D3EB0A32B150E1200441252 /* Lily.Stage.Playground2D.LocalUniform.swift */,
+				5DBD1A152B1244A6004CA92A /* Lily.Stage.Playground2D.Storage.swift */,
+			);
+			path = Particle;
+			sourceTree = "<group>";
+		};
+		5DD054BB2B4D53A800F93192 /* Particle */ = {
+			isa = PBXGroup;
+			children = (
+				5D252DC92B171C4200097118 /* Lily.Stage.Playground2D.PGField.swift */,
+				5D252DC52B171C0E00097118 /* Lily.Stage.Playground2D.PGPool.swift */,
+				5D1E6CAF2B16619B00B6374D /* Lily.Stage.Playground2D.PGActor.swift */,
+				5D252DCD2B1732DD00097118 /* Lily.Stage.Playground2D.PGRectangle.swift */,
+				5DDCB1B02B179927006C08B1 /* Lily.Stage.Playground2D.PGTriangle.swift */,
+				5DDCB1B42B179973006C08B1 /* Lily.Stage.Playground2D.PGCircle.swift */,
+				5DDCB1B82B1799A9006C08B1 /* Lily.Stage.Playground2D.PGBlurryCircle.swift */,
+				5DDCB1BC2B1799F8006C08B1 /* Lily.Stage.Playground2D.PGPicture.swift */,
+				5DDCB1C02B179A7D006C08B1 /* Lily.Stage.Playground2D.PGMask.swift */,
+			);
+			path = Particle;
 			sourceTree = "<group>";
 		};
 		5DDFED0B2781A1710003398B /* Sources */ = {
