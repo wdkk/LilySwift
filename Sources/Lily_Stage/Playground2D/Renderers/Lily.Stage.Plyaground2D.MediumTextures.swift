@@ -14,10 +14,9 @@ import simd
 
 extension Lily.Stage.Playground2D
 {    
-    open class MediumTexture
+    open class MediumTextures
     { 
         var device:MTLDevice
-        var commandQueue:MTLCommandQueue?
         
         var particleTexture: MTLTexture?
 
@@ -41,12 +40,15 @@ extension Lily.Stage.Playground2D
             )
             
             tex_desc.sampleCount = Lily.Stage.BufferFormats.sampleCount
+            /*
             #if !targetEnvironment(simulator)
             if #available( macCatalyst 14.0, * ) { tex_desc.storageMode = .memoryless }
             else { tex_desc.storageMode = .private }
             #else
             tex_desc.storageMode = .private
             #endif
+            */
+            tex_desc.storageMode = .private
             
             if viewCount > 1 {
                 tex_desc.textureType = .type2DArray

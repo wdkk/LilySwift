@@ -17,7 +17,6 @@ extension Lily.Stage
     open class RenderTextures
     { 
         var device:MTLDevice
-        var commandQueue:MTLCommandQueue?
         
         // G-Buffer
         var GBuffer0: MTLTexture? // albedo( r, g, b ) 

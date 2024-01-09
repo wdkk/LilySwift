@@ -10,15 +10,8 @@
 
 #import <metal_stdlib>
 #import <TargetConditionals.h>
-#import "../../Standard/Shaders/Lily.Stage.MemoryLess.h.metal"
-
-#import "../../Standard/Shared/Lily.Stage.Shared.Const.metal"
-#import "../../Standard/Shared/Lily.Stage.Shared.GlobalUniform.metal"
-#import "../../Standard/Shaders/Lily.Stage.StageRenderer.util.metal"
 
 using namespace metal;
-using namespace Lily::Stage;
-using namespace Lily::Stage::Shared;
 
 struct SRGBVOut
 {
@@ -30,7 +23,7 @@ struct SRGBFOut
     float4 backBuffer [[ color(0) ]];
 };
 
-vertex SRGBVOut Lily_Stage_Playground3D_SRGB_Vs( uint vid [[vertex_id]] )
+vertex SRGBVOut Lily_Stage_Playground2D_SRGB_Vs( uint vid [[vertex_id]] )
 {
     const float2 vertices[] = {
         float2(-1, -1),
@@ -43,7 +36,7 @@ vertex SRGBVOut Lily_Stage_Playground3D_SRGB_Vs( uint vid [[vertex_id]] )
     return out;
 }
 
-fragment SRGBFOut Lily_Stage_Playground3D_SRGB_Fs(
+fragment SRGBFOut Lily_Stage_Playground2D_SRGB_Fs(
     SRGBVOut         in            [[ stage_in ]],
     texture2d<float> resultTexture [[ texture(0) ]]
 )

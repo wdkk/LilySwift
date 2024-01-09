@@ -37,7 +37,7 @@ extension Lily.Stage.Playground3D
             viewCount:Int,
             BBMediumTextures:BBMediumRenderTextures,
             renderTextures:Lily.Stage.RenderTextures,
-            environment:Lily.Stage.ShaderEnvironment = .metallib,
+            environment:Lily.Stage.ShaderEnvironment,
             particleCapacity:Int = 10000,
             textures:[String] = []
         ) 

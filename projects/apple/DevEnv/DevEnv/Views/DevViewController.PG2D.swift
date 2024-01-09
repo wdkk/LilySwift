@@ -39,7 +39,6 @@ typealias PGMask = PG2D.PGMask
 typealias PGAddMask = PG2D.PGAddMask
 typealias PGSubMask = PG2D.PGSubMask
 
-/*
 class DevViewController 
 : PGScreen
 {
@@ -109,7 +108,6 @@ func design( screen:PGScreen ) {
 func update( screen:PGScreen ) {
  
 }
-*/
 
 /*
 func design( screen:PGScreen ) {

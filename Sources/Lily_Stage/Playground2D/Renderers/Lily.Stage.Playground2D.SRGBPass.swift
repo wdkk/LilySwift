@@ -12,12 +12,12 @@ import Metal
 import MetalKit
 import simd
 
-extension Lily.Stage.Playground3D
+extension Lily.Stage.Playground2D
 {
     open class SRGBPass
     { 
-        var device:MTLDevice 
-
+        var device:MTLDevice
+ 
         public var passDesc:MTLRenderPassDescriptor?
 
         public init( device:MTLDevice ) {
@@ -40,7 +40,7 @@ extension Lily.Stage.Playground3D
             passDesc?.renderTargetArrayLength = renderTargetCount
             #endif
         }
-        
+
         public func setDestination( texture:MTLTexture? ) {
             passDesc?.colorAttachments[0].texture = texture
         }

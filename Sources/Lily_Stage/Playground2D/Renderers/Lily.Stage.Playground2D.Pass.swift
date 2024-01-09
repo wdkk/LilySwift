@@ -30,12 +30,17 @@ extension Lily.Stage.Playground2D
                 .action( load:.clear, store:.store )
                 .clearDepth( 0.0 )
                 
+                // NOTE: メモリレスを使う例をコメントアウト
+                /*
                 #if !targetEnvironment(simulator)
                 $0.colorAttachments[0].action( load:.clear, store:.dontCare ).clearColor( .darkGrey )
                 #else
                 // シミュレータはテクスチャを保存する
                 $0.colorAttachments[0].action( load:.clear, store:.store ).clearColor( .darkGrey )
                 #endif
+                */
+                // テクスチャに落とすことにしたのでストアする
+                $0.colorAttachments[0].action( load:.clear, store:.store ).clearColor( .darkGrey )
                 // colorAttachments[1]が毎フレームのバックバッファの受け取り口
                 $0.colorAttachments[1].action( load:.clear, store:.store ).clearColor( .darkGrey )
             }
@@ -50,7 +55,7 @@ extension Lily.Stage.Playground2D
         
         // 公開ファンクション
         public func updatePass(
-            mediumTextures:MediumTexture,
+            mediumTextures:MediumTextures,
             rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             renderTargetCount:Int
         )
@@ -73,30 +78,35 @@ extension Lily.Stage.Playground2D
         }
         
         public func setClearColor( _ color:LLColor? ) {
-            guard let color = color else {
-                passDesc?.colorAttachments[0].clearColor( .clear )
-                #if !targetEnvironment(simulator)
-                passDesc?.colorAttachments[0].action( load:.load, store:.dontCare )
-                #else
-                passDesc?.colorAttachments[0].action( load:.load, store:.store )
-                #endif
-                return
+            if let color = color {
+                passDesc?.colorAttachments[0].clearColor( color )
+                passDesc?.colorAttachments[0].action( load:.clear, store:.store )
             }
-            passDesc?.colorAttachments[0].clearColor( color )
+            else {
+                passDesc?.colorAttachments[0].clearColor( .clear )
+                passDesc?.colorAttachments[0].action( load:.load, store:.store )
+            }
+            // NOTE: メモリレスを使う例をコメントアウト
+            /*
             #if !targetEnvironment(simulator)
             passDesc?.colorAttachments[0].action( load:.clear, store:.dontCare )
             #else
             passDesc?.colorAttachments[0].action( load:.clear, store:.store )
             #endif
+            */
         }
         
         public func setClearColor( _ color:MTLClearColor ) {
             passDesc?.colorAttachments[0].clearColor( color )
+            // NOTE: メモリレスを使う例をコメントアウト
+            /*
             #if !targetEnvironment(simulator)
             passDesc?.colorAttachments[0].action( load:.clear, store:.dontCare )
             #else
             passDesc?.colorAttachments[0].action( load:.clear, store:.store )
             #endif
+            */
+            passDesc?.colorAttachments[0].action( load:.clear, store:.store )
         }
     }
 }

@@ -106,17 +106,6 @@ struct PG2DResult
     float4 particleTexture [[ color(0) ]];
 };
 
-struct SRGBVOut
-{
-    float4 position [[ position ]];
-};
-    
-struct SRGBFOut
-{
-    float4 backBuffer [[ color(1) ]];
-};
-
-
 vertex PG2DVOut Lily_Stage_Playground2D_Vs(
     const device PG2DVIn* in [[ buffer(0) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
@@ -282,33 +271,4 @@ fragment PG2DResult Lily_Stage_Playground2D_Fs(
     PG2DResult result;
     result.particleTexture = color;
     return result;
-}
-
-vertex SRGBVOut Lily_Stage_Playground2D_SRGB_Vs( uint vid [[vertex_id]] )
-{
-    const float2 vertices[] = {
-        float2(-1, -1),
-        float2( 3, -1),
-        float2(-1,  3)
-    };
-
-    SRGBVOut out;
-    out.position = float4( vertices[vid], 0.0, 1.0 );
-    return out;
-}
-
-fragment SRGBFOut Lily_Stage_Playground2D_SRGB_Fs(
-    SRGBVOut                 in               [[ stage_in ]],
-    lily_memory_float4       particleTexture  [[ lily_memory(0) ]]
-)
-{    
-    const auto pixelPos = uint2( floor( in.position.xy ) );
-
-    float4 color = MemoryLess::float4OfPos( pixelPos, particleTexture );
-    color.xyz = pow( color.xyz, float3( 2.2 ) );
-
-    SRGBFOut out;
-    out.backBuffer = color;
-    
-    return out;
 }

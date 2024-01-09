@@ -24,8 +24,12 @@ extension Lily.Stage.Playground2D
     : Lily.View.ViewController
     {
         var device:MTLDevice
+        
         var renderEngine:Lily.Stage.StandardRenderEngine?
-        var renderFlow:RenderFlow?
+        var renderFlow:RenderFlow
+        var sRGBRenderFlow:SRGBRenderFlow
+        
+        var mediumTextures:Lily.Stage.Playground2D.MediumTextures
         
         public var clearColor:LLColor = .white
         
@@ -63,7 +67,7 @@ extension Lily.Stage.Playground2D
         }
         
         // MARK: - パーティクル情報
-        public var shapes:Set<PGActor> { renderFlow!.pool.shapes }
+        public var shapes:Set<PGActor> { renderFlow.pool.shapes }
         
         // 外部処理ハンドラ
         public var buildupHandler:(( PGScreen )->Void)?
@@ -81,6 +85,7 @@ extension Lily.Stage.Playground2D
             CATransaction.stop {
                 me.rect( vc.rect )
                 vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
+                vc.mediumTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
             }
             
             vc.buildupHandler?( self )
@@ -91,8 +96,8 @@ extension Lily.Stage.Playground2D
             // ハンドラのコール
             vc.loopHandler?( self )
             // 変更の確定
-            vc.renderFlow?.pool.storage?.statuses?.commit()
-            vc.renderFlow?.clearColor = self.clearColor
+            vc.renderFlow.pool.storage?.statuses?.commit()
+            vc.renderFlow.clearColor = self.clearColor
             
             // Shapeの更新/終了処理を行う
             vc.checkShapesStatus()
@@ -138,10 +143,11 @@ extension Lily.Stage.Playground2D
             CATransaction.stop {
                 me.rect( vc.rect )
                 vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
+                vc.mediumTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
             }
             
             vc.buildupHandler?( self )
-            vc.renderFlow?.pool.storage?.statuses?.commit()
+            vc.renderFlow.pool.storage?.statuses?.commit()
         }
         .draw( caller:self ) { me, vc, status in
             // 時間の更新
@@ -149,8 +155,8 @@ extension Lily.Stage.Playground2D
             // ハンドラのコール
             vc.loopHandler?( self )
             // 変更の確定
-            vc.renderFlow?.pool.storage?.statuses?.commit()
-            vc.renderFlow?.clearColor = self.clearColor
+            vc.renderFlow.pool.storage?.statuses?.commit()
+            vc.renderFlow.clearColor = self.clearColor
             
             // Shapeの更新/終了処理を行う
             vc.checkShapesStatus()
@@ -176,7 +182,7 @@ extension Lily.Stage.Playground2D
         #endif
                 
         func checkShapesStatus() {
-            for actor in renderFlow!.pool.shapes {
+            for actor in renderFlow.pool.shapes {
                 // イテレート処理
                 actor.appearIterate()
                 // インターバル処理
@@ -192,7 +198,7 @@ extension Lily.Stage.Playground2D
         }
         
         func removeAllShapes() {
-            renderFlow!.pool.removeAllShapes()
+            renderFlow.pool.removeAllShapes()
         }
         
         public init( 
@@ -208,6 +214,24 @@ extension Lily.Stage.Playground2D
             self.particleCapacity = particleCapacity
             self.textures = textures
             
+            self.mediumTextures = .init( device:device )
+            
+            renderFlow = .init( 
+                device:device,
+                viewCount:1,
+                mediumTextures:self.mediumTextures,
+                environment:self.environment,
+                particleCapacity:self.particleCapacity,
+                textures:self.textures
+            )
+            
+            sRGBRenderFlow = .init(
+                device:device, 
+                viewCount:1,
+                mediumTextures:self.mediumTextures,
+                environment:self.environment
+            )
+            
             super.init()
         }
         
@@ -218,19 +242,11 @@ extension Lily.Stage.Playground2D
         open override func setup() {
             super.setup()
             addSubview( metalView )
-                                    
-            renderFlow = .init( 
-                device:device,
-                viewCount:1,
-                environment:self.environment,
-                particleCapacity:self.particleCapacity,
-                textures:self.textures
-            )
             
             renderEngine = .init( 
                 device:device,
                 size:CGSize( 320, 240 ), 
-                renderFlows:[renderFlow!],
+                renderFlows:[ renderFlow, sRGBRenderFlow ],
                 buffersInFlight:1
             )
 

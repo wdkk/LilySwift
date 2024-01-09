@@ -31,16 +31,14 @@ extension Lily.Stage.Playground2D
                 desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_SRGB_Fs" ) )
             }
             else if environment == .string {
-                let stringShader = Lily.Stage.Playground2D.ShaderString.shared( device:device )
+                let stringShader = Lily.Stage.Playground2D.SRGBShaderString.shared( device:device )
                 desc.vertexShader( stringShader.sRGBVertexShader )
                 desc.fragmentShader( stringShader.sRGBFragmentShader )            
             }
 
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
-            desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.linearSRGBBuffer
-            desc.colorAttachments[1].pixelFormat = Lily.Stage.BufferFormats.backBuffer
-            desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
+            desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.backBuffer
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
             }
@@ -50,12 +48,12 @@ extension Lily.Stage.Playground2D
         
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
-            mediumTextures:Lily.Stage.Playground2D.MediumTexture
+            mediumTextures:Lily.Stage.Playground2D.MediumTextures
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )
         
-            renderEncoder?.setFragmentMemoryLessTexture( mediumTextures.particleTexture, index:0 )
+            renderEncoder?.setFragmentTexture( mediumTextures.particleTexture, index:0 )
             renderEncoder?.drawPrimitives( type:.triangle, vertexStart:0, vertexCount:3 )
         }
     }

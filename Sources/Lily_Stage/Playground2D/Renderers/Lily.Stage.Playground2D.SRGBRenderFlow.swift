@@ -11,14 +11,14 @@
 import Metal
 import MetalKit
 
-extension Lily.Stage.Playground3D
+extension Lily.Stage.Playground2D
 {
     open class SRGBRenderFlow
     : Lily.Stage.BaseRenderFlow
     {
-        var pass:Lily.Stage.Playground3D.SRGBPass?
+        var pass:Lily.Stage.Playground2D.SRGBPass?
         
-        weak var BBMediumTextures:BBMediumRenderTextures?
+        weak var mediumTextures:MediumTextures?
         weak var renderTextures:Lily.Stage.RenderTextures?
         
         var sRGBRenderer:SRGBRenderer?
@@ -28,16 +28,14 @@ extension Lily.Stage.Playground3D
         public init(
             device:MTLDevice,
             viewCount:Int,
-            BBMediumTextures:BBMediumRenderTextures,
-            renderTextures:Lily.Stage.RenderTextures,
+            mediumTextures:MediumTextures,
             environment:Lily.Stage.ShaderEnvironment
         ) 
         {
             self.pass = .init( device:device )
             self.viewCount = viewCount
 
-            self.BBMediumTextures = BBMediumTextures
-            self.renderTextures = renderTextures
+            self.mediumTextures = mediumTextures
             
             self.sRGBRenderer = .init( 
                 device:device,
@@ -71,11 +69,11 @@ extension Lily.Stage.Playground3D
             )
             
             pass.setDestination( texture:destinationTexture )
-            
+
             let encoder = commandBuffer.makeRenderCommandEncoder( descriptor:pass.passDesc! )
             
             encoder?
-            .label( "Playground 3D SRGB Render" )
+            .label( "Playground 2D SRGB Render" )
             .cullMode( .none )
             .frontFacing( .counterClockwise )
             .viewports( viewports )
@@ -84,7 +82,7 @@ extension Lily.Stage.Playground3D
             // sRGB変換
             sRGBRenderer?.draw(
                 with:encoder,
-                mediumTextures:BBMediumTextures!
+                mediumTextures:mediumTextures!
             )
 
             encoder?.endEncoding()
