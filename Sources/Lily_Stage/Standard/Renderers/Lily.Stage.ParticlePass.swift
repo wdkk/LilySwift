@@ -17,7 +17,6 @@ extension Lily.Stage
     open class ParticlePass
     { 
         var device:MTLDevice
-        var commandQueue:MTLCommandQueue?
         
         public var passDesc:MTLRenderPassDescriptor?
         public var depthState:MTLDepthStencilState?

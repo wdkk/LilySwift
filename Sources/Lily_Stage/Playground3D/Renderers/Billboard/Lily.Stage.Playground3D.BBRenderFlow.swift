@@ -19,7 +19,7 @@ extension Lily.Stage.Playground3D
         var pass:Lily.Stage.Playground3D.BBPass?
         
         weak var mediumTextures:BBMediumRenderTextures?
-        weak var renderTextures:Lily.Stage.RenderTextures?
+        weak var renderTextures:ModelRenderTextures?
         
         public private(set) var pool:BBPool
         public private(set) var storage:BBStorage
@@ -36,7 +36,7 @@ extension Lily.Stage.Playground3D
             device:MTLDevice,
             viewCount:Int,
             BBMediumTextures:BBMediumRenderTextures,
-            renderTextures:Lily.Stage.RenderTextures,
+            renderTextures:ModelRenderTextures,
             environment:Lily.Stage.ShaderEnvironment,
             particleCapacity:Int = 10000,
             textures:[String] = []
@@ -82,7 +82,7 @@ extension Lily.Stage.Playground3D
         }
         
         public override func changeSize( scaledSize:CGSize ) {
-            mediumTextures?.updateBuffers( size:scaledSize, viewCount:self.viewCount )
+           
         }
         
         public override func render(
@@ -116,7 +116,6 @@ extension Lily.Stage.Playground3D
             // 共通処理
             pass.updatePass( 
                 mediumTextures:mediumTextures!,
-                renderTextures:renderTextures,
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetCount:viewCount        
             )
@@ -139,42 +138,36 @@ extension Lily.Stage.Playground3D
             alphaRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
-                renderTextures:renderTextures,
                 storage:storage
             )
             
             alphaRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
-                renderTextures:renderTextures,
                 storage:storage
             )
             
             addRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
-                renderTextures:renderTextures,
                 storage:storage
             )
             
             addRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
-                renderTextures:renderTextures,
                 storage:storage
             )
             
             subRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
-                renderTextures:renderTextures,
                 storage:storage
             )
 
             subRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
-                renderTextures:renderTextures,
                 storage:storage
             )
 

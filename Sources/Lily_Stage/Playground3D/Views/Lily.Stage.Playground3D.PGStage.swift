@@ -26,12 +26,12 @@ extension Lily.Stage.Playground3D
         var device:MTLDevice
         var renderEngine:Lily.Stage.StandardRenderEngine?
         
-        var BBMediumTextures:Lily.Stage.Playground3D.BBMediumRenderTextures
-        var renderTextures:Lily.Stage.RenderTextures
+        var BBMediumTextures:BBMediumRenderTextures
+        var modelRenderTextures:ModelRenderTextures
         
         var modelRenderFlow:ModelRenderFlow
         var BBRenderFlow:BBRenderFlow
-        var SRGBRenderFlow:SRGBRenderFlow
+        var sRGBRenderFlow:SRGBRenderFlow
         
         public var clearColor:LLColor = .white
         
@@ -60,6 +60,8 @@ extension Lily.Stage.Playground3D
             CATransaction.stop {
                 me.rect( vc.rect )
                 vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
+                vc.modelRenderTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
+                vc.BBMediumTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
             }
             
             vc.buildupHandler?( self )
@@ -95,6 +97,8 @@ extension Lily.Stage.Playground3D
             CATransaction.stop {
                 me.rect( vc.rect )
                 vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
+                vc.modelRenderTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
+                vc.BBMediumTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
             }
             
             vc.buildupHandler?( self )
@@ -122,16 +126,12 @@ extension Lily.Stage.Playground3D
                 
         func checkShapesStatus() {
             for actor in BBRenderFlow.pool.shapes {
-                // イテレート処理
-                actor.appearIterate()
-                // インターバル処理
-                actor.appearInterval()
+                actor.appearIterate()   // イテレート処理
+                actor.appearInterval()  // インターバル処理
                 
                 if actor.life <= 0.0 {
-                    // 完了前処理
-                    actor.appearCompletion()
-                    // 削除処理
-                    actor.checkRemove()
+                    actor.appearCompletion()    // 完了前処理
+                    actor.checkRemove()         // 削除処理
                 }
             }
         }
@@ -154,29 +154,29 @@ extension Lily.Stage.Playground3D
             self.textures = textures
             
             self.BBMediumTextures = .init(device:device )
-            self.renderTextures = .init( device:device )
+            self.modelRenderTextures = .init( device:device )
             
             modelRenderFlow = .init(
                 device:device,
                 viewCount:1,
-                renderTextures:self.renderTextures
+                renderTextures:self.modelRenderTextures
             )
                                     
             BBRenderFlow = .init( 
                 device:device,
                 viewCount:1,
                 BBMediumTextures:self.BBMediumTextures,
-                renderTextures:self.renderTextures,
+                renderTextures:self.modelRenderTextures,
                 environment:self.environment,
                 particleCapacity:self.particleCapacity,
                 textures:self.textures
             )
             
-            SRGBRenderFlow = .init( 
+            sRGBRenderFlow = .init( 
                 device:device,
                 viewCount:1,
                 BBMediumTextures:self.BBMediumTextures,
-                renderTextures:self.renderTextures,
+                renderTextures:self.modelRenderTextures,
                 environment:self.environment
             )
             
@@ -194,7 +194,7 @@ extension Lily.Stage.Playground3D
             renderEngine = .init( 
                 device:device,
                 size:CGSize( 320, 240 ), 
-                renderFlows:[modelRenderFlow, BBRenderFlow],
+                renderFlows:[modelRenderFlow, BBRenderFlow, sRGBRenderFlow ],
                 buffersInFlight:1
             )
 

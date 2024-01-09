@@ -53,7 +53,6 @@ extension Lily.Stage.Playground3D
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
-            renderTextures:Lily.Stage.RenderTextures,
             storage:Lily.Stage.Playground3D.BBStorage
         ) 
         {
@@ -81,7 +80,6 @@ extension Lily.Stage.Playground3D
         public func drawTriangle( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
-            renderTextures:Lily.Stage.RenderTextures,
             storage:Lily.Stage.Playground3D.BBStorage
         ) 
         {

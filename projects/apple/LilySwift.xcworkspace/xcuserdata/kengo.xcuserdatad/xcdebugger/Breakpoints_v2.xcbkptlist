@@ -3,4 +3,54 @@
    uuid = "DF163881-1610-45B7-B54A-9564044B3CA7"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0C4E9FF7-B80E-44AE-A414-2A5EFAA4B840"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Sources/Lily_Stage/Standard/Renderers/Lily.Stage.LightingRenderer.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "LightingRenderer"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "0C4E9FF7-B80E-44AE-A414-2A5EFAA4B840 - ebdfca64d3dd9632"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LilySwift.Lily.Stage.LightingRenderer.deinit"
+                  moduleName = "DevEnv-iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kengo/core/wd/dev/LilySwift/Sources/Lily_Stage/Standard/Renderers/Lily.Stage.LightingRenderer.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "0C4E9FF7-B80E-44AE-A414-2A5EFAA4B840 - 1054085aaf76db27"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LilySwift.Lily.Stage.LightingRenderer.__deallocating_deinit"
+                  moduleName = "DevEnv-iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kengo/core/wd/dev/LilySwift/Sources/Lily_Stage/Standard/Renderers/Lily.Stage.LightingRenderer.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

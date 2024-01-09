@@ -29,11 +29,8 @@ extension Lily.Stage.Playground3D
                 $0.depthAttachment
                 .action( load:.load, store:.store )
                 
-                $0.colorAttachments[0]
-                .action( load:.clear, store:.store )
-                
-                $0.colorAttachments[1]
-                .action( load:.load, store:.store )
+                $0.colorAttachments[0].action( load:.clear, store:.store )
+                $0.colorAttachments[1].action( load:.load, store:.store )
             }
             // パーティクルのDepth stateの作成
             depthState = device.makeDepthStencilState(descriptor:.make {
@@ -45,7 +42,6 @@ extension Lily.Stage.Playground3D
         
         public func updatePass(
             mediumTextures:BBMediumRenderTextures,
-            renderTextures:Lily.Stage.RenderTextures,
             rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             renderTargetCount:Int
         )

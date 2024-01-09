@@ -16,18 +16,18 @@ extension Lily.Stage.Playground3D
     open class ModelRenderFlow
     : Lily.Stage.BaseRenderFlow
     {
-        weak var renderTextures:Lily.Stage.RenderTextures?
+        weak var renderTextures:ModelRenderTextures?
         
-        var deferredShadingPass:Lily.Stage.DeferredShadingPass?
+        var modelPass:ModelPass?
         
         var modelObjectRenderer:ModelObjectRenderer?
         var modelLightingRenderer:ModelLightingRenderer?
 
         let viewCount:Int
         
-        public init( device:MTLDevice, viewCount:Int, renderTextures:Lily.Stage.RenderTextures ) {
+        public init( device:MTLDevice, viewCount:Int, renderTextures:ModelRenderTextures ) {
             self.renderTextures = renderTextures
-            self.deferredShadingPass = .init( device:device, renderTextures:renderTextures )
+            self.modelPass = .init( device:device, renderTextures:renderTextures )
             
             self.viewCount = viewCount
 
@@ -39,7 +39,7 @@ extension Lily.Stage.Playground3D
         }
         
         public override func changeSize( scaledSize:CGSize ) {
-            renderTextures!.updateBuffers( size:scaledSize, viewCount:viewCount )
+            
         }
         
         public override func render(
@@ -52,14 +52,14 @@ extension Lily.Stage.Playground3D
             uniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>
         )
         {
-            guard let deferred_shading_pass = deferredShadingPass else { return }
+            guard let modelPass = modelPass else { return }
             
             let shadowViewport = renderTextures!.shadowViewport()
             let shadowScissor = renderTextures!.shadowScissor()
             
             // 共通処理
             // パスの更新
-            deferred_shading_pass.updatePass( 
+            modelPass.updatePass( 
                 renderTextures:renderTextures!,
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetCount:viewCount
@@ -70,16 +70,16 @@ extension Lily.Stage.Playground3D
             
             // カスケードシャドウマップ
             for c_idx in 0 ..< Lily.Stage.Shared.Const.shadowCascadesCount {
-                deferred_shading_pass.shadowPassDesc?.depthAttachment.slice = c_idx
+                modelPass.shadowPassDesc?.depthAttachment.slice = c_idx
                 
-                let shadow_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:deferred_shading_pass.shadowPassDesc! ) 
+                let shadow_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:modelPass.shadowPassDesc! ) 
                 
                 shadow_encoder?
-                .label( "Shadow Cascade \(c_idx)" )
+                .label( "Playground3D Shadow Cascade \(c_idx)" )
                 .cullMode( .front )
                 .frontFacing( .counterClockwise )
                 .depthClipMode( .clamp )
-                .depthStencilState( deferred_shading_pass.shadowDepthState )
+                .depthStencilState( modelPass.shadowDepthState )
                 .viewport( shadowViewport )
                 .scissor( shadowScissor )
                 
@@ -98,16 +98,16 @@ extension Lily.Stage.Playground3D
             }
             
             // レンダーパスのcolor[0]をGBufferPassの書き込み先として指定する
-            deferred_shading_pass.setGBufferDestination( texture:destinationTexture )
-            deferred_shading_pass.setDepth( texture:depthTexture )
+            modelPass.setGBufferDestination( texture:destinationTexture )
+            modelPass.setDepth( texture:depthTexture )
             
-            let deferred_shading_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:deferred_shading_pass.GBufferPassDesc! )
+            let deferred_shading_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:modelPass.GBufferPassDesc! )
             
             deferred_shading_encoder?
-            .label( "G-Buffer Render" )
+            .label( "Playground3D G-Buffer Render" )
             .cullMode( .none )
             .frontFacing( .counterClockwise )
-            .depthStencilState( deferred_shading_pass.GBufferDepthState! )
+            .depthStencilState( modelPass.GBufferDepthState! )
             .viewports( viewports )
             .vertexAmplification( count:viewCount, viewports:viewports )
             
