@@ -24,6 +24,8 @@ extension Lily.Stage.Playground3D
         public override init( device:MTLDevice, viewCount:Int ) {
             super.init( device:device, viewCount:viewCount )
             
+            maxModelCount = 64
+            
             loadAssets()
             
             instanceBuffer = .init( device:device, count:maxModelCount * models.count * cameraCount )
@@ -52,8 +54,12 @@ extension Lily.Stage.Playground3D
         public func generateObject( with commandBuffer:MTLCommandBuffer? ) {
             instanceBuffer?.update { acc, _ in
                 for iid in 0 ..< maxModelCount * cameraCount {
+                    
+                    let idx = iid / cameraCount
+                    let x = idx / 8
+                    let z = idx % 8
                     // オブジェクトの位置
-                    let world_pos = LLFloatv3( -10, -2.0, 5.0 + -2.5 * Float(iid) )
+                    let world_pos = LLFloatv3( 20.0 + -10.0 * x.f, -2.0, 20.0 + -10.0 * z.f )
                     
                     let object_scale = LLFloatv3( 8.0, 8.0, 8.0 )
                     

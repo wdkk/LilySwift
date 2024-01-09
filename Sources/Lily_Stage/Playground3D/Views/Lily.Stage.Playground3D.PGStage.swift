@@ -29,9 +29,9 @@ extension Lily.Stage.Playground3D
         var BBMediumTextures:Lily.Stage.Playground3D.BBMediumRenderTextures
         var renderTextures:Lily.Stage.RenderTextures
         
-        var modelRenderFlow:ModelRenderFlow?
-        var BBRenderFlow:BBRenderFlow?
-        var SRGBRenderFlow:SRGBRenderFlow?
+        var modelRenderFlow:ModelRenderFlow
+        var BBRenderFlow:BBRenderFlow
+        var SRGBRenderFlow:SRGBRenderFlow
         
         public var clearColor:LLColor = .white
         
@@ -42,7 +42,7 @@ extension Lily.Stage.Playground3D
         public var screenSize:LLSizeFloat { LLSizeFloat( width, height ) }
     
         // MARK: - パーティクル情報
-        public var shapes:Set<BBActor> { BBRenderFlow!.pool.shapes }
+        public var shapes:Set<BBActor> { BBRenderFlow.pool.shapes }
         
         // 外部処理ハンドラ
         public var buildupHandler:(( PGStage )->Void)?
@@ -70,7 +70,7 @@ extension Lily.Stage.Playground3D
             // ハンドラのコール
             vc.loopHandler?( self )
             // 変更の確定
-            vc.BBRenderFlow?.pool.storage?.statuses?.commit()
+            vc.BBRenderFlow.pool.storage?.statuses?.commit()
             
             // Shapeの更新/終了処理を行う
             vc.checkShapesStatus()
@@ -105,7 +105,7 @@ extension Lily.Stage.Playground3D
             // ハンドラのコール
             vc.loopHandler?( self )
             // 変更の確定
-            vc.BBRenderFlow?.pool.storage?.statuses?.commit()
+            vc.BBRenderFlow.pool.storage?.statuses?.commit()
         
             // Shapeの更新/終了処理を行う
             vc.checkShapesStatus()
@@ -121,7 +121,7 @@ extension Lily.Stage.Playground3D
         #endif
                 
         func checkShapesStatus() {
-            for actor in BBRenderFlow!.pool.shapes {
+            for actor in BBRenderFlow.pool.shapes {
                 // イテレート処理
                 actor.appearIterate()
                 // インターバル処理
@@ -137,7 +137,7 @@ extension Lily.Stage.Playground3D
         }
         
         func removeAllShapes() {
-            BBRenderFlow?.pool.removeAllShapes()
+            BBRenderFlow.pool.removeAllShapes()
         }
         
         public init( 
@@ -155,17 +155,6 @@ extension Lily.Stage.Playground3D
             
             self.BBMediumTextures = .init(device:device )
             self.renderTextures = .init( device:device )
-            
-            super.init()
-        }
-        
-        required public init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-        
-        open override func setup() {
-            super.setup()
-            addSubview( metalView )
             
             modelRenderFlow = .init(
                 device:device,
@@ -191,10 +180,21 @@ extension Lily.Stage.Playground3D
                 environment:self.environment
             )
             
+            super.init()
+        }
+        
+        required public init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        open override func setup() {
+            super.setup()
+            addSubview( metalView )
+            
             renderEngine = .init( 
                 device:device,
                 size:CGSize( 320, 240 ), 
-                renderFlows:[modelRenderFlow!, BBRenderFlow!, SRGBRenderFlow!],
+                renderFlows:[modelRenderFlow, BBRenderFlow],
                 buffersInFlight:1
             )
 

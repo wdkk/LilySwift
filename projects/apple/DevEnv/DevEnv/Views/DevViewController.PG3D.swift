@@ -8,7 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-/*
 #if os(macOS)
 import AppKit
 #else
@@ -94,7 +93,7 @@ func design( stage:PGStage ) {
             dy:(0.03...0.45).randomize,
             dz:(-0.01...0.01).randomize
         )
-        .scale( square: 10.0 )
+        .scale( square: 8.0 )
         .deltaScale( dw: 0.1, dh: 0.1 )
         .angle( .random )
         .deltaAngle( degrees:(-2.0...2.0).randomize )
@@ -115,7 +114,7 @@ func design( stage:PGStage ) {
                 cy:(-2.0 ... 2.0).randomize,
                 cz:(-10.0 ... 10.0).randomize
             )
-            .scale( square: 10.0 )
+            .scale( square: 8.0 )
             .life( 1.0 )
         }
     }
@@ -124,4 +123,3 @@ func design( stage:PGStage ) {
 func update( stage:PGStage ) {
 
 }
-*/

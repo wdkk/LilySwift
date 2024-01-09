@@ -12,7 +12,7 @@ import Metal
 
 extension Lily.Stage.Playground3D
 {
-    public struct PG3DBBVIn
+    public struct BBVIn
     {
         var xyzw  = LLFloatv4()    // -1.0 ~ 1.0, 中央が0.0のローカル座標系
         var uv    = LLFloatv2()    // 0.0 ~ 1.0, 左上が0.0のラスタ座標系
@@ -27,7 +27,7 @@ extension Lily.Stage.Playground3D
     
     open class BBStorage
     {
-        public var particles:Lily.Stage.Model.Quadrangles<PG3DBBVIn>?
+        public var particles:Lily.Stage.Model.Quadrangles<BBVIn>?
         public var statuses:Lily.Metal.Buffer<BBUnitStatus>?
         public var reuseIndice:[Int]
         
@@ -35,14 +35,14 @@ extension Lily.Stage.Playground3D
         
         public var capacity:Int
         
-        static let defaultQuadrangleVertice = LLQuad<Lily.Stage.Playground3D.PG3DBBVIn>(
+        static let defaultQuadrangleVertice = LLQuad<Lily.Stage.Playground3D.BBVIn>(
             .init( xyz:.init( -1.0,  1.0, 0.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) ),
             .init( xyz:.init(  1.0,  1.0, 0.0 ), uv:.init( 1.0, 0.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xyz:.init( -1.0, -1.0, 0.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 1.0 ) ),
             .init( xyz:.init(  1.0, -1.0, 0.0 ), uv:.init( 1.0, 1.0 ), texUV:.init( 1.0, 1.0 ) )
         )
         
-        static let defaultTriangleVertice = LLQuad<Lily.Stage.Playground3D.PG3DBBVIn>(
+        static let defaultTriangleVertice = LLQuad<Lily.Stage.Playground3D.BBVIn>(
             .init( xyz:.init(  0.0,  1.15470053838, 0.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 0.0 ) ),
             .init( xyz:.init( -1.0, -0.57735026919, 0.0 ), uv:.init(-1.0, 1.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xyz:.init(  1.0, -0.57735026919, 0.0 ), uv:.init( 1.0,-1.0 ), texUV:.init( 0.0, 1.0 ) ),

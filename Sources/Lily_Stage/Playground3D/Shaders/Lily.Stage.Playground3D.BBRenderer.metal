@@ -49,7 +49,7 @@ enum DrawingType : uint
 
 //// 構造体 ////
     
-struct PG3DBBVIn
+struct BBVIn
 {
     float4 xyzw;
     float2 uv;
@@ -85,7 +85,7 @@ struct BBLocalUniform
     int           drawingOffset;
 };        
 
-struct PG3DBBVOut
+struct BBVOut
 {
     float4 pos [[ position ]];
     float2 xy;
@@ -95,14 +95,14 @@ struct PG3DBBVOut
     float  shapeType;
 };
 
-struct PG3DBBResult 
+struct BBResult 
 {
     float4 billboardTexture [[ color(0) ]];
     float4 backBuffer [[ color(1) ]];
 };
 
-vertex PG3DBBVOut Lily_Stage_Playground3D_Billboard_Vs(
-    const device PG3DBBVIn* in [[ buffer(0) ]],
+vertex BBVOut Lily_Stage_Playground3D_Billboard_Vs(
+    const device BBVIn* in [[ buffer(0) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
     constant BBLocalUniform &localUniform [[ buffer(2) ]],
     const device BBUnitStatus* statuses [[ buffer(3) ]],
@@ -114,21 +114,21 @@ vertex PG3DBBVOut Lily_Stage_Playground3D_Billboard_Vs(
     BBUnitStatus us = statuses[iid];
     
     if( us.compositeType != localUniform.shaderCompositeType ) { 
-        PG3DBBVOut trush_vout;
+        BBVOut trush_vout;
         trush_vout.pos = float4( 0, 0, TOO_FAR, 0 );
         return trush_vout;
     }
 
     // 三角形が指定されているが, 描画が三角形でない場合
     if( us.shapeType == ShapeType::triangle && localUniform.drawingType != DrawingType::triangles ) {
-        PG3DBBVOut trush_vout;
+        BBVOut trush_vout;
         trush_vout.pos = float4( 0, 0, TOO_FAR, 0 );
         return trush_vout;    
     }
     
     // 三角形以外が指定されているが、描画が三角形である場合
     if( us.shapeType != ShapeType::triangle && localUniform.drawingType == DrawingType::triangles ) {
-        PG3DBBVOut trush_vout;
+        BBVOut trush_vout;
         trush_vout.pos = float4( 0, 0, TOO_FAR, 0 );
         return trush_vout;    
     }
@@ -137,7 +137,7 @@ vertex PG3DBBVOut Lily_Stage_Playground3D_Billboard_Vs(
         
     GlobalUniform uniform = uniformArray.uniforms[amp_id];
     
-    PG3DBBVIn vin = in[offset + vid];
+    BBVIn vin = in[offset + vid];
         
     float4x4 modelMatrix = float4x4(
         float4( 1, 0, 0, 0 ),
@@ -201,7 +201,7 @@ vertex PG3DBBVOut Lily_Stage_Playground3D_Billboard_Vs(
         center_pos.w
     );
 
-    PG3DBBVOut vout;
+    BBVOut vout;
     vout.pos = billboard_pos;
     vout.xy = vin.xyzw.xy;
     vout.texUV = tex_uv;
@@ -218,11 +218,11 @@ namespace Lily
     {
         namespace Playground3D
         {
-            float4 drawPlane( PG3DBBVOut in ) {
+            float4 drawPlane( BBVOut in ) {
                 return in.color;
             }
             
-            float4 drawCircle( PG3DBBVOut in ) {
+            float4 drawCircle( BBVOut in ) {
                 float x = in.xy.x;
                 float y = in.xy.y;
                 float r = x * x + y * y;
@@ -230,7 +230,7 @@ namespace Lily
                 return in.color;
             } 
             
-            float4 drawBlurryCircle( PG3DBBVOut in ) {
+            float4 drawBlurryCircle( BBVOut in ) {
                 float x = in.xy.x;
                 float y = in.xy.y;
                 float r = sqrt( x * x + y * y );
@@ -242,7 +242,7 @@ namespace Lily
                 return c;
             } 
             
-            float4 drawPicture( PG3DBBVOut in, texture2d<float> tex ) {
+            float4 drawPicture( BBVOut in, texture2d<float> tex ) {
                 constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
                 
                 if( is_null_texture( tex ) ) { discard_fragment(); }
@@ -253,7 +253,7 @@ namespace Lily
                 return tex_c;
             } 
             
-            float4 drawMask( PG3DBBVOut in, texture2d<float> tex ) {
+            float4 drawMask( BBVOut in, texture2d<float> tex ) {
                 constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
                 
                 if( is_null_texture( tex ) ) { discard_fragment(); }
@@ -267,8 +267,8 @@ namespace Lily
     }
 }
 
-fragment PG3DBBResult Lily_Stage_Playground3D_Billboard_Fs(
-    const PG3DBBVOut in [[ stage_in ]],
+fragment BBResult Lily_Stage_Playground3D_Billboard_Fs(
+    const BBVOut in [[ stage_in ]],
     texture2d<float> tex [[ texture(1) ]]
 )
 {
@@ -295,7 +295,7 @@ fragment PG3DBBResult Lily_Stage_Playground3D_Billboard_Fs(
             break;
     }
     
-    PG3DBBResult result;
+    BBResult result;
     result.billboardTexture = color;
     result.backBuffer = color;
     return result;
