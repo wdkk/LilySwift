@@ -40,6 +40,7 @@ extension Lily.Stage.Playground2D
             )
             
             tex_desc.sampleCount = Lily.Stage.BufferFormats.sampleCount
+            // NOTE: メモリレスを使う例をコメントアウト
             /*
             #if !targetEnvironment(simulator)
             if #available( macCatalyst 14.0, * ) { tex_desc.storageMode = .memoryless }

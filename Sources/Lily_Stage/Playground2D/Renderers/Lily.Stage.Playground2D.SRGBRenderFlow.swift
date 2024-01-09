@@ -19,7 +19,6 @@ extension Lily.Stage.Playground2D
         var pass:Lily.Stage.Playground2D.SRGBPass?
         
         weak var mediumTextures:MediumTextures?
-        weak var renderTextures:Lily.Stage.RenderTextures?
         
         var sRGBRenderer:SRGBRenderer?
         
