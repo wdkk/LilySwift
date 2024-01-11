@@ -194,7 +194,7 @@ extension Lily.Stage.Playground3D
             renderEngine = .init( 
                 device:device,
                 size:CGSize( 320, 240 ), 
-                renderFlows:[modelRenderFlow, BBRenderFlow, sRGBRenderFlow ],
+                renderFlows:[ modelRenderFlow, BBRenderFlow, sRGBRenderFlow ],
                 buffersInFlight:1
             )
 
