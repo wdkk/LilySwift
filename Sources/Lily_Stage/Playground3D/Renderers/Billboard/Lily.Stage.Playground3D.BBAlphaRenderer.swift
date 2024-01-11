@@ -40,8 +40,8 @@ extension Lily.Stage.Playground3D
             
             desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.linearSRGBBuffer
             desc.colorAttachments[0].composite( type:.alphaBlend )
-            desc.colorAttachments[1].pixelFormat = Lily.Stage.BufferFormats.backBuffer
-            desc.colorAttachments[1].composite( type:.alphaBlend )
+            //desc.colorAttachments[1].pixelFormat = Lily.Stage.BufferFormats.backBuffer
+            //desc.colorAttachments[1].composite( type:.alphaBlend )
             desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount

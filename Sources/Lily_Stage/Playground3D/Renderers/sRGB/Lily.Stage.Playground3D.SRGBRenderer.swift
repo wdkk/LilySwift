@@ -49,11 +49,11 @@ extension Lily.Stage.Playground3D
 
         public func draw(
             with renderEncoder:MTLRenderCommandEncoder?,
-            mediumTextures:Lily.Stage.Playground3D.BBMediumRenderTextures
+            modelRenderTextures:ModelRenderTextures
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )
-            renderEncoder?.setFragmentTexture( mediumTextures.billboardTexture, index:0 )
+            renderEncoder?.setFragmentTexture( modelRenderTextures.resultTexture, index:0 )
             renderEncoder?.drawPrimitives( type:.triangle, vertexStart:0, vertexCount:3 )
         }
     }

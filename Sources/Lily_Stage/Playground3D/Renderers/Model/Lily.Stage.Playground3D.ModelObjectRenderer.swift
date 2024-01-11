@@ -46,7 +46,7 @@ extension Lily.Stage.Playground3D
             desc.colorAttachments[IDX_GBUFFER_1].pixelFormat = Lily.Stage.BufferFormats.GBuffer1
             desc.colorAttachments[IDX_GBUFFER_2].pixelFormat = Lily.Stage.BufferFormats.GBuffer2
             desc.colorAttachments[IDX_GBUFFER_DEPTH].pixelFormat = Lily.Stage.BufferFormats.GBufferDepth
-            desc.colorAttachments[IDX_OUTPUT].pixelFormat = Lily.Stage.BufferFormats.backBuffer
+            desc.colorAttachments[IDX_OUTPUT].pixelFormat = Lily.Stage.BufferFormats.linearSRGBBuffer
             desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount

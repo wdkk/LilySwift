@@ -50,7 +50,7 @@ vertex ObjectVOut Lily_Stage_Playground3D_Model_Object_Vs(
     
     ObjectVOut out;
     out.position = uniform.cameraUniform.viewProjectionMatrix * world_pos;
-    out.color = in[vid].color;
+    out.color = pow( in[vid].color, 1.0 / 2.2 );    // sRGB -> linear変換
     out.normal = (instances[idx] * float4(in[vid].normal, 0)).xyz;
 
     return out;

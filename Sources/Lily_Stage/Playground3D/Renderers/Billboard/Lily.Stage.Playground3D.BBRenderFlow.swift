@@ -18,8 +18,7 @@ extension Lily.Stage.Playground3D
     {
         var pass:Lily.Stage.Playground3D.BBPass?
         
-        weak var mediumTextures:BBMediumRenderTextures?
-        weak var renderTextures:ModelRenderTextures?
+        weak var modelRenderTextures:ModelRenderTextures?
         
         public private(set) var pool:BBPool
         public private(set) var storage:BBStorage
@@ -35,7 +34,6 @@ extension Lily.Stage.Playground3D
         public init(
             device:MTLDevice,
             viewCount:Int,
-            BBMediumTextures:BBMediumRenderTextures,
             renderTextures:ModelRenderTextures,
             environment:Lily.Stage.ShaderEnvironment,
             particleCapacity:Int = 10000,
@@ -46,9 +44,7 @@ extension Lily.Stage.Playground3D
             self.viewCount = viewCount
             self.particleCapacity = particleCapacity
             
-            self.mediumTextures = BBMediumTextures
-            
-            self.renderTextures = renderTextures
+            self.modelRenderTextures = renderTextures
             
             // レンダラーの作成
             self.alphaRenderer = .init( 
@@ -97,7 +93,7 @@ extension Lily.Stage.Playground3D
         {
             guard let pass = self.pass else { return }
             
-            guard let renderTextures = self.renderTextures else { 
+            guard let renderTextures = self.modelRenderTextures else { 
                 LLLog( "renderTexturesが設定されていません" )
                 return
             }
@@ -115,13 +111,12 @@ extension Lily.Stage.Playground3D
             
             // 共通処理
             pass.updatePass( 
-                mediumTextures:mediumTextures!,
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetCount:viewCount        
             )
             
             // フォワードレンダリング : パーティクルの描画の設定
-            pass.setDestination( texture:destinationTexture )
+            pass.setDestination( texture:modelRenderTextures?.resultTexture )
             pass.setDepth( texture:depthTexture )
             
             let encoder = commandBuffer.makeRenderCommandEncoder( descriptor:pass.passDesc! )

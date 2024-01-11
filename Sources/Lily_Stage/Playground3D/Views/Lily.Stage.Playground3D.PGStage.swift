@@ -26,7 +26,6 @@ extension Lily.Stage.Playground3D
         var device:MTLDevice
         var renderEngine:Lily.Stage.StandardRenderEngine?
         
-        var BBMediumTextures:BBMediumRenderTextures
         var modelRenderTextures:ModelRenderTextures
         
         var modelRenderFlow:ModelRenderFlow
@@ -61,7 +60,6 @@ extension Lily.Stage.Playground3D
                 me.rect( vc.rect )
                 vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
                 vc.modelRenderTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
-                vc.BBMediumTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
             }
             
             vc.buildupHandler?( self )
@@ -98,7 +96,6 @@ extension Lily.Stage.Playground3D
                 me.rect( vc.rect )
                 vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
                 vc.modelRenderTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
-                vc.BBMediumTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
             }
             
             vc.buildupHandler?( self )
@@ -153,7 +150,6 @@ extension Lily.Stage.Playground3D
             self.particleCapacity = particleCapacity
             self.textures = textures
             
-            self.BBMediumTextures = .init(device:device )
             self.modelRenderTextures = .init( device:device )
             
             modelRenderFlow = .init(
@@ -165,7 +161,6 @@ extension Lily.Stage.Playground3D
             BBRenderFlow = .init( 
                 device:device,
                 viewCount:1,
-                BBMediumTextures:self.BBMediumTextures,
                 renderTextures:self.modelRenderTextures,
                 environment:self.environment,
                 particleCapacity:self.particleCapacity,
@@ -175,7 +170,6 @@ extension Lily.Stage.Playground3D
             sRGBRenderFlow = .init( 
                 device:device,
                 viewCount:1,
-                BBMediumTextures:self.BBMediumTextures,
                 renderTextures:self.modelRenderTextures,
                 environment:self.environment
             )

@@ -16,7 +16,7 @@ extension Lily.Stage.Playground3D
     open class ModelRenderFlow
     : Lily.Stage.BaseRenderFlow
     {
-        weak var renderTextures:ModelRenderTextures?
+        weak var modelRenderTextures:ModelRenderTextures?
         
         var modelPass:ModelPass?
         
@@ -26,7 +26,7 @@ extension Lily.Stage.Playground3D
         let viewCount:Int
         
         public init( device:MTLDevice, viewCount:Int, renderTextures:ModelRenderTextures ) {
-            self.renderTextures = renderTextures
+            self.modelRenderTextures = renderTextures
             self.modelPass = .init( device:device, renderTextures:renderTextures )
             
             self.viewCount = viewCount
@@ -54,13 +54,13 @@ extension Lily.Stage.Playground3D
         {
             guard let modelPass = modelPass else { return }
             
-            let shadowViewport = renderTextures!.shadowViewport()
-            let shadowScissor = renderTextures!.shadowScissor()
+            let shadowViewport = modelRenderTextures!.shadowViewport()
+            let shadowScissor = modelRenderTextures!.shadowScissor()
             
             // 共通処理
             // パスの更新
             modelPass.updatePass( 
-                renderTextures:renderTextures!,
+                renderTextures:modelRenderTextures!,
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetCount:viewCount
             )
@@ -98,7 +98,7 @@ extension Lily.Stage.Playground3D
             }
             
             // レンダーパスのcolor[0]をGBufferPassの書き込み先として指定する
-            modelPass.setGBufferDestination( texture:destinationTexture )
+            modelPass.setGBufferDestination( texture:modelRenderTextures?.resultTexture )
             modelPass.setDepth( texture:depthTexture )
             
             let deferred_shading_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:modelPass.GBufferPassDesc! )
@@ -121,7 +121,7 @@ extension Lily.Stage.Playground3D
             modelLightingRenderer?.draw(
                 with:deferred_shading_encoder, 
                 globalUniforms:uniforms, 
-                renderTextures:renderTextures!
+                renderTextures:modelRenderTextures!
             )
 
             deferred_shading_encoder?.endEncoding()

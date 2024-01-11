@@ -97,11 +97,11 @@ public struct LLImageLoadOption
 /// - 画像保存時に指定するオプション群
 public struct LLImageSaveOption
 {
-    public var type:LLImageSaveType = .auto /// 書き出しする画像形式
-    public var jpeg_quality:LLFloat = 0.85  /// JPEG保存時の品質( 低品質:0.0 ~ 最高品質:1.0, 標準:0.85 )
-    public var png_compress:LLFloat = 2.0   /// PNG保存時の圧縮率( 標準2.0 )
+    public var type:LLImageSaveType = .auto           /// 書き出しする画像形式
+    public var jpeg_quality:LLFloat = 0.85            /// JPEG保存時の品質( 低品質:0.0 ~ 最高品質:1.0, 標準:0.85 )
+    public var png_compress:LLFloat = 2.0             /// PNG保存時の圧縮率( 標準2.0 )
     // TODO: 16bitPNGの対応
-    public var png_depth:LLColorDepth = .uint8 /// PNG保存時の色深度
+    public var png_depth:LLColorDepth = .uint8        /// PNG保存時の色深度
     public var bitmap_info:LLImageBitmapInfo = .bit24 /// Bitmap保存時の情報
     public var targa_info:LLImageTargaInfo = .bit32   /// Targa保存時の情報
     public var tiff_info:LLImageTiffInfo = .lzw       /// Tiff保存時の情報
