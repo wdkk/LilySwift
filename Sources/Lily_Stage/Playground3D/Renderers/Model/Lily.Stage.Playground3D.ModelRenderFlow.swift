@@ -17,6 +17,7 @@ extension Lily.Stage.Playground3D
     : Lily.Stage.BaseRenderFlow
     {
         weak var modelRenderTextures:ModelRenderTextures?
+        weak var mediumTexture:MediumTexture?
         
         var modelPass:ModelPass?
         
@@ -25,8 +26,16 @@ extension Lily.Stage.Playground3D
 
         let viewCount:Int
         
-        public init( device:MTLDevice, viewCount:Int, renderTextures:ModelRenderTextures ) {
+        public init(
+            device:MTLDevice, 
+            viewCount:Int,
+            renderTextures:ModelRenderTextures,
+            mediumTexture:MediumTexture
+        ) 
+        {
             self.modelRenderTextures = renderTextures
+            self.mediumTexture = mediumTexture
+            
             self.modelPass = .init( device:device, renderTextures:renderTextures )
             
             self.viewCount = viewCount
@@ -97,8 +106,8 @@ extension Lily.Stage.Playground3D
                 shadow_encoder?.endEncoding()
             }
             
-            // レンダーパスのcolor[0]をGBufferPassの書き込み先として指定する
-            modelPass.setGBufferDestination( texture:modelRenderTextures?.resultTexture )
+            // レンダーパスの書き込み先を指定
+            modelPass.setGBufferDestination( texture:mediumTexture?.resultTexture )
             modelPass.setDepth( texture:depthTexture )
             
             let deferred_shading_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:modelPass.GBufferPassDesc! )
@@ -121,7 +130,7 @@ extension Lily.Stage.Playground3D
             modelLightingRenderer?.draw(
                 with:deferred_shading_encoder, 
                 globalUniforms:uniforms, 
-                renderTextures:modelRenderTextures!
+                renderTextures:modelRenderTextures
             )
 
             deferred_shading_encoder?.endEncoding()

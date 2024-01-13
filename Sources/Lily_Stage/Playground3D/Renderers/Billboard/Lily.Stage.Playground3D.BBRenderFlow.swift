@@ -19,6 +19,7 @@ extension Lily.Stage.Playground3D
         var pass:Lily.Stage.Playground3D.BBPass?
         
         weak var modelRenderTextures:ModelRenderTextures?
+        weak var mediumTexture:MediumTexture?
         
         public private(set) var pool:BBPool
         public private(set) var storage:BBStorage
@@ -35,16 +36,18 @@ extension Lily.Stage.Playground3D
             device:MTLDevice,
             viewCount:Int,
             renderTextures:ModelRenderTextures,
+            mediumTexture:MediumTexture,
             environment:Lily.Stage.ShaderEnvironment,
             particleCapacity:Int = 10000,
             textures:[String] = []
         ) 
         {
+            self.modelRenderTextures = renderTextures
+            self.mediumTexture = mediumTexture
+            
             self.pass = .init( device:device )
             self.viewCount = viewCount
             self.particleCapacity = particleCapacity
-            
-            self.modelRenderTextures = renderTextures
             
             // レンダラーの作成
             self.alphaRenderer = .init( 
@@ -116,7 +119,7 @@ extension Lily.Stage.Playground3D
             )
             
             // フォワードレンダリング : パーティクルの描画の設定
-            pass.setDestination( texture:modelRenderTextures?.resultTexture )
+            pass.setDestination( texture:mediumTexture?.resultTexture )
             pass.setDepth( texture:depthTexture )
             
             let encoder = commandBuffer.makeRenderCommandEncoder( descriptor:pass.passDesc! )

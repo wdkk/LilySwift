@@ -75,18 +75,18 @@ extension Lily.Stage.Playground3D
         
         public func draw( with renderEncoder:MTLRenderCommandEncoder?, 
                    globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
-                   renderTextures:ModelRenderTextures
+                   renderTextures:ModelRenderTextures?
         )
         {
             guard let lighting_pp = pipeline else { return }
             // ライティング描画
             renderEncoder?.setRenderPipelineState( lighting_pp )
             renderEncoder?.setDepthStencilState( depthState )
-            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.GBuffer0, index:IDX_GBUFFER_0 )
-            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.GBuffer1, index:IDX_GBUFFER_1 )
-            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.GBuffer2, index:IDX_GBUFFER_2 )
-            renderEncoder?.setFragmentMemoryLessTexture( renderTextures.GBufferDepth, index:IDX_GBUFFER_DEPTH )
-            renderEncoder?.setFragmentTexture( renderTextures.shadowMap, index:5 )
+            renderEncoder?.setFragmentMemoryLessTexture( renderTextures?.GBuffer0, index:IDX_GBUFFER_0 )
+            renderEncoder?.setFragmentMemoryLessTexture( renderTextures?.GBuffer1, index:IDX_GBUFFER_1 )
+            renderEncoder?.setFragmentMemoryLessTexture( renderTextures?.GBuffer2, index:IDX_GBUFFER_2 )
+            renderEncoder?.setFragmentMemoryLessTexture( renderTextures?.GBufferDepth, index:IDX_GBUFFER_DEPTH )
+            renderEncoder?.setFragmentTexture( renderTextures?.shadowMap, index:5 )
             renderEncoder?.setFragmentTexture( skyCubeMap, index:6 )
             renderEncoder?.setFragmentBuffer( globalUniforms?.metalBuffer, offset:0, index:0 )
             renderEncoder?.drawPrimitives( type:.triangle, vertexStart:0, vertexCount:3 )

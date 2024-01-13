@@ -27,6 +27,7 @@ extension Lily.Stage.Playground3D
         var renderEngine:Lily.Stage.StandardRenderEngine?
         
         var modelRenderTextures:ModelRenderTextures
+        var mediumTexture:MediumTexture
         
         var modelRenderFlow:ModelRenderFlow
         var BBRenderFlow:BBRenderFlow
@@ -60,6 +61,7 @@ extension Lily.Stage.Playground3D
                 me.rect( vc.rect )
                 vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
                 vc.modelRenderTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
+                vc.mediumTexture.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
             }
             
             vc.buildupHandler?( self )
@@ -96,6 +98,7 @@ extension Lily.Stage.Playground3D
                 me.rect( vc.rect )
                 vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
                 vc.modelRenderTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
+                vc.mediumTexture.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
             }
             
             vc.buildupHandler?( self )
@@ -151,17 +154,20 @@ extension Lily.Stage.Playground3D
             self.textures = textures
             
             self.modelRenderTextures = .init( device:device )
+            self.mediumTexture = .init( device:device )
             
             modelRenderFlow = .init(
                 device:device,
                 viewCount:1,
-                renderTextures:self.modelRenderTextures
+                renderTextures:self.modelRenderTextures,
+                mediumTexture:mediumTexture
             )
                                     
             BBRenderFlow = .init( 
                 device:device,
                 viewCount:1,
                 renderTextures:self.modelRenderTextures,
+                mediumTexture:mediumTexture,                
                 environment:self.environment,
                 particleCapacity:self.particleCapacity,
                 textures:self.textures
@@ -170,7 +176,7 @@ extension Lily.Stage.Playground3D
             sRGBRenderFlow = .init( 
                 device:device,
                 viewCount:1,
-                renderTextures:self.modelRenderTextures,
+                mediumTexture:mediumTexture,
                 environment:self.environment
             )
             

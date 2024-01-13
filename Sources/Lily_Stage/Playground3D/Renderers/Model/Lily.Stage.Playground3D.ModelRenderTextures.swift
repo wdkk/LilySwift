@@ -31,8 +31,6 @@ extension Lily.Stage.Playground3D
         var GBufferDepth: MTLTexture?
         // シャドウテクスチャ
         var shadowMap: MTLTexture?
-        // 出力テクスチャ
-        var resultTexture: MTLTexture?
         
         public init( device:MTLDevice ) {
             self.device = device
@@ -87,12 +85,6 @@ extension Lily.Stage.Playground3D
             tex_desc.pixelFormat = Lily.Stage.BufferFormats.GBufferDepth
             GBufferDepth = device.makeTexture( descriptor:tex_desc )
             GBufferDepth?.label = "GBufferDepth"
-            
-            // GDepthの再生成
-            tex_desc.storageMode = .private
-            tex_desc.pixelFormat = Lily.Stage.BufferFormats.linearSRGBBuffer
-            resultTexture = device.makeTexture( descriptor:tex_desc )
-            resultTexture?.label = "resultTexture"
             
             return true
         }
