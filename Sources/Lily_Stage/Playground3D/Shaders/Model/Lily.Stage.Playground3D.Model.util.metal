@@ -28,6 +28,8 @@ namespace Lily
             constant int IDX_GBUFFER_1 = 2;
             constant int IDX_GBUFFER_2 = 3;
             constant int IDX_GBUFFER_DEPTH = 4;
+            constant int IDX_SHADOW_MAP = 5;
+            constant int IDX_CUBE_MAP = 6;
             
             struct GBufferFOut 
             {

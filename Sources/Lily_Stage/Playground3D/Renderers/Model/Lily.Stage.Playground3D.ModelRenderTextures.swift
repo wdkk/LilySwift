@@ -19,6 +19,8 @@ extension Lily.Stage.Playground3D
     static let IDX_GBUFFER_1 = 2
     static let IDX_GBUFFER_2 = 3
     static let IDX_GBUFFER_DEPTH = 4
+    static let IDX_SHADOW_MAP = 5
+    static let IDX_CUBE_MAP = 6
     
     open class ModelRenderTextures
     { 

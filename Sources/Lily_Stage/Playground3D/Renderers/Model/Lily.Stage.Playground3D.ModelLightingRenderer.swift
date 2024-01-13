@@ -86,8 +86,8 @@ extension Lily.Stage.Playground3D
             renderEncoder?.setFragmentMemoryLessTexture( renderTextures?.GBuffer1, index:IDX_GBUFFER_1 )
             renderEncoder?.setFragmentMemoryLessTexture( renderTextures?.GBuffer2, index:IDX_GBUFFER_2 )
             renderEncoder?.setFragmentMemoryLessTexture( renderTextures?.GBufferDepth, index:IDX_GBUFFER_DEPTH )
-            renderEncoder?.setFragmentTexture( renderTextures?.shadowMap, index:5 )
-            renderEncoder?.setFragmentTexture( skyCubeMap, index:6 )
+            renderEncoder?.setFragmentTexture( renderTextures?.shadowMap, index:IDX_SHADOW_MAP )
+            renderEncoder?.setFragmentTexture( skyCubeMap, index:IDX_CUBE_MAP )
             renderEncoder?.setFragmentBuffer( globalUniforms?.metalBuffer, offset:0, index:0 )
             renderEncoder?.drawPrimitives( type:.triangle, vertexStart:0, vertexCount:3 )
         }

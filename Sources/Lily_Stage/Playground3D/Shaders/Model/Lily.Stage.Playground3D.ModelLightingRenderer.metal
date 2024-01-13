@@ -116,8 +116,8 @@ fragment LightingFOut Lily_Stage_Playground3D_Model_Lighting_Fs(
     lily_memory_float4       GBuffer1Mem [[ lily_memory(IDX_GBUFFER_1) ]],
     lily_memory_float4       GBuffer2Mem [[ lily_memory(IDX_GBUFFER_2) ]],
     lily_memory_depth        depthMem    [[ lily_memory(IDX_GBUFFER_DEPTH) ]],
-    depth2d_array <float>    shadowMap   [[ texture(5) ]],
-    texturecube <float>      cubeMap     [[ texture(6) ]],
+    depth2d_array <float>    shadowMap   [[ texture(IDX_SHADOW_MAP) ]],
+    texturecube <float>      cubeMap     [[ texture(IDX_CUBE_MAP) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(0) ]]
 )
 {    
