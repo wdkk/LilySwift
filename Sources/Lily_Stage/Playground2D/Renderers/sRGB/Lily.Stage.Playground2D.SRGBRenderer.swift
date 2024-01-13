@@ -53,7 +53,7 @@ extension Lily.Stage.Playground2D
         {
             renderEncoder?.setRenderPipelineState( pipeline )
         
-            renderEncoder?.setFragmentTexture( mediumTextures.particleTexture, index:0 )
+            renderEncoder?.setFragmentTexture( mediumTextures.resultTexture, index:0 )
             renderEncoder?.drawPrimitives( type:.triangle, vertexStart:0, vertexCount:3 )
         }
     }

@@ -61,8 +61,8 @@ class DevViewController
     
     override func setup() {
         super.setup()
-        buildupHandler = design
-        loopHandler = update
+        pgDesignHandler = design
+        pgUpdateHandler = update
     }
 }
 

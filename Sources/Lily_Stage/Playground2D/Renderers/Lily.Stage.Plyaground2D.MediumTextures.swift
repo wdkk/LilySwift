@@ -18,7 +18,7 @@ extension Lily.Stage.Playground2D
     { 
         var device:MTLDevice
         
-        var particleTexture: MTLTexture?
+        var resultTexture:MTLTexture?
 
         public init( device:MTLDevice ) {
             self.device = device
@@ -26,14 +26,14 @@ extension Lily.Stage.Playground2D
         
         @discardableResult
         public func updateBuffers( size:CGSize, viewCount:Int ) -> Bool {
-            if particleTexture != nil && 
-               particleTexture!.width.d == size.width && 
-               particleTexture!.height.d == size.height 
+            if resultTexture != nil && 
+               resultTexture!.width.d == size.width && 
+               resultTexture!.height.d == size.height 
             { return false }
             
             // テクスチャ再生成の作業
             let tex_desc = MTLTextureDescriptor.texture2DDescriptor( 
-                pixelFormat:.rgba8Unorm,
+                pixelFormat:Lily.Stage.BufferFormats.linearSRGBBuffer,
                 width:size.width.i!,
                 height:size.height.i!,
                 mipmapped:false 
@@ -58,9 +58,8 @@ extension Lily.Stage.Playground2D
             tex_desc.usage = [ tex_desc.usage, .renderTarget ]
             
             // particleTextureの再生成
-            tex_desc.pixelFormat = Lily.Stage.BufferFormats.linearSRGBBuffer
-            particleTexture = device.makeTexture( descriptor:tex_desc )
-            particleTexture?.label = "Particle Texture"
+            resultTexture = device.makeTexture( descriptor:tex_desc )
+            resultTexture?.label = "Particle Texture"
             
             return true
         }

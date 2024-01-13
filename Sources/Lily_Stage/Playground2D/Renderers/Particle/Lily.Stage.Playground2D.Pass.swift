@@ -60,7 +60,7 @@ extension Lily.Stage.Playground2D
             renderTargetCount:Int
         )
         {
-            passDesc?.colorAttachments[0].texture = mediumTextures.particleTexture
+            passDesc?.colorAttachments[0].texture = mediumTextures.resultTexture
             #if !targetEnvironment(macCatalyst)
             passDesc?.rasterizationRateMap = rasterizationRateMap
             #endif

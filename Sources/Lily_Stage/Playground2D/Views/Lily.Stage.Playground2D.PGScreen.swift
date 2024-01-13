@@ -69,32 +69,37 @@ extension Lily.Stage.Playground2D
         // MARK: - パーティクル情報
         public var shapes:Set<PGActor> { renderFlow.pool.shapes }
         
-        // 外部処理ハンドラ
-        public var buildupHandler:(( PGScreen )->Void)?
-        public var loopHandler:(( PGScreen )->Void)?
+        // MARK: - 外部処理ハンドラ
+        public var pgDesignHandler:(( PGScreen )->Void)?
+        public var pgUpdateHandler:(( PGScreen )->Void)?
+        private var _design_once_flag = false
         
         #if os(iOS) || os(visionOS)
         public lazy var metalView = Lily.View.MetalView( device:device )
         .setup( caller:self ) { me, vc in
             me.bgColor( .grey )
             me.isMultipleTouchEnabled = true
+            vc._design_once_flag = false
         }
         .buildup( caller:self ) { me, vc in
-            vc.removeAllShapes()
-            
             CATransaction.stop {
                 me.rect( vc.rect )
                 vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
                 vc.mediumTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
             }
             
-            vc.buildupHandler?( self )
+            if !vc._design_once_flag {
+                vc.removeAllShapes()
+                vc.pgDesignHandler?( self )
+                vc.renderFlow.pool.storage?.statuses?.commit()
+                vc._design_once_flag = true
+            }
         }
         .draw( caller:self ) { me, vc, status in
             // 時間の更新
             PGActor.ActorTimer.shared.update()
             // ハンドラのコール
-            vc.loopHandler?( self )
+            vc.pgUpdateHandler?( self )
             // 変更の確定
             vc.renderFlow.pool.storage?.statuses?.commit()
             vc.renderFlow.clearColor = self.clearColor
@@ -136,24 +141,27 @@ extension Lily.Stage.Playground2D
         public lazy var metalView = Lily.View.MetalView( device:device )
         .setup( caller:self ) { me, vc in
             me.bgColor( .grey )
+            vc._design_once_flag = false
         }
         .buildup( caller:self ) { me, vc in
-            vc.removeAllShapes()
-            
             CATransaction.stop {
                 me.rect( vc.rect )
                 vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
                 vc.mediumTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
             }
             
-            vc.buildupHandler?( self )
-            vc.renderFlow.pool.storage?.statuses?.commit()
+            if !vc._design_once_flag {
+                vc.removeAllShapes()
+                vc.pgDesignHandler?( self )
+                vc.renderFlow.pool.storage?.statuses?.commit()
+                vc._design_once_flag = true
+            }
         }
         .draw( caller:self ) { me, vc, status in
             // 時間の更新
             PGActor.ActorTimer.shared.update()
             // ハンドラのコール
-            vc.loopHandler?( self )
+            vc.pgUpdateHandler?( self )
             // 変更の確定
             vc.renderFlow.pool.storage?.statuses?.commit()
             vc.renderFlow.clearColor = self.clearColor

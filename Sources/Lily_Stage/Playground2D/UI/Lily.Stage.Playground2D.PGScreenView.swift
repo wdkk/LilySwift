@@ -55,8 +55,8 @@ extension Lily.Stage.Playground2D
                 textures:self.textures 
             )
             
-            screen.buildupHandler = self.design
-            screen.loopHandler = self.update
+            screen.pgDesignHandler = self.design
+            screen.pgUpdateHandler = self.update
             
             return screen
         }
@@ -103,8 +103,8 @@ extension Lily.Stage.Playground2D
                 textures:self.textures 
             )
             
-            screen.buildupHandler = self.design
-            screen.loopHandler = self.update
+            screen.pgDesignHandler = self.design
+            screen.pgUpdateHandler = self.update
             
             return screen
         }

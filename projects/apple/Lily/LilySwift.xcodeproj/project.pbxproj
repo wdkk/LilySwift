@@ -1387,6 +1387,7 @@
 		5D62544E2B11070900B57EE0 /* Renderers */ = {
 			isa = PBXGroup;
 			children = (
+				5D48694B2B2AF96500164205 /* Lily.Stage.Plyaground2D.MediumTextures.swift */,
 				5DD054B62B4D51E300F93192 /* Particle */,
 				5DD054B72B4D51EE00F93192 /* sRGB */,
 			);
@@ -1816,7 +1817,6 @@
 		5DD054B62B4D51E300F93192 /* Particle */ = {
 			isa = PBXGroup;
 			children = (
-				5D48694B2B2AF96500164205 /* Lily.Stage.Plyaground2D.MediumTextures.swift */,
 				5DC79FC02B10957100B50CEB /* Lily.Stage.Playground2D.Pass.swift */,
 				5DE802B22B0D126700984E61 /* Lily.Stage.Playground2D.RenderFlow.swift */,
 				5D3036982B0D054600F57D1E /* Lily.Stage.Playground2D.AlphaRenderer.swift */,
