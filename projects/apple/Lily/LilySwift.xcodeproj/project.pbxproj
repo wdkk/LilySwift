@@ -358,6 +358,12 @@
 		5D8A6DEB2B5280E400E4F827 /* Lily.Stage.Playground3D.MediumTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8A6DEA2B5280E400E4F827 /* Lily.Stage.Playground3D.MediumTexture.swift */; };
 		5D8A6DEC2B5280E400E4F827 /* Lily.Stage.Playground3D.MediumTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8A6DEA2B5280E400E4F827 /* Lily.Stage.Playground3D.MediumTexture.swift */; };
 		5D8A6DED2B5280E400E4F827 /* Lily.Stage.Playground3D.MediumTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8A6DEA2B5280E400E4F827 /* Lily.Stage.Playground3D.MediumTexture.swift */; };
+		5D8A76552B529DEA00E4F827 /* Lily.Stage.Playground3D.ModelStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8A76542B529DEA00E4F827 /* Lily.Stage.Playground3D.ModelStorage.swift */; };
+		5D8A76562B529DEA00E4F827 /* Lily.Stage.Playground3D.ModelStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8A76542B529DEA00E4F827 /* Lily.Stage.Playground3D.ModelStorage.swift */; };
+		5D8A76572B529DEA00E4F827 /* Lily.Stage.Playground3D.ModelStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8A76542B529DEA00E4F827 /* Lily.Stage.Playground3D.ModelStorage.swift */; };
+		5D8A76592B52A2B400E4F827 /* Lily.Stage.Playground3D.ModelUnitStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8A76582B52A2B400E4F827 /* Lily.Stage.Playground3D.ModelUnitStatus.swift */; };
+		5D8A765A2B52A2B400E4F827 /* Lily.Stage.Playground3D.ModelUnitStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8A76582B52A2B400E4F827 /* Lily.Stage.Playground3D.ModelUnitStatus.swift */; };
+		5D8A765B2B52A2B400E4F827 /* Lily.Stage.Playground3D.ModelUnitStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8A76582B52A2B400E4F827 /* Lily.Stage.Playground3D.ModelUnitStatus.swift */; };
 		5DA55EB72B11D86C000D7F4F /* MTLRenderPassDescriptor+Lily+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA55EB62B11D86C000D7F4F /* MTLRenderPassDescriptor+Lily+ext.swift */; };
 		5DA55EB82B11D86C000D7F4F /* MTLRenderPassDescriptor+Lily+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA55EB62B11D86C000D7F4F /* MTLRenderPassDescriptor+Lily+ext.swift */; };
 		5DA55EB92B11D86C000D7F4F /* MTLRenderPassDescriptor+Lily+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA55EB62B11D86C000D7F4F /* MTLRenderPassDescriptor+Lily+ext.swift */; };
@@ -1061,6 +1067,8 @@
 		5D71DA5C2B15DC1D009DF66F /* Lily.Stage.Playground2D.Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lily.Stage.Playground2D.Enum.swift; sourceTree = "<group>"; };
 		5D7F461D2ABD577F0061C6D2 /* Lily.Field.ViewEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lily.Field.ViewEvent.swift; sourceTree = "<group>"; };
 		5D8A6DEA2B5280E400E4F827 /* Lily.Stage.Playground3D.MediumTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lily.Stage.Playground3D.MediumTexture.swift; sourceTree = "<group>"; };
+		5D8A76542B529DEA00E4F827 /* Lily.Stage.Playground3D.ModelStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lily.Stage.Playground3D.ModelStorage.swift; sourceTree = "<group>"; };
+		5D8A76582B52A2B400E4F827 /* Lily.Stage.Playground3D.ModelUnitStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lily.Stage.Playground3D.ModelUnitStatus.swift; sourceTree = "<group>"; };
 		5D8F3B7C235B946B00BB9805 /* LilySwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LilySwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D9A4E9823EC850A00210B1B /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/MetalKit.framework; sourceTree = DEVELOPER_DIR; };
 		5D9A4E9923EC850A00210B1B /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Metal.framework; sourceTree = DEVELOPER_DIR; };
@@ -1272,6 +1280,7 @@
 			isa = PBXGroup;
 			children = (
 				5D113F1B2B494A310008AAF5 /* Lily.Stage.Playground3D.Family.swift */,
+				5D8A76532B529DAD00E4F827 /* Model */,
 				5DD054B52B4D516900F93192 /* Billboard */,
 			);
 			path = Utils;
@@ -1690,6 +1699,15 @@
 				5D678FBB2783677E00DF430C /* NSWindow+Lily+ext.mac.swift */,
 			);
 			path = extensions;
+			sourceTree = "<group>";
+		};
+		5D8A76532B529DAD00E4F827 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5D8A76582B52A2B400E4F827 /* Lily.Stage.Playground3D.ModelUnitStatus.swift */,
+				5D8A76542B529DEA00E4F827 /* Lily.Stage.Playground3D.ModelStorage.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		5D8F3B72235B946B00BB9805 = {
@@ -2501,6 +2519,7 @@
 				5DEC51E72AF8E9B900D13197 /* Lily.Stage.Shared.CameraUniform.swift in Sources */,
 				5DEC51F92AF8E9B900D13197 /* Lily.Stage.Model.Quadrangles.swift in Sources */,
 				5DDA32F52AFC1192004427C9 /* LCClock.swift in Sources */,
+				5D8A76562B529DEA00E4F827 /* Lily.Stage.Playground3D.ModelStorage.swift in Sources */,
 				5D088AF22AFC07D800DA4F01 /* LLSizeFloat+LilyCore+ext.swift in Sources */,
 				5DDA32C42AFC1191004427C9 /* LLMath.util.swift in Sources */,
 				5DA55EBC2B11DA11000D7F4F /* MTLDepthStencilDescriptor+Lily+ext.swift in Sources */,
@@ -2548,6 +2567,7 @@
 				5D232A042A48547A00E12A7D /* Lily.View.ViewController.mac.swift in Sources */,
 				5D088AD72AFC07D800DA4F01 /* CGRect+LilyCore+ext.swift in Sources */,
 				5DDA32D52AFC1191004427C9 /* LCImage.hsvf.swift in Sources */,
+				5D8A765A2B52A2B400E4F827 /* Lily.Stage.Playground3D.ModelUnitStatus.swift in Sources */,
 				5D37A3162B284ECD00E1762F /* MTLRasterizationRateMap+Lily+follow.swift in Sources */,
 				5DDA33472AFC11A6004427C9 /* LLFileWriter.swift in Sources */,
 				5DDCB1C22B179A7D006C08B1 /* Lily.Stage.Playground2D.PGMask.swift in Sources */,
@@ -2721,6 +2741,7 @@
 				5D452B0E2B22FE6C00838C1F /* Lily.Stage.ShaderEnvironment.swift in Sources */,
 				5DDA32972AFC1191004427C9 /* LLType.graphics.swift in Sources */,
 				5D088AEE2AFC07D800DA4F01 /* LLMath.type+LilyCore+ext.swift in Sources */,
+				5D8A76592B52A2B400E4F827 /* Lily.Stage.Playground3D.ModelUnitStatus.swift in Sources */,
 				5D6790D12783677F00DF430C /* UITouch+Lily+ext.swift in Sources */,
 				5DEC51B32AF8E9B900D13197 /* Lily.Stage.StageRenderer.util.metal in Sources */,
 				5DDCB1C12B179A7D006C08B1 /* Lily.Stage.Playground2D.PGMask.swift in Sources */,
@@ -2836,6 +2857,7 @@
 				5D088B012AFC080D00DA4F01 /* Lily.Stage.Bundle.swift in Sources */,
 				5DEC51F52AF8E9B900D13197 /* Lily.Stage.Model.Obj.swift in Sources */,
 				5D4F147D2B49AF420069F06D /* Lily.Stage.Playground3D.ModelObjectRenderer.swift in Sources */,
+				5D8A76552B529DEA00E4F827 /* Lily.Stage.Playground3D.ModelStorage.swift in Sources */,
 				5DDA328C2AFC1191004427C9 /* LCAlgoLine.hermite.swift in Sources */,
 				5DDA328F2AFC1191004427C9 /* LCAlgoLine.swift in Sources */,
 			);
@@ -2933,6 +2955,7 @@
 				5D4A921E2B4DA2E600CD75A8 /* Lily.Stage.Playground3D.Model.util.metal in Sources */,
 				5DDA33192AFC1192004427C9 /* LCAlgoLine.bresenham.swift in Sources */,
 				5D5A016E2ABB5EE600CC828D /* Lily.View.VCManager.swift in Sources */,
+				5D8A765B2B52A2B400E4F827 /* Lily.Stage.Playground3D.ModelUnitStatus.swift in Sources */,
 				5D4F149B2B49BD910069F06D /* Lily.Stage.Playground3D.BBPicture.swift in Sources */,
 				5DDA33222AFC1192004427C9 /* LCImage.hsvi.swift in Sources */,
 				5D673E6D2B4A8F8500432650 /* Lily.Stage.Playground3D.BBRenderer.ShaderStrings.swift in Sources */,
@@ -3066,6 +3089,7 @@
 				5D673E832B4AB09600432650 /* Lily.Stage.Playground3D.SRGBRenderer.ShaderStrings.swift in Sources */,
 				5DDA32F92AFC1192004427C9 /* LLMath.const.swift in Sources */,
 				5D5A01702ABB5EE600CC828D /* UIView+Lily+ext.swift in Sources */,
+				5D8A76572B529DEA00E4F827 /* Lily.Stage.Playground3D.ModelStorage.swift in Sources */,
 				5D088AE42AFC07D800DA4F01 /* LCString+LilyCore+overload.swift in Sources */,
 				5DDA33712AFC11AE004427C9 /* LLColor+Lily+ext.swift in Sources */,
 				5DEC51D02AF8E9B900D13197 /* Lily.Stage.VisionFullyRenderEngine.swift in Sources */,

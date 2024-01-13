@@ -40,8 +40,6 @@ extension Lily.Stage.Playground3D
             
             desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.linearSRGBBuffer
             desc.colorAttachments[0].composite( type:.alphaBlend )
-            //desc.colorAttachments[1].pixelFormat = Lily.Stage.BufferFormats.backBuffer
-            //desc.colorAttachments[1].composite( type:.alphaBlend )
             desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
@@ -64,10 +62,10 @@ extension Lily.Stage.Playground3D
                 drawingType:.quadrangles
             )
             
-            renderEncoder?.setVertexBuffer( storage.particles?.metalBuffer, offset:0, index:0 )
+            renderEncoder?.setVertexBuffer( storage.particles.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<BBLocalUniform>.stride, index:2 ) 
-            renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
+            renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
                 type: .triangleStrip, 
@@ -91,10 +89,10 @@ extension Lily.Stage.Playground3D
                 drawingType:.triangles
             )
             
-            renderEncoder?.setVertexBuffer( storage.particles?.metalBuffer, offset:0, index:0 )
+            renderEncoder?.setVertexBuffer( storage.particles.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<BBLocalUniform>.stride, index:2 ) 
-            renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
+            renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
                 type: .triangle, 

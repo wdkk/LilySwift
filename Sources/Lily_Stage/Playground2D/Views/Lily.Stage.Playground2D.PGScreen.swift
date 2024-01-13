@@ -91,7 +91,7 @@ extension Lily.Stage.Playground2D
             if !vc._design_once_flag {
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
-                vc.renderFlow.pool.storage?.statuses?.commit()
+                vc.renderFlow.pool.storage?.statuses.commit()
                 vc._design_once_flag = true
             }
         }
@@ -101,7 +101,7 @@ extension Lily.Stage.Playground2D
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
-            vc.renderFlow.pool.storage?.statuses?.commit()
+            vc.renderFlow.pool.storage?.statuses.commit()
             vc.renderFlow.clearColor = self.clearColor
             
             // Shapeの更新/終了処理を行う
@@ -153,7 +153,7 @@ extension Lily.Stage.Playground2D
             if !vc._design_once_flag {
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
-                vc.renderFlow.pool.storage?.statuses?.commit()
+                vc.renderFlow.pool.storage?.statuses.commit()
                 vc._design_once_flag = true
             }
         }
@@ -163,7 +163,7 @@ extension Lily.Stage.Playground2D
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
-            vc.renderFlow.pool.storage?.statuses?.commit()
+            vc.renderFlow.pool.storage?.statuses.commit()
             vc.renderFlow.clearColor = self.clearColor
             
             // Shapeの更新/終了処理を行う

@@ -8,7 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-/*
 #if os(macOS)
 import AppKit
 #else
@@ -109,7 +108,7 @@ func design( screen:PGScreen ) {
 func update( screen:PGScreen ) {
  
 }
-*/
+
 
 /*
 func design( screen:PGScreen ) {

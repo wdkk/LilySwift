@@ -27,8 +27,8 @@ extension Lily.Stage.Playground2D
     
     open class Storage
     {
-        public var particles:Lily.Stage.Model.Quadrangles<PG2DVIn>?
-        public var statuses:Lily.Metal.Buffer<UnitStatus>?
+        public var particles:Lily.Stage.Model.Quadrangles<PG2DVIn>
+        public var statuses:Lily.Metal.Buffer<UnitStatus>
         public var reuseIndice:[Int]
         
         public var textureAtlas:Lily.Metal.TextureAtlas
@@ -53,13 +53,13 @@ extension Lily.Stage.Playground2D
             self.capacity = capacity
             
             self.particles = .init( device:device, count:2 )    // 四角と三角を1つずつ
-            self.particles?.update { acc, _ in
+            self.particles.update { acc, _ in
                 acc[0] = Self.defaultQuadrangleVertice
                 acc[1] = Self.defaultTriangleVertice
             }
             
             self.statuses = .init( device:device, count:capacity + 1 )  // 1つ余分に確保
-            self.statuses?.update( range:0..<capacity ) { us, _ in
+            self.statuses.update( range:0..<capacity ) { us, _ in
                 us.state = .trush
                 us.enabled = false
             }
@@ -80,14 +80,14 @@ extension Lily.Stage.Playground2D
                 LLLogWarning( "Playground2D.Storage: ストレージの容量を超えたリクエストです. インデックス=capacityを返します" )
                 return capacity
             }
-            statuses?.accessor?[idx] = .reset
+            statuses.accessor?[idx] = .reset
             
             return idx
         }
         
         // パーティクルをデータ的廃棄する
         public func trush( index idx:Int ) {
-            statuses?.update( at:idx ) { us in
+            statuses.update( at:idx ) { us in
                 us.state = .trush
                 us.enabled = false
             }

@@ -36,7 +36,7 @@ extension Lily.Stage.Playground2D
         public init( pool:PGPool = PGPool.current! ) {   
             self.pool = pool
             self.storage = pool.storage!
-            self.statusAccessor = storage.statuses?.accessor
+            self.statusAccessor = storage.statuses.accessor
             
             self.index = storage.request() 
 

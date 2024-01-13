@@ -68,7 +68,7 @@ extension Lily.Stage.Playground3D
             if !vc._design_once_flag {
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
-                vc.bbRenderFlow.pool.storage?.statuses?.commit()
+                vc.bbRenderFlow.pool.storage?.statuses.commit()
                 vc._design_once_flag = true
             }
         }
@@ -78,7 +78,7 @@ extension Lily.Stage.Playground3D
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
-            vc.bbRenderFlow.pool.storage?.statuses?.commit()
+            vc.bbRenderFlow.pool.storage?.statuses.commit()
             
             // Shapeの更新/終了処理を行う
             vc.checkShapesStatus()
@@ -110,7 +110,7 @@ extension Lily.Stage.Playground3D
             if !vc._design_once_flag {
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
-                vc.bbRenderFlow.pool.storage?.statuses?.commit()
+                vc.bbRenderFlow.pool.storage?.statuses.commit()
                 vc._design_once_flag = true
             }
         }
@@ -120,7 +120,7 @@ extension Lily.Stage.Playground3D
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
-            vc.bbRenderFlow.pool.storage?.statuses?.commit()
+            vc.bbRenderFlow.pool.storage?.statuses.commit()
         
             // Shapeの更新/終了処理を行う
             vc.checkShapesStatus()

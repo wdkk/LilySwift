@@ -101,7 +101,7 @@ extension Lily.Stage.Playground3D
                 return
             }
             
-            BBPool.current?.storage?.statuses?.update { acc, _ in
+            BBPool.current?.storage?.statuses.update { acc, _ in
                 for i in 0 ..< acc.count {
                     if acc[i].enabled == false || acc[i].state == .trush { continue }
                     acc[i].position += acc[i].deltaPosition

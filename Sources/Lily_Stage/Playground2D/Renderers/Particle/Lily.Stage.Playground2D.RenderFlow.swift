@@ -97,7 +97,7 @@ extension Lily.Stage.Playground2D
         {
             guard let pass = self.pass else { return }
         
-            PGPool.current?.storage?.statuses?.update { acc, _ in
+            PGPool.current?.storage?.statuses.update { acc, _ in
                 for i in 0 ..< acc.count {
                     if acc[i].enabled == false || acc[i].state == .trush { continue }
                     acc[i].position += acc[i].deltaPosition

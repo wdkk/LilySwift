@@ -33,7 +33,7 @@ extension Lily.Stage.Playground3D
         public init( pool:BBPool = BBPool.current! ) {   
             self.pool = pool
             self.storage = pool.storage!
-            self.statusAccessor = storage.statuses?.accessor
+            self.statusAccessor = storage.statuses.accessor
             
             self.index = storage.request() 
 

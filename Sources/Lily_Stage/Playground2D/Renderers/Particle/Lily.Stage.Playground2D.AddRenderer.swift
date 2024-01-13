@@ -68,10 +68,10 @@ extension Lily.Stage.Playground2D
                 shaderCompositeType:.add
             )
             
-            renderEncoder?.setVertexBuffer( storage.particles?.metalBuffer, offset:0, index:0 )
+            renderEncoder?.setVertexBuffer( storage.particles.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 )  
-            renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
+            renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
                 type: .triangleStrip, 
@@ -99,10 +99,10 @@ extension Lily.Stage.Playground2D
                 drawingType:.triangles
             )
             
-            renderEncoder?.setVertexBuffer( storage.particles?.metalBuffer, offset:0, index:0 )
+            renderEncoder?.setVertexBuffer( storage.particles.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
-            renderEncoder?.setVertexBuffer( storage.statuses?.metalBuffer, offset:0, index:3 )
+            renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
                 type: .triangle, 
