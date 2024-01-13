@@ -8,8 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-/// コメント未済
-
 import Metal
 
 #if os(iOS) || os(visionOS)
