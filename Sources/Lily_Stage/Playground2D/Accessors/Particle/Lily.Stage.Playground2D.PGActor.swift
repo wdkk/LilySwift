@@ -24,7 +24,6 @@ extension Lily.Stage.Playground2D
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
     
         public private(set) var index:Int
-        public private(set) var pool:PGPool
         public private(set) var storage:Storage
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<UnitStatus>?
         public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>!
@@ -33,9 +32,8 @@ extension Lily.Stage.Playground2D
         public var intervalField:ActorInterval?
         public var completionField:PGField<PGActor, LLEmpty>?
         
-        public init( pool:PGPool = PGPool.current! ) {   
-            self.pool = pool
-            self.storage = pool.storage!
+        public init( storage:Storage ) {
+            self.storage = storage
             self.statusAccessor = storage.statuses.accessor
             
             self.index = storage.request() 
@@ -53,7 +51,7 @@ extension Lily.Stage.Playground2D
                 status.shapeType = .rectangle
             }
             
-            pool.insertShape( self )
+            storage.insertShape( self )
         }
         
         public var status:UnitStatus {
@@ -119,7 +117,7 @@ extension Lily.Stage.Playground2D
         
         public func trush() {
             storage.trush( index:self.index )
-            pool.removeShape( self )
+            storage.removeShape( self )
         }
     }
 }

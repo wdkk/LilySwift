@@ -15,8 +15,8 @@ extension Lily.Stage.Playground2D
     public class PGMask : PGActor
     {        
         @discardableResult
-        public init( pool:PGPool = PGPool.current!, _ assetName:String ) {
-            super.init( pool:pool )
+        public init( storage:Storage = PGScreen.currentStorage!, _ assetName:String ) {
+            super.init( storage:storage )
             status.shapeType = .mask
             status.compositeType = .alpha
             status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV
@@ -26,8 +26,8 @@ extension Lily.Stage.Playground2D
     public class PGAddMask : PGActor
     {        
         @discardableResult
-        public init( pool:PGPool = PGPool.current!, _ assetName:String ) {
-            super.init( pool:pool )
+        public init( storage:Storage = PGScreen.currentStorage!, _ assetName:String ) {
+            super.init( storage:storage )
             status.shapeType = .mask
             status.compositeType = .add
             status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV
@@ -37,8 +37,8 @@ extension Lily.Stage.Playground2D
     public class PGSubMask : PGActor
     {        
         @discardableResult
-        public init( pool:PGPool = PGPool.current!, _ assetName:String ) {
-            super.init( pool:pool )
+        public init( storage:Storage = PGScreen.currentStorage!, _ assetName:String ) {
+            super.init( storage:storage )
             status.shapeType = .mask
             status.compositeType = .sub
             status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV

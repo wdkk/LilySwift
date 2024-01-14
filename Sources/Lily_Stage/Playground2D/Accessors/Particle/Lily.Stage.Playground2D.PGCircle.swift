@@ -15,8 +15,8 @@ extension Lily.Stage.Playground2D
     public class PGCircle : PGActor
     {        
         @discardableResult
-        public override init( pool:PGPool = PGPool.current! ) {
-            super.init( pool:pool )
+        public override init( storage:Storage = PGScreen.currentStorage! ) {
+            super.init( storage:storage )
             status.shapeType = .circle
             status.compositeType = .alpha
         }
@@ -25,8 +25,8 @@ extension Lily.Stage.Playground2D
     public class PGAddCircle : PGActor
     {        
         @discardableResult
-        public override init( pool:PGPool = PGPool.current! ) {
-            super.init( pool:pool )
+        public override init( storage:Storage = PGScreen.currentStorage! ) {
+            super.init( storage:storage )
             status.shapeType = .circle
             status.compositeType = .add
         }
@@ -35,8 +35,8 @@ extension Lily.Stage.Playground2D
     public class PGSubCircle : PGActor
     {        
         @discardableResult
-        public override init( pool:PGPool = PGPool.current! ) {
-            super.init( pool:pool )
+        public override init( storage:Storage = PGScreen.currentStorage! ) {
+            super.init( storage:storage )
             status.shapeType = .circle
             status.compositeType = .sub
         }

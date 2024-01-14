@@ -48,7 +48,11 @@ extension Lily.Stage.Playground3D
             let capacity = self.objCount * self.cameraCount
             
             self.statuses = .init( device:device, count:capacity + 1 )  // 1つ余分に確保
-        
+            self.statuses.update( range:0..<capacity ) { us, _ in
+                us.state = .trush
+                us.enabled = false
+            }
+            
             self.reuseIndice = .init( (0..<capacity).reversed() )
             
             for i in 0 ..< modelAssets.count {

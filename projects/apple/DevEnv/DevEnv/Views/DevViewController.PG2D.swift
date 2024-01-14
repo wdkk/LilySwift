@@ -8,8 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-/*
-
 #if os(macOS)
 import AppKit
 #else
@@ -20,7 +18,6 @@ import LilySwift
 
 typealias PG2D = Lily.Stage.Playground2D
 typealias PGScreen = PG2D.PGScreen
-typealias PGPool = PG2D.PGPool
 typealias PGSctor = PG2D.PGActor
 typealias PGRectangle = PG2D.PGRectangle
 typealias PGAddRectangle = PG2D.PGAddRectangle
@@ -110,7 +107,7 @@ func design( screen:PGScreen ) {
 func update( screen:PGScreen ) {
  
 }
-*/
+
 
 /*
 func design( screen:PGScreen ) {

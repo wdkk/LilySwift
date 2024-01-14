@@ -35,6 +35,11 @@ extension Lily.Stage.Playground2D
         
         public var capacity:Int
         
+        public private(set) var shapes:Set<PGActor> = []
+        public func insertShape( _ shape:PGActor ) { shapes.insert( shape ) }
+        public func removeShape( _ shape:PGActor ) { shapes.remove( shape ) }
+        public func removeAllShapes() { shapes.forEach { $0.trush() } }
+        
         static let defaultQuadrangleVertice = LLQuad<Lily.Stage.Playground2D.PG2DVIn>(
             .init( xy:.init( -1.0,  1.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) ),
             .init( xy:.init(  1.0,  1.0 ), uv:.init( 1.0, 0.0 ), texUV:.init( 1.0, 0.0 ) ),

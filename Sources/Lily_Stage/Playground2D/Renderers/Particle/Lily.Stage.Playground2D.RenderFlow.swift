@@ -19,7 +19,6 @@ extension Lily.Stage.Playground2D
         var pass:Lily.Stage.Playground2D.Pass?
         weak var mediumTextures:Lily.Stage.Playground2D.MediumTextures?
         
-        public private(set) var pool:PGPool
         public private(set) var storage:Storage
         
         var alphaRenderer:AlphaRenderer?
@@ -71,12 +70,7 @@ extension Lily.Stage.Playground2D
             )
             self.storage.addTextures( textures )
             
-            self.pool = PGPool()
-            self.pool.storage = self.storage
-        
             super.init( device:device )
-            
-            PGPool.current = pool
         }
         
         public override func changeSize( scaledSize:CGSize ) {
@@ -97,7 +91,7 @@ extension Lily.Stage.Playground2D
         {
             guard let pass = self.pass else { return }
         
-            PGPool.current?.storage?.statuses.update { acc, _ in
+            storage.statuses.update { acc, _ in
                 for i in 0 ..< acc.count {
                     if acc[i].enabled == false || acc[i].state == .trush { continue }
                     acc[i].position += acc[i].deltaPosition
