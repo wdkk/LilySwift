@@ -56,31 +56,6 @@ extension Lily.Stage.Playground3D
                 let obj = loadObj( device:device, assetName:asset_name )
                 models[asset_name] = ModelGuide( modelIndex:i.i32!, meshData:obj )
             }
-            
-            self.statuses.update { acc, _ in
-                for iid in 0 ..< capacity {
-                    let idx = iid / cameraCount
-                    let x = idx / 8
-                    let z = idx % 8
-                    // オブジェクトの位置
-                    let world_pos = LLFloatv3( 20.0 + -10.0 * x.f, -2.0, 20.0 + -10.0 * z.f )
-                    
-                    let object_scale = LLFloatv3( 8.0, 8.0, 8.0 )
-                    
-                    let up = LLFloatv3( 0, 1, 0 )
-                    let right = normalize( cross( up, LLFloatv3( 1.0, 0.0, 1.0 ) ) )
-                    let fwd = cross( up, right )
-                    
-                    let world_matrix = float4x4(   
-                        LLFloatv4( fwd * object_scale, 0 ),
-                        LLFloatv4( up * object_scale, 0 ),
-                        LLFloatv4( right * object_scale, 0 ),
-                        LLFloatv4( world_pos, 1 )
-                    )
-                    
-                    acc[iid].matrix = world_matrix
-                }
-            }
         }
         
         public func loadObj( device:MTLDevice, assetName:String ) -> Lily.Stage.Model.Obj? {
@@ -100,13 +75,11 @@ extension Lily.Stage.Playground3D
         }
     
         public func trush( index idx:Int ) {
-            /*
             statuses.update( at:idx ) { us in
                 us.state = .trush
                 us.enabled = false
             }
             reuseIndice.append( idx )
-            */
         }
     }
 }
