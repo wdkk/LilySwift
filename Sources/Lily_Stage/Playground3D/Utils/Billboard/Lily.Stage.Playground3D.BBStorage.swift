@@ -85,7 +85,7 @@ extension Lily.Stage.Playground3D
             return idx
         }
         
-        // パーティクルをデータ的廃棄する
+        // パーティクルをデータ上で廃棄する
         public func trush( index idx:Int ) {
             statuses.update( at:idx ) { us in
                 us.state = .trush

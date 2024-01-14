@@ -21,6 +21,8 @@ extension Lily.Stage.Playground3D
         
         var modelPass:ModelPass?
         
+        public private(set) var storage:ModelStorage
+        
         var modelObjectRenderer:ModelObjectRenderer?
         var modelLightingRenderer:ModelLightingRenderer?
 
@@ -43,6 +45,13 @@ extension Lily.Stage.Playground3D
             // レンダラーの用意
             modelObjectRenderer = .init( device:device, viewCount:viewCount )
             modelLightingRenderer = .init( device:device, viewCount:viewCount )
+            
+            self.storage = .init( 
+                device:device, 
+                objCount:64,
+                cameraCount:( Lily.Stage.Shared.Const.shadowCascadesCount + 1 ),
+                modelAssets:[ "acacia1" ]
+            )
             
             super.init( device:device )
         }
@@ -74,9 +83,6 @@ extension Lily.Stage.Playground3D
                 renderTargetCount:viewCount
             )
             
-            // オブジェクトの生成
-            modelObjectRenderer?.generateObject( with:commandBuffer )
-            
             // カスケードシャドウマップ
             for c_idx in 0 ..< Lily.Stage.Shared.Const.shadowCascadesCount {
                 modelPass.shadowPassDesc?.depthAttachment.slice = c_idx
@@ -99,7 +105,8 @@ extension Lily.Stage.Playground3D
                 // 陰影の描画
                 modelObjectRenderer?.drawShadows(
                     with:shadow_encoder, 
-                    globalUniforms:uniforms, 
+                    globalUniforms:uniforms,
+                    storage:storage,
                     cascadeIndex:c_idx 
                 )
                 
@@ -123,13 +130,14 @@ extension Lily.Stage.Playground3D
             // オブジェクトの描画
             modelObjectRenderer?.draw( 
                 with:deferred_shading_encoder, 
-                globalUniforms:uniforms
+                globalUniforms:uniforms,
+                storage:storage
             )
 
             // ライティングの描画
             modelLightingRenderer?.draw(
                 with:deferred_shading_encoder, 
-                globalUniforms:uniforms, 
+                globalUniforms:uniforms,
                 renderTextures:modelRenderTextures
             )
 

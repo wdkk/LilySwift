@@ -33,9 +33,22 @@ struct ObjectVOut
     float3 normal;
 };
 
+struct ModelUnitStatus
+{
+    float4x4 matrix;
+    int      modelIndex;
+    float    _reserved1;
+    float    _reserved2;
+    float    _reserved3;
+    float    life;
+    float    deltaLife;
+    float    enabled;
+    float    state;
+};
+
 vertex ObjectVOut Lily_Stage_Playground3D_Model_Object_Vs(
     const device Obj::Vertex* in [[ buffer(0) ]],
-    const device float4x4* instances [[ buffer(1) ]],
+    const device ModelUnitStatus* statuses [[ buffer(1) ]],
     constant GlobalUniformArray & uniformArray [[ buffer(2) ]],
     uint vid [[ vertex_id ]],
     uint iid [[ instance_id ]],
@@ -46,12 +59,15 @@ vertex ObjectVOut Lily_Stage_Playground3D_Model_Object_Vs(
   
     float4 position = float4( in[vid].position, 1.0 );
     int idx = iid * 4;  // カメラの数 + レンダラ = 4つ
-    float4 world_pos = instances[idx] * position;
+    
+    auto s = statuses[idx];
+    
+    float4 world_pos = s.matrix * position;
     
     ObjectVOut out;
     out.position = uniform.cameraUniform.viewProjectionMatrix * world_pos;
     out.color = pow( in[vid].color, 1.0 / 2.2 );    // sRGB -> linear変換
-    out.normal = (instances[idx] * float4(in[vid].normal, 0)).xyz;
+    out.normal = (s.matrix * float4(in[vid].normal, 0)).xyz;
 
     return out;
 }
@@ -76,7 +92,7 @@ fragment GBufferFOut Lily_Stage_Playground3D_Model_Object_Fs(
 
 vertex ObjectVOut Lily_Stage_Playground3D_Model_Object_Shadow_Vs(
     const device Obj::Vertex* in [[ buffer(0) ]],
-    const device float4x4* modelMatrices [[ buffer(1) ]],
+    const device ModelUnitStatus* statuses [[ buffer(1) ]],
     const device uint* cascadeIndex [[ buffer(2) ]],
     constant float4x4& vpMatrix[[ buffer(3) ]],
     uint vid [[ vertex_id ]],
@@ -85,7 +101,9 @@ vertex ObjectVOut Lily_Stage_Playground3D_Model_Object_Shadow_Vs(
 {
     float4 position = float4( in[vid].position, 1.0 );
     int idx = iid * 4 + (*cascadeIndex);
-    float4 world_pos = modelMatrices[idx] * position;
+    
+    auto s = statuses[idx];
+    float4 world_pos = s.matrix * position;
    
     ObjectVOut out;
     out.position = vpMatrix * world_pos;
