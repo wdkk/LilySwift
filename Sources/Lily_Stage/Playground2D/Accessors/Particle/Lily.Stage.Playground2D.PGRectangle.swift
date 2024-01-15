@@ -15,7 +15,7 @@ extension Lily.Stage.Playground2D
     public class PGRectangle : PGActor
     {        
         @discardableResult
-        public override init( storage:Storage = PGScreen.currentStorage! ) {
+        public override init( storage:Storage = PGScreen.current!.renderFlow.storage ) {
             super.init( storage:storage )
             status.shapeType = .rectangle
             status.compositeType = .alpha
@@ -25,7 +25,7 @@ extension Lily.Stage.Playground2D
     public class PGAddRectangle : PGActor
     {        
         @discardableResult
-        public override init( storage:Storage = PGScreen.currentStorage! ) {
+        public override init( storage:Storage = PGScreen.current!.renderFlow.storage ) {
             super.init( storage:storage )
             status.shapeType = .rectangle
             status.compositeType = .add
@@ -35,7 +35,7 @@ extension Lily.Stage.Playground2D
     public class PGSubRectangle : PGActor
     {        
         @discardableResult
-        public override init( storage:Storage = PGScreen.currentStorage! ) {
+        public override init( storage:Storage = PGScreen.current!.renderFlow.storage ) {
             super.init( storage:storage )
             status.shapeType = .rectangle
             status.compositeType = .sub

@@ -23,16 +23,16 @@ extension Lily.Stage.Playground2D
     open class PGScreen
     : Lily.View.ViewController
     {
-        public static var currentStorage:Storage? = nil
+        public static var current:PGScreen? = nil
         
         var device:MTLDevice
         
-        var renderEngine:Lily.Stage.StandardRenderEngine?
+        public var renderEngine:Lily.Stage.StandardRenderEngine?
         
-        var renderFlow:RenderFlow
-        var sRGBRenderFlow:SRGBRenderFlow
+        public var renderFlow:RenderFlow
+        public var sRGBRenderFlow:SRGBRenderFlow
         
-        var mediumTextures:Lily.Stage.Playground2D.MediumTextures
+        public var mediumTextures:Lily.Stage.Playground2D.MediumTextures
         
         public var environment:Lily.Stage.ShaderEnvironment
         public var particleCapacity:Int
@@ -62,7 +62,9 @@ extension Lily.Stage.Playground2D
         }
         
         // MARK: - パーティクル情報
-        public var shapes:Set<PGActor> { renderFlow.storage.shapes }
+        public var shapes:Set<PGActor> {
+            renderFlow.storage.shapes
+        }
         
         // MARK: - 外部処理ハンドラ
         public var pgDesignHandler:(( PGScreen )->Void)?
@@ -84,7 +86,7 @@ extension Lily.Stage.Playground2D
             }
             
             if !vc._design_once_flag {
-                PGScreen.currentStorage = vc.renderFlow.storage
+                PGScreen.current = vc
                 
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
@@ -93,7 +95,7 @@ extension Lily.Stage.Playground2D
             }
         }
         .draw( caller:self ) { me, vc, status in
-            PGScreen.currentStorage = vc.renderFlow.storage
+            PGScreen.current = vc
             // 時間の更新
             PGActor.ActorTimer.shared.update()
             // ハンドラのコール
@@ -149,7 +151,7 @@ extension Lily.Stage.Playground2D
             }
             
             if !vc._design_once_flag {
-                PGScreen.currentStorage = vc.renderFlow.storage
+                PGScreen.current = vc
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
                 vc.renderFlow.storage.statuses.commit()
@@ -157,7 +159,7 @@ extension Lily.Stage.Playground2D
             }
         }
         .draw( caller:self ) { me, vc, status in
-            PGScreen.currentStorage = vc.renderFlow.storage
+            PGScreen.current = vc
             // 時間の更新
             PGActor.ActorTimer.shared.update()
             // ハンドラのコール
