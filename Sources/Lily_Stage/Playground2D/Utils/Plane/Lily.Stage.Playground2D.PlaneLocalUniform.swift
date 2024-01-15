@@ -13,7 +13,7 @@ import simd
 
 extension Lily.Stage.Playground2D
 {    
-    public struct LocalUniform
+    public struct PlaneLocalUniform
     {        
         var projectionMatrix:LLMatrix4x4
         var shaderCompositeType:LLUInt32

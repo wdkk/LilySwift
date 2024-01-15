@@ -13,7 +13,7 @@ import simd
 
 extension Lily.Stage.Playground2D
 {    
-    public struct UnitStatus
+    public struct PlaneUnitStatus
     {
         //-- メモリアラインメント範囲START --//
         // 公開パラメータ
@@ -46,6 +46,8 @@ extension Lily.Stage.Playground2D
         )
         //-- メモリアラインメント範囲END --//
         
+        public init() {}
+        
         // アクセサ
         public var life:LLFloat { get { lifes.x } set { lifes.x = newValue } }
         public var deltaLife:LLFloat { get { lifes.y } set { lifes.y = newValue } }
@@ -55,25 +57,5 @@ extension Lily.Stage.Playground2D
         
         public var compositeType:CompositeType { get { CompositeType( rawValue:types.0 )! } set { types.0 = newValue.rawValue } }
         public var shapeType:ShapeType { get { ShapeType( rawValue:types.1 )! } set { types.1 = newValue.rawValue } }
-        
-        static let reset = UnitStatus(
-            matrix: .identity, 
-            atlasUV: .init( 0.0, 0.0, 1.0, 1.0 ),
-            color: LLColor.black.floatv4, 
-            deltaColor: .zero, 
-            position: .zero,
-            deltaPosition: .zero, 
-            scale: .init( 100.0, 100.0 ),
-            deltaScale: .zero, 
-            angle: 0.0,
-            deltaAngle: 0.0,
-            lifes: .init( 1.0, 0.0 ), 
-            zIndex: 0.0,
-            _reserved: 0.0,
-            _reserved2: 0.0,
-            _reserved3: 0.0,
-            states: .init( 1.0, 0.0 ), 
-            types: ( 0, 0 ) 
-        )
     }
 }

@@ -13,10 +13,10 @@ import MetalKit
 
 extension Lily.Stage.Playground2D
 {
-    open class RenderFlow
+    open class PlaneRenderFlow
     : Lily.Stage.BaseRenderFlow
     {
-        var pass:Lily.Stage.Playground2D.Pass?
+        var pass:Lily.Stage.Playground2D.PlanePass?
         weak var mediumTextures:Lily.Stage.Playground2D.MediumTextures?
         
         public private(set) var storage:Storage

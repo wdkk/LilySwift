@@ -12,7 +12,7 @@ import Metal
 
 extension Lily.Stage.Playground2D
 {
-    public struct PG2DVIn
+    public struct PlaneVIn
     {
         var xy = LLFloatv2()    // -1.0 ~ 1.0, 中央が0.0のローカル座標系
         var uv = LLFloatv2()    // 0.0 ~ 1.0, 左上が0.0のラスタ座標系
@@ -25,9 +25,13 @@ extension Lily.Stage.Playground2D
         }
     }
     
-    open class Storage
+    open class PlaneStorage : Hashable
     {
-        public var particles:Lily.Stage.Model.Quadrangles<PG2DVIn>
+        // Hashableの実装
+        public static func == ( lhs:PlaneStorage, rhs:PlaneStorage ) -> Bool { lhs === rhs }
+        public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
+        
+        public var particles:Lily.Stage.Model.Quadrangles<PlaneVIn>
         public var statuses:Lily.Metal.Buffer<UnitStatus>
         public var reuseIndice:[Int]
         
@@ -35,19 +39,14 @@ extension Lily.Stage.Playground2D
         
         public var capacity:Int
         
-        public private(set) var shapes:Set<PGActor> = []
-        public func insertShape( _ shape:PGActor ) { shapes.insert( shape ) }
-        public func removeShape( _ shape:PGActor ) { shapes.remove( shape ) }
-        public func removeAllShapes() { shapes.forEach { $0.trush() } }
-        
-        static let defaultQuadrangleVertice = LLQuad<Lily.Stage.Playground2D.PG2DVIn>(
+        static let defaultQuadrangleVertice = LLQuad<Lily.Stage.Playground2D.PlaneVIn>(
             .init( xy:.init( -1.0,  1.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) ),
             .init( xy:.init(  1.0,  1.0 ), uv:.init( 1.0, 0.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xy:.init( -1.0, -1.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 1.0 ) ),
             .init( xy:.init(  1.0, -1.0 ), uv:.init( 1.0, 1.0 ), texUV:.init( 1.0, 1.0 ) )
         )
         
-        static let defaultTriangleVertice = LLQuad<Lily.Stage.Playground2D.PG2DVIn>(
+        static let defaultTriangleVertice = LLQuad<Lily.Stage.Playground2D.PlaneVIn>(
             .init( xy:.init(  0.0,  1.15470053838 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 0.0 ) ),
             .init( xy:.init( -1.0, -0.57735026919 ), uv:.init(-1.0, 1.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xy:.init(  1.0, -0.57735026919 ), uv:.init( 1.0,-1.0 ), texUV:.init( 0.0, 1.0 ) ),
@@ -85,7 +84,7 @@ extension Lily.Stage.Playground2D
                 LLLogWarning( "Playground2D.Storage: ストレージの容量を超えたリクエストです. インデックス=capacityを返します" )
                 return capacity
             }
-            statuses.accessor?[idx] = .reset
+            statuses.accessor?[idx] = .init()
             
             return idx
         }

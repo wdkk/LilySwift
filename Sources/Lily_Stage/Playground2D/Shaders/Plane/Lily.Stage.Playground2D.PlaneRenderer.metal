@@ -52,7 +52,7 @@ enum DrawingType : uint
 
 //// 構造体 ////
     
-struct PG2DVIn
+struct PlaneVIn
 {
     float2 xy;
     float2 uv;
@@ -91,7 +91,7 @@ struct LocalUniform
     int           drawingOffset;
 };        
 
-struct PG2DVOut
+struct PlaneVOut
 {
     float4 pos [[ position ]];
     float2 xy;
@@ -101,13 +101,13 @@ struct PG2DVOut
     float  shapeType;
 };
 
-struct PG2DResult 
+struct PlaneResult 
 {
-    float4 particleTexture [[ color(0) ]];
+    float4 planeTexture [[ color(0) ]];
 };
 
-vertex PG2DVOut Lily_Stage_Playground2D_Vs(
-    const device PG2DVIn* in [[ buffer(0) ]],
+vertex PlaneVOut Lily_Stage_Playground2D_Vs(
+    const device PlaneVIn* in [[ buffer(0) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
     constant LocalUniform &localUniform [[ buffer(2) ]],
     const device UnitStatus* statuses [[ buffer(3) ]],
@@ -119,21 +119,21 @@ vertex PG2DVOut Lily_Stage_Playground2D_Vs(
     UnitStatus us = statuses[iid];
     
     if( us.compositeType != localUniform.shaderCompositeType ) { 
-        PG2DVOut trush_vout;
+        PlaneVOut trush_vout;
         trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
         return trush_vout;
     }
 
     // 三角形が指定されているが, 描画が三角形でない場合
     if( us.shapeType == ShapeType::triangle && localUniform.drawingType != DrawingType::triangles ) {
-        PG2DVOut trush_vout;
+        PlaneVOut trush_vout;
         trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
         return trush_vout;    
     }
     
     // 三角形以外が指定されているが、描画が三角形である場合
     if( us.shapeType != ShapeType::triangle && localUniform.drawingType == DrawingType::triangles ) {
-        PG2DVOut trush_vout;
+        PlaneVOut trush_vout;
         trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
         return trush_vout;    
     }
@@ -141,7 +141,7 @@ vertex PG2DVOut Lily_Stage_Playground2D_Vs(
     const int offset = localUniform.drawingOffset;
     
     //GlobalUniform uniform = uniformArray.uniforms[amp_id];
-    PG2DVIn vin = in[offset + vid];
+    PlaneVIn vin = in[offset + vid];
     
     float cosv = cos( us.angle );
     float sinv = sin( us.angle );
@@ -174,7 +174,7 @@ vertex PG2DVOut Lily_Stage_Playground2D_Vs(
         scx * sinv * x + cosv * scy * y + us.position.y + visibility_y
     );
 
-    PG2DVOut vout;
+    PlaneVOut vout;
     vout.pos = localUniform.projectionMatrix * float4( v_coord, 1.0 - us.zIndex / Z_INDEX_MAX, 1 );
     vout.xy = vin.xy;
     vout.texUV = tex_uv;
@@ -191,11 +191,11 @@ namespace Lily
     {
         namespace Playground2D
         {
-            float4 drawPlane( PG2DVOut in ) {
+            float4 drawPlane( PlaneVOut in ) {
                 return in.color;
             }
             
-            float4 drawCircle( PG2DVOut in ) {
+            float4 drawCircle( PlaneVOut in ) {
                 float x = in.xy.x;
                 float y = in.xy.y;
                 float r = x * x + y * y;
@@ -203,7 +203,7 @@ namespace Lily
                 return in.color;
             } 
             
-            float4 drawBlurryCircle( PG2DVOut in ) {
+            float4 drawBlurryCircle( PlaneVOut in ) {
                 float x = in.xy.x;
                 float y = in.xy.y;
                 float r = sqrt( x * x + y * y );
@@ -215,7 +215,7 @@ namespace Lily
                 return c;
             } 
             
-            float4 drawPicture( PG2DVOut in, texture2d<float> tex ) {
+            float4 drawPicture( PlaneVOut in, texture2d<float> tex ) {
                 constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
                 
                 if( is_null_texture( tex ) ) { discard_fragment(); }
@@ -226,7 +226,7 @@ namespace Lily
                 return tex_c;
             } 
             
-            float4 drawMask( PG2DVOut in, texture2d<float> tex ) {
+            float4 drawMask( PlaneVOut in, texture2d<float> tex ) {
                 constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
                 
                 if( is_null_texture( tex ) ) { discard_fragment(); }
@@ -240,8 +240,8 @@ namespace Lily
     }
 }
 
-fragment PG2DResult Lily_Stage_Playground2D_Fs(
-    const PG2DVOut in [[ stage_in ]],
+fragment PlaneResult Lily_Stage_Playground2D_Fs(
+    const PlaneVOut in [[ stage_in ]],
     texture2d<float> tex [[ texture(1) ]]
 )
 {
@@ -268,7 +268,7 @@ fragment PG2DResult Lily_Stage_Playground2D_Fs(
             break;
     }
     
-    PG2DResult result;
-    result.particleTexture = color;
+    PlaneResult result;
+    result.planeTexture = color;
     return result;
 }

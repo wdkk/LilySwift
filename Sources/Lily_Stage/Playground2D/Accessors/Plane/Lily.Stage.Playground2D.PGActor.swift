@@ -15,10 +15,10 @@ extension Lily.Stage.Playground2D
 {   
     open class PGActor : Hashable
     {
+        public typealias Here = Lily.Stage.Playground2D
+        
         fileprivate static let Z_INDEX_MIN:Float = 0.0
         fileprivate static let Z_INDEX_MAX:Float = 99999.0
-        
-        public typealias Here = Lily.Stage.Playground2D
         // Hashableの実装
         public static func == ( lhs:PGActor, rhs:PGActor ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
@@ -51,7 +51,7 @@ extension Lily.Stage.Playground2D
                 status.shapeType = .rectangle
             }
             
-            storage.insertShape( self )
+            PGPool.shared.insert( shape:self, to:storage )
         }
         
         public var status:UnitStatus {
@@ -117,7 +117,7 @@ extension Lily.Stage.Playground2D
         
         public func trush() {
             storage.trush( index:self.index )
-            storage.removeShape( self )
+            PGPool.shared.remove( shape:self, to:storage )
         }
     }
 }
