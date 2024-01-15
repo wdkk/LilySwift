@@ -18,16 +18,16 @@ extension Lily.Stage.Playground2D
         public static var shared:PGPool = .init()
         private init() {}
         
-        private var actorGroup:[Storage:Set<PGActor>] = [:]
+        private var actorGroup:[PlaneStorage:Set<PGActor>] = [:]
         
-        public func shapes( on storage:Storage ) -> Set<PGActor> { actorGroup[storage] ?? [] }
+        public func shapes( on storage:PlaneStorage ) -> Set<PGActor> { actorGroup[storage] ?? [] }
         
-        public func insert( shape:PGActor, to storage:Storage ) {
+        public func insert( shape:PGActor, to storage:PlaneStorage ) {
             if actorGroup[storage] == nil { actorGroup[storage] = [] }
             actorGroup[storage]?.insert( shape ) 
         }
-        public func remove( shape:PGActor, to storage:Storage ) { actorGroup[storage]?.remove( shape ) }
+        public func remove( shape:PGActor, to storage:PlaneStorage ) { actorGroup[storage]?.remove( shape ) }
         
-        public func removeAllShapes( on storage:Storage ) {  actorGroup[storage]?.forEach { $0.trush() } }
+        public func removeAllShapes( on storage:PlaneStorage ) {  actorGroup[storage]?.forEach { $0.trush() } }
     }
 }

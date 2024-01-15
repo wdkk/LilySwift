@@ -15,7 +15,7 @@ extension Lily.Stage.Playground2D
     public class PGPicture : PGActor
     {        
         @discardableResult
-        public init( storage:Storage = PGScreen.current!.renderFlow.storage, _ assetName:String ) {
+        public init( storage:PlaneStorage = PGScreen.current!.renderFlow.storage, _ assetName:String ) {
             super.init( storage:storage )
             status.shapeType = .picture
             status.compositeType = .alpha
@@ -26,7 +26,7 @@ extension Lily.Stage.Playground2D
     public class PGAddPicture : PGActor
     {        
         @discardableResult
-        public init( storage:Storage = PGScreen.current!.renderFlow.storage, _ assetName:String ) {
+        public init( storage:PlaneStorage = PGScreen.current!.renderFlow.storage, _ assetName:String ) {
             super.init( storage:storage )
             status.shapeType = .picture
             status.compositeType = .add
@@ -37,7 +37,7 @@ extension Lily.Stage.Playground2D
     public class PGSubPicture : PGActor
     {        
         @discardableResult
-        public init( storage:Storage = PGScreen.current!.renderFlow.storage, _ assetName:String ) {
+        public init( storage:PlaneStorage = PGScreen.current!.renderFlow.storage, _ assetName:String ) {
             super.init( storage:storage )
             status.shapeType = .picture
             status.compositeType = .sub

@@ -38,11 +38,11 @@ extension Lily.Stage.Playground2D
         private var _reserved3:LLFloat = 0.0
         fileprivate var states:LLFloatv2 = LLFloatv2(
             1.0,                       // enabled: 1.0 = true, 0.0 = false
-            LifeState.trush.rawValue   // state: .active or .trush    
+            Plane.LifeState.trush.rawValue   // state: .active or .trush    
         )
         fileprivate var types:(LLUInt32, LLUInt32) = (
-            CompositeType.alpha.rawValue,
-            ShapeType.rectangle.rawValue
+            Plane.CompositeType.alpha.rawValue,
+            Plane.ShapeType.rectangle.rawValue
         )
         //-- メモリアラインメント範囲END --//
         
@@ -53,9 +53,9 @@ extension Lily.Stage.Playground2D
         public var deltaLife:LLFloat { get { lifes.y } set { lifes.y = newValue } }
 
         public var enabled:Bool { get { states.x > 0.0 } set { states.x = newValue ? 1.0 : 0.0 } }
-        public var state:LifeState { get { LifeState( rawValue: states.y )! } set { states.y = newValue.rawValue } }
+        public var state:Plane.LifeState { get { .init( rawValue: states.y )! } set { states.y = newValue.rawValue } }
         
-        public var compositeType:CompositeType { get { CompositeType( rawValue:types.0 )! } set { types.0 = newValue.rawValue } }
-        public var shapeType:ShapeType { get { ShapeType( rawValue:types.1 )! } set { types.1 = newValue.rawValue } }
+        public var compositeType:Plane.CompositeType { get { .init( rawValue:types.0 )! } set { types.0 = newValue.rawValue } }
+        public var shapeType:Plane.ShapeType { get { .init( rawValue:types.1 )! } set { types.1 = newValue.rawValue } }
     }
 }

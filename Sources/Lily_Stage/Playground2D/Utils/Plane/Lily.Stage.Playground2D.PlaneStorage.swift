@@ -32,7 +32,7 @@ extension Lily.Stage.Playground2D
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
         
         public var particles:Lily.Stage.Model.Quadrangles<PlaneVIn>
-        public var statuses:Lily.Metal.Buffer<UnitStatus>
+        public var statuses:Lily.Metal.Buffer<PlaneUnitStatus>
         public var reuseIndice:[Int]
         
         public var textureAtlas:Lily.Metal.TextureAtlas

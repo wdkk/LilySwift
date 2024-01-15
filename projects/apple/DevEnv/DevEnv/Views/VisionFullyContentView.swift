@@ -46,7 +46,7 @@ struct VisionFullyContentView : View
     
     @State var renderEngine:Lily.Stage.StandardRenderEngine?
     
-    @State var renderFlow:Lily.Stage.Playground2D.RenderFlow?
+    @State var renderFlow:Lily.Stage.Playground2D.PlaneRenderFlow?
     
     @State var mouseDrag = LLFloatv2()
         

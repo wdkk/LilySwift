@@ -216,7 +216,7 @@ extension Lily.Stage.Playground2D
             float2 texUV;
         };
 
-        struct UnitStatus
+        struct PlaneUnitStatus
         {
             float4x4 matrix;
             float4 atlasUV;
@@ -240,7 +240,7 @@ extension Lily.Stage.Playground2D
             ShapeType shapeType;
         };
             
-        struct LocalUniform
+        struct PlaneLocalUniform
         {
             float4x4      projectionMatrix;
             CompositeType shaderCompositeType;
@@ -266,17 +266,17 @@ extension Lily.Stage.Playground2D
         
         static var vertexShaderCode:String { """
         
-        vertex PlaneVOut Lily_Stage_Playground2D_Vs(
+        vertex PlaneVOut Lily_Stage_Playground2D_Plane_Vs(
             const device PlaneVIn* in [[ buffer(0) ]],
             constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
-            constant LocalUniform &localUniform [[ buffer(2) ]],
-            const device UnitStatus* statuses [[ buffer(3) ]],
+            constant PlaneLocalUniform &localUniform [[ buffer(2) ]],
+            const device PlaneUnitStatus* statuses [[ buffer(3) ]],
             ushort amp_id [[ amplification_id ]],
             uint vid [[ vertex_id ]],
             uint iid [[ instance_id ]]
         )
         {
-            UnitStatus us = statuses[iid];
+            auto us = statuses[iid];
             
             if( us.compositeType != localUniform.shaderCompositeType ) { 
                 PlaneVOut trush_vout;
@@ -402,7 +402,7 @@ extension Lily.Stage.Playground2D
             }
         }
 
-        fragment PlaneResult Lily_Stage_Playground2D_Fs(
+        fragment PlaneResult Lily_Stage_Playground2D_Plane_Fs(
             const PlaneVOut in [[ stage_in ]],
             texture2d<float> tex [[ texture(1) ]]
         )
@@ -451,13 +451,13 @@ extension Lily.Stage.Playground2D
             self.playground2DVertexShader = .init(
                 device:device, 
                 code: Self.importsCode + Self.definesCode + Self.vertexShaderCode,
-                shaderName:"Lily_Stage_Playground2D_Vs" 
+                shaderName:"Lily_Stage_Playground2D_Plane_Vs" 
             )
             
             self.playground2DFragmentShader = .init(
                 device:device,
                 code: Self.importsCode + Self.definesCode + Self.fragmentShaderCode,
-                shaderName:"Lily_Stage_Playground2D_Fs" 
+                shaderName:"Lily_Stage_Playground2D_Plane_Fs" 
             )
         }
     }

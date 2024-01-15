@@ -19,11 +19,11 @@ extension Lily.Stage.Playground2D
         var pass:Lily.Stage.Playground2D.PlanePass?
         weak var mediumTextures:Lily.Stage.Playground2D.MediumTextures?
         
-        public private(set) var storage:Storage
+        public private(set) var storage:PlaneStorage
         
-        var alphaRenderer:AlphaRenderer?
-        var addRenderer:AddRenderer?
-        var subRenderer:SubRenderer?
+        var alphaRenderer:PlaneAlphaRenderer?
+        var addRenderer:PlaneAddRenderer?
+        var subRenderer:PlaneSubRenderer?
     
         public let viewCount:Int
         

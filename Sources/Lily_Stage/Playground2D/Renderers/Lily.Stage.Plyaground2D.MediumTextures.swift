@@ -40,15 +40,6 @@ extension Lily.Stage.Playground2D
             )
             
             tex_desc.sampleCount = Lily.Stage.BufferFormats.sampleCount
-            // NOTE: メモリレスを使う例をコメントアウト
-            /*
-            #if !targetEnvironment(simulator)
-            if #available( macCatalyst 14.0, * ) { tex_desc.storageMode = .memoryless }
-            else { tex_desc.storageMode = .private }
-            #else
-            tex_desc.storageMode = .private
-            #endif
-            */
             tex_desc.storageMode = .private
             
             if viewCount > 1 {
@@ -57,7 +48,7 @@ extension Lily.Stage.Playground2D
             }
             tex_desc.usage = [ tex_desc.usage, .renderTarget ]
             
-            // particleTextureの再生成
+            // planeTextureの再生成
             resultTexture = device.makeTexture( descriptor:tex_desc )
             resultTexture?.label = "Particle Texture"
             

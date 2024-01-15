@@ -22,8 +22,8 @@ extension Lily.Stage.Playground2D
         
         public init(
             projectionMatrix: LLMatrix4x4 = .identity,
-            shaderCompositeType: CompositeType = .none,
-            drawingType:DrawingType = .quadrangles
+            shaderCompositeType: Plane.CompositeType = .none,
+            drawingType:Plane.DrawingType = .quadrangles
         ) 
         {
             self.projectionMatrix = projectionMatrix

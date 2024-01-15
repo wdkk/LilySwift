@@ -24,15 +24,15 @@ extension Lily.Stage.Playground2D
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
     
         public private(set) var index:Int
-        public private(set) var storage:Storage
-        public private(set) var statusAccessor:UnsafeMutableBufferPointer<UnitStatus>?
-        public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>!
+        public private(set) var storage:PlaneStorage
+        public private(set) var statusAccessor:UnsafeMutableBufferPointer<PlaneUnitStatus>?
+        public private(set) var currentPointer:UnsafeMutablePointer<PlaneUnitStatus>!
                 
         public var iterateField:PGField<PGActor, LLEmpty>?
         public var intervalField:ActorInterval?
         public var completionField:PGField<PGActor, LLEmpty>?
         
-        public init( storage:Storage ) {
+        public init( storage:PlaneStorage ) {
             self.storage = storage
             self.statusAccessor = storage.statuses.accessor
             
@@ -54,7 +54,7 @@ extension Lily.Stage.Playground2D
             PGPool.shared.insert( shape:self, to:storage )
         }
         
-        public var status:UnitStatus {
+        public var status:PlaneUnitStatus {
             get { currentPointer.pointee }
             set { currentPointer.pointee = newValue }
         }

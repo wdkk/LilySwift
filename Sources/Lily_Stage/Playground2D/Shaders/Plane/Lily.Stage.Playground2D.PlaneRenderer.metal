@@ -59,7 +59,7 @@ struct PlaneVIn
     float2 texUV;
 };
 
-struct UnitStatus
+struct PlaneUnitStatus
 {
     float4x4 matrix;
     float4 atlasUV;
@@ -106,17 +106,17 @@ struct PlaneResult
     float4 planeTexture [[ color(0) ]];
 };
 
-vertex PlaneVOut Lily_Stage_Playground2D_Vs(
+vertex PlaneVOut Lily_Stage_Playground2D_Plane_Vs(
     const device PlaneVIn* in [[ buffer(0) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
     constant LocalUniform &localUniform [[ buffer(2) ]],
-    const device UnitStatus* statuses [[ buffer(3) ]],
+    const device PlaneUnitStatus* statuses [[ buffer(3) ]],
     ushort amp_id [[ amplification_id ]],
     uint vid [[ vertex_id ]],
     uint iid [[ instance_id ]]
 )
 {
-    UnitStatus us = statuses[iid];
+    auto us = statuses[iid];
     
     if( us.compositeType != localUniform.shaderCompositeType ) { 
         PlaneVOut trush_vout;
@@ -240,7 +240,7 @@ namespace Lily
     }
 }
 
-fragment PlaneResult Lily_Stage_Playground2D_Fs(
+fragment PlaneResult Lily_Stage_Playground2D_Plane_Fs(
     const PlaneVOut in [[ stage_in ]],
     texture2d<float> tex [[ texture(1) ]]
 )

@@ -15,7 +15,7 @@ extension Lily.Stage.Playground2D
     public class PGBlurryCircle : PGActor
     {        
         @discardableResult
-        public override init( storage:Storage = PGScreen.current!.renderFlow.storage ) {
+        public override init( storage:PlaneStorage = PGScreen.current!.renderFlow.storage ) {
             super.init( storage:storage )
             status.shapeType = .blurryCircle
             status.compositeType = .alpha
@@ -25,7 +25,7 @@ extension Lily.Stage.Playground2D
     public class PGAddBlurryCircle : PGActor
     {        
         @discardableResult
-        public override init( storage:Storage = PGScreen.current!.renderFlow.storage ) {
+        public override init( storage:PlaneStorage = PGScreen.current!.renderFlow.storage ) {
             super.init( storage:storage )
             status.shapeType = .blurryCircle
             status.compositeType = .add
@@ -35,7 +35,7 @@ extension Lily.Stage.Playground2D
     public class PGSubBlurryCircle : PGActor
     {        
         @discardableResult
-        public override init( storage:Storage = PGScreen.current!.renderFlow.storage ) {
+        public override init( storage:PlaneStorage = PGScreen.current!.renderFlow.storage ) {
             super.init( storage:storage )
             status.shapeType = .blurryCircle
             status.compositeType = .sub

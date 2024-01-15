@@ -29,7 +29,7 @@ extension Lily.Stage.Playground2D
         
         public var renderEngine:Lily.Stage.StandardRenderEngine?
         
-        public var renderFlow:RenderFlow
+        public var renderFlow:PlaneRenderFlow
         public var sRGBRenderFlow:SRGBRenderFlow
         
         public var mediumTextures:Lily.Stage.Playground2D.MediumTextures
@@ -62,9 +62,7 @@ extension Lily.Stage.Playground2D
         }
         
         // MARK: - パーティクル情報
-        public var shapes:Set<PGActor> {
-            renderFlow.storage.shapes
-        }
+        public var shapes:Set<PGActor> { return PGPool.shared.shapes( on:renderFlow.storage ) }
         
         // MARK: - 外部処理ハンドラ
         public var pgDesignHandler:(( PGScreen )->Void)?
@@ -192,9 +190,9 @@ extension Lily.Stage.Playground2D
         #endif
                 
         func checkShapesStatus() {
-            for actor in renderFlow.storage.shapes {
-                actor.appearIterate()   // イテレート処理
-                actor.appearInterval()  // インターバル処理
+            for actor in self.shapes {
+                actor.appearIterate()       // イテレート処理
+                actor.appearInterval()      // インターバル処理
                 
                 if actor.life <= 0.0 {
                     actor.appearCompletion()    // 完了前処理
@@ -204,7 +202,7 @@ extension Lily.Stage.Playground2D
         }
         
         func removeAllShapes() {
-            renderFlow.storage.removeAllShapes()
+            PGPool.shared.removeAllShapes( on:renderFlow.storage )
         }
         
         public init( 

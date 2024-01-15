@@ -13,7 +13,7 @@ import simd
 
 extension Lily.Stage.Playground2D
 {
-    open class SubRenderer
+    open class PlaneSubRenderer
     {
         public var device: MTLDevice
         
@@ -27,8 +27,8 @@ extension Lily.Stage.Playground2D
             
             if environment == .metallib {
                 let library = try! Lily.Stage.metalLibrary( of:device )
-                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_Vs" ) )
-                desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_Fs" ) )
+                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_Plane_Vs" ) )
+                desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground2D_Plane_Fs" ) )
             }
             else if environment == .string {
                 let stringShader = Lily.Stage.Playground2D.ShaderString.shared( device:device )
@@ -54,7 +54,7 @@ extension Lily.Stage.Playground2D
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
             mediumTextures:Lily.Stage.Playground2D.MediumTextures,
-            storage:Lily.Stage.Playground2D.Storage,
+            storage:Lily.Stage.Playground2D.PlaneStorage,
             screenSize:CGSize
         ) 
         {
@@ -62,14 +62,14 @@ extension Lily.Stage.Playground2D
             
             // プロジェクション行列を画面のピクセルサイズ変換に指定
             // シェーダの合成タイプの設定も行う
-            var local_uniform = LocalUniform( 
+            var local_uniform = PlaneLocalUniform( 
                 projectionMatrix:.pixelXYProjection( screenSize ),
                 shaderCompositeType:.sub
             )
             
             renderEncoder?.setVertexBuffer( storage.particles.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
-            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
+            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<PlaneLocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
@@ -84,7 +84,7 @@ extension Lily.Stage.Playground2D
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
             mediumTextures:Lily.Stage.Playground2D.MediumTextures,
-            storage:Lily.Stage.Playground2D.Storage,
+            storage:Lily.Stage.Playground2D.PlaneStorage,
             screenSize:CGSize
         ) 
         {
@@ -92,7 +92,7 @@ extension Lily.Stage.Playground2D
             
             // プロジェクション行列を画面のピクセルサイズ変換に指定
             // シェーダの合成タイプの設定も行う
-            var local_uniform = LocalUniform( 
+            var local_uniform = PlaneLocalUniform( 
                 projectionMatrix:.pixelXYProjection( screenSize ),
                 shaderCompositeType:.sub,
                 drawingType:.triangles
@@ -100,7 +100,7 @@ extension Lily.Stage.Playground2D
             
             renderEncoder?.setVertexBuffer( storage.particles.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
-            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
+            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<PlaneLocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
