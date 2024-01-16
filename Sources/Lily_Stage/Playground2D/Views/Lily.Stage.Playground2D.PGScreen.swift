@@ -29,7 +29,7 @@ extension Lily.Stage.Playground2D
         
         public var renderEngine:Lily.Stage.StandardRenderEngine?
         
-        public var renderFlow:PlaneRenderFlow
+        public var renderFlow:Plane.PlaneRenderFlow
         public var sRGBRenderFlow:SRGBRenderFlow
         
         public var mediumTextures:Lily.Stage.Playground2D.MediumTextures
@@ -62,7 +62,7 @@ extension Lily.Stage.Playground2D
         }
         
         // MARK: - パーティクル情報
-        public var shapes:Set<PGActor> { return PGPool.shared.shapes( on:renderFlow.storage ) }
+        public var shapes:Set<Plane.PGActor> { return Plane.PGPool.shared.shapes( on:renderFlow.storage ) }
         
         // MARK: - 外部処理ハンドラ
         public var pgDesignHandler:(( PGScreen )->Void)?
@@ -95,7 +95,7 @@ extension Lily.Stage.Playground2D
         .draw( caller:self ) { me, vc, status in
             PGScreen.current = vc
             // 時間の更新
-            PGActor.ActorTimer.shared.update()
+            Plane.PGActor.ActorTimer.shared.update()
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
@@ -159,7 +159,7 @@ extension Lily.Stage.Playground2D
         .draw( caller:self ) { me, vc, status in
             PGScreen.current = vc
             // 時間の更新
-            PGActor.ActorTimer.shared.update()
+            Plane.PGActor.ActorTimer.shared.update()
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
@@ -202,7 +202,7 @@ extension Lily.Stage.Playground2D
         }
         
         func removeAllShapes() {
-            PGPool.shared.removeAllShapes( on:renderFlow.storage )
+            Plane.PGPool.shared.removeAllShapes( on:renderFlow.storage )
         }
         
         public init( 
@@ -255,7 +255,7 @@ extension Lily.Stage.Playground2D
             )
 
             // 時間の初期化
-            PGActor.ActorTimer.shared.start()
+            Plane.PGActor.ActorTimer.shared.start()
                         
             startLooping()
         }

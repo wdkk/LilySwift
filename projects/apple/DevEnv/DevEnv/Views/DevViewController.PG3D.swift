@@ -8,6 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+/*
 #if os(macOS)
 import AppKit
 #else
@@ -17,27 +18,28 @@ import Metal
 import LilySwift
 
 typealias PG3D = Lily.Stage.Playground3D
+typealias Billboard = PG3D.Billboard
 typealias PGStage = PG3D.PGStage
-typealias BBPool = PG3D.BBPool
-typealias BBSctor = PG3D.BBActor
-typealias BBRectangle = PG3D.BBRectangle
-typealias BBAddRectangle = PG3D.BBAddRectangle
-typealias BBSubRectangle = PG3D.BBSubRectangle
-typealias BBTriangle = PG3D.BBTriangle
-typealias BBAddTriangle = PG3D.BBAddTriangle
-typealias BBSubTriangle = PG3D.BBSubTriangle
-typealias BBCircle = PG3D.BBCircle
-typealias BBAddCircle = PG3D.BBAddCircle
-typealias BBSubCircle = PG3D.BBSubCircle
-typealias BBBlurryCircle = PG3D.BBBlurryCircle
-typealias BBAddBlurryCircle = PG3D.BBAddBlurryCircle
-typealias BBSubBlurryCircle = PG3D.BBSubBlurryCircle
-typealias BBPicture = PG3D.BBPicture
-typealias BBAddPicture = PG3D.BBAddPicture
-typealias BBSubPicture = PG3D.BBSubPicture
-typealias BBMask = PG3D.BBMask
-typealias BBAddMask = PG3D.BBAddMask
-typealias BBSubMask = PG3D.BBSubMask
+typealias BBPool = Billboard.BBPool
+typealias BBSctor = Billboard.BBActor
+typealias BBRectangle = Billboard.BBRectangle
+typealias BBAddRectangle = Billboard.BBAddRectangle
+typealias BBSubRectangle = Billboard.BBSubRectangle
+typealias BBTriangle = Billboard.BBTriangle
+typealias BBAddTriangle = Billboard.BBAddTriangle
+typealias BBSubTriangle = Billboard.BBSubTriangle
+typealias BBCircle = Billboard.BBCircle
+typealias BBAddCircle = Billboard.BBAddCircle
+typealias BBSubCircle = Billboard.BBSubCircle
+typealias BBBlurryCircle = Billboard.BBBlurryCircle
+typealias BBAddBlurryCircle = Billboard.BBAddBlurryCircle
+typealias BBSubBlurryCircle = Billboard.BBSubBlurryCircle
+typealias BBPicture = Billboard.BBPicture
+typealias BBAddPicture = Billboard.BBAddPicture
+typealias BBSubPicture = Billboard.BBSubPicture
+typealias BBMask = Billboard.BBMask
+typealias BBAddMask = Billboard.BBAddMask
+typealias BBSubMask = Billboard.BBSubMask
 
 class DevViewController 
 : Lily.Stage.Playground3D.PGStage
@@ -109,3 +111,4 @@ func design( stage:PGStage ) {
 func update( stage:PGStage ) {
 
 }
+*/

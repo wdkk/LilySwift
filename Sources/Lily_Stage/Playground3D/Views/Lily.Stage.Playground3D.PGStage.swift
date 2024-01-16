@@ -29,11 +29,11 @@ extension Lily.Stage.Playground3D
         var device:MTLDevice
         var renderEngine:Lily.Stage.StandardRenderEngine?
         
-        var modelRenderTextures:ModelRenderTextures
+        var modelRenderTextures:Model.ModelRenderTextures
         var mediumTexture:MediumTexture
         
-        public var modelRenderFlow:ModelRenderFlow
-        public var bbRenderFlow:BBRenderFlow
+        public var modelRenderFlow:Model.ModelRenderFlow
+        public var bbRenderFlow:Billboard.BBRenderFlow
         public var sRGBRenderFlow:SRGBRenderFlow
         
         public var clearColor:LLColor = .white
@@ -45,7 +45,7 @@ extension Lily.Stage.Playground3D
         public var screenSize:LLSizeFloat { LLSizeFloat( width, height ) }
     
         // MARK: - パーティクル情報
-        public var billboards:Set<BBActor> { return BBPool.shared.shapes( on:bbRenderFlow.storage ) }
+        public var billboards:Set<Billboard.BBActor> { return Billboard.BBPool.shared.shapes( on:bbRenderFlow.storage ) }
         
         // MARK: - 外部処理ハンドラ
         public var pgDesignHandler:(( PGStage )->Void)?
@@ -79,7 +79,7 @@ extension Lily.Stage.Playground3D
         .draw( caller:self ) { me, vc, status in
             PGStage.current = vc
             // 時間の更新
-            BBActor.ActorTimer.shared.update()
+            Billboard.BBActor.ActorTimer.shared.update()
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
@@ -125,7 +125,7 @@ extension Lily.Stage.Playground3D
             PGStage.current = vc
             
             // 時間の更新
-            BBActor.ActorTimer.shared.update()
+            Billboard.BBActor.ActorTimer.shared.update()
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
@@ -157,7 +157,7 @@ extension Lily.Stage.Playground3D
         }
         
         func removeAllShapes() {
-            BBPool.shared.removeAllShapes( on:bbRenderFlow.storage )
+            Billboard.BBPool.shared.removeAllShapes( on:bbRenderFlow.storage )
         }
         
         public init( 
@@ -186,7 +186,6 @@ extension Lily.Stage.Playground3D
             bbRenderFlow = .init( 
                 device:device,
                 viewCount:1,
-                renderTextures:self.modelRenderTextures,
                 mediumTexture:mediumTexture,                
                 environment:self.environment,
                 particleCapacity:self.particleCapacity,
@@ -219,7 +218,7 @@ extension Lily.Stage.Playground3D
             )
 
             // 時間の初期化
-            BBActor.ActorTimer.shared.start()
+            Billboard.BBActor.ActorTimer.shared.start()
                         
             startLooping()
         }
