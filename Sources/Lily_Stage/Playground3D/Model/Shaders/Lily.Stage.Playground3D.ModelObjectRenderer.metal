@@ -78,6 +78,10 @@ vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Vs(
     }
     
     float4 base_pos = float4( in[vid].position, 1.0 );
+    
+    // アフィン変換の作成
+    // TODO: 別関数にまとめる
+    // TODO: シャドウの方にも入れる必要あり
     float3 pos = us.position;
     float3 ang = us.angle;
     float3 sc = us.scale;
