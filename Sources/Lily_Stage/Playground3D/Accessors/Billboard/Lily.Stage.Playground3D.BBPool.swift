@@ -15,17 +15,19 @@ extension Lily.Stage.Playground3D
 {   
     open class BBPool
     {   
-        public static var current:BBPool? = nil
-        public init() {}
+        public static var shared:BBPool = .init()
+        private init() {}
         
-        public private(set) var shapes:Set<BBActor> = []
-        public var storage:BBStorage?
+        private var actorGroup:[BBStorage:Set<BBActor>] = [:]
         
-        public func insertShape( _ shape:BBActor ) { shapes.insert( shape ) }
-        public func removeShape( _ shape:BBActor ) { shapes.remove( shape ) }
+        public func shapes( on storage:BBStorage ) -> Set<BBActor> { actorGroup[storage] ?? [] }
         
-        func removeAllShapes() {
-            shapes.forEach { $0.trush() }
+        public func insert( shape:BBActor, to storage:BBStorage ) {
+            if actorGroup[storage] == nil { actorGroup[storage] = [] }
+            actorGroup[storage]?.insert( shape ) 
         }
+        public func remove( shape:BBActor, to storage:BBStorage ) { actorGroup[storage]?.remove( shape ) }
+        
+        public func removeAllShapes( on storage:BBStorage ) {  actorGroup[storage]?.forEach { $0.trush() } }
     }
 }

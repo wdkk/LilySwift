@@ -15,8 +15,8 @@ extension Lily.Stage.Playground3D
     public class BBMask : BBActor
     {        
         @discardableResult
-        public init( pool:BBPool = BBPool.current!, _ assetName:String ) {
-            super.init( pool:pool )
+        public init( storage:BBStorage = PGStage.current!.bbRenderFlow.storage, _ assetName:String ) {
+            super.init( storage:storage )
             status.shapeType = .mask
             status.compositeType = .alpha
             status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV
@@ -26,8 +26,8 @@ extension Lily.Stage.Playground3D
     public class BBAddMask : BBActor
     {        
         @discardableResult
-        public init( pool:BBPool = BBPool.current!, _ assetName:String ) {
-            super.init( pool:pool )
+        public init( storage:BBStorage = PGStage.current!.bbRenderFlow.storage, _ assetName:String ) {
+            super.init( storage:storage )
             status.shapeType = .mask
             status.compositeType = .add
             status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV
@@ -37,8 +37,8 @@ extension Lily.Stage.Playground3D
     public class BBSubMask : BBActor
     {        
         @discardableResult
-        public init( pool:BBPool = BBPool.current!, _ assetName:String ) {
-            super.init( pool:pool )
+        public init( storage:BBStorage = PGStage.current!.bbRenderFlow.storage, _ assetName:String ) {
+            super.init( storage:storage )
             status.shapeType = .mask
             status.compositeType = .sub
             status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV

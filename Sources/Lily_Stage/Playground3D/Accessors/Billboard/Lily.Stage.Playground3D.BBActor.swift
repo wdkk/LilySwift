@@ -21,7 +21,6 @@ extension Lily.Stage.Playground3D
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
     
         public private(set) var index:Int
-        public private(set) var pool:BBPool
         public private(set) var storage:BBStorage
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<BBUnitStatus>?
         public private(set) var currentPointer:UnsafeMutablePointer<BBUnitStatus>!
@@ -30,9 +29,8 @@ extension Lily.Stage.Playground3D
         public var intervalField:ActorInterval?
         public var completionField:BBField<BBActor, LLEmpty>?
         
-        public init( pool:BBPool = BBPool.current! ) {   
-            self.pool = pool
-            self.storage = pool.storage!
+        public init( storage:BBStorage ) {   
+            self.storage = storage
             self.statusAccessor = storage.statuses.accessor
             
             self.index = storage.request() 
@@ -50,7 +48,7 @@ extension Lily.Stage.Playground3D
                 status.shapeType = .rectangle
             }
             
-            pool.insertShape( self )
+            BBPool.shared.insert( shape:self, to:storage )
         }
         
         public var status:BBUnitStatus {
@@ -116,7 +114,7 @@ extension Lily.Stage.Playground3D
         
         public func trush() {
             storage.trush( index:self.index )
-            pool.removeShape( self )
+            BBPool.shared.remove( shape:self, to:storage )
         }
     }
 }

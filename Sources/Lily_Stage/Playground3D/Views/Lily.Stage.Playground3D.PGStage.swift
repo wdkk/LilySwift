@@ -24,15 +24,17 @@ extension Lily.Stage.Playground3D
     open class PGStage
     : Lily.View.ViewController
     {
+        public static var current:PGStage? = nil
+        
         var device:MTLDevice
         var renderEngine:Lily.Stage.StandardRenderEngine?
         
         var modelRenderTextures:ModelRenderTextures
         var mediumTexture:MediumTexture
         
-        var modelRenderFlow:ModelRenderFlow
-        var bbRenderFlow:BBRenderFlow
-        var sRGBRenderFlow:SRGBRenderFlow
+        public var modelRenderFlow:ModelRenderFlow
+        public var bbRenderFlow:BBRenderFlow
+        public var sRGBRenderFlow:SRGBRenderFlow
         
         public var clearColor:LLColor = .white
         
@@ -43,7 +45,7 @@ extension Lily.Stage.Playground3D
         public var screenSize:LLSizeFloat { LLSizeFloat( width, height ) }
     
         // MARK: - パーティクル情報
-        public var shapes:Set<BBActor> { bbRenderFlow.pool.shapes }
+        public var billboards:Set<BBActor> { return BBPool.shared.shapes( on:bbRenderFlow.storage ) }
         
         // MARK: - 外部処理ハンドラ
         public var pgDesignHandler:(( PGStage )->Void)?
@@ -66,22 +68,25 @@ extension Lily.Stage.Playground3D
             }
             
             if !vc._design_once_flag {
+                PGStage.current = vc
+                
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
-                vc.bbRenderFlow.pool.storage?.statuses.commit()
+                vc.bbRenderFlow.storage.statuses.commit()
                 vc._design_once_flag = true
             }
         }
         .draw( caller:self ) { me, vc, status in
+            PGStage.current = vc
             // 時間の更新
             BBActor.ActorTimer.shared.update()
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
-            vc.bbRenderFlow.pool.storage?.statuses.commit()
+            vc.bbRenderFlow.storage.statuses.commit()
             
-            // Shapeの更新/終了処理を行う
-            vc.checkShapesStatus()
+            // ビルボードの更新/終了処理を行う
+            vc.checkBillboardsStatus()
             
             vc.renderEngine?.update(
                 with:status.drawable,
@@ -108,22 +113,26 @@ extension Lily.Stage.Playground3D
             }
             
             if !vc._design_once_flag {
+                PGStage.current = vc
+                
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
-                vc.bbRenderFlow.pool.storage?.statuses.commit()
+                vc.bbRenderFlow.storage.statuses.commit()
                 vc._design_once_flag = true
             }
         }
         .draw( caller:self ) { me, vc, status in
+            PGStage.current = vc
+            
             // 時間の更新
             BBActor.ActorTimer.shared.update()
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
-            vc.bbRenderFlow.pool.storage?.statuses.commit()
+            vc.bbRenderFlow.storage.statuses.commit()
         
-            // Shapeの更新/終了処理を行う
-            vc.checkShapesStatus()
+            // ビルボードの更新/終了処理を行う
+            vc.checkBillboardsStatus()
             
             vc.renderEngine?.update(
                 with:status.drawable,
@@ -135,8 +144,8 @@ extension Lily.Stage.Playground3D
         }
         #endif
                 
-        func checkShapesStatus() {
-            for actor in bbRenderFlow.pool.shapes {
+        func checkBillboardsStatus() {
+            for actor in self.billboards {
                 actor.appearIterate()   // イテレート処理
                 actor.appearInterval()  // インターバル処理
                 
@@ -148,7 +157,7 @@ extension Lily.Stage.Playground3D
         }
         
         func removeAllShapes() {
-            bbRenderFlow.pool.removeAllShapes()
+            BBPool.shared.removeAllShapes( on:bbRenderFlow.storage )
         }
         
         public init( 

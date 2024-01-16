@@ -25,8 +25,12 @@ extension Lily.Stage.Playground3D
         }
     }
     
-    open class BBStorage
+    open class BBStorage : Hashable
     {
+        // Hashableの実装
+        public static func == ( lhs:BBStorage, rhs:BBStorage ) -> Bool { lhs === rhs }
+        public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
+        
         public var particles:Lily.Stage.Model.Quadrangles<BBVIn>
         public var statuses:Lily.Metal.Buffer<BBUnitStatus>
         public var reuseIndice:[Int]

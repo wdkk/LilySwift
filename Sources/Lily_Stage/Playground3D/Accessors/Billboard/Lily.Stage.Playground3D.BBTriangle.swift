@@ -15,8 +15,8 @@ extension Lily.Stage.Playground3D
     public class BBTriangle : BBActor
     {        
         @discardableResult
-        public override init( pool:BBPool = BBPool.current! ) {
-            super.init( pool:pool )
+        public override init( storage:BBStorage = PGStage.current!.bbRenderFlow.storage ) {
+            super.init( storage:storage )
             status.shapeType = .triangle
             status.compositeType = .alpha
         }
@@ -25,8 +25,8 @@ extension Lily.Stage.Playground3D
     public class BBAddTriangle : BBActor
     {        
         @discardableResult
-        public override init( pool:BBPool = BBPool.current! ) {
-            super.init( pool:pool )
+        public override init( storage:BBStorage = PGStage.current!.bbRenderFlow.storage ) {
+            super.init( storage:storage )
             status.shapeType = .triangle
             status.compositeType = .add
         }
@@ -35,8 +35,8 @@ extension Lily.Stage.Playground3D
     public class BBSubTriangle : BBActor
     {        
         @discardableResult
-        public override init( pool:BBPool = BBPool.current! ) {
-            super.init( pool:pool )
+        public override init( storage:BBStorage = PGStage.current!.bbRenderFlow.storage ) {
+            super.init( storage:storage )
             status.shapeType = .triangle
             status.compositeType = .sub
         }

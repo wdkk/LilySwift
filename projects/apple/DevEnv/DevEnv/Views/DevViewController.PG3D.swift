@@ -8,7 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-/*
 #if os(macOS)
 import AppKit
 #else
@@ -66,21 +65,7 @@ class DevViewController
     }
 }
 
-func design( stage:PGStage ) {
-    /*
-    for i in 0 ..< 256 {
-        let x = (i / 16).f * 5.0 - 40.0
-        let z = (i % 16).f * 5.0 - 40.0
-            
-        BBRectangle()
-        .color( LLColor( 0.9, 0.55, 0.25, 1.0 ) )
-        .position(
-            cx:x, cy:0, cz:z
-        )
-        .scale( square:4.0 )
-    }
-    */
-    
+func design( stage:PGStage ) {    
     for _ in 0 ..< 320 {
         BBAddMask( "mask-smoke" )
         .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
@@ -124,4 +109,3 @@ func design( stage:PGStage ) {
 func update( stage:PGStage ) {
 
 }
-*/

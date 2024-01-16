@@ -21,7 +21,6 @@ extension Lily.Stage.Playground3D
         weak var modelRenderTextures:ModelRenderTextures?
         weak var mediumTexture:MediumTexture?
         
-        public private(set) var pool:BBPool
         public private(set) var storage:BBStorage
         
         var alphaRenderer:BBAlphaRenderer?
@@ -72,12 +71,7 @@ extension Lily.Stage.Playground3D
             )
             self.storage.addTextures( textures )
             
-            self.pool = BBPool()
-            self.pool.storage = self.storage
-        
             super.init( device:device )
-            
-            BBPool.current = pool
         }
         
         public override func changeSize( scaledSize:CGSize ) {
@@ -101,7 +95,7 @@ extension Lily.Stage.Playground3D
                 return
             }
             
-            BBPool.current?.storage?.statuses.update { acc, _ in
+            storage.statuses.update { acc, _ in
                 for i in 0 ..< acc.count {
                     if acc[i].enabled == false || acc[i].state == .trush { continue }
                     acc[i].position += acc[i].deltaPosition
