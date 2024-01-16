@@ -32,7 +32,9 @@ extension Lily.Stage.Playground3D.Model
             device:MTLDevice, 
             viewCount:Int,
             renderTextures:ModelRenderTextures,
-            mediumTexture:Lily.Stage.Playground3D.MediumTexture
+            mediumTexture:Lily.Stage.Playground3D.MediumTexture,
+            modelCapacity:Int = 500,
+            modelAssets:[String] = []
         ) 
         {
             self.modelRenderTextures = renderTextures
@@ -48,9 +50,9 @@ extension Lily.Stage.Playground3D.Model
             
             self.storage = .init( 
                 device:device, 
-                objCount:64,
+                objCount:modelCapacity,
                 cameraCount:( Lily.Stage.Shared.Const.shadowCascadesCount + 1 ),
-                modelAssets:[ "acacia1" ]
+                modelAssets:modelAssets
             )
             
             super.init( device:device )
@@ -71,14 +73,35 @@ extension Lily.Stage.Playground3D.Model
         )
         {
             guard let modelPass = modelPass else { return }
+
+            guard let modelRenderTextures = self.modelRenderTextures else { 
+                LLLog( "modelRenderTextureが設定されていません" )
+                return
+            }
             
-            let shadowViewport = modelRenderTextures!.shadowViewport()
-            let shadowScissor = modelRenderTextures!.shadowScissor()
+            guard let mediumTexture = self.mediumTexture else { 
+                LLLog( "mediumTextureが設定されていません" )
+                return
+            }
+            
+            let shadowViewport = modelRenderTextures.shadowViewport()
+            let shadowScissor = modelRenderTextures.shadowScissor()
+            
+            storage.statuses.update { acc, _ in
+                for i in 0 ..< acc.count-1 {
+                    if acc[i].enabled == false || acc[i].state == .trush { continue }
+                    acc[i].position += acc[i].deltaPosition
+                    acc[i].scale += acc[i].deltaScale
+                    acc[i].angle += acc[i].deltaAngle
+                    acc[i].color += acc[i].deltaColor
+                    acc[i].life += acc[i].deltaLife
+                }
+            }
             
             // 共通処理
             // パスの更新
             modelPass.updatePass( 
-                renderTextures:modelRenderTextures!,
+                renderTextures:modelRenderTextures,
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetCount:viewCount
             )
@@ -118,7 +141,7 @@ extension Lily.Stage.Playground3D.Model
             }
             
             // レンダーパスの書き込み先を指定
-            modelPass.setGBufferDestination( texture:mediumTexture?.resultTexture )
+            modelPass.setGBufferDestination( texture:mediumTexture.resultTexture )
             modelPass.setDepth( texture:depthTexture )
             
             let deferred_shading_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:modelPass.GBufferPassDesc! )

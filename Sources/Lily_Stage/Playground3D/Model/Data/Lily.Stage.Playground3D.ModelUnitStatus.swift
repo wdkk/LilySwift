@@ -26,8 +26,8 @@ extension Lily.Stage.Playground3D.Model
         public var deltaPosition:LLFloatv3 = .zero
         public var scale:LLFloatv3 = .init( 1.0, 1.0, 1.0 )
         public var deltaScale:LLFloatv3 = .zero
-        public var angle:LLFloat = 0.0
-        public var deltaAngle:LLFloat = 0.0
+        public var angle:LLFloatv3 = .zero
+        public var deltaAngle:LLFloatv3 = .zero
         // 内部パラメータ
         fileprivate var lifes:LLFloatv2 = LLFloatv2(
             1.0,    // life

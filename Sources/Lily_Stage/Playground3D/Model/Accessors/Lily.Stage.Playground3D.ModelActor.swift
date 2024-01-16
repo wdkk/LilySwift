@@ -193,9 +193,9 @@ extension Lily.Stage.Playground3D.Model.ModelActor
         set { status.scale.y = newValue }
     }
     
-    public var angle:LLAngle {
-        get { return LLAngle.radians( status.angle.d ) }
-        set { status.angle = newValue.radians.f }
+    public var angle:LLFloatv3 {
+        get { return status.angle }
+        set { status.angle = newValue }
     }
     
     public var enabled:Bool { 
@@ -244,9 +244,9 @@ extension Lily.Stage.Playground3D.Model.ModelActor
         set { status.deltaColor.w = newValue }
     }
     
-    public var deltaAngle:LLAngle {
-        get { return LLAngle.radians( status.deltaAngle.d ) }
-        set { status.deltaAngle = newValue.radians.f }
+    public var deltaAngle:LLFloatv3 {
+        get { return status.deltaAngle }
+        set { status.deltaAngle = newValue }
     }
     
     public var deltaLife:Float {
@@ -377,39 +377,14 @@ extension Lily.Stage.Playground3D.Model.ModelActor
     }
 
     @discardableResult
-    public func angle( _ ang:LLAngle ) -> Self {
-        status.angle = ang.radians.f
+    public func angle( _ ang:LLFloatv3 ) -> Self {
+        status.angle = ang
         return self
     }
     
     @discardableResult
-    public func angle( radians rad:LLFloatConvertable ) -> Self {
-        status.angle = rad.f
-        return self
-    }
-    
-    @discardableResult
-    public func angle( degrees deg:LLFloatConvertable ) -> Self {
-        status.angle = LLAngle( degrees: deg.f.d ).radians.f
-        return self
-    }
-    
-    @discardableResult
-    public func angle( _ calc:( Here.ModelActor )->LLAngle ) -> Self {
-        let ang = calc( self )
-        status.angle = ang.radians.f
-        return self
-    }
-    
-    @discardableResult
-    public func angle<T:BinaryInteger>( _ calc:( Here.ModelActor )->T ) -> Self {
-        status.angle = Float( calc( self ) )
-        return self
-    }
-    
-    @discardableResult
-    public func angle<T:BinaryFloatingPoint>( _ calc:( Here.ModelActor )->T ) -> Self {
-        status.angle = Float( calc( self ) )
+    public func angle( rx:Float, ry:Float, rz:Float ) -> Self {
+        status.angle = .init( rx, ry, rz )
         return self
     }
     
@@ -594,44 +569,18 @@ extension Lily.Stage.Playground3D.Model.ModelActor
         status.deltaColor.w = calc( self )
         return self
     }
-
-        
+    
     @discardableResult
-    public func deltaAngle( _ ang:LLAngle ) -> Self {
-        status.deltaAngle = ang.radians.f
+    public func deltaAngle( _ ang:LLFloatv3 ) -> Self {
+        status.deltaAngle = ang
         return self
     }
     
     @discardableResult
-    public func deltaAngle( radians rad:LLFloatConvertable ) -> Self {
-        status.deltaAngle = rad.f
+    public func deltaAngle( rx:Float, ry:Float, rz:Float ) -> Self {
+        status.deltaAngle = .init( rx, ry, rz )
         return self
     }
-    
-    @discardableResult
-    public func deltaAngle( degrees deg:LLFloatConvertable ) -> Self {
-        status.deltaAngle = LLAngle.degrees( deg.f.d ).radians.f
-        return self
-    }
-    
-    @discardableResult
-    public func deltaAngle( _ calc:( Here.ModelActor )->LLAngle ) -> Self {
-        status.deltaAngle = calc( self ).radians.f
-        return self
-    }
-    
-    @discardableResult
-    public func deltaAngle<T:BinaryInteger>( _ calc:( Here.ModelActor )->T ) -> Self {
-        status.deltaAngle = Float( calc( self ) )
-        return self
-    }
-    
-    @discardableResult
-    public func deltaAngle<T:BinaryFloatingPoint>( _ calc:( Here.ModelActor )->T ) -> Self {
-        status.deltaAngle = Float( calc( self ) )
-        return self
-    }
-
     
     @discardableResult
     public func deltaLife( _ v:Float ) -> Self {

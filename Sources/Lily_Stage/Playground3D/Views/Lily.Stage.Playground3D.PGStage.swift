@@ -177,7 +177,9 @@ extension Lily.Stage.Playground3D
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
             particleCapacity:Int = 10000,
-            textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+            modelCapacity:Int = 500,
+            textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
+            modelAssets:[String] = [ "acacia1", "plane" ]
         )
         {
             self.device = device
@@ -193,7 +195,9 @@ extension Lily.Stage.Playground3D
                 device:device,
                 viewCount:1,
                 renderTextures:self.modelRenderTextures,
-                mediumTexture:mediumTexture
+                mediumTexture:mediumTexture,
+                modelCapacity:modelCapacity,
+                modelAssets:modelAssets
             )
                                     
             bbRenderFlow = .init( 

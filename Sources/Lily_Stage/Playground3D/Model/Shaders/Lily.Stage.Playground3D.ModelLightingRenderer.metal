@@ -118,10 +118,11 @@ fragment LightingFOut Lily_Stage_Playground3D_Model_Lighting_Fs(
     lily_memory_depth        depthMem    [[ lily_memory(IDX_GBUFFER_DEPTH) ]],
     depth2d_array <float>    shadowMap   [[ texture(IDX_SHADOW_MAP) ]],
     texturecube <float>      cubeMap     [[ texture(IDX_CUBE_MAP) ]],
-    constant GlobalUniformArray& uniformArray [[ buffer(0) ]]
+    constant GlobalUniformArray& uniformArray [[ buffer(0) ]],
+    ushort amp_id [[ amplification_id ]]
 )
 {    
-    const GlobalUniform uniform = uniformArray.uniforms[0];
+    const GlobalUniform uniform = uniformArray.uniforms[amp_id];
     
     constexpr sampler colorSampler( mip_filter::linear, mag_filter::linear, min_filter::linear );
 

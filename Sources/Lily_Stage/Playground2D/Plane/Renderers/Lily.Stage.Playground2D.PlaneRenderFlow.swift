@@ -92,7 +92,7 @@ extension Lily.Stage.Playground2D.Plane
             guard let pass = self.pass else { return }
         
             storage.statuses.update { acc, _ in
-                for i in 0 ..< acc.count {
+                for i in 0 ..< acc.count-1 {
                     if acc[i].enabled == false || acc[i].state == .trush { continue }
                     acc[i].position += acc[i].deltaPosition
                     acc[i].scale += acc[i].deltaScale

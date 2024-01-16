@@ -79,6 +79,36 @@
                   endingLineNumber = "0"
                   offsetFromSymbolStart = "16">
                </Location>
+               <Location
+                  uuid = "0C4E9FF7-B80E-44AE-A414-2A5EFAA4B840 - f13747d8e1c8b3c3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LilySwift.Lily.Stage.LightingRenderer.deinit"
+                  moduleName = "DevEnv-iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kengo/core/wd/dev/LilySwift/%3Ccompiler-generated%3E"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "8">
+               </Location>
+               <Location
+                  uuid = "0C4E9FF7-B80E-44AE-A414-2A5EFAA4B840 - abc85e69d63fed6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LilySwift.Lily.Stage.LightingRenderer.__deallocating_deinit"
+                  moduleName = "DevEnv-iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kengo/core/wd/dev/LilySwift/%3Ccompiler-generated%3E"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "8">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

@@ -46,8 +46,8 @@ struct ModelUnitStatus
     float3   deltaPosition;
     float3   scale;
     float3   deltaScale;
-    float    angle;
-    float    deltaAngle;
+    float3   angle;
+    float3   deltaAngle;
     float    life;
     float    deltaLife;
     float    enabled;
@@ -77,8 +77,51 @@ vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Vs(
         return trush_vout;
     }
     
-    float4 position = float4( in[vid].position, 1.0 );
-    float4 world_pos = us.matrix * position;
+    float4 base_pos = float4( in[vid].position, 1.0 );
+    float3 pos = us.position;
+    float3 ang = us.angle;
+    float3 sc = us.scale;
+    
+    float4x4 T = float4x4( 
+        float4( 1, 0, 0, 0 ),
+        float4( 0, 1, 0, 0 ),
+        float4( 0, 0, 1, 0 ),
+        float4( pos, 1 )
+    );
+        
+    float4x4 Rz = float4x4(
+        float4( cos( ang.z ), -sin( ang.z ), 0, 0 ),
+        float4( sin( ang.z ),  cos( ang.z ), 0, 0 ),
+        float4( 0, 0, 1, 0 ),
+        float4( 0, 0, 0, 1 )
+    );
+    
+    float4x4 Ry = float4x4(
+        float4( cos( ang.y ), 0, sin( ang.y ), 0 ),
+        float4( 0, 1, 0, 0 ),
+        float4( -sin( ang.y ), 0, cos( ang.y ), 0 ),
+        float4( 0, 0, 0, 1 )
+    );
+    
+    float4x4 Rx = float4x4(
+        float4( 1, 0, 0, 0 ),
+        float4( 0, cos( ang.x ), -sin( ang.x ), 0 ),
+        float4( 0, sin( ang.x ),  cos( ang.x ), 0 ),
+        float4( 0, 0, 0, 1 )
+    );
+    
+    float4x4 R = Rz * Ry * Rx;
+        
+    float4x4 S = float4x4(
+        float4( sc.x, 0, 0, 0 ),
+        float4( 0, sc.y, 0, 0 ),
+        float4( 0, 0, sc.z, 0 ),
+        float4( 0, 0, 0, 1 )
+    );
+    
+    float4x4 TRS = T * R * S;
+    
+    float4 world_pos = TRS * base_pos;
     
     ModelVOut out;
     out.position = uniform.cameraUniform.viewProjectionMatrix * world_pos;
