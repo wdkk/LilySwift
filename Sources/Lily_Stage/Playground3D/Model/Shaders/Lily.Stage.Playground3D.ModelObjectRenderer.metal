@@ -44,8 +44,8 @@ struct ModelUnitStatus
     float4   deltaColor;
     float3   position;
     float3   deltaPosition;
-    float2   scale;
-    float2   deltaScale;
+    float3   scale;
+    float3   deltaScale;
     float    angle;
     float    deltaAngle;
     float    life;

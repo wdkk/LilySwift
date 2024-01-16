@@ -41,12 +41,10 @@ extension Lily.Stage.Playground3D.Model
             if self.index < self.storage.capacity {
                 status.state = .active
                 status.enabled = true
-                status.modelIndex = -1
             }
             else {
                 status.state = .trush
                 status.enabled = false
-                status.modelIndex = -1
             }
             
             ModelPool.shared.insert( shape:self, to:storage )
@@ -180,9 +178,9 @@ extension Lily.Stage.Playground3D.Model.ModelActor
         set { status.position.y = newValue }
     }
     
-    public var scale:LLSizeFloat {
-        get { return LLSizeFloat( status.scale.x, status.scale.y ) }
-        set { status.scale = LLFloatv2( newValue.width, newValue.height ) }
+    public var scale:LLFloatv3 {
+        get { return status.scale }
+        set { status.scale = newValue }
     }
     
     public var width:Float {
@@ -230,9 +228,9 @@ extension Lily.Stage.Playground3D.Model.ModelActor
         set { status.deltaPosition = newValue }
     }
     
-    public var deltaScale:LLSizeFloat { 
-        get { return LLSizeFloat( status.deltaScale.x, status.deltaScale.y ) }
-        set { status.deltaScale = LLFloatv2( newValue.width, newValue.height ) }
+    public var deltaScale:LLFloatv3 { 
+        get { return status.deltaScale }
+        set { status.deltaScale = newValue }
     }
     
     public var deltaColor:LLColor { 
@@ -343,81 +341,41 @@ extension Lily.Stage.Playground3D.Model.ModelActor
 
     
     @discardableResult
-    public func scale( _ sz:LLSizeFloat ) -> Self {
-        status.scale = LLFloatv2( sz.width, sz.height )
+    public func scale( _ sc:LLFloatv3 ) -> Self {
+        status.scale = sc
         return self
     }
         
     @discardableResult
-    public func scale( width:Float, height:Float ) -> Self {
-        status.scale = LLFloatv2( width, height )
+    public func scale( scx:Float, scy:Float, scz:Float ) -> Self {
+        status.scale = LLFloatv3( scx, scy, scz )
         return self
     }
     
     @discardableResult
-    public func scale( width:LLFloatConvertable, height:LLFloatConvertable ) -> Self {
-        status.scale = LLFloatv2( width.f, height.f )
+    public func scale( x:LLFloatConvertable, y:LLFloatConvertable, z:LLFloatConvertable ) -> Self {
+        status.scale = LLFloatv3( x.f, y.f, z.f )
         return self
     }
     
     @discardableResult
-    public  func scale( _ calc:( Here.ModelActor )->LLSizeFloat ) -> Self {
-        let sf = calc( self )
-        status.scale = LLFloatv2( sf.width, sf.height )
+    public  func scale( _ calc:( Here.ModelActor )->LLFloatv3 ) -> Self {
+        status.scale = calc( self )
         return self
     }
     
     @discardableResult
-    public func scale( square sz:Float ) -> Self {
-        status.scale = LLFloatv2( sz, sz )
+    public func scale( equal sc:Float ) -> Self {
+        status.scale = LLFloatv3( sc, sc, sc )
         return self
     }
     
     @discardableResult
-    public func scale( square sz:LLFloatConvertable ) -> Self {
-        status.scale = LLFloatv2( sz.f, sz.f )
+    public func scale( equal sc:LLFloatConvertable ) -> Self {
+        status.scale = LLFloatv3( sc.f, sc.f, sc.f )
         return self
     }
 
-    
-    @discardableResult
-    public func width( _ v:Float ) -> Self {
-        status.scale.x = v
-        return self
-    }
-    
-    @discardableResult
-    public func width( _ v:LLFloatConvertable ) -> Self {
-        status.scale.x = v.f
-        return self
-    }
-
-    @discardableResult
-    public func width( _ calc:( Here.ModelActor )->Float ) -> Self {
-        status.scale.x = calc( self )
-        return self
-    }
-
-    
-    @discardableResult
-    public func height( _ v:Float ) -> Self {
-        status.scale.y = v
-        return self
-    }
-    
-    @discardableResult
-    public func height( _ v:LLFloatConvertable ) -> Self {
-        status.scale.y = v.f
-        return self
-    }
-
-    @discardableResult
-    public func height( _ calc:( Here.ModelActor )->Float ) -> Self {
-        status.scale.y = calc( self )
-        return self
-    }
-
-    
     @discardableResult
     public func angle( _ ang:LLAngle ) -> Self {
         status.angle = ang.radians.f
@@ -574,27 +532,26 @@ extension Lily.Stage.Playground3D.Model.ModelActor
 
     
     @discardableResult
-    public func deltaScale( _ dsc:LLSizeFloat ) -> Self {
-        status.deltaScale = LLFloatv2( dsc.width, dsc.height )
+    public func deltaScale( _ dsc:LLFloatv3 ) -> Self {
+        status.deltaScale = dsc
         return self
     }
     
     @discardableResult
-    public func deltaScale( dw:Float, dh:Float ) -> Self {
-        status.deltaScale = LLFloatv2( dw, dh )
+    public func deltaScale( dx:Float, dy:Float, dz:Float ) -> Self {
+        status.deltaScale = LLFloatv3( dx, dy, dz )
         return self
     }
     
     @discardableResult
-    public func deltaScale( dw:LLFloatConvertable, dh:LLFloatConvertable ) -> Self {
-        status.deltaScale = LLFloatv2( dw.f, dh.f )
+    public func deltaScale( dx:LLFloatConvertable, dy:LLFloatConvertable, dz:LLFloatConvertable ) -> Self {
+        status.deltaScale = LLFloatv3( dx.f, dy.f, dz.f )
         return self
     }
     
     @discardableResult
-    public func deltaScale( _ calc:( Here.ModelActor )->LLSizeFloat ) -> Self {
-        let sf = calc( self )
-        status.deltaScale = LLFloatv2( sf.width, sf.height )
+    public func deltaScale( _ calc:( Here.ModelActor )->LLFloatv3 ) -> Self {
+        status.deltaScale = calc( self )
         return self
     }
 
