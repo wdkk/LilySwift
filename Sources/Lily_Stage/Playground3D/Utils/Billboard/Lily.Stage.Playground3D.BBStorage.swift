@@ -84,7 +84,7 @@ extension Lily.Stage.Playground3D
                 LLLogWarning( "Playground3D.BBStorage: ストレージの容量を超えたリクエストです. インデックス=capacityを返します" )
                 return capacity
             }
-            statuses.accessor?[idx] = .reset
+            statuses.accessor?[idx] = .init()
             
             return idx
         }

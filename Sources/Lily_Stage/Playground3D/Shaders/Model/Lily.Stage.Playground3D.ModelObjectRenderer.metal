@@ -39,14 +39,20 @@ struct ModelVOut
 struct ModelUnitStatus
 {
     float4x4 matrix;
-    int      modelIndex;
-    float    _reserved1;
-    float    _reserved2;
-    float    _reserved3;
+    float4   atlasUV;
+    float4   color;
+    float4   deltaColor;
+    float3   position;
+    float3   deltaPosition;
+    float2   scale;
+    float2   deltaScale;
+    float    angle;
+    float    deltaAngle;
     float    life;
     float    deltaLife;
     float    enabled;
     float    state;
+    int      modelIndex;
 };
 
 vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Vs(

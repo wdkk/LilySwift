@@ -44,6 +44,8 @@ extension Lily.Stage.Playground3D
         )
         //-- メモリアラインメント範囲END --//
         
+        public init() {}
+        
         // アクセサ
         public var life:LLFloat { get { lifes.x } set { lifes.x = newValue } }
         public var deltaLife:LLFloat { get { lifes.y } set { lifes.y = newValue } }
@@ -51,25 +53,7 @@ extension Lily.Stage.Playground3D
         public var enabled:Bool { get { states.x > 0.0 } set { states.x = newValue ? 1.0 : 0.0 } }
         public var state:LifeState { get { LifeState( rawValue: states.y )! } set { states.y = newValue.rawValue } }
         
-        public var compositeType:CompositeType { get { CompositeType( rawValue:types.0 )! } set { types.0 = newValue.rawValue } }
-        public var shapeType:ShapeType { get { ShapeType( rawValue:types.1 )! } set { types.1 = newValue.rawValue } }
-        
-        static let reset = BBUnitStatus(
-            matrix: .identity, 
-            atlasUV: .init( 0.0, 0.0, 1.0, 1.0 ),
-            color: LLColor.black.floatv4, 
-            deltaColor: .zero, 
-            position: .zero,
-            _reserved: 0.0,
-            deltaPosition: .zero,
-            _reserved2: 0.0,
-            scale: .init( 1.0, 1.0 ),
-            deltaScale: .zero, 
-            angle: 0.0,
-            deltaAngle: 0.0,
-            lifes: .init( 1.0, 0.0 ), 
-            states: .init( 1.0, 0.0 ), 
-            types: ( 0, 0 ) 
-        )
+        public var compositeType:CompositeType { get { .init( rawValue:types.0 )! } set { types.0 = newValue.rawValue } }
+        public var shapeType:ShapeType { get { .init( rawValue:types.1 )! } set { types.1 = newValue.rawValue } }
     }
 }

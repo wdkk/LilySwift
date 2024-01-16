@@ -33,17 +33,7 @@ extension Lily.Stage.Playground3D
                 .depthCompare( .always )
                 .depthWriteEnabled( false )
             })
-            //makeLightingDepthState()
         }
-        
-        /*
-        func makeLightingDepthState() -> MTLDepthStencilState? {
-            let desc = MTLDepthStencilDescriptor()
-            desc.depthCompareFunction = .always
-            desc.isDepthWriteEnabled = false
-            return device.makeDepthStencilState( descriptor:desc ) 
-        }
-        */
         
         func makeLightingRenderPipelineState( viewCount:Int ) throws -> MTLRenderPipelineState? {
             let desc = MTLRenderPipelineDescriptor()

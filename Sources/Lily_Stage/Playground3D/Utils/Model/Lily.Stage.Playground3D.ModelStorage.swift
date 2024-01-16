@@ -18,13 +18,17 @@ import UIKit
 
 extension Lily.Stage.Playground3D
 {
-    open class ModelStorage
+    open class ModelStorage : Hashable
     {
         public struct ModelGuide
         {
             var modelIndex:Int32
             var meshData:Lily.Stage.Model.Obj?
         }
+        
+        // Hashableの実装
+        public static func == ( lhs:ModelStorage, rhs:ModelStorage ) -> Bool { lhs === rhs }
+        public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
         
         public var models:[String:ModelGuide] = [:]
         public var statuses:Lily.Metal.Buffer<ModelUnitStatus>
