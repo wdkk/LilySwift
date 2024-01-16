@@ -101,7 +101,7 @@ extension Lily.Stage.Playground3D
 
             // Mipsを活用するためにKTXフォーマットを使う
             skyCubeMap = try! Lily.Metal.Texture.create( device:device, assetName:"skyCubeMap" )!
-                .makeTextureView( pixelFormat:.rgba8Unorm )
+            .makeTextureView( pixelFormat:.rgba8Unorm )
         }
     }
 }

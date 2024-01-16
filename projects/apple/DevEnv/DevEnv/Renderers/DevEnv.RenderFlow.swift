@@ -94,7 +94,7 @@ extension DevEnv
                 .viewport( shadowViewport )
                 .scissor( shadowScissor )
                 
-                var vp_matrix = uniforms.current!.uniforms.0.shadowCameraUniforms[ c_idx ].viewProjectionMatrix
+                var vp_matrix = uniforms.current![0].shadowCameraUniforms[ c_idx ].viewProjectionMatrix
                 
                 shadow_encoder?.setVertexBytes( &vp_matrix, length:MemoryLayout<float4x4>.stride, index:3 )
                 

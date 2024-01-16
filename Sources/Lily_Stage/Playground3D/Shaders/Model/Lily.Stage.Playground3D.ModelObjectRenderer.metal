@@ -25,8 +25,11 @@ using namespace Lily::Stage::Shared;
 using namespace Lily::Stage::Model;
 using namespace Lily::Stage::Playground3D;
 
+//// マクロ定義 ////
+#define TOO_FAR 999999.0
+
 // vertexからfragmentへ渡す値
-struct ObjectVOut
+struct ModelVOut
 {
     float4 position [[ position ]];
     float3 color;
@@ -46,35 +49,42 @@ struct ModelUnitStatus
     float    state;
 };
 
-vertex ObjectVOut Lily_Stage_Playground3D_Model_Object_Vs(
+vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Vs(
     const device Obj::Vertex* in [[ buffer(0) ]],
     const device ModelUnitStatus* statuses [[ buffer(1) ]],
     constant GlobalUniformArray & uniformArray [[ buffer(2) ]],
+    constant int& modelIndex [[ buffer(3) ]],
+    ushort amp_id [[ amplification_id ]],
     uint vid [[ vertex_id ]],
-    uint iid [[ instance_id ]],
-    constant float4x4& depthOnlyMatrix[[ buffer(6) ]]
+    uint iid [[ instance_id ]]
 )
 {
-    GlobalUniform uniform = uniformArray.uniforms[0];
-  
-    float4 position = float4( in[vid].position, 1.0 );
+    auto uniform = uniformArray.uniforms[amp_id];
     int idx = iid * 4;  // カメラの数 + レンダラ = 4つ
     
-    auto s = statuses[idx];
+    auto us = statuses[idx];
     
-    float4 world_pos = s.matrix * position;
+    // 一致しないインスタンスは破棄
+    if( us.modelIndex != modelIndex ) { 
+        ModelVOut trush_vout;
+        trush_vout.position = float4( 0, 0, TOO_FAR, 0 );
+        return trush_vout;
+    }
     
-    ObjectVOut out;
+    float4 position = float4( in[vid].position, 1.0 );
+    float4 world_pos = us.matrix * position;
+    
+    ModelVOut out;
     out.position = uniform.cameraUniform.viewProjectionMatrix * world_pos;
     out.color = pow( in[vid].color, 1.0 / 2.2 );    // sRGB -> linear変換
-    out.normal = (s.matrix * float4(in[vid].normal, 0)).xyz;
+    out.normal = (us.matrix * float4(in[vid].normal, 0)).xyz;
 
     return out;
 }
 
 // フラグメントシェーダ
 fragment GBufferFOut Lily_Stage_Playground3D_Model_Object_Fs(
-    const ObjectVOut in [[ stage_in ]]
+    const ModelVOut in [[ stage_in ]]
 )
 {
     BRDFSet brdf;
@@ -90,23 +100,33 @@ fragment GBufferFOut Lily_Stage_Playground3D_Model_Object_Fs(
     return output;
 }
 
-vertex ObjectVOut Lily_Stage_Playground3D_Model_Object_Shadow_Vs(
+vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Shadow_Vs(
     const device Obj::Vertex* in [[ buffer(0) ]],
     const device ModelUnitStatus* statuses [[ buffer(1) ]],
-    const device uint* cascadeIndex [[ buffer(2) ]],
-    constant float4x4& vpMatrix[[ buffer(3) ]],
+    const device uint& cascadeIndex [[ buffer(2) ]],
+    constant int& modelIndex [[ buffer(3) ]],
+    constant float4x4* shadowCameraVPMatrix[[ buffer(6) ]],
+    ushort amp_id [[ amplification_id ]],
     uint vid [[ vertex_id ]],
     uint iid [[ instance_id ]]
 )
 {
-    float4 position = float4( in[vid].position, 1.0 );
-    int idx = iid * 4 + (*cascadeIndex);
+    int idx = iid * 4 + cascadeIndex;
     
-    auto s = statuses[idx];
-    float4 world_pos = s.matrix * position;
+    auto us = statuses[idx];
+    
+    // 一致しないインスタンスは破棄
+    if( us.modelIndex != modelIndex ) { 
+        ModelVOut trush_vout;
+        trush_vout.position = float4( 0, 0, TOO_FAR, 0 );
+        return trush_vout;
+    }
+    
+    float4 position = float4( in[vid].position, 1.0 );
+    float4 world_pos = us.matrix * position;
    
-    ObjectVOut out;
-    out.position = vpMatrix * world_pos;
+    ModelVOut out;
+    out.position = shadowCameraVPMatrix[amp_id] * world_pos;
 
     return out;
 }

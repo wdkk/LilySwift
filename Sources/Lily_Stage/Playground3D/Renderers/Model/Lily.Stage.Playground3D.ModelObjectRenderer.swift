@@ -76,12 +76,13 @@ extension Lily.Stage.Playground3D
             
             renderEncoder?.setRenderPipelineState( obj_pp )
             for (k, v) in storage.models {
-                let idx = v.modelIndex
+                var model_idx = v.modelIndex
                 guard let data = v.meshData, let mesh = data.mesh else { return }
             
                 renderEncoder?.setVertexBuffer( mesh.vertexBuffer, offset:0, index:0 )
                 renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:1 )
                 renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:2 )
+                renderEncoder?.setVertexBytes( &model_idx, length:4, index:3 )
                 
                 renderEncoder?.drawIndexedPrimitives(
                     type: .triangle,
@@ -97,6 +98,7 @@ extension Lily.Stage.Playground3D
         public func drawShadows(
             with renderEncoder:MTLRenderCommandEncoder?, 
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
+            shadowCamVPMatrices:[LLMatrix4x4],
             storage:ModelStorage,
             cascadeIndex:Int 
         )
@@ -107,12 +109,14 @@ extension Lily.Stage.Playground3D
             var cam_idx = cascadeIndex + 1
             
             for (k, v) in storage.models {
-                let idx = v.modelIndex
+                var model_idx = v.modelIndex
                 guard let data = v.meshData, let mesh = data.mesh else { return }
                 
                 renderEncoder?.setVertexBuffer( mesh.vertexBuffer, offset: 0, index: 0 )
                 renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:1 )
                 renderEncoder?.setVertexBytes( &cam_idx, length:4, index:2 )
+                renderEncoder?.setVertexBytes( &model_idx, length:4, index:3 ) 
+                renderEncoder?.setVertexBytes( shadowCamVPMatrices, length:MemoryLayout<LLMatrix4x4>.stride * shadowCamVPMatrices.count, index:6 )
                 
                 renderEncoder?.drawIndexedPrimitives(
                     type: .triangle,

@@ -76,6 +76,7 @@ extension Lily.Stage.Playground3D
                         LLFloatv4( world_pos, 1 )
                     )
                     
+                    acc[iid].modelIndex = 0
                     acc[iid].matrix = world_matrix
                 }
             }
@@ -123,14 +124,18 @@ extension Lily.Stage.Playground3D
                 .viewport( shadowViewport )
                 .scissor( shadowScissor )
                 
-                var vp_matrix = uniforms.current!.uniforms.0.shadowCameraUniforms[ c_idx ].viewProjectionMatrix
-                
-                shadow_encoder?.setVertexBytes( &vp_matrix, length:MemoryLayout<float4x4>.stride, index:3 )
+                // viewCount分の配列で渡す
+                var shadow_cam_vp_matrices:[LLMatrix4x4] = []
+                for amp_idx in 0 ..< viewCount { 
+                    let shadow_cam_vp_matrix = uniforms.current![ amp_idx ].shadowCameraUniforms[ c_idx ].viewProjectionMatrix
+                    shadow_cam_vp_matrices.append( shadow_cam_vp_matrix )
+                }
                 
                 // 陰影の描画
                 modelObjectRenderer?.drawShadows(
                     with:shadow_encoder, 
                     globalUniforms:uniforms,
+                    shadowCamVPMatrices:shadow_cam_vp_matrices,
                     storage:storage,
                     cascadeIndex:c_idx 
                 )

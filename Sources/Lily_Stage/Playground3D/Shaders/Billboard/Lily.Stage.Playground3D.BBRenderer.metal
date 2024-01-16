@@ -22,6 +22,7 @@ using namespace Lily::Stage::Shared;
 
 //// マクロ定義 ////
 #define TOO_FAR 999999.0
+
 //// 列挙子 ////
 enum CompositeType : uint
 {
