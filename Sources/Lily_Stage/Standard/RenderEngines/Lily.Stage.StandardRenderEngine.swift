@@ -29,8 +29,8 @@ extension Lily.Stage
         var renderFlows:[BaseRenderFlow] = []
         
         public var camera = Lily.Stage.Camera(
-            perspectiveWith:LLFloatv3( 61, 26, 56 ),
-            direction: LLFloatv3( -0.76, -0.312, -0.715 ), 
+            perspectiveWith: .init( 61, 36, 56 ),
+            direction: .init( -0.76, -0.312, -0.715 ), 
             up: LLFloatv3( 0, 1, 0 ), 
             viewAngle: Float.pi / 3.0, 
             aspectRatio: 320.0 / 240.0, 
@@ -90,7 +90,7 @@ extension Lily.Stage
                         var shadow_cam = Camera( 
                             parallelWith:center - uni[view_idx].sunDirection * size,
                             direction:uni[view_idx].sunDirection,
-                            up: LLFloatv3( 0, 1, 0 ),
+                            up: .init( 0, 1, 0 ),
                             width:size * 2.0,
                             height:size * 2.0,
                             near:0.0,
@@ -99,7 +99,7 @@ extension Lily.Stage
                         
                         // Stepsizeはテクセルのサイズの倍数
                         let stepsize = size / 64.0
-                        let stepsizes =  LLFloatv3( repeating:stepsize )
+                        let stepsizes = LLFloatv3( repeating:stepsize )
                         shadow_cam.position -= fract( dot( center, shadow_cam.up ) / stepsizes ) * shadow_cam.up * stepsize
                         shadow_cam.position -= fract( dot( center, shadow_cam.right ) / stepsizes ) * shadow_cam.right * stepsize
                         

@@ -61,9 +61,9 @@ extension Lily.Stage
         var renderFlows:[BaseRenderFlow] = []
         
         public var camera = Lily.Stage.Camera(
-            perspectiveWith:LLFloatv3( 0, 0, 0 ),
-            direction: LLFloatv3( 0.0, 0.0, 1.0 ), 
-            up: LLFloatv3( 0, 1, 0 ), 
+            perspectiveWith:.init( 0, 0, 0 ),
+            direction: .init( 0.0, 0.0, 1.0 ), 
+            up: .init( 0, 1, 0 ), 
             viewAngle: Float.pi / 3.0, 
             aspectRatio: 320.0 / 240.0, 
             near: 1.0, 

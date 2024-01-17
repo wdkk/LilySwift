@@ -81,14 +81,16 @@ func design( stage:PGStage ) {
         .position( cx:20.0 + -10.0 * x.f, cy:2.0, cz:20.0 + -10.0 * z.f )
         .scale( equal:8.0 )
         .angle( rx: 0, ry: 120.0 / 180.0 * Float.pi, rz: 0 )
-        .deltaAngle( rx:0, ry:0.01, rz:0 )
+        //.deltaAngle( rx:0, ry:0.01, rz:0 )
     }
     
     for _ in 0 ..< stage.modelRenderFlow.storage.cameraCount {
         ModelObj( assetName:"plane" ) 
+        .position( cx:0.0, cy:-4.0, cz:0.0 )
         .scale( equal:100.0 )
     }
     
+    /*
     for _ in 0 ..< 320 {
         BBAddMask( "mask-smoke" )
         .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
@@ -127,6 +129,7 @@ func design( stage:PGStage ) {
             .life( 1.0 )
         }
     }
+    */
 }
 
 func update( stage:PGStage ) {

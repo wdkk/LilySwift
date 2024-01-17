@@ -57,14 +57,12 @@ static float evaluateShadow(
 {
     constexpr sampler sam( min_filter::linear, mag_filter::linear, compare_func::less );
 
-    float4 lightSpacePos;
-    int c_idx = 0;
     float shadow = 1.0;
     
     // カスケードシャドウの計算
-    for( c_idx = 0; c_idx < Const::shadowCascadesCount; c_idx++ ) {
+    for( int c_idx = 0; c_idx < Const::shadowCascadesCount; c_idx++ ) {
         // ライトの位置
-        lightSpacePos = uniform.shadowCameraUniforms[c_idx].viewProjectionMatrix * float4(worldPosition, 1);
+        float4 lightSpacePos = uniform.shadowCameraUniforms[c_idx].viewProjectionMatrix * float4( worldPosition, 1 );
         lightSpacePos /= lightSpacePos.w;
         // xyzについて全て条件がtrueの時trueになる(= all)
         if( all(lightSpacePos.xyz < 1.0) && all( lightSpacePos.xyz > float3( -1, -1, 0 ) ) ) {
@@ -76,14 +74,14 @@ static float evaluateShadow(
                 for( int i = -1; i <= 1; ++i ) {
                     const float depthBias = -0.0001;   // 同じ平面上にあるものを少しずらすことで同じに扱わないようにする
                     float tap = shadowMap.sample_compare( sam, shadowUv, c_idx, lightSpaceDepth + depthBias, int2(i, j) );
-                    shadow += tap;
+                    shadow += (1.0 - tap);
                 }
             }
             shadow /= 9;
             break;
         }
     }
-        
+    
     return shadow;
 }
 
