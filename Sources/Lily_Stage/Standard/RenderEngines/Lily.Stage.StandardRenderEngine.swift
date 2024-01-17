@@ -30,7 +30,7 @@ extension Lily.Stage
         
         public var camera = Lily.Stage.Camera(
             perspectiveWith: .init( 61, 36, 56 ),
-            direction: .init( -0.76, -0.312, -0.715 ), 
+            direction: .init( -0.7, -0.5, -1 ), 
             up: LLFloatv3( 0, 1, 0 ), 
             viewAngle: Float.pi / 3.0, 
             aspectRatio: 320.0 / 240.0, 

@@ -63,9 +63,13 @@ extension Lily.Stage
                 let va_tan = 1.0 / tanf(viewAngle * 0.5)
                 let ys = va_tan
                 let xs = ys / aspect
-                let zs = -(far + near) / (far - near)
+                
+                //let zs = -(far + near) / (far - near)
+                let zs = far / (near - far)
+                
                 //let ws = -2.0 * (far * near) / (far - near)
                 let ws = near * zs
+                
                 return LLMatrix4x4(
                     LLFloatv4( xs,  0,  0,  0 ),
                     LLFloatv4( 0,  ys,  0,  0 ),
@@ -77,9 +81,11 @@ extension Lily.Stage
             else {
                 let ys = 2.0 / width
                 let xs = ys / aspect
-                let zs = -1.0 / (far - near)
+                let zs = 1.0 / (near - far)
+                
                 //let ws = -2.0 / (far - near)
                 let ws = near * zs
+                
                 return LLMatrix4x4(
                     LLFloatv4( xs,  0,  0,  0 ),
                     LLFloatv4( 0,  ys,  0,  0 ),
