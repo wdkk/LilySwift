@@ -55,6 +55,62 @@ struct ModelUnitStatus
     int      modelIndex;
 };
 
+float4x4 rotateZ( float rad ) {
+    return float4x4(
+        float4( cos( rad ), -sin( rad ), 0, 0 ),
+        float4( sin( rad ),  cos( rad ), 0, 0 ),
+        float4( 0, 0, 1, 0 ),
+        float4( 0, 0, 0, 1 )
+    );
+}  
+
+float4x4 rotateY( float rad ) {
+    return float4x4(
+       float4( cos( rad ), 0, sin( rad ), 0 ),
+       float4( 0, 1, 0, 0 ),
+       float4( -sin( rad ), 0, cos( rad ), 0 ),
+       float4( 0, 0, 0, 1 )
+    );
+}
+
+float4x4 rotateX( float rad ) {
+    return float4x4(
+        float4( 1, 0, 0, 0 ),
+        float4( 0, cos( rad ), -sin( rad ), 0 ),
+        float4( 0, sin( rad ),  cos( rad ), 0 ),
+        float4( 0, 0, 0, 1 )
+    );
+}
+
+float4x4 rotate( float3 rad3 ) {
+    auto Rz = rotateZ( rad3.z );
+    auto Ry = rotateY( rad3.y );
+    auto Rx = rotateX( rad3.x );
+    return Rz * Ry * Rx;
+}
+
+float4x4 scale( float3 sc ) {
+    return float4x4(
+        float4( sc.x, 0, 0, 0 ),
+        float4( 0, sc.y, 0, 0 ),
+        float4( 0, 0, sc.z, 0 ),
+        float4( 0, 0, 0, 1 )
+    );
+}
+
+float4x4 translate( float3 pos ) {
+    return float4x4( 
+        float4( 1, 0, 0, 0 ),
+        float4( 0, 1, 0, 0 ),
+        float4( 0, 0, 1, 0 ),
+        float4( pos, 1 )
+    );
+}
+
+float4x4 affineTransform( float3 trans, float3 sc, float3 ro ) {
+    return translate( trans ) * rotate( ro ) * scale( sc );
+}
+
 vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Vs(
     const device Obj::Vertex* in [[ buffer(0) ]],
     const device ModelUnitStatus* statuses [[ buffer(1) ]],
@@ -80,50 +136,11 @@ vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Vs(
     float4 base_pos = float4( in[vid].position, 1.0 );
     
     // アフィン変換の作成
-    // TODO: 別関数にまとめる
-    // TODO: シャドウの方にも入れる必要あり
     float3 pos = us.position;
     float3 ang = us.angle;
     float3 sc = us.scale;
     
-    float4x4 T = float4x4( 
-        float4( 1, 0, 0, 0 ),
-        float4( 0, 1, 0, 0 ),
-        float4( 0, 0, 1, 0 ),
-        float4( pos, 1 )
-    );
-        
-    float4x4 Rz = float4x4(
-        float4( cos( ang.z ), -sin( ang.z ), 0, 0 ),
-        float4( sin( ang.z ),  cos( ang.z ), 0, 0 ),
-        float4( 0, 0, 1, 0 ),
-        float4( 0, 0, 0, 1 )
-    );
-    
-    float4x4 Ry = float4x4(
-        float4( cos( ang.y ), 0, sin( ang.y ), 0 ),
-        float4( 0, 1, 0, 0 ),
-        float4( -sin( ang.y ), 0, cos( ang.y ), 0 ),
-        float4( 0, 0, 0, 1 )
-    );
-    
-    float4x4 Rx = float4x4(
-        float4( 1, 0, 0, 0 ),
-        float4( 0, cos( ang.x ), -sin( ang.x ), 0 ),
-        float4( 0, sin( ang.x ),  cos( ang.x ), 0 ),
-        float4( 0, 0, 0, 1 )
-    );
-    
-    float4x4 R = Rz * Ry * Rx;
-        
-    float4x4 S = float4x4(
-        float4( sc.x, 0, 0, 0 ),
-        float4( 0, sc.y, 0, 0 ),
-        float4( 0, 0, sc.z, 0 ),
-        float4( 0, 0, 0, 1 )
-    );
-    
-    float4x4 TRS = T * R * S;
+    float4x4 TRS = affineTransform( pos, sc, ang );
     
     float4 world_pos = TRS * base_pos;
     
@@ -176,7 +193,14 @@ vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Shadow_Vs(
     }
     
     float4 position = float4( in[vid].position, 1.0 );
-    float4 world_pos = us.matrix * position;
+    
+    // アフィン変換の作成
+    float3 pos = us.position;
+    float3 ang = us.angle;
+    float3 sc = us.scale;
+    
+    float4x4 TRS = affineTransform( pos, sc, ang );
+    float4 world_pos = TRS * position;
    
     ModelVOut out;
     out.position = shadowCameraVPMatrix[amp_id] * world_pos;
