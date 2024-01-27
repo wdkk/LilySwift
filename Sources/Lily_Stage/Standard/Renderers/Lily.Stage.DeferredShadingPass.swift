@@ -31,20 +31,20 @@ extension Lily.Stage
             shadowPassDesc = .make {
                 $0.depthAttachment.texture = renderTextures.shadowMap
                 $0.depthAttachment
-                .clearDepth( 0.0 )
+                .clearDepth( 1.0 )
                 .action( load:.clear, store:.store )
             }
             // シャドウデプスステートの作成
             shadowDepthState = device.makeDepthStencilState(descriptor: .make {
                 $0
-                .depthCompare( .greater )
+                .depthCompare( .less )
                 .depthWriteEnabled( true )
             })
             
             // G-Bufferのレンダーパスの準備
             GBufferPassDesc = .make {
                 $0.depthAttachment
-                .clearDepth( 0.0 )
+                .clearDepth( 1.0 )
                 .action( load:.clear, store:.store )
                 
                 #if !targetEnvironment(simulator)
@@ -68,7 +68,7 @@ extension Lily.Stage
             // G-BufferのDepth stateの作成
             GBufferDepthState = device.makeDepthStencilState(descriptor: .make {
                 $0
-                .depthCompare( .greater )
+                .depthCompare( .less )
                 .depthWriteEnabled( true )
             })
         }

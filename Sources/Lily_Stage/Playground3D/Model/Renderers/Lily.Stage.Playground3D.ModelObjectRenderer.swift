@@ -49,7 +49,6 @@ extension Lily.Stage.Playground3D.Model
             }
             objectPipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
             
-            
             desc.label = "Playground3D Objects Shadow"
             desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground3D_Model_Object_Shadow_Vs" ) )
             desc.fragmentFunction = nil 

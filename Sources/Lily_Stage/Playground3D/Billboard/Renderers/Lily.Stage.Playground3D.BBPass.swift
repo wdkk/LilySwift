@@ -35,7 +35,7 @@ extension Lily.Stage.Playground3D.Billboard
             // パーティクルのDepth stateの作成
             depthState = device.makeDepthStencilState(descriptor:.make {
                 $0
-                .depthCompare( .greater )
+                .depthCompare( .less )
                 .depthWriteEnabled( false )
             })
         }

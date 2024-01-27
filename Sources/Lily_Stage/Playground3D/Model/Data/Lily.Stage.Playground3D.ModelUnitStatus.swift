@@ -34,7 +34,7 @@ extension Lily.Stage.Playground3D.Model
             0.0     // deltaLife
         )
         fileprivate var states:LLFloatv2 = LLFloatv2(
-            1.0,                       // enabled: 1.0 = true, 0.0 = false
+            0.0,                       // enabled: 1.0 = true, 0.0 = false
             LifeState.trush.rawValue   // state: .active or .trush    
         )
         public var modelIndex:Int32

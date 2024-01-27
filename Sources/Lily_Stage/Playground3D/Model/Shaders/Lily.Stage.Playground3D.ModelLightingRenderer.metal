@@ -74,7 +74,7 @@ static float evaluateShadow(
                 for( int i = -1; i <= 1; ++i ) {
                     const float depthBias = -0.0001;   // 同じ平面上にあるものを少しずらすことで同じに扱わないようにする
                     float tap = shadowMap.sample_compare( sam, shadowUv, c_idx, lightSpaceDepth + depthBias, int2(i, j) );
-                    shadow += (1.0 - tap);
+                    shadow += tap;
                 }
             }
             shadow /= 9;
@@ -94,6 +94,8 @@ vertex LightingVOut Lily_Stage_Playground3D_Model_Lighting_Vs( uint vid [[vertex
 {
     const float2 vertices[] = {
         float2(-1, -1),
+        //float2(-1,  3),
+        //float2( 3, -1)
         float2( 3, -1),
         float2(-1,  3)
     };

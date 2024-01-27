@@ -115,7 +115,6 @@ extension Lily.Stage.Playground3D.Model
                 shadow_encoder?
                 .label( "Playground3D Shadow Cascade \(c_idx)" )
                 .cullMode( .front )
-                .frontFacing( .counterClockwise )
                 .depthClipMode( .clamp )
                 .depthStencilState( modelPass.shadowDepthState )
                 .viewport( shadowViewport )
@@ -148,8 +147,8 @@ extension Lily.Stage.Playground3D.Model
             
             deferred_shading_encoder?
             .label( "Playground3D G-Buffer Render" )
-            .cullMode( .none )
-            .frontFacing( .counterClockwise )
+            .cullMode( .front )
+            //.frontFacing( .counterClockwise )
             .depthStencilState( modelPass.GBufferDepthState! )
             .viewports( viewports )
             .vertexAmplification( count:viewCount, viewports:viewports )

@@ -335,7 +335,7 @@ extension Lily.Stage.Playground2D
             );
 
             PlaneVOut vout;
-            vout.pos = localUniform.projectionMatrix * float4( v_coord, 1.0 - us.zIndex / Z_INDEX_MAX, 1 );
+            vout.pos = localUniform.projectionMatrix * float4( v_coord, us.zIndex / Z_INDEX_MAX, 1 );
             vout.xy = vin.xy;
             vout.texUV = tex_uv;
             vout.uv = vin.uv;

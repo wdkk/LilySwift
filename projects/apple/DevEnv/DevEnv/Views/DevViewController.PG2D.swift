@@ -105,6 +105,28 @@ func design( screen:PGScreen ) {
            .life( 1.0 )
        }
     }
+    
+    PGCircle()
+    .scale( square:200 )
+    .position( cx: -50, cy: 150 ) 
+    .color( .red )
+    .zIndex( 1 )
+
+    PGCircle()
+    .scale( square:200 )
+    .position( cx: 50, cy: 150 ) 
+    .color( .blue )
+    .zIndex( 2 )
+
+    PGAddCircle()
+    .scale( square:200 )
+    .position( cx: -50, cy: -150 ) 
+    .color( .red )
+
+    PGAddCircle()
+    .scale( square:200 )
+    .position( cx: 50, cy: -150 ) 
+    .color( .blue )
 }
  
 func update( screen:PGScreen ) {

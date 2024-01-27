@@ -34,7 +34,7 @@ extension Lily.Stage
             // パーティクルのDepth stateの作成
             depthState = device.makeDepthStencilState(descriptor:.make {
                 $0
-                .depthCompare( .greater )
+                .depthCompare( .less )
                 .depthWriteEnabled( false )
             })
         }

@@ -167,30 +167,10 @@ extension Lily.Stage.Playground3D.Model.ModelActor
         get { return status.position }
         set { status.position = newValue }
     }
-    
-    public var cx:LLFloat {
-        get { return status.position.x }
-        set { status.position.x = newValue }
-    }
-    
-    public var cy:LLFloat {
-        get { return status.position.y }
-        set { status.position.y = newValue }
-    }
-    
+
     public var scale:LLFloatv3 {
         get { return status.scale }
         set { status.scale = newValue }
-    }
-    
-    public var width:Float {
-        get { return status.scale.x }
-        set { status.scale.x = newValue }
-    }
-    
-    public var height:Float {
-        get { return status.scale.y }
-        set { status.scale.y = newValue }
     }
     
     public var angle:LLFloatv3 {

@@ -29,17 +29,15 @@ extension Lily.Stage
         var renderFlows:[BaseRenderFlow] = []
         
         public var camera = Lily.Stage.Camera(
-            perspectiveWith: .init( 61, 36, 56 ),
-            direction: .init( -0.7, -0.5, -1 ), 
+            perspectiveWith: .init( 0, 42, 100 ),
+            direction: .init( 0.0, 0.5, 1.0 ), 
             up: LLFloatv3( 0, 1, 0 ), 
             viewAngle: Float.pi / 3.0, 
             aspectRatio: 320.0 / 240.0, 
             near: 5.0, 
             far: 600.0
         )
-    
-        //var cursorPosition:LLFloatv2 = .zero
-        
+
         public init( device:MTLDevice, size:CGSize, renderFlows:[BaseRenderFlow], buffersInFlight:Int ) {
             self.device = device
             self.commandQueue = device.makeCommandQueue()

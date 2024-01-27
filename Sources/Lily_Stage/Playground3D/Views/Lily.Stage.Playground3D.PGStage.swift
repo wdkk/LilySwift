@@ -41,11 +41,7 @@ extension Lily.Stage.Playground3D
         public var environment:Lily.Stage.ShaderEnvironment
         public var particleCapacity:Int
         public var textures:[String]
-        
-        //public let touchManager = PGTouchManager()
-        //public var touches:[PGTouch] { return touchManager.touches }
-        //public var releases:[PGTouch] { return touchManager.releases }
-        
+
         public var minX:Double { -(metalView.width * 0.5) }
         public var maxX:Double { metalView.width * 0.5 }
         public var minY:Double { -(metalView.height * 0.5) }
@@ -264,14 +260,12 @@ extension Lily.Stage.Playground3D
         #if os(macOS)
         open override func mouseDragged(with event: NSEvent) {
             super.mouseDragged(with: event)
-            mouseDrag.x = event.deltaX.f
-            mouseDrag.y = event.deltaY.f
+            mouseDrag = .init( event.deltaX.f, event.deltaY.f )
         }
 
         open override func rightMouseDragged(with event: NSEvent) {
             super.rightMouseDragged(with: event)
-            mouseDrag.x = event.deltaX.f
-            mouseDrag.y = event.deltaY.f
+            mouseDrag = .init( event.deltaX.f, event.deltaY.f )
         }
         
         #else

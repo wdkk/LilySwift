@@ -166,7 +166,7 @@ fragment GBufferFOut Lily_Stage_Playground3D_Model_Object_Fs(
     brdf.shadow = 0.f;
 
     GBufferFOut output = BRDFToGBuffers( brdf );
-    output.GBufferDepth = in.position.z;
+    output.GBufferDepth = -in.position.z;
     return output;
 }
 

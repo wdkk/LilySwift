@@ -56,7 +56,8 @@ class DevViewController
             device:device,
             environment:.metallib,
             particleCapacity:10000,
-            textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+            textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
+            modelAssets: [ "plane", "acacia1", "cottonwood1", "palmtree1" ]
         )
     }
     
@@ -72,21 +73,23 @@ class DevViewController
 }
 
 func design( stage:PGStage ) {   
-    for iid in 0 ..< 64 * stage.modelRenderFlow.storage.cameraCount {
+    for iid in 0 ..< 81 * stage.modelRenderFlow.storage.cameraCount {
         let idx = iid / stage.modelRenderFlow.storage.cameraCount
-        let x = idx / 8
-        let z = idx % 8
+        let x = idx / 9
+        let z = idx % 9
         
         ModelObj( assetName:"acacia1" )
-        .position( cx:20.0 + -10.0 * x.f, cy:2.0, cz:20.0 + -10.0 * z.f )
+        .position( cx:40.0 - 10.0 * x.f, cy:2.0, cz:40.0 - 10.0 * z.f )
         .scale( equal:8.0 )
-        .angle( rx: 0, ry: 120.0 / 180.0 * Float.pi, rz: 0 )
-        //.deltaAngle( rx:0, ry:0.01, rz:0 )
     }
     
     for _ in 0 ..< stage.modelRenderFlow.storage.cameraCount {
+        ModelObj( assetName:"cottonwood1" )
+        .position( cx:0.0, cy:2.0, cz:60.0 )
+        .scale( equal:8.0 )
+        
         ModelObj( assetName:"plane" ) 
-        .position( cx:0.0, cy:-4.0, cz:0.0 )
+        .position( cx:-25.0, cy:-10.0, cz:-25.0 )
         .scale( equal:100.0 )
     }
     

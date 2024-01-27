@@ -28,7 +28,7 @@ extension Lily.Stage.Playground2D.Plane
             passDesc = .make {
                 $0.depthAttachment
                 .action( load:.clear, store:.store )
-                .clearDepth( 0.0 )
+                .clearDepth( 1.0 )
                 // テクスチャに落とすことにしたのでストアする
                 $0.colorAttachments[0].action( load:.clear, store:.store ).clearColor( .darkGrey )
                 // colorAttachments[1]が毎フレームのバックバッファの受け取り口
@@ -38,7 +38,7 @@ extension Lily.Stage.Playground2D.Plane
             // Depth stateの作成
             depthState = device.makeDepthStencilState( descriptor:.make {
                 $0
-                .depthCompare( .greaterEqual )
+                .depthCompare( .lessEqual )
                 .depthWriteEnabled( true )
             } )
         }

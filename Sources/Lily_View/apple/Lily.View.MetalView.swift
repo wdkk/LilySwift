@@ -121,7 +121,7 @@ extension Lily.View
             r_pass_desc.depthAttachment.texture = depthTexture
             r_pass_desc.depthAttachment.loadAction = .clear
             r_pass_desc.depthAttachment.storeAction = .store
-            r_pass_desc.depthAttachment.clearDepth = 0.0
+            r_pass_desc.depthAttachment.clearDepth = 1.0
             // ステンシルの設定
             r_pass_desc.stencilAttachment.texture = depthTexture
             r_pass_desc.stencilAttachment.loadAction = .clear

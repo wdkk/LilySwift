@@ -73,7 +73,6 @@ extension Lily.Stage
                     LLFloatv4( 0,   0, ws,  0 ) 
                 )
             }
-            // TODO: シャドウカメラ用の行列?
             else {
                 let ys = 2.0 / width
                 let xs = ys / aspect
@@ -90,7 +89,7 @@ extension Lily.Stage
         }
         
         public func calcOrientationMatrix() -> LLMatrix4x4 {
-            return Camera.invMatrixLookat( .zero, self.direction, self.up )
+            return Camera.invMatrixLookat( .zero, direction, up )
         }
         
         public mutating func rotate( on axis:LLFloatv3, radians:Float ) {
@@ -125,8 +124,8 @@ extension Lily.Stage
         }
         
         public static func invMatrixLookat( _ eye:LLFloatv3, _ to:LLFloatv3, _ up:LLFloatv3 ) -> LLMatrix4x4 {
-            //let z = normalize( to - eye )
-            let z = normalize( eye - to )
+            let z = normalize( to - eye )
+            //let z = normalize( eye - to )
             let x = normalize( cross( up, z ) )
             let y = cross( z, x )
             let t = LLFloatv3( -dot(x, eye), -dot(y, eye), -dot(z, eye) )
