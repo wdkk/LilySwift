@@ -242,11 +242,53 @@ extension Lily.Stage.Playground3D
         
         open override func loop() {
             super.loop()
+            
+            changeCameraStatus()
+            
             metalView.drawMetal()
         }
         
         open override func teardown() {
             endLooping()
         }
+        
+    
+        var mouseDrag = LLFloatv2()
+        
+        func changeCameraStatus() {
+            renderEngine?.camera.rotate( on:LLFloatv3( 0, 1, 0 ), radians: mouseDrag.x * 0.02 )
+            renderEngine?.camera.rotate( on:renderEngine!.camera.left, radians: mouseDrag.y * 0.02 )
+            mouseDrag = .zero
+        }
+        
+        #if os(macOS)
+        open override func mouseDragged(with event: NSEvent) {
+            super.mouseDragged(with: event)
+            mouseDrag.x = event.deltaX.f
+            mouseDrag.y = event.deltaY.f
+        }
+
+        open override func rightMouseDragged(with event: NSEvent) {
+            super.rightMouseDragged(with: event)
+            mouseDrag.x = event.deltaX.f
+            mouseDrag.y = event.deltaY.f
+        }
+        
+        #else
+        open override func touchesBegan( _ touches: Set<UITouch>, with event: UIEvent? ) {
+            super.touchesBegan( touches, with:event )
+        }
+
+        open override func touchesMoved( _ touches: Set<UITouch>, with event: UIEvent? ) {
+            super.touchesMoved( touches, with:event )
+            let l0 = touches.first!.previousLocation( in:self.view )
+            let l1 = touches.first!.location( in:self.view )
+            mouseDrag = LLFloatv2( Float(l0.x - l1.x), Float(l0.y - l1.y) )
+        }
+
+        open override func touchesEnded( _ touches: Set<UITouch>, with event: UIEvent? ) {
+            super.touchesEnded( touches, with:event )
+        }
+        #endif
     }
 }
