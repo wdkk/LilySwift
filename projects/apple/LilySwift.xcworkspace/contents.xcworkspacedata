@@ -10,6 +10,13 @@
    <FileRef
       location = "group:../../LICENSE">
    </FileRef>
+   <Group
+      location = "group:LICENSE"
+      name = "LICENSES">
+      <FileRef
+         location = "group:/Users/kengo/core/wd/dev/LilySwift/Projects/apple/LICENSE/Apple.txt">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:../../README.md">
    </FileRef>
