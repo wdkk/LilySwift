@@ -17,8 +17,8 @@ extension Lily.Stage.Playground3D.Model
     {        
         public var device: MTLDevice
         
-        var pipeline: MTLRenderPipelineState?
-        var depthState: MTLDepthStencilState?
+        public var pipeline: MTLRenderPipelineState?
+        public var depthState: MTLDepthStencilState?
         
         public var skyCubeMap: MTLTexture?
 
@@ -35,7 +35,7 @@ extension Lily.Stage.Playground3D.Model
             })
         }
         
-        func makeLightingRenderPipelineState( viewCount:Int ) throws -> MTLRenderPipelineState? {
+        public func makeLightingRenderPipelineState( viewCount:Int ) throws -> MTLRenderPipelineState? {
             let desc = MTLRenderPipelineDescriptor()
             let library = try! Lily.Stage.metalLibrary( of:device )
             

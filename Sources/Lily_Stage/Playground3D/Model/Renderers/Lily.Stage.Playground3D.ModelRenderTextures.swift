@@ -14,25 +14,25 @@ import simd
 
 extension Lily.Stage.Playground3D.Model
 {   
-    static let IDX_OUTPUT = 0
-    static let IDX_GBUFFER_0 = 1
-    static let IDX_GBUFFER_1 = 2
-    static let IDX_GBUFFER_2 = 3
-    static let IDX_GBUFFER_DEPTH = 4
-    static let IDX_SHADOW_MAP = 5
-    static let IDX_CUBE_MAP = 6
+    public static let IDX_OUTPUT = 0
+    public static let IDX_GBUFFER_0 = 1
+    public static let IDX_GBUFFER_1 = 2
+    public static let IDX_GBUFFER_2 = 3
+    public static let IDX_GBUFFER_DEPTH = 4
+    public static let IDX_SHADOW_MAP = 5
+    public static let IDX_CUBE_MAP = 6
     
     open class ModelRenderTextures
     { 
         var device:MTLDevice
         
         // G-Buffer
-        var GBuffer0: MTLTexture? // albedo( r, g, b ) 
-        var GBuffer1: MTLTexture? // normal( x, y, z )
-        var GBuffer2: MTLTexture? // specPower, specIntensity, shadow, ambient occulusion
-        var GBufferDepth: MTLTexture?
+        public var GBuffer0: MTLTexture? // albedo( r, g, b ) 
+        public var GBuffer1: MTLTexture? // normal( x, y, z )
+        public var GBuffer2: MTLTexture? // specPower, specIntensity, shadow, ambient occulusion
+        public var GBufferDepth: MTLTexture?
         // シャドウテクスチャ
-        var shadowMap: MTLTexture?
+        public var shadowMap: MTLTexture?
         
         public init( device:MTLDevice ) {
             self.device = device
@@ -92,7 +92,7 @@ extension Lily.Stage.Playground3D.Model
         }
         
         // シャドウマップテクスチャの作成
-        func createShadowMap( size:LLSizeInt, arrayLength:Int ) -> MTLTexture? {
+        public func createShadowMap( size:LLSizeInt, arrayLength:Int ) -> MTLTexture? {
             let desc = MTLTextureDescriptor.texture2DDescriptor(
                 pixelFormat: Lily.Stage.BufferFormats.shadowDepth,
                 width: size.width, 
@@ -112,9 +112,9 @@ extension Lily.Stage.Playground3D.Model
     }
 }
 
-public extension Lily.Stage.Playground3D.Model.ModelRenderTextures
+extension Lily.Stage.Playground3D.Model.ModelRenderTextures
 {
-    func shadowViewport() -> MTLViewport {
+    public func shadowViewport() -> MTLViewport {
         return MTLViewport(
             originX: 0,
             originY: 0, 
@@ -125,7 +125,7 @@ public extension Lily.Stage.Playground3D.Model.ModelRenderTextures
         )
     }
     
-    func shadowScissor() -> MTLScissorRect {
+    public func shadowScissor() -> MTLScissorRect {
         return MTLScissorRect(
             x: 0,
             y: 0, 

@@ -19,14 +19,14 @@ extension Lily.Stage.Playground3D.Model
         weak var modelRenderTextures:ModelRenderTextures?
         weak var mediumTexture:Lily.Stage.Playground3D.MediumTexture?
         
-        var modelPass:ModelPass?
+        public var modelPass:ModelPass?
         
         public private(set) var storage:ModelStorage
         
-        var modelObjectRenderer:ModelObjectRenderer?
-        var modelLightingRenderer:ModelLightingRenderer?
+        public var modelObjectRenderer:ModelObjectRenderer?
+        public var modelLightingRenderer:ModelLightingRenderer?
 
-        let viewCount:Int
+        public let viewCount:Int
         
         public init(
             device:MTLDevice, 
