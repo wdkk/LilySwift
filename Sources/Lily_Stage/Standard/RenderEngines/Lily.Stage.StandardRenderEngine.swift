@@ -43,6 +43,7 @@ extension Lily.Stage
             self.commandQueue = device.makeCommandQueue()
             self.maxBuffersInFlight = buffersInFlight
             
+            self.uniforms = .init( device:device, ringSize:maxBuffersInFlight )
             
             self.renderFlows = renderFlows
             
