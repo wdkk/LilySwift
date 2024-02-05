@@ -47,12 +47,16 @@ extension Lily.Stage.Shared
         public var ambientLightScale:Float = 0.0
         
         public var frameTime:Float = 0.0
+        
+        public init() {}
     }
     
     // Vision用のGlobalUniform
     public struct GlobalUniformArray
     {
-        public var uniforms:( GlobalUniform, GlobalUniform )
+        public var uniforms:( GlobalUniform, GlobalUniform ) = ( .init(), .init() )
+        
+        public init() {}
         
         public subscript( index:Int ) -> GlobalUniform {
             get { 
