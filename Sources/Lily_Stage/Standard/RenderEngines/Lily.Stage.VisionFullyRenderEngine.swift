@@ -232,16 +232,8 @@ extension Lily.Stage
                         let stepsize = size / 64.0
                         shadow_cam.position -= fract( dot( center, shadow_cam.up ) / LLFloatv3( repeating:stepsize ) ) * shadow_cam.up * stepsize
                         shadow_cam.position -= fract( dot( center, shadow_cam.right ) / LLFloatv3( repeating:stepsize ) ) * shadow_cam.right * stepsize
-                        
-                        let view_matrix = shadow_cam.calcViewMatrix()
-                        let projection_matrix = shadow_cam.calcProjectionMatrix()
-                        let orientation_matrix = shadow_cam.calcOrientationMatrix()
-                        
-                        uni[view_idx].shadowCameraUniforms[c_idx] = Shared.CameraUniform( 
-                            viewMatrix:view_matrix,
-                            projectionMatrix:projection_matrix,
-                            orientationMatrix:orientation_matrix
-                        )
+                       
+                        uni[view_idx].shadowCameraUniforms[c_idx] = shadow_cam.uniform
                     }
                 }
             }

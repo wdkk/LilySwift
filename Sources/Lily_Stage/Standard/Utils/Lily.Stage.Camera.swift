@@ -183,7 +183,7 @@ extension Lily.Stage
             self.orthogonalize( fromForward:direction )
         }
         
-        var uniform:Lily.Stage.Shared.CameraUniform {
+        public var uniform:Lily.Stage.Shared.CameraUniform {
             let vM = self.calcViewMatrix()
             let projM = self.calcProjectionMatrix()
             let orientationM = self.calcOrientationMatrix()
