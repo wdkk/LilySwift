@@ -57,7 +57,7 @@ extension Lily.Stage
                         
             uniforms.update { uni in
                 for view_idx in 0 ..< viewCount {
-                    // ビューマトリックスの更新0
+                    // ビューマトリックスの更新
                     let vM = camera.calcViewMatrix()
                     
                     let projM = camera.calcProjectionMatrix()
