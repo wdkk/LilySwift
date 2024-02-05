@@ -18,6 +18,8 @@ extension Lily.Stage
     {
         public var screenSize:LLSizeFloat = .zero
         
+        public init() {}
+        
         // グローバルUniformの基本情報を作る
         public func makeGlobalUniform( 
             onFrame:UInt,
