@@ -16,10 +16,10 @@ extension Lily.Stage
 {       
     open class BaseRenderEngine
     {
-        var screenSize:LLSizeFloat = .zero
+        public var screenSize:LLSizeFloat = .zero
         
         // グローバルUniformの基本情報を作る
-        func makeGlobalUniform( 
+        public func makeGlobalUniform( 
             onFrame:UInt,
             cameraUniform:Shared.CameraUniform,
             screenSize:LLSizeFloat
@@ -43,7 +43,7 @@ extension Lily.Stage
         }
         
         // カスケードシャドウの距離を三段階作る
-        func makeCascadeDistances( sizes:[Float], viewAngle:Float ) -> [Float] {
+        public func makeCascadeDistances( sizes:[Float], viewAngle:Float ) -> [Float] {
             let tan_half_angle = tanf( viewAngle * 0.5 ) * sqrtf( 2.0 )
             let half_angle = atanf( tan_half_angle )
             let sine_half_angle = sinf( half_angle )

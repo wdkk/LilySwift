@@ -22,6 +22,8 @@ extension Lily.Stage.Shared
         public var invViewProjectionMatrix:LLMatrix4x4 = .identity
         public var invProjectionMatrix:LLMatrix4x4 = .identity
         public var invViewMatrix:LLMatrix4x4 = .identity
+        public var frustumPlanes: (LLFloatv4, LLFloatv4, LLFloatv4, LLFloatv4, LLFloatv4, LLFloatv4) = 
+            ( .zero, .zero, .zero, .zero, .zero, .zero )
         
         public init() {}
         
@@ -42,6 +44,18 @@ extension Lily.Stage.Shared
             self.invViewProjectionMatrix = self.viewProjectionMatrix.inverse
             self.invProjectionMatrix = projectionMatrix.inverse
             self.invViewMatrix = viewMatrix.inverse
+            
+            let transp_vpm = self.viewProjectionMatrix.transpose
+            self.frustumPlanes.0 = planeNormalize(transp_vpm.columns.3 - transp_vpm.columns.0)
+            self.frustumPlanes.1 = planeNormalize(transp_vpm.columns.3 + transp_vpm.columns.0)
+            self.frustumPlanes.2 = planeNormalize(transp_vpm.columns.3 - transp_vpm.columns.1)
+            self.frustumPlanes.3 = planeNormalize(transp_vpm.columns.3 + transp_vpm.columns.1)
+            self.frustumPlanes.4 = planeNormalize(transp_vpm.columns.3 - transp_vpm.columns.2)
+            self.frustumPlanes.5 = planeNormalize(transp_vpm.columns.3 + transp_vpm.columns.2)
+        }
+        
+        fileprivate func planeNormalize( _ inPlane:LLFloatv4 ) -> LLFloatv4 {
+            return inPlane / simd_length( inPlane.xyz )
         }
     }
 }

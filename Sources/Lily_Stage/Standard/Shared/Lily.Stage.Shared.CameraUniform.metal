@@ -28,6 +28,7 @@ namespace Lily
                 simd::float4x4 invViewProjectionMatrix;
                 simd::float4x4 invProjectionMatrix;
                 simd::float4x4 invViewMatrix;
+                simd::float4   frustumPlanes[6];
             };
         };
     };
