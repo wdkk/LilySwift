@@ -21,7 +21,7 @@ extension Lily.Stage
         public init() {}
         
         // グローバルUniformの基本情報を作る
-        public func makeGlobalUniform( 
+        open func makeGlobalUniform( 
             onFrame:UInt,
             cameraUniform:Shared.CameraUniform,
             screenSize:LLSizeFloat
