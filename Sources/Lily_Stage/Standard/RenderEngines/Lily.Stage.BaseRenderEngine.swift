@@ -35,7 +35,7 @@ extension Lily.Stage
             guni.invScreenSize = LLFloatv2( 1.0 / screenSize.width, 1.0 / screenSize.height )
             guni.aspect = screenSize.width / screenSize.height
             
-            guni.sunDirection = normalize( LLFloatv3( 1, 0.7, 0.5 ) )
+            guni.sunDirection = normalize( LLFloatv3( 1, -0.7, 0.5 ) )
             guni.projectionYScale = 1.73205066
             guni.ambientOcclusionContrast = 3
             guni.ambientOcclusionScale = 0.800000011
