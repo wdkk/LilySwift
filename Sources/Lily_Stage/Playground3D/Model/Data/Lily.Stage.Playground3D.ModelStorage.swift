@@ -22,8 +22,8 @@ extension Lily.Stage.Playground3D.Model
     {
         public struct ModelGuide
         {
-            var modelIndex:Int32
-            var meshData:Lily.Stage.Model.Obj?
+            public var modelIndex:Int32
+            public var meshData:Lily.Stage.Model.Obj?
         }
         
         // Hashableの実装
