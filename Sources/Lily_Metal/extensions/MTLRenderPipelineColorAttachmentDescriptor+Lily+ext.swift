@@ -13,9 +13,9 @@
 import Foundation
 import Metal
 
-public extension MTLRenderPipelineColorAttachmentDescriptor
+extension MTLRenderPipelineColorAttachmentDescriptor
 {
-    enum BlendType : Int
+    public enum BlendType : Int
     {
         case none
         case alphaBlend
@@ -25,7 +25,7 @@ public extension MTLRenderPipelineColorAttachmentDescriptor
         case min
     }
     
-    func composite( type:BlendType )
+    public func composite( type:BlendType )
     {
         switch type {
         // 合成なし

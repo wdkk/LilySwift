@@ -11,34 +11,34 @@
 import Foundation
 import Metal
 
-public extension MTLRenderPassColorAttachmentDescriptor
+extension MTLRenderPassColorAttachmentDescriptor
 {
     @discardableResult
-    func clearColor( _ color:MTLClearColor ) -> Self {
+    public func clearColor( _ color:MTLClearColor ) -> Self {
         self.clearColor = color
         return self
     }
     
     @discardableResult
-    func clearColor( _ color:LLColor ) -> Self {
+    public func clearColor( _ color:LLColor ) -> Self {
         self.clearColor = color.metalColor
         return self
     }
 
     @discardableResult
-    func loadAction( _ action:MTLLoadAction ) -> Self {
+    public func loadAction( _ action:MTLLoadAction ) -> Self {
         self.loadAction = action
         return self
     }
 
     @discardableResult
-    func storeAction( _ action:MTLStoreAction ) -> Self {
+    public func storeAction( _ action:MTLStoreAction ) -> Self {
         self.storeAction = action
         return self
     }
     
     @discardableResult
-    func action( load:MTLLoadAction, store:MTLStoreAction ) -> Self {
+    public func action( load:MTLLoadAction, store:MTLStoreAction ) -> Self {
         self.loadAction = load
         self.storeAction = store
         return self

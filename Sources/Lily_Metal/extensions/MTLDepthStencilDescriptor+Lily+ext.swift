@@ -20,13 +20,13 @@ extension MTLDepthStencilDescriptor
     }
     
     @discardableResult
-    func depthCompare( _ function:MTLCompareFunction ) -> Self {
+    public func depthCompare( _ function:MTLCompareFunction ) -> Self {
         self.depthCompareFunction = function
         return self
     }
     
     @discardableResult
-    func depthWriteEnabled( _ enabled:Bool ) -> Self {
+    public func depthWriteEnabled( _ enabled:Bool ) -> Self {
         self.isDepthWriteEnabled = enabled
         return self
     }

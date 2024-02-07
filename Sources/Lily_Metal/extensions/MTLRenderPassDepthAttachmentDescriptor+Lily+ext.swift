@@ -11,28 +11,28 @@
 import Foundation
 import Metal
 
-public extension MTLRenderPassDepthAttachmentDescriptor
+extension MTLRenderPassDepthAttachmentDescriptor
 {
     @discardableResult
-    func clearDepth( _ depth:Double ) -> Self {
+    public func clearDepth( _ depth:Double ) -> Self {
         self.clearDepth = depth
         return self
     }
 
     @discardableResult
-    func loadAction( _ action:MTLLoadAction ) -> Self {
+    public func loadAction( _ action:MTLLoadAction ) -> Self {
         self.loadAction = action
         return self
     }
 
     @discardableResult
-    func storeAction( _ action:MTLStoreAction ) -> Self {
+    public func storeAction( _ action:MTLStoreAction ) -> Self {
         self.storeAction = action
         return self
     }
     
     @discardableResult
-    func action( load:MTLLoadAction, store:MTLStoreAction ) -> Self {
+    public func action( load:MTLLoadAction, store:MTLStoreAction ) -> Self {
         self.loadAction = load
         self.storeAction = store
         return self

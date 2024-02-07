@@ -13,13 +13,13 @@
 import Foundation
 import Metal
 
-public extension MTLRenderPipelineDescriptor 
+extension MTLRenderPipelineDescriptor 
 {
-    func vertexShader( _ shader:Lily.Metal.Shader ) {
+    public func vertexShader( _ shader:Lily.Metal.Shader ) {
         self.vertexFunction = shader.function
     }
     
-    func fragmentShader( _ shader:Lily.Metal.Shader ) {
+    public func fragmentShader( _ shader:Lily.Metal.Shader ) {
         self.fragmentFunction = shader.function
     }
 }    

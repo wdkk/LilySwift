@@ -13,13 +13,13 @@
 import Foundation
 import Metal
 
-public extension MTLComputePipelineDescriptor 
+extension MTLComputePipelineDescriptor 
 {
-    static var `default`:MTLComputePipelineDescriptor {
+    public static var `default`:MTLComputePipelineDescriptor {
         return MTLComputePipelineDescriptor()
     }
     
-    func computeShader( _ shader:Lily.Metal.Shader ) {
+    public func computeShader( _ shader:Lily.Metal.Shader ) {
         self.computeFunction = shader.function
     }
 }    
