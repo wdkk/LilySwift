@@ -18,7 +18,7 @@ extension Lily.Stage.Playground3D
     { 
         var device:MTLDevice
         
-        var resultTexture: MTLTexture?
+        public var resultTexture: MTLTexture?
         
         public init( device:MTLDevice ) {
             self.device = device
@@ -51,7 +51,7 @@ extension Lily.Stage.Playground3D
         }
         
         // シャドウマップテクスチャの作成
-        func createShadowMap( size:LLSizeInt, arrayLength:Int ) -> MTLTexture? {
+        public func createShadowMap( size:LLSizeInt, arrayLength:Int ) -> MTLTexture? {
             let desc = MTLTextureDescriptor.texture2DDescriptor(
                 pixelFormat: Lily.Stage.BufferFormats.shadowDepth,
                 width: size.width, 
