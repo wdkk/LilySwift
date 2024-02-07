@@ -25,8 +25,6 @@ extension Lily.Stage.Playground3D.Model
         public var objectPipeline: MTLRenderPipelineState?
         public var shadowPipeline: MTLRenderPipelineState?
         
-        public let cameraCount:Int = Lily.Stage.Shared.Const.shadowCascadesCount + 1
-
         public init( device:MTLDevice, viewCount:Int ) {
             self.device = device
             let library = try! Lily.Stage.metalLibrary( of:device )

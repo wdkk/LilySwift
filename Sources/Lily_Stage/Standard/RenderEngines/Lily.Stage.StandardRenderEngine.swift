@@ -110,7 +110,7 @@ extension Lily.Stage
         public func changeScreenSize( size:CGSize ) {
             screenSize = size.llSizeFloat
             renderFlows.forEach { $0.changeSize( scaledSize:size ) }
-            camera.aspect = (size.width / size.height).f    // カメラのアス比を更新
+            camera.aspect = (size.width / size.height).f
         }
 
         public func update( 
@@ -138,8 +138,8 @@ extension Lily.Stage
                 originY:0,
                 width:screenSize.width.d,
                 height:screenSize.height.d, 
-                znear:1.0,
-                zfar:0.0 
+                znear:0.0,
+                zfar:1.0 
             )]
             
             let viewCount = 1
