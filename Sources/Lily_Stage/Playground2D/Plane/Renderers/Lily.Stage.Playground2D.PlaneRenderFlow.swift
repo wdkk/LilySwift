@@ -18,8 +18,7 @@ extension Lily.Stage.Playground2D.Plane
     {
         var pass:PlanePass?
         weak var mediumTextures:Lily.Stage.Playground2D.MediumTextures?
-        
-        public private(set) var storage:PlaneStorage
+        weak var storage:PlaneStorage?
         
         var alphaRenderer:PlaneAlphaRenderer?
         var addRenderer:PlaneAddRenderer?
@@ -30,22 +29,20 @@ extension Lily.Stage.Playground2D.Plane
         public var clearColor:LLColor = .white
         
         public private(set) var screenSize:CGSize = .zero
-        public private(set) var particleCapacity:Int
         
         public init(
             device:MTLDevice,
             viewCount:Int,
             mediumTextures:Lily.Stage.Playground2D.MediumTextures,
             environment:Lily.Stage.ShaderEnvironment,
-            particleCapacity:Int = 10000,
-            textures:[String] = []
+            storage:PlaneStorage
         ) 
         {
             self.pass = .init( device:device )
             self.viewCount = viewCount
-            self.particleCapacity = particleCapacity
             
             self.mediumTextures = mediumTextures
+            self.storage = storage
             
             // レンダラーの作成
             self.alphaRenderer = .init( 
@@ -63,12 +60,6 @@ extension Lily.Stage.Playground2D.Plane
                 environment:environment,
                 viewCount:viewCount
             )
-            
-            self.storage = .init( 
-                device:device, 
-                capacity:particleCapacity
-            )
-            self.storage.addTextures( textures )
             
             super.init( device:device )
         }
@@ -90,6 +81,11 @@ extension Lily.Stage.Playground2D.Plane
         )
         {
             guard let pass = self.pass else { return }
+            
+            guard let storage = self.storage else {
+                LLLog( "storageがありません" )
+                return
+            }
         
             storage.statuses.update { acc, _ in
                 for i in 0 ..< acc.count-1 {

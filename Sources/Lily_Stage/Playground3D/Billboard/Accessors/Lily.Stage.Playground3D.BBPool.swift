@@ -28,6 +28,6 @@ extension Lily.Stage.Playground3D.Billboard
         }
         public func remove( shape:BBActor, to storage:BBStorage ) { actorGroup[storage]?.remove( shape ) }
         
-        public func removeAllShapes( on storage:BBStorage ) {  actorGroup[storage]?.forEach { $0.trush() } }
+        public func removeAllShapes( on storage:BBStorage ) { actorGroup[storage]?.forEach { $0.trush() } }
     }
 }

@@ -25,18 +25,26 @@ extension Lily.Stage.Playground2D
     {
         public static var current:PGScreen? = nil
         
-        var device:MTLDevice
-        
+        // MARK: システム
+        var device:MTLDevice        
         public var renderEngine:Lily.Stage.StandardRenderEngine?
+        public var environment:Lily.Stage.ShaderEnvironment
         
+        // MARK: システムプロパティ
+        public var particleCapacity:Int
+        public var textures:[String]
+        
+        // MARK: 描画テクスチャ
+        public var mediumTextures:Lily.Stage.Playground2D.MediumTextures
+        
+        // MARK: ストレージ
+        public private(set) var planeStorage:Plane.PlaneStorage
+    
+        // MARK: レンダーフロー
         public var renderFlow:Plane.PlaneRenderFlow
         public var sRGBRenderFlow:SRGBRenderFlow
         
-        public var mediumTextures:Lily.Stage.Playground2D.MediumTextures
-        
-        public var environment:Lily.Stage.ShaderEnvironment
-        public var particleCapacity:Int
-        public var textures:[String]
+        // MARK: プロパティ・アクセサ
         public var clearColor:LLColor = .white
 
         public let touchManager = PGTouchManager()
@@ -62,7 +70,7 @@ extension Lily.Stage.Playground2D
         }
         
         // MARK: - パーティクル情報
-        public var shapes:Set<Plane.PGActor> { return Plane.PGPool.shared.shapes( on:renderFlow.storage ) }
+        public var shapes:Set<Plane.PGActor> { return Plane.PGPool.shared.shapes( on:planeStorage ) }
         
         // MARK: - 外部処理ハンドラ
         public var pgDesignHandler:(( PGScreen )->Void)?
@@ -88,7 +96,7 @@ extension Lily.Stage.Playground2D
                 
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
-                vc.renderFlow.storage.statuses.commit()
+                vc.planeStorage.statuses.commit()
                 vc._design_once_flag = true
             }
         }
@@ -99,7 +107,7 @@ extension Lily.Stage.Playground2D
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
-            vc.renderFlow.storage.statuses.commit()
+            vc.planeStorage.statuses.commit()
             vc.renderFlow.clearColor = self.clearColor
             
             // Shapeの更新/終了処理を行う
@@ -152,7 +160,7 @@ extension Lily.Stage.Playground2D
                 PGScreen.current = vc
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
-                vc.renderFlow.storage.statuses.commit()
+                vc.planeStorage.statuses.commit()
                 vc._design_once_flag = true
             }
         }
@@ -163,7 +171,7 @@ extension Lily.Stage.Playground2D
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
-            vc.renderFlow.storage.statuses.commit()
+            vc.planeStorage.statuses.commit()
             vc.renderFlow.clearColor = self.clearColor
             
             // Shapeの更新/終了処理を行う
@@ -202,13 +210,13 @@ extension Lily.Stage.Playground2D
         }
         
         func removeAllShapes() {
-            Plane.PGPool.shared.removeAllShapes( on:renderFlow.storage )
+            Plane.PGPool.shared.removeAllShapes( on:planeStorage )
         }
         
         public init( 
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
-            particleCapacity:Int = 10000,
+            particleCapacity:Int = 2000,
             textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
         )
         {
@@ -220,13 +228,18 @@ extension Lily.Stage.Playground2D
             
             self.mediumTextures = .init( device:device )
             
+            self.planeStorage = .init( 
+                device:device, 
+                capacity:particleCapacity
+            )
+            self.planeStorage.addTextures( textures )
+            
             renderFlow = .init( 
                 device:device,
                 viewCount:1,
                 mediumTextures:self.mediumTextures,
                 environment:self.environment,
-                particleCapacity:self.particleCapacity,
-                textures:self.textures
+                storage:self.planeStorage
             )
             
             sRGBRenderFlow = .init(

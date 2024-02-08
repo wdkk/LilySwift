@@ -51,7 +51,7 @@ class DevViewController
         super.init( 
             device:device,
             environment:.string,
-            particleCapacity:10000,
+            particleCapacity:2000,
             textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
         )
     }

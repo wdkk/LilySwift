@@ -26,22 +26,31 @@ extension Lily.Stage.Playground3D
     {
         public static var current:PGStage? = nil
         
+        // MARK: システム
         var device:MTLDevice
         var renderEngine:Lily.Stage.StandardRenderEngine?
+        public var environment:Lily.Stage.ShaderEnvironment
         
+        // MARK: システムプロパティ
+        public var particleCapacity:Int
+        public var textures:[String]
+        
+        // MARK: 描画用テクスチャ
         var modelRenderTextures:Model.ModelRenderTextures
         var mediumTexture:MediumTexture
         
+        // MARK: ストレージ
+        public private(set) var modelStorage:Model.ModelStorage
+        public private(set) var bbStorage:Billboard.BBStorage
+        
+        // MARK: レンダーフロー
         public var modelRenderFlow:Model.ModelRenderFlow
         public var bbRenderFlow:Billboard.BBRenderFlow
         public var sRGBRenderFlow:SRGBRenderFlow
-        
+    
+        // MARK: プロパティ・アクセサ
         public var clearColor:LLColor = .white
         
-        public var environment:Lily.Stage.ShaderEnvironment
-        public var particleCapacity:Int
-        public var textures:[String]
-
         public var minX:Double { -(metalView.width * 0.5) }
         public var maxX:Double { metalView.width * 0.5 }
         public var minY:Double { -(metalView.height * 0.5) }
@@ -53,10 +62,10 @@ extension Lily.Stage.Playground3D
         
         public var randomPoint:LLPoint { coordRegion.randomPoint }
     
-        // MARK: - パーティクル情報
-        public var billboards:Set<Billboard.BBActor> { return Billboard.BBPool.shared.shapes( on:bbRenderFlow.storage ) }
+        // MARK: ビルボード情報
+        public var billboards:Set<Billboard.BBActor> { return Billboard.BBPool.shared.shapes( on:bbStorage ) }
         
-        // MARK: - 外部処理ハンドラ
+        // MARK: 外部処理ハンドラ
         public var pgDesignHandler:(( PGStage )->Void)?
         public var pgUpdateHandler:(( PGStage )->Void)?
         private var _design_once_flag = false
@@ -81,7 +90,7 @@ extension Lily.Stage.Playground3D
                 
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
-                vc.bbRenderFlow.storage.statuses.commit()
+                vc.bbStorage.statuses.commit()
                 vc._design_once_flag = true
             }
         }
@@ -92,7 +101,7 @@ extension Lily.Stage.Playground3D
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
-            vc.bbRenderFlow.storage.statuses.commit()
+            vc.bbStorage.statuses.commit()
             
             // ビルボードの更新/終了処理を行う
             vc.checkBillboardsStatus()
@@ -113,7 +122,6 @@ extension Lily.Stage.Playground3D
             vc._design_once_flag = false
         }
         .buildup( caller:self ) { me, vc in
-            
             CATransaction.stop {
                 me.rect( vc.rect )
                 vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
@@ -126,7 +134,7 @@ extension Lily.Stage.Playground3D
                 
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
-                vc.bbRenderFlow.storage.statuses.commit()
+                vc.bbStorage.statuses.commit()
                 vc._design_once_flag = true
             }
         }
@@ -137,19 +145,16 @@ extension Lily.Stage.Playground3D
             Billboard.BBActor.ActorTimer.shared.update()
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
-            // 変更の確定
-            vc.bbRenderFlow.storage.statuses.commit()
-        
+            // ビルボードの変更の確定
+            vc.bbStorage.statuses.commit()
             // ビルボードの更新/終了処理を行う
             vc.checkBillboardsStatus()
             
             vc.renderEngine?.update(
                 with:status.drawable,
                 renderPassDescriptor:status.renderPassDesc,
-                completion: { commandBuffer in
-
-                }
-            ) 
+                completion: { commandBuffer in }
+            )
         }
         #endif
                 
@@ -166,7 +171,7 @@ extension Lily.Stage.Playground3D
         }
         
         func removeAllShapes() {
-            Billboard.BBPool.shared.removeAllShapes( on:bbRenderFlow.storage )
+            Billboard.BBPool.shared.removeAllShapes( on:bbStorage )
         }
         
         public init( 
@@ -184,16 +189,31 @@ extension Lily.Stage.Playground3D
             self.particleCapacity = particleCapacity
             self.textures = textures
             
+            // テクスチャの生成
             self.modelRenderTextures = .init( device:device )
             self.mediumTexture = .init( device:device )
             
+            // ストレージの生成
+            self.modelStorage = .init( 
+                device:device, 
+                objCount:modelCapacity,
+                cameraCount:( Lily.Stage.Shared.Const.shadowCascadesCount + 1 ),
+                modelAssets:modelAssets
+            )
+    
+            self.bbStorage = .init( 
+                device:device, 
+                capacity:particleCapacity
+            )
+            self.bbStorage.addTextures( textures )
+            
+            // レンダーフローの生成
             modelRenderFlow = .init(
                 device:device,
                 viewCount:1,
                 renderTextures:self.modelRenderTextures,
-                mediumTexture:mediumTexture,
-                modelCapacity:modelCapacity,
-                modelAssets:modelAssets
+                mediumTexture:self.mediumTexture,
+                storage:self.modelStorage
             )
                                     
             bbRenderFlow = .init( 
@@ -201,8 +221,7 @@ extension Lily.Stage.Playground3D
                 viewCount:1,
                 mediumTexture:mediumTexture,                
                 environment:self.environment,
-                particleCapacity:self.particleCapacity,
-                textures:self.textures
+                storage:self.bbStorage
             )
             
             sRGBRenderFlow = .init( 

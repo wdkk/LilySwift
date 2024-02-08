@@ -15,7 +15,7 @@ extension Lily.Stage.Playground3D.Model
     public class ModelObj : ModelActor
     {
         @discardableResult
-        public override init( storage:ModelStorage = PGStage.current!.modelRenderFlow.storage, assetName:String ) {
+        public override init( storage:ModelStorage = PGStage.current!.modelStorage, assetName:String ) {
             super.init( storage:storage, assetName:assetName )
         }
     }

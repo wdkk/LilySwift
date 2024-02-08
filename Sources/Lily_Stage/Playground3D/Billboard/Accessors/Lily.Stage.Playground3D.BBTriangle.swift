@@ -15,7 +15,7 @@ extension Lily.Stage.Playground3D.Billboard
     public class BBTriangle : BBActor
     {         
         @discardableResult
-        public override init( storage:BBStorage = PGStage.current!.bbRenderFlow.storage ) {
+        public override init( storage:BBStorage = PGStage.current!.bbStorage ) {
             super.init( storage:storage )
             status.shapeType = .triangle
             status.compositeType = .alpha
@@ -25,7 +25,7 @@ extension Lily.Stage.Playground3D.Billboard
     public class BBAddTriangle : BBActor
     {        
         @discardableResult
-        public override init( storage:BBStorage = PGStage.current!.bbRenderFlow.storage ) {
+        public override init( storage:BBStorage = PGStage.current!.bbStorage ) {
             super.init( storage:storage )
             status.shapeType = .triangle
             status.compositeType = .add
@@ -35,7 +35,7 @@ extension Lily.Stage.Playground3D.Billboard
     public class BBSubTriangle : BBActor
     {         
         @discardableResult
-        public override init( storage:BBStorage = PGStage.current!.bbRenderFlow.storage ) {
+        public override init( storage:BBStorage = PGStage.current!.bbStorage ) {
             super.init( storage:storage )
             status.shapeType = .triangle
             status.compositeType = .sub

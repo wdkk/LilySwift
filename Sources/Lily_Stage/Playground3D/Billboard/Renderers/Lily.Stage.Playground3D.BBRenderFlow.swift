@@ -20,7 +20,7 @@ extension Lily.Stage.Playground3D.Billboard
         
         weak var mediumTexture:Lily.Stage.Playground3D.MediumTexture?
         
-        public private(set) var storage:BBStorage
+        weak var storage:BBStorage?
         
         var alphaRenderer:BBAlphaRenderer?
         var addRenderer:BBAddRenderer?
@@ -28,22 +28,20 @@ extension Lily.Stage.Playground3D.Billboard
           
         public let viewCount:Int
         
-        public private(set) var particleCapacity:Int
-        
         public init(
             device:MTLDevice,
             viewCount:Int,
             mediumTexture:Lily.Stage.Playground3D.MediumTexture,
             environment:Lily.Stage.ShaderEnvironment,
-            particleCapacity:Int = 10000,
-            textures:[String] = []
+            storage:BBStorage
         ) 
         {
             self.mediumTexture = mediumTexture
             
             self.pass = .init( device:device )
             self.viewCount = viewCount
-            self.particleCapacity = particleCapacity
+            
+            self.storage = storage
             
             // レンダラーの作成
             self.alphaRenderer = .init( 
@@ -61,12 +59,6 @@ extension Lily.Stage.Playground3D.Billboard
                 environment:environment,
                 viewCount:viewCount
             )
-            
-            self.storage = .init( 
-                device:device, 
-                capacity:particleCapacity
-            )
-            self.storage.addTextures( textures )
             
             super.init( device:device )
         }
@@ -89,6 +81,11 @@ extension Lily.Stage.Playground3D.Billboard
             
             guard let mediumTexture = self.mediumTexture else { 
                 LLLog( "mediumTextureが設定されていません" )
+                return
+            }
+            
+            guard let storage = self.storage else {
+                LLLog( "storageがありません" )
                 return
             }
             

@@ -21,7 +21,7 @@ extension Lily.Stage.Playground3D.Model
         
         public var modelPass:ModelPass?
         
-        public private(set) var storage:ModelStorage
+        weak var storage:ModelStorage?
         
         public var modelObjectRenderer:ModelObjectRenderer?
         public var modelLightingRenderer:ModelLightingRenderer?
@@ -33,8 +33,7 @@ extension Lily.Stage.Playground3D.Model
             viewCount:Int,
             renderTextures:ModelRenderTextures,
             mediumTexture:Lily.Stage.Playground3D.MediumTexture,
-            modelCapacity:Int = 500,
-            modelAssets:[String] = []
+            storage:ModelStorage
         ) 
         {
             self.modelRenderTextures = renderTextures
@@ -48,12 +47,7 @@ extension Lily.Stage.Playground3D.Model
             modelObjectRenderer = .init( device:device, viewCount:viewCount )
             modelLightingRenderer = .init( device:device, viewCount:viewCount )
             
-            self.storage = .init( 
-                device:device, 
-                objCount:modelCapacity,
-                cameraCount:( Lily.Stage.Shared.Const.shadowCascadesCount + 1 ),
-                modelAssets:modelAssets
-            )
+            self.storage = storage
             
             super.init( device:device )
         }
@@ -81,6 +75,11 @@ extension Lily.Stage.Playground3D.Model
             
             guard let mediumTexture = self.mediumTexture else { 
                 LLLog( "mediumTextureが設定されていません" )
+                return
+            }
+            
+            guard let storage = self.storage else {
+                LLLog( "storageがありません" )
                 return
             }
             

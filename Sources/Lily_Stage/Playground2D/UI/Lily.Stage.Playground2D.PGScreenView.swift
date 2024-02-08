@@ -31,7 +31,7 @@ extension Lily.Stage.Playground2D
         public init( 
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment = .string,
-            particleCapacity:Int = 10000,
+            particleCapacity:Int = 2000,
             textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
             design:(( PGScreen )->Void)? = nil,
             update:(( PGScreen )->Void)? = nil 
@@ -79,7 +79,7 @@ extension Lily.Stage.Playground2D
         public init( 
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment = .string,
-            particleCapacity:Int = 10000,
+            particleCapacity:Int = 2000,
             textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
             design:(( PGScreen )->Void)? = nil,
             update:(( PGScreen )->Void)? = nil 
