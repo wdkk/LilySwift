@@ -55,7 +55,8 @@ class DevViewController
         super.init( 
             device:device,
             environment:.metallib,
-            particleCapacity:10000,
+            particleCapacity:1000,
+            modelCapacity:100,
             textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
             modelAssets: [ "plane", "acacia1", "cottonwood1", "palmtree1" ]
         )
@@ -73,6 +74,7 @@ class DevViewController
 }
 
 func design( stage:PGStage ) {   
+    /*
     for iid in 0 ..< 81 * stage.modelRenderFlow.storage.cameraCount {
         let idx = iid / stage.modelRenderFlow.storage.cameraCount
         let x = idx / 9
@@ -92,23 +94,76 @@ func design( stage:PGStage ) {
         .position( cx:-25.0, cy:-10.0, cz:-25.0 )
         .scale( equal:100.0 )
     }
+    */
+    
+    ModelObj( assetName:"cottonwood1" )
+    .position( cx:-500.0, cy:0.0, cz:0.0 )
+    .scale( x: 400, y: 400, z: 400 )
+    
+    ModelObj( assetName:"cottonwood1" )
+    .position( cx:500.0, cy:0.0, cz:0.0 )
+    .scale( x: 800, y: 800, z: 800 )
+    
+    ModelObj( assetName:"acacia1" )
+    .position( cx:0.0, cy:0.0, cz:1000.0 )
+    .scale( x: 300, y: 300, z:300 )
+    
+    ModelObj( assetName:"plane" ) 
+    .position( cx:0.0, cy:0.0, cz:0.0 )
+    .scale( equal:20000.0 )
+    
+    for _ in 0 ..< 160 {
+        BBAddBlurryCircle()
+        .color( LLColor( 0.25, 0.8, 1.0, 1.0 ) )
+        .position(
+            cx:(-2000.0 ... 2000.0).randomize,
+            cy:(0.0 ... 0.0).randomize,
+            cz:(-2000.0 ... 2000.0).randomize
+        )
+        .deltaPosition( 
+            dx:(-1...1).randomize,
+            dy:(5...10).randomize,
+            dz:(-1...1).randomize
+        )
+        .scale( square: 100.0 )
+        .life( .random )
+        .deltaLife( -0.005 )
+        .iterate {
+            if $0.life < 0.5 {
+               $0.alpha( $0.life )
+            }
+            else {
+               $0.alpha( (1.0 - $0.life) )
+            }
+        }
+        .completion {
+            $0
+            .position(
+                cx:(-2000.0 ... 2000.0).randomize,
+                cy:(0.0 ... 0.0).randomize,
+                cz:(-2000.0 ... 2000.0).randomize
+            )
+            .scale( square: 100.0 )
+            .life( 1.0 )
+        }
+    }
     
     /*
     for _ in 0 ..< 320 {
         BBAddMask( "mask-smoke" )
         .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
         .position(
-            cx:(-10.0 ... 10.0).randomize,
-            cy:(0.0 ... 4.0).randomize,
-            cz:(-10.0 ... 10.0).randomize
+            cx:(-500.0 ... 500.0).randomize,
+            cy:(0.0 ... 40.0).randomize,
+            cz:(-500.0 ... 500.0).randomize
         )
         .deltaPosition( 
-            dx:(-0.01...0.01).randomize,
-            dy:(0.03...0.45).randomize,
-            dz:(-0.01...0.01).randomize
+            dx:(-1...1).randomize,
+            dy:(5...20).randomize,
+            dz:(-1...1).randomize
         )
-        .scale( square: 8.0 )
-        .deltaScale( dw: 0.1, dh: 0.1 )
+        .scale( square: 200.0 )
+        .deltaScale( dw: 10.0, dh: 10.0 )
         .angle( .random )
         .deltaAngle( degrees:(0.0...4.0).randomize )
         .life( .random )
@@ -123,12 +178,12 @@ func design( stage:PGStage ) {
         }
         .completion {
             $0
-            .position( 
-                cx:(-10.0 ... 10.0).randomize,
-                cy:(-2.0 ... 2.0).randomize,
-                cz:(-10.0 ... 10.0).randomize
+            .position(
+                cx:(-500.0 ... 500.0).randomize,
+                cy:(0.0 ... 40.0).randomize,
+                cz:(-500.0 ... 500.0).randomize
             )
-            .scale( square: 8.0 )
+            .scale( square: 200.0 )
             .life( 1.0 )
         }
     }

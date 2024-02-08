@@ -22,7 +22,8 @@ using namespace Lily::Stage;
 using namespace Lily::Stage::Shared;
 using namespace Lily::Stage::Playground3D;
 
-static float3 getWorldPositionAndViewDirectionFromDepth(
+static float3 getWorldPositionAndViewDirectionFromDepth
+(
     uint2 pixelPos,
     float depth,
     GlobalUniform uniform,
@@ -30,12 +31,12 @@ static float3 getWorldPositionAndViewDirectionFromDepth(
 )
 {
     float4 ndc;
-    ndc.xy = ( float2( pixelPos ) + 0.5 ) * uniform.invScreenSize;
+    ndc.xy = ( float2( pixelPos ) + 0.5) * uniform.invScreenSize;
     ndc.xy = ndc.xy * 2 - 1;
     ndc.y *= -1;
 
     ndc.z = depth;
-    ndc.w = 1.f;
+    ndc.w = 1;
 
     float4 worldPosition = uniform.cameraUniform.invViewProjectionMatrix * ndc;
     worldPosition.xyz /= worldPosition.w;
@@ -48,32 +49,32 @@ static float3 getWorldPositionAndViewDirectionFromDepth(
     return worldPosition.xyz;
 }
 
-static float evaluateShadow(
+static float evaluateShadow
+(
     GlobalUniform            uniform,
     float3                   worldPosition,
     float                    eyeDepth,
     depth2d_array<float>     shadowMap
 )
 {
-    constexpr sampler sam( min_filter::linear, mag_filter::linear, compare_func::less );
+    constexpr sampler sam (min_filter::linear, mag_filter::linear, compare_func::less);
 
-    float shadow = 1.0;
-    
-    // カスケードシャドウの計算
-    for( int c_idx = 0; c_idx < Const::shadowCascadesCount; c_idx++ ) {
-        // ライトの位置
-        float4 lightSpacePos = uniform.shadowCameraUniforms[c_idx].viewProjectionMatrix * float4( worldPosition, 1 );
+    float4 lightSpacePos;
+    int     cascadeIndex = 0;
+    float   shadow = 1.0;
+    for (cascadeIndex = 0; cascadeIndex < 3; cascadeIndex++)
+    {
+        lightSpacePos = uniform.shadowCameraUniforms[cascadeIndex].viewProjectionMatrix * float4(worldPosition, 1);
         lightSpacePos /= lightSpacePos.w;
-        // xyzについて全て条件がtrueの時trueになる(= all)
-        if( all(lightSpacePos.xyz < 1.0) && all( lightSpacePos.xyz > float3( -1, -1, 0 ) ) ) {
+        if( all( lightSpacePos.xyz < 1.0 ) && all( lightSpacePos.xyz > float3(-1,-1,0) ) ) {
             shadow = 0.0f;
             float lightSpaceDepth = lightSpacePos.z;
             float2 shadowUv = lightSpacePos.xy * float2(0.5, -0.5) + 0.5;
-            // 3x3の平滑化
-            for( int j = -1; j <= 1; ++j ) {
-                for( int i = -1; i <= 1; ++i ) {
-                    const float depthBias = -0.0001;   // 同じ平面上にあるものを少しずらすことで同じに扱わないようにする
-                    float tap = shadowMap.sample_compare( sam, shadowUv, c_idx, lightSpaceDepth + depthBias, int2(i, j) );
+      
+            for (int j = -1; j <= 1; ++j) {
+                for (int i = -1; i <= 1; ++i) {
+                    const float depthBias = -0.005; //-0.0001;  // 板ポリの影を消すバイアス
+                    float tap = shadowMap.sample_compare(sam, shadowUv, cascadeIndex, lightSpaceDepth + depthBias, int2(i, j));
                     shadow += tap;
                 }
             }
@@ -81,6 +82,23 @@ static float evaluateShadow(
             break;
         }
     }
+
+    /*
+    // Cloud shadows
+    const float time = 2.2;
+    constexpr sampler psamp(min_filter::linear, mag_filter::linear, address::repeat);
+
+    float l0 = smoothstep(0.5, 0.7, perlinMap.sample(psamp, fract(worldPosition.xz/7000.f)-time*0.008, level(0)).x);
+
+    float l1 = smoothstep(0.05, 0.8, perlinMap.sample(psamp, fract(worldPosition.xz/2500.f)-float2(time, time*0.5)*0.03, level(0)).y)*0.2+0.8;
+
+    float l2 = perlinMap.sample(psamp, fract(worldPosition.xz/1000.f)-float2(time*0.5, time)*0.1, level(0)).z *0.15+0.75;
+
+    float cloud = saturate(l0*l1*l2)*0.75;
+    cloud = 1.0-cloud;
+
+    shadow = min(shadow, cloud);
+    */
     
     return shadow;
 }
@@ -110,7 +128,8 @@ struct LightingFOut
     float4 backBuffer [[ color(IDX_OUTPUT) ]];
 };
 
-fragment LightingFOut Lily_Stage_Playground3D_Model_Lighting_Fs(
+fragment LightingFOut Lily_Stage_Playground3D_Model_Lighting_Fs
+(
     LightingVOut             in          [[ stage_in ]],
     lily_memory_float4       GBuffer0Mem [[ lily_memory(IDX_GBUFFER_0) ]],
     lily_memory_float4       GBuffer1Mem [[ lily_memory(IDX_GBUFFER_1) ]],
@@ -122,10 +141,10 @@ fragment LightingFOut Lily_Stage_Playground3D_Model_Lighting_Fs(
     ushort amp_id [[ amplification_id ]]
 )
 {    
-    const GlobalUniform uniform = uniformArray.uniforms[amp_id];
-    
     constexpr sampler colorSampler( mip_filter::linear, mag_filter::linear, min_filter::linear );
 
+    const GlobalUniform uniform = uniformArray.uniforms[amp_id];
+    
     const auto pixelPos = uint2( floor( in.position.xy ) );
     
     const float depth = MemoryLess::depthOfPos( pixelPos, depthMem );
@@ -144,38 +163,34 @@ fragment LightingFOut Lily_Stage_Playground3D_Model_Lighting_Fs(
     const float4 GBuffer0 = MemoryLess::float4OfPos( pixelPos, GBuffer0Mem );
     const float4 GBuffer1 = MemoryLess::float4OfPos( pixelPos, GBuffer1Mem );
     const float4 GBuffer2 = MemoryLess::float4OfPos( pixelPos, GBuffer2Mem );
-
+    
     BRDFSet brdf = GBuffersToBRDF( GBuffer0, GBuffer1, GBuffer2 );
     
     // 影の量
     const float shadowAmount = evaluateShadow( uniform, worldPosition, depth, shadowMap );
     // 太陽の入射方向
-    const float3 sunDirection = uniform.sunDirection;
+    const float3 sunDirection = -uniform.sunDirection;
 
-    float3 color;
-    
-    // 現在のフラグメントが受ける照明の量. 法線と影の有無に依存する
-    const float nDotL = saturate( dot( sunDirection, brdf.normal ) ) * shadowAmount * 1.2;
-        
-    // 環境カラーについては、キューブマップをサンプリング。ただ放射照度マップを使用する方法もある (霞や散乱で、高度0ではテクスチャが白くなるため)
-    const float3 ambientDirectionUp = float3( 0, 1, 0 );
-    const float3 ambientDirectionHoriz = normalize( float3( -sunDirection.x, 0.1, -sunDirection.z ) );
-    const float3 ambientDirection = normalize( mix( ambientDirectionHoriz, ambientDirectionUp, brdf.normal.y ) );
-    const float3 ambientColorBase = saturate( cubeMap.sample( colorSampler, ambientDirection, level(0)).xyz * 1.5 + 0.1 );
-    const float3 ambientColor = ambientColorBase * max( 0.05, brdf.normal.y );
-    color = brdf.albedo * ( ambientColor + float3( nDotL ) );
+    const float nDotL = saturate(dot(sunDirection, brdf.normal)) * shadowAmount * 1.2;
 
-    // かすみの量. atmospherics blendの追加. 恣意的な値なので適宜調整
-    const float haze_near = 0.6;
-    const float haze_far = 1.0;
-    const float invFarByNear = 1.0 / ( haze_far - haze_near );
-    const float approxlinDepth = saturate( ( depth - haze_near ) * invFarByNear );
-    float hazeAmount = pow( approxlinDepth, 10 ) * 0.3;
-    // かすみの色
-    const float3 hazeColor = saturate( cubeMap.sample( colorSampler, float3( 0, 1, 0 ) ).xyz * 3.0 + 0.1 );
-    
-    // colorとhazeColorの線形補間値(hazeAmountでのアルファブレンド)
-    color = mix( color, hazeColor, float3( hazeAmount ) );
+    const float3 ambientDirectionUp = float3(0,1,0);
+    const float3 ambientDirectionHoriz = normalize(float3(-sunDirection.x, 0.1, -sunDirection.z));
+    const float3 ambientDirection = normalize(mix(ambientDirectionHoriz, ambientDirectionUp, brdf.normal.y));
+    const float3 ambientColorBase = saturate(cubeMap.sample(colorSampler, ambientDirection, level(0)).xyz * 1.5 + 0.1);
+    const float3 ambientColor = ambientColorBase * max(0.05, brdf.normal.y);
+
+    float3 color = brdf.albedo * (ambientColor + float3(nDotL));
+
+    float hazeAmount;
+    {
+        const float near = 0.992;
+        const float far = 1.0;
+        const float invFarByNear = 1.0 / (far-near);
+        const float approxlinDepth = saturate((depth-near) * invFarByNear);
+        hazeAmount = pow(approxlinDepth,10)*0.3;
+    }
+    const float3 hazeColor = saturate(cubeMap.sample(colorSampler, float3(0,1,0)).xyz * 3.0 + 0.1);
+    color = mix(color, hazeColor, float3(hazeAmount));
 
     LightingFOut res;
     res.backBuffer = float4( color, 1 );

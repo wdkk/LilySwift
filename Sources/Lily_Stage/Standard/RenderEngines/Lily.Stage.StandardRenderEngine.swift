@@ -25,19 +25,19 @@ extension Lily.Stage
         var onFrame:UInt = 0
         
         var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
-
-        var renderFlows:[BaseRenderFlow] = []
         
-        public var camera = Lily.Stage.Camera(
-            perspectiveWith: .init( 0, 42, 100 ),
-            direction: .init( 0.0, 0.5, 1.0 ), 
+        var renderFlows:[BaseRenderFlow] = []
+                
+        public var camera:Lily.Stage.Camera = .init(
+            perspectiveWith:LLFloatv3( 0.0, 2600, 5000.0 ),
+            direction: LLFloatv3( 0.0, -0.5, -1.0 ), 
             up: LLFloatv3( 0, 1, 0 ), 
             viewAngle: Float.pi / 3.0, 
             aspectRatio: 320.0 / 240.0, 
-            near: 5.0, 
-            far: 600.0
+            near: 10.0, 
+            far: 60000.0
         )
-
+        
         public init( device:MTLDevice, size:CGSize, renderFlows:[BaseRenderFlow], buffersInFlight:Int ) {
             self.device = device
             self.commandQueue = device.makeCommandQueue()
@@ -69,14 +69,14 @@ extension Lily.Stage
                         projectionMatrix:projM,
                         orientationMatrix:orientationM
                     )
-                    
+
                     uni[view_idx] = makeGlobalUniform(
                         onFrame:onFrame, 
                         cameraUniform:camera_uniform, 
                         screenSize:screenSize
                     )
                     
-                    let cascade_sizes:[Float] = [ 4.0, 16.0, 64.0 ]
+                    let cascade_sizes:[Float] = [ 400.0, 1600.0, 6400.0 ]
                     let cascade_distances = makeCascadeDistances( sizes:cascade_sizes, viewAngle:camera.viewAngle )
                     
                     // カスケードシャドウのカメラユニフォームを作成
@@ -84,7 +84,7 @@ extension Lily.Stage
                         // sun cascade back-planeの中央を計算
                         let center = camera.position + camera.direction * cascade_distances[c_idx]
                         let size = cascade_sizes[c_idx]
-                        
+
                         var shadow_cam = Camera( 
                             parallelWith:center - uni[view_idx].sunDirection * size,
                             direction:uni[view_idx].sunDirection,
@@ -107,7 +107,7 @@ extension Lily.Stage
             }
         }
         
-        public func changeScreenSize( size:CGSize ) {
+        public func changeScreenSize( size:CGSize ) {            
             screenSize = size.llSizeFloat
             renderFlows.forEach { $0.changeSize( scaledSize:size ) }
             camera.aspect = (size.width / size.height).f
@@ -120,7 +120,7 @@ extension Lily.Stage
         )
         {
             defer { uniforms.next() /* リングバッファを回す */ }
-
+            
             guard let commandBuffer = commandQueue?.makeCommandBuffer() else { return }
             commandBuffer.label = "Frame Command Buffer"
             commandBuffer.addCompletedHandler { [weak self] _ in self?.inFlightSemaphore.signal() }

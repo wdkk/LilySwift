@@ -172,7 +172,7 @@ extension Lily.Stage.Playground3D
         public init( 
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
-            particleCapacity:Int = 10000,
+            particleCapacity:Int = 2000,
             modelCapacity:Int = 500,
             textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
             modelAssets:[String] = [ "acacia1", "plane" ]

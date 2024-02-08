@@ -111,7 +111,8 @@ float4x4 affineTransform( float3 trans, float3 sc, float3 ro ) {
     return translate( trans ) * rotate( ro ) * scale( sc );
 }
 
-vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Vs(
+vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Vs
+(
     const device Obj::Vertex* in [[ buffer(0) ]],
     const device ModelUnitStatus* statuses [[ buffer(1) ]],
     constant GlobalUniformArray & uniformArray [[ buffer(2) ]],
@@ -122,7 +123,8 @@ vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Vs(
 )
 {
     auto uniform = uniformArray.uniforms[amp_id];
-    int idx = iid * 4;  // カメラの数 + レンダラ = 4つ
+    
+    int idx = iid;
     
     auto us = statuses[idx];
     
@@ -146,14 +148,14 @@ vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Vs(
     
     ModelVOut out;
     out.position = uniform.cameraUniform.viewProjectionMatrix * world_pos;
-    out.color = pow( in[vid].color, 1.0 / 2.2 );    // sRGB -> linear変換
-    out.normal = (us.matrix * float4(in[vid].normal, 0)).xyz;
-
+    out.color    = pow( in[vid].color, 1.0 / 2.2 );    // sRGB -> linear変換
+    out.normal   = (TRS * float4(in[vid].normal, 0)).xyz;
     return out;
 }
 
 // フラグメントシェーダ
-fragment GBufferFOut Lily_Stage_Playground3D_Model_Object_Fs(
+fragment GBufferFOut Lily_Stage_Playground3D_Model_Object_Fs
+(
     const ModelVOut in [[ stage_in ]]
 )
 {
@@ -166,22 +168,23 @@ fragment GBufferFOut Lily_Stage_Playground3D_Model_Object_Fs(
     brdf.shadow = 0.f;
 
     GBufferFOut output = BRDFToGBuffers( brdf );
-    output.GBufferDepth = -in.position.z;
+    output.GBufferDepth = in.position.z;
     return output;
 }
 
-vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Shadow_Vs(
+vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Shadow_Vs
+(
     const device Obj::Vertex* in [[ buffer(0) ]],
     const device ModelUnitStatus* statuses [[ buffer(1) ]],
     const device uint& cascadeIndex [[ buffer(2) ]],
     constant int& modelIndex [[ buffer(3) ]],
-    constant float4x4* shadowCameraVPMatrix[[ buffer(6) ]],
+    constant float4x4& shadowCameraVPMatrix[[ buffer(6) ]],
     ushort amp_id [[ amplification_id ]],
     uint vid [[ vertex_id ]],
     uint iid [[ instance_id ]]
 )
 {
-    int idx = iid * 4 + cascadeIndex;
+    int idx = iid;
     
     auto us = statuses[idx];
     
@@ -201,9 +204,8 @@ vertex ModelVOut Lily_Stage_Playground3D_Model_Object_Shadow_Vs(
     
     float4x4 TRS = affineTransform( pos, sc, ang );
     float4 world_pos = TRS * position;
-   
-    ModelVOut out;
-    out.position = shadowCameraVPMatrix[amp_id] * world_pos;
 
+    ModelVOut out;
+    out.position = shadowCameraVPMatrix * world_pos;
     return out;
 }

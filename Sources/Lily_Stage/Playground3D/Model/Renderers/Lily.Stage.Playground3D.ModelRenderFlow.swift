@@ -148,7 +148,6 @@ extension Lily.Stage.Playground3D.Model
             deferred_shading_encoder?
             .label( "Playground3D G-Buffer Render" )
             .cullMode( .front )
-            //.frontFacing( .counterClockwise )
             .depthStencilState( modelPass.GBufferDepthState! )
             .viewports( viewports )
             .vertexAmplification( count:viewCount, viewports:viewports )
