@@ -22,7 +22,7 @@ typealias PGStage = PG3D.PGStage
 
 typealias Billboard = PG3D.Billboard
 typealias BBPool = Billboard.BBPool
-typealias BBSctor = Billboard.BBActor
+typealias BBActor = Billboard.BBActor
 typealias BBRectangle = Billboard.BBRectangle
 typealias BBAddRectangle = Billboard.BBAddRectangle
 typealias BBSubRectangle = Billboard.BBSubRectangle

@@ -280,6 +280,7 @@ extension Lily.Stage.Playground2D
         
         open override func teardown() {
             endLooping()
+            super.teardown()
         }
     }
 }

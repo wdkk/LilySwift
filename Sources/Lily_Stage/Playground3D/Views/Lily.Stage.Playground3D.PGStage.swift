@@ -102,6 +102,7 @@ extension Lily.Stage.Playground3D
             vc.pgUpdateHandler?( self )
             // 変更の確定
             vc.bbStorage.statuses.commit()
+            vc.modelStorage.statuses.commit()
             
             // ビルボードの更新/終了処理を行う
             vc.checkBillboardsStatus()
@@ -145,8 +146,10 @@ extension Lily.Stage.Playground3D
             Billboard.BBActor.ActorTimer.shared.update()
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
-            // ビルボードの変更の確定
+            // 変更の確定
             vc.bbStorage.statuses.commit()
+            vc.modelStorage.statuses.commit()
+            
             // ビルボードの更新/終了処理を行う
             vc.checkBillboardsStatus()
             
@@ -257,9 +260,7 @@ extension Lily.Stage.Playground3D
         
         open override func loop() {
             super.loop()
-            
             changeCameraStatus()
-            
             metalView.drawMetal()
         }
         

@@ -111,6 +111,7 @@ extension Lily.Stage.Playground2D
         
         public func updateNSViewController( _ nsViewController:PGScreen, context:Context ) {
             nsViewController.rebuild()
+            nsViewController.startLooping()
         }
     }
     #endif
