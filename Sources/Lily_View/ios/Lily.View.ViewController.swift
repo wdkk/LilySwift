@@ -68,14 +68,7 @@ extension Lily.View
         open func loop() {}
         
         open func startLooping() {
-            if _display_link != nil {
-                print( "display Linkはありますよ" )
-                if ((_display_link?.isPaused) != nil) {
-                    endLooping()
-                    startLooping()
-                }
-                return
-            }
+            if _display_link != nil { return }
             _display_link = CADisplayLink(
                 target: self, 
                 selector: #selector( ViewController._viewLoop(_:) ) 
