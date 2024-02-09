@@ -69,16 +69,21 @@ extension Lily.View
         
         open func startLooping() {
             if _display_link != nil { return }
+            
+            print( "でぃすぷれいりんくさくせい" )
             _display_link = CADisplayLink(
                 target: self, 
                 selector: #selector( ViewController._viewLoop(_:) ) 
             )
+            print( _display_link )
             _display_link?.preferredFramesPerSecond = 60
             _display_link?.add( to: RunLoop.current, forMode: RunLoop.Mode.common )
+            print( _display_link?.isPaused )
         }
         
         open func endLooping() {
             if _display_link == nil { return }
+            print( "でぃすぷれいりんくさくじょ" )
             _display_link?.remove( from: RunLoop.current, forMode: RunLoop.Mode.common )
             _display_link = nil
         }

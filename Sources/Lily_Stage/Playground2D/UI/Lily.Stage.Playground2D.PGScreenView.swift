@@ -28,8 +28,11 @@ extension Lily.Stage.Playground2D
         public var design:(( PGScreen )->Void)?
         public var update:(( PGScreen )->Void)?
         
+        var updating:Binding<Bool>
+        
         public init( 
             device:MTLDevice,
+            updating:Binding<Bool>,
             environment:Lily.Stage.ShaderEnvironment = .string,
             particleCapacity:Int = 2000,
             textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
@@ -38,6 +41,7 @@ extension Lily.Stage.Playground2D
         )
         {
             self.device = device
+            self.updating = updating
             
             self.environment = environment
             self.particleCapacity = particleCapacity
@@ -62,8 +66,8 @@ extension Lily.Stage.Playground2D
         }
         
         public func updateUIViewController( _ uiViewController:PGScreen, context:Context ) {
-            print( "PGScreenView update" )
             uiViewController.rebuild()
+            print( "pgscreen updated.")
             uiViewController.startLooping()
         }
     }
@@ -112,9 +116,7 @@ extension Lily.Stage.Playground2D
         }
         
         public func updateNSViewController( _ nsViewController:PGScreen, context:Context ) {
-            print( "PGScreenView update" )
             nsViewController.rebuild()
-            nsViewController.startLooping()
         }
     }
     #endif

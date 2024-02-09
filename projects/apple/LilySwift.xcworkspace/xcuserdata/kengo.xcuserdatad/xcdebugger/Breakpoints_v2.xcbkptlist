@@ -109,6 +109,36 @@
                   endingLineNumber = "0"
                   offsetFromSymbolStart = "8">
                </Location>
+               <Location
+                  uuid = "0C4E9FF7-B80E-44AE-A414-2A5EFAA4B840 - ead7b22ceee3da6c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LilySwift.Lily.Stage.LightingRenderer.deinit"
+                  moduleName = "DevSwiftUI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kengo/core/wd/dev/LilySwift/Sources/Lily_Stage/Standard/Renderers/Lily.Stage.LightingRenderer.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "0C4E9FF7-B80E-44AE-A414-2A5EFAA4B840 - 115c701292489779"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LilySwift.Lily.Stage.LightingRenderer.__deallocating_deinit"
+                  moduleName = "DevSwiftUI"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kengo/core/wd/dev/LilySwift/Sources/Lily_Stage/Standard/Renderers/Lily.Stage.LightingRenderer.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

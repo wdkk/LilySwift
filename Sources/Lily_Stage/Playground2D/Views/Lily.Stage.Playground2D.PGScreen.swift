@@ -275,6 +275,7 @@ extension Lily.Stage.Playground2D
         
         open override func loop() {
             super.loop()
+            print( "もももも" )
             metalView.drawMetal()
         }
         
