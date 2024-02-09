@@ -62,7 +62,9 @@ extension Lily.Stage.Playground2D
         }
         
         public func updateUIViewController( _ uiViewController:PGScreen, context:Context ) {
+            print( "PGScreenView update" )
             uiViewController.rebuild()
+            uiViewController.startLooping()
         }
     }
     #elseif os(macOS)
