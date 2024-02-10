@@ -177,7 +177,7 @@ extension Lily.Stage.Playground2D
                 design:self.design,
                 update:self.update
             )
-            .ignoresSafeArea()
+            .background( .clear )
             .onAppear { visibled = true }
             .onDisappear { visibled = false }
             // 画面表示状態に対して反応させるためのonChange

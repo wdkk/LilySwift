@@ -181,6 +181,9 @@ extension Lily.Metal
         public func commit() -> Self { 
             typealias ImagePosUnit = Lily.Metal.TextureTree.ImagePosUnit
             
+            //LLLogForce( "テクスチャアトラス開始" )
+            //let t = LLClock.now
+            
             var image_rects:[ImagePosUnit] = []
             
             for (label, v) in self.labels {
@@ -269,8 +272,7 @@ extension Lily.Metal
             let img_atlas = LLImage( wid:all_size.width, hgt:all_size.height, type:.rgba8 )
             
             positions.removeAll()
-            //labels.removeAll()
-            
+
             for imgrc in image_rects {
                 guard let img = imgrc.image else { continue }
                 
@@ -302,6 +304,8 @@ extension Lily.Metal
             self.metalTexture = try! Lily.Metal.Texture.create( device:device!, llImage:img_atlas )
             self.width = all_size.width.i32!
             self.height = all_size.height.i32!
+            
+            //LLLogForce( "処理時間: \(LLClock.now - t)(ms)" )
             
             return self
         }

@@ -80,7 +80,7 @@ extension Lily.Stage.Playground2D
         #if os(iOS) || os(visionOS)
         public lazy var metalView = Lily.View.MetalView( device:device )
         .setup( caller:self ) { me, vc in
-            me.bgColor( .grey )
+            me.bgColor( .clear )
             me.isMultipleTouchEnabled = true
             vc._design_once_flag = false
         }
@@ -146,7 +146,7 @@ extension Lily.Stage.Playground2D
         #elseif os(macOS)
         public lazy var metalView = Lily.View.MetalView( device:device )
         .setup( caller:self ) { me, vc in
-            me.bgColor( .grey )
+            me.bgColor( .clear )
             vc._design_once_flag = false
         }
         .buildup( caller:self ) { me, vc in
@@ -258,6 +258,8 @@ extension Lily.Stage.Playground2D
         
         open override func setup() {
             super.setup()
+            self.view.backgroundColor = .clear
+            self.view.layer.backgroundColor = UIColor.clear.cgColor
             addSubview( metalView )
             
             renderEngine = .init( 

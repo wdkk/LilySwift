@@ -12,17 +12,21 @@ struct ContentView: View
     var body: some View 
     {
         NavigationStack {
-            LilyPlaygroundView()
-            .ignoresSafeArea()
-            .toolbar {
-                NavigationLink( "Go To Next", value:"Next" )
-            }       
-            .navigationDestination(for: String.self ) { value in
-                if value == "Next" {
-                    NextView()
+            ZStack {
+                Color.yellow
+                
+                LilyPlaygroundView()                    
+                .toolbar {
+                    NavigationLink( "Go To Next", value:"Next" )
+                }       
+                .navigationDestination(for: String.self ) { value in
+                    if value == "Next" {
+                        NextView()
+                    }
                 }
+                .navigationTitle("LilyView")
             }
-            .navigationTitle("LilyView")
+            .ignoresSafeArea()
         }
     }
 }

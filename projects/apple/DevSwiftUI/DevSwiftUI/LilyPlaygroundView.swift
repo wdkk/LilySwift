@@ -20,7 +20,7 @@ struct LilyPlaygroundView: View
         PG2D.PGScreenView(
             device: device,
             design: { screen in
-                screen.clearColor = .darkGray
+                screen.clearColor = .clear
                 
                 for _ in 0 ..< 80 {
                     PGAddBlurryCircle()
