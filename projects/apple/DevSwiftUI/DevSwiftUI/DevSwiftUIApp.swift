@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import LilySwift
 
 @main
 struct DevSwiftUIApp: App {
     var body: some Scene {
-        WindowGroup {
+        //LLLogSetEnableType( .none )
+        
+        return WindowGroup {
             ContentView()
         }
     }
