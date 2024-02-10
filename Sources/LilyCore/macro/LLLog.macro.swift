@@ -18,7 +18,7 @@ import Foundation
 ///   - line: ログ出力した行数(default = 行数)
 #if DEBUG
 public func LLLog( _ body:Any?, file:String = #file, function:String = #function, line:Int = #line ) {
-    if body != nil {
+    if LLLogEnabled() && body != nil {
         let fn = LCPathPickFilenameFull( file.lcStr )
         print( "[\( fn ):\(line) \(function)] \(body!)" )
     }

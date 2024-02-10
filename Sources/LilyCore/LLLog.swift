@@ -23,6 +23,10 @@ public enum LLLogEnableType : Int
 /// 内部変数: 有効なLLLogを示すタイプの状態変数
 fileprivate var __LLLog_enable_type:LLLogEnableType = .all
 
+public func LLLogEnabled() -> Bool {
+    return (__LLLog_enable_type.rawValue & LLLogEnableType.all.rawValue) > 0
+}
+
 public func LLLogWarningEnabled() -> Bool {
     return (__LLLog_enable_type.rawValue & LLLogEnableType.warning.rawValue) > 0
 }
