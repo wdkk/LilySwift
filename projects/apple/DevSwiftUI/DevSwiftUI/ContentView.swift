@@ -9,11 +9,10 @@ import SwiftUI
 
 struct ContentView: View 
 {
-    @State private var updated = false
     var body: some View 
     {
         NavigationStack {
-            LilyPlaygroundView( updating:$updated )
+            LilyPlaygroundView()
             .ignoresSafeArea()
             .toolbar {
                 NavigationLink( "Go To Next", value:"Next" )
@@ -21,15 +20,9 @@ struct ContentView: View
             .navigationDestination(for: String.self ) { value in
                 if value == "Next" {
                     NextView()
-                    .onDisappear {
-                        updated.toggle()
-                    }
                 }
             }
             .navigationTitle("LilyView")
-            .onChange( of:updated ) { oldValue, newValue in
-                print( "ホゲー" )
-            }
         }
     }
 }

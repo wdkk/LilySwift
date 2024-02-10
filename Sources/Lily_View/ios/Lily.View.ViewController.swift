@@ -68,23 +68,28 @@ extension Lily.View
         open func loop() {}
         
         open func startLooping() {
-            if _display_link != nil { return }
+            if _display_link != nil {
+                _display_link?.isPaused = false
+                return
+            }
             
-            print( "でぃすぷれいりんくさくせい" )
             _display_link = CADisplayLink(
                 target: self, 
                 selector: #selector( ViewController._viewLoop(_:) ) 
             )
-            print( _display_link )
+        
             _display_link?.preferredFramesPerSecond = 60
             _display_link?.add( to: RunLoop.current, forMode: RunLoop.Mode.common )
-            print( _display_link?.isPaused )
+        }
+
+        open func pauseLooping() {
+            if _display_link == nil { return }
+            _display_link?.isPaused = true
         }
         
         open func endLooping() {
             if _display_link == nil { return }
-            print( "でぃすぷれいりんくさくじょ" )
-            _display_link?.remove( from: RunLoop.current, forMode: RunLoop.Mode.common )
+            _display_link?.remove( from: RunLoop.current, forMode:RunLoop.Mode.common )
             _display_link = nil
         }
         
@@ -108,6 +113,7 @@ extension Lily.View
             // viewが出来上がっていないときはbuildしない
             guard let v = self.view else { return }
             if v.width == 0.0 || v.height == 0.0 { return }
+            already = true
             
             _mutex.lock {
                 self.buildup()
@@ -118,7 +124,7 @@ extension Lily.View
         final public func callTeardownPhase() {
             (self.view as? LLUILifeEvent)?.callTeardownPhase()
             teardown()
-            already = false       
+            already = false 
         }
     }
 }

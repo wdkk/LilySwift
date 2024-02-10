@@ -16,12 +16,9 @@ struct LilyPlaygroundView: View
 {
     let device = MTLCreateSystemDefaultDevice()!
     
-    var updating:Binding<Bool>
-
     var body: some View {
         PG2D.PGScreenView(
             device: device,
-            updating:updating,
             design: { screen in
                 screen.clearColor = .darkGray
                 
@@ -51,6 +48,5 @@ struct LilyPlaygroundView: View
                 
             }
         )
-        .ignoresSafeArea()
    }
 }

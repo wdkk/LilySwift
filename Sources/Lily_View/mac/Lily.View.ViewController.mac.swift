@@ -53,11 +53,13 @@ extension Lily.View
         }
         
         override open func viewDidAppear() {
-            
+            rebuild()
         }
         
-        override open func viewWillDisappear() {
-            
+        override open func viewDidDisappear() {
+            self.endLooping()
+            super.viewDidDisappear()
+            self.callTeardownPhase()
         }
         
         // NSView用
@@ -95,6 +97,7 @@ extension Lily.View
             // viewが出来上がっていないときはbuildしない
             let v = self.view 
             if v.width == 0.0 || v.height == 0.0 { return }
+            already = true
             
             _mutex.lock {
                 self.buildup()
@@ -109,9 +112,7 @@ extension Lily.View
         }
         
         open func viewLoop() {
-            autoreleasepool {
-                loop()
-            }
+            autoreleasepool { loop() }
         }
         
         open func loop() {}
@@ -119,6 +120,10 @@ extension Lily.View
         open func startLooping() {
             _dlink.loopFunc = self.viewLoop
             _dlink.start()
+        }
+        
+        open func pauseLooping() {
+            _dlink.stop()
         }
         
         open func endLooping() {

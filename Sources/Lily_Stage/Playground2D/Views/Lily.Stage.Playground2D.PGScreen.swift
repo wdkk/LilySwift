@@ -269,13 +269,19 @@ extension Lily.Stage.Playground2D
 
             // 時間の初期化
             Plane.PGActor.ActorTimer.shared.start()
-                        
+            // ループの開始
+            startLooping()
+        }
+        
+        open override func buildup() {
+            super.buildup()
+            // ループの開始及び再開
             startLooping()
         }
         
         open override func loop() {
             super.loop()
-            print( "もももも" )
+            // Metal描画
             metalView.drawMetal()
         }
         
