@@ -12,10 +12,10 @@
 
 import Metal
 
-#if os(iOS) || os(visionOS)
-import UIKit
-#elseif os(macOS)
+#if os(macOS)
 import AppKit
+#else
+import UIKit
 #endif
 
 extension Lily.Stage.Playground2D
@@ -28,17 +28,17 @@ extension Lily.Stage.Playground2D
         // MARK: システム
         var device:MTLDevice        
         public var renderEngine:Lily.Stage.StandardRenderEngine?
-        public var environment:Lily.Stage.ShaderEnvironment
+        public private(set) var environment:Lily.Stage.ShaderEnvironment
         
         // MARK: システムプロパティ
         public var particleCapacity:Int
         public var textures:[String]
         
         // MARK: 描画テクスチャ
-        public var mediumTextures:Lily.Stage.Playground2D.MediumTextures
+        public private(set) var mediumTextures:Lily.Stage.Playground2D.MediumTextures
         
         // MARK: ストレージ
-        public private(set) var planeStorage:Plane.PlaneStorage
+        public private(set) var planeStorage:Plane.PlaneStorage?
     
         // MARK: レンダーフロー
         public var renderFlow:Plane.PlaneRenderFlow
@@ -69,8 +69,11 @@ extension Lily.Stage.Playground2D
             return latest_touch
         }
         
-        // MARK: - パーティクル情報
-        public var shapes:Set<Plane.PGActor> { return Plane.PGPool.shared.shapes( on:planeStorage ) }
+        // MARK: - 2Dパーティクル情報
+        public var shapes:Set<Plane.PGActor> { 
+            if let storage = planeStorage { return Plane.PGPool.shared.shapes( on:storage ) }
+            return .init()
+        }
         
         // MARK: - 外部処理ハンドラ
         public var pgDesignHandler:(( PGScreen )->Void)?
@@ -96,7 +99,7 @@ extension Lily.Stage.Playground2D
                 
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
-                vc.planeStorage.statuses.commit()
+                vc.planeStorage?.statuses.commit()
                 vc._design_once_flag = true
             }
         }
@@ -107,7 +110,7 @@ extension Lily.Stage.Playground2D
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
-            vc.planeStorage.statuses.commit()
+            vc.planeStorage?.statuses.commit()
             vc.renderFlow.clearColor = self.clearColor
             
             // Shapeの更新/終了処理を行う
@@ -160,7 +163,7 @@ extension Lily.Stage.Playground2D
                 PGScreen.current = vc
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
-                vc.planeStorage.statuses.commit()
+                vc.planeStorage?.statuses.commit()
                 vc._design_once_flag = true
             }
         }
@@ -171,7 +174,7 @@ extension Lily.Stage.Playground2D
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
-            vc.planeStorage.statuses.commit()
+            vc.planeStorage?.statuses.commit()
             vc.renderFlow.clearColor = self.clearColor
             
             // Shapeの更新/終了処理を行う
@@ -230,9 +233,9 @@ extension Lily.Stage.Playground2D
             
             self.planeStorage = .init( 
                 device:device, 
-                capacity:particleCapacity
+                capacity:particleCapacity,
+                textures:textures
             )
-            self.planeStorage.addTextures( textures )
             
             renderFlow = .init( 
                 device:device,

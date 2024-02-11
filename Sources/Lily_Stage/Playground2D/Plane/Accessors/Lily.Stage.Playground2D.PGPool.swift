@@ -20,14 +20,24 @@ extension Lily.Stage.Playground2D.Plane
         
         private var actorGroup:[PlaneStorage:Set<PGActor>] = [:]
         
-        public func shapes( on storage:PlaneStorage ) -> Set<PGActor> { actorGroup[storage] ?? [] }
+        public func shapes( on storage:PlaneStorage? ) -> Set<PGActor> { 
+            guard let storage = storage else { return [] }
+            return actorGroup[storage] ?? [] 
+        }
         
-        public func insert( shape:PGActor, to storage:PlaneStorage ) {
+        public func insert( shape:PGActor, to storage:PlaneStorage? ) {
+            guard let storage = storage else { return }
             if actorGroup[storage] == nil { actorGroup[storage] = [] }
             actorGroup[storage]?.insert( shape ) 
         }
-        public func remove( shape:PGActor, to storage:PlaneStorage ) { actorGroup[storage]?.remove( shape ) }
+        public func remove( shape:PGActor, to storage:PlaneStorage? ) {
+            guard let storage = storage else { return }
+            actorGroup[storage]?.remove( shape )
+        }
         
-        public func removeAllShapes( on storage:PlaneStorage ) {  actorGroup[storage]?.forEach { $0.trush() } }
+        public func removeAllShapes( on storage:PlaneStorage? ) {
+            guard let storage = storage else { return }
+            actorGroup[storage]?.forEach { $0.trush() }
+        }
     }
 }

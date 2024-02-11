@@ -17,7 +17,6 @@ extension Lily.Stage.Playground2D.Plane
     {
         public typealias Here = Lily.Stage.Playground2D.Plane
         public typealias PGScreen = Lily.Stage.Playground2D.PGScreen
-        public typealias PGStage = Lily.Stage.Playground3D.PGStage
         
         fileprivate static let Z_INDEX_MIN:Float = 0.0
         fileprivate static let Z_INDEX_MAX:Float = 99999.0
@@ -26,7 +25,7 @@ extension Lily.Stage.Playground2D.Plane
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
     
         public private(set) var index:Int
-        public private(set) var storage:PlaneStorage
+        public private(set) var storage:PlaneStorage?
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<PlaneUnitStatus>?
         public private(set) var currentPointer:UnsafeMutablePointer<PlaneUnitStatus>!
                 
@@ -34,15 +33,15 @@ extension Lily.Stage.Playground2D.Plane
         public var intervalField:ActorInterval?
         public var completionField:PGField<PGActor, LLEmpty>?
         
-        public init( storage:PlaneStorage ) {
+        public init( storage:PlaneStorage? ) {
             self.storage = storage
-            self.statusAccessor = storage.statuses.accessor
+            self.statusAccessor = storage?.statuses.accessor ?? nil 
             
-            self.index = storage.request() 
+            self.index = storage?.request() ?? -1 
 
             self.currentPointer = self.statusAccessor!.baseAddress! + self.index
             
-            if self.index < self.storage.capacity {
+            if checkIndexStatus {
                 status.state = .active
                 status.enabled = true
                 status.shapeType = .rectangle
@@ -56,6 +55,11 @@ extension Lily.Stage.Playground2D.Plane
             PGPool.shared.insert( shape:self, to:storage )
         }
         
+        private var checkIndexStatus:Bool {
+            guard let storage = self.storage else { return false }
+            return self.index < storage.capacity
+        }
+    
         public var status:PlaneUnitStatus {
             get { currentPointer.pointee }
             set { currentPointer.pointee = newValue }
@@ -118,7 +122,7 @@ extension Lily.Stage.Playground2D.Plane
         }
         
         public func trush() {
-            storage.trush( index:self.index )
+            storage?.trush( index:self.index )
             PGPool.shared.remove( shape:self, to:storage )
         }
     }
@@ -205,8 +209,8 @@ extension Lily.Stage.Playground2D.Plane.PGActor
     }
     
     public var enabled:Bool { 
-        get { if self.index < self.storage.capacity { return status.enabled } else { return false } }
-        set { if self.index < self.storage.capacity { status.enabled = newValue } }
+        get { checkIndexStatus ? status.enabled : false }
+        set { if checkIndexStatus { status.enabled = newValue } }
     }
     
     public var life:Float { 

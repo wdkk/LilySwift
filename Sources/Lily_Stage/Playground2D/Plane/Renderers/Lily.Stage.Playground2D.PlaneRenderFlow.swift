@@ -35,7 +35,7 @@ extension Lily.Stage.Playground2D.Plane
             viewCount:Int,
             mediumTextures:Lily.Stage.Playground2D.MediumTextures,
             environment:Lily.Stage.ShaderEnvironment,
-            storage:PlaneStorage
+            storage:PlaneStorage?
         ) 
         {
             self.pass = .init( device:device )
@@ -82,10 +82,7 @@ extension Lily.Stage.Playground2D.Plane
         {
             guard let pass = self.pass else { return }
             
-            guard let storage = self.storage else {
-                LLLog( "storageがありません" )
-                return
-            }
+            guard let storage = self.storage else { return }
         
             storage.statuses.update { acc, _ in
                 for i in 0 ..< acc.count-1 {

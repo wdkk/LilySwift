@@ -54,7 +54,12 @@ extension Lily.Stage.Playground2D.Plane
             .init( xy:.init(  0.0,  0.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) )
         )
         
-        public init( device:MTLDevice, capacity:Int ) {
+        public init(
+            device:MTLDevice, 
+            capacity:Int,
+            textures:[String]
+        )
+        {
             self.capacity = capacity
             
             self.particles = .init( device:device, count:2 )    // 四角と三角を1つずつ
@@ -72,6 +77,7 @@ extension Lily.Stage.Playground2D.Plane
             self.reuseIndice = .init( (0..<capacity).reversed() )
             
             self.textureAtlas = .init( device:device )
+            addTextures( textures )
         }
         
         public func addTextures( _ textures:[String] ) {

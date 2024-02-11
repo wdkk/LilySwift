@@ -15,33 +15,33 @@ extension Lily.Stage.Playground2D.Plane
     public class PGMask : PGActor
     {        
         @discardableResult
-        public init( storage:PlaneStorage = PGScreen.current!.planeStorage, _ assetName:String ) {
+        public init( storage:PlaneStorage? = PGScreen.current?.planeStorage, _ assetName:String ) {
             super.init( storage:storage )
             status.shapeType = .mask
             status.compositeType = .alpha
-            status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV
+            status.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
         }
     }
     
     public class PGAddMask : PGActor
     {        
         @discardableResult
-        public init( storage:PlaneStorage = PGScreen.current!.planeStorage, _ assetName:String ) {
+        public init( storage:PlaneStorage? = PGScreen.current?.planeStorage, _ assetName:String ) {
             super.init( storage:storage )
             status.shapeType = .mask
             status.compositeType = .add
-            status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV
+            status.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
         }
     }
     
     public class PGSubMask : PGActor
     {        
         @discardableResult
-        public init( storage:PlaneStorage = PGScreen.current!.planeStorage, _ assetName:String ) {
+        public init( storage:PlaneStorage? = PGScreen.current?.planeStorage, _ assetName:String ) {
             super.init( storage:storage )
             status.shapeType = .mask
             status.compositeType = .sub
-            status.atlasUV = storage.textureAtlas.parts( assetName ).atlasUV
+            status.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
         }
     }
 }
