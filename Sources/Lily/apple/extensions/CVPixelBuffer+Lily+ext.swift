@@ -63,7 +63,8 @@ public extension CVPixelBuffer
                }
            },
            nil, nil,
-           &result_buffer )
+           &result_buffer
+        )
         == kCVReturnSuccess else {
             free( dst_addr )
             return nil

@@ -12,10 +12,10 @@
 // 参考: https://tyfkda.github.io/blog/2013/10/05/texture-pakcer.html
 
 import Metal
-#if os(iOS) || os(visionOS)
-import UIKit
-#elseif os(macOS)
+#if os(macOS)
 import AppKit
+#else
+import UIKit
 #endif
 
 extension Lily.Metal 
@@ -161,17 +161,15 @@ extension Lily.Metal
             return self
         }
         
-        #if os(iOS) || os(visionOS)
-        @discardableResult
-        public func reserve( _ label:String, _ img:UIImage ) -> Self {
-            labels[label] = img
-            return self
-        }
-        #endif
-        
         #if os(macOS)
         @discardableResult
         public func reserve( _ label:String, _ img:NSImage ) -> Self {
+            labels[label] = img
+            return self
+        }
+        #else
+        @discardableResult
+        public func reserve( _ label:String, _ img:UIImage ) -> Self {
             labels[label] = img
             return self
         }

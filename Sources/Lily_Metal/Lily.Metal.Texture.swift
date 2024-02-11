@@ -128,12 +128,25 @@ extension Lily.Metal
             }
         }
         
+        // サイズ指定で作成
+        public static func create( 
+            device:MTLDevice, 
+            width:Int,
+            height:Int,
+            pixelFormat:MTLPixelFormat = .rgba8Unorm,
+            usage:MTLTextureUsage = [.shaderRead] 
+        ) 
+        -> MTLTexture?
+        {
+            return Self.allocate(device:device, width: width, height: height, pixelFormat:pixelFormat, usage:usage )
+        }
+        
         private static func allocate(
             device:MTLDevice,
             width:Int,
             height:Int,
             pixelFormat:MTLPixelFormat = .rgba8Unorm,
-            usage:MTLTextureUsage = [.shaderRead, .shaderWrite] 
+            usage:MTLTextureUsage = [.shaderRead] 
         )
         -> MTLTexture?
         {

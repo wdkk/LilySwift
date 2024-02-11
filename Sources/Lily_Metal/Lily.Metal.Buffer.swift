@@ -121,10 +121,8 @@ extension Lily.Metal
             copy( dst:_mtlbuf!, buf:memory.pointer, length:sz )
         }
         
-        // TODO: コピーの効率化を行いたい
         private func copy( dst:MTLBuffer, buf:UnsafeRawPointer?, length:Int ) {
-            if buf == nil { return }
-            if length == 0 { return }
+            if buf == nil || length == 0 { return }
             
             let blit_buffer = device!.makeBuffer( bytes: buf!, length:length )!
             

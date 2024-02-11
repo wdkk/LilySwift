@@ -8,6 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+/*
 #if os(macOS)
 import AppKit
 #else
@@ -193,3 +194,4 @@ func design( stage:PGStage ) {
 func update( stage:PGStage ) {
 
 }
+*/

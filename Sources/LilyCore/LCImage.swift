@@ -270,10 +270,7 @@ public func LCImage2UIImage( _ img_:LCImageSmPtr ) -> UIImage? {
     // rgba8bitに変換
     LCImageConvertType( lcimg, .rgba8 )
     
-    // TODO: linerSRGBの適用が正しいかは判断に悩むところ(ピクセルフォーマットgbra8unorm_sRGBを指定したときはlinearSRGBが合致した)
     let color_space = CGColorSpaceCreateDeviceRGB()
-    //var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
-    //if let sRGB_space = CGColorSpace( name:CGColorSpace.linearSRGB ) { color_space = sRGB_space }
         
     guard let memory:LLBytePtr = LCImageRawMemory( lcimg ) else { return nil }
     let cg_context:CGContext? = CGContext(
@@ -303,11 +300,8 @@ public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {
     
     guard let input_image_ref:CGImage = img_.cgImage else { return LCImageSmPtr() } 
     
-    // TODO: linerSRGBの適用が正しいかは判断に悩むところ(ピクセルフォーマットgbra8unorm_sRGBを指定したときはlinearSRGBが合致した)
     let color_space = CGColorSpaceCreateDeviceRGB()
-    //var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
-    //if let sRGB_space = CGColorSpace( name:CGColorSpace.linearSRGB ) { color_space = sRGB_space }
-    
+
     guard let cg_context = CGContext( 
         data: nil,
         width: wid,
