@@ -25,4 +25,13 @@ extension CGImage
         return UIImage( named:assetName )?.cgImage
         #endif
     }
+    
+    public var bytes:UnsafePointer<UInt8>? {
+        guard let provider = self.dataProvider else { return nil }
+        return CFDataGetBytePtr( provider.data )
+    }
+    
+    public var size:LLSizeInt {
+        return .init( self.width, self.height )
+    }
 }
