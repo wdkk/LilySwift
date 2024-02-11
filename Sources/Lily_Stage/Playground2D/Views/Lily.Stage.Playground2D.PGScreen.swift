@@ -259,7 +259,11 @@ extension Lily.Stage.Playground2D
         open override func setup() {
             super.setup()
             self.view.backgroundColor = .clear
+            #if os(macOS)
+            self.view.layer?.backgroundColor = CGColor.clear
+            #else
             self.view.layer.backgroundColor = UIColor.clear.cgColor
+            #endif
             addSubview( metalView )
             
             renderEngine = .init( 

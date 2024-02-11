@@ -364,11 +364,8 @@ public func NSImage2LCImage( _ img_:NSImage ) -> LCImageSmPtr {
     let hgt = img_.size.height.i!
     var nsimage_rect:CGRect = CGRect( 0, 0, wid, hgt )
     
-    // TODO: linerSRGBの適用が正しいかは判断に悩むところ(ピクセルフォーマットgbra8unorm_sRGBを指定したときはlinearSRGBが合致した)
     let color_space = CGColorSpaceCreateDeviceRGB()
-    //var color_space:CGColorSpace = CGColorSpaceCreateDeviceRGB()
-    //if let sRGB_space = CGColorSpace( name:CGColorSpace.linearSRGB ) { color_space = sRGB_space }
-    
+
     guard let cg_context = CGContext( 
         data: nil,
         width: wid,
