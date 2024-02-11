@@ -134,7 +134,7 @@ extension Lily.Metal
             width:Int,
             height:Int,
             pixelFormat:MTLPixelFormat = .rgba8Unorm,
-            usage:MTLTextureUsage = [.shaderRead] 
+            usage:MTLTextureUsage = [.shaderRead, .shaderWrite ] 
         ) 
         -> MTLTexture?
         {
@@ -146,7 +146,7 @@ extension Lily.Metal
             width:Int,
             height:Int,
             pixelFormat:MTLPixelFormat = .rgba8Unorm,
-            usage:MTLTextureUsage = [.shaderRead] 
+            usage:MTLTextureUsage = [.shaderRead, .shaderWrite ] 
         )
         -> MTLTexture?
         {

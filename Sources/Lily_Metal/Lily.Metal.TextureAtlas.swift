@@ -11,7 +11,7 @@
 // 参考: https://blackpawn.com/texts/lightmaps/default.html
 // 参考: https://tyfkda.github.io/blog/2013/10/05/texture-pakcer.html
 
-import Metal
+import MetalKit
 #if os(macOS)
 import AppKit
 #else
@@ -24,7 +24,7 @@ extension Lily.Metal
     {        
         public class ImagePosUnit
         {
-            var image:LLImage?
+            var image:MTLTexture?
             var label:String = ""
             var x:Int
             var y:Int
@@ -178,11 +178,10 @@ extension Lily.Metal
         @discardableResult
         public func commit() -> Self { 
             typealias ImagePosUnit = Lily.Metal.TextureTree.ImagePosUnit
-            
-            //LLLogForce( "テクスチャアトラス開始" )
-            //let t = LLClock.now
-            
+
             var image_rects:[ImagePosUnit] = []
+            
+            let loader = MTKTextureLoader( device:device! )
             
             for (label, v) in self.labels {
                 // nullの場合処理しない
@@ -191,52 +190,80 @@ extension Lily.Metal
                 // nnvの中身の種類によって登録方法を変えていく
                 if nnv is String {
                     let path = nnv as! String
-                    let img = LLImage( assetName:path )
-                    if !img.available { continue }
+                    let bundle:Bundle? = nil
                     
-                    let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
-                    rc.image = img
-                    rc.label = label
-                    
-                    image_rects.append( rc )
-                    continue
+                    do {
+                        let tex = try loader.newTexture( name:path, scaleFactor:1.0, bundle:bundle )
+                        let rc = ImagePosUnit( x:0, y:0, width:tex.width, height:tex.height )
+                        rc.image = tex
+                        rc.label = label
+                        
+                        image_rects.append( rc )
+                        continue
+                    }
+                    catch {
+                        LLLog( "label:\(label), \(error.localizedDescription)" )
+                        continue
+                    }
                 }
                 if nnv is LLImage {
                     let img = nnv as! LLImage
                     if !img.available { continue }
                     
-                    let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
-                    rc.image = img
-                    rc.label = label
-                    
-                    image_rects.append( rc )
-                    continue
+                    do {
+                        let tex = try Lily.Metal.Texture.create( device:device!, llImage:img )
+                        
+                        let rc = ImagePosUnit( x:0, y:0, width:tex!.width, height:tex!.height )
+                        rc.image = tex!
+                        rc.label = label
+                        
+                        image_rects.append( rc )
+                        continue
+                    }
+                    catch {
+                        LLLog( "label:\(label), \(error.localizedDescription)" )
+                        continue
+                    }
                 }
-                #if os(iOS) || os(visionOS)
-                if nnv is UIImage {
-                    let uiimg = nnv as! UIImage
-                    let img = uiimg.llImage
-                    if !img.available { continue }
-                    
-                    let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
-                    rc.image = img
-                    rc.label = label
-                    
-                    image_rects.append( rc )
-                    continue
-                }
-                #elseif os(macOS)
+                #if os(macOS)
                 if nnv is NSImage {
                     let uiimg = nnv as! NSImage
-                    guard let img = uiimg.llImage else { continue }
-                    if !img.available { continue }
+                    guard let cgimg = uiimg.cgImage else { continue }
+  
+                    do {
+                        let tex = try loader.newTexture( cgImage:cgimg, options:[:] )
                     
-                    let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
-                    rc.image = img
-                    rc.label = label
-
-                    image_rects.append( rc )
-                    continue
+                        let rc = ImagePosUnit( x:0, y:0, width:tex.width, height:tex.height )
+                        rc.image = tex
+                        rc.label = label
+                        
+                        image_rects.append( rc )
+                        continue
+                    }
+                    catch {
+                        LLLog( "label:\(label), \(error.localizedDescription)" )
+                        continue
+                    }
+                }
+                #else
+                if nnv is UIImage {
+                    let uiimg = nnv as! UIImage
+                    guard let cgimg = uiimg.cgImage else { continue }
+  
+                    do {
+                        let tex = try loader.newTexture( cgImage:cgimg, options:[:] )
+                    
+                        let rc = ImagePosUnit( x:0, y:0, width:tex.width, height:tex.height )
+                        rc.image = tex
+                        rc.label = label
+                        
+                        image_rects.append( rc )
+                        continue
+                    }
+                    catch {
+                        LLLog( "label:\(label), \(error.localizedDescription)" )
+                        continue
+                    }
                 }
                 #endif
             }
@@ -256,6 +283,7 @@ extension Lily.Metal
             let all_size = tree.pack( imageUnits:image_rects )
             
             if all_size.width == 0 || all_size.height == 0 {
+                LLLog( "テクスチャがないため空のテクスチャアトラスを出力します" )
                 self.metalTexture = try! Lily.Metal.Texture.create( device:device!, llImage:LLImage( wid:64, hgt:64 ) )
                 self.width = 64
                 self.height = 64
@@ -267,43 +295,56 @@ extension Lily.Metal
             }
             
             // 全体画像
-            let img_atlas = LLImage( wid:all_size.width, hgt:all_size.height, type:.rgba8 )
-            
             positions.removeAll()
-
+            
+            self.metalTexture = Lily.Metal.Texture.create( device:device!, width:all_size.width, height:all_size.height )
+            self.width = all_size.width.i32!
+            self.height = all_size.height.i32!
+            
+            guard let commandQueue = device?.makeCommandQueue() else { 
+                LLLog( "コマンドキューの作成に失敗しました." )
+                return self
+            }
+           
             for imgrc in image_rects {
-                guard let img = imgrc.image else { continue }
-                
-                let imgf = img.clone()
-                imgf.convertType( to:.rgba8 )
+                guard let tex = imgrc.image else { continue }
                 
                 let label = imgrc.label
                 let px = imgrc.x
                 let py = imgrc.y
-                let wid = imgf.width
-                let hgt = imgf.height
-                let mat = imgf.rgba8Matrix!
-                let mat_atlas = img_atlas.rgba8Matrix!
+                let wid = tex.width
+                let hgt = tex.height
                 
-                for y in 0 ..< hgt {
-                    for x in 0 ..< wid {
-                        mat_atlas[y + py][x + px] = mat[y][x]
-                    }
-                }
+                let src_reg = MTLRegionMake2D( 0, 0, wid, hgt )
+                let dst_reg = MTLRegionMake2D( px, py, wid, hgt )
+                
+                let command_buffer = commandQueue.makeCommandBuffer()
+                let blit_encoder = command_buffer?.makeBlitCommandEncoder()
+                
+                blit_encoder?.copy(
+                    from: tex,
+                    sourceSlice: 0,
+                    sourceLevel: 0,
+                    sourceOrigin: src_reg.origin,
+                    sourceSize: src_reg.size,
+                    to: self.metalTexture!,
+                    destinationSlice: 0,
+                    destinationLevel: 0,
+                    destinationOrigin: dst_reg.origin
+                )
+                
+                blit_encoder?.endEncoding()
+                
+                command_buffer?.commit()
+                command_buffer?.waitUntilCompleted()
                 
                 let left  = px.d / all_size.width.d
                 let top   = py.d / all_size.height.d
                 let right = (px + wid).d  / all_size.width.d
                 let bottom = (py + hgt).d / all_size.height.d            
                 
-                positions[label] = LLRegionMake( left, top, right, bottom )
+                positions[label] = LLRegionMake( left, top, right, bottom )                
             }
-            
-            self.metalTexture = try! Lily.Metal.Texture.create( device:device!, llImage:img_atlas )
-            self.width = all_size.width.i32!
-            self.height = all_size.height.i32!
-            
-            //LLLogForce( "処理時間: \(LLClock.now - t)(ms)" )
             
             return self
         }
