@@ -8,133 +8,90 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if os(iOS) || os(visionOS)
-import UIKit
-#elseif os(macOS)
+#if os(macOS)
 import AppKit
+#else
+import UIKit
 #endif
 import Metal
 import SwiftUI
 
 extension Lily.Stage.Playground2D
 {
-    #if os(iOS) || os(visionOS)
-    public struct PGScreenCoreView : UIViewControllerRepresentable
-    {
-        var device:MTLDevice
-        var environment:Lily.Stage.ShaderEnvironment
-        var particleCapacity:Int
-        var textures:[String]
-        public var design:(( PGScreen )->Void)?
-        public var update:(( PGScreen )->Void)?
-        
-        var visibled:Binding<Bool>
-        
-        public init( 
-            device:MTLDevice,
-            visibled:Binding<Bool>,
-            environment:Lily.Stage.ShaderEnvironment,
-            particleCapacity:Int,
-            textures:[String],
-            design:(( PGScreen )->Void)?,
-            update:(( PGScreen )->Void)? 
-        )
-        {
-            self.device = device
-            self.visibled = visibled
-            
-            self.environment = environment
-            self.particleCapacity = particleCapacity
-            self.textures = textures
-            
-            self.design = design
-            self.update = update
-        }
-        
-        public func makeUIViewController( context:Context ) -> PGScreen {
-            let screen = PGScreen(
-                device:device,
-                environment:self.environment,
-                particleCapacity:self.particleCapacity,
-                textures:self.textures 
-            )
-            
-            screen.pgDesignHandler = self.design
-            screen.pgUpdateHandler = self.update
-            
-            return screen
-        }
-        
-        public func updateUIViewController( _ uiViewController:PGScreen, context:Context ) {
-            if visibled.wrappedValue == true {
-                uiViewController.rebuild()
-                uiViewController.startLooping()
-            }
-            else {
-                uiViewController.pauseLooping()
-            }
-        }
-    }
-        
-    #elseif os(macOS)
-    public struct PGScreenCoreView : NSViewControllerRepresentable
-    {
-        var device:MTLDevice
-        
-        var environment:Lily.Stage.ShaderEnvironment
-        var particleCapacity:Int
-        var textures:[String]
-        public var design:(( PGScreen )->Void)?
-        public var update:(( PGScreen )->Void)?
-        
-        var visibled:Binding<Bool>
-        
-        public init( 
-            device:MTLDevice,
-            visibled:Binding<Bool>,
-            environment:Lily.Stage.ShaderEnvironment,
-            particleCapacity:Int,
-            textures:[String],
-            design:(( PGScreen )->Void)?,
-            update:(( PGScreen )->Void)? 
-        )
-        {
-            self.device = device
-            self.visibled = visibled
-            
-            self.environment = environment
-            self.particleCapacity = particleCapacity
-            self.textures = textures
-            
-            self.design = design
-            self.update = update
-        }
-        
-        public func makeNSViewController( context:Context ) -> PGScreen {
-            let screen = PGScreen(
-                device:device,
-                environment:self.environment,
-                particleCapacity:self.particleCapacity,
-                textures:self.textures 
-            )
-            
-            screen.pgDesignHandler = self.design
-            screen.pgUpdateHandler = self.update
-            
-            return screen
-        }
-        
-        public func updateNSViewController( _ nsViewController:PGScreen, context:Context ) {
-            if visibled.wrappedValue == true {
-                nsViewController.rebuild()
-                nsViewController.startLooping()
-            }
-            else {
-                nsViewController.pauseLooping()
-            }
-        }
-    }
+    #if os(macOS)
+    public typealias ViewControllerRepresentable = NSViewControllerRepresentable
+    #else
+    public typealias ViewControllerRepresentable = UIViewControllerRepresentable
     #endif
+    
+    public struct PGScreenCoreView : ViewControllerRepresentable
+    {
+        var device:MTLDevice
+        var environment:Lily.Stage.ShaderEnvironment
+        var planeStorage:Lily.Stage.Playground2D.Plane.PlaneStorage?
+        public var design:(( PGScreen )->Void)?
+        public var update:(( PGScreen )->Void)?
+        
+        var visibled:Binding<Bool>
+                
+        public init( 
+            device:MTLDevice,
+            visibled:Binding<Bool>,
+            environment:Lily.Stage.ShaderEnvironment,
+            planeStorage:Lily.Stage.Playground2D.Plane.PlaneStorage?,
+            design:(( PGScreen )->Void)?,
+            update:(( PGScreen )->Void)? 
+        )
+        {
+            self.device = device
+            self.visibled = visibled
+            self.environment = environment
+            
+            self.planeStorage = planeStorage
+        
+            self.design = design
+            self.update = update
+        }
+        
+        func makeViewController( context:Context ) -> PGScreen {
+            let screen = PGScreen(
+                device:device,
+                environment:self.environment,
+                planeStorage:self.planeStorage
+            )
+            
+            screen.pgDesignHandler = self.design
+            screen.pgUpdateHandler = self.update
+            
+            return screen        
+        }
+        
+        func updateViewController( _ vc:PGScreen, context:Context ) {
+            if visibled.wrappedValue == true {
+                vc.rebuild()
+                vc.startLooping()
+            }
+            else {
+                vc.pauseLooping()
+            }
+        }
+        
+        #if os(macOS)
+        public func makeNSViewController( context:Context ) -> PGScreen { 
+            return makeViewController( context:context )
+        }
+        public func updateNSViewController( _ nsViewController:PGScreen, context:Context ) { 
+            updateViewController( nsViewController, context:context )
+        }
+        #else
+        public func makeUIViewController( context:Context ) -> PGScreen {
+            return makeViewController( context:context )
+        }
+        public func updateUIViewController( _ uiViewController:PGScreen, context:Context ) {
+            updateViewController( uiViewController, context:context )
+        }
+        #endif
+    }
     
     public struct PGScreenView : View
     {
@@ -142,8 +99,7 @@ extension Lily.Stage.Playground2D
         
         var device:MTLDevice
         var environment:Lily.Stage.ShaderEnvironment
-        var particleCapacity:Int
-        var textures:[String]
+        var planeStorage:Lily.Stage.Playground2D.Plane.PlaneStorage?
         public var design:(( PGScreen )->Void)?
         public var update:(( PGScreen )->Void)?
         
@@ -157,11 +113,31 @@ extension Lily.Stage.Playground2D
         )
         {
             self.device = device
-
             self.environment = environment
-            self.particleCapacity = particleCapacity
-            self.textures = textures
             
+            self.planeStorage = .init(
+                device:device,
+                capacity:particleCapacity,
+                textures:textures
+            )
+            
+            self.design = design
+            self.update = update
+        }
+        
+        public init( 
+            device:MTLDevice,
+            environment:Lily.Stage.ShaderEnvironment,
+            planeStorage:Lily.Stage.Playground2D.Plane.PlaneStorage?,
+            design:(( PGScreen )->Void)?,
+            update:(( PGScreen )->Void)? 
+        )
+        {
+            self.device = device
+            self.environment = environment
+            
+            self.planeStorage = planeStorage
+        
             self.design = design
             self.update = update
         }
@@ -172,8 +148,7 @@ extension Lily.Stage.Playground2D
                 device: device,
                 visibled:$visibled,
                 environment:self.environment,
-                particleCapacity:self.particleCapacity,
-                textures:self.textures,
+                planeStorage:self.planeStorage,
                 design:self.design,
                 update:self.update
             )
