@@ -29,6 +29,8 @@ extension Lily.Stage.Playground2D
         var device:MTLDevice
         var environment:Lily.Stage.ShaderEnvironment
         var planeStorage:Lily.Stage.Playground2D.Plane.PlaneStorage?
+        var modelStorage:Lily.Stage.Playground3D.Model.ModelStorage?
+        var bbStorage:Lily.Stage.Playground3D.Billboard.BBStorage?
         public var design:(( PGScreen )->Void)?
         public var update:(( PGScreen )->Void)?
         
@@ -39,6 +41,8 @@ extension Lily.Stage.Playground2D
             visibled:Binding<Bool>,
             environment:Lily.Stage.ShaderEnvironment,
             planeStorage:Lily.Stage.Playground2D.Plane.PlaneStorage?,
+            modelStorage:Lily.Stage.Playground3D.Model.ModelStorage?,
+            billboardStorage:Lily.Stage.Playground3D.Billboard.BBStorage?,
             design:(( PGScreen )->Void)?,
             update:(( PGScreen )->Void)? 
         )
@@ -48,6 +52,8 @@ extension Lily.Stage.Playground2D
             self.environment = environment
             
             self.planeStorage = planeStorage
+            self.modelStorage = modelStorage
+            self.bbStorage = billboardStorage
         
             self.design = design
             self.update = update
@@ -100,14 +106,20 @@ extension Lily.Stage.Playground2D
         var device:MTLDevice
         var environment:Lily.Stage.ShaderEnvironment
         var planeStorage:Lily.Stage.Playground2D.Plane.PlaneStorage?
+        var modelStorage:Lily.Stage.Playground3D.Model.ModelStorage?
+        var bbStorage:Lily.Stage.Playground3D.Billboard.BBStorage?
         public var design:(( PGScreen )->Void)?
         public var update:(( PGScreen )->Void)?
         
         public init( 
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment = .string,
-            particleCapacity:Int = 2000,
-            textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
+            planeCapacity:Int = 2000,
+            planeTextures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
+            modelCapacity:Int = 500,
+            modelAssets:[String] = [ "cottonwood1", "acacia1", "plane" ],
+            billboardCapacity:Int = 2000,
+            billboardTextures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
             design:(( PGScreen )->Void)? = nil,
             update:(( PGScreen )->Void)? = nil 
         )
@@ -115,10 +127,24 @@ extension Lily.Stage.Playground2D
             self.device = device
             self.environment = environment
             
-            self.planeStorage = .init(
-                device:device,
-                capacity:particleCapacity,
-                textures:textures
+            // ストレージの生成
+            self.planeStorage = .init( 
+                device:device, 
+                capacity:planeCapacity,
+                textures:planeTextures
+            )
+            
+            self.modelStorage = .init( 
+                device:device, 
+                objCount:modelCapacity,
+                cameraCount:( Lily.Stage.Shared.Const.shadowCascadesCount + 1 ),
+                modelAssets:modelAssets
+            )
+    
+            self.bbStorage = .init( 
+                device:device, 
+                capacity:billboardCapacity,
+                textures:billboardTextures
             )
             
             self.design = design
@@ -129,6 +155,8 @@ extension Lily.Stage.Playground2D
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment,
             planeStorage:Lily.Stage.Playground2D.Plane.PlaneStorage?,
+            modelStorage:Lily.Stage.Playground3D.Model.ModelStorage?,
+            billboardStorage:Lily.Stage.Playground3D.Billboard.BBStorage?,
             design:(( PGScreen )->Void)?,
             update:(( PGScreen )->Void)? 
         )
@@ -137,7 +165,9 @@ extension Lily.Stage.Playground2D
             self.environment = environment
             
             self.planeStorage = planeStorage
-        
+            self.modelStorage = modelStorage
+            self.bbStorage = billboardStorage
+            
             self.design = design
             self.update = update
         }
@@ -149,6 +179,8 @@ extension Lily.Stage.Playground2D
                 visibled:$visibled,
                 environment:self.environment,
                 planeStorage:self.planeStorage,
+                modelStorage:self.modelStorage,
+                billboardStorage:self.bbStorage,
                 design:self.design,
                 update:self.update
             )

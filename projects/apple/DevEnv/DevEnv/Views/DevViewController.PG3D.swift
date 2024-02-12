@@ -56,7 +56,7 @@ class DevViewController
         super.init( 
             device:device,
             environment:.metallib,
-            particleCapacity:1000,
+            planeCapacity:1000,
             modelCapacity:100,
             textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
             modelAssets: [ "plane", "acacia1", "cottonwood1", "palmtree1" ]

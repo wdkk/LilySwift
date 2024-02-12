@@ -81,7 +81,7 @@ extension Lily.Stage.Playground3D.Billboard
             
             guard let mediumTexture = self.mediumTexture else { LLLog( "mediumTextureが設定されていません" ); return }
             
-            guard let storage = self.storage else { LLLog( "storageがありません" ); return }
+            guard let storage = self.storage else { return }
             
             storage.statuses.update { acc, _ in
                 for i in 0 ..< acc.count-1 {

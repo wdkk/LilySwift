@@ -18,8 +18,8 @@ extension Lily.Stage.Playground3D.Billboard
         @discardableResult
         public override init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage ) {
             super.init( storage:storage )
-            status.shapeType = .rectangle
-            status.compositeType = .alpha
+            status?.shapeType = .rectangle
+            status?.compositeType = .alpha
         }
     }
     
@@ -28,8 +28,8 @@ extension Lily.Stage.Playground3D.Billboard
         @discardableResult
         public override init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage ) {
             super.init( storage:storage )
-            status.shapeType = .rectangle
-            status.compositeType = .add
+            status?.shapeType = .rectangle
+            status?.compositeType = .add
         }
     }
     
@@ -38,8 +38,8 @@ extension Lily.Stage.Playground3D.Billboard
         @discardableResult
         public override init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage ) {
             super.init( storage:storage )
-            status.shapeType = .rectangle
-            status.compositeType = .sub
+            status?.shapeType = .rectangle
+            status?.compositeType = .sub
         }
     }
 }

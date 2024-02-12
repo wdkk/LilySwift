@@ -10,36 +10,36 @@
 
 import Metal
 
-extension Lily.Stage.Playground2D.Plane
+extension Lily.Stage.Playground3D.Billboard
 {
-    public class PGMask : PGActor
-    {        
+    public class BBPicture : BBActor
+    {          
         @discardableResult
-        public init( storage:PlaneStorage? = PGScreen.current?.planeStorage, _ assetName:String ) {
+        public init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage, _ assetName:String ) {
             super.init( storage:storage )
-            status?.shapeType = .mask
+            status?.shapeType = .picture
             status?.compositeType = .alpha
             status?.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
         }
     }
     
-    public class PGAddMask : PGActor
-    {        
+    public class BBAddPicture : BBActor
+    {            
         @discardableResult
-        public init( storage:PlaneStorage? = PGScreen.current?.planeStorage, _ assetName:String ) {
+        public init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage, _ assetName:String ) {
             super.init( storage:storage )
-            status?.shapeType = .mask
+            status?.shapeType = .picture
             status?.compositeType = .add
             status?.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
         }
     }
     
-    public class PGSubMask : PGActor
-    {        
+    public class BBSubPicture : BBActor
+    {         
         @discardableResult
-        public init( storage:PlaneStorage? = PGScreen.current?.planeStorage, _ assetName:String ) {
+        public init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage, _ assetName:String ) {
             super.init( storage:storage )
-            status?.shapeType = .mask
+            status?.shapeType = .picture
             status?.compositeType = .sub
             status?.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
         }

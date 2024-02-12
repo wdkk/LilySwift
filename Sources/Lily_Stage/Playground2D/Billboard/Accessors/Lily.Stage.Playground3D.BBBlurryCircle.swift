@@ -12,33 +12,33 @@ import Metal
 
 extension Lily.Stage.Playground3D.Billboard
 {
-    public class BBCircle : BBActor
+    public class BBBlurryCircle : BBActor
     {        
         @discardableResult
         public override init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage ) {
             super.init( storage:storage )
-            status.shapeType = .circle
-            status.compositeType = .alpha
+            status?.shapeType = .blurryCircle
+            status?.compositeType = .alpha
         }
     }
     
-    public class BBAddCircle : BBActor
+    public class BBAddBlurryCircle : BBActor
     {        
         @discardableResult
         public override init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage ) {
             super.init( storage:storage )
-            status.shapeType = .circle
-            status.compositeType = .add
+            status?.shapeType = .blurryCircle
+            status?.compositeType = .add
         }
     }
     
-    public class BBSubCircle : BBActor
+    public class BBSubBlurryCircle : BBActor
     {        
         @discardableResult
         public override init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage ) {
             super.init( storage:storage )
-            status.shapeType = .circle
-            status.compositeType = .sub
+            status?.shapeType = .blurryCircle
+            status?.compositeType = .sub
         }
     }
 }

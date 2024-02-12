@@ -10,12 +10,12 @@
 
 import Metal
 
-extension Lily.Stage.Playground2D.Plane
-{
-    public class PGMask : PGActor
+extension Lily.Stage.Playground3D.Billboard
+{    
+    public class BBMask : BBActor
     {        
         @discardableResult
-        public init( storage:PlaneStorage? = PGScreen.current?.planeStorage, _ assetName:String ) {
+        public init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage, _ assetName:String ) {
             super.init( storage:storage )
             status?.shapeType = .mask
             status?.compositeType = .alpha
@@ -23,10 +23,10 @@ extension Lily.Stage.Playground2D.Plane
         }
     }
     
-    public class PGAddMask : PGActor
+    public class BBAddMask : BBActor
     {        
         @discardableResult
-        public init( storage:PlaneStorage? = PGScreen.current?.planeStorage, _ assetName:String ) {
+        public init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage, _ assetName:String ) {
             super.init( storage:storage )
             status?.shapeType = .mask
             status?.compositeType = .add
@@ -34,10 +34,10 @@ extension Lily.Stage.Playground2D.Plane
         }
     }
     
-    public class PGSubMask : PGActor
-    {        
+    public class BBSubMask : BBActor
+    {     
         @discardableResult
-        public init( storage:PlaneStorage? = PGScreen.current?.planeStorage, _ assetName:String ) {
+        public init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage, _ assetName:String ) {
             super.init( storage:storage )
             status?.shapeType = .mask
             status?.compositeType = .sub

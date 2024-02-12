@@ -42,9 +42,10 @@ typealias PGAddMask = Plane.PGAddMask
 typealias PGSubMask = Plane.PGSubMask
 
 typealias PG3D = Lily.Stage.Playground3D
-typealias PGStage = PG3D.PGStage
 
 typealias Billboard = PG3D.Billboard
+typealias BBStorage = Billboard.BBStorage
+
 typealias BBPool = Billboard.BBPool
 typealias BBActor = Billboard.BBActor
 typealias BBRectangle = Billboard.BBRectangle
@@ -67,6 +68,7 @@ typealias BBAddMask = Billboard.BBAddMask
 typealias BBSubMask = Billboard.BBSubMask
 
 typealias Model = PG3D.Model
+typealias ModelStorage = Model.ModelStorage
 typealias ModelObj = Model.ModelObj
 
 class DevViewController 
@@ -82,13 +84,28 @@ class DevViewController
         textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
     )
 
+    lazy var bbStorage:BBStorage = .init(
+        device: device,
+        capacity: 2000,
+        textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+    )
+
+    lazy var modelStorage:ModelStorage = .init(
+        device: device,
+        objCount: 500, 
+        cameraCount: 4, 
+        modelAssets: [ "cottonwood1", "acacia1", "plane" ] 
+    )
+    
     override func setup() {
         super.setup()
         
         pgScreen = PGScreen(
             device:device,
             environment:.metallib,
-            planeStorage:planeStorage
+            planeStorage:planeStorage,
+            billboardStorage:bbStorage,
+            modelStorage:modelStorage
         )
         
         pgScreen?.pgDesignHandler = design

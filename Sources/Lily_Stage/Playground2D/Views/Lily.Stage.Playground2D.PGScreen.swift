@@ -208,10 +208,10 @@ extension Lily.Stage.Playground2D
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
             planeStorage:Lily.Stage.Playground2D.Plane.PlaneStorage? = nil,
-            particleCapacity:Int = 2000,
-            modelCapacity:Int = 500,
-            textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
-            modelAssets:[String] = [ "cottonwood1", "acacia1", "plane" ]
+            billboardStorage:Lily.Stage.Playground3D.Billboard.BBStorage? = nil,
+            modelStorage:Lily.Stage.Playground3D.Model.ModelStorage? = nil,
+            planeCapacity:Int = 2000,
+            modelCapacity:Int = 500
         )
         {
             self.device = device
@@ -223,18 +223,9 @@ extension Lily.Stage.Playground2D
             // ストレージの生成
             self.planeStorage = planeStorage
             
-            self.modelStorage = .init( 
-                device:device, 
-                objCount:modelCapacity,
-                cameraCount:( Lily.Stage.Shared.Const.shadowCascadesCount + 1 ),
-                modelAssets:modelAssets
-            )
+            self.modelStorage = modelStorage
     
-            self.bbStorage = .init( 
-                device:device, 
-                capacity:particleCapacity
-            )
-            self.bbStorage?.addTextures( textures )
+            self.bbStorage = billboardStorage
             
             // レンダーフローの生成
             self.modelRenderFlow = .init(
@@ -275,10 +266,12 @@ extension Lily.Stage.Playground2D
         public init( 
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
-            particleCapacity:Int = 2000,
+            planeCapacity:Int = 2000,
+            planeTextures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
             modelCapacity:Int = 500,
-            textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
-            modelAssets:[String] = [ "cottonwood1", "acacia1", "plane" ]
+            modelAssets:[String] = [ "cottonwood1", "acacia1", "plane" ],
+            billboardCapacity:Int = 2000,
+            billboardTextures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
         )
         { 
             self.device = device
@@ -290,8 +283,8 @@ extension Lily.Stage.Playground2D
             // ストレージの生成
             self.planeStorage = .init( 
                 device:device, 
-                capacity:particleCapacity,
-                textures:textures
+                capacity:planeCapacity,
+                textures:planeTextures
             )
             
             self.modelStorage = .init( 
@@ -303,9 +296,9 @@ extension Lily.Stage.Playground2D
     
             self.bbStorage = .init( 
                 device:device, 
-                capacity:particleCapacity
+                capacity:billboardCapacity,
+                textures:billboardTextures
             )
-            self.bbStorage?.addTextures( textures )
             
             // レンダーフローの生成
             self.modelRenderFlow = .init(

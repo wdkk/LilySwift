@@ -17,9 +17,9 @@ extension Lily.Stage.Playground2D.Plane
         @discardableResult
         public init( storage:PlaneStorage? = PGScreen.current?.planeStorage, _ assetName:String ) {
             super.init( storage:storage )
-            status.shapeType = .picture
-            status.compositeType = .alpha
-            status.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
+            status?.shapeType = .picture
+            status?.compositeType = .alpha
+            status?.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
         }
     }
     
@@ -28,9 +28,9 @@ extension Lily.Stage.Playground2D.Plane
         @discardableResult
         public init( storage:PlaneStorage? = PGScreen.current?.planeStorage, _ assetName:String ) {
             super.init( storage:storage )
-            status.shapeType = .picture
-            status.compositeType = .add
-            status.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
+            status?.shapeType = .picture
+            status?.compositeType = .add
+            status?.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
         }
     }
     
@@ -39,9 +39,9 @@ extension Lily.Stage.Playground2D.Plane
         @discardableResult
         public init( storage:PlaneStorage? = PGScreen.current?.planeStorage, _ assetName:String ) {
             super.init( storage:storage )
-            status.shapeType = .picture
-            status.compositeType = .sub
-            status.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
+            status?.shapeType = .picture
+            status?.compositeType = .sub
+            status?.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
         }
     }
 }

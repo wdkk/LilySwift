@@ -17,8 +17,8 @@ extension Lily.Stage.Playground2D.Plane
         @discardableResult
         public override init( storage:PlaneStorage? = PGScreen.current?.planeStorage ) {
             super.init( storage:storage )
-            status.shapeType = .circle
-            status.compositeType = .alpha
+            status?.shapeType = .circle
+            status?.compositeType = .alpha
         }
     }
     
@@ -27,8 +27,8 @@ extension Lily.Stage.Playground2D.Plane
         @discardableResult
         public override init( storage:PlaneStorage? = PGScreen.current?.planeStorage ) {
             super.init( storage:storage )
-            status.shapeType = .circle
-            status.compositeType = .add
+            status?.shapeType = .circle
+            status?.compositeType = .add
         }
     }
     
@@ -37,8 +37,8 @@ extension Lily.Stage.Playground2D.Plane
         @discardableResult
         public override init( storage:PlaneStorage? = PGScreen.current?.planeStorage ) {
             super.init( storage:storage )
-            status.shapeType = .circle
-            status.compositeType = .sub
+            status?.shapeType = .circle
+            status?.compositeType = .sub
         }
     }
 }

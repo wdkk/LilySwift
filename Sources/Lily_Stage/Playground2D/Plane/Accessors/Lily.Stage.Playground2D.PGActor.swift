@@ -27,7 +27,7 @@ extension Lily.Stage.Playground2D.Plane
         public private(set) var index:Int
         public private(set) var storage:PlaneStorage?
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<PlaneUnitStatus>?
-        public private(set) var currentPointer:UnsafeMutablePointer<PlaneUnitStatus>!
+        public private(set) var currentPointer:UnsafeMutablePointer<PlaneUnitStatus>?
                 
         public var iterateField:PGField<PGActor, LLEmpty>?
         public var intervalField:ActorInterval?
@@ -35,21 +35,25 @@ extension Lily.Stage.Playground2D.Plane
         
         public init( storage:PlaneStorage? ) {
             self.storage = storage
-            self.statusAccessor = storage?.statuses.accessor
             
-            self.index = storage?.request() ?? -1 
-
-            self.currentPointer = self.statusAccessor!.baseAddress! + self.index
+            guard let storage = storage else { 
+                self.index = -1
+                return 
+            }
+            
+            self.statusAccessor = storage.statuses.accessor
+            self.index = storage.request() 
+            self.currentPointer = statusAccessor!.baseAddress! + self.index
             
             if checkIndexStatus {
-                status.state = .active
-                status.enabled = true
-                status.shapeType = .rectangle
+                status?.state = .active
+                status?.enabled = true
+                status?.shapeType = .rectangle
             }
             else {
-                status.state = .trush
-                status.enabled = false
-                status.shapeType = .rectangle
+                status?.state = .trush
+                status?.enabled = false
+                status?.shapeType = .rectangle
             }
             
             PGPool.shared.insert( shape:self, to:storage )
@@ -60,9 +64,9 @@ extension Lily.Stage.Playground2D.Plane
             return self.index < storage.capacity
         }
     
-        public var status:PlaneUnitStatus {
-            get { currentPointer.pointee }
-            set { currentPointer.pointee = newValue }
+        public var status:PlaneUnitStatus? {
+            get { currentPointer?.pointee }
+            set { if let v = newValue { currentPointer?.pointee = v } }
         }
        
         @discardableResult
@@ -174,94 +178,94 @@ extension Lily.Stage.Playground2D.Plane.PGActor
 extension Lily.Stage.Playground2D.Plane.PGActor
 {
     public var position:LLPointFloat { 
-        get { return LLPointFloat( status.position.x, status.position.y ) }
-        set { status.position = LLFloatv2( newValue.x, newValue.y ) }
+        get { return LLPointFloat( status?.position.x ?? 0, status?.position.y ?? 0 ) }
+        set { status?.position = LLFloatv2( newValue.x, newValue.y ) }
     }
     
     public var cx:LLFloat {
-        get { return status.position.x }
-        set { status.position.x = newValue }
+        get { return status?.position.x ?? 0 }
+        set { status?.position.x = newValue }
     }
     
     public var cy:LLFloat {
-        get { return status.position.y }
-        set { status.position.y = newValue }
+        get { return status?.position.y ?? 0 }
+        set { status?.position.y = newValue }
     }
     
     public var scale:LLSizeFloat {
-        get { return LLSizeFloat( status.scale.x, status.scale.y ) }
-        set { status.scale = LLFloatv2( newValue.width, newValue.height ) }
+        get { return LLSizeFloat( status?.scale.x ?? 0, status?.scale.y ?? 0 ) }
+        set { status?.scale = LLFloatv2( newValue.width, newValue.height ) }
     }
     
     public var width:Float {
-        get { return status.scale.x }
-        set { status.scale.x = newValue }
+        get { return status?.scale.x ?? 0 }
+        set { status?.scale.x = newValue }
     }
     
     public var height:Float {
-        get { return status.scale.y }
-        set { status.scale.y = newValue }
+        get { return status?.scale.y ?? 0 }
+        set { status?.scale.y = newValue }
     }
     
     public var angle:LLAngle {
-        get { return LLAngle.radians( status.angle.d ) }
-        set { status.angle = newValue.radians.f }
+        get { return LLAngle.radians( status?.angle.d  ?? 0 ) }
+        set { status?.angle = newValue.radians.f }
     }
     
     public var enabled:Bool { 
-        get { checkIndexStatus ? status.enabled : false }
-        set { if checkIndexStatus { status.enabled = newValue } }
+        get { checkIndexStatus ? ( status?.enabled ?? false ) : false }
+        set { if checkIndexStatus { status?.enabled = newValue } }
     }
     
     public var life:Float { 
-        get { return status.life }
-        set { status.life = newValue }
+        get { return status?.life  ?? 0 }
+        set { status?.life = newValue }
     }
     
     public var color:LLColor {
-        get { return status.color.llColor }
-        set { status.color = newValue.floatv4 }
+        get { return status?.color.llColor ?? .clear }
+        set { status?.color = newValue.floatv4 }
     }
     
     public var alpha:Float {
-        get { return status.color.w }
-        set { status.color.w = newValue }
+        get { return status?.color.w ?? 0 }
+        set { status?.color.w = newValue }
     }
     
     public var matrix:LLMatrix4x4 { 
-        get { return status.matrix }
-        set { status.matrix = newValue }
+        get { return status?.matrix ?? .identity }
+        set { status?.matrix = newValue }
     }
     
     public var deltaPosition:LLPointFloat { 
-        get { return LLPointFloat( status.deltaPosition.x, status.deltaPosition.y ) }
-        set { status.deltaPosition = LLFloatv2( newValue.x, newValue.y ) }
+        get { return LLPointFloat( status?.deltaPosition.x ?? 0, status?.deltaPosition.y ?? 0 ) }
+        set { status?.deltaPosition = LLFloatv2( newValue.x, newValue.y ) }
     }
     
     public var deltaScale:LLSizeFloat { 
-        get { return LLSizeFloat( status.deltaScale.x, status.deltaScale.y ) }
-        set { status.deltaScale = LLFloatv2( newValue.width, newValue.height ) }
+        get { return LLSizeFloat( status?.deltaScale.x ?? 0, status?.deltaScale.y ?? 0 ) }
+        set { status?.deltaScale = LLFloatv2( newValue.width, newValue.height ) }
     }
     
     public var deltaColor:LLColor { 
-        get { return status.deltaColor.llColor
+        get { return status?.deltaColor.llColor ?? .clear
         }
-        set { status.deltaColor = newValue.floatv4 }
+        set { status?.deltaColor = newValue.floatv4 }
     }
     
     public var deltaAlpha:Float {
-        get { return status.deltaColor.w }
-        set { status.deltaColor.w = newValue }
+        get { return status?.deltaColor.w  ?? 0 }
+        set { status?.deltaColor.w = newValue }
     }
     
     public var deltaAngle:LLAngle {
-        get { return LLAngle.radians( status.deltaAngle.d ) }
-        set { status.deltaAngle = newValue.radians.f }
+        get { return LLAngle.radians( status?.deltaAngle.d ?? 0 ) }
+        set { status?.deltaAngle = newValue.radians.f }
     }
     
     public var deltaLife:Float {
-        get { return status.deltaLife }
-        set { status.deltaLife = newValue }
+        get { return status?.deltaLife ?? 0 }
+        set { status?.deltaLife = newValue }
     }
 }
 
@@ -270,13 +274,13 @@ extension Lily.Stage.Playground2D.Plane.PGActor
 {
     @discardableResult
     public func position( _ p:LLPointFloat ) -> Self {
-        status.position = LLFloatv2( p.x, p.y )
+        status?.position = LLFloatv2( p.x, p.y )
         return self
     }
     
     @discardableResult
     public func position( _ p:LLPoint ) -> Self {
-        status.position = LLFloatv2( p.x.f, p.y.f )
+        status?.position = LLFloatv2( p.x.f, p.y.f )
         return self
     }
     
@@ -288,234 +292,140 @@ extension Lily.Stage.Playground2D.Plane.PGActor
     
     @discardableResult
     public func position( cx:LLFloatConvertable, cy:LLFloatConvertable ) -> Self {
-        status.position = LLFloatv2( cx.f, cy.f )
+        status?.position = LLFloatv2( cx.f, cy.f )
         return self
     }
-    
-    @discardableResult
-    public func position( _ calc:( Here.PGActor )->LLPointFloat ) -> Self {
-        let pf = calc( self )
-        status.position = LLFloatv2( pf.x, pf.y )
-        return self
-    }
-    
     
     @discardableResult
     public func cx( _ p:Float ) -> Self {
-        status.position.x = p
+        status?.position.x = p
         return self
     }
     
     @discardableResult
     public func cx( _ p:LLFloatConvertable ) -> Self {
-        status.position.x = p.f
+        status?.position.x = p.f
         return self
     }
 
-    @discardableResult
-    public func cx( _ calc:( Here.PGActor )->LLFloat ) -> Self {
-        status.position.x = calc( self )
-        return self
-    }
-
-    
     @discardableResult
     public func cy( _ p:Float ) -> Self {
-        status.position.y = p
+        status?.position.y = p
         return self
     }
     
     @discardableResult
     public func cy( _ p:LLFloatConvertable ) -> Self {
-        status.position.y = p.f
+        status?.position.y = p.f
         return self
     }
-
-    @discardableResult
-    public func cy( _ calc:( Here.PGActor )->LLFloat ) -> Self {
-        status.position.y = calc( self )
-        return self
-    }
-
     
     @discardableResult
     public func scale( _ sz:LLSizeFloat ) -> Self {
-        status.scale = LLFloatv2( sz.width, sz.height )
+        status?.scale = LLFloatv2( sz.width, sz.height )
         return self
     }
         
     @discardableResult
     public func scale( width:Float, height:Float ) -> Self {
-        status.scale = LLFloatv2( width, height )
+        status?.scale = LLFloatv2( width, height )
         return self
     }
     
     @discardableResult
     public func scale( width:LLFloatConvertable, height:LLFloatConvertable ) -> Self {
-        status.scale = LLFloatv2( width.f, height.f )
-        return self
-    }
-    
-    @discardableResult
-    public  func scale( _ calc:( Here.PGActor )->LLSizeFloat ) -> Self {
-        let sf = calc( self )
-        status.scale = LLFloatv2( sf.width, sf.height )
+        status?.scale = LLFloatv2( width.f, height.f )
         return self
     }
     
     @discardableResult
     public func scale( square sz:Float ) -> Self {
-        status.scale = LLFloatv2( sz, sz )
+        status?.scale = LLFloatv2( sz, sz )
         return self
     }
     
     @discardableResult
     public func scale( square sz:LLFloatConvertable ) -> Self {
-        status.scale = LLFloatv2( sz.f, sz.f )
+        status?.scale = LLFloatv2( sz.f, sz.f )
         return self
     }
 
     
     @discardableResult
     public func width( _ v:Float ) -> Self {
-        status.scale.x = v
+        status?.scale.x = v
         return self
     }
     
     @discardableResult
     public func width( _ v:LLFloatConvertable ) -> Self {
-        status.scale.x = v.f
+        status?.scale.x = v.f
         return self
     }
-
-    @discardableResult
-    public func width( _ calc:( Here.PGActor )->Float ) -> Self {
-        status.scale.x = calc( self )
-        return self
-    }
-
     
     @discardableResult
     public func height( _ v:Float ) -> Self {
-        status.scale.y = v
+        status?.scale.y = v
         return self
     }
     
     @discardableResult
     public func height( _ v:LLFloatConvertable ) -> Self {
-        status.scale.y = v.f
+        status?.scale.y = v.f
         return self
     }
-
-    @discardableResult
-    public func height( _ calc:( Here.PGActor )->Float ) -> Self {
-        status.scale.y = calc( self )
-        return self
-    }
-
     
     @discardableResult
     public func angle( _ ang:LLAngle ) -> Self {
-        status.angle = ang.radians.f
+        status?.angle = ang.radians.f
         return self
     }
     
     @discardableResult
     public func angle( radians rad:LLFloatConvertable ) -> Self {
-        status.angle = rad.f
+        status?.angle = rad.f
         return self
     }
     
     @discardableResult
     public func angle( degrees deg:LLFloatConvertable ) -> Self {
-        status.angle = LLAngle( degrees: deg.f.d ).radians.f
+        status?.angle = LLAngle( degrees: deg.f.d ).radians.f
         return self
     }
-    
-    @discardableResult
-    public func angle( _ calc:( Here.PGActor )->LLAngle ) -> Self {
-        let ang = calc( self )
-        status.angle = ang.radians.f
-        return self
-    }
-    
-    @discardableResult
-    public func angle<T:BinaryInteger>( _ calc:( Here.PGActor )->T ) -> Self {
-        status.angle = Float( calc( self ) )
-        return self
-    }
-    
-    @discardableResult
-    public func angle<T:BinaryFloatingPoint>( _ calc:( Here.PGActor )->T ) -> Self {
-        status.angle = Float( calc( self ) )
-        return self
-    }
-    
+        
     @discardableResult
     public func zIndex( _ index:LLFloatConvertable ) -> Self {
-        status.zIndex = LLWithin( min:Self.Z_INDEX_MIN, index.f, max:Self.Z_INDEX_MAX ) 
+        status?.zIndex = LLWithin( min:Self.Z_INDEX_MIN, index.f, max:Self.Z_INDEX_MAX ) 
         return self
     }
-    
-    @discardableResult
-    public func zIndex( _ calc:( Here.PGActor )->LLFloat ) -> Self {
-        status.zIndex = LLWithin( min:Self.Z_INDEX_MIN, calc( self ), max:Self.Z_INDEX_MAX )
-        return self
-    }
-    
-    @discardableResult
-    public func zIndex<T:BinaryInteger>( _ calc:( Here.PGActor )->T ) -> Self {
-        status.zIndex = LLWithin( min:Self.Z_INDEX_MIN, Float( calc( self ) ), max:Self.Z_INDEX_MAX )
-        return self
-    }
-    
-    @discardableResult
-    public func zIndex<T:BinaryFloatingPoint>( _ calc:( Here.PGActor )->T ) -> Self {
-        status.zIndex = LLWithin( min:Self.Z_INDEX_MIN, Float( calc( self ) ), max:Self.Z_INDEX_MAX )
-        return self
-    }
-                                  
-    
+                             
     @discardableResult
     public func enabled( _ torf:Bool ) -> Self {
-        status.enabled = torf
-        return self
-    }
-    
-    @discardableResult
-    public func enabled( _ calc:( Here.PGActor )->Bool ) -> Self {
-        status.enabled = calc( self )
+        status?.enabled = torf
         return self
     }
 
     @discardableResult
     public func life( _ v:Float ) -> Self {
-        status.life = v
+        status?.life = v
         return self
     }
     
     @discardableResult
     public func life( _ v:LLFloatConvertable ) -> Self {
-        status.life = v.f
+        status?.life = v.f
         return self
     }
-    
-    @discardableResult
-    public func life( _ calc:( Here.PGActor )->Float ) -> Self {
-        status.life = calc( self )
-        return self
-    }
-
     
     @discardableResult
     public func color( _ c:LLColor ) -> Self {
-        status.color = c.floatv4
+        status?.color = c.floatv4
         return self
     }
     
     @discardableResult
     public func color( red:Float, green:Float, blue:Float, alpha:Float = 1.0 ) -> Self {
-        status.color = LLFloatv4( red, green, blue, alpha )
+        status?.color = LLFloatv4( red, green, blue, alpha )
         return self
     }
     
@@ -524,110 +434,75 @@ extension Lily.Stage.Playground2D.Plane.PGActor
                 blue:LLFloatConvertable, alpha:LLFloatConvertable = 1.0 ) 
     -> Self
     {
-        status.color = LLFloatv4( red.f, green.f, blue.f, alpha.f )
+        status?.color = LLFloatv4( red.f, green.f, blue.f, alpha.f )
         return self
     }
-    
-    @discardableResult
-    public func color( _ calc:( Here.PGActor )->LLColor ) -> Self {
-        status.color = calc( self ).floatv4
-        return self
-    }
-
     
     @discardableResult
     public func alpha( _ c:Float ) -> Self {
-        status.color.w = c
+        status?.color.w = c
         return self
     }
     
     @discardableResult
     public func alpha( _ v:LLFloatConvertable ) -> Self {
-        status.color.w = v.f
+        status?.color.w = v.f
         return self
     }
-    
-    @discardableResult
-    public func alpha( _ calc:( Here.PGActor )->Float ) -> Self {
-        status.color.w = calc( self )
-        return self
-    }
-    
 
     @discardableResult
     public func matrix( _ mat:LLMatrix4x4 ) -> Self {
-        status.matrix = mat
+        status?.matrix = mat
         return self
     }
 
     
     @discardableResult
     public func deltaPosition( _ p:LLPointFloat ) -> Self {
-        status.deltaPosition = LLFloatv2( p.x, p.y )
+        status?.deltaPosition = LLFloatv2( p.x, p.y )
         return self
     }
     
     @discardableResult
     public func deltaPosition( dx:Float, dy:Float ) -> Self {
-        status.deltaPosition = LLFloatv2( dx, dy )
+        status?.deltaPosition = LLFloatv2( dx, dy )
         return self
     }
     
     @discardableResult
     public func deltaPosition( dx:LLFloatConvertable, dy:LLFloatConvertable ) -> Self {
-        status.deltaPosition = LLFloatv2( dx.f, dy.f )
-        return self
-    }
-    
-    @discardableResult
-    public func deltaPosition( _ calc:( Here.PGActor )->LLPointFloat ) -> Self {
-        let pf = calc( self )
-        status.deltaPosition = LLFloatv2( pf.x, pf.y )
-        return self
-    }
-    
-    @discardableResult
-    public func deltaPosition<T:BinaryFloatingPoint>( _ calc:( Here.PGActor )->(T,T) ) -> Self {
-        let pos = calc( self )
-        status.deltaPosition = LLFloatv2( Float(pos.0), Float(pos.1) )
+        status?.deltaPosition = LLFloatv2( dx.f, dy.f )
         return self
     }
 
-    
     @discardableResult
     public func deltaScale( _ dsc:LLSizeFloat ) -> Self {
-        status.deltaScale = LLFloatv2( dsc.width, dsc.height )
+        status?.deltaScale = LLFloatv2( dsc.width, dsc.height )
         return self
     }
     
     @discardableResult
     public func deltaScale( dw:Float, dh:Float ) -> Self {
-        status.deltaScale = LLFloatv2( dw, dh )
+        status?.deltaScale = LLFloatv2( dw, dh )
         return self
     }
     
     @discardableResult
     public func deltaScale( dw:LLFloatConvertable, dh:LLFloatConvertable ) -> Self {
-        status.deltaScale = LLFloatv2( dw.f, dh.f )
+        status?.deltaScale = LLFloatv2( dw.f, dh.f )
         return self
     }
     
-    @discardableResult
-    public func deltaScale( _ calc:( Here.PGActor )->LLSizeFloat ) -> Self {
-        let sf = calc( self )
-        status.deltaScale = LLFloatv2( sf.width, sf.height )
-        return self
-    }
 
     @discardableResult
     public func deltaColor( _ c:LLColor ) -> Self {
-        status.deltaColor = c.floatv4
+        status?.deltaColor = c.floatv4
         return self
     }
         
     @discardableResult
     public func deltaColor( red:Float, green:Float, blue:Float, alpha:Float = 0.0 ) -> Self {
-        status.deltaColor = LLFloatv4( red, green, blue, alpha )
+        status?.deltaColor = LLFloatv4( red, green, blue, alpha )
         return self
     }
     
@@ -636,82 +511,52 @@ extension Lily.Stage.Playground2D.Plane.PGActor
                      blue:LLFloatConvertable, alpha:LLFloatConvertable = 0.0 )
     -> Self
     {
-        status.deltaColor = LLFloatv4( red.f, green.f, blue.f, alpha.f )
+        status?.deltaColor = LLFloatv4( red.f, green.f, blue.f, alpha.f )
         return self
     }
 
     
     @discardableResult
     public func deltaAlpha( _ v:Float ) -> Self {
-        status.deltaColor.w = v
+        status?.deltaColor.w = v
         return self
     }
     
     @discardableResult
     public func deltaAlpha( _ v:LLFloatConvertable ) -> Self {
-        status.deltaColor.w = v.f
-        return self
-    }
-
-    @discardableResult
-    public func deltaAlpha( _ calc:( Here.PGActor )->Float ) -> Self {
-        status.deltaColor.w = calc( self )
+        status?.deltaColor.w = v.f
         return self
     }
 
         
     @discardableResult
     public func deltaAngle( _ ang:LLAngle ) -> Self {
-        status.deltaAngle = ang.radians.f
+        status?.deltaAngle = ang.radians.f
         return self
     }
     
     @discardableResult
     public func deltaAngle( radians rad:LLFloatConvertable ) -> Self {
-        status.deltaAngle = rad.f
+        status?.deltaAngle = rad.f
         return self
     }
     
     @discardableResult
     public func deltaAngle( degrees deg:LLFloatConvertable ) -> Self {
-        status.deltaAngle = LLAngle.degrees( deg.f.d ).radians.f
+        status?.deltaAngle = LLAngle.degrees( deg.f.d ).radians.f
         return self
     }
     
-    @discardableResult
-    public func deltaAngle( _ calc:( Here.PGActor )->LLAngle ) -> Self {
-        status.deltaAngle = calc( self ).radians.f
-        return self
-    }
-    
-    @discardableResult
-    public func deltaAngle<T:BinaryInteger>( _ calc:( Here.PGActor )->T ) -> Self {
-        status.deltaAngle = Float( calc( self ) )
-        return self
-    }
-    
-    @discardableResult
-    public func deltaAngle<T:BinaryFloatingPoint>( _ calc:( Here.PGActor )->T ) -> Self {
-        status.deltaAngle = Float( calc( self ) )
-        return self
-    }
-
     
     @discardableResult
     public func deltaLife( _ v:Float ) -> Self {
-        status.deltaLife = v
+        status?.deltaLife = v
         return self
     }
     
     @discardableResult
     public func deltaLife( _ v:LLFloatConvertable ) -> Self {
-        status.deltaLife = v.f
-        return self
-    }
-
-    @discardableResult
-    public func deltaLife( _ calc:( Here.PGActor )->Float ) -> Self {
-        status.deltaLife = calc( self )
+        status?.deltaLife = v.f
         return self
     }
 }
