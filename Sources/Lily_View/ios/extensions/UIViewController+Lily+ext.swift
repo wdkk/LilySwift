@@ -81,4 +81,18 @@ public extension UIViewController
     }
 }
 
+// MARK: - 操作プロパティ
+public extension UIViewController
+{ 
+    /// 背景色
+    var backgroundColor:LLColor? {
+        get {
+            return view.layer.backgroundColor?.llColor
+        }
+        set {
+            view.layer.backgroundColor = newValue?.cgColor
+        }
+    }
+}
+
 #endif

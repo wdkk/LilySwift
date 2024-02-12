@@ -30,16 +30,12 @@ extension Lily.Stage.Playground2D
         public var renderEngine:Lily.Stage.StandardRenderEngine?
         public private(set) var environment:Lily.Stage.ShaderEnvironment
         
-        // MARK: システムプロパティ
-        public var particleCapacity:Int
-        public var textures:[String]
-        
         // MARK: 描画テクスチャ
         public private(set) var mediumTextures:Lily.Stage.Playground2D.MediumTextures
         
         // MARK: ストレージ
         public private(set) var planeStorage:Plane.PlaneStorage?
-    
+        
         // MARK: レンダーフロー
         public var renderFlow:Plane.PlaneRenderFlow
         public var sRGBRenderFlow:SRGBRenderFlow
@@ -80,7 +76,6 @@ extension Lily.Stage.Playground2D
         public var pgUpdateHandler:(( PGScreen )->Void)?
         private var _design_once_flag = false
         
-        #if os(iOS) || os(visionOS)
         public lazy var metalView = Lily.View.MetalView( device:device )
         .setup( caller:self ) { me, vc in
             me.bgColor( .clear )
@@ -124,7 +119,18 @@ extension Lily.Stage.Playground2D
                     self.touchManager.resetReleases()
                 }
             ) 
+        }        
+        #if os(macOS)
+        .mouseLeftDown( caller:self ) { me, caller, args in
+            caller.recogizeMouse( pos:args.position, phase:.began, event:args.event )
         }
+        .mouseLeftDragged( caller:self ) { me, caller, args in
+            caller.recogizeMouse( pos:args.position, phase:.moved, event:args.event )
+        }
+        .mouseLeftUp( caller:self ) { me, caller, args in
+            caller.recogizeMouse( pos:args.position, phase:.ended, event:args.event )
+        }
+        #else
         .touchesBegan( caller:self ) { me, vc, args in
             vc.touchManager.allTouches.removeAll()
             args.event?.allTouches?.forEach { vc.touchManager.allTouches.append( $0 ) }
@@ -144,59 +150,6 @@ extension Lily.Stage.Playground2D
         }
         .touchesCancelled( caller:self ) { me, vc, args in
             vc.recogizeTouches( touches:vc.touchManager.allTouches )
-        }
-        
-        #elseif os(macOS)
-        public lazy var metalView = Lily.View.MetalView( device:device )
-        .setup( caller:self ) { me, vc in
-            me.bgColor( .clear )
-            vc._design_once_flag = false
-        }
-        .buildup( caller:self ) { me, vc in
-            CATransaction.stop {
-                me.rect( vc.rect )
-                vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
-                vc.mediumTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
-            }
-            
-            if !vc._design_once_flag {
-                PGScreen.current = vc
-                vc.removeAllShapes()
-                vc.pgDesignHandler?( self )
-                vc.planeStorage?.statuses.commit()
-                vc._design_once_flag = true
-            }
-        }
-        .draw( caller:self ) { me, vc, status in
-            PGScreen.current = vc
-            // 時間の更新
-            Plane.PGActor.ActorTimer.shared.update()
-            // ハンドラのコール
-            vc.pgUpdateHandler?( self )
-            // 変更の確定
-            vc.planeStorage?.statuses.commit()
-            vc.renderFlow.clearColor = self.clearColor
-            
-            // Shapeの更新/終了処理を行う
-            vc.checkShapesStatus()
-            
-            vc.renderEngine?.update(
-                with:status.drawable,
-                renderPassDescriptor:status.renderPassDesc,
-                completion: { commandBuffer in
-                    self.touchManager.changeBegansToTouches()
-                    self.touchManager.resetReleases()
-                }
-            ) 
-        }
-        .mouseLeftDown( caller:self ) { me, caller, args in
-            caller.recogizeMouse( pos:args.position, phase:.began, event:args.event )
-        }
-        .mouseLeftDragged( caller:self ) { me, caller, args in
-            caller.recogizeMouse( pos:args.position, phase:.moved, event:args.event )
-        }
-        .mouseLeftUp( caller:self ) { me, caller, args in
-            caller.recogizeMouse( pos:args.position, phase:.ended, event:args.event )
         }
         #endif
                 
@@ -219,25 +172,17 @@ extension Lily.Stage.Playground2D
         public init( 
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
-            particleCapacity:Int = 2000,
-            textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+            planeStorage:Lily.Stage.Playground2D.Plane.PlaneStorage? = nil
         )
         {
             self.device = device
-            
             self.environment = environment
-            self.particleCapacity = particleCapacity
-            self.textures = textures
             
             self.mediumTextures = .init( device:device )
+                    
+            self.planeStorage = planeStorage
             
-            self.planeStorage = .init( 
-                device:device, 
-                capacity:particleCapacity,
-                textures:textures
-            )
-            
-            renderFlow = .init( 
+            self.renderFlow = .init( 
                 device:device,
                 viewCount:1,
                 mediumTextures:self.mediumTextures,
@@ -245,7 +190,44 @@ extension Lily.Stage.Playground2D
                 storage:self.planeStorage
             )
             
-            sRGBRenderFlow = .init(
+            self.sRGBRenderFlow = .init(
+                device:device, 
+                viewCount:1,
+                mediumTextures:self.mediumTextures,
+                environment:self.environment
+            )
+            
+            super.init()
+        }
+        
+        // ストレージ簡易版
+        public init( 
+            device:MTLDevice, 
+            environment:Lily.Stage.ShaderEnvironment = .metallib,
+            particleCapacity:Int = 2000,
+            textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+        )
+        { 
+            self.device = device
+            self.environment = environment
+            
+            self.mediumTextures = .init( device:device )
+                    
+            self.planeStorage = .init( 
+                device:device, 
+                capacity:particleCapacity,
+                textures:textures
+            )
+            
+            self.renderFlow = .init( 
+                device:device,
+                viewCount:1,
+                mediumTextures:self.mediumTextures,
+                environment:self.environment,
+                storage:self.planeStorage
+            )
+            
+            self.sRGBRenderFlow = .init(
                 device:device, 
                 viewCount:1,
                 mediumTextures:self.mediumTextures,
@@ -261,12 +243,7 @@ extension Lily.Stage.Playground2D
         
         open override func setup() {
             super.setup()
-            self.view.backgroundColor = .clear
-            #if os(macOS)
-            self.view.layer?.backgroundColor = CGColor.clear
-            #else
-            self.view.layer.backgroundColor = UIColor.clear.cgColor
-            #endif
+            self.backgroundColor = .clear
             addSubview( metalView )
             
             renderEngine = .init( 

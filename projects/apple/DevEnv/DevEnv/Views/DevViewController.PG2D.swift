@@ -20,6 +20,7 @@ typealias PG2D = Lily.Stage.Playground2D
 typealias Plane = PG2D.Plane
 typealias PGScreen = PG2D.PGScreen
 
+typealias PlaneStorage = PG2D.Plane.PlaneStorage
 typealias PGSctor = Plane.PGActor
 typealias PGRectangle = Plane.PGRectangle
 typealias PGAddRectangle = Plane.PGAddRectangle
@@ -41,28 +42,36 @@ typealias PGAddMask = Plane.PGAddMask
 typealias PGSubMask = Plane.PGSubMask
 
 class DevViewController 
-: PGScreen
+: Lily.View.ViewController
 {
-    var device:MTLDevice!
-    
-    init() {
-        self.device = MTLCreateSystemDefaultDevice()
-        super.init( 
-            device:device,
-            environment:.string,
-            particleCapacity:2000,
-            textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
-        )
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    lazy var device = MTLCreateSystemDefaultDevice()!
+
+    var pgScreen:PGScreen?
+        
+    lazy var planeStorage:PlaneStorage = .init(
+        device: device,
+        capacity: 2000, 
+        textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+    )
+
     override func setup() {
         super.setup()
-        pgDesignHandler = design
-        pgUpdateHandler = update
+        
+        pgScreen = PGScreen(
+            device:device,
+            environment:.string,
+            planeStorage:planeStorage
+        )
+        
+        pgScreen?.pgDesignHandler = design
+        pgScreen?.pgUpdateHandler = update
+        
+        self.addSubview( pgScreen!.view )
+    }
+    
+    override func buildup() {
+        super.buildup()
+        pgScreen?.rect = self.rect
     }
 }
 

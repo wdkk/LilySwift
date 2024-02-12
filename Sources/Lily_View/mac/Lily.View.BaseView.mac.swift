@@ -38,7 +38,8 @@ extension Lily.View
         public typealias TouchField = Lily.Field.ViewEvent<Me, TouchObj>
       
         public var _mutex = Lily.View.RecursiveMutex()
-        public var isUserInteractionEnabled = true
+        public var isUserInteractionEnabled = true  // NOTE: iOSに合わせるためにダミーの変数を用意(使用しない)
+        public var isMultipleTouchEnabled = true    // NOTE: iOSに合わせるためにダミーの変数を用意(使用しない)
         public var setupField:(any LLField)?
         public var buildupField:(any LLField)?
         public var teardownField:(any LLField)?

@@ -71,4 +71,18 @@ public extension NSViewController
     }
 }
 
+// MARK: - 操作プロパティ
+public extension NSViewController
+{ 
+    /// 背景色
+    var backgroundColor:LLColor? {
+        get {
+            return view.backgroundColor
+        }
+        set {
+            view.backgroundColor = newValue
+        }
+    }
+}
+
 #endif
