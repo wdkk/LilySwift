@@ -1,9 +1,13 @@
 //
-//  DevSwiftUIApp.swift
-//  DevSwiftUI
+// LilySwift Library Project
 //
-//  Created by Kengo Watanabe on 2024/02/10.
+// Copyright (c) Watanabe-Denki, Inc. and Kengo Watanabe.
+//   https://wdkk.co.jp/
 //
+// This software is released under the MIT License.
+//   https://opensource.org/licenses/mit-license.php
+//
+
 
 import SwiftUI
 import LilySwift

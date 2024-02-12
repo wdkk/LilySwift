@@ -23,7 +23,7 @@ struct VisionFullyContentView : View
     
     @State var renderEngine:Lily.Stage.StandardRenderEngine?
     
-    @State var renderFlow:Lily.Stage.Playground2D.Plane.PlaneRenderFlow?
+    @State var renderFlow:Lily.Stage.Playground.Plane.PlaneRenderFlow?
     
     @State var mouseDrag = LLFloatv2()
         
@@ -39,7 +39,7 @@ struct VisionFullyContentView : View
             .toggleStyle( .button )
             .padding()
             
-            PG2D.PGScreenView( device:device!,
+            PG.PGScreenView( device:device!,
             environment:.metallib,
             design: { screen in
                 screen.clearColor = .darkGrey

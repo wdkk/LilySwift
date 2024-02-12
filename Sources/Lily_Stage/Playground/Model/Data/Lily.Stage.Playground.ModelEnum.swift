@@ -8,17 +8,14 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-import SwiftUI
+import Metal
+import simd
 
-struct NextView: View 
-{
-    var body: some View {
-        VStack {
-            Text( "Hello" )
-        }
+extension Lily.Stage.Playground.Model
+{    
+    public enum LifeState : Float
+    {
+        case active = 1.0
+        case trush  = 0.0
     }
-}
-
-#Preview {
-    return NextView()
 }

@@ -48,7 +48,7 @@ class DevViewController
     var renderEngine:Lily.Stage.StandardRenderEngine?
     
     var renderFlow:DevEnv.RenderFlow?
-    var BBRenderFlow:Lily.Stage.Playground3D.Billboard.BBRenderFlow?
+    var BBRenderFlow:Lily.Stage.Playground.Billboard.BBRenderFlow?
     
     var mouseDrag = LLFloatv2()
     

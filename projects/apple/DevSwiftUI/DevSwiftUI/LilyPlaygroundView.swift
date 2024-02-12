@@ -17,7 +17,7 @@ struct LilyPlaygroundView: View
     let device = MTLCreateSystemDefaultDevice()!
     
     var body: some View {
-        PG2D.PGScreenView(
+        PG.PGScreenView(
             device: device,
             design: { screen in
                 screen.clearColor = .clear

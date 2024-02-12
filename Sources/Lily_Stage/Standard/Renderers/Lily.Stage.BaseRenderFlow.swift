@@ -29,9 +29,7 @@ extension Lily.Stage
         }
         
         // TODO: おいおいプロトコルにしたい
-        open func changeSize( scaledSize:CGSize ) {
-            LLLog( "overrideしてください" )
-        }
+        open func changeSize( scaledSize:CGSize ) { }
         
         open func render(
             commandBuffer:MTLCommandBuffer,

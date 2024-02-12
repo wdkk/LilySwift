@@ -8,17 +8,18 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-import SwiftUI
+import Metal
 
-struct NextView: View 
+extension Lily.Stage
 {
-    var body: some View {
-        VStack {
-            Text( "Hello" )
-        }
+    open class Playground
+    {
+        open class Plane { }
+ 
+        open class Billboard { }
+        
+        open class Model { }
+        
+        open class sRGB { }
     }
-}
-
-#Preview {
-    return NextView()
 }
