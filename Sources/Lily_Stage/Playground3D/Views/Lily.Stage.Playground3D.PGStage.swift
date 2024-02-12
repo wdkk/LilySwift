@@ -37,7 +37,7 @@ extension Lily.Stage.Playground3D
         
         // MARK: 描画用テクスチャ
         var modelRenderTextures:Model.ModelRenderTextures
-        var mediumTexture:MediumTexture
+        var mediumTexture:Lily.Stage.Playground2D.MediumTexture
         
         // MARK: ストレージ
         public private(set) var modelStorage:Model.ModelStorage

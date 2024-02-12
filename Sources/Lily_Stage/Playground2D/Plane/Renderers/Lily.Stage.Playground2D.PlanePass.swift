@@ -45,7 +45,7 @@ extension Lily.Stage.Playground2D.Plane
         
         // 公開ファンクション
         public func updatePass(
-            mediumTextures:Lily.Stage.Playground2D.MediumTextures,
+            mediumTextures:Lily.Stage.Playground2D.MediumTexture,
             rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             renderTargetCount:Int
         )
@@ -70,7 +70,7 @@ extension Lily.Stage.Playground2D.Plane
         public func setClearColor( _ color:LLColor? ) {
             if let color = color {
                 passDesc?.colorAttachments[0].clearColor( color )
-                passDesc?.colorAttachments[0].action( load:.clear, store:.store )
+                passDesc?.colorAttachments[0].action( load: color == .clear ? .load : .clear, store:.store )
             }
             else {
                 passDesc?.colorAttachments[0].clearColor( .clear )

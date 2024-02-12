@@ -49,7 +49,7 @@ extension Lily.Stage.Playground3D
 
         public func draw(
             with renderEncoder:MTLRenderCommandEncoder?,
-            mediumTexture:MediumTexture?
+            mediumTexture:Lily.Stage.Playground2D.MediumTexture?
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )

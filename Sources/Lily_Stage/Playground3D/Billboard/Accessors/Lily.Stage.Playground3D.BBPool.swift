@@ -20,14 +20,24 @@ extension Lily.Stage.Playground3D.Billboard
         
         private var actorGroup:[BBStorage:Set<BBActor>] = [:]
         
-        public func shapes( on storage:BBStorage ) -> Set<BBActor> { actorGroup[storage] ?? [] }
+        public func shapes( on storage:BBStorage? ) -> Set<BBActor> { 
+            guard let storage = storage else { return [] }
+            return actorGroup[storage] ?? [] 
+        }
         
-        public func insert( shape:BBActor, to storage:BBStorage ) {
+        public func insert( shape:BBActor, to storage:BBStorage? ) {
+            guard let storage = storage else { return }
             if actorGroup[storage] == nil { actorGroup[storage] = [] }
             actorGroup[storage]?.insert( shape ) 
         }
-        public func remove( shape:BBActor, to storage:BBStorage ) { actorGroup[storage]?.remove( shape ) }
+        public func remove( shape:BBActor, to storage:BBStorage? ) {
+            guard let storage = storage else { return }
+            actorGroup[storage]?.remove( shape )
+        }
         
-        public func removeAllShapes( on storage:BBStorage ) { actorGroup[storage]?.forEach { $0.trush() } }
+        public func removeAllShapes( on storage:BBStorage? ) { 
+            guard let storage = storage else { return }
+            actorGroup[storage]?.forEach { $0.trush() } 
+        }
     }
 }

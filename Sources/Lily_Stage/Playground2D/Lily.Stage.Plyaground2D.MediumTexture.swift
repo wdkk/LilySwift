@@ -14,7 +14,7 @@ import simd
 
 extension Lily.Stage.Playground2D
 {    
-    open class MediumTextures
+    open class MediumTexture
     { 
         var device:MTLDevice
         
@@ -53,6 +53,25 @@ extension Lily.Stage.Playground2D
             resultTexture?.label = "MediumTexture.resultTexture"
             
             return true
+        }
+        
+        // シャドウマップテクスチャの作成
+        public func createShadowMap( size:LLSizeInt, arrayLength:Int ) -> MTLTexture? {
+            let desc = MTLTextureDescriptor.texture2DDescriptor(
+                pixelFormat: Lily.Stage.BufferFormats.shadowDepth,
+                width: size.width, 
+                height: size.height,
+                mipmapped: false 
+            )
+            desc.textureType = .type2DArray
+            desc.arrayLength = arrayLength
+            desc.usage       = [desc.usage, .renderTarget]
+            desc.storageMode = .private
+            
+            let shadowTexture = device.makeTexture( descriptor:desc )
+            shadowTexture?.label = "ShadowMap"
+            
+            return shadowTexture
         }
     }
 }

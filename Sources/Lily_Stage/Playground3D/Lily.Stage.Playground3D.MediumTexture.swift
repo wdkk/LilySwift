@@ -8,6 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+/*
 import Metal
 import MetalKit
 import simd
@@ -70,3 +71,4 @@ extension Lily.Stage.Playground3D
         }
     }
 }
+*/

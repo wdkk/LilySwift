@@ -31,13 +31,18 @@ extension Lily.Stage.Playground2D
         public private(set) var environment:Lily.Stage.ShaderEnvironment
         
         // MARK: 描画テクスチャ
-        public private(set) var mediumTextures:Lily.Stage.Playground2D.MediumTextures
+        public private(set) var modelRenderTextures:Lily.Stage.Playground3D.Model.ModelRenderTextures
+        public private(set) var mediumTexture:Lily.Stage.Playground2D.MediumTexture
         
         // MARK: ストレージ
         public private(set) var planeStorage:Plane.PlaneStorage?
+        public private(set) var modelStorage:Lily.Stage.Playground3D.Model.ModelStorage?
+        public private(set) var bbStorage:Lily.Stage.Playground3D.Billboard.BBStorage?
         
         // MARK: レンダーフロー
-        public var renderFlow:Plane.PlaneRenderFlow
+        public var planeRenderFlow:Plane.PlaneRenderFlow
+        public var modelRenderFlow:Lily.Stage.Playground3D.Model.ModelRenderFlow
+        public var bbRenderFlow:Lily.Stage.Playground3D.Billboard.BBRenderFlow
         public var sRGBRenderFlow:SRGBRenderFlow
         
         // MARK: プロパティ・アクセサ
@@ -68,9 +73,15 @@ extension Lily.Stage.Playground2D
         // MARK: - 2Dパーティクル情報
         public var shapes:Set<Plane.PGActor> { 
             if let storage = planeStorage { return Plane.PGPool.shared.shapes( on:storage ) }
-            return .init()
+            return []
         }
         
+        // MARK: - 3Dビルボード情報
+        public var billboards:Set<Lily.Stage.Playground3D.Billboard.BBActor> { 
+            if let storage = bbStorage { return Lily.Stage.Playground3D.Billboard.BBPool.shared.shapes( on:storage ) }
+            return []
+        }
+       
         // MARK: - 外部処理ハンドラ
         public var pgDesignHandler:(( PGScreen )->Void)?
         public var pgUpdateHandler:(( PGScreen )->Void)?
@@ -86,7 +97,8 @@ extension Lily.Stage.Playground2D
             CATransaction.stop {
                 me.rect( vc.rect )
                 vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
-                vc.mediumTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
+                vc.modelRenderTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
+                vc.mediumTexture.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
             }
             
             if !vc._design_once_flag {
@@ -94,7 +106,11 @@ extension Lily.Stage.Playground2D
                 
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
+
+                vc.modelStorage?.statuses.commit()
+                vc.bbStorage?.statuses.commit()
                 vc.planeStorage?.statuses.commit()
+
                 vc._design_once_flag = true
             }
         }
@@ -102,14 +118,20 @@ extension Lily.Stage.Playground2D
             PGScreen.current = vc
             // 時間の更新
             Plane.PGActor.ActorTimer.shared.update()
+            Lily.Stage.Playground3D.Billboard.BBActor.ActorTimer.shared.update()
+            
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
+            vc.modelStorage?.statuses.commit()
+            vc.bbStorage?.statuses.commit()
             vc.planeStorage?.statuses.commit()
-            vc.renderFlow.clearColor = self.clearColor
+            
+            vc.planeRenderFlow.clearColor = self.clearColor
             
             // Shapeの更新/終了処理を行う
             vc.checkShapesStatus()
+            vc.checkBillboardsStatus()
             
             vc.renderEngine?.update(
                 with:status.drawable,
@@ -165,27 +187,76 @@ extension Lily.Stage.Playground2D
             }
         }
         
+        func checkBillboardsStatus() {
+            for actor in self.billboards {
+                actor.appearIterate()   // イテレート処理
+                actor.appearInterval()  // インターバル処理
+                
+                if actor.life <= 0.0 {
+                    actor.appearCompletion()    // 完了前処理
+                    actor.checkRemove()         // 削除処理
+                }
+            }
+        }
+        
         func removeAllShapes() {
             Plane.PGPool.shared.removeAllShapes( on:planeStorage )
+            Lily.Stage.Playground3D.Billboard.BBPool.shared.removeAllShapes( on:bbStorage )
         }
         
         public init( 
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
-            planeStorage:Lily.Stage.Playground2D.Plane.PlaneStorage? = nil
+            planeStorage:Lily.Stage.Playground2D.Plane.PlaneStorage? = nil,
+            particleCapacity:Int = 2000,
+            modelCapacity:Int = 500,
+            textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
+            modelAssets:[String] = [ "cottonwood1", "acacia1", "plane" ]
         )
         {
             self.device = device
             self.environment = environment
+
+            self.modelRenderTextures = .init( device:device )            
+            self.mediumTexture = .init( device:device )
             
-            self.mediumTextures = .init( device:device )
-                    
+            // ストレージの生成
             self.planeStorage = planeStorage
             
-            self.renderFlow = .init( 
+            self.modelStorage = .init( 
+                device:device, 
+                objCount:modelCapacity,
+                cameraCount:( Lily.Stage.Shared.Const.shadowCascadesCount + 1 ),
+                modelAssets:modelAssets
+            )
+    
+            self.bbStorage = .init( 
+                device:device, 
+                capacity:particleCapacity
+            )
+            self.bbStorage?.addTextures( textures )
+            
+            // レンダーフローの生成
+            self.modelRenderFlow = .init(
                 device:device,
                 viewCount:1,
-                mediumTextures:self.mediumTextures,
+                renderTextures:self.modelRenderTextures,
+                mediumTexture:self.mediumTexture,
+                storage:self.modelStorage
+            )
+                                    
+            self.bbRenderFlow = .init( 
+                device:device,
+                viewCount:1,
+                mediumTexture:mediumTexture,                
+                environment:self.environment,
+                storage:self.bbStorage
+            )
+            
+            self.planeRenderFlow = .init( 
+                device:device,
+                viewCount:1,
+                mediumTextures:self.mediumTexture,
                 environment:self.environment,
                 storage:self.planeStorage
             )
@@ -193,7 +264,7 @@ extension Lily.Stage.Playground2D
             self.sRGBRenderFlow = .init(
                 device:device, 
                 viewCount:1,
-                mediumTextures:self.mediumTextures,
+                mediumTextures:self.mediumTexture,
                 environment:self.environment
             )
             
@@ -205,24 +276,58 @@ extension Lily.Stage.Playground2D
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
             particleCapacity:Int = 2000,
-            textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+            modelCapacity:Int = 500,
+            textures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
+            modelAssets:[String] = [ "cottonwood1", "acacia1", "plane" ]
         )
         { 
             self.device = device
             self.environment = environment
+
+            self.modelRenderTextures = .init( device:device )            
+            self.mediumTexture = .init( device:device )
             
-            self.mediumTextures = .init( device:device )
-                    
+            // ストレージの生成
             self.planeStorage = .init( 
                 device:device, 
                 capacity:particleCapacity,
                 textures:textures
             )
             
-            self.renderFlow = .init( 
+            self.modelStorage = .init( 
+                device:device, 
+                objCount:modelCapacity,
+                cameraCount:( Lily.Stage.Shared.Const.shadowCascadesCount + 1 ),
+                modelAssets:modelAssets
+            )
+    
+            self.bbStorage = .init( 
+                device:device, 
+                capacity:particleCapacity
+            )
+            self.bbStorage?.addTextures( textures )
+            
+            // レンダーフローの生成
+            self.modelRenderFlow = .init(
                 device:device,
                 viewCount:1,
-                mediumTextures:self.mediumTextures,
+                renderTextures:self.modelRenderTextures,
+                mediumTexture:self.mediumTexture,
+                storage:self.modelStorage
+            )
+                                    
+            self.bbRenderFlow = .init( 
+                device:device,
+                viewCount:1,
+                mediumTexture:mediumTexture,                
+                environment:self.environment,
+                storage:self.bbStorage
+            )
+            
+            self.planeRenderFlow = .init( 
+                device:device,
+                viewCount:1,
+                mediumTextures:self.mediumTexture,
                 environment:self.environment,
                 storage:self.planeStorage
             )
@@ -230,7 +335,7 @@ extension Lily.Stage.Playground2D
             self.sRGBRenderFlow = .init(
                 device:device, 
                 viewCount:1,
-                mediumTextures:self.mediumTextures,
+                mediumTextures:self.mediumTexture,
                 environment:self.environment
             )
             
@@ -249,7 +354,7 @@ extension Lily.Stage.Playground2D
             renderEngine = .init( 
                 device:device,
                 size:CGSize( 320, 240 ), 
-                renderFlows:[ renderFlow, sRGBRenderFlow ],
+                renderFlows:[ modelRenderFlow, bbRenderFlow, planeRenderFlow, sRGBRenderFlow ],
                 buffersInFlight:1
             )
 

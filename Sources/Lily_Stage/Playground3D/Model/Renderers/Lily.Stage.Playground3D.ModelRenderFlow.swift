@@ -17,7 +17,7 @@ extension Lily.Stage.Playground3D.Model
     : Lily.Stage.BaseRenderFlow
     {
         weak var modelRenderTextures:ModelRenderTextures?
-        weak var mediumTexture:Lily.Stage.Playground3D.MediumTexture?
+        weak var mediumTexture:Lily.Stage.Playground2D.MediumTexture?
         
         public var modelPass:ModelPass?
         
@@ -32,8 +32,8 @@ extension Lily.Stage.Playground3D.Model
             device:MTLDevice, 
             viewCount:Int,
             renderTextures:ModelRenderTextures,
-            mediumTexture:Lily.Stage.Playground3D.MediumTexture,
-            storage:ModelStorage
+            mediumTexture:Lily.Stage.Playground2D.MediumTexture,
+            storage:ModelStorage?
         ) 
         {
             self.modelRenderTextures = renderTextures
@@ -68,20 +68,11 @@ extension Lily.Stage.Playground3D.Model
         {
             guard let modelPass = modelPass else { return }
 
-            guard let modelRenderTextures = self.modelRenderTextures else { 
-                LLLog( "modelRenderTextureが設定されていません" )
-                return
-            }
+            guard let modelRenderTextures = self.modelRenderTextures else { LLLog( "modelRenderTextureが設定されていません" ); return }
             
-            guard let mediumTexture = self.mediumTexture else { 
-                LLLog( "mediumTextureが設定されていません" )
-                return
-            }
+            guard let mediumTexture = self.mediumTexture else { LLLog( "mediumTextureが設定されていません" ); return }
             
-            guard let storage = self.storage else {
-                LLLog( "storageがありません" )
-                return
-            }
+            guard let storage = self.storage else { return }
             
             let shadowViewport = modelRenderTextures.shadowViewport()
             let shadowScissor = modelRenderTextures.shadowScissor()

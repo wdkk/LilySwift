@@ -18,7 +18,7 @@ extension Lily.Stage.Playground3D
     {
         var pass:Lily.Stage.Playground3D.SRGBPass?
 
-        weak var mediumTexture:MediumTexture?
+        weak var mediumTexture:Lily.Stage.Playground2D.MediumTexture?
         
         var sRGBRenderer:SRGBRenderer?
         
@@ -27,7 +27,7 @@ extension Lily.Stage.Playground3D
         public init(
             device:MTLDevice,
             viewCount:Int,
-            mediumTexture:MediumTexture,
+            mediumTexture:Lily.Stage.Playground2D.MediumTexture,
             environment:Lily.Stage.ShaderEnvironment
         ) 
         {

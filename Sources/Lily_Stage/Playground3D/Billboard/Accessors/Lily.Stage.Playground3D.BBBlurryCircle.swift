@@ -15,7 +15,7 @@ extension Lily.Stage.Playground3D.Billboard
     public class BBBlurryCircle : BBActor
     {        
         @discardableResult
-        public override init( storage:BBStorage = PGStage.current!.bbStorage ) {
+        public override init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage ) {
             super.init( storage:storage )
             status.shapeType = .blurryCircle
             status.compositeType = .alpha
@@ -25,7 +25,7 @@ extension Lily.Stage.Playground3D.Billboard
     public class BBAddBlurryCircle : BBActor
     {        
         @discardableResult
-        public override init( storage:BBStorage = PGStage.current!.bbStorage ) {
+        public override init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage ) {
             super.init( storage:storage )
             status.shapeType = .blurryCircle
             status.compositeType = .add
@@ -35,7 +35,7 @@ extension Lily.Stage.Playground3D.Billboard
     public class BBSubBlurryCircle : BBActor
     {        
         @discardableResult
-        public override init( storage:BBStorage = PGStage.current!.bbStorage ) {
+        public override init( storage:BBStorage? = Lily.Stage.Playground2D.PGScreen.current?.bbStorage ) {
             super.init( storage:storage )
             status.shapeType = .blurryCircle
             status.compositeType = .sub

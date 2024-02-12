@@ -22,7 +22,7 @@ extension Lily.Stage.Playground3D.Model
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
     
         public private(set) var index:Int
-        public private(set) var storage:ModelStorage
+        public private(set) var storage:ModelStorage?
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<ModelUnitStatus>?
         public private(set) var currentPointer:UnsafeMutablePointer<ModelUnitStatus>!
                 
@@ -30,15 +30,15 @@ extension Lily.Stage.Playground3D.Model
         public var intervalField:ActorInterval?
         public var completionField:ModelField<ModelActor, LLEmpty>?
         
-        public init( storage:ModelStorage, assetName:String ) {   
+        public init( storage:ModelStorage?, assetName:String ) {   
             self.storage = storage
-            self.statusAccessor = storage.statuses.accessor
+            self.statusAccessor = storage?.statuses.accessor
             
-            self.index = storage.request( assetName:assetName ) 
+            self.index = storage?.request( assetName:assetName ) ?? -1 
 
             self.currentPointer = self.statusAccessor!.baseAddress! + self.index
             
-            if self.index < self.storage.capacity {
+            if checkIndexStatus {
                 status.state = .active
                 status.enabled = true
             }
@@ -48,6 +48,11 @@ extension Lily.Stage.Playground3D.Model
             }
             
             ModelPool.shared.insert( shape:self, to:storage )
+        }
+        
+        private var checkIndexStatus:Bool {
+            guard let storage = self.storage else { return false }
+            return self.index < storage.capacity
         }
         
         public var status:ModelUnitStatus {
@@ -112,7 +117,7 @@ extension Lily.Stage.Playground3D.Model
         }
         
         public func trush() {
-            storage.trush( index:self.index )
+            storage?.trush( index:self.index )
             ModelPool.shared.remove( shape:self, to:storage )
         }
     }
@@ -179,8 +184,8 @@ extension Lily.Stage.Playground3D.Model.ModelActor
     }
     
     public var enabled:Bool { 
-        get { if self.index < self.storage.capacity { return status.enabled } else { return false } }
-        set { if self.index < self.storage.capacity { status.enabled = newValue } }
+        get { checkIndexStatus ? status.enabled : false }
+        set { if checkIndexStatus { status.enabled = newValue } }
     }
     
     public var life:Float { 

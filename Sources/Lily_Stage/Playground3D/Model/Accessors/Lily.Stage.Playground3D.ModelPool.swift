@@ -20,14 +20,24 @@ extension Lily.Stage.Playground3D.Model
         
         private var actorGroup:[ModelStorage:Set<ModelActor>] = [:]
         
-        public func shapes( on storage:ModelStorage ) -> Set<ModelActor> { actorGroup[storage] ?? [] }
+        public func shapes( on storage:ModelStorage? ) -> Set<ModelActor> {
+            guard let storage = storage else { return [] }
+            return actorGroup[storage] ?? []
+        }
         
-        public func insert( shape:ModelActor, to storage:ModelStorage ) {
+        public func insert( shape:ModelActor, to storage:ModelStorage? ) {
+            guard let storage = storage else { return }
             if actorGroup[storage] == nil { actorGroup[storage] = [] }
             actorGroup[storage]?.insert( shape ) 
         }
-        public func remove( shape:ModelActor, to storage:ModelStorage ) { actorGroup[storage]?.remove( shape ) }
+        public func remove( shape:ModelActor, to storage:ModelStorage? ) { 
+            guard let storage = storage else { return }
+            actorGroup[storage]?.remove( shape ) 
+        }
         
-        public func removeAllShapes( on storage:ModelStorage ) {  actorGroup[storage]?.forEach { $0.trush() } }
+        public func removeAllShapes( on storage:ModelStorage? ) { 
+            guard let storage = storage else { return }
+            actorGroup[storage]?.forEach { $0.trush() }
+        }
     }
 }

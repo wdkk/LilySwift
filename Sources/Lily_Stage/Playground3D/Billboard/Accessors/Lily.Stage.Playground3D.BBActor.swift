@@ -23,7 +23,7 @@ extension Lily.Stage.Playground3D.Billboard
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
     
         public private(set) var index:Int
-        public private(set) var storage:BBStorage
+        public private(set) var storage:BBStorage?
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<BBUnitStatus>?
         public private(set) var currentPointer:UnsafeMutablePointer<BBUnitStatus>!
                 
@@ -31,15 +31,15 @@ extension Lily.Stage.Playground3D.Billboard
         public var intervalField:ActorInterval?
         public var completionField:BBField<BBActor, LLEmpty>?
         
-        public init( storage:BBStorage ) {   
+        public init( storage:BBStorage? ) {   
             self.storage = storage
-            self.statusAccessor = storage.statuses.accessor
+            self.statusAccessor = storage?.statuses.accessor
             
-            self.index = storage.request() 
+            self.index = storage?.request() ?? -1
 
             self.currentPointer = self.statusAccessor!.baseAddress! + self.index
             
-            if self.index < self.storage.capacity {
+            if checkIndexStatus {
                 status.state = .active
                 status.enabled = true
                 status.shapeType = .rectangle
@@ -51,6 +51,11 @@ extension Lily.Stage.Playground3D.Billboard
             }
             
             BBPool.shared.insert( shape:self, to:storage )
+        }
+        
+        private var checkIndexStatus:Bool {
+            guard let storage = self.storage else { return false }
+            return self.index < storage.capacity
         }
         
         public var status:BBUnitStatus {
@@ -115,7 +120,7 @@ extension Lily.Stage.Playground3D.Billboard
         }
         
         public func trush() {
-            storage.trush( index:self.index )
+            storage?.trush( index:self.index )
             BBPool.shared.remove( shape:self, to:storage )
         }
     }
@@ -202,8 +207,8 @@ extension Lily.Stage.Playground3D.Billboard.BBActor
     }
     
     public var enabled:Bool { 
-        get { if self.index < self.storage.capacity { return status.enabled } else { return false } }
-        set { if self.index < self.storage.capacity { status.enabled = newValue } }
+        get { checkIndexStatus ? status.enabled : false }
+        set { if checkIndexStatus { status.enabled = newValue } }
     }
     
     public var life:Float { 

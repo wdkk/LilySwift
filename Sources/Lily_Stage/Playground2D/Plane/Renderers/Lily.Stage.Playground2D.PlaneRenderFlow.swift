@@ -17,7 +17,7 @@ extension Lily.Stage.Playground2D.Plane
     : Lily.Stage.BaseRenderFlow
     {
         var pass:PlanePass?
-        weak var mediumTextures:Lily.Stage.Playground2D.MediumTextures?
+        weak var mediumTextures:Lily.Stage.Playground2D.MediumTexture?
         weak var storage:PlaneStorage?
         
         var alphaRenderer:PlaneAlphaRenderer?
@@ -33,7 +33,7 @@ extension Lily.Stage.Playground2D.Plane
         public init(
             device:MTLDevice,
             viewCount:Int,
-            mediumTextures:Lily.Stage.Playground2D.MediumTextures,
+            mediumTextures:Lily.Stage.Playground2D.MediumTexture,
             environment:Lily.Stage.ShaderEnvironment,
             storage:PlaneStorage?
         ) 

@@ -35,7 +35,7 @@ extension Lily.Stage.Playground2D.Plane
         
         public init( storage:PlaneStorage? ) {
             self.storage = storage
-            self.statusAccessor = storage?.statuses.accessor ?? nil 
+            self.statusAccessor = storage?.statuses.accessor
             
             self.index = storage?.request() ?? -1 
 

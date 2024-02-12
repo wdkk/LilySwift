@@ -18,7 +18,7 @@ extension Lily.Stage.Playground3D.Billboard
     {
         var pass:Lily.Stage.Playground3D.Billboard.BBPass?
         
-        weak var mediumTexture:Lily.Stage.Playground3D.MediumTexture?
+        weak var mediumTexture:Lily.Stage.Playground2D.MediumTexture?
         
         weak var storage:BBStorage?
         
@@ -31,9 +31,9 @@ extension Lily.Stage.Playground3D.Billboard
         public init(
             device:MTLDevice,
             viewCount:Int,
-            mediumTexture:Lily.Stage.Playground3D.MediumTexture,
+            mediumTexture:Lily.Stage.Playground2D.MediumTexture,
             environment:Lily.Stage.ShaderEnvironment,
-            storage:BBStorage
+            storage:BBStorage?
         ) 
         {
             self.mediumTexture = mediumTexture
@@ -79,15 +79,9 @@ extension Lily.Stage.Playground3D.Billboard
         {
             guard let pass = self.pass else { return }
             
-            guard let mediumTexture = self.mediumTexture else { 
-                LLLog( "mediumTextureが設定されていません" )
-                return
-            }
+            guard let mediumTexture = self.mediumTexture else { LLLog( "mediumTextureが設定されていません" ); return }
             
-            guard let storage = self.storage else {
-                LLLog( "storageがありません" )
-                return
-            }
+            guard let storage = self.storage else { LLLog( "storageがありません" ); return }
             
             storage.statuses.update { acc, _ in
                 for i in 0 ..< acc.count-1 {
