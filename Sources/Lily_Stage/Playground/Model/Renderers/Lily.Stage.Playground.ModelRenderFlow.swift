@@ -29,7 +29,8 @@ extension Lily.Stage.Playground.Model
         public let viewCount:Int
         
         public init(
-            device:MTLDevice, 
+            device:MTLDevice,
+            environment:Lily.Stage.ShaderEnvironment,
             viewCount:Int,
             renderTextures:ModelRenderTextures,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
@@ -44,8 +45,8 @@ extension Lily.Stage.Playground.Model
             self.viewCount = viewCount
 
             // レンダラーの用意
-            modelObjectRenderer = .init( device:device, viewCount:viewCount )
-            modelLightingRenderer = .init( device:device, viewCount:viewCount )
+            modelObjectRenderer = .init( device:device, environment:environment, viewCount:viewCount )
+            modelLightingRenderer = .init( device:device, environment:environment, viewCount:viewCount )
             
             self.storage = storage
             

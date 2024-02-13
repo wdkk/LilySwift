@@ -11,7 +11,6 @@
 import Metal
 import simd
 
-// TODO: 未実装
 extension Lily.Stage.Playground.Billboard
 {   
     open class BBShaderString
@@ -23,22 +22,7 @@ extension Lily.Stage.Playground.Billboard
         using namespace metal;
 
         #import <simd/simd.h>
-        
-        //-- Lily.Stage.Shared.Const.metal --//
-        namespace Lily
-        {
-            namespace Stage 
-            {
-                namespace Shared 
-                {
-                    namespace Const
-                    {
-                        constant int shadowCascadesCount = 3;
-                    };
-                };
-            };
-        };
-        
+                
         //-- Lily.Stage.Shared.CameraUniform.metal --//
         namespace Lily
         {
@@ -55,6 +39,7 @@ extension Lily.Stage.Playground.Billboard
                         simd::float4x4 invViewProjectionMatrix;
                         simd::float4x4 invProjectionMatrix;
                         simd::float4x4 invViewMatrix;
+                        simd::float4   frustumPlanes[6];
                     };
                 };
             };
@@ -139,7 +124,7 @@ extension Lily.Stage.Playground.Billboard
             float4 GBuffer2 [[ color(2) ]];
             float  GBufferDepth [[ color(3) ]];
         };
-        
+
         // BRDF: Bidirectional Reflectance Distribution Function (双方向反射率分布関数)
         // 不透明な表面で光がどのように反射するかを定義
         struct BRDFSet 
@@ -151,7 +136,7 @@ extension Lily.Stage.Playground.Billboard
             float ao;
             float shadow;
         };
-        
+
         inline GBufferFOut BRDFToGBuffers( thread BRDFSet &brdf ) {
             GBufferFOut fout;
             
@@ -161,7 +146,7 @@ extension Lily.Stage.Playground.Billboard
             
             return fout;
         };
-        
+
         inline BRDFSet GBuffersToBRDF( float4 GBuffer0, float4 GBuffer1, float4 GBuffer2 ) {
             BRDFSet brdf;
             
@@ -178,11 +163,13 @@ extension Lily.Stage.Playground.Billboard
         """ }
         
         static var definesCode:String { """
+        using namespace metal;
+        using namespace Lily::Stage;
+        using namespace Lily::Stage::Shared;
+        
         //// マクロ定義 ////
         #define TOO_FAR 999999.0
-        #define Z_INDEX_MIN 0.0
-        #define Z_INDEX_MAX 99999.0
-        
+
         //// 列挙子 ////
         enum CompositeType : uint
         {
@@ -210,46 +197,43 @@ extension Lily.Stage.Playground.Billboard
 
         //// 構造体 ////
             
-        struct PlaneVIn
+        struct BBVIn
         {
-            float2 xy;
+            float4 xyzw;
             float2 uv;
             float2 texUV;
         };
 
-        struct UnitStatus
+        struct BBUnitStatus
         {
             float4x4 matrix;
             float4 atlasUV;
             float4 color;
             float4 deltaColor;
-            float2 position;
-            float2 deltaPosition;
+            float3 position;
+            float  _reserved;
+            float3 deltaPosition;
+            float  _reserved2;
             float2 scale;
             float2 deltaScale;
             float angle;
             float deltaAngle;
             float life;
             float deltaLife;
-            float zIndex;
-            float _reserved;
-            float _reserved2;
-            float _reserved3;
             float enabled;
             float state;
             CompositeType compositeType;
             ShapeType shapeType;
         };
             
-        struct LocalUniform
+        struct BBLocalUniform
         {
-            float4x4      projectionMatrix;
             CompositeType shaderCompositeType;
             DrawingType   drawingType;
             int           drawingOffset;
         };        
 
-        struct PlaneVOut
+        struct BBVOut
         {
             float4 pos [[ position ]];
             float2 xy;
@@ -259,95 +243,119 @@ extension Lily.Stage.Playground.Billboard
             float  shapeType;
         };
 
-        struct PlaneResult 
+        struct BBResult 
         {
-            float4 planeTexture [[ color(0) ]];
-        };
-        
-        struct SRGBVOut
-        {
-            float4 position [[ position ]];
-        };
-            
-        struct SRGBFOut
-        {
+            float4 billboardTexture [[ color(0) ]];
             float4 backBuffer [[ color(1) ]];
         };
+        
         """ }
         
         static var vertexShaderCode:String { """
         
-        vertex PlaneVOut Lily_Stage_Playground_Plane_Vs(
-            const device PlaneVIn* in [[ buffer(0) ]],
+        vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
+            const device BBVIn* in [[ buffer(0) ]],
             constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
-            constant LocalUniform &localUniform [[ buffer(2) ]],
-            const device UnitStatus* statuses [[ buffer(3) ]],
+            constant BBLocalUniform &localUniform [[ buffer(2) ]],
+            const device BBUnitStatus* statuses [[ buffer(3) ]],
             ushort amp_id [[ amplification_id ]],
             uint vid [[ vertex_id ]],
             uint iid [[ instance_id ]]
         )
         {
-            UnitStatus us = statuses[iid];
+            BBUnitStatus us = statuses[iid];
             
             if( us.compositeType != localUniform.shaderCompositeType ) { 
-                PlaneVOut trush_vout;
-                trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
+                BBVOut trush_vout;
+                trush_vout.pos = float4( 0, 0, TOO_FAR, 0 );
                 return trush_vout;
             }
 
             // 三角形が指定されているが, 描画が三角形でない場合
             if( us.shapeType == ShapeType::triangle && localUniform.drawingType != DrawingType::triangles ) {
-                PlaneVOut trush_vout;
-                trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
+                BBVOut trush_vout;
+                trush_vout.pos = float4( 0, 0, TOO_FAR, 0 );
                 return trush_vout;    
             }
             
             // 三角形以外が指定されているが、描画が三角形である場合
             if( us.shapeType != ShapeType::triangle && localUniform.drawingType == DrawingType::triangles ) {
-                PlaneVOut trush_vout;
-                trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
+                BBVOut trush_vout;
+                trush_vout.pos = float4( 0, 0, TOO_FAR, 0 );
                 return trush_vout;    
             }
             
             const int offset = localUniform.drawingOffset;
+                
+            GlobalUniform uniform = uniformArray.uniforms[amp_id];
             
-            //GlobalUniform uniform = uniformArray.uniforms[amp_id];
-            PlaneVIn vin = in[offset + vid];
+            BBVIn vin = in[offset + vid];
+                
+            float4x4 modelMatrix = float4x4(
+                float4( 1, 0, 0, 0 ),
+                float4( 0, 1, 0, 0 ),
+                float4( 0, 0, 1, 0 ),
+                float4( us.position, 1 )
+            );
             
-            float cosv = cos( us.angle );
-            float sinv = sin( us.angle );
-            float x = vin.xy.x;
-            float y = vin.xy.y;
-            float scx = us.scale.x * 0.5;
-            float scy = us.scale.y * 0.5;
+            float4x4 vpMatrix = uniform.cameraUniform.viewProjectionMatrix;
+            float4x4 mvpMatrix = vpMatrix * modelMatrix;
+            
+            float4 pos1 = mvpMatrix * in[offset + 0].xyzw;
+            float4 pos2 = mvpMatrix * in[offset + 1].xyzw;
+            float4 pos3 = mvpMatrix * in[offset + 2].xyzw;
+            float4 pos4 = mvpMatrix * in[offset + 3].xyzw;
+            
+            float4 center_pos = (pos1 + pos2 + pos3 + pos4) / 4.0;
 
+            constexpr float2 square_vertices[] = { 
+                float2( -1.0, -1.0 ),
+                float2(  1.0, -1.0 ),
+                float2( -1.0,  1.0 ),
+                float2(  1.0,  1.0 )
+            };
+            
+            constexpr float2 triangle_vertices[] = { 
+                float2(  0.0,  1.15470053838 ),
+                float2( -1.0, -0.57735026919 ),
+                float2(  1.0, -0.57735026919 ),
+                float2(  0.0,  0.0 )
+            };
+            
             float4 atlas_uv = us.atlasUV;
 
-            float min_u = atlas_uv[0];
-            float min_v = atlas_uv[1];
-            float max_u = atlas_uv[2];
-            float max_v = atlas_uv[3];
+            float2 min_uv = atlas_uv.xy;
+            float2 max_uv = atlas_uv.zw;
 
             float u = vin.texUV.x;
             float v = vin.texUV.y;
+            
+            float cosv = cos( us.angle );
+            float sinv = sin( us.angle );
+            float scx = us.scale.x * 0.5;
+            float scy = us.scale.y * 0.5;
 
             float2 tex_uv = float2( 
-                min_u * (1.0-u) + max_u * u,
-                min_v * (1.0-v) + max_v * v
+                min_uv[0] * (1.0-u) + max_uv[0] * u,
+                min_uv[1] * (1.0-v) + max_uv[1] * v
             );
 
             // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
-            float visibility_y = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : TOO_FAR;
+            float visibility_z = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : TOO_FAR;
+                
+            // ビルボード内ローカル座標
+            float2 loc_pos = us.shapeType == ShapeType::triangle ? triangle_vertices[vid] : square_vertices[vid];
             
-            // xy座標のアフィン変換
-            float2 v_coord = float2(
-                scx * cosv * x - sinv * scy * y + us.position.x,
-                scx * sinv * x + cosv * scy * y + us.position.y + visibility_y
+            float4 billboard_pos = float4(
+                center_pos.x + (scx * cosv * loc_pos.x - sinv * scy * loc_pos.y) / uniform.aspect,
+                center_pos.y + (scx * sinv * loc_pos.x + cosv * scy * loc_pos.y),
+                center_pos.z + visibility_z,
+                center_pos.w
             );
 
-            PlaneVOut vout;
-            vout.pos = localUniform.projectionMatrix * float4( v_coord, 1.0 - us.zIndex / Z_INDEX_MAX, 1 );
-            vout.xy = vin.xy;
+            BBVOut vout;
+            vout.pos = billboard_pos;
+            vout.xy = vin.xyzw.xy;
             vout.texUV = tex_uv;
             vout.uv = vin.uv;
             vout.color = us.color;
@@ -359,17 +367,18 @@ extension Lily.Stage.Playground.Billboard
         """ }
         
         static var fragmentShaderCode:String { """
+
         namespace Lily
         {
             namespace Stage 
             {
                 namespace Playground
                 {
-                    float4 drawPlane( PlaneVOut in ) {
+                    float4 drawPlane( BBVOut in ) {
                         return in.color;
                     }
                     
-                    float4 drawCircle( PlaneVOut in ) {
+                    float4 drawCircle( BBVOut in ) {
                         float x = in.xy.x;
                         float y = in.xy.y;
                         float r = x * x + y * y;
@@ -377,7 +386,7 @@ extension Lily.Stage.Playground.Billboard
                         return in.color;
                     } 
                     
-                    float4 drawBlurryCircle( PlaneVOut in ) {
+                    float4 drawBlurryCircle( BBVOut in ) {
                         float x = in.xy.x;
                         float y = in.xy.y;
                         float r = sqrt( x * x + y * y );
@@ -389,17 +398,18 @@ extension Lily.Stage.Playground.Billboard
                         return c;
                     } 
                     
-                    float4 drawPicture( PlaneVOut in, texture2d<float> tex ) {
+                    float4 drawPicture( BBVOut in, texture2d<float> tex ) {
                         constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
                         
                         if( is_null_texture( tex ) ) { discard_fragment(); }
+                        
                         float4 tex_c = tex.sample( sampler, in.texUV );
                         float4 c = in.color;
                         tex_c[3] *= c[3];
                         return tex_c;
                     } 
                     
-                    float4 drawMask( PlaneVOut in, texture2d<float> tex ) {
+                    float4 drawMask( BBVOut in, texture2d<float> tex ) {
                         constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
                         
                         if( is_null_texture( tex ) ) { discard_fragment(); }
@@ -413,8 +423,8 @@ extension Lily.Stage.Playground.Billboard
             }
         }
 
-        fragment PlaneResult Lily_Stage_Playground_Plane_Fs(
-            const PlaneVOut in [[ stage_in ]],
+        fragment BBResult Lily_Stage_Playground_Billboard_Fs(
+            const BBVOut in [[ stage_in ]],
             texture2d<float> tex [[ texture(1) ]]
         )
         {
@@ -441,10 +451,12 @@ extension Lily.Stage.Playground.Billboard
                     break;
             }
             
-            PlaneResult result;
-            result.planeTexture = color;
+            BBResult result;
+            result.billboardTexture = color;
+            result.backBuffer = color;
             return result;
         }
+        
         """ }
         
         public let PlaygroundBillboardVertexShader:Lily.Metal.Shader

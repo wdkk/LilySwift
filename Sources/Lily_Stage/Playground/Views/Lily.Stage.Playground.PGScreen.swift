@@ -31,19 +31,19 @@ extension Lily.Stage.Playground
         public private(set) var environment:Lily.Stage.ShaderEnvironment
         
         // MARK: 描画テクスチャ
-        public private(set) var modelRenderTextures:Lily.Stage.Playground.Model.ModelRenderTextures
-        public private(set) var mediumTexture:Lily.Stage.Playground.MediumTexture
+        public private(set) var modelRenderTextures:Model.ModelRenderTextures
+        public private(set) var mediumTexture:MediumTexture
         
         // MARK: ストレージ
         public private(set) var planeStorage:Plane.PlaneStorage?
-        public private(set) var modelStorage:Lily.Stage.Playground.Model.ModelStorage?
-        public private(set) var bbStorage:Lily.Stage.Playground.Billboard.BBStorage?
+        public private(set) var modelStorage:Model.ModelStorage?
+        public private(set) var bbStorage:Billboard.BBStorage?
         
         // MARK: レンダーフロー
-        public var clearRenderFlow:Lily.Stage.Playground.ClearRenderFlow
+        public var clearRenderFlow:ClearRenderFlow
         public var planeRenderFlow:Plane.PlaneRenderFlow
-        public var modelRenderFlow:Lily.Stage.Playground.Model.ModelRenderFlow
-        public var bbRenderFlow:Lily.Stage.Playground.Billboard.BBRenderFlow
+        public var modelRenderFlow:Model.ModelRenderFlow
+        public var bbRenderFlow:Billboard.BBRenderFlow
         public var sRGBRenderFlow:SRGBRenderFlow
         
         // MARK: プロパティ・アクセサ
@@ -240,6 +240,7 @@ extension Lily.Stage.Playground
             
             self.modelRenderFlow = .init(
                 device:device,
+                environment:self.environment,
                 viewCount:1,
                 renderTextures:self.modelRenderTextures,
                 mediumTexture:self.mediumTexture,
@@ -248,25 +249,25 @@ extension Lily.Stage.Playground
                                     
             self.bbRenderFlow = .init( 
                 device:device,
-                viewCount:1,
-                mediumTexture:mediumTexture,                
                 environment:self.environment,
+                viewCount:1,
+                mediumTexture:mediumTexture,
                 storage:self.bbStorage
             )
             
             self.planeRenderFlow = .init( 
                 device:device,
+                environment:self.environment,
                 viewCount:1,
                 mediumTextures:self.mediumTexture,
-                environment:self.environment,
                 storage:self.planeStorage
             )
             
             self.sRGBRenderFlow = .init(
                 device:device, 
+                environment:self.environment,
                 viewCount:1,
-                mediumTextures:self.mediumTexture,
-                environment:self.environment
+                mediumTextures:self.mediumTexture
             )
             
             super.init()
@@ -319,6 +320,7 @@ extension Lily.Stage.Playground
             
             self.modelRenderFlow = .init(
                 device:device,
+                environment:environment,
                 viewCount:1,
                 renderTextures:self.modelRenderTextures,
                 mediumTexture:self.mediumTexture,
@@ -327,25 +329,25 @@ extension Lily.Stage.Playground
                                     
             self.bbRenderFlow = .init( 
                 device:device,
+                environment:self.environment,
                 viewCount:1,
                 mediumTexture:mediumTexture,                
-                environment:self.environment,
                 storage:self.bbStorage
             )
             
             self.planeRenderFlow = .init( 
                 device:device,
+                environment:self.environment,
                 viewCount:1,
                 mediumTextures:self.mediumTexture,
-                environment:self.environment,
                 storage:self.planeStorage
             )
             
             self.sRGBRenderFlow = .init(
                 device:device, 
+                environment:self.environment,
                 viewCount:1,
-                mediumTextures:self.mediumTexture,
-                environment:self.environment
+                mediumTextures:self.mediumTexture
             )
             
             super.init()
@@ -375,7 +377,7 @@ extension Lily.Stage.Playground
 
             // 時間の初期化
             Plane.PGActor.ActorTimer.shared.start()
-            Lily.Stage.Playground.Billboard.BBActor.ActorTimer.shared.start()
+            Billboard.BBActor.ActorTimer.shared.start()
             // ループの開始
             startLooping()
         }

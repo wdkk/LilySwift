@@ -68,7 +68,7 @@ extension Lily.Stage.Playground
             }
             else {
                 passDesc?.colorAttachments[0].clearColor( .clear )
-                passDesc?.colorAttachments[0].action( load:.load, store:.store )
+                passDesc?.colorAttachments[0].action( load:.clear, store:.store )
             }
         }
         
@@ -128,13 +128,7 @@ extension Lily.Stage.Playground
             
             encoder?
             .label( "Playground Clear Render" )
-            /*
-            .cullMode( .none )
-            .frontFacing( .counterClockwise )
-            .viewports( viewports )
-            .vertexAmplification( count:viewCount, viewports:viewports )
-            */
-            
+
             encoder?.endEncoding()
         }
     }

@@ -30,9 +30,9 @@ extension Lily.Stage.Playground.Billboard
         
         public init(
             device:MTLDevice,
+            environment:Lily.Stage.ShaderEnvironment,
             viewCount:Int,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
-            environment:Lily.Stage.ShaderEnvironment,
             storage:BBStorage?
         ) 
         {

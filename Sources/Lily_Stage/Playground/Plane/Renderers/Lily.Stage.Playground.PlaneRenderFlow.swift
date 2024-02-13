@@ -30,9 +30,9 @@ extension Lily.Stage.Playground.Plane
         
         public init(
             device:MTLDevice,
+            environment:Lily.Stage.ShaderEnvironment,
             viewCount:Int,
             mediumTextures:Lily.Stage.Playground.MediumTexture,
-            environment:Lily.Stage.ShaderEnvironment,
             storage:PlaneStorage?
         ) 
         {

@@ -25,15 +25,24 @@ extension Lily.Stage.Playground.Model
         public var objectPipeline: MTLRenderPipelineState?
         public var shadowPipeline: MTLRenderPipelineState?
         
-        public init( device:MTLDevice, viewCount:Int ) {
+        public init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
             self.device = device
             let library = try! Lily.Stage.metalLibrary( of:device )
 
             let desc = MTLRenderPipelineDescriptor()
     
             desc.label = "Playground Objects Geometry"
-            desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Object_Vs" ) )
-            desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Object_Fs" ) )
+            if environment == .metallib {
+                let library = try! Lily.Stage.metalLibrary( of:device )
+                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Object_Vs" ) )
+                desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Object_Fs" ) )
+            }
+            else if environment == .string {
+                let stringShader = Lily.Stage.Playground.Model.ModelObjectShaderString.shared( device:device )
+                desc.vertexShader( stringShader.PlaygroundModelVertexShader )
+                desc.fragmentShader( stringShader.PlaygroundModelFragmentShader )            
+            }
+        
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
             desc.colorAttachments[IDX_GBUFFER_0].pixelFormat = Lily.Stage.BufferFormats.GBuffer0
@@ -48,8 +57,17 @@ extension Lily.Stage.Playground.Model
             objectPipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
             
             desc.label = "Playground Objects Shadow"
-            desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Object_Shadow_Vs" ) )
-            desc.fragmentFunction = nil 
+            if environment == .metallib {
+                let library = try! Lily.Stage.metalLibrary( of:device )
+                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Object_Shadow_Vs" ) )
+                desc.fragmentFunction = nil 
+            }
+            else if environment == .string {
+                let stringShader = Lily.Stage.Playground.Model.ModelObjectShaderString.shared( device:device )
+                desc.vertexShader( stringShader.PlaygroundModelShadowVertexShader )
+                desc.fragmentFunction = nil          
+            }
+
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
             desc.colorAttachments[IDX_GBUFFER_0].pixelFormat = .invalid

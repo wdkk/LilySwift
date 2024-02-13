@@ -20,10 +20,10 @@ extension Lily.Stage.Playground.Model
         public var pipeline:MTLRenderPipelineState?
         public var depthState:MTLDepthStencilState?
         
-        public init( device:MTLDevice, viewCount:Int ) {
+        public init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
             self.device = device
 
-            pipeline = try! makeLightingRenderPipelineState( viewCount:viewCount )
+            pipeline = try! makeLightingRenderPipelineState( environment:environment, viewCount:viewCount )
             
             // ライティングデプスステートの作成
             depthState = device.makeDepthStencilState(descriptor: .make {
@@ -33,13 +33,28 @@ extension Lily.Stage.Playground.Model
             })
         }
         
-        public func makeLightingRenderPipelineState( viewCount:Int ) throws -> MTLRenderPipelineState? {
+        public func makeLightingRenderPipelineState( 
+            environment:Lily.Stage.ShaderEnvironment, 
+            viewCount:Int 
+        )
+        throws
+        -> MTLRenderPipelineState?
+        {
             let desc = MTLRenderPipelineDescriptor()
             let library = try! Lily.Stage.metalLibrary( of:device )
             
             desc.label = "Playground Model Lighting"
-            desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Lighting_Vs" ) )
-            desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Lighting_Fs" ) )
+            if environment == .metallib {
+                let library = try! Lily.Stage.metalLibrary( of:device )
+                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Lighting_Vs" ) )
+                desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Lighting_Fs" ) )
+            }
+            else if environment == .string {
+                let stringShader = Lily.Stage.Playground.Model.ModelLightingShaderString.shared( device:device )
+                desc.vertexShader( stringShader.PlaygroundModelLightingVertexShader )
+                desc.fragmentShader( stringShader.PlaygroundModelLightingFragmentShader )            
+            }
+            
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
             desc.colorAttachments[IDX_GBUFFER_0].pixelFormat = Lily.Stage.BufferFormats.GBuffer0
@@ -85,8 +100,8 @@ extension Lily.Stage.Playground.Model
     open class ModelLightingRenderer
     : ModelBaseLightingRenderer
     {           
-        public override init( device:MTLDevice, viewCount:Int ) {
-            super.init( device:device, viewCount:viewCount )
+        public override init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
+            super.init( device:device, environment:environment, viewCount:viewCount )
         }
     }
 }

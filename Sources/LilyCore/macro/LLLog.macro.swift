@@ -19,7 +19,7 @@ import Foundation
 #if DEBUG
 public func LLLog( _ body:Any?, file:String = #file, function:String = #function, line:Int = #line ) {
     if LLLogEnabled() && body != nil {
-        let fn = LCPathPickFilenameFull( file.lcStr )
+        let fn = file.fileUrl.lastPathComponent
         print( "[\( fn ):\(line) \(function)] \(body!)" )
     }
 }
@@ -35,7 +35,7 @@ public func LLLog( _ body:Any?, file:String = #file, function:String = #function
 ///   - line: ログ出力した行数(default = 行数)
 public func LLLogWarning( _ body:Any?, file:String = #file, function:String = #function, line:Int = #line ) {
     if LLLogWarningEnabled() && body != nil {
-        let fn = LCPathPickFilenameFull( file.lcStr )
+        let fn = file.fileUrl.lastPathComponent
         print( "[\( fn ):\(line) \(function)] \(body!)" )
     }
 }
@@ -48,7 +48,7 @@ public func LLLogWarning( _ body:Any?, file:String = #file, function:String = #f
 ///   - line: ログ出力した行数(default = 行数)
 public func LLLogForce( _ body:Any?, file:String = #file, function:String = #function, line:Int = #line ) {
     if LLLogForceEnabled() && body != nil {
-        let fn = LCPathPickFilenameFull( file.lcStr )
+        let fn = file.fileUrl.lastPathComponent
         print( "[\( fn ):\(line) \(function)] \(body!)" )
     }
 }

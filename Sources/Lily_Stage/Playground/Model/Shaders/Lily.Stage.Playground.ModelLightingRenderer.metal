@@ -108,6 +108,12 @@ struct LightingVOut
     float4 position [[position]];
 };
 
+struct LightingFOut
+{
+    float4 backBuffer [[ color(IDX_OUTPUT) ]];
+};
+
+
 vertex LightingVOut Lily_Stage_Playground_Model_Lighting_Vs( uint vid [[vertex_id]] )
 {
     const float2 vertices[] = {
@@ -122,11 +128,6 @@ vertex LightingVOut Lily_Stage_Playground_Model_Lighting_Vs( uint vid [[vertex_i
     out.position = float4( vertices[vid], 1.0, 1.0 );
     return out;
 }
-
-struct LightingFOut
-{
-    float4 backBuffer [[ color(IDX_OUTPUT) ]];
-};
 
 fragment LightingFOut Lily_Stage_Playground_Model_Lighting_Fs
 (

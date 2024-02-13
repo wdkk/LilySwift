@@ -26,9 +26,9 @@ extension Lily.Stage.Playground
         
         public init(
             device:MTLDevice,
+            environment:Lily.Stage.ShaderEnvironment,
             viewCount:Int,
-            mediumTextures:MediumTexture,
-            environment:Lily.Stage.ShaderEnvironment
+            mediumTextures:MediumTexture
         ) 
         {
             self.pass = .init( device:device )
