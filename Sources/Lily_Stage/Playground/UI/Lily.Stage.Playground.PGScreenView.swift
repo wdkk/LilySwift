@@ -114,12 +114,12 @@ extension Lily.Stage.Playground
         public init( 
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment = .string,
-            planeCapacity:Int = 2000,
-            planeTextures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
-            modelCapacity:Int = 500,
-            modelAssets:[String] = [ "cottonwood1", "acacia1", "plane" ],
-            billboardCapacity:Int = 2000,
-            billboardTextures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
+            planeCapacity:Int? = 2000,
+            planeTextures:[String]? = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
+            modelCapacity:Int? = 500,
+            modelAssets:[String]? = [ "cottonwood1", "acacia1", "plane" ],
+            billboardCapacity:Int? = 2000,
+            billboardTextures:[String]? = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
             design:(( PGScreen )->Void)? = nil,
             update:(( PGScreen )->Void)? = nil 
         )
@@ -128,24 +128,36 @@ extension Lily.Stage.Playground
             self.environment = environment
             
             // ストレージの生成
-            self.planeStorage = .init( 
-                device:device, 
-                capacity:planeCapacity,
-                textures:planeTextures
-            )
+            if let planeCapacity = planeCapacity,
+               let planeTextures = planeTextures 
+            {
+                self.planeStorage = .init( 
+                    device:device, 
+                    capacity:planeCapacity,
+                    textures:planeTextures
+                )
+            }
             
-            self.modelStorage = .init( 
-                device:device, 
-                objCount:modelCapacity,
-                cameraCount:( Lily.Stage.Shared.Const.shadowCascadesCount + 1 ),
-                modelAssets:modelAssets
-            )
+            if let modelAssets = modelAssets,
+               let modelCapacity = modelCapacity
+            {
+                self.modelStorage = .init( 
+                    device:device, 
+                    objCount:modelCapacity,
+                    cameraCount:( Lily.Stage.Shared.Const.shadowCascadesCount + 1 ),
+                    modelAssets:modelAssets
+                )
+            }
     
-            self.bbStorage = .init( 
-                device:device, 
-                capacity:billboardCapacity,
-                textures:billboardTextures
-            )
+            if let billboardCapacity = billboardCapacity,
+               let billboardTextures = billboardTextures
+            {
+                self.bbStorage = .init( 
+                    device:device, 
+                    capacity:billboardCapacity,
+                    textures:billboardTextures
+                )
+            }
             
             self.design = design
             self.update = update
