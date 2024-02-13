@@ -90,8 +90,10 @@ extension Lily.Stage.Playground.Model
             super.init( device:device, viewCount:viewCount )
 
             // Mipsを活用するためにKTXフォーマットを使う
+            /*
             skyCubeMap = try! Lily.Metal.Texture.create( device:device, assetName:"skyCubeMap" )!
             .makeTextureView( pixelFormat:.rgba8Unorm )
+            */
         }
     }
 }
