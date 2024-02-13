@@ -1536,13 +1536,13 @@
 			children = (
 				5D678F512783677E00DF430C /* UUID+Lily+ext.swift */,
 				5D678F4A2783677E00DF430C /* String+Lily+ext.swift */,
-				5D678F4B2783677E00DF430C /* CGColor+Lily+ext.swift */,
 				5D678F522783677E00DF430C /* UserDefault+Lily+ext.swift */,
+				5D678F4B2783677E00DF430C /* CGColor+Lily+ext.swift */,
+				5D970B642B78A48D0013C18A /* CGImage+Lily+ext.swift */,
 				5D678F4F2783677E00DF430C /* CVPixelBuffer+Lily+ext.swift */,
 				5D678F4C2783677E00DF430C /* AVCaptureDevice+Lily+ext.swift */,
 				5D678F4D2783677E00DF430C /* LLColor+Lily+ext.palette.swift */,
 				5D678F4E2783677E00DF430C /* LLColor+Lily+ext.swift */,
-				5D970B642B78A48D0013C18A /* CGImage+Lily+ext.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";

@@ -153,7 +153,7 @@ extension Lily.Stage.Playground
         
         public init( 
             device:MTLDevice,
-            environment:Lily.Stage.ShaderEnvironment,
+            environment:Lily.Stage.ShaderEnvironment = .string,
             planeStorage:Lily.Stage.Playground.Plane.PlaneStorage?,
             modelStorage:Lily.Stage.Playground.Model.ModelStorage?,
             billboardStorage:Lily.Stage.Playground.Billboard.BBStorage?,

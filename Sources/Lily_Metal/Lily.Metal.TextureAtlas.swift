@@ -180,7 +180,7 @@ extension Lily.Metal
             typealias ImagePosUnit = Lily.Metal.TextureTree.ImagePosUnit
 
             var image_rects:[ImagePosUnit] = []
-            
+                        
             let loader = MTKTextureLoader( device:device! )
             
             for (label, v) in self.labels {
@@ -193,7 +193,9 @@ extension Lily.Metal
                     let bundle:Bundle? = nil
                     
                     do {
-                        let tex = try loader.newTexture( name:path, scaleFactor:1.0, bundle:bundle )
+                        guard let cgimg = CGImage.load( assetName:path ) else { continue }
+                        let tex = try loader.newTexture( cgImage:cgimg )
+                        //let tex = try loader.newTexture( name:path, scaleFactor:1.0, bundle:bundle )
                         let rc = ImagePosUnit( x:0, y:0, width:tex.width, height:tex.height )
                         rc.image = tex
                         rc.label = label

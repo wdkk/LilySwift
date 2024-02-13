@@ -20,9 +20,9 @@ extension CGImage
 {
     public static func load( assetName:String ) -> CGImage? {
         #if os(macOS)
-        return NSImage( named:assetName )?.cgImage
+        return NSImage( named:assetName )?.BGRtoRGB().cgImage
         #else
-        return UIImage( named:assetName )?.cgImage
+        return UIImage( named:assetName )?.BGRtoRGB().cgImage
         #endif
     }
     

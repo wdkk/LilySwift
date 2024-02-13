@@ -19,8 +19,9 @@ struct LilyPlaygroundView: View
     var body: some View {
         PG.PGScreenView(
             device: device,
+            environment: .metallib,
             design: { screen in
-                screen.clearColor = .clear
+                screen.clearColor = .darkGray
                 
                 for _ in 0 ..< 80 {
                     PGAddBlurryCircle()
@@ -43,6 +44,7 @@ struct LilyPlaygroundView: View
                         .alpha( 0 )
                     }
                 }
+
             },
             update: { screen in
                 

@@ -142,7 +142,7 @@ open class LLImage
 
 public extension LLImage
 {
-    /// CoreViewo用バッファ
+    /// CoreVideo用バッファ
     var pixelBuffer:CVPixelBuffer? {
         let dst_row_bytes = self.width * 4
         guard let dst_addr = malloc( self.height * dst_row_bytes ) else { return nil }
