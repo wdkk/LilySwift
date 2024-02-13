@@ -63,7 +63,9 @@ extension Lily.Stage.Playground
             let screen = PGScreen(
                 device:device,
                 environment:self.environment,
-                planeStorage:self.planeStorage
+                planeStorage:self.planeStorage,
+                billboardStorage:self.bbStorage,
+                modelStorage:self.modelStorage
             )
             
             screen.pgDesignHandler = self.design

@@ -48,8 +48,7 @@ struct VisionFullyContentView : View
 
         let modelStorage:ModelStorage = .init(
             device: device,
-            objCount: 500, 
-            cameraCount: 4, 
+            modelCapacity: 500,
             modelAssets: [ "cottonwood1", "acacia1", "plane" ] 
         )
         
@@ -61,12 +60,15 @@ struct VisionFullyContentView : View
             PG.PGScreenView( 
                 device:device,
                 environment:.metallib,
-                //planeStorage:planeStorage,
-                //modelStorage:modelStorage, 
-                //billboardStorage:bbStorage,
+                planeStorage:planeStorage,
+                modelStorage:modelStorage, 
+                billboardStorage:bbStorage,
                 design: { screen in
-                screen.clearColor = .darkGrey
                 
+                screen.clearColor = .darkGrey
+                screen.cubeMap = "skyCubeMap"
+                
+                /*
                 for _ in 0 ..< 160 {
                     PGAddMask( "mask-smoke" )
                     .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
@@ -102,6 +104,7 @@ struct VisionFullyContentView : View
                         .life( 1.0 )
                     }
                 }
+                */
                 
                 for _ in 0 ..< 10 {
                     let size = (40.0 ... 80.0).randomize
@@ -229,42 +232,6 @@ struct VisionFullyContentView : View
             update: { screen in
 
             })
-            
-            /*
-            Lily.UI.MetalView( 
-                device:device,
-                setup: { view in
-                    renderFlow = .init( 
-                        device:device!, 
-                        viewCount:Lily.Stage.fullyViewCount,
-                        textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
-                    )
-                    
-                    renderEngine = .init( 
-                        device:device!,
-                        size:CGSize( 320, 240 ),
-                        renderFlow:renderFlow!,
-                        buffersInFlight:3
-                    )
-                },
-                buildup: { view in
-                    renderEngine?.changeScreenSize( size:view.scaledBounds.size )
-                },
-                draw: { view, drawable, renderPassDesc in
-                    changeCameraStatus()
-                    
-                    renderEngine?.update(
-                        with:drawable,
-                        renderPassDescriptor:renderPassDesc,
-                        completion: { commandBuffer in
-                            //commandBuffer?.waitUntilCompleted() 
-                        }
-                    ) 
-                }
-            )
-            .frame( width:800, height:600 )
-            .padding()
-            */
         }
         .padding( 20.0 )
         .glassBackgroundEffect()
