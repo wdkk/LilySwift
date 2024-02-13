@@ -20,7 +20,7 @@ extension Lily.Stage
         var lightingDepthState: MTLDepthStencilState?
         var lightingPipeline: MTLRenderPipelineState?
         
-        public var skyCubeMap: MTLTexture?
+        public var cubeMap:MTLTexture?
 
         public init( device:MTLDevice, viewCount:Int ) {
             self.device = device
@@ -79,7 +79,7 @@ extension Lily.Stage
             renderEncoder?.setFragmentMemoryLessTexture( renderTextures.GBuffer2, index:2 )
             renderEncoder?.setFragmentMemoryLessTexture( renderTextures.GBufferDepth, index:3 )
             renderEncoder?.setFragmentTexture( renderTextures.shadowMap, index:5 )
-            renderEncoder?.setFragmentTexture( skyCubeMap, index:6 )
+            renderEncoder?.setFragmentTexture( cubeMap, index:6 )
             renderEncoder?.setFragmentBuffer( globalUniforms?.metalBuffer, offset:0, index:0 )
             renderEncoder?.drawPrimitives( type:.triangle, vertexStart:0, vertexCount:3 )
         }

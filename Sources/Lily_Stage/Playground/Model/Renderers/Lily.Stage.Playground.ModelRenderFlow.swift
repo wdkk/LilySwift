@@ -153,6 +153,7 @@ extension Lily.Stage.Playground.Model
             modelLightingRenderer?.draw(
                 with:deferred_shading_encoder, 
                 globalUniforms:uniforms,
+                storage:storage,
                 renderTextures:modelRenderTextures
             )
 

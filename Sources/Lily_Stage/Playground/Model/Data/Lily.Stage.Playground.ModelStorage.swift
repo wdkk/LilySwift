@@ -33,23 +33,24 @@ extension Lily.Stage.Playground.Model
         public var models:[String:ModelGuide] = [:]
         public var statuses:Lily.Metal.Buffer<ModelUnitStatus>
         
+        public var cubeMap:MTLTexture?
+        
         public private(set) var reuseIndice:[Int]
 
-        public private(set) var objCount:Int
+        public private(set) var modelCapacity:Int
         public private(set) var cameraCount:Int
         
-        public var capacity:Int { objCount * cameraCount }
+        public var capacity:Int { modelCapacity * cameraCount }
         
         public init( 
             device:MTLDevice, 
-            objCount:Int,
-            cameraCount:Int,
+            modelCapacity:Int,
             modelAssets:[String] 
         )
         {
-            self.objCount = objCount
-            self.cameraCount = cameraCount
-            let capacity = self.objCount * self.cameraCount
+            self.modelCapacity = modelCapacity
+            self.cameraCount = 4    // 現在は(3+1)で固定
+            let capacity = self.modelCapacity * self.cameraCount
             
             self.statuses = .init( device:device, count:capacity + 1 )  // 1つ余分に確保
             self.statuses.update( range:0..<capacity ) { us, _ in
@@ -69,6 +70,16 @@ extension Lily.Stage.Playground.Model
         public func loadObj( device:MTLDevice, assetName:String ) -> Lily.Stage.Model.Obj? {
             guard let asset = NSDataAsset( name:assetName ) else { return nil }
             return Lily.Stage.Model.Obj( device:device, data:asset.data )
+        }
+        
+        public func setCubeMap( device:MTLDevice, assetName:String? = nil ) {
+            guard let assetName = assetName else {
+                cubeMap = nil
+                return
+            }
+            // Mipsを活用するためにKTXフォーマットを使う
+            cubeMap = try? Lily.Metal.Texture.create( device:device, assetName:assetName )?
+            .makeTextureView( pixelFormat:.rgba8Unorm )     
         }
                 
         // パーティクルの確保をリクエストする

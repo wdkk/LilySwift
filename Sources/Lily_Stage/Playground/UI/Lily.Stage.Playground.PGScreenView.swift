@@ -143,8 +143,7 @@ extension Lily.Stage.Playground
             {
                 self.modelStorage = .init( 
                     device:device, 
-                    objCount:modelCapacity,
-                    cameraCount:( Lily.Stage.Shared.Const.shadowCascadesCount + 1 ),
+                    modelCapacity:modelCapacity,                    
                     modelAssets:modelAssets
                 )
             }
@@ -166,9 +165,9 @@ extension Lily.Stage.Playground
         public init( 
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment = .string,
-            planeStorage:Lily.Stage.Playground.Plane.PlaneStorage?,
-            modelStorage:Lily.Stage.Playground.Model.ModelStorage?,
-            billboardStorage:Lily.Stage.Playground.Billboard.BBStorage?,
+            planeStorage:Lily.Stage.Playground.Plane.PlaneStorage? = nil,
+            modelStorage:Lily.Stage.Playground.Model.ModelStorage? = nil,
+            billboardStorage:Lily.Stage.Playground.Billboard.BBStorage? = nil,
             design:(( PGScreen )->Void)?,
             update:(( PGScreen )->Void)? 
         )

@@ -88,7 +88,7 @@ extension Lily.Stage.Playground.Model
                     indexType: .uint16,
                     indexBuffer: mesh.indexBuffer,
                     indexBufferOffset: 0,
-                    instanceCount:storage.objCount
+                    instanceCount:storage.modelCapacity
                 )
             }
         }
@@ -126,7 +126,7 @@ extension Lily.Stage.Playground.Model
                     indexType: .uint16,
                     indexBuffer: mesh.indexBuffer,
                     indexBufferOffset: 0,
-                    instanceCount:storage.objCount
+                    instanceCount:storage.modelCapacity
                 )
             }
         }

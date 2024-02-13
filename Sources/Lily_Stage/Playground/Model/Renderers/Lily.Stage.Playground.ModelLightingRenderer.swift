@@ -17,11 +17,9 @@ extension Lily.Stage.Playground.Model
     {        
         public var device: MTLDevice
         
-        public var pipeline: MTLRenderPipelineState?
-        public var depthState: MTLDepthStencilState?
+        public var pipeline:MTLRenderPipelineState?
+        public var depthState:MTLDepthStencilState?
         
-        public var skyCubeMap: MTLTexture?
-
         public init( device:MTLDevice, viewCount:Int ) {
             self.device = device
 
@@ -65,6 +63,7 @@ extension Lily.Stage.Playground.Model
         
         public func draw( with renderEncoder:MTLRenderCommandEncoder?, 
                    globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
+                          storage:ModelStorage,
                    renderTextures:ModelRenderTextures?
         )
         {
@@ -77,7 +76,7 @@ extension Lily.Stage.Playground.Model
             renderEncoder?.setFragmentMemoryLessTexture( renderTextures?.GBuffer2, index:IDX_GBUFFER_2 )
             renderEncoder?.setFragmentMemoryLessTexture( renderTextures?.GBufferDepth, index:IDX_GBUFFER_DEPTH )
             renderEncoder?.setFragmentTexture( renderTextures?.shadowMap, index:IDX_SHADOW_MAP )
-            renderEncoder?.setFragmentTexture( skyCubeMap, index:IDX_CUBE_MAP )
+            renderEncoder?.setFragmentTexture( storage.cubeMap, index:IDX_CUBE_MAP )
             renderEncoder?.setFragmentBuffer( globalUniforms?.metalBuffer, offset:0, index:0 )
             renderEncoder?.drawPrimitives( type:.triangle, vertexStart:0, vertexCount:3 )
         }
@@ -88,12 +87,6 @@ extension Lily.Stage.Playground.Model
     {           
         public override init( device:MTLDevice, viewCount:Int ) {
             super.init( device:device, viewCount:viewCount )
-
-            // Mipsを活用するためにKTXフォーマットを使う
-            /*
-            skyCubeMap = try! Lily.Metal.Texture.create( device:device, assetName:"skyCubeMap" )!
-            .makeTextureView( pixelFormat:.rgba8Unorm )
-            */
         }
     }
 }

@@ -86,8 +86,7 @@ class DevViewController
 
     lazy var modelStorage:ModelStorage = .init(
         device: device,
-        objCount: 500, 
-        cameraCount: 4, 
+        modelCapacity: 500,
         modelAssets: [ "cottonwood1", "acacia1", "plane" ] 
     )
     
@@ -116,6 +115,7 @@ class DevViewController
 
 func design( screen:PGScreen ) {
     screen.clearColor = .blueViolet
+    screen.cubeMap = "skyCubeMap"
      
     /*
     for _ in 0 ..< 160 {

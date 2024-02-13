@@ -45,7 +45,7 @@ public extension UIImage
         let textureLoader = MTKTextureLoader(device: device)
         guard let inputTexture = try? textureLoader.newTexture(
             cgImage:cgImage, 
-            options:[ .origin:MTKTextureLoader.Origin.bottomLeft ]  // 上下反転がこれでうまくいくが
+            options:[ .origin:MTKTextureLoader.Origin.bottomLeft ]   // TODO:上下反転がこれでうまくいくが万能か不明
         )
         else { return self }
         

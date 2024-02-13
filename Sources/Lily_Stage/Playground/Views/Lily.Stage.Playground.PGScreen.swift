@@ -48,6 +48,9 @@ extension Lily.Stage.Playground
         
         // MARK: プロパティ・アクセサ
         public var clearColor:LLColor = .white
+        public var cubeMap:String? = nil {
+            didSet { modelStorage?.setCubeMap(device:device, assetName:cubeMap ) }
+        }
 
         public let touchManager = PGTouchManager()
         public var touches:[PGTouch] { return touchManager.touches }
@@ -119,7 +122,7 @@ extension Lily.Stage.Playground
             PGScreen.current = vc
             // 時間の更新
             Plane.PGActor.ActorTimer.shared.update()
-            Lily.Stage.Playground.Billboard.BBActor.ActorTimer.shared.update()
+            Billboard.BBActor.ActorTimer.shared.update()
             
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
@@ -203,7 +206,7 @@ extension Lily.Stage.Playground
         
         func removeAllShapes() {
             Plane.PGPool.shared.removeAllShapes( on:planeStorage )
-            Lily.Stage.Playground.Billboard.BBPool.shared.removeAllShapes( on:bbStorage )
+            Billboard.BBPool.shared.removeAllShapes( on:bbStorage )
         }
         
         public init( 
@@ -211,9 +214,7 @@ extension Lily.Stage.Playground
             environment:Lily.Stage.ShaderEnvironment = .metallib,
             planeStorage:Lily.Stage.Playground.Plane.PlaneStorage? = nil,
             billboardStorage:Lily.Stage.Playground.Billboard.BBStorage? = nil,
-            modelStorage:Lily.Stage.Playground.Model.ModelStorage? = nil,
-            planeCapacity:Int = 2000,
-            modelCapacity:Int = 500
+            modelStorage:Lily.Stage.Playground.Model.ModelStorage? = nil
         )
         {
             self.device = device
@@ -298,8 +299,7 @@ extension Lily.Stage.Playground
             
             self.modelStorage = .init( 
                 device:device, 
-                objCount:modelCapacity,
-                cameraCount:( Lily.Stage.Shared.Const.shadowCascadesCount + 1 ),
+                modelCapacity:modelCapacity,
                 modelAssets:modelAssets
             )
     
