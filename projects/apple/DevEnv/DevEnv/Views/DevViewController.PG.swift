@@ -75,7 +75,8 @@ class DevViewController
     lazy var planeStorage:PlaneStorage = .init(
         device: device,
         capacity: 2000, 
-        textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+        textures: [ "lily", "star" ]
+        //textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
     )
 
     lazy var bbStorage:BBStorage = .init(
@@ -90,15 +91,21 @@ class DevViewController
         modelAssets: [ "cottonwood1", "acacia1", "plane" ] 
     )
     
+    lazy var planeStorage2:PlaneStorage = .init(
+        device: device,
+        capacity: 300, 
+        textures: [ "mask-smoke" ]
+    )
+    
     override func setup() {
         super.setup()
         
         pgScreen = PGScreen(
             device:device,
             environment:.string,
-            planeStorage:planeStorage,
-            billboardStorage:bbStorage,
-            modelStorage:modelStorage
+            planeStorage:planeStorage
+            //billboardStorage:bbStorage,
+            //modelStorage:modelStorage
         )
         
         pgScreen?.pgDesignHandler = design
@@ -111,50 +118,28 @@ class DevViewController
         super.buildup()
         pgScreen?.rect = self.rect
     }
+    
+    #if os(macOS)
+    #else
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded( touches, with:event )
+        
+        pgScreen?.changeStorages(
+            planeStorage:planeStorage2,
+            design:design2(screen:)
+        )
+    }
+    #endif
 }
 
 func design( screen:PGScreen ) {
-    screen.clearColor = .blueViolet
-    screen.cubeMap = "skyCubeMap"
-     
-    /*
-    for _ in 0 ..< 160 {
-       PGAddMask( "mask-smoke" )
-       .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
-       .position(
-           cx:(-50 ... 50).randomize,
-           cy:(-120 ... -110).randomize
-       )
-       .deltaPosition( 
-           dx:(-1.0...1.0).randomize,
-           dy:(0.5...4.5).randomize 
-       )
-       .scale( square: 80.0 )
-       .deltaScale( dw: 0.5, dh: 0.5 )
-       .angle( .random )
-       .deltaAngle( degrees:(-2.0...2.0).randomize )
-       .life( .random )
-       .deltaLife( -0.01 )
-       .iterate {
-           if $0.life < 0.5 {
-              $0.alpha( $0.life )
-           }
-           else {
-              $0.alpha( (1.0 - $0.life) )
-           }
-       }
-       .completion {
-           $0
-           .position( 
-               cx:(-50 ... 50).randomize,
-               cy:(-120 ... -110).randomize 
-           )
-           .scale( square: 80.0 )
-           .life( 1.0 )
-       }
-    }
-    */
+    screen.clearColor = .darkGrey
+
+    //screen.cubeMap = "skyCubeMap"
     
+    
+    
+    /*
     for _ in 0 ..< 10 {
         let size = (40.0 ... 80.0).randomize
         let speed = size / 80.0
@@ -277,10 +262,51 @@ func design( screen:PGScreen ) {
             .life( 1.0 )
         }
     }
+    */
 }
  
 func update( screen:PGScreen ) {
  
+}
+
+func design2( screen:PGScreen ) {
+    screen.clearColor = .darkGray 
+    
+    for _ in 0 ..< 160 {
+       PGAddMask( "mask-smoke" )
+       .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
+       .position(
+           cx:(-50 ... 50).randomize,
+           cy:(-120 ... -110).randomize
+       )
+       .deltaPosition( 
+           dx:(-1.0...1.0).randomize,
+           dy:(0.5...4.5).randomize 
+       )
+       .scale( square: 80.0 )
+       .deltaScale( dw: 0.5, dh: 0.5 )
+       .angle( .random )
+       .deltaAngle( degrees:(-2.0...2.0).randomize )
+       .life( .random )
+       .deltaLife( -0.01 )
+       .iterate {
+           if $0.life < 0.5 {
+              $0.alpha( $0.life )
+           }
+           else {
+              $0.alpha( (1.0 - $0.life) )
+           }
+       }
+       .completion {
+           $0
+           .position( 
+               cx:(-50 ... 50).randomize,
+               cy:(-120 ... -110).randomize 
+           )
+           .scale( square: 80.0 )
+           .life( 1.0 )
+       }
+    }
 }
 
 /*

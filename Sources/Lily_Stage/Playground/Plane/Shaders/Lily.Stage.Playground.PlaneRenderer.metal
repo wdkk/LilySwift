@@ -75,8 +75,6 @@ struct PlaneUnitStatus
     float deltaLife;
     float zIndex;
     float _reserved;
-    float _reserved2;
-    float _reserved3;
     float enabled;
     float state;
     CompositeType compositeType;

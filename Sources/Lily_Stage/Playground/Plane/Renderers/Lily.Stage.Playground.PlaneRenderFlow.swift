@@ -18,7 +18,7 @@ extension Lily.Stage.Playground.Plane
     {
         var pass:PlanePass?
         weak var mediumTextures:Lily.Stage.Playground.MediumTexture?
-        weak var storage:PlaneStorage?
+        public weak var storage:PlaneStorage?
         
         var alphaRenderer:PlaneAlphaRenderer?
         var addRenderer:PlaneAddRenderer?

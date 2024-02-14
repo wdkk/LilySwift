@@ -20,7 +20,7 @@ extension Lily.Stage.Playground.Billboard
         
         weak var mediumTexture:Lily.Stage.Playground.MediumTexture?
         
-        weak var storage:BBStorage?
+        public weak var storage:BBStorage?
         
         var alphaRenderer:BBAlphaRenderer?
         var addRenderer:BBAddRenderer?

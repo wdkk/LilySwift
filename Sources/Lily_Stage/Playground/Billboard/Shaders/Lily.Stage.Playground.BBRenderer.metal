@@ -64,9 +64,7 @@ struct BBUnitStatus
     float4 color;
     float4 deltaColor;
     float3 position;
-    float  _reserved;
     float3 deltaPosition;
-    float  _reserved2;
     float2 scale;
     float2 deltaScale;
     float angle;

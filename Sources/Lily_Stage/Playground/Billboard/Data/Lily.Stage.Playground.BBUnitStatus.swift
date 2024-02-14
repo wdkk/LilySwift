@@ -22,9 +22,7 @@ extension Lily.Stage.Playground.Billboard
         public var color:LLFloatv4 = LLColor.black.floatv4
         public var deltaColor:LLFloatv4 = .zero
         public var position:LLFloatv3 = .zero
-        private var _reserved:LLFloat = 0.0
         public var deltaPosition:LLFloatv3 = .zero
-        private var _reserved2:LLFloat = 0.0
         public var scale:LLFloatv2 = .init( 1.0, 1.0 )
         public var deltaScale:LLFloatv2 = .zero
         public var angle:LLFloat = 0.0

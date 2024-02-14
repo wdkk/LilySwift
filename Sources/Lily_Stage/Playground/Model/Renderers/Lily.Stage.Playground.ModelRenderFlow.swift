@@ -21,7 +21,7 @@ extension Lily.Stage.Playground.Model
         
         public var modelPass:ModelPass?
         
-        weak var storage:ModelStorage?
+        public weak var storage:ModelStorage?
         
         public var modelObjectRenderer:ModelObjectRenderer?
         public var modelLightingRenderer:ModelLightingRenderer?

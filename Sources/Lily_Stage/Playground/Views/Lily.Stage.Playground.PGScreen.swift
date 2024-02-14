@@ -87,23 +87,10 @@ extension Lily.Stage.Playground
         // MARK: - 外部処理ハンドラ
         public var pgDesignHandler:(( PGScreen )->Void)?
         public var pgUpdateHandler:(( PGScreen )->Void)?
-        private var _design_once_flag = false
+        private var _design_once = false
         
-        public lazy var metalView = Lily.View.MetalView( device:device )
-        .setup( caller:self ) { me, vc in
-            me.bgColor( .clear )
-            me.isMultipleTouchEnabled = true
-            vc._design_once_flag = false
-        }
-        .buildup( caller:self ) { me, vc in
-            CATransaction.stop {
-                me.rect( vc.rect )
-                vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
-                vc.modelRenderTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
-                vc.mediumTexture.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
-            }
-            
-            if !vc._design_once_flag {
+        public func designProc( vc:PGScreen ) {
+            if !vc._design_once {
                 vc.setCurrentStorage()
                 
                 vc.removeAllShapes()
@@ -113,10 +100,11 @@ extension Lily.Stage.Playground
                 vc.bbStorage?.statuses.commit()
                 vc.planeStorage?.statuses.commit()
 
-                vc._design_once_flag = true
+                vc._design_once = true
             }
         }
-        .draw( caller:self ) { me, vc, status in
+        
+        public func updateProc( vc:PGScreen, status:Lily.View.MetalView.DrawObj ) {
             vc.setCurrentStorage()
             
             // 時間の更新
@@ -145,6 +133,26 @@ extension Lily.Stage.Playground
                     self.touchManager.resetReleases()
                 }
             ) 
+        }
+        
+        public lazy var metalView = Lily.View.MetalView( device:device )
+        .setup( caller:self ) { me, vc in
+            me.bgColor( .clear )
+            me.isMultipleTouchEnabled = true
+            vc._design_once = false
+        }
+        .buildup( caller:self ) { me, vc in
+            CATransaction.stop {
+                me.rect( vc.rect )
+                vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
+                vc.modelRenderTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
+                vc.mediumTexture.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
+            }
+            
+            vc.designProc( vc:vc )
+        }
+        .draw( caller:self ) { me, vc, status in
+            vc.updateProc( vc:vc, status:status )
         }        
         #if os(macOS)
         .mouseLeftDown( caller:self ) { me, caller, args in
@@ -217,9 +225,9 @@ extension Lily.Stage.Playground
         public init( 
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
-            planeStorage:Lily.Stage.Playground.Plane.PlaneStorage? = nil,
-            billboardStorage:Lily.Stage.Playground.Billboard.BBStorage? = nil,
-            modelStorage:Lily.Stage.Playground.Model.ModelStorage? = nil
+            planeStorage:Plane.PlaneStorage? = nil,
+            billboardStorage:Billboard.BBStorage? = nil,
+            modelStorage:Model.ModelStorage? = nil
         )
         {
             self.device = device
@@ -383,6 +391,7 @@ extension Lily.Stage.Playground
             // 時間の初期化
             Plane.PGActor.ActorTimer.shared.start()
             Billboard.BBActor.ActorTimer.shared.start()
+            
             // ループの開始
             startLooping()
         }
@@ -402,6 +411,29 @@ extension Lily.Stage.Playground
         open override func teardown() {
             endLooping()
             super.teardown()
+        }
+        
+        open func changeStorages(
+            planeStorage:Plane.PlaneStorage? = nil,
+            billboardStorage:Billboard.BBStorage? = nil,
+            modelStorage:Model.ModelStorage? = nil,
+            design:(( PGScreen )->Void)? = nil,
+            update:(( PGScreen )->Void)? = nil
+        )
+        {
+            self.planeStorage = planeStorage
+            self.bbStorage = billboardStorage
+            self.modelStorage = modelStorage
+            
+            self.planeRenderFlow.storage = self.planeStorage
+            self.bbRenderFlow.storage = self.bbStorage
+            self.modelRenderFlow.storage = self.modelStorage
+            
+            self.pgDesignHandler = design
+            self.pgUpdateHandler = update
+            
+            self._design_once = false
+            self.designProc( vc:self )
         }
     }
 }

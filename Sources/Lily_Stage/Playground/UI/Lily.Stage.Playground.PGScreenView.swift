@@ -207,6 +207,6 @@ extension Lily.Stage.Playground
             else {
                 v.onChange( of:visibled ) { _ in }
             }
-        }       
+        }   
     }
 }
