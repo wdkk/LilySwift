@@ -15,7 +15,7 @@ extension Lily.Stage.Playground.Billboard
     public class BBMask : BBActor
     {        
         @discardableResult
-        public init( storage:BBStorage? = Lily.Stage.Playground.PGScreen.current?.bbStorage, _ assetName:String ) {
+        public init( storage:BBStorage? = BBStorage.current, _ assetName:String ) {
             super.init( storage:storage )
             status?.shapeType = .mask
             status?.compositeType = .alpha
@@ -26,7 +26,7 @@ extension Lily.Stage.Playground.Billboard
     public class BBAddMask : BBActor
     {        
         @discardableResult
-        public init( storage:BBStorage? = Lily.Stage.Playground.PGScreen.current?.bbStorage, _ assetName:String ) {
+        public init( storage:BBStorage? = BBStorage.current, _ assetName:String ) {
             super.init( storage:storage )
             status?.shapeType = .mask
             status?.compositeType = .add
@@ -37,7 +37,7 @@ extension Lily.Stage.Playground.Billboard
     public class BBSubMask : BBActor
     {     
         @discardableResult
-        public init( storage:BBStorage? = Lily.Stage.Playground.PGScreen.current?.bbStorage, _ assetName:String ) {
+        public init( storage:BBStorage? = BBStorage.current, _ assetName:String ) {
             super.init( storage:storage )
             status?.shapeType = .mask
             status?.compositeType = .sub

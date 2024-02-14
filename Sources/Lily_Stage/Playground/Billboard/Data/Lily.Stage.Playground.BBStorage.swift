@@ -31,6 +31,8 @@ extension Lily.Stage.Playground.Billboard
         public static func == ( lhs:BBStorage, rhs:BBStorage ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
         
+        public static var current:BBStorage? = nil
+        
         public var particles:Lily.Stage.Model.Quadrangles<BBVIn>
         public var statuses:Lily.Metal.Buffer<BBUnitStatus>
         public var reuseIndice:[Int]
@@ -39,14 +41,14 @@ extension Lily.Stage.Playground.Billboard
         
         public var capacity:Int
         
-        static let defaultQuadrangleVertice = LLQuad<Lily.Stage.Playground.Billboard.BBVIn>(
+        static let defaultQuadrangleVertice = LLQuad<BBVIn>(
             .init( xyz:.init( -1.0,  1.0, 0.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) ),
             .init( xyz:.init(  1.0,  1.0, 0.0 ), uv:.init( 1.0, 0.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xyz:.init( -1.0, -1.0, 0.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 1.0 ) ),
             .init( xyz:.init(  1.0, -1.0, 0.0 ), uv:.init( 1.0, 1.0 ), texUV:.init( 1.0, 1.0 ) )
         )
         
-        static let defaultTriangleVertice = LLQuad<Lily.Stage.Playground.Billboard.BBVIn>(
+        static let defaultTriangleVertice = LLQuad<BBVIn>(
             .init( xyz:.init(  0.0,  1.15470053838, 0.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 0.0 ) ),
             .init( xyz:.init( -1.0, -0.57735026919, 0.0 ), uv:.init(-1.0, 1.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xyz:.init(  1.0, -0.57735026919, 0.0 ), uv:.init( 1.0,-1.0 ), texUV:.init( 0.0, 1.0 ) ),

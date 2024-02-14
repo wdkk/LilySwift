@@ -23,8 +23,6 @@ extension Lily.Stage.Playground
     open class PGScreen
     : Lily.View.ViewController
     {
-        public static var current:PGScreen? = nil
-        
         // MARK: システム
         var device:MTLDevice        
         public var renderEngine:Lily.Stage.StandardRenderEngine?
@@ -81,8 +79,8 @@ extension Lily.Stage.Playground
         }
         
         // MARK: - 3Dビルボード情報
-        public var billboards:Set<Lily.Stage.Playground.Billboard.BBActor> { 
-            if let storage = bbStorage { return Lily.Stage.Playground.Billboard.BBPool.shared.shapes( on:storage ) }
+        public var billboards:Set<Billboard.BBActor> { 
+            if let storage = bbStorage { return Billboard.BBPool.shared.shapes( on:storage ) }
             return []
         }
        
@@ -106,7 +104,7 @@ extension Lily.Stage.Playground
             }
             
             if !vc._design_once_flag {
-                PGScreen.current = vc
+                vc.setCurrentStorage()
                 
                 vc.removeAllShapes()
                 vc.pgDesignHandler?( self )
@@ -119,7 +117,8 @@ extension Lily.Stage.Playground
             }
         }
         .draw( caller:self ) { me, vc, status in
-            PGScreen.current = vc
+            vc.setCurrentStorage()
+            
             // 時間の更新
             Plane.PGActor.ActorTimer.shared.update()
             Billboard.BBActor.ActorTimer.shared.update()
@@ -179,6 +178,12 @@ extension Lily.Stage.Playground
             vc.recogizeTouches( touches:vc.touchManager.allTouches )
         }
         #endif
+        
+        func setCurrentStorage() {
+            Plane.PlaneStorage.current = self.planeStorage
+            Billboard.BBStorage.current = self.bbStorage
+            Model.ModelStorage.current = self.modelStorage
+        }
                 
         func checkShapesStatus() {
             for actor in self.shapes {

@@ -27,10 +27,11 @@ extension Lily.Stage.Playground.Plane
     
     open class PlaneStorage : Hashable
     {
-        typealias Plane = Lily.Stage.Playground.Plane
         // Hashableの実装
         public static func == ( lhs:PlaneStorage, rhs:PlaneStorage ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
+        
+        public static var current:PlaneStorage? = nil
         
         public var particles:Lily.Stage.Model.Quadrangles<PlaneVIn>
         public var statuses:Lily.Metal.Buffer<PlaneUnitStatus>
@@ -40,14 +41,14 @@ extension Lily.Stage.Playground.Plane
         
         public var capacity:Int
         
-        static let defaultQuadrangleVertice = LLQuad<Plane.PlaneVIn>(
+        static let defaultQuadrangleVertice = LLQuad<PlaneVIn>(
             .init( xy:.init( -1.0,  1.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) ),
             .init( xy:.init(  1.0,  1.0 ), uv:.init( 1.0, 0.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xy:.init( -1.0, -1.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 1.0 ) ),
             .init( xy:.init(  1.0, -1.0 ), uv:.init( 1.0, 1.0 ), texUV:.init( 1.0, 1.0 ) )
         )
         
-        static let defaultTriangleVertice = LLQuad<Plane.PlaneVIn>(
+        static let defaultTriangleVertice = LLQuad<PlaneVIn>(
             .init( xy:.init(  0.0,  1.15470053838 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 0.0 ) ),
             .init( xy:.init( -1.0, -0.57735026919 ), uv:.init(-1.0, 1.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xy:.init(  1.0, -0.57735026919 ), uv:.init( 1.0,-1.0 ), texUV:.init( 0.0, 1.0 ) ),

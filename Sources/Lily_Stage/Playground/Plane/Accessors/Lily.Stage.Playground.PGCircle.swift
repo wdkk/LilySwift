@@ -15,7 +15,7 @@ extension Lily.Stage.Playground.Plane
     public class PGCircle : PGActor
     {        
         @discardableResult
-        public override init( storage:PlaneStorage? = PGScreen.current?.planeStorage ) {
+        public override init( storage:PlaneStorage? = PlaneStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .circle
             status?.compositeType = .alpha
@@ -25,7 +25,7 @@ extension Lily.Stage.Playground.Plane
     public class PGAddCircle : PGActor
     {        
         @discardableResult
-        public override init( storage:PlaneStorage? = PGScreen.current?.planeStorage ) {
+        public override init( storage:PlaneStorage? = PlaneStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .circle
             status?.compositeType = .add
@@ -35,7 +35,7 @@ extension Lily.Stage.Playground.Plane
     public class PGSubCircle : PGActor
     {        
         @discardableResult
-        public override init( storage:PlaneStorage? = PGScreen.current?.planeStorage ) {
+        public override init( storage:PlaneStorage? = PlaneStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .circle
             status?.compositeType = .sub
