@@ -75,8 +75,7 @@ class DevViewController
     lazy var planeStorage:PlaneStorage = .init(
         device: device,
         capacity: 2000, 
-        textures: [ "lily", "star" ]
-        //textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+        textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star", "star" ]
     )
 
     lazy var bbStorage:BBStorage = .init(
@@ -137,7 +136,8 @@ func design( screen:PGScreen ) {
 
     //screen.cubeMap = "skyCubeMap"
     
-    
+    PGMask( "mask-smoke" )
+    .color( .white )
     
     /*
     for _ in 0 ..< 10 {

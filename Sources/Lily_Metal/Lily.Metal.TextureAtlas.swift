@@ -510,18 +510,16 @@ extension Lily.Metal
             labels[label] = img
             return self
         }
-        
-        #if os(iOS) || os(visionOS)
-        @discardableResult
-        public func reserve( _ label:String, _ img:UIImage ) -> Self {
-            labels[label] = img
-            return self
-        }
-        #endif
-        
+                
         #if os(macOS)
         @discardableResult
         public func reserve( _ label:String, _ img:NSImage ) -> Self {
+            labels[label] = img
+            return self
+        }
+        #else
+        @discardableResult
+        public func reserve( _ label:String, _ img:UIImage ) -> Self {
             labels[label] = img
             return self
         }
@@ -530,6 +528,8 @@ extension Lily.Metal
         @discardableResult
         public func commit() -> Self { 
             typealias ImagePosUnit = Lily.Metal.TextureTree.ImagePosUnit
+            
+            //let t = LLClock.now
             
             var image_rects:[ImagePosUnit] = []
             
@@ -561,20 +561,7 @@ extension Lily.Metal
                     image_rects.append( rc )
                     continue
                 }
-                #if os(iOS) || os(visionOS)
-                if nnv is UIImage {
-                    let uiimg = nnv as! UIImage
-                    let img = uiimg.llImage
-                    if !img.available { continue }
-                    
-                    let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
-                    rc.image = img
-                    rc.label = label
-                    
-                    image_rects.append( rc )
-                    continue
-                }
-                #elseif os(macOS)
+                #if os(macOS)
                 if nnv is NSImage {
                     let uiimg = nnv as! NSImage
                     guard let img = uiimg.llImage else { continue }
@@ -584,6 +571,19 @@ extension Lily.Metal
                     rc.image = img
                     rc.label = label
 
+                    image_rects.append( rc )
+                    continue
+                }
+                #else
+                if nnv is UIImage {
+                    let uiimg = nnv as! UIImage
+                    let img = uiimg.llImage
+                    if !img.available { continue }
+                    
+                    let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
+                    rc.image = img
+                    rc.label = label
+                    
                     image_rects.append( rc )
                     continue
                 }
@@ -615,32 +615,31 @@ extension Lily.Metal
                 LLLog( "テクスチャのサイズが許容量を超えました." )
             }
             
+            self.metalTexture = Lily.Metal.Texture.create( device:device!, width:all_size.width, height:all_size.height )
+            self.width = all_size.width.i32!
+            self.height = all_size.height.i32!
+            
             // 全体画像
-            let img_atlas = LLImage( wid:all_size.width, hgt:all_size.height, type:.rgba8 )
+            //let img_atlas = LLImage( wid:all_size.width, hgt:all_size.height, type:.rgba8 )
             
             positions.removeAll()
-            //labels.removeAll()
             
             for imgrc in image_rects {
                 guard let img = imgrc.image else { continue }
                 
-                let imgf = img.clone()
-                imgf.convertType( to:.rgba8 )
+                //let imgf = img.clone()
+                img.convertType( to:.rgba8 )
                 
                 let label = imgrc.label
                 let px = imgrc.x
                 let py = imgrc.y
-                let wid = imgf.width
-                let hgt = imgf.height
-                let mat = imgf.rgba8Matrix!
-                let mat_atlas = img_atlas.rgba8Matrix!
+                let wid = img.width
+                let hgt = img.height
                 
-                for y in 0 ..< hgt {
-                    for x in 0 ..< wid {
-                        mat_atlas[y + py][x + px] = mat[y][x]
-                    }
-                }
+                let dst_reg = MTLRegionMake2D( px, py, wid, hgt )
                 
+                metalTexture?.replace(region:dst_reg, mipmapLevel:0, withBytes:img.memory!, bytesPerRow:img.rowBytes )
+                                
                 let left  = px.d / all_size.width.d
                 let top   = py.d / all_size.height.d
                 let right = (px + wid).d  / all_size.width.d
@@ -649,9 +648,7 @@ extension Lily.Metal
                 positions[label] = LLRegionMake( left, top, right, bottom )
             }
             
-            self.metalTexture = try! Lily.Metal.Texture.create( device:device!, llImage:img_atlas )
-            self.width = all_size.width.i32!
-            self.height = all_size.height.i32!
+            //LLLog( "生成時間: \(LLClock.now - t)(ms)")
             
             return self
         }
