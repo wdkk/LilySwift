@@ -69,26 +69,26 @@ open class LLImage
         guard let nonnull_memory:LLBytePtr = memory else { return nil }
         guard let opaque_memory:OpaquePointer = OpaquePointer( nonnull_memory ) else { return nil }
     
-        texture.getBytes( UnsafeMutableRawPointer( opaque_memory ),
-                          bytesPerRow: rowBytes,
-                          from: MTLRegionMake2D(0, 0, texture.width, texture.height),
-                          mipmapLevel: 0 )
+        texture.getBytes(
+            UnsafeMutableRawPointer( opaque_memory ),
+            bytesPerRow: rowBytes,
+            from: MTLRegionMake2D(0, 0, texture.width, texture.height),
+            mipmapLevel: 0
+        )
     }
 
     open var available:Bool { return LCImageGetType( _imgc ) != .none }
     
     open var lcImage:LCImageSmPtr { return self._imgc }
     
-    open var cgImage:CGImage? { 
-        return LCImage2CGImage( self.lcImage )?.takeUnretainedValue()
-    }
+    open var cgImage:CGImage? { return LCImage2CGImage( self.lcImage )?.takeUnretainedValue() }
     
-    #if os(iOS) || os(visionOS)
-    open var uiImage:UIImage? { return LCImage2UIImage( self._imgc ) }
-    #elseif os(macOS)
+    #if os(macOS)
     open var nsImage:NSImage? { return LCImage2NSImage( self._imgc ) }
+    #else
+    open var uiImage:UIImage? { return LCImage2UIImage( self._imgc ) }
     #endif
-        
+     
     open var rgba8Matrix:LLColor8Matrix? { return LCImageRGBA8Matrix( self._imgc ) }
 
     open var rgba16Matrix:LLColor16Matrix? { return LCImageRGBA16Matrix( self._imgc ) }

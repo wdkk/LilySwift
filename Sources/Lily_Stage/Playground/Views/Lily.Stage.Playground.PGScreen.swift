@@ -120,6 +120,7 @@ extension Lily.Stage.Playground
             
             // 背景色の更新
             vc.clearRenderFlow.clearColor = self.clearColor
+            vc.modelStorage?.clearColor = self.clearColor
             
             // Shapeの更新/終了処理を行う
             vc.checkShapesStatus()

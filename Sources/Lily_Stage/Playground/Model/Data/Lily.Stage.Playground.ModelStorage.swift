@@ -36,6 +36,7 @@ extension Lily.Stage.Playground.Model
         public var statuses:Lily.Metal.Buffer<ModelUnitStatus>
         
         public var cubeMap:MTLTexture?
+        public var clearColor:LLColor = .white
         
         public private(set) var reuseIndice:[Int]
 

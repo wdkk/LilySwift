@@ -53,9 +53,7 @@ extension Lily.Stage.Playground.Model
             super.init( device:device )
         }
         
-        public override func changeSize( scaledSize:CGSize ) {
-            
-        }
+        public override func changeSize( scaledSize:CGSize ) {}
         
         public override func render(
             commandBuffer:MTLCommandBuffer,

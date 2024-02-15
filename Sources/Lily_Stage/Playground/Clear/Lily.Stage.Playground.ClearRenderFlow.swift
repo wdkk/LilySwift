@@ -62,14 +62,8 @@ extension Lily.Stage.Playground
         }
         
         public func setClearColor( _ color:LLColor? ) {
-            if let color = color {
-                passDesc?.colorAttachments[0].clearColor( color )
-                passDesc?.colorAttachments[0].action( load: color == .clear ? .load : .clear, store:.store )
-            }
-            else {
-                passDesc?.colorAttachments[0].clearColor( .clear )
-                passDesc?.colorAttachments[0].action( load:.clear, store:.store )
-            }
+            passDesc?.colorAttachments[0].clearColor( .clear )
+            passDesc?.colorAttachments[0].action( load:.clear, store:.store )
         }
         
         public func setClearColor( _ color:MTLClearColor ) {

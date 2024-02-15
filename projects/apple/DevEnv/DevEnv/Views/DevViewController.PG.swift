@@ -102,9 +102,9 @@ class DevViewController
         pgScreen = PGScreen(
             device:device,
             environment:.string,
-            planeStorage:planeStorage
-            //billboardStorage:bbStorage,
-            //modelStorage:modelStorage
+            planeStorage:planeStorage,
+            billboardStorage:bbStorage,
+            modelStorage:modelStorage
         )
         
         pgScreen?.pgDesignHandler = design
@@ -132,14 +132,10 @@ class DevViewController
 }
 
 func design( screen:PGScreen ) {
-    screen.clearColor = .darkGrey
+    screen.clearColor = .clear //.darkGrey
 
-    //screen.cubeMap = "skyCubeMap"
+    screen.cubeMap = "skyCubeMap"
     
-    PGMask( "mask-smoke" )
-    .color( .white )
-    
-    /*
     for _ in 0 ..< 10 {
         let size = (40.0 ... 80.0).randomize
         let speed = size / 80.0
@@ -262,7 +258,6 @@ func design( screen:PGScreen ) {
             .life( 1.0 )
         }
     }
-    */
 }
  
 func update( screen:PGScreen ) {

@@ -78,7 +78,7 @@ extension Lily.Stage.Playground
         
         private static var instance:SRGBShaderString?
         private init( device:MTLDevice ) {
-            LLLog( "文字列からシェーダを生成しています." )
+            //LLLog( "文字列からシェーダを生成しています." )
             
             self.sRGBVertexShader = .init(
                 device:device, 

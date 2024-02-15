@@ -76,13 +76,17 @@ extension Lily.Stage.Playground.Model
         }
         
         
-        public func draw( with renderEncoder:MTLRenderCommandEncoder?, 
-                   globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
-                          storage:ModelStorage,
-                   renderTextures:ModelRenderTextures?
+        public func draw( 
+            with renderEncoder:MTLRenderCommandEncoder?, 
+            globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
+            storage:ModelStorage,
+            renderTextures:ModelRenderTextures?
         )
         {
             guard let lighting_pp = pipeline else { return }
+            
+            var clear_color = storage.clearColor
+            
             // ライティング描画
             renderEncoder?.setRenderPipelineState( lighting_pp )
             renderEncoder?.setDepthStencilState( depthState )
@@ -93,6 +97,7 @@ extension Lily.Stage.Playground.Model
             renderEncoder?.setFragmentTexture( renderTextures?.shadowMap, index:IDX_SHADOW_MAP )
             renderEncoder?.setFragmentTexture( storage.cubeMap, index:IDX_CUBE_MAP )
             renderEncoder?.setFragmentBuffer( globalUniforms?.metalBuffer, offset:0, index:0 )
+            renderEncoder?.setFragmentBytes( &clear_color, length:MemoryLayout<LLColor>.stride, index:1 )
             renderEncoder?.drawPrimitives( type:.triangle, vertexStart:0, vertexCount:3 )
         }
     }

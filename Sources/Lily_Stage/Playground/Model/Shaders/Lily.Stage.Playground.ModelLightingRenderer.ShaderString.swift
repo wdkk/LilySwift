@@ -326,6 +326,7 @@ extension Lily.Stage.Playground.Model
             depth2d_array <float>    shadowMap   [[ texture(IDX_SHADOW_MAP) ]],
             texturecube <float>      cubeMap     [[ texture(IDX_CUBE_MAP) ]],
             constant GlobalUniformArray& uniformArray [[ buffer(0) ]],
+            const device float4& clearColor [[ buffer(1) ]],
             ushort amp_id [[ amplification_id ]]
         )
         {    
@@ -342,7 +343,7 @@ extension Lily.Stage.Playground.Model
             
             // デプス = 1の時はキューブマップから値をとって適用
             if( depth == 1 ) {
-                float3 cubeMapColor = cubeMap.sample( colorSampler, viewDirection, level(0) ).xyz;
+                float3 cubeMapColor = is_null_texture( cubeMap ) ? clearColor.xyz : cubeMap.sample( colorSampler, viewDirection, level(0) ).xyz;
                 LightingFOut res;
                 res.backBuffer = float4( cubeMapColor, 1 );
                 return res;
@@ -364,7 +365,8 @@ extension Lily.Stage.Playground.Model
             const float3 ambientDirectionUp = float3(0,1,0);
             const float3 ambientDirectionHoriz = normalize(float3(-sunDirection.x, 0.1, -sunDirection.z));
             const float3 ambientDirection = normalize(mix(ambientDirectionHoriz, ambientDirectionUp, brdf.normal.y));
-            const float3 ambientColorBase = saturate(cubeMap.sample(colorSampler, ambientDirection, level(0)).xyz * 1.5 + 0.1);
+            const float3 ambientMapColor = is_null_texture( cubeMap ) ? clearColor.xyz  : cubeMap.sample(colorSampler, ambientDirection, level(0)).xyz;
+            const float3 ambientColorBase = saturate(ambientMapColor * 1.5 + 0.1);
             const float3 ambientColor = ambientColorBase * max(0.05, brdf.normal.y);
 
             float3 color = brdf.albedo * (ambientColor + float3(nDotL));
@@ -375,9 +377,10 @@ extension Lily.Stage.Playground.Model
                 const float far = 1.0;
                 const float invFarByNear = 1.0 / (far-near);
                 const float approxlinDepth = saturate((depth-near) * invFarByNear);
-                hazeAmount = pow(approxlinDepth,10)*0.3;
+                hazeAmount = pow(approxlinDepth,10) * 0.3;
             }
-            const float3 hazeColor = saturate(cubeMap.sample(colorSampler, float3(0,1,0)).xyz * 3.0 + 0.1);
+            const float3 hazeMapColor = cubeMap.sample(colorSampler, float3(0,1,0)).xyz;
+            const float3 hazeColor = saturate( hazeMapColor * 3.0 + 0.1) ;
             color = mix(color, hazeColor, float3(hazeAmount));
 
             LightingFOut res;

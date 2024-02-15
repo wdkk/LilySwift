@@ -23,21 +23,6 @@ extension Lily.Stage.Playground
 
         #import <simd/simd.h>
         
-        //-- Lily.Stage.Shared.Const.metal --//
-        namespace Lily
-        {
-            namespace Stage 
-            {
-                namespace Shared 
-                {
-                    namespace Const
-                    {
-                        constant int shadowCascadesCount = 3;
-                    };
-                };
-            };
-        };
-        
         //-- Lily.Stage.Shared.CameraUniform.metal --//
         namespace Lily
         {
@@ -445,7 +430,7 @@ extension Lily.Stage.Playground
         
         private static var instance:ShaderString?
         private init( device:MTLDevice ) {
-            LLLog( "文字列からシェーダを生成しています." )
+            //LLLog( "文字列からシェーダを生成しています." )
             
             self.PlaygroundVertexShader = .init(
                 device:device, 
