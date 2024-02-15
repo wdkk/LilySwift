@@ -62,8 +62,14 @@ extension Lily.Stage.Playground
         }
         
         public func setClearColor( _ color:LLColor? ) {
-            passDesc?.colorAttachments[0].clearColor( .clear )
-            passDesc?.colorAttachments[0].action( load:.clear, store:.store )
+            if let color = color {
+                passDesc?.colorAttachments[0].clearColor( color.metalColor )
+                passDesc?.colorAttachments[0].action( load:.clear, store:.store )
+            }
+            else {
+                passDesc?.colorAttachments[0].clearColor( .clear )
+                passDesc?.colorAttachments[0].action( load:.clear, store:.store )            
+            }
         }
         
         public func setClearColor( _ color:MTLClearColor ) {
@@ -120,8 +126,7 @@ extension Lily.Stage.Playground
 
             let encoder = commandBuffer.makeRenderCommandEncoder( descriptor:pass.passDesc! )
             
-            encoder?
-            .label( "Playground Clear Render" )
+            encoder?.label( "Playground Clear Render" )
 
             encoder?.endEncoding()
         }

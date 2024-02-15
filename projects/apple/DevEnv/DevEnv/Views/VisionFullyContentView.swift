@@ -62,13 +62,12 @@ struct VisionFullyContentView : View
                 environment:.metallib,
                 planeStorage:planeStorage,
                 modelStorage:modelStorage, 
-                billboardStorage:bbStorage,
+                bbStorage:bbStorage,
                 design: { screen in
                 
-                screen.clearColor = .darkGrey
-                screen.cubeMap = "skyCubeMap"
+                screen.clearColor = .clear
+                //screen.cubeMap = "skyCubeMap"
                 
-                /*
                 for _ in 0 ..< 160 {
                     PGAddMask( "mask-smoke" )
                     .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
@@ -104,8 +103,8 @@ struct VisionFullyContentView : View
                         .life( 1.0 )
                     }
                 }
-                */
                 
+                /*
                 for _ in 0 ..< 10 {
                     let size = (40.0 ... 80.0).randomize
                     let speed = size / 80.0
@@ -228,13 +227,14 @@ struct VisionFullyContentView : View
                         .life( 1.0 )
                     }
                 }
+                */
             },
             update: { screen in
 
             })
         }
         .padding( 20.0 )
-        .glassBackgroundEffect()
+        //.glassBackgroundEffect()
         .onChange( of:showImmersiveSpace ) { _, newValue in
             Task {
                 if newValue {

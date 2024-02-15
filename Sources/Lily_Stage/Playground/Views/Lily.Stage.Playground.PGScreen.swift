@@ -227,7 +227,7 @@ extension Lily.Stage.Playground
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
             planeStorage:Plane.PlaneStorage? = nil,
-            billboardStorage:Billboard.BBStorage? = nil,
+            bbStorage:Billboard.BBStorage? = nil,
             modelStorage:Model.ModelStorage? = nil
         )
         {
@@ -242,7 +242,7 @@ extension Lily.Stage.Playground
             
             self.modelStorage = modelStorage
     
-            self.bbStorage = billboardStorage
+            self.bbStorage = bbStorage
             
             // レンダーフローの生成
             self.clearRenderFlow = .init(
@@ -287,20 +287,10 @@ extension Lily.Stage.Playground
             super.init()
         }
         
-        // ストレージ簡易版
-        public init( 
-            device:MTLDevice, 
-            environment:Lily.Stage.ShaderEnvironment = .metallib,
-            planeCapacity:Int = 2000,
-            planeTextures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"],
-            modelCapacity:Int = 500,
-            modelAssets:[String] = [ "cottonwood1", "acacia1", "plane" ],
-            billboardCapacity:Int = 2000,
-            billboardTextures:[String] = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
-        )
-        { 
+        // 簡易版
+        public init( device:MTLDevice ) { 
             self.device = device
-            self.environment = environment
+            self.environment = .string
 
             self.modelRenderTextures = .init( device:device )            
             self.mediumTexture = .init( device:device )
@@ -308,20 +298,20 @@ extension Lily.Stage.Playground
             // ストレージの生成
             self.planeStorage = .init( 
                 device:device, 
-                capacity:planeCapacity,
-                textures:planeTextures
+                capacity:2000,
+                textures:["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
             )
             
             self.modelStorage = .init( 
                 device:device, 
-                modelCapacity:modelCapacity,
-                modelAssets:modelAssets
+                modelCapacity:500,
+                modelAssets:[ "cottonwood1", "acacia1", "plane" ]
             )
     
             self.bbStorage = .init( 
                 device:device, 
-                capacity:billboardCapacity,
-                textures:billboardTextures
+                capacity:2000,
+                textures:["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
             )
             
             // レンダーフローの生成
@@ -374,6 +364,16 @@ extension Lily.Stage.Playground
         open override func setup() {
             super.setup()
             self.backgroundColor = .clear
+            /*
+            #if os(macOS)
+            self.view.layer?.backgroundColor = LLColor.clear.cgColor
+            metalView.backgroundColor = LLColor.clear.cgColor            
+            #else
+            self.view.layer.backgroundColor = LLColor.clear.cgColor
+            metalView.layer.backgroundColor = LLColor.clear.cgColor
+            #endif
+            */
+            
             addSubview( metalView )
             
             renderEngine = .init( 
@@ -416,14 +416,14 @@ extension Lily.Stage.Playground
         
         open func changeStorages(
             planeStorage:Plane.PlaneStorage? = nil,
-            billboardStorage:Billboard.BBStorage? = nil,
+            bbStorage:Billboard.BBStorage? = nil,
             modelStorage:Model.ModelStorage? = nil,
             design:(( PGScreen )->Void)? = nil,
             update:(( PGScreen )->Void)? = nil
         )
         {
             self.planeStorage = planeStorage
-            self.bbStorage = billboardStorage
+            self.bbStorage = bbStorage
             self.modelStorage = modelStorage
             
             self.planeRenderFlow.storage = self.planeStorage

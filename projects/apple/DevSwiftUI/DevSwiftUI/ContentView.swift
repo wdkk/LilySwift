@@ -14,23 +14,27 @@ struct ContentView: View
 {
     var body: some View 
     {
+        LilyPlaygroundView()
+        
+        /*
         NavigationStack {
             ZStack {
-                Color.yellow
+                //Color.cyan
                 
                 LilyPlaygroundView()                    
-                .toolbar {
-                    NavigationLink( "Go To Next", value:"Next" )
-                }       
-                .navigationDestination(for: String.self ) { value in
-                    if value == "Next" {
-                        NextView()
-                    }
-                }
-                .navigationTitle("LilyView")
             }
             .ignoresSafeArea()
+            .toolbar {
+                NavigationLink( "Go To Next", value:"Next" )
+            }       
+            .navigationDestination(for: String.self ) { value in
+                if value == "Next" {
+                    NextView()
+                }
+            }
+            .navigationTitle("LilyView")
         }
+        */
     }
 }
 

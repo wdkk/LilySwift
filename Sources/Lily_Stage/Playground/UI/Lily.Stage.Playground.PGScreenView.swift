@@ -42,7 +42,7 @@ extension Lily.Stage.Playground
             environment:Lily.Stage.ShaderEnvironment,
             planeStorage:Plane.PlaneStorage?,
             modelStorage:Model.ModelStorage?,
-            billboardStorage:Billboard.BBStorage?,
+            bbStorage:Billboard.BBStorage?,
             design:(( PGScreen )->Void)?,
             update:(( PGScreen )->Void)? 
         )
@@ -53,7 +53,7 @@ extension Lily.Stage.Playground
             
             self.planeStorage = planeStorage
             self.modelStorage = modelStorage
-            self.bbStorage = billboardStorage
+            self.bbStorage = bbStorage
         
             self.design = design
             self.update = update
@@ -64,7 +64,7 @@ extension Lily.Stage.Playground
                 device:device,
                 environment:self.environment,
                 planeStorage:self.planeStorage,
-                billboardStorage:self.bbStorage,
+                bbStorage:self.bbStorage,
                 modelStorage:self.modelStorage
             )
             
@@ -169,7 +169,7 @@ extension Lily.Stage.Playground
             environment:Lily.Stage.ShaderEnvironment = .string,
             planeStorage:Lily.Stage.Playground.Plane.PlaneStorage? = nil,
             modelStorage:Lily.Stage.Playground.Model.ModelStorage? = nil,
-            billboardStorage:Lily.Stage.Playground.Billboard.BBStorage? = nil,
+            bbStorage:Lily.Stage.Playground.Billboard.BBStorage? = nil,
             design:(( PGScreen )->Void)?,
             update:(( PGScreen )->Void)? 
         )
@@ -179,7 +179,7 @@ extension Lily.Stage.Playground
             
             self.planeStorage = planeStorage
             self.modelStorage = modelStorage
-            self.bbStorage = billboardStorage
+            self.bbStorage = bbStorage
             
             self.design = design
             self.update = update
@@ -193,7 +193,7 @@ extension Lily.Stage.Playground
                 environment:self.environment,
                 planeStorage:self.planeStorage,
                 modelStorage:self.modelStorage,
-                billboardStorage:self.bbStorage,
+                bbStorage:self.bbStorage,
                 design:self.design,
                 update:self.update
             )

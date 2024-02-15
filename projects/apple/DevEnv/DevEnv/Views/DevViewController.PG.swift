@@ -103,7 +103,7 @@ class DevViewController
             device:device,
             environment:.string,
             planeStorage:planeStorage,
-            billboardStorage:bbStorage,
+            bbStorage:bbStorage,
             modelStorage:modelStorage
         )
         

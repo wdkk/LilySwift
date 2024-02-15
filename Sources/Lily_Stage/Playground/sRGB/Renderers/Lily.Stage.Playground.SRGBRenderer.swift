@@ -39,7 +39,6 @@ extension Lily.Stage.Playground
             desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
             
             desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.backBuffer
-            //desc.colorAttachments[0].composite( type:.alphaBlend )
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
             }
