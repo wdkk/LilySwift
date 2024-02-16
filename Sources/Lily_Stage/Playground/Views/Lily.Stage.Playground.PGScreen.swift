@@ -46,6 +46,7 @@ extension Lily.Stage.Playground
         
         // MARK: プロパティ・アクセサ
         public var clearColor:LLColor = .white
+        
         public var cubeMap:String? = nil {
             didSet { modelStorage?.setCubeMap(device:device, assetName:cubeMap ) }
         }
@@ -89,19 +90,27 @@ extension Lily.Stage.Playground
         public var pgUpdateHandler:(( PGScreen )->Void)?
         private var _design_once = false
         
+        public func redesign() {
+            self._design_once = false
+            self.designProc( vc:self )
+        }
+        
+        public var pgResizeHandler:(( PGScreen )->Void)?
+        
+        // MARK: - 更新時関数群
         public func designProc( vc:PGScreen ) {
-            if !vc._design_once {
-                vc.setCurrentStorage()
-                
-                vc.removeAllShapes()
-                vc.pgDesignHandler?( self )
+            if vc._design_once { return }
+            
+            vc.setCurrentStorage()
+            
+            vc.removeAllShapes()
+            vc.pgDesignHandler?( self )
 
-                vc.modelStorage?.statuses.commit()
-                vc.bbStorage?.statuses.commit()
-                vc.planeStorage?.statuses.commit()
+            vc.modelStorage?.statuses.commit()
+            vc.bbStorage?.statuses.commit()
+            vc.planeStorage?.statuses.commit()
 
-                vc._design_once = true
-            }
+            vc._design_once = true
         }
         
         public func updateProc( vc:PGScreen, status:Lily.View.MetalView.DrawObj ) {
@@ -136,6 +145,7 @@ extension Lily.Stage.Playground
             ) 
         }
         
+        // Metalビュー
         public lazy var metalView = Lily.View.MetalView( device:device )
         .setup( caller:self ) { me, vc in
             me.bgColor( .clear )
@@ -150,6 +160,9 @@ extension Lily.Stage.Playground
                 vc.mediumTexture.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
             }
             
+            // リサイズ処理の受け入れハンドラ
+            vc.pgResizeHandler?( vc )
+            // リサイズの独自処理の後にdesignを試みる. リサイズハンドラでredesignをした場合は無視される
             vc.designProc( vc:vc )
         }
         .draw( caller:self ) { me, vc, status in
