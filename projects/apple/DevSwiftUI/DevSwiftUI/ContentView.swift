@@ -14,8 +14,13 @@ struct ContentView: View
 {
     var body: some View 
     {
-        LilyPlaygroundView()
-        
+        ZStack {
+            Color.gray
+            
+            Image( "lily" )
+            
+            LilyPlaygroundView()
+        }
         /*
         NavigationStack {
             ZStack {

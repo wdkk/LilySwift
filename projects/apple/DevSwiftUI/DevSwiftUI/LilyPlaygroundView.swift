@@ -38,6 +38,7 @@ struct LilyPlaygroundView: View
             design: { screen in
                 screen.clearColor = .clear
                 
+                /*
                 ModelObj( assetName:"cottonwood1" )
                 .position( cx:-500.0, cy:0.0, cz:0.0 )
                 .scale( x: 400, y: 400, z: 400 )
@@ -53,8 +54,8 @@ struct LilyPlaygroundView: View
                 ModelObj( assetName:"plane" ) 
                 .position( cx:0.0, cy:0.0, cz:0.0 )
                 .scale( equal:20000.0 )
-                
-                /*
+                */
+            
                 for _ in 0 ..< 160 {
                     PGAddMask( "mask-smoke" )
                     .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
@@ -90,7 +91,6 @@ struct LilyPlaygroundView: View
                         .life( 1.0 )
                     }
                 }
-                */
                 
                 /*
                 for _ in 0 ..< 80 {

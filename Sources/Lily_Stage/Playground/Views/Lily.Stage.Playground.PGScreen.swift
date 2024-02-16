@@ -296,23 +296,11 @@ extension Lily.Stage.Playground
             self.mediumTexture = .init( device:device )
             
             // ストレージの生成
-            self.planeStorage = .init( 
-                device:device, 
-                capacity:2000,
-                textures:["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
-            )
+            self.planeStorage = .playgroundDefault( device:device )
             
-            self.modelStorage = .init( 
-                device:device, 
-                modelCapacity:500,
-                modelAssets:[ "cottonwood1", "acacia1", "plane" ]
-            )
+            self.modelStorage = .playgroundDefault( device:device )
     
-            self.bbStorage = .init( 
-                device:device, 
-                capacity:2000,
-                textures:["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
-            )
+            self.bbStorage = .playgroundDefault( device:device )
             
             // レンダーフローの生成
             self.clearRenderFlow = .init(
@@ -364,16 +352,7 @@ extension Lily.Stage.Playground
         open override func setup() {
             super.setup()
             self.backgroundColor = .clear
-            /*
-            #if os(macOS)
-            self.view.layer?.backgroundColor = LLColor.clear.cgColor
-            metalView.backgroundColor = LLColor.clear.cgColor            
-            #else
-            self.view.layer.backgroundColor = LLColor.clear.cgColor
-            metalView.layer.backgroundColor = LLColor.clear.cgColor
-            #endif
-            */
-            
+
             addSubview( metalView )
             
             renderEngine = .init( 

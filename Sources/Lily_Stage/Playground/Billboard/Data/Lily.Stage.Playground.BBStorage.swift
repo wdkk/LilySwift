@@ -55,6 +55,14 @@ extension Lily.Stage.Playground.Billboard
             .init( xyz:.init(  0.0,  0.0, 0.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) )
         )
         
+        public static func playgroundDefault( device:MTLDevice ) -> BBStorage {
+            return BBStorage( 
+                device:device, 
+                capacity:2000,
+                textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+            )
+        }
+        
         public init( 
             device:MTLDevice, 
             capacity:Int,

@@ -234,7 +234,6 @@ struct VisionFullyContentView : View
             })
         }
         .padding( 20.0 )
-        //.glassBackgroundEffect()
         .onChange( of:showImmersiveSpace ) { _, newValue in
             Task {
                 if newValue {

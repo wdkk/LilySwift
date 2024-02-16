@@ -45,6 +45,14 @@ extension Lily.Stage.Playground.Model
         
         public var capacity:Int { modelCapacity * cameraCount }
         
+        public static func playgroundDefault( device:MTLDevice ) -> ModelStorage {
+            return ModelStorage( 
+                device:device, 
+                modelCapacity:500,
+                modelAssets:[ "cottonwood1", "acacia1", "plane" ]
+            )
+        }
+        
         public init( 
             device:MTLDevice, 
             modelCapacity:Int,
