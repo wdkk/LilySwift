@@ -171,6 +171,7 @@ extension Lily.Stage.Playground
             }
             
             // リサイズ処理の受け入れハンドラ
+            // TODO: 画面がリサイズしていない場合に封じる処理を入れたい
             vc.pgResizeHandler?( vc )
             // リサイズの独自処理の後にdesignを試みる. リサイズハンドラでredesignをした場合は無視される
             vc.designProc( vc:vc )

@@ -108,8 +108,8 @@ extension Lily.Stage.Playground
     
     public struct PGScreenView : View
     {
-        @State var visibled:Bool = false
-        
+        @State private var visibled:Bool = false
+
         var device:MTLDevice
         var environment:Lily.Stage.ShaderEnvironment
         var planeStorage:Plane.PlaneStorage?
@@ -123,10 +123,7 @@ extension Lily.Stage.Playground
         public init
         ( 
             device:MTLDevice,
-            environment:Lily.Stage.ShaderEnvironment = .string,
-            design:(( PGScreen )->Void)?,
-            update:(( PGScreen )->Void)? = nil,
-            resize:(( PGScreen )->Void)? = nil
+            environment:Lily.Stage.ShaderEnvironment = .string
         )
         {
             self.device = device
@@ -135,10 +132,6 @@ extension Lily.Stage.Playground
             self.planeStorage = .playgroundDefault( device:device )
             self.modelStorage = .playgroundDefault( device:device )
             self.bbStorage = .playgroundDefault( device:device )
-            
-            self.designHandler = design
-            self.updateHandler = update
-            self.resizeHandler = resize
         }
         
         public init
@@ -147,10 +140,7 @@ extension Lily.Stage.Playground
             environment:Lily.Stage.ShaderEnvironment = .string,
             planeStorage:Lily.Stage.Playground.Plane.PlaneStorage? = nil,
             modelStorage:Lily.Stage.Playground.Model.ModelStorage? = nil,
-            bbStorage:Lily.Stage.Playground.Billboard.BBStorage? = nil,
-            design:(( PGScreen )->Void)?,
-            update:(( PGScreen )->Void)? = nil,
-            resize:(( PGScreen )->Void)? = nil
+            bbStorage:Lily.Stage.Playground.Billboard.BBStorage? = nil
         )
         {
             self.device = device
@@ -159,10 +149,6 @@ extension Lily.Stage.Playground
             self.planeStorage = planeStorage
             self.modelStorage = modelStorage
             self.bbStorage = bbStorage
-            
-            self.designHandler = design
-            self.updateHandler = update
-            self.resizeHandler = resize
         }
         
         public var body: some View 
@@ -179,6 +165,7 @@ extension Lily.Stage.Playground
                     update:self.updateHandler,
                     resize:self.resizeHandler
                 )
+                .frame( width:geo.size.width, height:geo.size.height )
                 .background( .clear )
                 .onAppear { visibled = true }
                 .onDisappear { visibled = false }
@@ -189,8 +176,25 @@ extension Lily.Stage.Playground
                 else {
                     v.onChange( of:visibled ) { _ in }
                 }
-
             }
+        }
+        
+        public func onDesign( _ action: @escaping ( PGScreen )->Void ) -> Self {
+            var view = self
+            view.designHandler = action
+            return view        
+        }
+        
+        public func onUpdate( _ action: @escaping ( PGScreen )->Void ) -> Self {
+            var view = self
+            view.updateHandler = action
+            return view        
+        }
+        
+        public func onResize( _ action: @escaping ( PGScreen )->Void ) -> Self {
+            var view = self
+            view.resizeHandler = action
+            return view
         }
     }
 }
