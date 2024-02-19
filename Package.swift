@@ -6,9 +6,9 @@ import PackageDescription
 let package = Package(
     name: "LilySwift",
     platforms: [
-        .iOS(.v15),
-        .macOS(.v12),
-        .macCatalyst(.v15),
+        .iOS(.v16),
+        .macOS(.v13),
+        .macCatalyst(.v16),
         .visionOS(.v1)
     ],
     products: [
