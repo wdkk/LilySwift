@@ -88,29 +88,39 @@ extension Lily.Stage.Playground
         // MARK: - 外部処理ハンドラ
         public var pgDesignHandler:(( PGScreen )->Void)?
         public var pgUpdateHandler:(( PGScreen )->Void)?
-        private var _design_once = false
-        
-        public func redesign() {
-            self._design_once = false
-            self.designProc( vc:self )
-        }
-        
         public var pgResizeHandler:(( PGScreen )->Void)?
-        
+       
+        private var _design_once = false
+        private var _design_mutex = Lily.View.RecursiveMutex()
+        private var _design_start_time:LLInt64 = 0
+
+        public func redesign() {
+            self.designProc( vc:self, force:true )
+        }
+    
         // MARK: - 更新時関数群
-        public func designProc( vc:PGScreen ) {
-            if vc._design_once { return }
+        public func designProc( vc:PGScreen, force:Bool = false ) {
+            // 強制描画でなくかつonceが効いているときはスキップ
+            if !force && vc._design_once { return }
+            // 250msより短い時は実行しない
+            if LLClock.now - vc._design_start_time < 250 { return }
             
-            vc.setCurrentStorage()
-            
-            vc.removeAllShapes()
-            vc.pgDesignHandler?( self )
-
-            vc.modelStorage?.statuses.commit()
-            vc.bbStorage?.statuses.commit()
-            vc.planeStorage?.statuses.commit()
-
-            vc._design_once = true
+            // redesignの繰り返し呼び出しの防止をしつつ処理を実行
+            _design_mutex.lock {
+                // 実行時の時間を取る
+                vc._design_start_time = LLClock.now
+                
+                vc.setCurrentStorage()
+                
+                vc.removeAllShapes()
+                vc.pgDesignHandler?( self )
+                
+                vc.modelStorage?.statuses.commit()
+                vc.bbStorage?.statuses.commit()
+                vc.planeStorage?.statuses.commit()
+                
+                vc._design_once = true
+            }
         }
         
         public func updateProc( vc:PGScreen, status:Lily.View.MetalView.DrawObj ) {
@@ -425,8 +435,7 @@ extension Lily.Stage.Playground
             self.pgDesignHandler = design
             self.pgUpdateHandler = update
             
-            self._design_once = false
-            self.designProc( vc:self )
+            self.designProc( vc:self, force:true )
         }
     }
 }

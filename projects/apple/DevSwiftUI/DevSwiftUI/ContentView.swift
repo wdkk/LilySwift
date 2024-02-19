@@ -14,32 +14,17 @@ struct ContentView: View
 {
     var body: some View 
     {
-        ZStack {
-            Color.gray
-            
-            Image( "lily" )
-            
-            LilyPlaygroundView()
-        }
-        /*
-        NavigationStack {
+        GeometryReader { geo in
             ZStack {
-                //Color.cyan
+                Color.orange
                 
-                LilyPlaygroundView()                    
+                Image( "lily" )
+                .resizable()
+                .frame( width: geo.size.height / 3.0, height: geo.size.height / 3.0 )
+                
+                LilyPlaygroundView()
             }
-            .ignoresSafeArea()
-            .toolbar {
-                NavigationLink( "Go To Next", value:"Next" )
-            }       
-            .navigationDestination(for: String.self ) { value in
-                if value == "Next" {
-                    NextView()
-                }
-            }
-            .navigationTitle("LilyView")
         }
-        */
     }
 }
 

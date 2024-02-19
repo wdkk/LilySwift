@@ -34,7 +34,7 @@ extension Lily.Stage.Playground
         
         var designHandler:(( PGScreen )->Void)?
         var updateHandler:(( PGScreen )->Void)?
-        @State var resizeHandler:(( PGScreen )->Void)?
+        var resizeHandler:(( PGScreen )->Void)?
         
         var visibled:Binding<Bool>
                 
@@ -46,7 +46,8 @@ extension Lily.Stage.Playground
             modelStorage:Model.ModelStorage?,
             bbStorage:Billboard.BBStorage?,
             design:(( PGScreen )->Void)?,
-            update:(( PGScreen )->Void)? 
+            update:(( PGScreen )->Void)?,
+            resize:(( PGScreen )->Void)?
         )
         {
             self.device = device
@@ -59,6 +60,7 @@ extension Lily.Stage.Playground
         
             self.designHandler = design
             self.updateHandler = update
+            self.resizeHandler = resize
         }
         
         func makeViewController( context:Context ) -> PGScreen {
@@ -77,7 +79,7 @@ extension Lily.Stage.Playground
             vc.pgDesignHandler = self.designHandler
             vc.pgUpdateHandler = self.updateHandler
             vc.pgResizeHandler = self.resizeHandler
-            
+
             if visibled.wrappedValue == true {
                 vc.rebuild()
                 vc.startLooping()
@@ -102,11 +104,6 @@ extension Lily.Stage.Playground
             updateViewController( uiViewController, context:context )
         }
         #endif
-        
-        public func onResize( _ handler:(( PGScreen )->Void)? ) -> Self {
-            self.resizeHandler = handler
-            return self
-        }
     }
     
     public struct PGScreenView : View
@@ -121,12 +118,15 @@ extension Lily.Stage.Playground
         
         var designHandler:(( PGScreen )->Void)?
         var updateHandler:(( PGScreen )->Void)?
+        var resizeHandler:(( PGScreen )->Void)?
         
-        public init( 
+        public init
+        ( 
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment = .string,
-            design:(( PGScreen )->Void)? = nil,
-            update:(( PGScreen )->Void)? = nil 
+            design:(( PGScreen )->Void)?,
+            update:(( PGScreen )->Void)? = nil,
+            resize:(( PGScreen )->Void)? = nil
         )
         {
             self.device = device
@@ -138,16 +138,19 @@ extension Lily.Stage.Playground
             
             self.designHandler = design
             self.updateHandler = update
+            self.resizeHandler = resize
         }
         
-        public init( 
+        public init
+        ( 
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment = .string,
             planeStorage:Lily.Stage.Playground.Plane.PlaneStorage? = nil,
             modelStorage:Lily.Stage.Playground.Model.ModelStorage? = nil,
             bbStorage:Lily.Stage.Playground.Billboard.BBStorage? = nil,
             design:(( PGScreen )->Void)?,
-            update:(( PGScreen )->Void)? 
+            update:(( PGScreen )->Void)? = nil,
+            resize:(( PGScreen )->Void)? = nil
         )
         {
             self.device = device
@@ -159,29 +162,34 @@ extension Lily.Stage.Playground
             
             self.designHandler = design
             self.updateHandler = update
+            self.resizeHandler = resize
         }
         
         public var body: some View 
         {
-            let v = PGScreenCoreView(
-                device: device,
-                visibled:$visibled,
-                environment:self.environment,
-                planeStorage:self.planeStorage,
-                modelStorage:self.modelStorage,
-                bbStorage:self.bbStorage,
-                design:self.designHandler,
-                update:self.updateHandler
-            )
-            .background( .clear )
-            .onAppear { visibled = true }
-            .onDisappear { visibled = false }
-            // 画面表示状態に対して反応させるためのonChange
-            if #available(iOS 17.0, * ), #available(macOS 14.0, *) {
-                v.onChange( of:visibled, initial:false ) { _, _ in }
-            } 
-            else {
-                v.onChange( of:visibled ) { _ in }
+            GeometryReader { geo in
+                let v = PGScreenCoreView(
+                    device: device,
+                    visibled:$visibled,
+                    environment:self.environment,
+                    planeStorage:self.planeStorage,
+                    modelStorage:self.modelStorage,
+                    bbStorage:self.bbStorage,
+                    design:self.designHandler,
+                    update:self.updateHandler,
+                    resize:self.resizeHandler
+                )
+                .background( .clear )
+                .onAppear { visibled = true }
+                .onDisappear { visibled = false }
+                // 画面表示状態に対して反応させるためのonChange
+                if #available( iOS 17.0, * ), #available( macOS 14.0, *) {
+                    v.onChange( of:visibled, initial:false ) { _, _ in }
+                } 
+                else {
+                    v.onChange( of:visibled ) { _ in }
+                }
+
             }
         }
     }
