@@ -58,8 +58,9 @@ extension Lily.Stage
         
         var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
         
-        var renderFlows:[BaseRenderFlow] = []
+        var renderFlows:[BaseRenderFlow?] = []
         
+        /*
         public var camera = Lily.Stage.Camera(
             perspectiveWith:.init( 0, 0, 0 ),
             direction: .init( 0.0, 0.0, 1.0 ), 
@@ -69,8 +70,19 @@ extension Lily.Stage
             near: 1.0, 
             far: 600.0
         )
+        */
         
-        public init( _ layerRenderer:LayerRenderer, renderFlows:[BaseRenderFlow], buffersInFlight:Int ) {
+        public var camera:Lily.Stage.Camera = .init(
+            perspectiveWith:LLFloatv3( 0.0, 2600, 5000.0 ),
+            direction: LLFloatv3( 0.0, -0.5, -1.0 ), 
+            up: LLFloatv3( 0, 1, 0 ), 
+            viewAngle: Float.pi / 3.0, 
+            aspectRatio: 320.0 / 240.0, 
+            near: 10.0, 
+            far: 60000.0
+        )
+        
+        public init( _ layerRenderer:LayerRenderer, renderFlows:[BaseRenderFlow?], buffersInFlight:Int ) {
             self.layerRenderer = layerRenderer
             self.worldTracking = WorldTrackingProvider()
             self.arSession = ARKitSession()

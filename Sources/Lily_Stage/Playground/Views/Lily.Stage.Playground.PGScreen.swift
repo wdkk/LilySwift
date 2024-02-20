@@ -38,11 +38,11 @@ extension Lily.Stage.Playground
         public var bbStorage:Billboard.BBStorage?
         
         // MARK: レンダーフロー
-        public var clearRenderFlow:ClearRenderFlow
-        public var planeRenderFlow:Plane.PlaneRenderFlow
-        public var modelRenderFlow:Model.ModelRenderFlow
-        public var bbRenderFlow:Billboard.BBRenderFlow
-        public var sRGBRenderFlow:SRGBRenderFlow
+        public var clearRenderFlow:ClearRenderFlow?
+        public var planeRenderFlow:Plane.PlaneRenderFlow?
+        public var modelRenderFlow:Model.ModelRenderFlow?
+        public var bbRenderFlow:Billboard.BBRenderFlow?
+        public var sRGBRenderFlow:SRGBRenderFlow?
         
         // MARK: プロパティ・アクセサ
         public var clearColor:LLColor = .white
@@ -84,6 +84,12 @@ extension Lily.Stage.Playground
             if let storage = bbStorage { return Billboard.BBPool.shared.shapes( on:storage ) }
             return []
         }
+        
+        // MARK: - 3Dモデル情報
+        public var models:Set<Model.ModelActor> { 
+            if let storage = modelStorage { return Model.ModelPool.shared.shapes( on:storage ) }
+            return []
+        }
        
         // MARK: - 外部処理ハンドラ
         public var pgDesignHandler:(( PGScreen )->Void)?
@@ -113,6 +119,7 @@ extension Lily.Stage.Playground
                 vc.setCurrentStorage()
                 
                 vc.removeAllShapes()
+                
                 vc.pgDesignHandler?( self )
                 
                 vc.modelStorage?.statuses.commit()
@@ -129,6 +136,7 @@ extension Lily.Stage.Playground
             // 時間の更新
             Plane.PGActor.ActorTimer.shared.update()
             Billboard.BBActor.ActorTimer.shared.update()
+            Model.ModelActor.ActorTimer.shared.update()
             
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
@@ -138,12 +146,13 @@ extension Lily.Stage.Playground
             vc.planeStorage?.statuses.commit()
             
             // 背景色の更新
-            vc.clearRenderFlow.clearColor = self.clearColor
+            vc.clearRenderFlow?.clearColor = self.clearColor
             vc.modelStorage?.clearColor = self.clearColor
             
             // Shapeの更新/終了処理を行う
-            vc.checkShapesStatus()
+            vc.checkPlanesStatus()
             vc.checkBillboardsStatus()
+            vc.checkModelsStatus()
             
             vc.renderEngine?.update(
                 with:status.drawable,
@@ -222,7 +231,7 @@ extension Lily.Stage.Playground
             Model.ModelStorage.current = self.modelStorage
         }
                 
-        func checkShapesStatus() {
+        func checkPlanesStatus() {
             for actor in self.shapes {
                 actor.appearIterate()       // イテレート処理
                 actor.appearInterval()      // インターバル処理
@@ -246,9 +255,22 @@ extension Lily.Stage.Playground
             }
         }
         
+        func checkModelsStatus() {
+            for actor in self.models {
+                actor.appearIterate()   // イテレート処理
+                actor.appearInterval()  // インターバル処理
+                
+                if actor.life <= 0.0 {
+                    actor.appearCompletion()    // 完了前処理
+                    actor.checkRemove()         // 削除処理
+                }
+            }
+        }
+        
         func removeAllShapes() {
             Plane.PGPool.shared.removeAllShapes( on:planeStorage )
             Billboard.BBPool.shared.removeAllShapes( on:bbStorage )
+            Model.ModelPool.shared.removeAllShapes( on:modelStorage )
         }
         
         public init( 
@@ -270,52 +292,12 @@ extension Lily.Stage.Playground
             self.modelStorage = modelStorage
             self.bbStorage = bbStorage
             
-            // レンダーフローの生成
-            self.clearRenderFlow = .init(
-                device:device,
-                viewCount:1,
-                mediumTextures:self.mediumTexture,
-                environment:self.environment
-            )
-            
-            self.modelRenderFlow = .init(
-                device:device,
-                environment:self.environment,
-                viewCount:1,
-                renderTextures:self.modelRenderTextures,
-                mediumTexture:self.mediumTexture,
-                storage:self.modelStorage
-            )
-                                    
-            self.bbRenderFlow = .init( 
-                device:device,
-                environment:self.environment,
-                viewCount:1,
-                mediumTexture:mediumTexture,
-                storage:self.bbStorage
-            )
-            
-            self.planeRenderFlow = .init( 
-                device:device,
-                environment:self.environment,
-                viewCount:1,
-                mediumTextures:self.mediumTexture,
-                storage:self.planeStorage
-            )
-            
-            self.sRGBRenderFlow = .init(
-                device:device, 
-                environment:self.environment,
-                viewCount:1,
-                mediumTextures:self.mediumTexture
-            )
-            
             super.init()
         }
         
         public init( 
             device:MTLDevice, 
-            environment:Lily.Stage.ShaderEnvironment = .string,
+            environment:Lily.Stage.ShaderEnvironment = .metallib,
             scene:PGScene
         )
         {
@@ -333,6 +315,19 @@ extension Lily.Stage.Playground
             self.pgDesignHandler = scene.design
             self.pgUpdateHandler = scene.update
             self.pgResizeHandler = scene.resize
+                        
+            super.init()
+        }
+        
+        required public init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        open override func setup() {
+            super.setup()
+            addSubview( metalView )
+            
+            self.backgroundColor = .clear
             
             // レンダーフローの生成
             self.clearRenderFlow = .init(
@@ -373,21 +368,9 @@ extension Lily.Stage.Playground
                 viewCount:1,
                 mediumTextures:self.mediumTexture
             )
-            
-            super.init()
-        }
-        
-        required public init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-        
-        open override func setup() {
-            super.setup()
-            addSubview( metalView )
-            
-            self.backgroundColor = .clear
 
-            renderEngine = .init( 
+            // レンダーエンジンの初期化
+            self.renderEngine = .init( 
                 device:device,
                 size:CGSize( 320, 240 ), 
                 renderFlows:[
@@ -403,6 +386,7 @@ extension Lily.Stage.Playground
             // 時間の初期化
             Plane.PGActor.ActorTimer.shared.start()
             Billboard.BBActor.ActorTimer.shared.start()
+            Model.ModelActor.ActorTimer.shared.start()
             
             startLooping()          // ループの開始
         }
@@ -435,9 +419,9 @@ extension Lily.Stage.Playground
             self.bbStorage = bbStorage
             self.modelStorage = modelStorage
             
-            self.planeRenderFlow.storage = self.planeStorage
-            self.bbRenderFlow.storage = self.bbStorage
-            self.modelRenderFlow.storage = self.modelStorage
+            self.planeRenderFlow?.storage = self.planeStorage
+            self.bbRenderFlow?.storage = self.bbStorage
+            self.modelRenderFlow?.storage = self.modelStorage
             
             self.pgDesignHandler = design
             self.pgUpdateHandler = update

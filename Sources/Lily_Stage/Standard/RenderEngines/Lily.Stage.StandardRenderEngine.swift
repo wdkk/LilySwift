@@ -26,7 +26,7 @@ extension Lily.Stage
         
         var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
         
-        var renderFlows:[BaseRenderFlow] = []
+        var renderFlows:[BaseRenderFlow?] = []
                 
         public var camera:Lily.Stage.Camera = .init(
             perspectiveWith:LLFloatv3( 0.0, 2600, 5000.0 ),
@@ -38,7 +38,7 @@ extension Lily.Stage
             far: 60000.0
         )
         
-        public init( device:MTLDevice, size:CGSize, renderFlows:[BaseRenderFlow], buffersInFlight:Int ) {
+        public init( device:MTLDevice, size:CGSize, renderFlows:[BaseRenderFlow?], buffersInFlight:Int ) {
             self.device = device
             self.commandQueue = device.makeCommandQueue()
             self.maxBuffersInFlight = buffersInFlight
@@ -109,7 +109,7 @@ extension Lily.Stage
         
         public func changeScreenSize( size:CGSize ) {            
             screenSize = size.llSizeFloat
-            renderFlows.forEach { $0.changeSize( scaledSize:size ) }
+            renderFlows.forEach { $0?.changeSize( scaledSize:size ) }
             camera.aspect = (size.width / size.height).f
         }
 
@@ -153,7 +153,7 @@ extension Lily.Stage
             
             // 共通処理
             renderFlows.forEach { 
-                $0.render(
+                $0?.render(
                     commandBuffer:commandBuffer,
                     rasterizationRateMap:rasterizationRateMap,
                     viewports:viewports, 
