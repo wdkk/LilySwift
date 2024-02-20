@@ -133,7 +133,7 @@ extension Lily.Stage
         
         public func changeScreenSize( size:CGSize ) {
             screenSize = size.llSizeFloat
-            renderFlows.forEach { $0.changeSize( scaledSize:size ) }
+            renderFlows.forEach { $0?.changeSize( scaledSize:size ) }
             camera.aspect = (size.width / size.height).f
         }
         
@@ -298,7 +298,7 @@ extension Lily.Stage
             
             // 共通処理
             renderFlows.forEach {
-                $0.render(
+                $0?.render(
                     commandBuffer:commandBuffer,
                     rasterizationRateMap:rasterizationRateMap,
                     viewports:viewports, 

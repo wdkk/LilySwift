@@ -12,7 +12,7 @@ import SwiftUI
 import LilySwift
 
 class ScenePack : ObservableObject 
-{
+{    
     @Published var scene:PG.PGScene
     
     init( device:MTLDevice ) {
@@ -94,12 +94,26 @@ class ScenePack : ObservableObject
 
 struct ContentView: View 
 {
+    #if os(visionOS)
+    @State private var showImmersiveSpace = false
+    @State private var immersiveSpaceIsShown = false
+
+    @Environment(\.openImmersiveSpace) var openImmersiveSpace
+    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
+    #endif
+    
     static let device = MTLCreateSystemDefaultDevice()!
     @StateObject var scenePack:ScenePack = .init( device:device )
       
     var body: some View 
     {
         NavigationStack {
+            #if os(visionOS)
+            Toggle( "イマーシブ空間を開く", isOn:$showImmersiveSpace )
+            .toggleStyle( .button )
+            .padding()
+            #endif
+            
             GeometryReader { geo in
                 ZStack {
                     LLColor( "#44DDFF" ).swiftuiColor
@@ -124,6 +138,27 @@ struct ContentView: View
                 scenePack.scene.update = scenePack.update2
             }
         }
+        #if os(visionOS)
+        .onChange( of:showImmersiveSpace ) { _, newValue in
+            Task {
+                if newValue {
+                    switch await openImmersiveSpace( id:"LilyImmersiveSpace" ) {
+                    case .opened:
+                        immersiveSpaceIsShown = true
+                    case .error, .userCancelled:
+                        fallthrough
+                    @unknown default:
+                        immersiveSpaceIsShown = false
+                        showImmersiveSpace = false
+                    }
+                } 
+                else if immersiveSpaceIsShown {
+                    await dismissImmersiveSpace()
+                    immersiveSpaceIsShown = false
+                }
+            }
+        }
+        #endif
     }
 }
 
