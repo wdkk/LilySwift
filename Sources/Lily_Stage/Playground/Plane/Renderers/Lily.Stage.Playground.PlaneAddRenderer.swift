@@ -21,7 +21,6 @@ extension Lily.Stage.Playground.Plane
         
         public init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
             self.device = device
-           
             
             let desc = MTLRenderPipelineDescriptor()
             desc.label = "Playground 2D Geometry(AddBlend)"

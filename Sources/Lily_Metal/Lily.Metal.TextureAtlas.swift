@@ -529,8 +529,6 @@ extension Lily.Metal
         public func commit() -> Self { 
             typealias ImagePosUnit = Lily.Metal.TextureTree.ImagePosUnit
             
-            //let t = LLClock.now
-            
             var image_rects:[ImagePosUnit] = []
             
             for (label, v) in self.labels {
@@ -627,7 +625,6 @@ extension Lily.Metal
             for imgrc in image_rects {
                 guard let img = imgrc.image else { continue }
                 
-                //let imgf = img.clone()
                 img.convertType( to:.rgba8 )
                 
                 let label = imgrc.label
@@ -647,8 +644,6 @@ extension Lily.Metal
                 
                 positions[label] = LLRegionMake( left, top, right, bottom )
             }
-            
-            //LLLog( "生成時間: \(LLClock.now - t)(ms)")
             
             return self
         }

@@ -41,8 +41,7 @@ extension Lily.Stage.Playground.Model
         -> MTLRenderPipelineState?
         {
             let desc = MTLRenderPipelineDescriptor()
-            let library = try! Lily.Stage.metalLibrary( of:device )
-            
+
             desc.label = "Playground Model Lighting"
             if environment == .metallib {
                 let library = try! Lily.Stage.metalLibrary( of:device )

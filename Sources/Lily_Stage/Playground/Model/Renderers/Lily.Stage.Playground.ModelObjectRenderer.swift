@@ -27,8 +27,6 @@ extension Lily.Stage.Playground.Model
         
         public init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
             self.device = device
-            let library = try! Lily.Stage.metalLibrary( of:device )
-
             let desc = MTLRenderPipelineDescriptor()
     
             desc.label = "Playground Objects Geometry"
