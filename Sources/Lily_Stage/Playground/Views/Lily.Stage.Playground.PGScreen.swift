@@ -369,6 +369,70 @@ extension Lily.Stage.Playground
             super.init()
         }
         
+        public init( 
+            device:MTLDevice, 
+            environment:Lily.Stage.ShaderEnvironment = .metallib,
+            scene:PGScene
+        )
+        {
+            self.device = device
+            self.environment = environment
+
+            self.modelRenderTextures = .init( device:device )            
+            self.mediumTexture = .init( device:device )
+            
+            // ストレージの生成
+            self.planeStorage = scene.planeStorage
+            self.modelStorage = scene.modelStorage
+            self.bbStorage = scene.bbStorage
+            
+            self.pgDesignHandler = scene.design
+            self.pgUpdateHandler = scene.update
+            self.pgResizeHandler = scene.resize
+            
+            // レンダーフローの生成
+            self.clearRenderFlow = .init(
+                device:device,
+                viewCount:1,
+                mediumTextures:self.mediumTexture,
+                environment:self.environment
+            )
+            
+            self.modelRenderFlow = .init(
+                device:device,
+                environment:self.environment,
+                viewCount:1,
+                renderTextures:self.modelRenderTextures,
+                mediumTexture:self.mediumTexture,
+                storage:self.modelStorage
+            )
+                                    
+            self.bbRenderFlow = .init( 
+                device:device,
+                environment:self.environment,
+                viewCount:1,
+                mediumTexture:mediumTexture,
+                storage:self.bbStorage
+            )
+            
+            self.planeRenderFlow = .init( 
+                device:device,
+                environment:self.environment,
+                viewCount:1,
+                mediumTextures:self.mediumTexture,
+                storage:self.planeStorage
+            )
+            
+            self.sRGBRenderFlow = .init(
+                device:device, 
+                environment:self.environment,
+                viewCount:1,
+                mediumTextures:self.mediumTexture
+            )
+            
+            super.init()
+        }
+        
         required public init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }

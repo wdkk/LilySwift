@@ -127,8 +127,8 @@ class DevViewController
             planeStorage:planeStorage2,
             bbStorage:nil,
             modelStorage:nil,
-            design:design2(screen:),
-            update:update2(screen:),
+            design:design2,
+            update:update2,
             resize:nil
         )
     }
@@ -334,36 +334,3 @@ func update2( screen:PGScreen ) {
         }
     }
 }
-
-/*
-func design( screen:PGScreen ) {
-    screen.clearColor = .darkGrey
-}
-
-func update( screen:PGScreen ) {
-    for touch in screen.touches {
-        for _ in 0 ..< 8 {
-            let speed = (2.0...4.0).randomize
-            let rad  = (0.0...2.0 * Double.pi).randomize
-            
-            PGAddBlurryCircle()
-            .color( LLColor( 0.4, 0.6, 0.95, 1.0 ) )
-            .position( touch.xy )
-            .deltaPosition( 
-                dx: speed * cos( rad ),
-                dy: speed * sin( rad ) 
-            )
-            .scale(
-                width:(5.0...40.0).randomize,
-                height:(5.0...40.0).randomize
-            )
-            .angle( .random )
-            .deltaAngle( degrees: (-2.0...2.0).randomize )
-            .life( 1.0 )
-            .deltaLife( -0.016 )
-            .alpha( 1.0 )
-            .deltaAlpha( -0.016 )
-        }
-    }    
-}
-*/

@@ -28,57 +28,42 @@ extension Lily.Stage.Playground
     {
         var device:MTLDevice
         var environment:Lily.Stage.ShaderEnvironment
-        var planeStorage:Plane.PlaneStorage?
-        var modelStorage:Model.ModelStorage?
-        var bbStorage:Billboard.BBStorage?
-        
-        var designHandler:(( PGScreen )->Void)?
-        var updateHandler:(( PGScreen )->Void)?
-        var resizeHandler:(( PGScreen )->Void)?
-        
+
         var visibled:Binding<Bool>
-                
+        var scene:Binding<PGScene>
+        
         public init( 
             device:MTLDevice,
             visibled:Binding<Bool>,
-            environment:Lily.Stage.ShaderEnvironment,
-            planeStorage:Plane.PlaneStorage?,
-            modelStorage:Model.ModelStorage?,
-            bbStorage:Billboard.BBStorage?,
-            design:(( PGScreen )->Void)?,
-            update:(( PGScreen )->Void)?,
-            resize:(( PGScreen )->Void)?
+            scene:Binding<PGScene>,
+            environment:Lily.Stage.ShaderEnvironment
         )
         {
             self.device = device
             self.visibled = visibled
+            self.scene = scene
             self.environment = environment
-            
-            self.planeStorage = planeStorage
-            self.modelStorage = modelStorage
-            self.bbStorage = bbStorage
-        
-            self.designHandler = design
-            self.updateHandler = update
-            self.resizeHandler = resize
         }
         
         func makeViewController( context:Context ) -> PGScreen {
             let screen = PGScreen(
                 device:device,
                 environment:self.environment,
-                planeStorage:self.planeStorage,
-                bbStorage:self.bbStorage,
-                modelStorage:self.modelStorage
+                scene:self.scene.wrappedValue
             )
   
             return screen        
         }
         
         func updateViewController( _ vc:PGScreen, context:Context ) {
-            vc.pgDesignHandler = self.designHandler
-            vc.pgUpdateHandler = self.updateHandler
-            vc.pgResizeHandler = self.resizeHandler
+            vc.changeStorages(
+                planeStorage: scene.wrappedValue.planeStorage,
+                bbStorage: scene.wrappedValue.bbStorage,
+                modelStorage: scene.wrappedValue.modelStorage,
+                design: scene.wrappedValue.design, 
+                update: scene.wrappedValue.update,
+                resize: scene.wrappedValue.resize
+            )
 
             if visibled.wrappedValue == true {
                 vc.rebuild()
@@ -109,17 +94,12 @@ extension Lily.Stage.Playground
     public struct PGScreenView : View
     {
         @State private var visibled:Bool = false
-
+        var scene:Binding<PGScene>
+        
         var device:MTLDevice
         var environment:Lily.Stage.ShaderEnvironment
-        var planeStorage:Plane.PlaneStorage?
-        var modelStorage:Model.ModelStorage?
-        var bbStorage:Billboard.BBStorage?
         
-        var designHandler:(( PGScreen )->Void)?
-        var updateHandler:(( PGScreen )->Void)?
-        var resizeHandler:(( PGScreen )->Void)?
-        
+        /*
         public init
         ( 
             device:MTLDevice,
@@ -128,42 +108,29 @@ extension Lily.Stage.Playground
         {
             self.device = device
             self.environment = environment
-            
-            self.planeStorage = .playgroundDefault( device:device )
-            self.modelStorage = .playgroundDefault( device:device )
-            self.bbStorage = .playgroundDefault( device:device )
         }
+        */
         
         public init
         ( 
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment = .string,
-            planeStorage:Lily.Stage.Playground.Plane.PlaneStorage? = nil,
-            modelStorage:Lily.Stage.Playground.Model.ModelStorage? = nil,
-            bbStorage:Lily.Stage.Playground.Billboard.BBStorage? = nil
+            scene:Binding<PGScene>
         )
         {
             self.device = device
             self.environment = environment
-            
-            self.planeStorage = planeStorage
-            self.modelStorage = modelStorage
-            self.bbStorage = bbStorage
+            self.scene = scene
         }
-        
+
         public var body: some View 
         {
-            GeometryReader { geo in
+            return GeometryReader { geo in
                 let v = PGScreenCoreView(
-                    device: device,
-                    visibled:$visibled,
-                    environment:self.environment,
-                    planeStorage:self.planeStorage,
-                    modelStorage:self.modelStorage,
-                    bbStorage:self.bbStorage,
-                    design:self.designHandler,
-                    update:self.updateHandler,
-                    resize:self.resizeHandler
+                    device:device,
+                    visibled:self.$visibled,
+                    scene:self.scene,
+                    environment:self.environment
                 )
                 .frame( width:geo.size.width, height:geo.size.height )
                 .background( .clear )
@@ -179,22 +146,24 @@ extension Lily.Stage.Playground
             }
         }
         
+        /*
         public func onDesign( _ action: @escaping ( PGScreen )->Void ) -> Self {
             var view = self
-            view.designHandler = action
+            view.scene.wrappedValue.design = action
             return view        
         }
         
         public func onUpdate( _ action: @escaping ( PGScreen )->Void ) -> Self {
             var view = self
-            view.updateHandler = action
+            view.scene.wrappedValue.update = action
             return view        
         }
         
         public func onResize( _ action: @escaping ( PGScreen )->Void ) -> Self {
             var view = self
-            view.resizeHandler = action
+            view.scene.wrappedValue.resize = action
             return view
         }
+        */
     }
 }
