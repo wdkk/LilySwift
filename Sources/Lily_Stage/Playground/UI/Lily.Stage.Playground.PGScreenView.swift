@@ -46,26 +46,30 @@ extension Lily.Stage.Playground
         }
         
         func makeViewController( context:Context ) -> PGScreen {
-            let screen = PGScreen(
+            return PGScreen(
                 device:device,
                 environment:self.environment,
                 scene:self.scene.wrappedValue
             )
-  
-            return screen        
         }
         
-        func updateViewController( _ vc:PGScreen, context:Context ) {
-            vc.changeStorages(
-                planeStorage: scene.wrappedValue.planeStorage,
-                bbStorage: scene.wrappedValue.bbStorage,
-                modelStorage: scene.wrappedValue.modelStorage,
-                design: scene.wrappedValue.design, 
-                update: scene.wrappedValue.update,
-                resize: scene.wrappedValue.resize
-            )
-
-            if visibled.wrappedValue == true {
+        func updateViewController( _ vc:PGScreen, context:Context ) { 
+            // 終了時にredesignのリクエストをTaskでクリアする
+            defer { Task { @MainActor in scene.wrappedValue.finishRedesign() } }
+            
+            // sceneの値でvcの値を更新する
+            vc.planeStorage    = scene.wrappedValue.planeStorage
+            vc.bbStorage       = scene.wrappedValue.bbStorage
+            vc.modelStorage    = scene.wrappedValue.modelStorage
+            vc.pgDesignHandler = scene.wrappedValue.design
+            vc.pgUpdateHandler = scene.wrappedValue.update
+            vc.pgResizeHandler = scene.wrappedValue.resize
+            
+            // redesignが必要かを確認してtrueだった場合redesignを呼ぶ
+            if scene.wrappedValue.checkNeedRedesign() { vc.redesign() }
+        
+            // 画面の切り替えによる表示/非表示での処理
+            if visibled.wrappedValue {
                 vc.rebuild()
                 vc.startLooping()
             }
@@ -76,14 +80,14 @@ extension Lily.Stage.Playground
         
         #if os(macOS)
         public func makeNSViewController( context:Context ) -> PGScreen { 
-            return makeViewController( context:context )
+            makeViewController( context:context )
         }
         public func updateNSViewController( _ nsViewController:PGScreen, context:Context ) { 
             updateViewController( nsViewController, context:context )
         }
         #else
         public func makeUIViewController( context:Context ) -> PGScreen {
-            return makeViewController( context:context )
+            makeViewController( context:context )
         }
         public func updateUIViewController( _ uiViewController:PGScreen, context:Context ) {
             updateViewController( uiViewController, context:context )
@@ -98,18 +102,6 @@ extension Lily.Stage.Playground
         
         var device:MTLDevice
         var environment:Lily.Stage.ShaderEnvironment
-        
-        /*
-        public init
-        ( 
-            device:MTLDevice,
-            environment:Lily.Stage.ShaderEnvironment = .string
-        )
-        {
-            self.device = device
-            self.environment = environment
-        }
-        */
         
         public init
         ( 
@@ -145,25 +137,5 @@ extension Lily.Stage.Playground
                 }
             }
         }
-        
-        /*
-        public func onDesign( _ action: @escaping ( PGScreen )->Void ) -> Self {
-            var view = self
-            view.scene.wrappedValue.design = action
-            return view        
-        }
-        
-        public func onUpdate( _ action: @escaping ( PGScreen )->Void ) -> Self {
-            var view = self
-            view.scene.wrappedValue.update = action
-            return view        
-        }
-        
-        public func onResize( _ action: @escaping ( PGScreen )->Void ) -> Self {
-            var view = self
-            view.scene.wrappedValue.resize = action
-            return view
-        }
-        */
     }
 }

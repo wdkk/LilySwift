@@ -136,7 +136,7 @@ class DevViewController
 }
 
 func design( screen:PGScreen ) {
-    screen.clearColor = .clear //.darkGrey
+    screen.clearColor = .darkGrey
 
     screen.cubeMap = "skyCubeMap"
     

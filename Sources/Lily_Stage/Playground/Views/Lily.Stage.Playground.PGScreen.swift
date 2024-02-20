@@ -33,9 +33,9 @@ extension Lily.Stage.Playground
         public private(set) var mediumTexture:MediumTexture
         
         // MARK: ストレージ
-        public private(set) var planeStorage:Plane.PlaneStorage?
-        public private(set) var modelStorage:Model.ModelStorage?
-        public private(set) var bbStorage:Billboard.BBStorage?
+        public var planeStorage:Plane.PlaneStorage?
+        public var modelStorage:Model.ModelStorage?
+        public var bbStorage:Billboard.BBStorage?
         
         // MARK: レンダーフロー
         public var clearRenderFlow:ClearRenderFlow
@@ -313,65 +313,9 @@ extension Lily.Stage.Playground
             super.init()
         }
         
-        // 簡易版
-        public init( device:MTLDevice ) { 
-            self.device = device
-            self.environment = .string
-
-            self.modelRenderTextures = .init( device:device )            
-            self.mediumTexture = .init( device:device )
-            
-            // ストレージの生成
-            self.planeStorage = .playgroundDefault( device:device )
-            self.modelStorage = .playgroundDefault( device:device )
-            self.bbStorage = .playgroundDefault( device:device )
-            
-            // レンダーフローの生成
-            self.clearRenderFlow = .init(
-                device:device,
-                viewCount:1,
-                mediumTextures:self.mediumTexture,
-                environment:self.environment
-            )
-            
-            self.modelRenderFlow = .init(
-                device:device,
-                environment:environment,
-                viewCount:1,
-                renderTextures:self.modelRenderTextures,
-                mediumTexture:self.mediumTexture,
-                storage:self.modelStorage
-            )
-                                    
-            self.bbRenderFlow = .init( 
-                device:device,
-                environment:self.environment,
-                viewCount:1,
-                mediumTexture:mediumTexture,                
-                storage:self.bbStorage
-            )
-            
-            self.planeRenderFlow = .init( 
-                device:device,
-                environment:self.environment,
-                viewCount:1,
-                mediumTextures:self.mediumTexture,
-                storage:self.planeStorage
-            )
-            
-            self.sRGBRenderFlow = .init(
-                device:device, 
-                environment:self.environment,
-                viewCount:1,
-                mediumTextures:self.mediumTexture
-            )
-            
-            super.init()
-        }
-        
         public init( 
             device:MTLDevice, 
-            environment:Lily.Stage.ShaderEnvironment = .metallib,
+            environment:Lily.Stage.ShaderEnvironment = .string,
             scene:PGScene
         )
         {
