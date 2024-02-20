@@ -243,8 +243,7 @@ extension Lily.Stage.Playground.Model
             float4 lightSpacePos;
             int     cascadeIndex = 0;
             float   shadow = 1.0;
-            for (cascadeIndex = 0; cascadeIndex < 3; cascadeIndex++)
-            {
+            for( cascadeIndex = 0; cascadeIndex < 3; cascadeIndex++ ) {
                 lightSpacePos = uniform.shadowCameraUniforms[cascadeIndex].viewProjectionMatrix * float4(worldPosition, 1);
                 lightSpacePos /= lightSpacePos.w;
                 if( all( lightSpacePos.xyz < 1.0 ) && all( lightSpacePos.xyz > float3(-1,-1,0) ) ) {
@@ -302,8 +301,6 @@ extension Lily.Stage.Playground.Model
         {
             const float2 vertices[] = {
                 float2(-1, -1),
-                //float2(-1,  3),
-                //float2( 3, -1)
                 float2( 3, -1),
                 float2(-1,  3)
             };
@@ -343,9 +340,9 @@ extension Lily.Stage.Playground.Model
             
             // デプス = 1の時はキューブマップから値をとって適用
             if( depth == 1 ) {
-                float3 cubeMapColor = is_null_texture( cubeMap ) ? clearColor.xyz : cubeMap.sample( colorSampler, viewDirection, level(0) ).xyz;
+                float4 cubeMapColor = is_null_texture( cubeMap ) ? clearColor : float4( cubeMap.sample( colorSampler, viewDirection, level(0) ).xyz, 1 );
                 LightingFOut res;
-                res.backBuffer = float4( cubeMapColor, 1 );
+                res.backBuffer = cubeMapColor;
                 return res;
             }
             
@@ -365,7 +362,9 @@ extension Lily.Stage.Playground.Model
             const float3 ambientDirectionUp = float3(0,1,0);
             const float3 ambientDirectionHoriz = normalize(float3(-sunDirection.x, 0.1, -sunDirection.z));
             const float3 ambientDirection = normalize(mix(ambientDirectionHoriz, ambientDirectionUp, brdf.normal.y));
-            const float3 ambientMapColor = is_null_texture( cubeMap ) ? clearColor.xyz  : cubeMap.sample(colorSampler, ambientDirection, level(0)).xyz;
+            
+            const float3 ambientMapColor = is_null_texture( cubeMap ) ? clearColor.xyz : cubeMap.sample(colorSampler, ambientDirection, level(0)).xyz;
+            
             const float3 ambientColorBase = saturate(ambientMapColor * 1.5 + 0.1);
             const float3 ambientColor = ambientColorBase * max(0.05, brdf.normal.y);
 

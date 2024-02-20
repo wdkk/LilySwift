@@ -19,10 +19,7 @@ struct LilyPlaygroundView: View
     var body: some View {
         PG.PGScreenView(
             device: device,
-            environment: .metallib,
-            planeStorage: .playgroundDefault( device:device ),
-            modelStorage: .playgroundDefault( device:device ),
-            bbStorage: .playgroundDefault( device:device )
+            environment: .string
         )
         .onDesign { screen in
             screen.clearColor = .clear

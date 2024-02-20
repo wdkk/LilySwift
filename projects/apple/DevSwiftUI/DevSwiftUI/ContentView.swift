@@ -18,7 +18,7 @@ struct ContentView: View
         NavigationStack {
             GeometryReader { geo in
                 ZStack {
-                    LLColor.aquamarine.swiftuiColor
+                    LLColor( "#44DDFF" ).swiftuiColor
                     
                     Image( "lily" )
                     .resizable()

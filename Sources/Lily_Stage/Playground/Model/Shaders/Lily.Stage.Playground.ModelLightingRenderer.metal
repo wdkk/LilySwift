@@ -117,8 +117,6 @@ vertex LightingVOut Lily_Stage_Playground_Model_Lighting_Vs( uint vid [[vertex_i
 {
     const float2 vertices[] = {
         float2(-1, -1),
-        //float2(-1,  3),
-        //float2( 3, -1)
         float2( 3, -1),
         float2(-1,  3)
     };
