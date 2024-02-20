@@ -13,12 +13,12 @@ import LilySwift
 
 class ScenePack : ObservableObject 
 {    
-    @Published var scene:PG.PGScene
+    @Published var scene:PG.PGScene<PGScreen>
     
     init( device:MTLDevice ) {
         scene = .playgroundDefault( device:device )
-        scene.design = design2
-        scene.update = update2
+        scene.design = design
+        scene.update = update
     }
     
     func design( screen:PGScreen ) {
@@ -60,7 +60,10 @@ class ScenePack : ObservableObject
             }
         }
     }
-
+    
+    func update( screen:PGScreen ) {
+    }
+    
     func design2( screen:PGScreen ) {
         screen.clearColor = .clear
     }
@@ -93,7 +96,7 @@ class ScenePack : ObservableObject
     }
 }
 
-struct VisionFullyContentView : View
+struct VisionContentView : View
 {
     @State private var showImmersiveSpace = false
     @State private var immersiveSpaceIsShown = false
@@ -123,10 +126,9 @@ struct VisionFullyContentView : View
             
             PG.PGScreenView( 
                 device:Self.device,
-                environment:.metallib,
+                environment:.string,
                 scene:$scenePack.scene
             )
-
         }
         .padding( 20.0 )
         .onChange( of:showImmersiveSpace ) { _, newValue in

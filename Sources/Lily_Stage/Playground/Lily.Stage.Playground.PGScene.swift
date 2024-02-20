@@ -18,15 +18,15 @@ import SwiftUI
 
 extension Lily.Stage.Playground
 {
-    public struct PGScene
+    public struct PGScene<TScreen>
     {
         public var planeStorage:Plane.PlaneStorage? { didSet { requestRedesign() } }
         public var bbStorage:Billboard.BBStorage? { didSet { requestRedesign() } }
         public var modelStorage:Model.ModelStorage? { didSet { requestRedesign() } }
 
-        public var design:(( PGScreen )->Void)? { didSet { requestRedesign() } }
-        public var update:(( PGScreen )->Void)? { didSet { requestRedesign() } }
-        public var resize:(( PGScreen )->Void)? { didSet { requestRedesign() } }
+        public var design:(( TScreen )->Void)? { didSet { requestRedesign() } }
+        public var update:(( TScreen )->Void)? { didSet { requestRedesign() } }
+        public var resize:(( TScreen )->Void)? { didSet { requestRedesign() } }
         
         // updateフラグ関数群(PGScreenViewのupdateで利用)
         public var _updated:Bool = false
@@ -38,9 +38,9 @@ extension Lily.Stage.Playground
             planeStorage:Plane.PlaneStorage? = nil,
             bbStorage:Billboard.BBStorage? = nil,
             modelStorage:Model.ModelStorage? = nil,
-            design:((PGScreen) -> Void)? = nil,
-            update:((PGScreen) -> Void)? = nil,
-            resize:((PGScreen) -> Void)? = nil
+            design:((TScreen) -> Void)? = nil,
+            update:((TScreen) -> Void)? = nil,
+            resize:((TScreen) -> Void)? = nil
         ) 
         {
             self.planeStorage = planeStorage
@@ -53,9 +53,9 @@ extension Lily.Stage.Playground
         
         public static func playgroundDefault(
             device:MTLDevice,
-            design:((PGScreen) -> Void)? = nil,
-            update:((PGScreen) -> Void)? = nil,
-            resize:((PGScreen) -> Void)? = nil
+            design:((TScreen) -> Void)? = nil,
+            update:((TScreen) -> Void)? = nil,
+            resize:((TScreen) -> Void)? = nil
         ) 
         -> PGScene 
         {

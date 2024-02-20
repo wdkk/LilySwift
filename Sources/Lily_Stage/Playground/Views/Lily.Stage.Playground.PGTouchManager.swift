@@ -30,6 +30,8 @@ extension Lily.Stage.Playground
         // タッチ完了状態に絞った配列
         public var releases:[PGTouch] { units.filter { $0.state == .release } }
         
+        public init() {}
+        
         public func changeBegansToTouches() {
             for i in 0 ..< units.count { 
                 // .beganから.touchへ移行

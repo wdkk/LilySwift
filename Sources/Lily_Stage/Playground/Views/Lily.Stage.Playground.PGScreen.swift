@@ -298,7 +298,7 @@ extension Lily.Stage.Playground
         public init( 
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
-            scene:PGScene
+            scene:PGScene<PGScreen>
         )
         {
             self.device = device

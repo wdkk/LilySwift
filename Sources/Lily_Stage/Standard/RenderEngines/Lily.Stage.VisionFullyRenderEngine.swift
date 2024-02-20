@@ -125,7 +125,7 @@ extension Lily.Stage
                 } 
                 else {
                     autoreleasepool { 
-                        self.renderFrame() 
+                        self.update()
                     }
                 }
             }
@@ -251,7 +251,10 @@ extension Lily.Stage
             }
         }
                 
-        public func renderFrame() {
+        public func update(
+            completion:(( MTLCommandBuffer? ) -> ())? = nil
+        )
+        {
             defer { uniforms.next() /* リングバッファを回す */ }
             
             guard let frame = layerRenderer.queryNextFrame() else { return }
@@ -314,6 +317,8 @@ extension Lily.Stage
             commandBuffer.commit()
             
             frame.endSubmission()
+            
+            completion?( commandBuffer )
         }
     }
     

@@ -30,12 +30,12 @@ extension Lily.Stage.Playground
         var environment:Lily.Stage.ShaderEnvironment
 
         var visibled:Binding<Bool>
-        var scene:Binding<PGScene>
+        var scene:Binding<PGScene<PGScreen>>
         
         public init( 
             device:MTLDevice,
             visibled:Binding<Bool>,
-            scene:Binding<PGScene>,
+            scene:Binding<PGScene<PGScreen>>,
             environment:Lily.Stage.ShaderEnvironment
         )
         {
@@ -98,7 +98,7 @@ extension Lily.Stage.Playground
     public struct PGScreenView : View
     {
         @State private var visibled:Bool = false
-        var scene:Binding<PGScene>
+        var scene:Binding<PGScene<PGScreen>>
         
         var device:MTLDevice
         var environment:Lily.Stage.ShaderEnvironment
@@ -107,7 +107,7 @@ extension Lily.Stage.Playground
         ( 
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment = .string,
-            scene:Binding<PGScene>
+            scene:Binding<PGScene<PGScreen>>
         )
         {
             self.device = device
