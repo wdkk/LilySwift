@@ -125,8 +125,11 @@ class DevViewController
         
         pgScreen?.changeStorages(
             planeStorage:planeStorage2,
+            bbStorage:nil,
+            modelStorage:nil,
             design:design2(screen:),
-            update:update2(screen:)
+            update:update2(screen:),
+            resize:nil
         )
     }
     #endif

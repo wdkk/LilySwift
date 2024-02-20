@@ -155,6 +155,8 @@ extension Lily.Stage.Playground
             ) 
         }
         
+        private var _metal_view_size:CGSize = .init( -1, -1 )
+        
         // Metalビュー
         public lazy var metalView = Lily.View.MetalView( device:device )
         .setup( caller:self ) { me, vc in
@@ -171,8 +173,10 @@ extension Lily.Stage.Playground
             }
             
             // リサイズ処理の受け入れハンドラ
-            // TODO: 画面がリサイズしていない場合に封じる処理を入れたい
-            vc.pgResizeHandler?( vc )
+            if vc._metal_view_size != me.size.cgSize {
+                vc.pgResizeHandler?( vc )
+                vc._metal_view_size = me.size.cgSize
+            }
             // リサイズの独自処理の後にdesignを試みる. リサイズハンドラでredesignをした場合は無視される
             vc.designProc( vc:vc )
         }
@@ -263,9 +267,7 @@ extension Lily.Stage.Playground
             
             // ストレージの生成
             self.planeStorage = planeStorage
-            
             self.modelStorage = modelStorage
-    
             self.bbStorage = bbStorage
             
             // レンダーフローの生成
@@ -418,11 +420,12 @@ extension Lily.Stage.Playground
         }
         
         open func changeStorages(
-            planeStorage:Plane.PlaneStorage? = nil,
-            bbStorage:Billboard.BBStorage? = nil,
-            modelStorage:Model.ModelStorage? = nil,
-            design:(( PGScreen )->Void)? = nil,
-            update:(( PGScreen )->Void)? = nil
+            planeStorage:Plane.PlaneStorage?,
+            bbStorage:Billboard.BBStorage?,
+            modelStorage:Model.ModelStorage?,
+            design:(( PGScreen )->Void)?,
+            update:(( PGScreen )->Void)?,
+            resize:(( PGScreen )->Void)?
         )
         {
             self.planeStorage = planeStorage
@@ -435,6 +438,7 @@ extension Lily.Stage.Playground
             
             self.pgDesignHandler = design
             self.pgUpdateHandler = update
+            self.pgResizeHandler = resize
             
             self.designProc( vc:self, force:true )
         }

@@ -62,9 +62,9 @@ struct VisionFullyContentView : View
                 environment:.metallib,
                 planeStorage:planeStorage,
                 modelStorage:modelStorage, 
-                bbStorage:bbStorage,
-                design: { screen in
-                
+                bbStorage:bbStorage
+            )
+            .onDesign { screen in
                 screen.clearColor = .clear
                 //screen.cubeMap = "skyCubeMap"
                 
@@ -228,10 +228,10 @@ struct VisionFullyContentView : View
                     }
                 }
                 */
-            },
-            update: { screen in
+            }
+            .onUpdate { screen in
 
-            })
+            }
         }
         .padding( 20.0 )
         .onChange( of:showImmersiveSpace ) { _, newValue in

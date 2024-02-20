@@ -69,5 +69,6 @@ struct LilyPlaygroundView: View
         .onResize { screen in
             screen.redesign()
         }
+        //.allowsHitTesting( false )
    }
 }
