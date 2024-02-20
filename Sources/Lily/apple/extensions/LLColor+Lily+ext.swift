@@ -10,14 +10,15 @@
 
 /// コメント未済
 
-#if os(iOS) || os(visionOS)
-import UIKit
-#elseif os(macOS)
+#if os(macOS)
 import AppKit
+#else
+import UIKit
 #endif
 
 import QuartzCore
 import Metal
+import SwiftUI
 
 public extension LLColor8
 {
@@ -41,23 +42,19 @@ public extension LLColor8
     var hsvf:LLHSVf { return LLColor8toHSVf( self ) }
     
     var hsvi:LLHSVi { return LLColor8toHSVi( self ) }
-    
-    var metalColor:MTLClearColor {
-        return self.rgbaf.metalColor
-    }
-    
-    var cgColor:CGColor {
-        return self.rgbaf.cgColor
-    }    
 
+    var cgColor:CGColor { return self.rgbaf.cgColor }    
+    
+    var metalColor:MTLClearColor { return self.rgbaf.metalColor }
+    
+    var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
+    
     var floatv4:LLFloatv4 { 
         let cf = self.rgbaf
         return LLFloatv4( cf.R, cf.G, cf.B, cf.A )
     }
     
-    static var random:LLColor8 { 
-        return LLColor.random.rgba8
-    }
+    static var random:LLColor8 { return LLColor.random.rgba8 }
 }
 
 public func == ( left:LLColor8, right:LLColor8 ) -> Bool { return LLColor8Equal( left, right ) }
@@ -88,22 +85,18 @@ public extension LLColor16
     
     var hsvi:LLHSVi { return LLColor16toHSVi( self ) }
     
-    var metalColor:MTLClearColor {
-        return self.rgbaf.metalColor
-    }
+    var cgColor:CGColor { return self.rgbaf.cgColor }    
     
-    var cgColor:CGColor {
-        return self.rgbaf.cgColor
-    }
+    var metalColor:MTLClearColor { return self.rgbaf.metalColor }
+    
+    var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
     
     var floatv4:LLFloatv4 { 
         let cf = self.rgbaf
         return LLFloatv4( cf.R, cf.G, cf.B, cf.A )
     }
     
-    static var random:LLColor16 { 
-        return LLColor.random.rgba16
-    }
+    static var random:LLColor16 { return LLColor.random.rgba16 }
 }
 
 public func == ( left:LLColor16, right:LLColor16 ) -> Bool { return LLColor16Equal( left, right ) }
@@ -117,7 +110,6 @@ public extension LLColor
         self.init( R: r, G: g, B: b, A: a )
     }
     
-
     init( red r:Float, green g:Float, blue b:Float, alpha a:Float = LLColor_MaxValue ) {
         self.init( R: r, G: g, B: b, A: a )
     }
@@ -134,26 +126,22 @@ public extension LLColor
     var hsvf:LLHSVf { return LLColorftoHSVf( self ) }
     
     var hsvi:LLHSVi { return LLColorftoHSVi( self ) }
-    
-    var metalColor:MTLClearColor {
-        return MTLClearColor(red: self.R.d, green: self.G.d, blue: self.B.d, alpha: self.A.d )
-    }
-    
+        
     var cgColor:CGColor {
-        #if os(iOS) || os(visionOS)
+        #if os(macOS)
+        return NSColor( self.R.cgf, self.G.cgf, self.B.cgf, self.A.cgf ).cgColor        
+        #else
         return UIColor( self.R.cgf, self.G.cgf, self.B.cgf, self.A.cgf ).cgColor
-        #elseif os(macOS)
-        return NSColor( self.R.cgf, self.G.cgf, self.B.cgf, self.A.cgf ).cgColor
         #endif
     }
     
-    var floatv4:LLFloatv4 { 
-        return LLFloatv4( self.R, self.G, self.B, self.A )
-    }
+    var metalColor:MTLClearColor { return .init(red: self.R.d, green: self.G.d, blue: self.B.d, alpha: self.A.d ) }
+
+    var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
     
-    static var random:LLColor { 
-        return LLColor( LLRandom(), LLRandom(), LLRandom(), 1.0 )
-    }
+    var floatv4:LLFloatv4 { return .init( self.R, self.G, self.B, self.A ) }
+    
+    static var random:LLColor { return LLColor( LLRandom(), LLRandom(), LLRandom(), 1.0 ) }
 }
 
 public func == ( left:LLColor, right:LLColor ) -> Bool { return LLColorEqual( left, right ) }
@@ -183,22 +171,18 @@ public extension LLHSVf
     
     var hsvi:LLHSVi { return LLHSVftoi( self ) }
 
-    var metalColor:MTLClearColor {
-        return self.rgbaf.metalColor
-    }
+    var cgColor:CGColor { return self.rgbaf.cgColor }    
     
-    var cgColor:CGColor {
-        return self.rgbaf.cgColor
-    }
+    var metalColor:MTLClearColor { return self.rgbaf.metalColor }
+    
+    var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
     
     var floatv4:LLFloatv4 { 
         let cf = self.rgbaf
         return LLFloatv4( cf.R, cf.G, cf.B, cf.A )
     }
     
-    static var random:LLHSVf { 
-        return LLColor.random.hsvf
-    }
+    static var random:LLHSVf { return LLColor.random.hsvf }
 }
 
 public extension LLHSVi
@@ -224,21 +208,17 @@ public extension LLHSVi
     
     var hsvf:LLHSVf { return LLHSVitof( self ) }
     
-    var metalColor:MTLClearColor {
-        return self.rgbaf.metalColor
-    }
+    var cgColor:CGColor { return self.rgbaf.cgColor }    
     
-    var cgColor:CGColor {
-        return self.rgbaf.cgColor
-    }
+    var metalColor:MTLClearColor { return self.rgbaf.metalColor }
+    
+    var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
     
     var floatv4:LLFloatv4 { 
         let cf = self.rgbaf
         return LLFloatv4( cf.R, cf.G, cf.B, cf.A )
     }
     
-    static var random:LLHSVi { 
-        return LLColor.random.hsvi
-    }
+    static var random:LLHSVi { return LLColor.random.hsvi }
 }
 

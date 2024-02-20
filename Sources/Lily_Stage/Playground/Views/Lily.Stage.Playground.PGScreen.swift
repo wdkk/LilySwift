@@ -323,9 +323,7 @@ extension Lily.Stage.Playground
             
             // ストレージの生成
             self.planeStorage = .playgroundDefault( device:device )
-            
             self.modelStorage = .playgroundDefault( device:device )
-    
             self.bbStorage = .playgroundDefault( device:device )
             
             // レンダーフローの生成
@@ -377,10 +375,10 @@ extension Lily.Stage.Playground
         
         open override func setup() {
             super.setup()
-            self.backgroundColor = .clear
-
             addSubview( metalView )
             
+            self.backgroundColor = .clear
+
             renderEngine = .init( 
                 device:device,
                 size:CGSize( 320, 240 ), 
@@ -398,20 +396,17 @@ extension Lily.Stage.Playground
             Plane.PGActor.ActorTimer.shared.start()
             Billboard.BBActor.ActorTimer.shared.start()
             
-            // ループの開始
-            startLooping()
+            startLooping()          // ループの開始
         }
         
         open override func buildup() {
             super.buildup()
-            // ループの開始及び再開
-            startLooping()
+            startLooping()          // ループの開始及び再開
         }
         
         open override func loop() {
             super.loop()
-            // Metal描画
-            metalView.drawMetal()
+            metalView.drawMetal()   // Metal描画
         }
         
         open override func teardown() {

@@ -9,6 +9,7 @@
 //
 
 import SwiftUI
+import LilySwift
 
 struct ContentView: View 
 {
@@ -17,7 +18,7 @@ struct ContentView: View
         NavigationStack {
             GeometryReader { geo in
                 ZStack {
-                    Color.orange
+                    LLColor.aquamarine.swiftuiColor
                     
                     Image( "lily" )
                     .resizable()
@@ -31,9 +32,7 @@ struct ContentView: View
                 NavigationLink( "Go To Next", value:"Next" )
             }       
             .navigationDestination(for: String.self ) { value in
-                if value == "Next" {
-                    NextView()
-                }
+                if value == "Next" { NextView() }
             }
             .navigationTitle("LilyView")
         }
