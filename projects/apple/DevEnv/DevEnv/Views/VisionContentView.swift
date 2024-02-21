@@ -13,7 +13,7 @@ import LilySwift
 
 class ScenePack : ObservableObject 
 {    
-    @Published var scene:PG.PGScene<PGScreen>
+    @Published var scene:PG.PGScene
     
     init( device:MTLDevice ) {
         scene = .playgroundDefault( device:device )
@@ -22,7 +22,7 @@ class ScenePack : ObservableObject
     }
     
     func design( screen:PGScreen ) {
-        screen.clearColor = .clear
+        screen.clearColor = .darkGrey
 
         for _ in 0 ..< 160 {
             PGAddMask( "mask-smoke" )

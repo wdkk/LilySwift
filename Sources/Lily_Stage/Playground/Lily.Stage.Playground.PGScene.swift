@@ -18,7 +18,7 @@ import SwiftUI
 
 extension Lily.Stage.Playground
 {
-    public struct PGScene<TScreen>
+    public struct PGBaseScene<TScreen>
     {
         public var planeStorage:Plane.PlaneStorage? { didSet { requestRedesign() } }
         public var bbStorage:Billboard.BBStorage? { didSet { requestRedesign() } }
@@ -57,7 +57,7 @@ extension Lily.Stage.Playground
             update:((TScreen) -> Void)? = nil,
             resize:((TScreen) -> Void)? = nil
         ) 
-        -> PGScene 
+        -> Self 
         {
             return .init(
                 planeStorage:.playgroundDefault( device:device ),
@@ -69,4 +69,6 @@ extension Lily.Stage.Playground
             )
         }
     }
+    
+    public typealias PGScene = PGBaseScene<PGScreen>
 }

@@ -18,7 +18,7 @@ extension Lily.Stage.Playground
     {
         var pass:Lily.Stage.Playground.SRGBPass?
         
-        weak var mediumTextures:MediumTexture?
+        weak var mediumTexture:MediumTexture?
         
         var sRGBRenderer:SRGBRenderer?
         
@@ -28,13 +28,13 @@ extension Lily.Stage.Playground
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment,
             viewCount:Int,
-            mediumTextures:MediumTexture
+            mediumTexture:MediumTexture
         ) 
         {
             self.pass = .init( device:device )
             self.viewCount = viewCount
 
-            self.mediumTextures = mediumTextures
+            self.mediumTexture = mediumTexture
             
             self.sRGBRenderer = .init( 
                 device:device,
@@ -57,6 +57,8 @@ extension Lily.Stage.Playground
         {
             guard let pass = self.pass else { return }
             
+            guard let mediumTexture = mediumTexture else { LLLog( "mediumTextureが設定されていません" ); return }
+            
             // 共通処理
             pass.updatePass( 
                 rasterizationRateMap:rasterizationRateMap,
@@ -77,7 +79,7 @@ extension Lily.Stage.Playground
             // sRGB変換
             sRGBRenderer?.draw(
                 with:encoder,
-                mediumTextures:mediumTextures!
+                mediumTexture:mediumTexture
             )
 
             encoder?.endEncoding()

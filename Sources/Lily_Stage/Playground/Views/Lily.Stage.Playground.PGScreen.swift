@@ -130,7 +130,7 @@ extension Lily.Stage.Playground
             }
         }
         
-        public func updateProc( vc:PGScreen, status:Lily.View.MetalView.DrawObj ) {
+        public func updateProc( vc:PGScreen, status:Lily.View.MetalView.DrawingStatus ) {
             vc.setCurrentStorage()
             
             // 時間の更新
@@ -177,8 +177,6 @@ extension Lily.Stage.Playground
             CATransaction.stop {
                 me.rect( vc.rect )
                 vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
-                vc.modelRenderTextures.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
-                vc.mediumTexture.updateBuffers( size:me.scaledBounds.size, viewCount:1 )
             }
             
             // リサイズ処理の受け入れハンドラ
@@ -298,7 +296,7 @@ extension Lily.Stage.Playground
         public init( 
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
-            scene:PGScene<PGScreen>
+            scene:PGScene
         )
         {
             self.device = device
@@ -332,9 +330,10 @@ extension Lily.Stage.Playground
             // レンダーフローの生成
             self.clearRenderFlow = .init(
                 device:device,
+                environment:self.environment,
                 viewCount:1,
-                mediumTextures:self.mediumTexture,
-                environment:self.environment
+                modelRenderTextures:self.modelRenderTextures,
+                mediumTexture:self.mediumTexture
             )
             
             self.modelRenderFlow = .init(
@@ -358,7 +357,7 @@ extension Lily.Stage.Playground
                 device:device,
                 environment:self.environment,
                 viewCount:1,
-                mediumTextures:self.mediumTexture,
+                mediumTexture:self.mediumTexture,
                 storage:self.planeStorage
             )
             
@@ -366,7 +365,7 @@ extension Lily.Stage.Playground
                 device:device, 
                 environment:self.environment,
                 viewCount:1,
-                mediumTextures:self.mediumTexture
+                mediumTexture:self.mediumTexture
             )
 
             // レンダーエンジンの初期化

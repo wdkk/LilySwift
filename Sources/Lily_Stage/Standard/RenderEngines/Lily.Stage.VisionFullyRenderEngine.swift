@@ -255,11 +255,12 @@ extension Lily.Stage
             completion:(( MTLCommandBuffer? ) -> ())? = nil
         )
         {
-            defer { uniforms.next() /* リングバッファを回す */ }
+            defer { uniforms.next() }
             
             guard let frame = layerRenderer.queryNextFrame() else { return }
             
             frame.startUpdate()
+            // frameの間で処理したいことを書く
             frame.endUpdate()
             
             guard let timing = frame.predictTiming() else { return }

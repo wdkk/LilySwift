@@ -75,21 +75,21 @@ extension Lily.View
 
 extension Lily.View.MetalKitView
 {
-    public struct DrawObj 
+    public struct DrawingStatus 
     {
         public var drawable:MTLDrawable
         public var renderPassDesc:MTLRenderPassDescriptor
     }
     
     public typealias Me = Lily.View.MetalKitView
-    public typealias DrawField = Lily.Field.ViewEvent<Me, DrawObj>
+    public typealias DrawField = Lily.Field.ViewEvent<Me, DrawingStatus>
     
-    public func draw( _ field:@escaping (Me, DrawObj)->() ) -> Self {
+    public func draw( _ field:@escaping (Me, DrawingStatus)->() ) -> Self {
         drawMetalField = DrawField( me:self, action:field )
         return self
     }
     
-    public func draw<TCaller:AnyObject>( caller:TCaller, _ field:@escaping (Me, TCaller, DrawObj)->() ) -> Self {
+    public func draw<TCaller:AnyObject>( caller:TCaller, _ field:@escaping (Me, TCaller, DrawingStatus)->() ) -> Self {
         drawMetalField = DrawField( me:self, caller:caller, action:field )
         return self
     }

@@ -43,12 +43,12 @@ extension Lily.Stage.Playground.Plane
         
         // 公開ファンクション
         public func updatePass(
-            mediumTextures:Lily.Stage.Playground.MediumTexture,
+            mediumTexture:Lily.Stage.Playground.MediumTexture,
             rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             renderTargetCount:Int
         )
         {
-            passDesc?.colorAttachments[0].texture = mediumTextures.resultTexture
+            passDesc?.colorAttachments[0].texture = mediumTexture.resultTexture
             #if !targetEnvironment(macCatalyst)
             passDesc?.rasterizationRateMap = rasterizationRateMap
             #endif

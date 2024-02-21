@@ -8,9 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-import Foundation
 import Metal
-import simd
+import CompositorServices
 import LilySwift
 
 #if os(macOS)
@@ -21,7 +20,9 @@ import UIKit
 
 extension Lily.Stage.Playground
 { 
-    open class VisionFullyCompositor
+    public typealias PGVisionScene = PGBaseScene<PGVisionFullyScreen>
+    
+    open class PGVisionFullyScreen
     {
         // MARK: システム
         var device:MTLDevice        
@@ -94,9 +95,9 @@ extension Lily.Stage.Playground
         }
         
         // MARK: - 外部処理ハンドラ
-        public var pgDesignHandler:(( VisionFullyCompositor )->Void)?
-        public var pgUpdateHandler:(( VisionFullyCompositor )->Void)?
-        public var pgResizeHandler:(( VisionFullyCompositor )->Void)?
+        public var pgDesignHandler:(( PGVisionFullyScreen )->Void)?
+        public var pgUpdateHandler:(( PGVisionFullyScreen )->Void)?
+        public var pgResizeHandler:(( PGVisionFullyScreen )->Void)?
        
         private var _design_once = false
         private var _design_mutex = Lily.View.RecursiveMutex()
@@ -107,7 +108,7 @@ extension Lily.Stage.Playground
         }
     
         // MARK: - 更新時関数群
-        public func designProc( vc:VisionFullyCompositor, force:Bool = false ) {
+        public func designProc( vc:PGVisionFullyScreen, force:Bool = false ) {
             // 強制描画でなくかつonceが効いているときはスキップ
             if !force && vc._design_once { return }
             // 250msより短い時は実行しない
@@ -133,8 +134,8 @@ extension Lily.Stage.Playground
         }
         
         public func updateProc( 
-            vc:VisionFullyCompositor,
-            status:Lily.View.MetalView.DrawObj 
+            vc:PGVisionFullyScreen,
+            status:Lily.View.MetalView.DrawingStatus 
         ) 
         {
             vc.setCurrentStorage()
@@ -221,12 +222,12 @@ extension Lily.Stage.Playground
         }
         
         public init( 
-            device:MTLDevice, 
+            layerRenderer:LayerRenderer,
             environment:Lily.Stage.ShaderEnvironment = .metallib,
-            scene:PGScene<VisionFullyCompositor>
+            scene:PGVisionScene
         )
         {
-            self.device = device
+            self.device = layerRenderer.device
             self.environment = environment
 
             self.modelRenderTextures = .init( device:device )            
@@ -241,7 +242,65 @@ extension Lily.Stage.Playground
             self.pgUpdateHandler = scene.update
             self.pgResizeHandler = scene.resize
                         
-            //super.init()
+            // レンダーフローの生成
+            self.clearRenderFlow = .init(
+                device:device,
+                environment:self.environment,
+                viewCount:1,
+                modelRenderTextures:modelRenderTextures,
+                mediumTexture:mediumTexture
+            )
+            
+            self.modelRenderFlow = .init(
+                device:device,
+                environment:self.environment,
+                viewCount:1,
+                renderTextures:modelRenderTextures,
+                mediumTexture:mediumTexture,
+                storage:modelStorage
+            )
+                                    
+            self.bbRenderFlow = .init( 
+                device:device,
+                environment:self.environment,
+                viewCount:1,
+                mediumTexture:mediumTexture,
+                storage:bbStorage
+            )
+            
+            self.planeRenderFlow = .init( 
+                device:device,
+                environment:self.environment,
+                viewCount:1,
+                mediumTexture:mediumTexture,
+                storage:planeStorage
+            )
+            
+            self.sRGBRenderFlow = .init(
+                device:device, 
+                environment:self.environment,
+                viewCount:1,
+                mediumTexture:mediumTexture
+            )
+            
+            self.renderEngine = Lily.Stage.VisionFullyRenderEngine( 
+                layerRenderer,
+                renderFlows:[
+                    clearRenderFlow,
+                    modelRenderFlow,
+                    bbRenderFlow, 
+                    planeRenderFlow, 
+                    sRGBRenderFlow
+                ],
+                buffersInFlight:3
+            )
+            
+            self.clearRenderFlow?.clearColor = .grey
+            
+            PGCircle( storage:planeStorage )
+            .color( .blue )
+            
+            self.renderEngine?.startRenderLoop()
         }
     }
 }

@@ -45,7 +45,7 @@ extension Lily.Stage.Playground.Billboard
             renderTargetCount:Int
         )
         {
-            //passDesc?.colorAttachments[0].texture = mediumTextures.billboardTexture
+            //passDesc?.colorAttachments[0].texture = mediumTexture.billboardTexture
             #if !targetEnvironment(macCatalyst)
             passDesc?.rasterizationRateMap = rasterizationRateMap
             #endif

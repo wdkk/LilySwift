@@ -40,7 +40,6 @@ extension Lily.Stage.Playground
         
         // 公開ファンクション
         public func updatePass(
-            mediumTextures:Lily.Stage.Playground.MediumTexture,
             rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             renderTargetCount:Int
         )
@@ -82,23 +81,31 @@ extension Lily.Stage.Playground
     : Lily.Stage.BaseRenderFlow
     {
         var pass:Lily.Stage.Playground.ClearPass?
-        weak var mediumTextures:Lily.Stage.Playground.MediumTexture?
+        weak var modelRenderTextures:Lily.Stage.Playground.Model.ModelRenderTextures?
+        weak var mediumTexture:Lily.Stage.Playground.MediumTexture?
         
         public var clearColor:LLColor = .white
         public let viewCount:Int
         
         public init(
             device:MTLDevice,
+            environment:Lily.Stage.ShaderEnvironment,
             viewCount:Int,
-            mediumTextures:Lily.Stage.Playground.MediumTexture,
-            environment:Lily.Stage.ShaderEnvironment
+            modelRenderTextures:Lily.Stage.Playground.Model.ModelRenderTextures?,
+            mediumTexture:Lily.Stage.Playground.MediumTexture?
         ) 
         {
             self.pass = .init( device:device )
             self.viewCount = viewCount
-            self.mediumTextures = mediumTextures
+            self.modelRenderTextures = modelRenderTextures
+            self.mediumTexture = mediumTexture
             
             super.init( device:device )
+        }
+        
+        public override func changeSize( scaledSize:CGSize ) {
+            self.modelRenderTextures?.updateBuffers( size:scaledSize, viewCount:self.viewCount )
+            self.mediumTexture?.updateBuffers( size:scaledSize, viewCount:self.viewCount )
         }
           
         public override func render(
@@ -115,12 +122,11 @@ extension Lily.Stage.Playground
             
             // 共通処理
             pass.updatePass(
-                mediumTextures:mediumTextures!,
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetCount:viewCount        
             )
             
-            pass.setDestination( texture:mediumTextures?.resultTexture )
+            pass.setDestination( texture:mediumTexture?.resultTexture )
             pass.setDepth( texture:depthTexture )
             pass.setClearColor( self.clearColor )
 
