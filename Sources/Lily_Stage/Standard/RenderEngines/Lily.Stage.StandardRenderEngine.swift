@@ -81,7 +81,6 @@ extension Lily.Stage
                     
                     // カスケードシャドウのカメラユニフォームを作成
                     for c_idx in 0 ..< Shared.Const.shadowCascadesCount {
-                        // sun cascade back-planeの中央を計算
                         let center = camera.position + camera.direction * cascade_distances[c_idx]
                         let size = cascade_sizes[c_idx]
 

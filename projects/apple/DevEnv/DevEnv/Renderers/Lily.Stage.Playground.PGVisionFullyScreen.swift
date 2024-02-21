@@ -101,7 +101,6 @@ extension Lily.Stage.Playground
        
         private var _design_once = false
         private var _design_mutex = Lily.View.RecursiveMutex()
-        private var _design_start_time:LLInt64 = 0
 
         public func redesign() {
             self.designProc( vc:self, force:true )
@@ -111,14 +110,9 @@ extension Lily.Stage.Playground
         public func designProc( vc:PGVisionFullyScreen, force:Bool = false ) {
             // 強制描画でなくかつonceが効いているときはスキップ
             if !force && vc._design_once { return }
-            // 250msより短い時は実行しない
-            if LLClock.now - vc._design_start_time < 250 { return }
-            
+
             // redesignの繰り返し呼び出しの防止をしつつ処理を実行
             _design_mutex.lock {
-                // 実行時の時間を取る
-                vc._design_start_time = LLClock.now
-                
                 vc.setCurrentStorage()
                 
                 vc.removeAllShapes()
@@ -134,8 +128,7 @@ extension Lily.Stage.Playground
         }
         
         public func updateProc( 
-            vc:PGVisionFullyScreen,
-            status:Lily.View.MetalView.DrawingStatus 
+            vc:PGVisionFullyScreen
         ) 
         {
             vc.setCurrentStorage()
@@ -161,16 +154,12 @@ extension Lily.Stage.Playground
             vc.checkBillboardsStatus()
             vc.checkModelsStatus()
             
-            /*
             vc.renderEngine?.update(
-                with:status.drawable,
-                renderPassDescriptor:status.renderPassDesc,
                 completion: { commandBuffer in
                     self.touchManager.changeBegansToTouches()
                     self.touchManager.resetReleases()
                 }
             ) 
-            */
         }
         
         func setCurrentStorage() {
@@ -295,10 +284,8 @@ extension Lily.Stage.Playground
                 buffersInFlight:3
             )
             
-            self.clearRenderFlow?.clearColor = .grey
-            
-            PGCircle( storage:planeStorage )
-            .color( .blue )
+            self.renderEngine?.setupHandler = { self.designProc( vc:self ) }
+            self.renderEngine?.updateHandler = { self.updateProc( vc:self ) }
             
             self.renderEngine?.startRenderLoop()
         }

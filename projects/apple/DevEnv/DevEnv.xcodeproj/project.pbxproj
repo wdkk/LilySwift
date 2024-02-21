@@ -18,7 +18,7 @@
 		5D3681B42B79185F00C20F6B /* DevViewController.PG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA1230D2B47299600FA0A04 /* DevViewController.PG.swift */; };
 		5D3681B52B79185F00C20F6B /* DevViewController.PG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA1230D2B47299600FA0A04 /* DevViewController.PG.swift */; };
 		5D3681B62B79186300C20F6B /* DevViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8EA07B263D5D0500DCD404 /* DevViewController.swift */; };
-		5D5DD93A2B851C900027D6D7 /* PGVisionFullyScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5DD9392B851C900027D6D7 /* PGVisionFullyScreen.swift */; };
+		5D5DD93A2B851C900027D6D7 /* Lily.Stage.Playground.PGVisionFullyScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5DD9392B851C900027D6D7 /* Lily.Stage.Playground.PGVisionFullyScreen.swift */; };
 		5D5F43502B0123A800614D79 /* DevEnv.RenderFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F434F2B0123A800614D79 /* DevEnv.RenderFlow.swift */; };
 		5D5F43512B0123A800614D79 /* DevEnv.RenderFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F434F2B0123A800614D79 /* DevEnv.RenderFlow.swift */; };
 		5D5F43522B0123A800614D79 /* DevEnv.RenderFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F434F2B0123A800614D79 /* DevEnv.RenderFlow.swift */; };
@@ -86,7 +86,7 @@
 		5D2337E92A4882480065BB61 /* DevEnv(macOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DevEnv(macOS).entitlements"; sourceTree = "<group>"; };
 		5D2338052A4884D90065BB61 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5D2338192A488F1D0065BB61 /* InfoMac.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoMac.plist; sourceTree = "<group>"; };
-		5D5DD9392B851C900027D6D7 /* PGVisionFullyScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGVisionFullyScreen.swift; sourceTree = "<group>"; };
+		5D5DD9392B851C900027D6D7 /* Lily.Stage.Playground.PGVisionFullyScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lily.Stage.Playground.PGVisionFullyScreen.swift; sourceTree = "<group>"; };
 		5D5F434F2B0123A800614D79 /* DevEnv.RenderFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevEnv.RenderFlow.swift; sourceTree = "<group>"; };
 		5D5F43532B0123FB00614D79 /* DevEnv.Family.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevEnv.Family.swift; sourceTree = "<group>"; };
 		5D8EA04D263D5CD400DCD404 /* DevEnv-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DevEnv-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,7 +158,7 @@
 				5DAE741C2B03D2F400445AE2 /* DevEnv.ObjectRenderer.swift */,
 				5DAE74202B03DB1500445AE2 /* DevEnv.LightingRenderer.swift */,
 				5DAE74242B03DBB900445AE2 /* DevEnv.ParticleRenderer.swift */,
-				5D5DD9392B851C900027D6D7 /* PGVisionFullyScreen.swift */,
+				5D5DD9392B851C900027D6D7 /* Lily.Stage.Playground.PGVisionFullyScreen.swift */,
 			);
 			path = Renderers;
 			sourceTree = "<group>";
@@ -443,7 +443,7 @@
 				5DAE74232B03DB1500445AE2 /* DevEnv.LightingRenderer.swift in Sources */,
 				5D5F43522B0123A800614D79 /* DevEnv.RenderFlow.swift in Sources */,
 				5D5F43562B0123FC00614D79 /* DevEnv.Family.swift in Sources */,
-				5D5DD93A2B851C900027D6D7 /* PGVisionFullyScreen.swift in Sources */,
+				5D5DD93A2B851C900027D6D7 /* Lily.Stage.Playground.PGVisionFullyScreen.swift in Sources */,
 				5D3681B52B79185F00C20F6B /* DevViewController.PG.swift in Sources */,
 				5DD583E02AA771BF00B5E6AE /* VisionApp.swift in Sources */,
 				5DAE741F2B03D2F400445AE2 /* DevEnv.ObjectRenderer.swift in Sources */,
