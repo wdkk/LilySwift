@@ -124,7 +124,6 @@ extension Lily.Stage
         }
         
         public func invMatrixLookat( _ eye:LLFloatv3, _ to:LLFloatv3, _ up:LLFloatv3 ) -> LLMatrix4x4 {
-            //let z = normalize( to - eye )
             let z = normalize( eye - to )
             let x = normalize( cross( up, z ) )
             let y = cross( z, x )

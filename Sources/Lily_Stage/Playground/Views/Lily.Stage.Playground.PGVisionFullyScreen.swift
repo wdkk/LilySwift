@@ -10,7 +10,6 @@
 
 import Metal
 import CompositorServices
-import LilySwift
 
 #if os(macOS)
 import AppKit
@@ -20,8 +19,6 @@ import UIKit
 
 extension Lily.Stage.Playground
 { 
-    public typealias PGVisionScene = PGBaseScene<PGVisionFullyScreen>
-    
     open class PGVisionFullyScreen
     {
         // MARK: システム

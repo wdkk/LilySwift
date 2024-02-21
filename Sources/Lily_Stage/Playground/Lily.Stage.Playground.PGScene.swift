@@ -71,4 +71,5 @@ extension Lily.Stage.Playground
     }
     
     public typealias PGScene = PGBaseScene<PGScreen>
+    public typealias PGVisionScene = PGBaseScene<PGVisionFullyScreen>
 }

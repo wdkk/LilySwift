@@ -16,9 +16,6 @@ func design( screen:Lily.Stage.Playground.PGVisionFullyScreen ) {
     screen.clearColor = .grey
     screen.cubeMap = "skyCubeMap"
     
-    PGCircle()
-    .color( .blue )
-    
     ModelObj( assetName:"cottonwood1" )
     .position( cx:-500.0, cy:0.0, cz:0.0 )
     .scale( x: 400, y: 400, z: 400 )

@@ -60,7 +60,6 @@ extension Lily.Stage
         
         var renderFlows:[BaseRenderFlow?] = []
         
-        /*
         public var camera:Lily.Stage.Camera = .init(
             perspectiveWith:.init( 0, 0, 0 ),
             direction: .init( 0.0, 0.0, 1.0 ), 
@@ -70,8 +69,8 @@ extension Lily.Stage
             near: 10.0, 
             far: 60000.0
         )
-        */
-        
+
+        /*
         public var camera:Lily.Stage.Camera = .init(
             perspectiveWith: .init( 0.0, 2600, 5000.0 ),
             direction: .init( 0.0, -0.5, -1.0 ), 
@@ -81,6 +80,7 @@ extension Lily.Stage
             near: 10.0, 
             far: 60000.0
         )
+        */
         
         public var setupHandler:(()->Void)?
         public var updateHandler:(()->Void)?
@@ -155,9 +155,12 @@ extension Lily.Stage
             return (deviceAnchorMatrix * view.transform).inverse
         }
         
+        /*
         public func calcProjectionMatrix(
             drawable:LayerRenderer.Drawable,
             deviceAnchor:DeviceAnchor?,
+            near:Double,
+            far:Double,
             viewIndex:Int
         )
         -> LLMatrix4x4
@@ -169,13 +172,14 @@ extension Lily.Stage
                 rightTangent: Double(view.tangents[1]),
                 topTangent: Double(view.tangents[2]),
                 bottomTangent: Double(view.tangents[3]),
-                nearZ: Double(drawable.depthRange.y),
-                farZ: Double(drawable.depthRange.x),
+                nearZ:near, //Double(drawable.depthRange.y),
+                farZ:far, //Double(drawable.depthRange.x),
                 reverseZ:false
             )
             
             return LLMatrix4x4( projection )
         }
+        */
         
         public func calcOrientationMatrix( 
             viewMatrix:LLMatrix4x4
@@ -199,28 +203,26 @@ extension Lily.Stage
             uniforms.update { uni in
                 for view_idx in 0 ..< viewCount {
                     // TODO: アンカーなどからマトリクスを得ているが、アンカーとdrawableからcameraをつくるべき
+                    //let vM = camera.calcViewMatrix()
                     let vM = self.calcViewMatrix(
                         drawable:drawable,
                         deviceAnchor:deviceAnchor,
                         viewIndex:view_idx
                     )
                     
+                    let projM = camera.calcProjectionMatrix()
+                    /*
                     let projM = self.calcProjectionMatrix(
                         drawable:drawable,
                         deviceAnchor:deviceAnchor, 
+                        near:camera.near.d,
+                        far:camera.far.d,
                         viewIndex:view_idx
                     )
+                    */
                     
                     let orientationM = self.calcOrientationMatrix( viewMatrix:vM )
-                    
-                    /*
-                    // ビューマトリックスの更新
-                    let vM = camera.calcViewMatrix()
-                    
-                    let projM = camera.calcProjectionMatrix()
-                    
-                    let orientationM = camera.calcOrientationMatrix()
-                    */
+                    //let orientationM = camera.calcOrientationMatrix()
                     
                     let camera_uniform = Shared.CameraUniform(
                         viewMatrix:vM, 
