@@ -113,17 +113,19 @@ extension Lily.Stage.Playground
 
             // redesignの繰り返し呼び出しの防止をしつつ処理を実行
             _design_mutex.lock {
-                vc.setCurrentStorage()
-                
-                vc.removeAllShapes()
-                
-                vc.pgDesignHandler?( self )
-                
-                vc.modelStorage?.statuses.commit()
-                vc.bbStorage?.statuses.commit()
-                vc.planeStorage?.statuses.commit()
-                
-                vc._design_once = true
+                Serial.shared.serialize {
+                    vc.setCurrentStorage()
+                    
+                    vc.removeAllShapes()
+                    
+                    vc.pgDesignHandler?( self )
+                    
+                    vc.modelStorage?.statuses.commit()
+                    vc.bbStorage?.statuses.commit()
+                    vc.planeStorage?.statuses.commit()
+                    
+                    vc._design_once = true
+                }
             }
         }
         
@@ -131,35 +133,37 @@ extension Lily.Stage.Playground
             vc:PGVisionFullyScreen
         ) 
         {
-            vc.setCurrentStorage()
-            
-            // 時間の更新
-            Plane.PGActor.ActorTimer.shared.update()
-            Billboard.BBActor.ActorTimer.shared.update()
-            Model.ModelActor.ActorTimer.shared.update()
-            
-            // ハンドラのコール
-            vc.pgUpdateHandler?( self )
-            // 変更の確定
-            vc.modelStorage?.statuses.commit()
-            vc.bbStorage?.statuses.commit()
-            vc.planeStorage?.statuses.commit()
-            
-            // 背景色の更新
-            vc.clearRenderFlow?.clearColor = self.clearColor
-            vc.modelStorage?.clearColor = self.clearColor
-            
-            // Shapeの更新/終了処理を行う
-            vc.checkPlanesStatus()
-            vc.checkBillboardsStatus()
-            vc.checkModelsStatus()
-            
-            vc.renderEngine?.update(
-                completion: { commandBuffer in
-                    self.touchManager.changeBegansToTouches()
-                    self.touchManager.resetReleases()
-                }
-            ) 
+            Serial.shared.serialize {
+                vc.setCurrentStorage()
+                
+                // 時間の更新
+                Plane.PGActor.ActorTimer.shared.update()
+                Billboard.BBActor.ActorTimer.shared.update()
+                Model.ModelActor.ActorTimer.shared.update()
+                
+                // ハンドラのコール
+                vc.pgUpdateHandler?( self )
+                // 変更の確定
+                vc.modelStorage?.statuses.commit()
+                vc.bbStorage?.statuses.commit()
+                vc.planeStorage?.statuses.commit()
+                
+                // 背景色の更新
+                vc.clearRenderFlow?.clearColor = self.clearColor
+                vc.modelStorage?.clearColor = self.clearColor
+                
+                // Shapeの更新/終了処理を行う
+                vc.checkPlanesStatus()
+                vc.checkBillboardsStatus()
+                vc.checkModelsStatus()
+                
+                vc.renderEngine?.update(
+                    completion: { commandBuffer in
+                        self.touchManager.changeBegansToTouches()
+                        self.touchManager.resetReleases()
+                    }
+                ) 
+            }
         }
         
         func setCurrentStorage() {

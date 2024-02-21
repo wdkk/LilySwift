@@ -82,7 +82,6 @@ extension Lily.Stage
             far: 60000.0
         )
         
-        
         public var setupHandler:(()->Void)?
         public var updateHandler:(()->Void)?
         
@@ -199,7 +198,6 @@ extension Lily.Stage
    
             uniforms.update { uni in
                 for view_idx in 0 ..< viewCount {
-                    /*
                     // TODO: アンカーなどからマトリクスを得ているが、アンカーとdrawableからcameraをつくるべき
                     let vM = self.calcViewMatrix(
                         drawable:drawable,
@@ -214,14 +212,15 @@ extension Lily.Stage
                     )
                     
                     let orientationM = self.calcOrientationMatrix( viewMatrix:vM )
-                    */
                     
+                    /*
                     // ビューマトリックスの更新
                     let vM = camera.calcViewMatrix()
                     
                     let projM = camera.calcProjectionMatrix()
                     
                     let orientationM = camera.calcOrientationMatrix()
+                    */
                     
                     let camera_uniform = Shared.CameraUniform(
                         viewMatrix:vM, 
