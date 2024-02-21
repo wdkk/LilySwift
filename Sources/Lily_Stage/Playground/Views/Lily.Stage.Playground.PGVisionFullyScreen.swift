@@ -7,15 +7,10 @@
 // This software is released under the MIT License.
 //   https://opensource.org/licenses/mit-license.php
 //
-
+#if os(visionOS)
 import Metal
 import CompositorServices
-
-#if os(macOS)
-import AppKit
-#else
 import UIKit
-#endif
 
 extension Lily.Stage.Playground
 { 
@@ -292,3 +287,4 @@ extension Lily.Stage.Playground
         }
     }
 }
+#endif
