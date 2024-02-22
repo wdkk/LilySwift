@@ -29,24 +29,22 @@ extension Lily.Stage
         var renderFlows:[BaseRenderFlow?] = []
                 
         public var camera:Lily.Stage.Camera = .init(
-            perspectiveWith:LLFloatv3( 0.0, 2600, 5000.0 ),
-            direction: LLFloatv3( 0.0, -0.5, -1.0 ), 
+            perspectiveWith: .init( 0.0, 260, 500.0 ),
+            direction: .init( 0.0, -0.5, -1.0 ), 
             up: LLFloatv3( 0, 1, 0 ), 
             viewAngle: Float.pi / 3.0, 
             aspectRatio: 320.0 / 240.0, 
-            near: 10.0, 
-            far: 60000.0
+            near: 0.1, 
+            far: 6000.0
         )
         
-        public init( device:MTLDevice, size:CGSize, renderFlows:[BaseRenderFlow?], buffersInFlight:Int ) {
+        public init( device:MTLDevice, buffersInFlight:Int ) {
             self.device = device
             self.commandQueue = device.makeCommandQueue()
             self.maxBuffersInFlight = buffersInFlight
             
             self.uniforms = .init( device:device, ringSize:maxBuffersInFlight )
-            
-            self.renderFlows = renderFlows
-            
+                        
             super.init()
         }
         
@@ -110,6 +108,10 @@ extension Lily.Stage
             screenSize = size.llSizeFloat
             renderFlows.forEach { $0?.changeSize( scaledSize:size ) }
             camera.aspect = (size.width / size.height).f
+        }
+        
+        public func setRenderFlows( _ flows:[BaseRenderFlow?] ) {
+            self.renderFlows = flows
         }
 
         public func update( 

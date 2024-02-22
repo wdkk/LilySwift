@@ -213,19 +213,16 @@ extension Lily.Stage.Playground
             self.makeRenderFlows( device:self.device, environment:self.environment )
 
             // レンダーエンジンの初期化
-            self.renderEngine = .init( 
-                device:device,
-                size:CGSize( 320, 240 ), 
-                renderFlows:[
-                    clearRenderFlow,
-                    modelRenderFlow,
-                    bbRenderFlow, 
-                    planeRenderFlow, 
-                    sRGBRenderFlow 
-                ],
-                buffersInFlight:1
-            )
+            self.renderEngine = .init( device:device, buffersInFlight:1 )
 
+            self.renderEngine?.setRenderFlows([
+                clearRenderFlow,
+                modelRenderFlow,
+                bbRenderFlow, 
+                planeRenderFlow, 
+                sRGBRenderFlow 
+            ])
+            
             // 時間の初期化
             Plane.PGActor.ActorTimer.shared.start()
             Billboard.BBActor.ActorTimer.shared.start()

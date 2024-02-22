@@ -49,18 +49,20 @@ extension Lily.Stage.Playground
         public var touches:[PGTouch] { return touchManager.touches }
         public var releases:[PGTouch] { return touchManager.releases }
         
-        /*
-        public var minX:Double { -(metalView.width * 0.5) }
-        public var maxX:Double { metalView.width * 0.5 }
-        public var minY:Double { -(metalView.height * 0.5) }
-        public var maxY:Double { metalView.height * 0.5 }
+        public var minX:Double { -(renderEngine != nil ? renderEngine!.screenSize.width.d * 0.5 : -1.0) }
+        public var maxX:Double { renderEngine != nil ? renderEngine!.screenSize.width.d * 0.5 : 1.0 }
+        public var minY:Double { -(renderEngine != nil ? renderEngine!.screenSize.height.d * 0.5 : -1.0) }
+        public var maxY:Double { renderEngine != nil ? renderEngine!.screenSize.height.d * 0.5 : 1.0 }
         
-        public var screenSize:LLSizeFloat { .init( width, height ) }
+        public var screenSize:LLSizeFloat { 
+            let wid = renderEngine != nil ? renderEngine!.screenSize.width : 2.0
+            let hgt = renderEngine != nil ? renderEngine!.screenSize.height : 2.0
+            return .init( wid, hgt ) 
+        }
         
         public var coordRegion:LLRegion { .init( left:minX, top:maxY, right:maxX, bottom:minY ) }
 
         public var randomPoint:LLPoint { coordRegion.randomPoint }
-        */
         
         // MARK: - タッチ情報ヘルパ
         private var latest_touch = PGTouch( xy:.zero, uv: .zero, state:.touch )
@@ -100,19 +102,7 @@ extension Lily.Stage.Playground
             self.pgUpdateHandler = scene.update
             self.pgResizeHandler = scene.resize
                         
-            self.makeRenderFlows( device:self.device, environment:self.environment )
-            
-            self.renderEngine = Lily.Stage.VisionFullyRenderEngine( 
-                layerRenderer,
-                renderFlows:[
-                    clearRenderFlow,
-                    modelRenderFlow,
-                    bbRenderFlow, 
-                    planeRenderFlow, 
-                    sRGBRenderFlow
-                ],
-                buffersInFlight:3
-            )
+            self.renderEngine = .init( layerRenderer, buffersInFlight:3 )
             
             // 時間の初期化
             Plane.PGActor.ActorTimer.shared.start()
@@ -120,6 +110,20 @@ extension Lily.Stage.Playground
             Model.ModelActor.ActorTimer.shared.start()
             
             self.renderEngine?.setupHandler = {
+                self.makeRenderFlows(
+                    device:self.device, 
+                    environment:self.environment, 
+                    viewCount:self.renderEngine!.viewCount 
+                )
+                
+                self.renderEngine?.setRenderFlows( [
+                    self.clearRenderFlow,
+                    self.modelRenderFlow,
+                    self.bbRenderFlow, 
+                    self.planeRenderFlow, 
+                    self.sRGBRenderFlow
+                ] )
+                
                 self.designOnce( false )
                 self.designProc( vc:self )
             }
@@ -140,14 +144,15 @@ extension Lily.Stage.Playground
         
         func makeRenderFlows( 
             device:MTLDevice,
-            environment:Lily.Stage.ShaderEnvironment
+            environment:Lily.Stage.ShaderEnvironment,
+            viewCount:Int
         )
         {
             // レンダーフローの生成
             self.clearRenderFlow = .init(
                 device:device,
                 environment:environment,
-                viewCount:1,
+                viewCount:viewCount,
                 modelRenderTextures:self.modelRenderTextures,
                 mediumTexture:self.mediumTexture
             )
@@ -155,7 +160,7 @@ extension Lily.Stage.Playground
             self.modelRenderFlow = .init(
                 device:device,
                 environment:environment,
-                viewCount:1,
+                viewCount:viewCount,
                 renderTextures:self.modelRenderTextures,
                 mediumTexture:self.mediumTexture,
                 storage:self.modelStorage
@@ -164,7 +169,7 @@ extension Lily.Stage.Playground
             self.bbRenderFlow = .init( 
                 device:device,
                 environment:environment,
-                viewCount:1,
+                viewCount:viewCount,
                 mediumTexture:mediumTexture,
                 storage:self.bbStorage
             )
@@ -172,7 +177,7 @@ extension Lily.Stage.Playground
             self.planeRenderFlow = .init( 
                 device:device,
                 environment:environment,
-                viewCount:1,
+                viewCount:viewCount,
                 mediumTexture:self.mediumTexture,
                 storage:self.planeStorage
             )
@@ -180,7 +185,7 @@ extension Lily.Stage.Playground
             self.sRGBRenderFlow = .init(
                 device:device, 
                 environment:environment,
-                viewCount:1,
+                viewCount:viewCount,
                 mediumTexture:self.mediumTexture
             )
         }

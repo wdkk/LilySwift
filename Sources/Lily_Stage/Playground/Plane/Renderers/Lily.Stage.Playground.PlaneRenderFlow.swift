@@ -81,18 +81,7 @@ extension Lily.Stage.Playground.Plane
             guard let pass = self.pass else { return }
             
             guard let storage = self.storage else { return }
-        
-            storage.statuses.update { acc, _ in
-                for i in 0 ..< acc.count-1 {
-                    if acc[i].enabled == false || acc[i].state == .trush { continue }
-                    acc[i].position += acc[i].deltaPosition
-                    acc[i].scale += acc[i].deltaScale
-                    acc[i].angle += acc[i].deltaAngle
-                    acc[i].color += acc[i].deltaColor
-                    acc[i].life += acc[i].deltaLife
-                }
-            }
-            
+                    
             // 共通処理
             pass.updatePass( 
                 mediumTexture:mediumTexture!,
@@ -164,6 +153,18 @@ extension Lily.Stage.Playground.Plane
             )
             
             encoder?.endEncoding()
+            
+            
+            storage.statuses.update { acc, _ in
+                for i in 0 ..< acc.count-1 {
+                    if acc[i].enabled == false || acc[i].state == .trush { continue }
+                    acc[i].position += acc[i].deltaPosition
+                    acc[i].scale += acc[i].deltaScale
+                    acc[i].angle += acc[i].deltaAngle
+                    acc[i].color += acc[i].deltaColor
+                    acc[i].life += acc[i].deltaLife
+                }
+            }
         }
     }
 }

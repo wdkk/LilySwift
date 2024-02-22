@@ -82,18 +82,7 @@ extension Lily.Stage.Playground.Billboard
             guard let mediumTexture = self.mediumTexture else { LLLog( "mediumTextureが設定されていません" ); return }
             
             guard let storage = self.storage else { return }
-            
-            storage.statuses.update { acc, _ in
-                for i in 0 ..< acc.count-1 {
-                    if acc[i].enabled == false || acc[i].state == .trush { continue }
-                    acc[i].position += acc[i].deltaPosition
-                    acc[i].scale += acc[i].deltaScale
-                    acc[i].angle += acc[i].deltaAngle
-                    acc[i].color += acc[i].deltaColor
-                    acc[i].life += acc[i].deltaLife
-                }
-            }
-            
+                        
             // 共通処理
             pass.updatePass( 
                 rasterizationRateMap:rasterizationRateMap,
@@ -152,6 +141,17 @@ extension Lily.Stage.Playground.Billboard
             )
 
             encoder?.endEncoding()
+            
+            storage.statuses.update { acc, _ in
+                for i in 0 ..< acc.count-1 {
+                    if acc[i].enabled == false || acc[i].state == .trush { continue }
+                    acc[i].position += acc[i].deltaPosition
+                    acc[i].scale += acc[i].deltaScale
+                    acc[i].angle += acc[i].deltaAngle
+                    acc[i].color += acc[i].deltaColor
+                    acc[i].life += acc[i].deltaLife
+                }
+            }
         }
     }
 }

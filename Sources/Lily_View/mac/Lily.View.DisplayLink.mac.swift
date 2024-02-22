@@ -25,8 +25,7 @@ extension Lily.View
             
             guard let nonnull_dlink = dlink else { return }
             
-            let result = CVDisplayLinkSetOutputCallback( nonnull_dlink,
-                                                         { _, _, _, _, _, context -> CVReturn in
+            let result = CVDisplayLinkSetOutputCallback( nonnull_dlink, { _, _, _, _, _, context -> CVReturn in
                 if let context = context {
                     let lldlink = Unmanaged<DisplayLink>.fromOpaque( context )
                     lldlink.takeUnretainedValue().loopFunc?()

@@ -56,36 +56,38 @@ extension Lily.Stage
         let commandQueue: MTLCommandQueue
         var onFrame:UInt = 0
         
-        var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
+        var viewCount:Int = 0
         
+        var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
+    
         var renderFlows:[BaseRenderFlow?] = []
         
         public var camera:Lily.Stage.Camera = .init(
-            perspectiveWith:.init( 0, 0, 0 ),
-            direction: .init( 0.0, 0.0, 1.0 ), 
+            perspectiveWith:.init( 0, 15.0, 500.0 ),
+            direction: .init( 0.0, 0.0, -1.0 ), 
             up: .init( 0, 1, 0 ), 
             viewAngle: Float.pi / 3.0, 
             aspectRatio: 320.0 / 240.0, 
-            near: 10.0, 
-            far: 60000.0
+            near: 0.1, 
+            far: 6000.0
         )
-
+        
         /*
         public var camera:Lily.Stage.Camera = .init(
-            perspectiveWith: .init( 0.0, 2600, 5000.0 ),
+            perspectiveWith: .init( 0.0, 260, 500.0 ),
             direction: .init( 0.0, -0.5, -1.0 ), 
             up: .init( 0, 1, 0 ), 
             viewAngle: Float.pi / 3.0, 
             aspectRatio: 320.0 / 240.0, 
-            near: 10.0, 
-            far: 60000.0
+            near: 0.1, 
+            far: 6000.0
         )
         */
         
         public var setupHandler:(()->Void)?
         public var updateHandler:(()->Void)?
         
-        public init( _ layerRenderer:LayerRenderer, renderFlows:[BaseRenderFlow?], buffersInFlight:Int ) {
+        public init( _ layerRenderer:LayerRenderer, buffersInFlight:Int ) {
             self.layerRenderer = layerRenderer
             self.worldTracking = WorldTrackingProvider()
             self.arSession = ARKitSession()
@@ -96,10 +98,10 @@ extension Lily.Stage
             
             self.uniforms = .init( device:device, ringSize:maxBuffersInFlight )
             
-            self.renderFlows = renderFlows
-            
             super.init()
         }
+        
+        private var _setup_once = false
         
         public func startRenderLoop() {
             Task {
@@ -111,7 +113,7 @@ extension Lily.Stage
                 }
                 
                 let renderThread = Thread {
-                    self.setupHandler?()
+                    self._setup_once = false
                     self.renderLoop() 
                 }
                 renderThread.name = "Render Thread"
@@ -130,7 +132,17 @@ extension Lily.Stage
                     continue
                 } 
                 else {
-                    autoreleasepool { 
+                    autoreleasepool {
+                        if screenSize.width == 0 || screenSize.height == 0 {
+                            self.prepare()
+                            return 
+                        }
+                        
+                        if !_setup_once {
+                            self.setupHandler?()
+                            _setup_once = true
+                        }
+                        
                         self.updateHandler?()
                     }
                 }
@@ -141,6 +153,10 @@ extension Lily.Stage
             screenSize = size.llSizeFloat
             renderFlows.forEach { $0?.changeSize( scaledSize:size ) }
             camera.aspect = (size.width / size.height).f
+        }
+        
+        public func setRenderFlows( _ flows:[BaseRenderFlow?] ) {
+            self.renderFlows = flows
         }
         
         public func calcViewMatrix( 
@@ -155,12 +171,9 @@ extension Lily.Stage
             return (deviceAnchorMatrix * view.transform).inverse
         }
         
-        /*
         public func calcProjectionMatrix(
             drawable:LayerRenderer.Drawable,
             deviceAnchor:DeviceAnchor?,
-            near:Double,
-            far:Double,
             viewIndex:Int
         )
         -> LLMatrix4x4
@@ -172,14 +185,13 @@ extension Lily.Stage
                 rightTangent: Double(view.tangents[1]),
                 topTangent: Double(view.tangents[2]),
                 bottomTangent: Double(view.tangents[3]),
-                nearZ:near, //Double(drawable.depthRange.y),
-                farZ:far, //Double(drawable.depthRange.x),
+                nearZ:Double(drawable.depthRange.y),
+                farZ:Double(drawable.depthRange.x),
                 reverseZ:false
             )
             
             return LLMatrix4x4( projection )
         }
-        */
         
         public func calcOrientationMatrix( 
             viewMatrix:LLMatrix4x4
@@ -198,31 +210,29 @@ extension Lily.Stage
         {  
             onFrame += 1
             
-            let viewCount = drawable.views.count
-   
             uniforms.update { uni in
-                for view_idx in 0 ..< viewCount {
+                for view_idx in 0 ..< self.viewCount {
                     // TODO: アンカーなどからマトリクスを得ているが、アンカーとdrawableからcameraをつくるべき
-                    //let vM = camera.calcViewMatrix()
+                    let vM = camera.calcViewMatrix()
+                    /*
                     let vM = self.calcViewMatrix(
                         drawable:drawable,
                         deviceAnchor:deviceAnchor,
                         viewIndex:view_idx
                     )
+                    */
                     
                     let projM = camera.calcProjectionMatrix()
                     /*
                     let projM = self.calcProjectionMatrix(
                         drawable:drawable,
-                        deviceAnchor:deviceAnchor, 
-                        near:camera.near.d,
-                        far:camera.far.d,
+                        deviceAnchor:deviceAnchor,
                         viewIndex:view_idx
                     )
                     */
                     
-                    let orientationM = self.calcOrientationMatrix( viewMatrix:vM )
-                    //let orientationM = camera.calcOrientationMatrix()
+                    //let orientationM = self.calcOrientationMatrix( viewMatrix:vM )
+                    let orientationM = camera.calcOrientationMatrix()
                     
                     let camera_uniform = Shared.CameraUniform(
                         viewMatrix:vM, 
@@ -265,7 +275,27 @@ extension Lily.Stage
                 }
             }
         }
-                
+        
+        public func prepare() {
+            guard let frame = layerRenderer.queryNextFrame() else { return }
+            
+            guard let timing = frame.predictTiming() else { return }
+            LayerRenderer.Clock().wait( until:timing.optimalInputTime )
+            
+            guard let layerRenderDrawable = frame.queryDrawable() else { return }
+            guard let commandBuffer = commandQueue.makeCommandBuffer() else { return }
+
+            self.changeScreenSize( size:CGSize( layerRenderDrawable.colorTextures[0].width, layerRenderDrawable.colorTextures[0].height ) )
+            self.viewCount = layerRenderer.configuration.layout == .layered ? layerRenderDrawable.views.count : 1
+            
+            frame.startSubmission()
+            
+            layerRenderDrawable.encodePresent( commandBuffer:commandBuffer )
+            commandBuffer.commit()
+            
+            frame.endSubmission()
+        }
+        
         public func update(
             completion:(( MTLCommandBuffer? ) -> ())? = nil
         )
@@ -303,7 +333,6 @@ extension Lily.Stage
             let rasterizationRateMap = layerRenderDrawable.rasterizationRateMaps.first
             
             let viewports = layerRenderDrawable.views.map { $0.textureMap.viewport }
-            let viewCount = layerRenderer.configuration.layout == .layered ? layerRenderDrawable.views.count : 1
             
             let destinationTexture = layerRenderDrawable.colorTextures[0]
             let depthTexture = layerRenderDrawable.depthTextures[0]

@@ -75,18 +75,7 @@ extension Lily.Stage.Playground.Model
             
             let shadowViewport = modelRenderTextures.shadowViewport()
             let shadowScissor = modelRenderTextures.shadowScissor()
-            
-            storage.statuses.update { acc, _ in
-                for i in 0 ..< acc.count-1 {
-                    if acc[i].enabled == false || acc[i].state == .trush { continue }
-                    acc[i].position += acc[i].deltaPosition
-                    acc[i].scale += acc[i].deltaScale
-                    acc[i].angle += acc[i].deltaAngle
-                    acc[i].color += acc[i].deltaColor
-                    acc[i].life += acc[i].deltaLife
-                }
-            }
-            
+                        
             // 共通処理
             // パスの更新
             modelPass.updatePass( 
@@ -157,6 +146,17 @@ extension Lily.Stage.Playground.Model
             )
 
             deferred_shading_encoder?.endEncoding()
+            
+            storage.statuses.update { acc, _ in
+                for i in 0 ..< acc.count-1 {
+                    if acc[i].enabled == false || acc[i].state == .trush { continue }
+                    acc[i].position += acc[i].deltaPosition
+                    acc[i].scale += acc[i].deltaScale
+                    acc[i].angle += acc[i].deltaAngle
+                    acc[i].color += acc[i].deltaColor
+                    acc[i].life += acc[i].deltaLife
+                }
+            }
         }
     }
 }

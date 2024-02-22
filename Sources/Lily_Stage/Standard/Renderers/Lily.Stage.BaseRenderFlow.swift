@@ -13,13 +13,6 @@ import MetalKit
 
 extension Lily.Stage
 {   
-    // TODO: 本来はlayerRenderer.drawable > frameからviewCountを取りたい
-    #if os(visionOS) && !targetEnvironment(simulator)
-    public static let fullyViewCount = 2
-    #else 
-    public static let fullyViewCount = 1
-    #endif
-    
     open class BaseRenderFlow
     {
         var device:MTLDevice
