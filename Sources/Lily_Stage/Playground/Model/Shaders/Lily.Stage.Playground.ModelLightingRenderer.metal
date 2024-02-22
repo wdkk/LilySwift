@@ -185,7 +185,7 @@ fragment LightingFOut Lily_Stage_Playground_Model_Lighting_Fs
 
     float hazeAmount;
     {
-        const float near = 0.992;
+        const float near = 0.75; //0.992;
         const float far = 1.0;
         const float invFarByNear = 1.0 / (far-near);
         const float approxlinDepth = saturate((depth-near) * invFarByNear);

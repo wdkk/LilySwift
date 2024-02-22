@@ -38,6 +38,8 @@ extension Lily.Stage
             far: 6000.0
         )
         
+        public var sunDirection:LLFloatv3 = .init( 1, -0.7, 0.5 )
+        
         public init( device:MTLDevice, buffersInFlight:Int ) {
             self.device = device
             self.commandQueue = device.makeCommandQueue()
@@ -71,6 +73,7 @@ extension Lily.Stage
                     uni[view_idx] = makeGlobalUniform(
                         onFrame:onFrame, 
                         cameraUniform:camera_uniform, 
+                        sunDirection:sunDirection,
                         screenSize:screenSize
                     )
                     

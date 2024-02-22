@@ -12,7 +12,7 @@ import SwiftUI
 import CompositorServices
 import LilySwift
 
-func design( screen:Lily.Stage.Playground.PGVisionFullyScreen ) {
+func design( screen:PGVisionFullyScreen ) {
     screen.clearColor = .grey
     screen.cubeMap = "skyCubeMap"
     
@@ -26,35 +26,35 @@ func design( screen:Lily.Stage.Playground.PGVisionFullyScreen ) {
     // Playground 3D
     
     ModelObj( assetName:"cottonwood1" )
-    .position( cx:-50.0, cy:0.0, cz:0.0 )
-    .scale( x: 40, y: 40, z: 40 )
+    .position( cx:-5.0, cy:-1.5, cz:0.0 )
+    .scale( x: 4, y: 4, z: 4 )
     
     ModelObj( assetName:"cottonwood1" )
-    .position( cx:50.0, cy:0.0, cz:0.0 )
-    .scale( x: 80, y: 80, z: 80 )
+    .position( cx:5.0, cy:-1.5, cz:0.0 )
+    .scale( x: 8, y: 8, z: 8 )
     
     ModelObj( assetName:"acacia1" )
-    .position( cx:0.0, cy:0.0, cz:100.0 )
-    .scale( x: 30, y: 30, z:30 )
+    .position( cx:0.0, cy:-1.5, cz:10.0 )
+    .scale( x: 3, y: 3, z:3 )
     
     ModelObj( assetName:"plane" ) 
-    .position( cx:0.0, cy:0.0, cz:0.0 )
-    .scale( equal:1000.0 )
+    .position( cx:0.0, cy:-1.5, cz:0.0 )
+    .scale( equal:100.0 )
     
     for _ in 0 ..< 160 {
         BBAddBlurryCircle()
         .color( LLColor( 0.25, 0.8, 1.0, 1.0 ) )
         .position(
-            cx:(-1000.0 ... 1000.0).randomize,
+            cx:(-10.0 ... 10.0).randomize,
             cy:(0.0 ... 0.0).randomize,
-            cz:(-1000.0 ... 1000.0).randomize
+            cz:(-10.0 ... 10.0).randomize
         )
         .deltaPosition( 
-            dx:(-0.1...0.1).randomize,
-            dy:(0.5...1.0).randomize,
-            dz:(-0.1...0.1).randomize
+            dx:(-0.01...0.01).randomize,
+            dy:(0.05...0.1).randomize,
+            dz:(-0.01...0.01).randomize
         )
-        .scale( square: 10.0 )
+        .scale( square: 1.0 )
         .life( .random )
         .deltaLife( -0.005 )
         .iterate {
@@ -68,17 +68,17 @@ func design( screen:Lily.Stage.Playground.PGVisionFullyScreen ) {
         .completion {
             $0
             .position(
-                cx:(-200.0 ... 200.0).randomize,
+                cx:(-10.0 ... 10.0).randomize,
                 cy:(0.0 ... 0.0).randomize,
-                cz:(-200.0 ... 200.0).randomize
+                cz:(-10.0 ... 10.0).randomize
             )
-            .scale( square: 10.0 )
+            .scale( square: 1.0 )
             .life( 1.0 )
         }
     }
 }
 
-func update( screen:Lily.Stage.Playground.PGVisionFullyScreen ) {
+func update( screen:PGVisionFullyScreen ) {
     
 }
 
@@ -86,7 +86,7 @@ func update( screen:Lily.Stage.Playground.PGVisionFullyScreen ) {
 struct VisionApp
 : App 
 {
-    @State var fullyScreen:Lily.Stage.Playground.PGVisionFullyScreen?
+    @State var fullyScreen:PGVisionFullyScreen?
     
     var body: some Scene
     {
@@ -99,7 +99,7 @@ struct VisionApp
             CompositorLayer( configuration:Lily.Stage.VisionFullyRenderConfiguration() ) { layerRenderer in
                 let device = layerRenderer.device
                 
-                fullyScreen = Lily.Stage.Playground.PGVisionFullyScreen(
+                fullyScreen = PGVisionFullyScreen(
                     layerRenderer:layerRenderer, 
                     environment:.metallib,
                     scene:.init(

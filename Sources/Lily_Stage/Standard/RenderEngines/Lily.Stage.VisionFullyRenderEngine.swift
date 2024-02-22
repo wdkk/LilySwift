@@ -63,13 +63,13 @@ extension Lily.Stage
         var renderFlows:[BaseRenderFlow?] = []
         
         public var camera:Lily.Stage.Camera = .init(
-            perspectiveWith:.init( 0, 15.0, 500.0 ),
+            perspectiveWith:.init( 0, 1.5, 50.0 ),
             direction: .init( 0.0, 0.0, -1.0 ), 
             up: .init( 0, 1, 0 ), 
             viewAngle: Float.pi / 3.0, 
             aspectRatio: 320.0 / 240.0, 
             near: 0.1, 
-            far: 6000.0
+            far: 600.0
         )
         
         /*
@@ -83,6 +83,8 @@ extension Lily.Stage
             far: 6000.0
         )
         */
+        
+        public var sunDirection:LLFloatv3 = .init( 1, -0.7, 0.5 )
         
         public var setupHandler:(()->Void)?
         public var updateHandler:(()->Void)?
@@ -213,7 +215,6 @@ extension Lily.Stage
             uniforms.update { uni in
                 for view_idx in 0 ..< self.viewCount {
                     let anchor_vM = self.calcViewMatrix( drawable:drawable, deviceAnchor:deviceAnchor, viewIndex:view_idx )
-                    
                     camera.convertParameters( from:anchor_vM )
                     
                     let vM = camera.calcViewMatrix()
@@ -231,10 +232,11 @@ extension Lily.Stage
                     uni[view_idx] = makeGlobalUniform( 
                         onFrame:onFrame, 
                         cameraUniform:camera_uniform, 
+                        sunDirection:sunDirection,
                         screenSize:screenSize
                     )
                     
-                    let cascade_sizes:[Float] = [ 400.0, 1600.0, 6400.0 ]
+                    let cascade_sizes:[Float] = [ 0.1, 20.0, 100.0 ]
                     let cascade_distances = makeCascadeDistances( sizes:cascade_sizes, viewAngle:camera.viewAngle )
                     
                     // カスケードシャドウのカメラユニフォームを作成

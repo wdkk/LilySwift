@@ -12,6 +12,9 @@
 		5D2337E12A4882470065BB61 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2337E02A4882470065BB61 /* AppDelegate.swift */; };
 		5D2337F12A4883480065BB61 /* DevViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8EA07B263D5D0500DCD404 /* DevViewController.swift */; };
 		5D2338062A4884D90065BB61 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2338052A4884D90065BB61 /* main.swift */; };
+		5D2B12412B874770000AF1D1 /* PGAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2B12402B874770000AF1D1 /* PGAlias.swift */; };
+		5D2B12422B874770000AF1D1 /* PGAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2B12402B874770000AF1D1 /* PGAlias.swift */; };
+		5D2B12432B874770000AF1D1 /* PGAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2B12402B874770000AF1D1 /* PGAlias.swift */; };
 		5D3681B12B7914F300C20F6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D8EA06F263D5D0500DCD404 /* Assets.xcassets */; };
 		5D3681B22B7914F700C20F6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D8EA06F263D5D0500DCD404 /* Assets.xcassets */; };
 		5D3681B32B7914F700C20F6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D8EA06F263D5D0500DCD404 /* Assets.xcassets */; };
@@ -70,6 +73,7 @@
 		5D2337E92A4882480065BB61 /* DevEnv(macOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DevEnv(macOS).entitlements"; sourceTree = "<group>"; };
 		5D2338052A4884D90065BB61 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5D2338192A488F1D0065BB61 /* InfoMac.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoMac.plist; sourceTree = "<group>"; };
+		5D2B12402B874770000AF1D1 /* PGAlias.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGAlias.swift; sourceTree = "<group>"; };
 		5D8EA04D263D5CD400DCD404 /* DevEnv-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DevEnv-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D8EA06F263D5D0500DCD404 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D8EA071263D5D0500DCD404 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 		5D8EA07A263D5D0500DCD404 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5D2B12402B874770000AF1D1 /* PGAlias.swift */,
 				5D8EA07B263D5D0500DCD404 /* DevViewController.swift */,
 				5DA1230D2B47299600FA0A04 /* DevViewController.PG.swift */,
 				5DD583E12AA771BF00B5E6AE /* VisionContentView.swift */,
@@ -370,6 +375,7 @@
 				5D3681B42B79185F00C20F6B /* DevViewController.PG.swift in Sources */,
 				5D2337F12A4883480065BB61 /* DevViewController.swift in Sources */,
 				5D2338062A4884D90065BB61 /* main.swift in Sources */,
+				5D2B12422B874770000AF1D1 /* PGAlias.swift in Sources */,
 				5D2337E12A4882470065BB61 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,6 +386,7 @@
 			files = (
 				5D8EA089263D5D0500DCD404 /* AppDelegate.swift in Sources */,
 				5D8EA087263D5D0500DCD404 /* DevViewController.swift in Sources */,
+				5D2B12412B874770000AF1D1 /* PGAlias.swift in Sources */,
 				5DA1230E2B47299600FA0A04 /* DevViewController.PG.swift in Sources */,
 				5D8EA08A263D5D0500DCD404 /* main.swift in Sources */,
 				5D8EA08B263D5D0500DCD404 /* SceneDelegate.swift in Sources */,
@@ -394,6 +401,7 @@
 				5D69BA7C2AE5152200D9323C /* VisionContentView.swift in Sources */,
 				5D3681B62B79186300C20F6B /* DevViewController.swift in Sources */,
 				5D3681B52B79185F00C20F6B /* DevViewController.PG.swift in Sources */,
+				5D2B12432B874770000AF1D1 /* PGAlias.swift in Sources */,
 				5DD583E02AA771BF00B5E6AE /* VisionApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
