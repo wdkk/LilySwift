@@ -212,26 +212,14 @@ extension Lily.Stage
             
             uniforms.update { uni in
                 for view_idx in 0 ..< self.viewCount {
-                    // TODO: アンカーなどからマトリクスを得ているが、アンカーとdrawableからcameraをつくるべき
+                    let anchor_vM = self.calcViewMatrix( drawable:drawable, deviceAnchor:deviceAnchor, viewIndex:view_idx )
+                    
+                    camera.convertParameters( from:anchor_vM )
+                    
                     let vM = camera.calcViewMatrix()
-                    /*
-                    let vM = self.calcViewMatrix(
-                        drawable:drawable,
-                        deviceAnchor:deviceAnchor,
-                        viewIndex:view_idx
-                    )
-                    */
                     
                     let projM = camera.calcProjectionMatrix()
-                    /*
-                    let projM = self.calcProjectionMatrix(
-                        drawable:drawable,
-                        deviceAnchor:deviceAnchor,
-                        viewIndex:view_idx
-                    )
-                    */
                     
-                    //let orientationM = self.calcOrientationMatrix( viewMatrix:vM )
                     let orientationM = camera.calcOrientationMatrix()
                     
                     let camera_uniform = Shared.CameraUniform(
