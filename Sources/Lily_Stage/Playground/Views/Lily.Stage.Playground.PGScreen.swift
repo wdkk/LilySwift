@@ -26,7 +26,7 @@ extension Lily.Stage.Playground
     {
         // MARK: システム
         var device:MTLDevice        
-        public var renderEngine:Lily.Stage.StandardRenderEngine?
+        public var renderEngine:Lily.Stage.StandardRenderEngine
         public private(set) var environment:Lily.Stage.ShaderEnvironment
         
         // MARK: 描画テクスチャ
@@ -45,35 +45,43 @@ extension Lily.Stage.Playground
         public var bbRenderFlow:Billboard.BBRenderFlow?
         public var sRGBRenderFlow:SRGBRenderFlow?
         
-        // MARK: プロパティ・アクセサ
+        // MARK: アクセサ - レンダラ関連
         public var clearColor:LLColor = .white
         
         public var cubeMap:String? = nil {
             didSet { modelStorage?.setCubeMap(device:device, assetName:cubeMap ) }
         }
-
+        
+        public var camera:Lily.Stage.Camera {
+            get { renderEngine.camera }
+            set { renderEngine.camera = newValue }
+        }
+        
+        public var sunDirection:LLFloatv3 {
+            get { renderEngine.sunDirection }
+            set { renderEngine.sunDirection = newValue }
+        }
+        
+        // MARK: アクセサ - タッチイベント
         public let touchManager = PGTouchManager()
         public var touches:[PGTouch] { return touchManager.touches }
         public var releases:[PGTouch] { return touchManager.releases }
         
-        public var minX:Double { -(metalView.width * 0.5) }
-        public var maxX:Double { metalView.width * 0.5 }
-        public var minY:Double { -(metalView.height * 0.5) }
-        public var maxY:Double { metalView.height * 0.5 }
-        
-        public var screenSize:LLSizeFloat { .init( width, height ) }
-        
-        public var coordRegion:LLRegion { .init( left:minX, top:maxY, right:maxX, bottom:minY ) }
-        
-        public var randomPoint:LLPoint { coordRegion.randomPoint }
-        
-        // MARK: - タッチ情報ヘルパ
         private var latest_touch = PGTouch( xy:.zero, uv: .zero, state:.touch )
         public var latestTouch:PGTouch {
             if let touch = touches.first { latest_touch = touch }
             return latest_touch
         }
-       
+        
+        // MARK: アクセサ - スクリーン座標系
+        public var minX:Double { -(metalView.width * 0.5) }
+        public var maxX:Double { metalView.width * 0.5 }
+        public var minY:Double { -(metalView.height * 0.5) }
+        public var maxY:Double { metalView.height * 0.5 }
+        public var screenSize:LLSizeFloat { .init( width, height ) }
+        public var coordRegion:LLRegion { .init( left:minX, top:maxY, right:maxX, bottom:minY ) }        
+        public var randomPoint:LLPoint { coordRegion.randomPoint }
+        
         // MARK: - 外部処理ハンドラ
         public var pgDesignHandler:(( PGScreen )->Void)?
         public var pgUpdateHandler:(( PGScreen )->Void)?
@@ -97,7 +105,7 @@ extension Lily.Stage.Playground
         .buildup( caller:self ) { me, vc in
             CATransaction.stop {
                 me.rect( vc.rect )
-                vc.renderEngine?.changeScreenSize( size:me.scaledBounds.size )
+                vc.renderEngine.changeScreenSize( size:me.scaledBounds.size )
             }
             
             // リサイズ処理の受け入れハンドラ
@@ -111,7 +119,7 @@ extension Lily.Stage.Playground
         .draw( caller:self ) { me, vc, status in
             vc.updateProc( vc:vc )
             
-            vc.renderEngine?.update(
+            vc.renderEngine.update(
                 with:status.drawable,
                 renderPassDescriptor:status.renderPassDesc,
                 completion: { commandBuffer in
@@ -173,6 +181,9 @@ extension Lily.Stage.Playground
             self.modelStorage = modelStorage
             self.bbStorage = bbStorage
             
+            // レンダーエンジンの初期化
+            self.renderEngine = .init( device:self.device, buffersInFlight:1 )
+            
             super.init()
         }
         
@@ -196,6 +207,9 @@ extension Lily.Stage.Playground
             self.pgDesignHandler = scene.design
             self.pgUpdateHandler = scene.update
             self.pgResizeHandler = scene.resize
+            
+            // レンダーエンジンの初期化
+            self.renderEngine = .init( device:self.device, buffersInFlight:1 )
                         
             super.init()
         }
@@ -210,12 +224,9 @@ extension Lily.Stage.Playground
             
             self.backgroundColor = .clear
             
-            self.makeRenderFlows( device:self.device, environment:self.environment )
-
-            // レンダーエンジンの初期化
-            self.renderEngine = .init( device:device, buffersInFlight:1 )
-
-            self.renderEngine?.setRenderFlows([
+            self.makeRenderFlows( device:self.device, environment:self.environment, viewCount:1 )
+            
+            self.renderEngine.setRenderFlows([
                 clearRenderFlow,
                 modelRenderFlow,
                 bbRenderFlow, 
@@ -248,14 +259,15 @@ extension Lily.Stage.Playground
         
         func makeRenderFlows( 
             device:MTLDevice,
-            environment:Lily.Stage.ShaderEnvironment
+            environment:Lily.Stage.ShaderEnvironment,
+            viewCount:Int
         )
         {
             // レンダーフローの生成
             self.clearRenderFlow = .init(
                 device:device,
                 environment:environment,
-                viewCount:1,
+                viewCount:viewCount,
                 modelRenderTextures:self.modelRenderTextures,
                 mediumTexture:self.mediumTexture
             )
@@ -263,7 +275,7 @@ extension Lily.Stage.Playground
             self.modelRenderFlow = .init(
                 device:device,
                 environment:environment,
-                viewCount:1,
+                viewCount:viewCount,
                 renderTextures:self.modelRenderTextures,
                 mediumTexture:self.mediumTexture,
                 storage:self.modelStorage
@@ -272,7 +284,7 @@ extension Lily.Stage.Playground
             self.bbRenderFlow = .init( 
                 device:device,
                 environment:environment,
-                viewCount:1,
+                viewCount:viewCount,
                 mediumTexture:mediumTexture,
                 storage:self.bbStorage
             )
@@ -280,7 +292,7 @@ extension Lily.Stage.Playground
             self.planeRenderFlow = .init( 
                 device:device,
                 environment:environment,
-                viewCount:1,
+                viewCount:viewCount,
                 mediumTexture:self.mediumTexture,
                 storage:self.planeStorage
             )
@@ -288,7 +300,7 @@ extension Lily.Stage.Playground
             self.sRGBRenderFlow = .init(
                 device:device, 
                 environment:environment,
-                viewCount:1,
+                viewCount:viewCount,
                 mediumTexture:self.mediumTexture
             )
         }

@@ -16,6 +16,8 @@ func design( screen:PGVisionFullyScreen ) {
     screen.clearColor = .grey
     screen.cubeMap = "skyCubeMap"
     
+    screen.sunDirection = .init( 0.5, -0.8, 0.5 )
+    
     // Playground 2D
     
     PGCircle()

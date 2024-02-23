@@ -19,7 +19,7 @@ extension Lily.Stage.Playground
     {        
         // MARK: システム
         var device:MTLDevice        
-        public var renderEngine:Lily.Stage.VisionFullyRenderEngine?
+        public var renderEngine:Lily.Stage.VisionFullyRenderEngine
         public private(set) var environment:Lily.Stage.ShaderEnvironment
         
         // MARK: 描画テクスチャ
@@ -38,38 +38,42 @@ extension Lily.Stage.Playground
         public var bbRenderFlow:Billboard.BBRenderFlow?
         public var sRGBRenderFlow:SRGBRenderFlow?
         
-        // MARK: プロパティ・アクセサ
+        // MARK: アクセサ - レンダラ関連
         public var clearColor:LLColor = .white
         
         public var cubeMap:String? = nil {
             didSet { modelStorage?.setCubeMap(device:device, assetName:cubeMap ) }
         }
-
+        
+        public var camera:Lily.Stage.Camera {
+            get { renderEngine.camera }
+            set { renderEngine.camera = newValue }
+        }
+        
+        public var sunDirection:LLFloatv3 {
+            get { renderEngine.sunDirection }
+            set { renderEngine.sunDirection = newValue }
+        }
+        
+        // MARK: アクセサ - タッチイベント
         public let touchManager = PGTouchManager()
         public var touches:[PGTouch] { return touchManager.touches }
         public var releases:[PGTouch] { return touchManager.releases }
         
-        public var minX:Double { -(renderEngine != nil ? renderEngine!.screenSize.width.d * 0.5 : -1.0) }
-        public var maxX:Double { renderEngine != nil ? renderEngine!.screenSize.width.d * 0.5 : 1.0 }
-        public var minY:Double { -(renderEngine != nil ? renderEngine!.screenSize.height.d * 0.5 : -1.0) }
-        public var maxY:Double { renderEngine != nil ? renderEngine!.screenSize.height.d * 0.5 : 1.0 }
-        
-        public var screenSize:LLSizeFloat { 
-            let wid = renderEngine != nil ? renderEngine!.screenSize.width : 2.0
-            let hgt = renderEngine != nil ? renderEngine!.screenSize.height : 2.0
-            return .init( wid, hgt ) 
-        }
-        
-        public var coordRegion:LLRegion { .init( left:minX, top:maxY, right:maxX, bottom:minY ) }
-
-        public var randomPoint:LLPoint { coordRegion.randomPoint }
-        
-        // MARK: - タッチ情報ヘルパ
         private var latest_touch = PGTouch( xy:.zero, uv: .zero, state:.touch )
         public var latestTouch:PGTouch {
             if let touch = touches.first { latest_touch = touch }
             return latest_touch
         }
+        
+        // MARK: アクセサ - スクリーン座標系
+        public var minX:Double { -renderEngine.screenSize.width.d * 0.5 }
+        public var maxX:Double { renderEngine.screenSize.width.d * 0.5 }
+        public var minY:Double { -renderEngine.screenSize.height.d * 0.5 }
+        public var maxY:Double { renderEngine.screenSize.height.d * 0.5 }
+        public var screenSize:LLSizeFloat { renderEngine.screenSize }
+        public var coordRegion:LLRegion { .init( left:minX, top:maxY, right:maxX, bottom:minY ) }
+        public var randomPoint:LLPoint { coordRegion.randomPoint }
         
         // MARK: - 外部処理ハンドラ
         public var pgDesignHandler:(( PGVisionFullyScreen )->Void)?
@@ -109,14 +113,14 @@ extension Lily.Stage.Playground
             Billboard.BBActor.ActorTimer.shared.start()
             Model.ModelActor.ActorTimer.shared.start()
             
-            self.renderEngine?.setupHandler = {
+            self.renderEngine.setupHandler = {
                 self.makeRenderFlows(
                     device:self.device, 
                     environment:self.environment, 
-                    viewCount:self.renderEngine!.viewCount 
+                    viewCount:self.renderEngine.viewCount 
                 )
                 
-                self.renderEngine?.setRenderFlows( [
+                self.renderEngine.setRenderFlows( [
                     self.clearRenderFlow,
                     self.modelRenderFlow,
                     self.bbRenderFlow, 
@@ -128,10 +132,10 @@ extension Lily.Stage.Playground
                 self.designProc( vc:self )
             }
             
-            self.renderEngine?.updateHandler = { 
+            self.renderEngine.updateHandler = { 
                 self.updateProc( vc:self ) 
                 
-                self.renderEngine?.update(
+                self.renderEngine.update(
                     completion: { commandBuffer in
                         self.touchManager.changeBegansToTouches()
                         self.touchManager.resetReleases()
@@ -139,7 +143,7 @@ extension Lily.Stage.Playground
                 ) 
             }
             
-            self.renderEngine?.startRenderLoop()
+            self.renderEngine.startRenderLoop()
         }
         
         func makeRenderFlows( 

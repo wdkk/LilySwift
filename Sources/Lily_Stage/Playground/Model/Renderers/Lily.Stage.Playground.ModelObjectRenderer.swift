@@ -122,7 +122,9 @@ extension Lily.Stage.Playground.Model
 
             var cam_idx = cascadeIndex + 1
             
-            for (_, v) in storage.models {
+            for (k, v) in storage.models {
+                // TODO: 仮にplaneは影描かないようにした
+                if k == "plane" { return }
                 guard let data = v.meshData, let mesh = data.mesh else { return }
                 var model_idx = v.modelIndex
                 
