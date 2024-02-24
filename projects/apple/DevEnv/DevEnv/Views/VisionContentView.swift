@@ -16,7 +16,9 @@ class ScenePack : ObservableObject
     @Published var scene:PG.PGScene
     
     init( device:MTLDevice ) {
-        scene = .playgroundDefault( device:device )
+        scene = .init(
+            planeStorage:.playgroundDefault( device:device )
+        )
         scene.design = design
         scene.update = update
     }

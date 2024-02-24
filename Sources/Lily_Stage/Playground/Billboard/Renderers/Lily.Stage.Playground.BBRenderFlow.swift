@@ -144,7 +144,7 @@ extension Lily.Stage.Playground.Billboard
             
             storage.statuses.update { acc, _ in
                 for i in 0 ..< acc.count-1 {
-                    if acc[i].enabled == false || acc[i].state == .trush { continue }
+                    //if acc[i].enabled == false || acc[i].state == .trush { continue }
                     acc[i].position += acc[i].deltaPosition
                     acc[i].scale += acc[i].deltaScale
                     acc[i].angle += acc[i].deltaAngle
