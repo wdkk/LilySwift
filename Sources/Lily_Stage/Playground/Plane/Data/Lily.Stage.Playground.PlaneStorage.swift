@@ -55,11 +55,19 @@ extension Lily.Stage.Playground.Plane
             .init( xy:.init(  0.0,  0.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) )
         )
         
-        public static func playgroundDefault( device:MTLDevice ) -> PlaneStorage {
-            return PlaneStorage( 
+        public static func playgroundDefault( 
+            device:MTLDevice,
+            capacity:Int = 2000,
+            appendTextures:[String] = []
+        )
+        -> PlaneStorage 
+        {
+            var texs = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+            texs.append( contentsOf:appendTextures )
+            return .init( 
                 device:device, 
-                capacity:2000,
-                textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
+                capacity:capacity,
+                textures:texs
             )
         }
         

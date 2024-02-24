@@ -8,16 +8,11 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if os(macOS)
-import AppKit
-#else
-import UIKit
-#endif
-import Metal
 import LilySwift
 
 typealias PG = Lily.Stage.Playground
 typealias PGScreen = PG.PGScreen
+typealias PGScreenView = PG.PGScreenView
 typealias PGScene = PG.PGScene
 #if os(visionOS)
 typealias PGVisionFullyScreen = PG.PGVisionFullyScreen
@@ -25,7 +20,7 @@ typealias PGVisionScene = PG.PGVisionScene
 #endif
 
 typealias PlaneStorage = PG.Plane.PlaneStorage
-typealias PGSctor = PG.Plane.PGActor
+typealias PGActor = PG.Plane.PGActor
 typealias PGRectangle = PG.Plane.PGRectangle
 typealias PGAddRectangle = PG.Plane.PGAddRectangle
 typealias PGSubRectangle = PG.Plane.PGSubRectangle
