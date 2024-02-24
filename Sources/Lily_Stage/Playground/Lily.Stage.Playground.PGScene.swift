@@ -50,24 +50,6 @@ extension Lily.Stage.Playground
             self.update = update
             self.resize = resize
         }
-        
-        public static func playgroundDefault(
-            device:MTLDevice,
-            design:((TScreen) -> Void)? = nil,
-            update:((TScreen) -> Void)? = nil,
-            resize:((TScreen) -> Void)? = nil
-        ) 
-        -> Self 
-        {
-            return .init(
-                planeStorage:.playgroundDefault( device:device ),
-                bbStorage:.playgroundDefault( device:device ),
-                modelStorage:.playgroundDefault( device:device ),
-                design:design,
-                update:update,
-                resize:resize
-            )
-        }
     }
     
     public typealias PGScene = PGBaseScene<PGScreen>
