@@ -8,7 +8,6 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-
 import SwiftUI
 import LilySwift
 #if os(visionOS)
@@ -16,7 +15,13 @@ import CompositorServices
 #endif
 
 @main
-struct DevSwiftUIApp: App {
+struct DevSwiftUIApp: App
+{
+    #if os(visionOS)
+    @State var fullyScreen:PGVisionFullyScreen?
+    var visionPlayground = VisionPlayground()
+    #endif
+    
     var body: some Scene {
         //LLLogSetEnableType( .none )
         
@@ -27,15 +32,19 @@ struct DevSwiftUIApp: App {
         #if os(visionOS)
         ImmersiveSpace( id:"LilyImmersiveSpace" ) {
             CompositorLayer( configuration:Lily.Stage.VisionFullyRenderConfiguration() ) { layerRenderer in
-                /*
-                let renderFlow = DevEnv.RenderFlow( device:layerRenderer.device, viewCount:Lily.Stage.fullyViewCount )
-                let renderEngine = Lily.Stage.VisionFullyRenderEngine( 
-                    layerRenderer,
-                    renderFlows:[renderFlow],
-                    buffersInFlight:3
+                let device = layerRenderer.device
+                
+                fullyScreen = PGVisionFullyScreen(
+                    layerRenderer:layerRenderer, 
+                    environment:.metallib,
+                    scene:.init(
+                        planeStorage:.playgroundDefault( device:device ),
+                        bbStorage:.playgroundDefault( device:device ),
+                        modelStorage:.playgroundDefault( device:device ),
+                        design:visionPlayground.design,
+                        update:visionPlayground.update
+                    )
                 )
-                renderEngine.startRenderLoop()
-                */
             }
         }
         .immersionStyle(

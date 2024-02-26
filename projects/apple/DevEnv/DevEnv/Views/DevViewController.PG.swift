@@ -38,7 +38,7 @@ class DevViewController
     lazy var modelStorage:ModelStorage = .init(
         device: device,
         modelCapacity: 500,
-        modelAssets: [ "cottonwood1", "acacia1", "plane" ] 
+        modelAssets: [ "cottonwood1", "acacia1", "plane", "yukidaruma" ] 
     )
     
     lazy var planeStorage2:PlaneStorage = .init(
@@ -173,6 +173,11 @@ func design( screen:PGScreen ) {
     ModelObj( assetName:"acacia1" )
     .position( cx:0.0, cy:0.0, cz:100.0 )
     .scale( x: 30, y: 30, z:30 )
+    
+    ModelObj( assetName:"yukidaruma" )
+    .position( cx:0.0, cy:0.0, cz:0.0 )
+    .scale( x: 30, y: 30, z:30 )
+    .angle( rx:0, ry:LLAngle(degrees:-45.0).radians.f, rz:0 )
     
     ModelObj( assetName:"plane" ) 
     .position( cx:0.0, cy:0.0, cz:0.0 )
