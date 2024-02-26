@@ -90,7 +90,7 @@ extension Lily.Stage.Playground.Model
             
             renderEncoder?.setRenderPipelineState( obj_pp )
             for (_, v) in storage.models {
-                guard let data = v.meshData, let mesh = data.mesh else { return }
+                guard let data = v.meshData, let mesh = data.mesh else { continue }
                 var model_idx = v.modelIndex
                 
                 renderEncoder?.setVertexBuffer( mesh.vertexBuffer, offset:0, index:0 )
@@ -124,8 +124,8 @@ extension Lily.Stage.Playground.Model
             
             for (k, v) in storage.models {
                 // TODO: 仮にplaneは影描かないようにした
-                if k == "plane" { return }
-                guard let data = v.meshData, let mesh = data.mesh else { return }
+                if k == "plane" { continue }
+                guard let data = v.meshData, let mesh = data.mesh else { continue }
                 var model_idx = v.modelIndex
                 
                 renderEncoder?.setVertexBuffer( mesh.vertexBuffer, offset: 0, index: 0 )

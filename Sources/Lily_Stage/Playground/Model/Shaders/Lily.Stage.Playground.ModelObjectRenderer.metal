@@ -146,8 +146,12 @@ vertex ModelVOut Lily_Stage_Playground_Model_Object_Vs
     
     float4 world_pos = TRS * base_pos;
     
+    // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
+    float visibility_z = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : TOO_FAR;
+    
     ModelVOut out;
     out.position = uniform.cameraUniform.viewProjectionMatrix * world_pos;
+    out.position.z += visibility_z;
     out.color    = pow( in[vid].color, 1.0 / 2.2 );    // sRGB -> linear変換
     out.normal   = (TRS * float4(in[vid].normal, 0)).xyz;
     return out;
@@ -204,8 +208,12 @@ vertex ModelVOut Lily_Stage_Playground_Model_Object_Shadow_Vs
     
     float4x4 TRS = affineTransform( pos, sc, ang );
     float4 world_pos = TRS * position;
+    
+    // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
+    float visibility_z = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : TOO_FAR;
 
     ModelVOut out;
     out.position = shadowCameraVPMatrix * world_pos;
+    out.position.z += visibility_z;
     return out;
 }

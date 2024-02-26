@@ -86,7 +86,7 @@ extension Lily.Stage.Playground.Billboard
             }
             
             self.statuses = .init( device:device, count:capacity + 1 )  // 1つ余分に確保
-            self.statuses.update( range:0..<capacity ) { us, _ in
+            self.statuses.update( range:0..<capacity+1 ) { us, _ in
                 us.state = .trush
                 us.enabled = false
             }
