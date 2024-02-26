@@ -253,7 +253,7 @@ extension Lily.Stage.Playground.Model
               
                     for (int j = -1; j <= 1; ++j) {
                         for (int i = -1; i <= 1; ++i) {
-                            const float depthBias = -0.0001;  // 板ポリの影を消すバイアス
+                            const float depthBias = -0.0003; // -0.0001;  // 板ポリの影を消すバイアス
                             float tap = shadowMap.sample_compare(sam, shadowUv, cascadeIndex, lightSpaceDepth + depthBias, int2(i, j));
                             shadow += tap;
                         }

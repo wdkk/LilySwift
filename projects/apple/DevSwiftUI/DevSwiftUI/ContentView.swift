@@ -13,11 +13,14 @@ import LilySwift
 
 class ScenePack : ObservableObject 
 {    
-    @Published var scene:PG.PGScene
+    lazy var device = MTLCreateSystemDefaultDevice()!
+    @Published var scene:PGScene
     
-    init( device:MTLDevice ) {
-        scene = .playgroundDefault( device:device )
+    init() {
+        scene = .init()
+        scene.planeStorage = .playgroundDefault( device:device )
         scene.design = design
+        scene.update = update
     }
     
     func design( screen:PGScreen ) {
@@ -59,6 +62,12 @@ class ScenePack : ObservableObject
             }
         }
     }
+    
+    func update( screen:PGScreen ) {
+    
+    }
+
+    ////
 
     func design2( screen:PGScreen ) {
         screen.clearColor = .clear
@@ -102,8 +111,7 @@ struct ContentView: View
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
     #endif
     
-    static let device = MTLCreateSystemDefaultDevice()!
-    @StateObject var scenePack:ScenePack = .init( device:device )
+    @StateObject var scenePack:ScenePack = .init()
       
     var body: some View 
     {

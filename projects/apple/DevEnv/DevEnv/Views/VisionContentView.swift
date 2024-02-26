@@ -110,15 +110,7 @@ struct VisionContentView : View
     @StateObject var scenePack:ScenePack = .init( device:device )
     
     @State var mouseDrag = LLFloatv2()
-        
-    /*
-    func changeCameraStatus() {
-        renderEngine?.camera.rotate( on:LLFloatv3( 0, 1, 0 ), radians: mouseDrag.x * 0.02 )
-        renderEngine?.camera.rotate( on:renderEngine!.camera.left, radians: mouseDrag.y * 0.02 )
-        mouseDrag = .zero
-    }
-    */
-    
+            
     var body: some View 
     {        
         VStack {
@@ -126,7 +118,7 @@ struct VisionContentView : View
             .toggleStyle( .button )
             .padding()
             
-            PG.PGScreenView( 
+            PGScreenView( 
                 device:Self.device,
                 environment:.string,
                 scene:$scenePack.scene
