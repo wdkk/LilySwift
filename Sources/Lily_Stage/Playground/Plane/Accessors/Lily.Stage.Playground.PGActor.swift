@@ -53,7 +53,7 @@ extension Lily.Stage.Playground.Plane
             else {
                 status?.state = .trush
                 status?.enabled = false
-                status?.shapeType = .rectangle
+                status?.shapeType = .empty
             }
             
             PGPool.shared.insert( shape:self, to:storage )

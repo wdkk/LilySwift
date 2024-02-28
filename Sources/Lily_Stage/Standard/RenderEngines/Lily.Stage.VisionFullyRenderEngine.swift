@@ -210,13 +210,14 @@ extension Lily.Stage
                     let vM = camera.calcViewMatrix()
                     
                     
-                    let projM = self.calcProjectionMatrix(
+                    let anchor_projM = self.calcProjectionMatrix(
                         drawable:drawable,
                         deviceAnchor:deviceAnchor,
                         near: camera.near.d,
                         far: camera.far.d,
                         viewIndex:view_idx
                     )
+                    let projM = anchor_projM
                     
                     //let projM = camera.calcProjectionMatrix()
                     

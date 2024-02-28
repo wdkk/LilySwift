@@ -35,11 +35,12 @@ extension Lily.Stage.Playground.Plane
     
     public enum ShapeType : LLUInt32
     {
-        case rectangle    = 0
-        case triangle     = 1
-        case circle       = 2
-        case blurryCircle = 3
-        case picture      = 100
-        case mask         = 101
+        case empty        = 0
+        case rectangle    = 1
+        case triangle     = 2
+        case circle       = 3
+        case blurryCircle = 4
+        case picture      = 101
+        case mask         = 102
     }
 }

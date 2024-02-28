@@ -34,12 +34,13 @@ enum CompositeType : uint
     
 enum ShapeType : uint
 {
-    rectangle    = 0,
-    triangle     = 1,
-    circle       = 2,
-    blurryCircle = 3,
-    picture      = 100,
-    mask         = 101
+    empty        = 0,
+    rectangle    = 1,
+    triangle     = 2,
+    circle       = 3,
+    blurryCircle = 4,
+    picture      = 101,
+    mask         = 102
 };
     
 enum DrawingType : uint

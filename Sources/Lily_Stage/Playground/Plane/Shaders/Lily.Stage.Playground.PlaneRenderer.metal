@@ -36,12 +36,13 @@ enum CompositeType : uint
     
 enum ShapeType : uint
 {
-    rectangle    = 0,
-    triangle     = 1,
-    circle       = 2,
-    blurryCircle = 3,
-    picture      = 100,
-    mask         = 101
+    empty        = 0,
+    rectangle    = 1,
+    triangle     = 2,
+    circle       = 3,
+    blurryCircle = 4,
+    picture      = 101,
+    mask         = 102
 };
     
 enum DrawingType : uint
@@ -104,7 +105,8 @@ struct PlaneResult
     float4 planeTexture [[ color(0) ]];
 };
 
-vertex PlaneVOut Lily_Stage_Playground_Plane_Vs(
+vertex PlaneVOut Lily_Stage_Playground_Plane_Vs
+(
     const device PlaneVIn* in [[ buffer(0) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
     constant LocalUniform &localUniform [[ buffer(2) ]],
@@ -264,6 +266,8 @@ fragment PlaneResult Lily_Stage_Playground_Plane_Fs(
         case mask:
             color = Lily::Stage::Playground::drawMask( in, tex );
             break;
+        default:
+            discard_fragment();
     }
     
     PlaneResult result;
