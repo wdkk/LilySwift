@@ -286,8 +286,9 @@ extension Lily.Stage.Playground.Model
         struct LightingVOut
         {
             float4 position [[position]];
+            uint   ampID;
         };
-        
+
         struct LightingFOut
         {
             float4 backBuffer [[ color(IDX_OUTPUT) ]];
@@ -296,8 +297,11 @@ extension Lily.Stage.Playground.Model
         """ }
         
         static var vertexShaderCode:String { """
-        
-        vertex LightingVOut Lily_Stage_Playground_Model_Lighting_Vs( uint vid [[vertex_id]] )
+        vertex LightingVOut Lily_Stage_Playground_Model_Lighting_Vs
+        ( 
+         uint vid [[vertex_id]],
+         ushort amp_id [[ amplification_id ]]
+        )
         {
             const float2 vertices[] = {
                 float2(-1, -1),
@@ -307,9 +311,9 @@ extension Lily.Stage.Playground.Model
 
             LightingVOut out;
             out.position = float4( vertices[vid], 1.0, 1.0 );
+            out.ampID = amp_id;
             return out;
         }
-        
         """ }
         
         static var fragmentShaderCode:String { """
@@ -323,13 +327,12 @@ extension Lily.Stage.Playground.Model
             depth2d_array <float>    shadowMap   [[ texture(IDX_SHADOW_MAP) ]],
             texturecube <float>      cubeMap     [[ texture(IDX_CUBE_MAP) ]],
             constant GlobalUniformArray& uniformArray [[ buffer(0) ]],
-            const device float4& clearColor [[ buffer(1) ]],
-            ushort amp_id [[ amplification_id ]]
+            const device float4& clearColor [[ buffer(1) ]]
         )
         {    
             constexpr sampler colorSampler( mip_filter::linear, mag_filter::linear, min_filter::linear );
 
-            const GlobalUniform uniform = uniformArray.uniforms[amp_id];
+            const GlobalUniform uniform = uniformArray.uniforms[0/*in.ampID*/];
             
             const auto pixelPos = uint2( floor( in.position.xy ) );
             
@@ -372,7 +375,7 @@ extension Lily.Stage.Playground.Model
 
             float hazeAmount;
             {
-                const float near = 0.992;
+                const float near = 0.75; //0.992;
                 const float far = 1.0;
                 const float invFarByNear = 1.0 / (far-near);
                 const float approxlinDepth = saturate((depth-near) * invFarByNear);
@@ -386,6 +389,7 @@ extension Lily.Stage.Playground.Model
             res.backBuffer = float4( color, 1 );
             return res;
         }
+
         """ }
         
         public let PlaygroundModelLightingVertexShader:Lily.Metal.Shader
@@ -398,7 +402,7 @@ extension Lily.Stage.Playground.Model
         
         private static var instance:ModelLightingShaderString?
         private init( device:MTLDevice ) {
-            //LLLog( "文字列からシェーダを生成しています." )
+            LLLog( "文字列からシェーダを生成しています." )
             
             self.PlaygroundModelLightingVertexShader = .init(
                 device:device, 

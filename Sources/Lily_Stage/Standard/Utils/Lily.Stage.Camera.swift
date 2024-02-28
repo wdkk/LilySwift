@@ -95,7 +95,6 @@ extension Lily.Stage
         public mutating func convertParameters( from viewMatrix:LLMatrix4x4 ) {
             _up = LLFloatv3( viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1] )
             direction = -LLFloatv3( viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2] )
-            //left = -LLFloatv3( mat[0][0], mat[1][0], mat[2][0] )
             position = LLFloatv3( viewMatrix[3][0], viewMatrix[3][1], viewMatrix[3][2] )
         }
         

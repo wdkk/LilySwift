@@ -420,7 +420,7 @@ extension Lily.Stage.Playground.Model
         
         private static var instance:ModelObjectShaderString?
         private init( device:MTLDevice ) {
-            //LLLog( "文字列からシェーダを生成しています." )
+            LLLog( "文字列からシェーダを生成しています." )
             
             self.PlaygroundModelVertexShader = .init(
                 device:device, 

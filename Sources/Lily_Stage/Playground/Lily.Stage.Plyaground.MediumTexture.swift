@@ -42,10 +42,11 @@ extension Lily.Stage.Playground
             tex_desc.sampleCount = Lily.Stage.BufferFormats.sampleCount
             tex_desc.storageMode = .private
             
-            if viewCount > 1 {
-                tex_desc.textureType = .type2DArray
-                tex_desc.arrayLength = viewCount
-            }
+            //if viewCount > 1 {
+            tex_desc.textureType = .type2DArray
+            tex_desc.arrayLength = viewCount
+            //}
+            
             tex_desc.usage = [ tex_desc.usage, .renderTarget ]
             
             // planeTextureの再生成

@@ -27,6 +27,7 @@ extension Lily.Stage.Playground
         struct SRGBVOut
         {
             float4 position [[ position ]];
+            uint   ampID;
         };
             
         struct SRGBFOut
@@ -36,7 +37,11 @@ extension Lily.Stage.Playground
         """ }
         
         static var sRGBVertexShaderCode:String { """
-        vertex SRGBVOut Lily_Stage_Playground_SRGB_Vs( uint vid [[vertex_id]] )
+        vertex SRGBVOut Lily_Stage_Playground_SRGB_Vs
+        ( 
+         uint vid [[vertex_id]],
+         ushort amp_id [[ amplification_id ]]
+        )
         {
             const float2 vertices[] = {
                 float2(-1, -1),
@@ -46,18 +51,19 @@ extension Lily.Stage.Playground
 
             SRGBVOut out;
             out.position = float4( vertices[vid], 0.0, 1.0 );
+            out.ampID = amp_id;
             return out;
         }
         """ }
         
         static var sRGBFragmentShaderCode:String { """
         fragment SRGBFOut Lily_Stage_Playground_SRGB_Fs(
-            SRGBVOut         in            [[ stage_in ]],
-            texture2d<float> resultTexture [[ texture(0) ]]
+            SRGBVOut         in                  [[ stage_in ]],
+            texture2d_array<float> resultTexture [[ texture(0) ]]
         )
         {    
             const auto pixelPos = uint2( floor( in.position.xy ) );
-            float4 color = resultTexture.read( pixelPos );
+            float4 color = resultTexture.read( pixelPos, in.ampID );
             
             color.xyz = pow( color.xyz, float3( 2.2 ) );
             
@@ -78,7 +84,7 @@ extension Lily.Stage.Playground
         
         private static var instance:SRGBShaderString?
         private init( device:MTLDevice ) {
-            //LLLog( "文字列からシェーダを生成しています." )
+            LLLog( "文字列からシェーダを生成しています." )
             
             self.sRGBVertexShader = .init(
                 device:device, 

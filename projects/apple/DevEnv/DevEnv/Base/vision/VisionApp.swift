@@ -28,16 +28,20 @@ func design( screen:PGVisionFullyScreen ) {
     // Playground 3D
     
     ModelObj( assetName:"cottonwood1" )
-    .position( cx:-5.0, cy:-1.5, cz:0.0 )
-    .scale( x: 4, y: 4, z: 4 )
+    .position( cx:-3.0, cy:-1.5, cz:0.0 )
+    .scale( x: 3, y: 3, z: 3 )
     
     ModelObj( assetName:"cottonwood1" )
-    .position( cx:5.0, cy:-1.5, cz:0.0 )
-    .scale( x: 8, y: 8, z: 8 )
+    .position( cx:3.0, cy:-1.5, cz:0.0 )
+    .scale( x: 5, y: 5, z: 5 )
     
     ModelObj( assetName:"acacia1" )
-    .position( cx:0.0, cy:-1.5, cz:10.0 )
-    .scale( x: 3, y: 3, z:3 )
+    .position( cx:0.0, cy:-1.5, cz:4.0 )
+    .scale( x: 2, y:2, z:2 )
+    
+    ModelObj( assetName:"acacia1" )
+    .position( cx:0.0, cy:-1.5, cz:-8.0 )
+    .scale( x:2, y:2, z:2 )
     
     ModelObj( assetName:"plane" ) 
     .position( cx:0.0, cy:-1.5, cz:0.0 )

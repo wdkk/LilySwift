@@ -72,18 +72,6 @@ extension Lily.Stage
             far: 600.0
         )
         
-        /*
-        public var camera:Lily.Stage.Camera = .init(
-            perspectiveWith: .init( 0.0, 260, 500.0 ),
-            direction: .init( 0.0, -0.5, -1.0 ), 
-            up: .init( 0, 1, 0 ), 
-            viewAngle: Float.pi / 3.0, 
-            aspectRatio: 320.0 / 240.0, 
-            near: 0.1, 
-            far: 6000.0
-        )
-        */
-        
         public var sunDirection:LLFloatv3 = .init( 1, -0.7, 0.5 )
         
         public var setupHandler:(()->Void)?
@@ -176,6 +164,8 @@ extension Lily.Stage
         public func calcProjectionMatrix(
             drawable:LayerRenderer.Drawable,
             deviceAnchor:DeviceAnchor?,
+            near:Double,
+            far:Double,
             viewIndex:Int
         )
         -> LLMatrix4x4
@@ -187,8 +177,8 @@ extension Lily.Stage
                 rightTangent: Double(view.tangents[1]),
                 topTangent: Double(view.tangents[2]),
                 bottomTangent: Double(view.tangents[3]),
-                nearZ:Double(drawable.depthRange.y),
-                farZ:Double(drawable.depthRange.x),
+                nearZ:near, //Double(drawable.depthRange.y),
+                farZ:far, //Double(drawable.depthRange.x),
                 reverseZ:false
             )
             
@@ -219,7 +209,16 @@ extension Lily.Stage
                     
                     let vM = camera.calcViewMatrix()
                     
-                    let projM = camera.calcProjectionMatrix()
+                    
+                    let projM = self.calcProjectionMatrix(
+                        drawable:drawable,
+                        deviceAnchor:deviceAnchor,
+                        near: camera.near.d,
+                        far: camera.far.d,
+                        viewIndex:view_idx
+                    )
+                    
+                    //let projM = camera.calcProjectionMatrix()
                     
                     let orientationM = camera.calcOrientationMatrix()
                     

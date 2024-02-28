@@ -467,7 +467,7 @@ extension Lily.Stage.Playground.Billboard
         
         private static var instance:BBShaderString?
         private init( device:MTLDevice ) {
-            //LLLog( "文字列からシェーダを生成しています." )
+            LLLog( "文字列からシェーダを生成しています." )
             
             self.PlaygroundBillboardVertexShader = .init(
                 device:device, 

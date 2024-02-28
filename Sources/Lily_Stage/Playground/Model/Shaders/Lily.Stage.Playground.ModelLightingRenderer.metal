@@ -105,6 +105,7 @@ static float evaluateShadow
 struct LightingVOut
 {
     float4 position [[position]];
+    uint   ampID;
 };
 
 struct LightingFOut
@@ -113,7 +114,11 @@ struct LightingFOut
 };
 
 
-vertex LightingVOut Lily_Stage_Playground_Model_Lighting_Vs( uint vid [[vertex_id]] )
+vertex LightingVOut Lily_Stage_Playground_Model_Lighting_Vs
+( 
+ uint vid [[vertex_id]],
+ ushort amp_id [[ amplification_id ]]
+)
 {
     const float2 vertices[] = {
         float2(-1, -1),
@@ -123,6 +128,7 @@ vertex LightingVOut Lily_Stage_Playground_Model_Lighting_Vs( uint vid [[vertex_i
 
     LightingVOut out;
     out.position = float4( vertices[vid], 1.0, 1.0 );
+    out.ampID = amp_id;
     return out;
 }
 
@@ -136,13 +142,12 @@ fragment LightingFOut Lily_Stage_Playground_Model_Lighting_Fs
     depth2d_array <float>    shadowMap   [[ texture(IDX_SHADOW_MAP) ]],
     texturecube <float>      cubeMap     [[ texture(IDX_CUBE_MAP) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(0) ]],
-    const device float4& clearColor [[ buffer(1) ]],
-    ushort amp_id [[ amplification_id ]]
+    const device float4& clearColor [[ buffer(1) ]]
 )
 {    
     constexpr sampler colorSampler( mip_filter::linear, mag_filter::linear, min_filter::linear );
 
-    const GlobalUniform uniform = uniformArray.uniforms[amp_id];
+    const GlobalUniform uniform = uniformArray.uniforms[0/*in.ampID*/];
     
     const auto pixelPos = uint2( floor( in.position.xy ) );
     
