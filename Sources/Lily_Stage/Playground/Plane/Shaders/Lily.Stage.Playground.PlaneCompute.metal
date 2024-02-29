@@ -77,11 +77,16 @@ kernel void Lily_Stage_Playground_Plane_Compute
 (
  constant GlobalUniformArray& uniformArray [[ buffer(0) ]],
  device PlaneUnitStatus* statuses [[ buffer(1) ]],
- const uint2 tid [[thread_position_in_grid]],
- const uint2 tsid [[threads_per_grid]]
+ uint gid [[thread_position_in_grid]]
 )
 {
-    auto idx = tid.x + tid.y * 8;
-    auto us = statuses[idx];
+    auto us = statuses[gid];
+        
+    us.position += us.deltaPosition;
+    us.scale += us.deltaScale;
+    us.angle += us.deltaAngle;
+    us.color += us.deltaColor;
+    us.life += us.deltaLife;
     
+    statuses[gid] = us;
 }

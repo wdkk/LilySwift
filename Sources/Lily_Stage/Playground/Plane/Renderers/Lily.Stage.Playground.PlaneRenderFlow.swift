@@ -23,6 +23,8 @@ extension Lily.Stage.Playground.Plane
         var alphaRenderer:PlaneAlphaRenderer?
         var addRenderer:PlaneAddRenderer?
         var subRenderer:PlaneSubRenderer?
+        
+        var planeCompute:PlaneCompute?
     
         public let viewCount:Int
         
@@ -57,6 +59,11 @@ extension Lily.Stage.Playground.Plane
                 device:device,
                 environment:environment,
                 viewCount:viewCount
+            )
+            
+            self.planeCompute = .init(
+                device: device, 
+                environment: environment
             )
             
             super.init( device:device )
@@ -154,6 +161,14 @@ extension Lily.Stage.Playground.Plane
             
             encoder?.endEncoding()
             
+            /*
+            planeCompute?.updateMatrices(
+                with:commandBuffer, 
+                globalUniforms: uniforms,
+                storage: storage
+            )
+            */
+            
             storage.statuses.update { acc, _ in
                 for i in 0 ..< acc.count-1 {
                     if acc[i].enabled == false || acc[i].state == .trush { continue }
@@ -164,6 +179,7 @@ extension Lily.Stage.Playground.Plane
                     acc[i].life += acc[i].deltaLife
                 }
             }
+            
         }
     }
 }

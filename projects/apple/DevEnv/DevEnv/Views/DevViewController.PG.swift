@@ -52,13 +52,13 @@ class DevViewController
         
         pgScreen = PGScreen(
             device:device,
-            environment:.string,
+            environment:.metallib,
             planeStorage:planeStorage,
             bbStorage:bbStorage,
             modelStorage:modelStorage
         )
         
-        pgScreen?.pgDesignHandler = design
+        pgScreen?.pgDesignHandler = design2
         pgScreen?.pgUpdateHandler = update
         
         self.addSubview( pgScreen!.view )

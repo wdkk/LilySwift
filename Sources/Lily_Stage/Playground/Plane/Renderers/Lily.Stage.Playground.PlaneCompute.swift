@@ -46,9 +46,7 @@ extension Lily.Stage.Playground.Plane
         public func updateMatrices( 
             with commandBuffer:MTLCommandBuffer?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
-            mediumTexture:Lily.Stage.Playground.MediumTexture,
-            storage:PlaneStorage,
-            screenSize:CGSize
+            storage:PlaneStorage
         )
         {
             let computeEncoder = commandBuffer?.makeComputeCommandEncoder()
@@ -58,11 +56,12 @@ extension Lily.Stage.Playground.Plane
 
             let count = storage.statuses.cpuBuffer.count
             
+            let thread_group_count = MTLSize(width: 32, height: 1, depth: 1)
+            let thread_groups = MTLSize(width: count / thread_group_count.width,
+                                        height: 1,
+                                        depth: 1)
             computeEncoder?.setComputePipelineState( self.pipeline )
-            computeEncoder?.dispatchThreadgroups(
-                MTLSizeMake( count / 8, count / 8, 1 ),
-                threadsPerThreadgroup: MTLSizeMake( 8, 8, 1 )
-            )
+            computeEncoder?.dispatchThreadgroups( thread_groups, threadsPerThreadgroup:thread_group_count )
             
             computeEncoder?.endEncoding()
         }
