@@ -103,16 +103,15 @@ extension Lily.Stage.Playground.Plane
                     let ang = acc[i].angle
                     var t = acc[i].position
                     t.y += visibility_y
-                    acc[i].matrix = LLMatrix4x4.affine2D(scale: sc, angle:ang, translate:t )
+                    acc[i].matrix = LLMatrix4x4.affine2D( scale:sc, angle:ang, translate:t )
+                }
+                
+                let sorted_shapes = PGPool.shared.shapes( on:storage ).sorted { s0, s1 in s0.childDepth <= s1.childDepth }
+                for shape in sorted_shapes {
+                    guard let parent = shape.parent else { continue }
+                    shape.matrix = parent.matrix * shape.matrix
                 }
             }
-            
-            let shapes = PGPool.shared.shapes( on:storage ).sorted { $0.childDepth <= $1.childDepth }
-            for shape in shapes {
-                guard let parent = shape.parent else { continue }
-                shape.matrix = parent.matrix * shape.matrix
-            }
-            storage.statuses.commit()
             
             // 共通処理
             pass.updatePass( 

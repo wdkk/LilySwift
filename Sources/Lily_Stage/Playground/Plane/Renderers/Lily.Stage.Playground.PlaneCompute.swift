@@ -35,10 +35,8 @@ extension Lily.Stage.Playground.Plane
                 ) ) 
             }
             else if environment == .string {
-                /*
                 let stringShader = Lily.Stage.Playground.ShaderString.shared( device:device )
                 desc.computeShader( stringShader.PlaygroundComputeShader )
-                */
             }
             
             pipeline = try? device.makeComputePipelineState(descriptor:desc, options: [], reflection: nil)
