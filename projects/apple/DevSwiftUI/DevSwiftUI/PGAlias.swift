@@ -21,6 +21,7 @@ typealias PGVisionScene = PG.PGVisionScene
 
 typealias PlaneStorage = PG.Plane.PlaneStorage
 typealias PGActor = PG.Plane.PGActor
+typealias PGEmpty = PG.Plane.PGEmpty
 typealias PGRectangle = PG.Plane.PGRectangle
 typealias PGAddRectangle = PG.Plane.PGAddRectangle
 typealias PGSubRectangle = PG.Plane.PGSubRectangle

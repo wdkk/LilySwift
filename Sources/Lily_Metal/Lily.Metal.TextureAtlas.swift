@@ -539,7 +539,16 @@ extension Lily.Metal
                 if nnv is String {
                     let path = nnv as! String
                     let img = LLImage( assetName:path )
-                    if !img.available { continue }
+                    // 有効な画像でなければスキップ
+                    if !img.available { 
+                        LLLog( "アセットが見つかりません: \(label)" )
+                        continue 
+                    }
+                    // 画像サイズがなければスキップ
+                    if img.width == 0 || img.height == 0 {
+                        LLLog( "アセットが見つかりません: \(label)" )
+                        continue
+                    }
                     
                     let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
                     rc.image = img
@@ -562,8 +571,20 @@ extension Lily.Metal
                 #if os(macOS)
                 if nnv is NSImage {
                     let uiimg = nnv as! NSImage
-                    guard let img = uiimg.llImage else { continue }
-                    if !img.available { continue }
+                    guard let img = uiimg.llImage else {
+                        LLLog( "NSImageが見つかりません: \(label)" )
+                        continue
+                    }
+                    // 有効な画像でなければスキップ
+                    if !img.available { 
+                        LLLog( "NSImageが無効です: \(label)" )
+                        continue
+                    }
+                    // 画像サイズがなければスキップ
+                    if img.width == 0 || img.height == 0 {
+                        LLLog( "NSImageが無効です: \(label)" )
+                        continue 
+                    }
                     
                     let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
                     rc.image = img
@@ -576,7 +597,16 @@ extension Lily.Metal
                 if nnv is UIImage {
                     let uiimg = nnv as! UIImage
                     let img = uiimg.llImage
-                    if !img.available { continue }
+                    // 有効な画像でなければスキップ
+                    if !img.available { 
+                        LLLog( "UIImageが無効です: \(label)" )
+                        continue
+                    }
+                    // 画像サイズがなければスキップ
+                    if img.width == 0 || img.height == 0 {
+                        LLLog( "UIImageが無効です: \(label)" )
+                        continue 
+                    }
                     
                     let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
                     rc.image = img
