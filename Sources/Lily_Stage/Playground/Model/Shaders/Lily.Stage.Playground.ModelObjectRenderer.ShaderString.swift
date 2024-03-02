@@ -224,8 +224,8 @@ extension Lily.Stage.Playground.Model
             float3   deltaPosition;
             float3   scale;
             float3   deltaScale;
-            float3   angle;
-            float3   deltaAngle;
+            float3   rotate;
+            float3   deltaRotate;
             float    life;
             float    deltaLife;
             float    enabled;
@@ -320,10 +320,10 @@ extension Lily.Stage.Playground.Model
             
             // アフィン変換の作成
             float3 pos = us.position;
-            float3 ang = us.angle;
+            float3 ro = us.rotate;
             float3 sc = us.scale;
             
-            float4x4 TRS = affineTransform( pos, sc, ang );
+            float4x4 TRS = affineTransform( pos, sc, ro );
             
             float4 world_pos = TRS * base_pos;
         
@@ -391,10 +391,10 @@ extension Lily.Stage.Playground.Model
             
             // アフィン変換の作成
             float3 pos = us.position;
-            float3 ang = us.angle;
+            float3 ro = us.rotate;
             float3 sc = us.scale;
             
-            float4x4 TRS = affineTransform( pos, sc, ang );
+            float4x4 TRS = affineTransform( pos, sc, ro );
             float4 world_pos = TRS * position;
         
             // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )

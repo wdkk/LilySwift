@@ -414,6 +414,8 @@ extension Lily.Stage.Playground
                 case mask:
                     color = Lily::Stage::Playground::drawMask( in, tex );
                     break;
+                default:
+                    discard_fragment();
             }
             
             PlaneResult result;

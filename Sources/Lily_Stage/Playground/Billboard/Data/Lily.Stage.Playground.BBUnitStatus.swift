@@ -25,22 +25,22 @@ extension Lily.Stage.Playground.Billboard
         public var deltaPosition:LLFloatv3 = .zero
         public var scale:LLFloatv2 = .init( 1.0, 1.0 )
         public var deltaScale:LLFloatv2 = .zero
-        public var angle:LLFloat = 0.0
-        public var deltaAngle:LLFloat = 0.0
+        public var rotate:LLFloatv3 = .zero
+        public var deltaRotate:LLFloatv3 = .zero
         // 内部パラメータ
         fileprivate var lifes:LLFloatv2 = LLFloatv2(
             1.0,    // life
             0.0     // deltaLife
         )
-        fileprivate var states:LLFloatv2 = LLFloatv2(
+        public private(set) var states:LLFloatv2 = LLFloatv2(
             1.0,                       // enabled: 1.0 = true, 0.0 = false
             LifeState.trush.rawValue   // state: .active or .trush    
         )
-        fileprivate var types:(LLUInt32, LLUInt32) = (
+        public private(set) var types:(LLUInt32, LLUInt32) = (
             CompositeType.alpha.rawValue,
             ShapeType.rectangle.rawValue
         )
-        //-- メモリアラインメント範囲END --//
+        public var childDepth:LLUInt32 = 0
         
         public init() {}
         

@@ -15,6 +15,7 @@
 #import "../../../Standard/Shared/Lily.Stage.Shared.GlobalUniform.metal"
 
 #import "../../../Standard/Shaders/Lily.Stage.MemoryLess.h.metal"
+#import "../../../Standard/Shaders/Lily.Stage.StageRenderer.util.metal"
 
 #import "../../../Standard/Models/Lily.Stage.Model.Obj.metal"
 
@@ -46,70 +47,14 @@ struct ModelUnitStatus
     float3   deltaPosition;
     float3   scale;
     float3   deltaScale;
-    float3   angle;
-    float3   deltaAngle;
+    float3   rotate;
+    float3   deltaRotate;
     float    life;
     float    deltaLife;
     float    enabled;
     float    state;
     int      modelIndex;
 };
-
-float4x4 rotateZ( float rad ) {
-    return float4x4(
-        float4( cos( rad ), -sin( rad ), 0, 0 ),
-        float4( sin( rad ),  cos( rad ), 0, 0 ),
-        float4( 0, 0, 1, 0 ),
-        float4( 0, 0, 0, 1 )
-    );
-}  
-
-float4x4 rotateY( float rad ) {
-    return float4x4(
-       float4( cos( rad ), 0, sin( rad ), 0 ),
-       float4( 0, 1, 0, 0 ),
-       float4( -sin( rad ), 0, cos( rad ), 0 ),
-       float4( 0, 0, 0, 1 )
-    );
-}
-
-float4x4 rotateX( float rad ) {
-    return float4x4(
-        float4( 1, 0, 0, 0 ),
-        float4( 0, cos( rad ), -sin( rad ), 0 ),
-        float4( 0, sin( rad ),  cos( rad ), 0 ),
-        float4( 0, 0, 0, 1 )
-    );
-}
-
-float4x4 rotate( float3 rad3 ) {
-    auto Rz = rotateZ( rad3.z );
-    auto Ry = rotateY( rad3.y );
-    auto Rx = rotateX( rad3.x );
-    return Rz * Ry * Rx;
-}
-
-float4x4 scale( float3 sc ) {
-    return float4x4(
-        float4( sc.x, 0, 0, 0 ),
-        float4( 0, sc.y, 0, 0 ),
-        float4( 0, 0, sc.z, 0 ),
-        float4( 0, 0, 0, 1 )
-    );
-}
-
-float4x4 translate( float3 pos ) {
-    return float4x4( 
-        float4( 1, 0, 0, 0 ),
-        float4( 0, 1, 0, 0 ),
-        float4( 0, 0, 1, 0 ),
-        float4( pos, 1 )
-    );
-}
-
-float4x4 affineTransform( float3 trans, float3 sc, float3 ro ) {
-    return translate( trans ) * rotate( ro ) * scale( sc );
-}
 
 vertex ModelVOut Lily_Stage_Playground_Model_Object_Vs
 (
@@ -139,10 +84,10 @@ vertex ModelVOut Lily_Stage_Playground_Model_Object_Vs
     
     // アフィン変換の作成
     float3 pos = us.position;
-    float3 ang = us.angle;
+    float3 ro = us.rotate;
     float3 sc = us.scale;
     
-    float4x4 TRS = affineTransform( pos, sc, ang );
+    float4x4 TRS = affineTransform( pos, sc, ro );
     
     float4 world_pos = TRS * base_pos;
     
@@ -203,10 +148,10 @@ vertex ModelVOut Lily_Stage_Playground_Model_Object_Shadow_Vs
     
     // アフィン変換の作成
     float3 pos = us.position;
-    float3 ang = us.angle;
+    float3 ro = us.rotate;
     float3 sc = us.scale;
     
-    float4x4 TRS = affineTransform( pos, sc, ang );
+    float4x4 TRS = affineTransform( pos, sc, ro );
     float4 world_pos = TRS * position;
     
     // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )

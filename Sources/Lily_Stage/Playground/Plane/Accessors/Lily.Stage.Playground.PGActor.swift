@@ -124,6 +124,8 @@ extension Lily.Stage.Playground.Plane
             get { return status?.childDepth ?? 0 }
         }
         
+        //// 
+        
         public func appearCompletion() {
             self.completionField?.appear()
         }

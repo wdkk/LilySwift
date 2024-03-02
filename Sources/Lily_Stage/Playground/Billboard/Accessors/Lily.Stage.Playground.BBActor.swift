@@ -30,6 +30,8 @@ extension Lily.Stage.Playground.Billboard
         public var intervalField:ActorInterval?
         public var completionField:BBField<BBActor, LLEmpty>?
         
+        public private(set) var parent:BBActor?
+        
         public init( storage:BBStorage? ) {   
             self.storage = storage
             
@@ -55,6 +57,19 @@ extension Lily.Stage.Playground.Billboard
             
             BBPool.shared.insert( shape:self, to:storage )
         }
+        
+        @discardableResult
+        public func parent( _ actor:BBActor ) -> Self {
+            self.parent = actor
+            self.status?.childDepth = actor.status!.childDepth + 1
+            return self
+        }        
+        
+        public var childDepth:LLUInt32 {
+            get { return status?.childDepth ?? 0 }
+        }
+        
+        //// 
         
         private var checkIndexStatus:Bool {
             guard let storage = self.storage else { return false }
@@ -209,9 +224,9 @@ extension Lily.Stage.Playground.Billboard.BBActor
         set { status?.scale.y = newValue }
     }
     
-    public var angle:LLAngle {
-        get { return LLAngle.radians( status?.angle.d ?? .zero ) }
-        set { status?.angle = newValue.radians.f }
+    public var rotate:LLFloatv3 {
+        get { return status?.rotate ?? .zero }
+        set { status?.rotate = newValue }
     }
     
     public var enabled:Bool { 
@@ -259,9 +274,9 @@ extension Lily.Stage.Playground.Billboard.BBActor
         set { status?.deltaColor.w = newValue }
     }
     
-    public var deltaAngle:LLAngle {
-        get { return LLAngle.radians( status?.deltaAngle.d ?? 0 ) }
-        set { status?.deltaAngle = newValue.radians.f }
+    public var deltaRotate:LLFloatv3 {
+        get { return status?.deltaRotate ?? .zero }
+        set { status?.deltaRotate = newValue }
     }
     
     public var deltaLife:Float {
@@ -391,24 +406,18 @@ extension Lily.Stage.Playground.Billboard.BBActor
         return self
     }
 
-    
     @discardableResult
-    public func angle( _ ang:LLAngle ) -> Self {
-        status?.angle = ang.radians.f
+    public func rotate( _ ro:LLFloatv3 ) -> Self {
+        status?.rotate = ro
         return self
     }
     
     @discardableResult
-    public func angle( radians rad:LLFloatConvertable ) -> Self {
-        status?.angle = rad.f
+    public func rotate( rx:Float, ry:Float, rz:Float ) -> Self {
+        status?.rotate = .init( rx, ry, rz )
         return self
     }
     
-    @discardableResult
-    public func angle( degrees deg:LLFloatConvertable ) -> Self {
-        status?.angle = LLAngle( degrees: deg.f.d ).radians.f
-        return self
-    }
 
     @discardableResult
     public func enabled( _ torf:Bool ) -> Self {
@@ -544,23 +553,16 @@ extension Lily.Stage.Playground.Billboard.BBActor
     }
         
     @discardableResult
-    public func deltaAngle( _ ang:LLAngle ) -> Self {
-        status?.deltaAngle = ang.radians.f
+    public func deltaRotate( _ ang:LLFloatv3 ) -> Self {
+        status?.deltaRotate = ang
         return self
     }
     
     @discardableResult
-    public func deltaAngle( radians rad:LLFloatConvertable ) -> Self {
-        status?.deltaAngle = rad.f
+    public func deltaRotate( rx:Float, ry:Float, rz:Float ) -> Self {
+        status?.deltaRotate = .init( rx, ry, rz )
         return self
     }
-    
-    @discardableResult
-    public func deltaAngle( degrees deg:LLFloatConvertable ) -> Self {
-        status?.deltaAngle = LLAngle.degrees( deg.f.d ).radians.f
-        return self
-    }
-    
     
     @discardableResult
     public func deltaLife( _ v:Float ) -> Self {

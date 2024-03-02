@@ -182,9 +182,9 @@ extension Lily.Stage.Playground.Model.ModelActor
         set { status?.scale = newValue }
     }
     
-    public var angle:LLFloatv3 {
-        get { return status?.angle ?? .zero }
-        set { status?.angle = newValue }
+    public var rotate:LLFloatv3 {
+        get { return status?.rotate ?? .zero }
+        set { status?.rotate = newValue }
     }
     
     public var enabled:Bool { 
@@ -222,9 +222,9 @@ extension Lily.Stage.Playground.Model.ModelActor
         set { status?.deltaColor = newValue.floatv4 }
     }
         
-    public var deltaAngle:LLFloatv3 {
-        get { return status?.deltaAngle ?? .zero }
-        set { status?.deltaAngle = newValue }
+    public var deltaRotate:LLFloatv3 {
+        get { return status?.deltaRotate ?? .zero }
+        set { status?.deltaRotate = newValue }
     }
     
     public var deltaLife:Float {
@@ -326,14 +326,14 @@ extension Lily.Stage.Playground.Model.ModelActor
     }
 
     @discardableResult
-    public func angle( _ ang:LLFloatv3 ) -> Self {
-        status?.angle = ang
+    public func rotate( _ ro:LLFloatv3 ) -> Self {
+        status?.rotate = ro
         return self
     }
     
     @discardableResult
-    public func angle( rx:Float, ry:Float, rz:Float ) -> Self {
-        status?.angle = .init( rx, ry, rz )
+    public func rotate( rx:Float, ry:Float, rz:Float ) -> Self {
+        status?.rotate = .init( rx, ry, rz )
         return self
     }
     
@@ -468,14 +468,14 @@ extension Lily.Stage.Playground.Model.ModelActor
     }
 
     @discardableResult
-    public func deltaAngle( _ ang:LLFloatv3 ) -> Self {
-        status?.deltaAngle = ang
+    public func deltaRotate( _ ang:LLFloatv3 ) -> Self {
+        status?.deltaRotate = ang
         return self
     }
     
     @discardableResult
-    public func deltaAngle( rx:Float, ry:Float, rz:Float ) -> Self {
-        status?.deltaAngle = .init( rx, ry, rz )
+    public func deltaRotate( rx:Float, ry:Float, rz:Float ) -> Self {
+        status?.deltaRotate = .init( rx, ry, rz )
         return self
     }
     

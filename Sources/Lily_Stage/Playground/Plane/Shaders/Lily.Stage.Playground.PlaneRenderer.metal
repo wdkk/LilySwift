@@ -162,17 +162,16 @@ vertex PlaneVOut Lily_Stage_Playground_Plane_Vs
     
     const int offset = localUniform.drawingOffset;
     PlaneVIn vin = in[offset + vid];
-
-    float2 local_uv = vin.texUV;
-    float4 atlas_uv = us.atlasUV;
-    float2 tex_uv = float2
-    ( 
-     atlas_uv[0] * (1.0-local_uv.x) + atlas_uv[2] * local_uv.x,
-     atlas_uv[1] * (1.0-local_uv.y) + atlas_uv[3] * local_uv.y
-    );
     
     float z = (Z_INDEX_MAX - us.zIndex) / Z_INDEX_MAX;
     float4 coord = float4( vin.xy, z, 1 );
+    
+    float2 local_uv = vin.texUV;
+    float4 atlas_uv = us.atlasUV;
+    float2 tex_uv = {
+        atlas_uv[0] * (1.0-local_uv.x) + atlas_uv[2] * local_uv.x,
+        atlas_uv[1] * (1.0-local_uv.y) + atlas_uv[3] * local_uv.y
+    };
 
     PlaneVOut vout;
     vout.pos = localUniform.projectionMatrix * us.matrix * coord;

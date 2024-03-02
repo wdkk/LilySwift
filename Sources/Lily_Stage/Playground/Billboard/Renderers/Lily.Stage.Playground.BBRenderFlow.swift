@@ -147,7 +147,7 @@ extension Lily.Stage.Playground.Billboard
                     if acc[i].enabled == false || acc[i].state == .trush { continue }
                     acc[i].position += acc[i].deltaPosition
                     acc[i].scale += acc[i].deltaScale
-                    acc[i].angle += acc[i].deltaAngle
+                    acc[i].rotate += acc[i].deltaRotate
                     acc[i].color += acc[i].deltaColor
                     acc[i].life += acc[i].deltaLife
                 }

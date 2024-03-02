@@ -68,14 +68,15 @@ struct BBUnitStatus
     float3 deltaPosition;
     float2 scale;
     float2 deltaScale;
-    float angle;
-    float deltaAngle;
+    float3 rotate;
+    float3 deltaRotate;
     float life;
     float deltaLife;
     float enabled;
     float state;
     CompositeType compositeType;
     ShapeType shapeType;
+    uint  childDepth;
 };
     
 struct BBLocalUniform
@@ -132,74 +133,55 @@ vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
         trush_vout.pos = float4( 0, 0, TOO_FAR, 0 );
         return trush_vout;    
     }
-    
-    const int offset = localUniform.drawingOffset;
-        
+     
     GlobalUniform uniform = uniformArray.uniforms[amp_id];
     
+    const int offset = localUniform.drawingOffset;
     BBVIn vin = in[offset + vid];
-        
-    float4x4 modelMatrix = float4x4(
-        float4( 1, 0, 0, 0 ),
-        float4( 0, 1, 0, 0 ),
-        float4( 0, 0, 1, 0 ),
-        float4( us.position, 1 )
-    );
+    
+    // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
+    float visibility_z = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : TOO_FAR;
+    
+    float3 ro = us.rotate;
+    float3 sc = float3( us.scale * 0.5, 1.0 );
+    float3 t  = us.position;
+    
+    float4x4 modelMatrix = affineTransform( t, sc, ro );
+    
+    CameraUniform camera = uniform.cameraUniform;
     
     float4x4 vpMatrix = uniform.cameraUniform.viewProjectionMatrix;
-    float4x4 mvpMatrix = vpMatrix * modelMatrix;
     
+    float4 coord = in[offset + vid].xyzw;
+    float4 worldPosition = modelMatrix * coord;
+    float3 toBillboard = normalize( worldPosition.xyz - camera.position );
+    float3x3 billboardRotation = float3x3( camera.right, camera.up, camera.direction );
+    float3 rotatedPosition = billboardRotation * toBillboard;
+    rotatedPosition.z += visibility_z;
+    
+    float4 billboard_pos = vpMatrix * float4( rotatedPosition, 1.0 );
+    
+    //float4x4 mvpMatrix = vpMatrix * modelMatrix;
+    
+    /*
     float4 pos1 = mvpMatrix * in[offset + 0].xyzw;
     float4 pos2 = mvpMatrix * in[offset + 1].xyzw;
     float4 pos3 = mvpMatrix * in[offset + 2].xyzw;
     float4 pos4 = mvpMatrix * in[offset + 3].xyzw;
     
     float4 center_pos = (pos1 + pos2 + pos3 + pos4) / 4.0;
-
-    constexpr float2 square_vertices[] = { 
-        float2( -1.0, -1.0 ),
-        float2(  1.0, -1.0 ),
-        float2( -1.0,  1.0 ),
-        float2(  1.0,  1.0 )
-    };
-    
-    constexpr float2 triangle_vertices[] = { 
-        float2(  0.0,  1.15470053838 ),
-        float2( -1.0, -0.57735026919 ),
-        float2(  1.0, -0.57735026919 ),
-        float2(  0.0,  0.0 )
-    };
-    
-    float4 atlas_uv = us.atlasUV;
-
-    float2 min_uv = atlas_uv.xy;
-    float2 max_uv = atlas_uv.zw;
-
-    float u = vin.texUV.x;
-    float v = vin.texUV.y;
-    
-    float cosv = cos( us.angle );
-    float sinv = sin( us.angle );
-    float scx = us.scale.x * 0.5;
-    float scy = us.scale.y * 0.5;
-
-    float2 tex_uv = float2( 
-        min_uv[0] * (1.0-u) + max_uv[0] * u,
-        min_uv[1] * (1.0-v) + max_uv[1] * v
-    );
-
-    // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
-    float visibility_z = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : TOO_FAR;
+    */
         
-    // ビルボード内ローカル座標
-    float2 loc_pos = us.shapeType == ShapeType::triangle ? triangle_vertices[vid] : square_vertices[vid];
+    //float4 coord = in[offset + vid].xyzw;
+    //coord.z += visibility_z;
+    //float4 billboard_pos = mvpMatrix * coord;
     
-    float4 billboard_pos = float4(
-        center_pos.x + (scx * cosv * loc_pos.x - sinv * scy * loc_pos.y) / uniform.aspect,
-        center_pos.y + (scx * sinv * loc_pos.x + cosv * scy * loc_pos.y),
-        center_pos.z + visibility_z,
-        center_pos.w
-    );
+    float2 local_uv = vin.texUV;
+    float4 atlas_uv = us.atlasUV;
+    float2 tex_uv = {
+        atlas_uv[0] * (1.0-local_uv.x) + atlas_uv[2] * local_uv.x,
+        atlas_uv[1] * (1.0-local_uv.y) + atlas_uv[3] * local_uv.y
+    };
 
     BBVOut vout;
     vout.pos = billboard_pos;
@@ -293,6 +275,8 @@ fragment BBResult Lily_Stage_Playground_Billboard_Fs(
         case mask:
             color = Lily::Stage::Playground::drawMask( in, tex );
             break;
+        default:
+            discard_fragment();
     }
     
     BBResult result;

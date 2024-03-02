@@ -17,46 +17,58 @@
 using namespace metal;
 using namespace Lily::Stage::Shared;
 
-// G-BufferのFragmentの出力構造体
-struct GBufferFOut 
-{
-    float4 GBuffer0 [[ color(0) ]];
-    float4 GBuffer1 [[ color(1) ]];
-    float4 GBuffer2 [[ color(2) ]];
-    float  GBufferDepth [[ color(3) ]];
-};
+inline float4x4 rotateZ( float rad ) {
+    return float4x4(
+        float4( cos( rad ), -sin( rad ), 0, 0 ),
+        float4( sin( rad ),  cos( rad ), 0, 0 ),
+        float4( 0, 0, 1, 0 ),
+        float4( 0, 0, 0, 1 )
+    );
+}  
 
-// BRDF: Bidirectional Reflectance Distribution Function (双方向反射率分布関数)
-// 不透明な表面で光がどのように反射するかを定義
-struct BRDFSet 
-{
-    float3 albedo;
-    float3 normal;
-    float specIntensity;
-    float specPower;
-    float ao;
-    float shadow;
-};
+inline float4x4 rotateY( float rad ) {
+    return float4x4(
+       float4( cos( rad ), 0, sin( rad ), 0 ),
+       float4( 0, 1, 0, 0 ),
+       float4( -sin( rad ), 0, cos( rad ), 0 ),
+       float4( 0, 0, 0, 1 )
+    );
+}
 
-inline GBufferFOut BRDFToGBuffers( thread BRDFSet &brdf ) {
-    GBufferFOut fout;
-    
-    fout.GBuffer0 = float4( brdf.albedo, 0.0 );
-    fout.GBuffer1 = float4( brdf.normal, 0.0 );
-    fout.GBuffer2 = float4( brdf.specIntensity, brdf.specPower, brdf.shadow, brdf.ao );
-    
-    return fout;
-};
+inline float4x4 rotateX( float rad ) {
+    return float4x4(
+        float4( 1, 0, 0, 0 ),
+        float4( 0, cos( rad ), -sin( rad ), 0 ),
+        float4( 0, sin( rad ),  cos( rad ), 0 ),
+        float4( 0, 0, 0, 1 )
+    );
+}
 
-inline BRDFSet GBuffersToBRDF( float4 GBuffer0, float4 GBuffer1, float4 GBuffer2 ) {
-    BRDFSet brdf;
-    
-    brdf.albedo = GBuffer0.xyz;
-    brdf.normal = GBuffer1.xyz;
-    brdf.specIntensity = GBuffer2.x;
-    brdf.specPower = GBuffer2.y;
-    brdf.shadow = GBuffer2.z;
-    brdf.ao = GBuffer2.w;
-    
-    return brdf;
-};
+inline float4x4 rotate( float3 rad3 ) {
+    auto Rz = rotateZ( rad3.z );
+    auto Ry = rotateY( rad3.y );
+    auto Rx = rotateX( rad3.x );
+    return Rz * Ry * Rx;
+}
+
+inline float4x4 scale( float3 sc ) {
+    return float4x4(
+        float4( sc.x, 0, 0, 0 ),
+        float4( 0, sc.y, 0, 0 ),
+        float4( 0, 0, sc.z, 0 ),
+        float4( 0, 0, 0, 1 )
+    );
+}
+
+inline float4x4 translate( float3 pos ) {
+    return float4x4( 
+        float4( 1, 0, 0, 0 ),
+        float4( 0, 1, 0, 0 ),
+        float4( 0, 0, 1, 0 ),
+        float4( pos, 1 )
+    );
+}
+
+inline float4x4 affineTransform( float3 trans, float3 sc, float3 ro ) {
+    return translate( trans ) * rotate( ro ) * scale( sc );
+}

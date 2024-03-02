@@ -223,6 +223,7 @@ extension Lily.Stage.Playground.Billboard
             float state;
             CompositeType compositeType;
             ShapeType shapeType;
+            uint  childDepth;
         };
             
         struct BBLocalUniform
@@ -448,6 +449,8 @@ extension Lily.Stage.Playground.Billboard
                 case mask:
                     color = Lily::Stage::Playground::drawMask( in, tex );
                     break;
+                default:
+                    discard_fragment();
             }
             
             BBResult result;
