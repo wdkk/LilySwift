@@ -33,15 +33,16 @@ extension Lily.Stage.Playground.Plane
             0.0     // deltaLife
         )
         public var zIndex:LLFloat = 0.0
-        private var _reserved:LLFloat = 0.0
-        fileprivate var states:LLFloatv2 = LLFloatv2(
+        public var childDepth:LLUInt32 = 0
+        public private(set) var states:LLFloatv2 = LLFloatv2(
             1.0,                       // enabled: 1.0 = true, 0.0 = false
             LifeState.trush.rawValue   // state: .active or .trush    
         )
-        fileprivate var types:(LLUInt32, LLUInt32) = (
+        public private(set) var types:(LLUInt32, LLUInt32) = (
             CompositeType.alpha.rawValue,
             ShapeType.rectangle.rawValue
         )
+        
         //-- メモリアラインメント範囲END --//
         
         public init() {}

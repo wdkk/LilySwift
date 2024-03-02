@@ -260,6 +260,18 @@ public extension LLMatrix4x4
         return mat
     }
     
+    static func affine2D( scale sc:LLFloatv2, angle ang:Float, translate t:LLFloatv2 ) -> Self {
+        let cosv:Float = cos( ang )
+        let sinv:Float = sin( ang )
+        // xy座標のアフィン変換
+        return .init(
+         .init( sc.x * cosv, -sinv * sc.y, 0, 0 ),
+         .init( sc.x * sinv,  cosv * sc.y, 0, 0 ),
+         .init(           0,            0, 1, 0 ),
+         .init(         t.x,          t.y, 0, 1 )
+        );
+    }
+    
     // ピクセル座標系変換行列
     static func pixelUVProjection( wid:Int, hgt:Int ) -> Self {
         var vp_mat:LLMatrix4x4 = .identity

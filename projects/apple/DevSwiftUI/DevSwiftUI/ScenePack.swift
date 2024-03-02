@@ -18,7 +18,9 @@ class ScenePack : ObservableObject
     
     init() {
         scene = .init()
-        scene.planeStorage = .playgroundDefault( device:device )
+        scene.planeStorage = .playgroundDefault( 
+            device:device
+        )
         scene.design = design
         scene.update = update
     }

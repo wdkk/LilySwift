@@ -227,8 +227,12 @@ func update( screen:PGScreen ) {
 func design2( screen:PGScreen ) {
     screen.clearColor = .darkGray 
     
+    let p = PGEmpty()
+    .deltaAngle( degrees:-1.0 )
+    
     for _ in 0 ..< 160 {
        PGAddMask( "mask-smoke" )
+       .parent( p )
        .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
        .position(
            cx:(-50 ... 50).randomize,

@@ -19,6 +19,7 @@ extension Lily.Stage.Playground.Plane
             super.init( storage:storage )
             status?.shapeType = .empty
             status?.compositeType = .none
+            self.scale( square:2.0 )
         }
     }
 }

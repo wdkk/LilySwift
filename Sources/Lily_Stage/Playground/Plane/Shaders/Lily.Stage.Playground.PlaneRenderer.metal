@@ -75,7 +75,7 @@ struct PlaneUnitStatus
     float life;
     float deltaLife;
     float zIndex;
-    float _reserved;
+    uint  childDepth;
     float enabled;
     float state;
     CompositeType compositeType;
@@ -137,45 +137,25 @@ vertex PlaneVOut Lily_Stage_Playground_Plane_Vs
         trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
         return trush_vout;    
     }
+        
+    //GlobalUniform uniform = uniformArray.uniforms[amp_id];
     
     const int offset = localUniform.drawingOffset;
-    
-    //GlobalUniform uniform = uniformArray.uniforms[amp_id];
     PlaneVIn vin = in[offset + vid];
-    
-    float cosv = cos( us.angle );
-    float sinv = sin( us.angle );
-    float x = vin.xy.x;
-    float y = vin.xy.y;
-    float scx = us.scale.x * 0.5;
-    float scy = us.scale.y * 0.5;
 
+    float2 local_uv = vin.texUV;
     float4 atlas_uv = us.atlasUV;
-
-    float min_u = atlas_uv[0];
-    float min_v = atlas_uv[1];
-    float max_u = atlas_uv[2];
-    float max_v = atlas_uv[3];
-
-    float u = vin.texUV.x;
-    float v = vin.texUV.y;
-
-    float2 tex_uv = float2( 
-        min_u * (1.0-u) + max_u * u,
-        min_v * (1.0-v) + max_v * v
+    float2 tex_uv = float2
+    ( 
+     atlas_uv[0] * (1.0-local_uv.x) + atlas_uv[2] * local_uv.x,
+     atlas_uv[1] * (1.0-local_uv.y) + atlas_uv[3] * local_uv.y
     );
-
-    // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
-    float visibility_y = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : TOO_FAR;
     
-    // xy座標のアフィン変換
-    float2 v_coord = float2(
-        scx * cosv * x - sinv * scy * y + us.position.x,
-        scx * sinv * x + cosv * scy * y + us.position.y + visibility_y
-    );
+    float z = (Z_INDEX_MAX - us.zIndex) / Z_INDEX_MAX;
+    float4 coord = float4( vin.xy, z, 1 );
 
     PlaneVOut vout;
-    vout.pos = localUniform.projectionMatrix * float4( v_coord, (Z_INDEX_MAX - us.zIndex) / Z_INDEX_MAX, 1 );
+    vout.pos = localUniform.projectionMatrix * us.matrix * coord;
     vout.xy = vin.xy;
     vout.texUV = tex_uv;
     vout.uv = vin.uv;

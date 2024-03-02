@@ -22,6 +22,7 @@ extension Lily.Stage.Playground.Plane
         public init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment ) {
             self.device = device
             
+            #if !targetEnvironment(simulator)
             let desc = MTLComputePipelineDescriptor()
             desc.threadGroupSizeIsMultipleOfThreadExecutionWidth = true
             
@@ -41,6 +42,7 @@ extension Lily.Stage.Playground.Plane
             }
             
             pipeline = try? device.makeComputePipelineState(descriptor:desc, options: [], reflection: nil)
+            #endif
         }
         
         public func updateMatrices( 
@@ -49,6 +51,7 @@ extension Lily.Stage.Playground.Plane
             storage:PlaneStorage
         )
         {
+            #if !targetEnvironment(simulator)
             let computeEncoder = commandBuffer?.makeComputeCommandEncoder()
             
             computeEncoder?.setBuffer( globalUniforms?.metalBuffer, offset:0, index:0 )
@@ -57,13 +60,23 @@ extension Lily.Stage.Playground.Plane
             let count = storage.statuses.cpuBuffer.count
             
             let thread_group_count = MTLSize(width: 32, height: 1, depth: 1)
-            let thread_groups = MTLSize(width: count / thread_group_count.width,
-                                        height: 1,
-                                        depth: 1)
+            let thread_groups = MTLSize(width: count / thread_group_count.width, height: 1, depth: 1)
             computeEncoder?.setComputePipelineState( self.pipeline )
             computeEncoder?.dispatchThreadgroups( thread_groups, threadsPerThreadgroup:thread_group_count )
             
             computeEncoder?.endEncoding()
+            #else
+            storage.statuses.update { acc, _ in
+                for i in 0 ..< acc.count-1 {
+                    if acc[i].enabled == false || acc[i].state == .trush { continue }
+                    acc[i].position += acc[i].deltaPosition
+                    acc[i].scale += acc[i].deltaScale
+                    acc[i].angle += acc[i].deltaAngle
+                    acc[i].color += acc[i].deltaColor
+                    acc[i].life += acc[i].deltaLife
+                }
+            }
+            #endif
         }
     }
 }

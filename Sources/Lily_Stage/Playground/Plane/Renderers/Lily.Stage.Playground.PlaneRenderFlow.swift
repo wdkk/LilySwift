@@ -88,7 +88,32 @@ extension Lily.Stage.Playground.Plane
             guard let pass = self.pass else { return }
             
             guard let storage = self.storage else { return }
+
+            storage.statuses.update { acc, _ in
+                for i in 0 ..< acc.count-1 {
+                    let TOO_FAR:Float = 999999.0
+                    if acc[i].enabled == false || acc[i].state == .trush { continue }
                     
+                    let enabled_k:Float = acc[i].states[0]
+                    let state_k:Float = acc[i].states[1]
+                    let alpha:Float = acc[i].color[3]
+                    let visibility_y:Float = state_k * enabled_k * alpha > 0.00001 ? 0.0 : TOO_FAR
+                    
+                    let sc = acc[i].scale * 0.5
+                    let ang = acc[i].angle
+                    var t = acc[i].position
+                    t.y += visibility_y
+                    acc[i].matrix = LLMatrix4x4.affine2D(scale: sc, angle:ang, translate:t )
+                }
+            }
+            
+            let shapes = PGPool.shared.shapes( on:storage ).sorted { $0.childDepth <= $1.childDepth }
+            for shape in shapes {
+                guard let parent = shape.parent else { continue }
+                shape.matrix = parent.matrix * shape.matrix
+            }
+            storage.statuses.commit()
+            
             // 共通処理
             pass.updatePass( 
                 mediumTexture:mediumTexture!,
@@ -161,25 +186,11 @@ extension Lily.Stage.Playground.Plane
             
             encoder?.endEncoding()
             
-            /*
             planeCompute?.updateMatrices(
                 with:commandBuffer, 
                 globalUniforms: uniforms,
                 storage: storage
             )
-            */
-            
-            storage.statuses.update { acc, _ in
-                for i in 0 ..< acc.count-1 {
-                    if acc[i].enabled == false || acc[i].state == .trush { continue }
-                    acc[i].position += acc[i].deltaPosition
-                    acc[i].scale += acc[i].deltaScale
-                    acc[i].angle += acc[i].deltaAngle
-                    acc[i].color += acc[i].deltaColor
-                    acc[i].life += acc[i].deltaLife
-                }
-            }
-            
         }
     }
 }

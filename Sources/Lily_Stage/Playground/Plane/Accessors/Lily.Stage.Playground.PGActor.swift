@@ -33,6 +33,13 @@ extension Lily.Stage.Playground.Plane
         public var intervalField:ActorInterval?
         public var completionField:PGField<PGActor, LLEmpty>?
         
+        public private(set) var parent:PGActor?
+        
+        public var childDepth:LLUInt32 {
+            get { return status?.childDepth ?? 0 }
+            set { status?.childDepth = newValue }
+        }
+        
         public init( storage:PlaneStorage? ) {
             self.storage = storage
             
@@ -110,6 +117,13 @@ extension Lily.Stage.Playground.Plane
             self.completionField = PGField( me:self, action:f )
             return self
         }
+
+        @discardableResult
+        public func parent( _ actor:PGActor ) -> Self {
+            self.parent = actor
+            self.status?.childDepth = actor.childDepth + 1
+            return self
+        }        
         
         public func appearCompletion() {
             self.completionField?.appear()
