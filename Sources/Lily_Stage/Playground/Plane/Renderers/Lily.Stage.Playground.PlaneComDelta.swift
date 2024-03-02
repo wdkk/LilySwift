@@ -13,7 +13,7 @@ import MetalKit
 
 extension Lily.Stage.Playground.Plane
 {
-    open class PlaneCompute
+    open class PlaneComDelta
     {
         public var device: MTLDevice
         
@@ -31,7 +31,7 @@ extension Lily.Stage.Playground.Plane
                 desc.computeShader( Lily.Metal.Shader( 
                     device:device,
                     mtllib:library, 
-                    shaderName:"Lily_Stage_Playground_Plane_Compute" 
+                    shaderName:"Lily_Stage_Playground_Plane_Com_Delta" 
                 ) ) 
             }
             else if environment == .string {

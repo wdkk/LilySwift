@@ -250,7 +250,7 @@ extension Lily.Stage.Playground
         """ }
         
         static var computeShaderCode:String { """
-        kernel void Lily_Stage_Playground_Plane_Compute
+        kernel void Lily_Stage_Playground_Plane_Com_Delta
         (
          constant GlobalUniformArray& uniformArray [[ buffer(0) ]],
          device PlaneUnitStatus* statuses [[ buffer(1) ]],
@@ -439,7 +439,7 @@ extension Lily.Stage.Playground
             self.PlaygroundComputeShader = .init(
                 device:device, 
                 code: Self.importsCode + Self.definesCode + Self.computeShaderCode,
-                shaderName:"Lily_Stage_Playground_Plane_Compute" 
+                shaderName:"Lily_Stage_Playground_Plane_Com_Delta" 
             )
             
             self.PlaygroundVertexShader = .init(

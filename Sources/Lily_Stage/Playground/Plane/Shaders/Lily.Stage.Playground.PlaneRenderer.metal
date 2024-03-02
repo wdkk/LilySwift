@@ -104,6 +104,26 @@ struct PlaneResult
 {
     float4 planeTexture [[ color(0) ]];
 };
+    
+    
+kernel void Lily_Stage_Playground_Plane_Com_Delta
+(
+ constant GlobalUniformArray& uniformArray [[ buffer(0) ]],
+ device PlaneUnitStatus* statuses [[ buffer(1) ]],
+ uint gid [[thread_position_in_grid]]
+)
+{
+    auto us = statuses[gid];
+        
+    us.position += us.deltaPosition;
+    us.scale += us.deltaScale;
+    us.angle += us.deltaAngle;
+    us.color += us.deltaColor;
+    us.life += us.deltaLife;
+    
+    statuses[gid] = us;
+}
+    
 
 vertex PlaneVOut Lily_Stage_Playground_Plane_Vs
 (

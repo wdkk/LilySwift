@@ -24,7 +24,7 @@ extension Lily.Stage.Playground.Plane
         var addRenderer:PlaneAddRenderer?
         var subRenderer:PlaneSubRenderer?
         
-        var planeCompute:PlaneCompute?
+        var comDelta:PlaneComDelta?
     
         public let viewCount:Int
         
@@ -61,7 +61,7 @@ extension Lily.Stage.Playground.Plane
                 viewCount:viewCount
             )
             
-            self.planeCompute = .init(
+            self.comDelta = .init(
                 device: device, 
                 environment: environment
             )
@@ -185,7 +185,7 @@ extension Lily.Stage.Playground.Plane
             
             encoder?.endEncoding()
             
-            planeCompute?.updateMatrices(
+            comDelta?.updateMatrices(
                 with:commandBuffer, 
                 globalUniforms: uniforms,
                 storage: storage
