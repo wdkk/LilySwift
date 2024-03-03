@@ -88,9 +88,13 @@ class DevViewController
 
 func design( screen:PGScreen ) {
     screen.clearColor = .darkGrey
-
     screen.cubeMap = "skyCubeMap"
     
+    screen.camera.position = .init( 0, 400, 400 )
+    //screen.camera.up = .init( 0, 1, 0 )
+    screen.camera.direction = .init( 0.0, -0.8, -1.0 )
+    
+    /*
     for _ in 0 ..< 10 {
         let size = (40.0 ... 80.0).randomize
         let speed = size / 80.0
@@ -137,7 +141,9 @@ func design( screen:PGScreen ) {
             }
         }
     }
+    */
     
+    /*
     PGAddCircle()
     .scale( square:50 )
     .position( cx: screen.minX + 50, cy: screen.minY + 50 ) 
@@ -159,6 +165,7 @@ func design( screen:PGScreen ) {
     .scale( square:50 )
     .position( cx: screen.maxX - 50, cy: screen.maxY - 50 ) 
     .color( .blue )
+    */
     
     // Playground 3D
     
@@ -189,18 +196,21 @@ func design( screen:PGScreen ) {
     .scale( square:40 )
     
     for _ in 0 ..< 160 {
-        BBAddBlurryCircle()
+        //BBAddBlurryCircle()
+        BBRectangle()
         .color( LLColor( 0.25, 0.8, 1.0, 1.0 ) )
         .position(
-            cx:(-1000.0 ... 1000.0).randomize,
+            cx:(-200.0 ... 200.0).randomize,
             cy:(0.0 ... 0.0).randomize,
-            cz:(-1000.0 ... 1000.0).randomize
+            cz:(-200.0 ... 200.0).randomize
         )
         .deltaPosition( 
             dx:(-0.1...0.1).randomize,
             dy:(0.5...1.0).randomize,
             dz:(-0.1...0.1).randomize
         )
+        //.rotate(rx: 0, ry: 0, rz: .random )
+        //deltaRotate(rx: 0, ry: 0, rz: -0.02 )
         .scale( square: 10.0 )
         .life( .random )
         .deltaLife( -0.005 )

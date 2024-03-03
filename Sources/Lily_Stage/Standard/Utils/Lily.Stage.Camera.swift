@@ -196,7 +196,11 @@ extension Lily.Stage
             return .init(
                 viewMatrix:vM, 
                 projectionMatrix:projM,
-                orientationMatrix:orientationM
+                orientationMatrix:orientationM,
+                position:self.position,
+                up:normalize(self.up),
+                right:normalize(self.right),
+                direction:normalize(self.direction)
             )
         }
     }

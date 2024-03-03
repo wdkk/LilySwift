@@ -135,46 +135,58 @@ vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
     }
      
     GlobalUniform uniform = uniformArray.uniforms[amp_id];
-    
+    CameraUniform camera = uniform.cameraUniform;
+ 
     const int offset = localUniform.drawingOffset;
     BBVIn vin = in[offset + vid];
     
     // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
     float visibility_z = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : TOO_FAR;
     
+    // ビルボードの回転
     float3 ro = us.rotate;
+    // スケーリング
     float3 sc = float3( us.scale * 0.5, 1.0 );
+    // 移動量
     float3 t  = us.position;
     
+    // ビルボードのモデル行列
     float4x4 modelMatrix = affineTransform( t, sc, ro );
+    // カメラのビュープロジェクション行列
+    float4x4 vpMatrix = camera.viewProjectionMatrix;
+    // プロジェクション行列
+    float4x4 pMatrix = camera.projectionMatrix;
     
-    CameraUniform camera = uniform.cameraUniform;
-    
-    float4x4 vpMatrix = uniform.cameraUniform.viewProjectionMatrix;
-    
+    // ビルボードを構成する板ポリゴンのローカル座標
     float4 coord = in[offset + vid].xyzw;
-    float4 worldPosition = modelMatrix * coord;
-    float3 toBillboard = normalize( worldPosition.xyz - camera.position );
-    float3x3 billboardRotation = float3x3( camera.right, camera.up, camera.direction );
-    float3 rotatedPosition = billboardRotation * toBillboard;
-    rotatedPosition.z += visibility_z;
+  
     
-    float4 billboard_pos = vpMatrix * float4( rotatedPosition, 1.0 );
+    //-----------//
+    float4 worldPosition = modelMatrix * float4(0, 0, 0, 1);
+
+    // カメラのビュー行列から上方向と右方向のベクトルを取得
+    float3 right = normalize(camera.right);
+    float3 up = normalize(camera.up);
+
+    // ビルボードの前方向ベクトルを計算（カメラからビルボードへのベクトルとカメラの上方向ベクトルの外積）
+    float3 backward = -normalize( camera.direction );
+
+    // ビルボードのスケーリングを適用
+    right *= sc.x;
+    up *= sc.y;
+
+    // ビルボードのモデル行列を構築（ビューポートに対して平行になるように）
+    float4x4 bbModelMatrix = float4x4(
+        float4(right, 0.0),
+        float4(up, 0.0),
+        float4(backward, 0.0),
+        float4(worldPosition.xyz, 1.0)
+    );
+
+    // 最終的なビルボードの座標
+    float4 billboard_pos = vpMatrix * bbModelMatrix * coord;
+    //-----------//
     
-    //float4x4 mvpMatrix = vpMatrix * modelMatrix;
-    
-    /*
-    float4 pos1 = mvpMatrix * in[offset + 0].xyzw;
-    float4 pos2 = mvpMatrix * in[offset + 1].xyzw;
-    float4 pos3 = mvpMatrix * in[offset + 2].xyzw;
-    float4 pos4 = mvpMatrix * in[offset + 3].xyzw;
-    
-    float4 center_pos = (pos1 + pos2 + pos3 + pos4) / 4.0;
-    */
-        
-    //float4 coord = in[offset + vid].xyzw;
-    //coord.z += visibility_z;
-    //float4 billboard_pos = mvpMatrix * coord;
     
     float2 local_uv = vin.texUV;
     float4 atlas_uv = us.atlasUV;

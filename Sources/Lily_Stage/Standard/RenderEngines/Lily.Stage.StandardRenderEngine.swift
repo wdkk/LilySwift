@@ -67,7 +67,11 @@ extension Lily.Stage
                     let camera_uniform = Shared.CameraUniform(
                         viewMatrix:vM, 
                         projectionMatrix:projM,
-                        orientationMatrix:orientationM
+                        orientationMatrix:orientationM,
+                        position:camera.position,
+                        up:normalize( camera.up ),
+                        right:normalize( camera.right ),
+                        direction:normalize( camera.direction )
                     )
 
                     uni[view_idx] = makeGlobalUniform(

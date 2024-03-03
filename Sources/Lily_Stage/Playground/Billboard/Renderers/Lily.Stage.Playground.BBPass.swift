@@ -30,7 +30,6 @@ extension Lily.Stage.Playground.Billboard
                 .action( load:.load, store:.store )
                 
                 $0.colorAttachments[0].action( load:.load, store:.store )
-                //$0.colorAttachments[1].action( load:.load, store:.store )
             }
             // パーティクルのDepth stateの作成
             depthState = device.makeDepthStencilState(descriptor:.make {
@@ -45,7 +44,6 @@ extension Lily.Stage.Playground.Billboard
             renderTargetCount:Int
         )
         {
-            //passDesc?.colorAttachments[0].texture = mediumTexture.billboardTexture
             #if !targetEnvironment(macCatalyst)
             passDesc?.rasterizationRateMap = rasterizationRateMap
             #endif

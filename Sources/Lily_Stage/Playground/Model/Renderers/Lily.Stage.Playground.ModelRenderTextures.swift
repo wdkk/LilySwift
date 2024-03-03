@@ -61,8 +61,10 @@ extension Lily.Stage.Playground.Model
             #else
             tex_desc.storageMode = .private
             #endif
-            tex_desc.textureType = .type2DArray
-            tex_desc.arrayLength = viewCount
+            if viewCount > 1 {
+                tex_desc.textureType = .type2DArray
+                tex_desc.arrayLength = viewCount
+            }
             tex_desc.usage = [ tex_desc.usage, .renderTarget ]
             
             // GBuffer0の再生成
