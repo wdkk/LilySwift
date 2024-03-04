@@ -52,7 +52,7 @@ class DevViewController
         
         pgScreen = PGScreen(
             device:device,
-            environment:.metallib,
+            environment:.string,//.metallib,
             planeStorage:planeStorage,
             bbStorage:bbStorage,
             modelStorage:modelStorage
@@ -188,11 +188,6 @@ func design( screen:PGScreen ) {
     ModelObj( assetName:"plane" ) 
     .position( cx:0.0, cy:0.0, cz:0.0 )
     .scale( equal:1000.0 )
-    
-    BBTriangle()
-    .color( .red )
-    .position( cx: 0, cy: 100, cz: 0 )
-    .scale( square:40 )
     
     for _ in 0 ..< 160 {
         BBAddBlurryCircle()

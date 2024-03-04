@@ -152,15 +152,12 @@ vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
     
     // ビルボードのモデル行列
     float4x4 modelMatrix = affineTransform( t, sc, ro );
-    // カメラのビュープロジェクション行列
     float4x4 vpMatrix = camera.viewProjectionMatrix;
-    // プロジェクション行列
     float4x4 pMatrix = camera.projectionMatrix;
     float4x4 vMatrix = camera.viewMatrix;
     
     // ビルボードを構成する板ポリゴンのローカル座標
     float4 coord = in[offset + vid].xyzw;
-
     
     //-----------//
     // ビルボード中央座標のワールド座標
@@ -178,12 +175,12 @@ vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
     up *= sc.y;
 
     // ビルボードのモデル行列を再構築
-    float4x4 bbModelMatrix = float4x4(
+    float4x4 bbModelMatrix = {
         float4(right, 0.0),
         float4(up, 0.0),
         float4(forward, 0.0),
         float4(worldPosition.xyz, 1.0)
-    );
+    };
 
     // 最終的なビルボードの座標
     float4 billboard_pos = vpMatrix * bbModelMatrix * coord;
