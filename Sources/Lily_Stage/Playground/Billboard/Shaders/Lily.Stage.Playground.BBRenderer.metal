@@ -156,30 +156,32 @@ vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
     float4x4 vpMatrix = camera.viewProjectionMatrix;
     // プロジェクション行列
     float4x4 pMatrix = camera.projectionMatrix;
+    float4x4 vMatrix = camera.viewMatrix;
     
     // ビルボードを構成する板ポリゴンのローカル座標
     float4 coord = in[offset + vid].xyzw;
-  
+
     
     //-----------//
+    // ビルボード中央座標のワールド座標
     float4 worldPosition = modelMatrix * float4(0, 0, 0, 1);
-
-    // カメラのビュー行列から上方向と右方向のベクトルを取得
-    float3 right = normalize(camera.right);
-    float3 up = normalize(camera.up);
-
-    // ビルボードの前方向ベクトルを計算（カメラからビルボードへのベクトルとカメラの上方向ベクトルの外積）
-    float3 backward = -normalize( camera.direction );
+    // カメラup = ビルボードupで、そのワールド座標
+    float3 worldUp = float3( vMatrix[0][1], vMatrix[1][1], vMatrix[2][1] );
+    
+    // カメラの視線方向を正面方向とする
+    float3 forward = normalize( -camera.direction );
+    float3 up = normalize( worldUp );
+    float3 right = cross( up, forward );
 
     // ビルボードのスケーリングを適用
     right *= sc.x;
     up *= sc.y;
 
-    // ビルボードのモデル行列を構築（ビューポートに対して平行になるように）
+    // ビルボードのモデル行列を再構築
     float4x4 bbModelMatrix = float4x4(
         float4(right, 0.0),
         float4(up, 0.0),
-        float4(backward, 0.0),
+        float4(forward, 0.0),
         float4(worldPosition.xyz, 1.0)
     );
 
@@ -187,7 +189,7 @@ vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
     float4 billboard_pos = vpMatrix * bbModelMatrix * coord;
     //-----------//
     
-    
+
     float2 local_uv = vin.texUV;
     float4 atlas_uv = us.atlasUV;
     float2 tex_uv = {

@@ -91,7 +91,6 @@ func design( screen:PGScreen ) {
     screen.cubeMap = "skyCubeMap"
     
     screen.camera.position = .init( 0, 400, 400 )
-    //screen.camera.up = .init( 0, 1, 0 )
     screen.camera.direction = .init( 0.0, -0.8, -1.0 )
     
     /*
@@ -196,8 +195,7 @@ func design( screen:PGScreen ) {
     .scale( square:40 )
     
     for _ in 0 ..< 160 {
-        //BBAddBlurryCircle()
-        BBRectangle()
+        BBAddBlurryCircle()
         .color( LLColor( 0.25, 0.8, 1.0, 1.0 ) )
         .position(
             cx:(-200.0 ... 200.0).randomize,
