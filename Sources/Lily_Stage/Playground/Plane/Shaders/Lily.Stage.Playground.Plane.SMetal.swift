@@ -11,7 +11,7 @@
 import Metal
 import simd
 
-extension Lily.Stage.Playground
+extension Lily.Stage.Playground.Plane
 {   
     open class SMetal 
     {

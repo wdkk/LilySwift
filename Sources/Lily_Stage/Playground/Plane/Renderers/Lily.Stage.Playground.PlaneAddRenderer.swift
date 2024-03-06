@@ -31,7 +31,7 @@ extension Lily.Stage.Playground.Plane
                 desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Plane_Fs" ) )
             }
             else if environment == .string {
-                let sMetal = Lily.Stage.Playground.SMetal.shared( device:device )
+                let sMetal = Lily.Stage.Playground.Plane.SMetal.shared( device:device )
                 desc.vertexShader( sMetal.vertexShader )
                 desc.fragmentShader( sMetal.fragmentShader )            
             }

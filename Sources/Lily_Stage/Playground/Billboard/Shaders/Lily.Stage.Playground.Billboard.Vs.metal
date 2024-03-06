@@ -8,7 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#import "Lily.Stage.Playground.BBRenderer.h"
+#import "Lily.Stage.Playground.Billboard.h"
 
 vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
     const device BBVIn* in [[ buffer(0) ]],
@@ -48,20 +48,16 @@ vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
     const int offset = localUniform.drawingOffset;
     BBVIn vin = in[offset + vid];
     
-    // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
-    float visibility_z = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : TOO_FAR;
-    
-    // ビルボードの回転
-    float3 ro = us.rotate;
     // スケーリング
-    float3 sc = float3( us.scale * 0.5, 1.0 );
-    // 移動量
-    float3 t  = us.position;
+    float3 sc = us.scale;
+    float ang = us.comboAngle * M_PI_F / 180.0;
+    // ビルボード回転書く
+    float  cosv = cos( ang );
+    float  sinv = sin( ang );
     
     // ビルボードのモデル行列
     float4x4 modelMatrix = us.matrix;
     float4x4 vpMatrix = camera.viewProjectionMatrix;
-    float4x4 pMatrix = camera.projectionMatrix;
     float4x4 vMatrix = camera.viewMatrix;
     
     // ビルボードを構成する板ポリゴンのローカル座標
@@ -89,9 +85,16 @@ vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
         float4(forward, 0.0),
         float4(worldPosition.xyz, 1.0)
     };
-
+    
+    float4x4 angModelMatrix = {
+        float4( cosv,-sinv, 0, 0 ),
+        float4( sinv, cosv, 0, 0 ),
+        float4(    0,    0, 1, 0 ),
+        float4(    0,    0, 0, 1 )
+    };
+    
     // 最終的なビルボードの座標
-    float4 billboard_pos = vpMatrix * bbModelMatrix * coord;
+    float4 billboard_pos = vpMatrix * bbModelMatrix * angModelMatrix * coord;
     //-----------//
     
 

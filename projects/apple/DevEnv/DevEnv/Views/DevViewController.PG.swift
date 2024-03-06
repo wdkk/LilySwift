@@ -52,7 +52,7 @@ class DevViewController
         
         pgScreen = PGScreen(
             device:device,
-            environment:.string, //.metallib,
+            environment:.metallib,
             planeStorage:planeStorage,
             bbStorage:bbStorage,
             modelStorage:modelStorage
@@ -87,12 +87,12 @@ class DevViewController
 }
 
 func design( screen:PGScreen ) {
-    screen.clearColor = .darkGrey
+    screen.clearColor = .white
     screen.cubeMap = "skyCubeMap"
     
     screen.camera.position = .init( 0, 400, 400 )
     screen.camera.direction = .init( 0.0, -0.8, -1.0 )
-    
+    /*
     for _ in 0 ..< 10 {
         let size = (40.0 ... 80.0).randomize
         let speed = size / 80.0
@@ -139,6 +139,7 @@ func design( screen:PGScreen ) {
             }
         }
     }
+    */
     
     /*
     PGAddCircle()
@@ -187,26 +188,70 @@ func design( screen:PGScreen ) {
     .position( cx:0.0, cy:0.0, cz:0.0 )
     .scale( equal:1000.0 )
     
+    /*
     let p = BBEmpty()
-    .deltaRotate(rx: 0, ry: -0.01, rz:0 )
-    
+    .scale( scx:2.0, scy:2.0, scz:2.0 )
+    .deltaRotation(rx: 0, ry: -0.005, rz:0 )
+    .deltaAngle( degrees:1.0 )
+    */
+    /*
     for _ in 0 ..< 160 {
-        BBAddBlurryCircle()
-        .parent( p )
+        //BBAddBlurryCircle()
+        BBRectangle()
+        //.parent( p )
         .color( LLColor( 0.25, 0.8, 1.0, 1.0 ) )
         .position(
-            cx:(-200.0 ... 200.0).randomize,
+            cx:(-100.0 ... 100.0).randomize,
             cy:(0.0 ... 0.0).randomize,
-            cz:(-200.0 ... 200.0).randomize
+            cz:(-100.0 ... 100.0).randomize
         )
         .deltaPosition( 
             dx:(-0.1...0.1).randomize,
             dy:(0.5...1.0).randomize,
             dz:(-0.1...0.1).randomize
         )
-        //.rotate(rx: 0, ry: 0, rz: .random )
-        //deltaRotate(rx: 0, ry: 0, rz: -0.02 )
-        .scale( square: 10.0 )
+        .angle( .random )
+        .scale( square:5.0 )
+        .life( .random )
+        .deltaLife( -0.005 )
+        .iterate {
+            /*
+            if $0.life < 0.5 {
+               $0.alpha( $0.life )
+            }
+            else {
+               $0.alpha( (1.0 - $0.life) )
+            }
+            */
+            $0.alpha( 1.0 )
+        }
+        .completion {
+            $0
+            .position(
+                cx:(-100.0 ... 100.0).randomize,
+                cy:(0.0 ... 0.0).randomize,
+                cz:(-100.0 ... 100.0).randomize
+            )
+            .scale( square: 5.0 )
+            .life( 1.0 )
+        }
+    }
+    */
+    
+    for _ in 0 ..< 80 {
+        PGRectangle()
+        //.parent( p )
+        .color( LLColor( 0.25, 0.8, 1.0, 1.0 ) )
+        .position(
+            cx:(-100.0 ... 100.0).randomize,
+            cy:(0.0 ... 0.0).randomize
+        )
+        .deltaPosition( 
+            dx:(-0.1...0.1).randomize,
+            dy:(0.5...1.0).randomize
+        )
+        .angle( .random )
+        .scale( square:5.0 )
         .life( .random )
         .deltaLife( -0.005 )
         .iterate {
@@ -220,18 +265,17 @@ func design( screen:PGScreen ) {
         .completion {
             $0
             .position(
-                cx:(-200.0 ... 200.0).randomize,
-                cy:(0.0 ... 0.0).randomize,
-                cz:(-200.0 ... 200.0).randomize
+                cx:(-100.0 ... 100.0).randomize,
+                cy:(0.0 ... 0.0).randomize
             )
-            .scale( square: 10.0 )
+            .scale( square: 5.0 )
             .life( 1.0 )
         }
     }
 }
  
 func update( screen:PGScreen ) {
- 
+    LLClock.fps()
 }
 
 func design2( screen:PGScreen ) {

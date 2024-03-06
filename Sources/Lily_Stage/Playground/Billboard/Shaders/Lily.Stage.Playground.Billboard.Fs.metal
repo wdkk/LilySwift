@@ -8,7 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#import "Lily.Stage.Playground.BBRenderer.h"
+#import "Lily.Stage.Playground.Billboard.h"
 
 namespace Lily
 {

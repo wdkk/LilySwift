@@ -65,10 +65,14 @@ struct BBUnitStatus
     float4 deltaColor;
     float3 position;
     float3 deltaPosition;
-    float2 scale;
-    float2 deltaScale;
-    float3 rotate;
-    float3 deltaRotate;
+    float3 scale;
+    float3 deltaScale;
+    float3 rotation;
+    float3 deltaRotation;
+    float angle;
+    float deltaAngle;
+    float comboAngle;
+    float _r1;
     float life;
     float deltaLife;
     float enabled;

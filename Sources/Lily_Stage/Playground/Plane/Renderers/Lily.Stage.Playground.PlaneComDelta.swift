@@ -35,7 +35,7 @@ extension Lily.Stage.Playground.Plane
                 ) ) 
             }
             else if environment == .string {
-                let sMetal = Lily.Stage.Playground.SMetal.shared( device:device )
+                let sMetal = Lily.Stage.Playground.Plane.SMetal.shared( device:device )
                 desc.computeShader( sMetal.comDeltaShader )
             }
             

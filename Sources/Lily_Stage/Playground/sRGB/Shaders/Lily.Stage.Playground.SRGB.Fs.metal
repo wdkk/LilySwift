@@ -8,7 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#import "Lily.Stage.Playground.SRGBRenderer.h"
+#import "Lily.Stage.Playground.SRGB.h"
 
 fragment SRGBFOut Lily_Stage_Playground_SRGB_Fs(
     SRGBVOut         in                  [[ stage_in ]],

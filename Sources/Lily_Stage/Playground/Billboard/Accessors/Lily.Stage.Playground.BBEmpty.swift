@@ -19,7 +19,6 @@ extension Lily.Stage.Playground.Billboard
             super.init( storage:storage )
             status?.shapeType = .empty
             status?.compositeType = .none
-            self.scale( square:2.0 )
         }
     }
 }

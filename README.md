@@ -30,9 +30,9 @@ update : 2023.12.24
 
 ## 検証している環境 ( Environment )
 
-* XCode 15.0
-* iOS 17.1
-* macOS 14.1 (with macCatalyst)
+* XCode 15.2
+* iOS 17.3
+* macOS 14.3 (with macCatalyst)
 
 ## 利用手順( Usage )
 

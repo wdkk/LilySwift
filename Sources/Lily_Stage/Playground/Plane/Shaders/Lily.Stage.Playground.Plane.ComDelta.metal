@@ -8,7 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
   
-#import "Lily.Stage.Playground.PlaneRenderer.h"
+#import "Lily.Stage.Playground.Plane.h"
     
 kernel void Lily_Stage_Playground_Plane_Com_Delta
 (

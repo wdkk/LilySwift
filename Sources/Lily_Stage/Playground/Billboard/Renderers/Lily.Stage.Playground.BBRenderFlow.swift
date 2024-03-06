@@ -95,11 +95,13 @@ extension Lily.Stage.Playground.Billboard
                     let alpha:Float = acc[i].color[3]
                     let visibility_z:Float = state_k * enabled_k * alpha > 0.00001 ? 0.0 : TOO_FAR
                     
-                    let sc = LLFloatv3( acc[i].scale, 2.0 ) * 0.5
-                    let ro = acc[i].rotate
+                    let sc = acc[i].scale
+                    let ro = acc[i].rotation
                     var t = acc[i].position
                     t.z += visibility_z
+                    
                     acc[i].matrix = LLMatrix4x4.affine3D( scale:sc, rotate:ro, translate:t )
+                    acc[i].comboAngle = acc[i].angle * 180.0 / .pi
                 }
                 
                 // 親子関係含めた計算
@@ -107,6 +109,7 @@ extension Lily.Stage.Playground.Billboard
                 for shape in sorted_shapes {
                     guard let parent = shape.parent else { continue }
                     shape.matrix = parent.matrix * shape.matrix
+                    shape.comboAngle = parent.comboAngle + shape.comboAngle 
                 }
             }
                         
@@ -174,7 +177,8 @@ extension Lily.Stage.Playground.Billboard
                     if acc[i].enabled == false || acc[i].state == .trush { continue }
                     acc[i].position += acc[i].deltaPosition
                     acc[i].scale += acc[i].deltaScale
-                    acc[i].rotate += acc[i].deltaRotate
+                    acc[i].rotation += acc[i].deltaRotation
+                    acc[i].angle += acc[i].deltaAngle
                     acc[i].color += acc[i].deltaColor
                     acc[i].life += acc[i].deltaLife
                 }

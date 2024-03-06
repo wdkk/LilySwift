@@ -8,16 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#import <metal_stdlib>
-#import <TargetConditionals.h>
-#import "../../../Standard/Shaders/Lily.Stage.MemoryLess.h"
-#import "../../Utils/Shaders/Lily.Stage.Playground.GlobalUniform.metal"
-
-#import "Lily.Stage.Playground.Model.util.h"
-
-using namespace metal;
-using namespace Lily::Stage;
-using namespace Lily::Stage::Playground;
+#import "Lily.Stage.Playground.ModelLighting.h"
 
 static float3 getWorldPositionAndViewDirectionFromDepth
 (
@@ -97,36 +88,6 @@ static float evaluateShadow
     */
     
     return shadow;
-}
-
-struct LightingVOut
-{
-    float4 position [[position]];
-    uint   ampID;
-};
-
-struct LightingFOut
-{
-    float4 backBuffer [[ color(IDX_OUTPUT) ]];
-};
-
-
-vertex LightingVOut Lily_Stage_Playground_Model_Lighting_Vs
-( 
- uint vid [[vertex_id]],
- ushort amp_id [[ amplification_id ]]
-)
-{
-    const float2 vertices[] = {
-        float2(-1, -1),
-        float2( 3, -1),
-        float2(-1,  3)
-    };
-
-    LightingVOut out;
-    out.position = float4( vertices[vid], 1.0, 1.0 );
-    out.ampID = amp_id;
-    return out;
 }
 
 fragment LightingFOut Lily_Stage_Playground_Model_Lighting_Fs
