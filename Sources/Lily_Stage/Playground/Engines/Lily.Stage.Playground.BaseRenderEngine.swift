@@ -12,16 +12,12 @@ import Metal
 import MetalKit
 import simd
 
-extension Lily.Stage
-{       
+extension Lily.Stage.Playground
+{    
     open class BaseRenderEngine
-    {
-        public var screenSize:LLSizeFloat = .zero
-        
-        public init() {}
-        
+    { 
         // グローバルUniformの基本情報を作る
-        open func makeGlobalUniform( 
+        public func makeGlobalUniform( 
             onFrame:UInt,
             cameraUniform:Shared.CameraUniform,
             sunDirection:LLFloatv3,

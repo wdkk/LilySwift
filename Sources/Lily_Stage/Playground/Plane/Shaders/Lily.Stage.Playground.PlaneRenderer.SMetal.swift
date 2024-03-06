@@ -23,7 +23,7 @@ extension Lily.Stage.Playground
 
         #import <simd/simd.h>
         
-        //-- Lily.Stage.Shared.CameraUniform.metal --//
+        //-- Lily.Stage.CameraUniform.metal --//
         namespace Lily
         {
             namespace Stage 
@@ -44,7 +44,7 @@ extension Lily.Stage.Playground
             };
         };
         
-        //-- Lily.Stage.Shared.GlobalUniform.metal --//
+        //-- Lily.Stage.GlobalUniform.metal --//
         namespace Lily
         {
             namespace Stage 

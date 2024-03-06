@@ -11,7 +11,7 @@
 import Foundation
 import simd
 
-extension Lily.Stage.Shared
+extension Lily.Stage.Playground
 {
     public struct CameraUniform
     {

@@ -12,13 +12,13 @@
 #define Lily_Stage_Shared_GlobalUniform_h
 
 #import <simd/simd.h>
-#import "Lily.Stage.Shared.CameraUniform.metal"
+#import "Lily.Stage.Playground.CameraUniform.metal"
 
 namespace Lily
 {
     namespace Stage 
     {
-        namespace Shared 
+        namespace Playground
         {
             struct GlobalUniform
             {
@@ -36,12 +36,13 @@ namespace Lily
                 
                 float           frameTime;
             };
-        
+            
             // Vision用のGlobalUniform
             struct GlobalUniformArray
             {
                 GlobalUniform uniforms[2];
             };
+    
         };
     };
 };

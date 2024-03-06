@@ -10,38 +10,34 @@
 
 #import <metal_stdlib>
 #import <TargetConditionals.h>
-#import "./Lily.Stage.MemoryLess.h.metal"
-
-#import "../Shared/Lily.Stage.Shared.GlobalUniform.metal"
 
 using namespace metal;
-using namespace Lily::Stage::Shared;
 
 inline float4x4 rotateZ( float rad ) {
-    return float4x4(
+    return {
         float4( cos( rad ), -sin( rad ), 0, 0 ),
         float4( sin( rad ),  cos( rad ), 0, 0 ),
         float4( 0, 0, 1, 0 ),
         float4( 0, 0, 0, 1 )
-    );
+    };
 }  
 
 inline float4x4 rotateY( float rad ) {
-    return float4x4(
-       float4( cos( rad ), 0, sin( rad ), 0 ),
-       float4( 0, 1, 0, 0 ),
-       float4( -sin( rad ), 0, cos( rad ), 0 ),
-       float4( 0, 0, 0, 1 )
-    );
+    return {
+        float4( cos( rad ), 0, sin( rad ), 0 ),
+        float4( 0, 1, 0, 0 ),
+        float4( -sin( rad ), 0, cos( rad ), 0 ),
+        float4( 0, 0, 0, 1 )
+    };
 }
 
 inline float4x4 rotateX( float rad ) {
-    return float4x4(
+    return {
         float4( 1, 0, 0, 0 ),
         float4( 0, cos( rad ), -sin( rad ), 0 ),
         float4( 0, sin( rad ),  cos( rad ), 0 ),
         float4( 0, 0, 0, 1 )
-    );
+    };
 }
 
 inline float4x4 rotate( float3 rad3 ) {
@@ -52,21 +48,21 @@ inline float4x4 rotate( float3 rad3 ) {
 }
 
 inline float4x4 scale( float3 sc ) {
-    return float4x4(
+    return {
         float4( sc.x, 0, 0, 0 ),
         float4( 0, sc.y, 0, 0 ),
         float4( 0, 0, sc.z, 0 ),
         float4( 0, 0, 0, 1 )
-    );
+    };
 }
 
 inline float4x4 translate( float3 pos ) {
-    return float4x4( 
+    return {
         float4( 1, 0, 0, 0 ),
         float4( 0, 1, 0, 0 ),
         float4( 0, 0, 1, 0 ),
         float4( pos, 1 )
-    );
+    };
 }
 
 inline float4x4 affineTransform( float3 trans, float3 sc, float3 ro ) {

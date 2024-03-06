@@ -12,7 +12,7 @@ import Metal
 import MetalKit
 import simd
 
-extension Lily.Stage
+extension Lily.Stage.Playground
 {    
     open class StandardRenderEngine
     : BaseRenderEngine
@@ -25,6 +25,7 @@ extension Lily.Stage
         var onFrame:UInt = 0
         
         var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
+        public var screenSize:LLSizeFloat = .zero
         
         var renderFlows:[BaseRenderFlow?] = []
                 

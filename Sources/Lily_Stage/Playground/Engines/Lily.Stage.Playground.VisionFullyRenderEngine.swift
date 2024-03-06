@@ -17,7 +17,7 @@ import SwiftUI
 import CompositorServices
 import Spatial
 
-extension Lily.Stage
+extension Lily.Stage.Playground
 {              
     public struct VisionFullyRenderConfiguration
     : CompositorLayerConfiguration 

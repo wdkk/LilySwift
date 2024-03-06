@@ -14,6 +14,8 @@ extension Lily.Stage
 {
     open class Playground
     {
+        open class Shared { }
+        
         open class Plane { }
  
         open class Billboard { }

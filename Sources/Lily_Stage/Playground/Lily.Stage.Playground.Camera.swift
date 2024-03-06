@@ -11,7 +11,7 @@
 import MetalKit
 import simd
 
-extension Lily.Stage
+extension Lily.Stage.Playground
 {
     // カメラ設定
     public struct Camera
@@ -188,7 +188,7 @@ extension Lily.Stage
             self.orthogonalize( fromForward:direction )
         }
         
-        public var uniform:Lily.Stage.Shared.CameraUniform {
+        public var uniform:CameraUniform {
             let vM = self.calcViewMatrix()
             let projM = self.calcProjectionMatrix()
             let orientationM = self.calcOrientationMatrix()

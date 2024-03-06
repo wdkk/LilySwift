@@ -11,7 +11,7 @@
 import Metal
 import MetalKit
 
-extension Lily.Stage
+extension Lily.Stage.Playground
 {   
     open class BaseRenderFlow
     {

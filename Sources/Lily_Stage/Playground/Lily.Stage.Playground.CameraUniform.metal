@@ -17,7 +17,7 @@ namespace Lily
 {
     namespace Stage 
     {
-        namespace Shared
+        namespace Playground
         {
             struct CameraUniform
             {
@@ -34,7 +34,8 @@ namespace Lily
                 simd::float3   right;
                 simd::float3   direction;
             };
-        };
+     
+        }
     };
 };
 

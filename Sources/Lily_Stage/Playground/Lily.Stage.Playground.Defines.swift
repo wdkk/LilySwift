@@ -12,7 +12,7 @@ import Metal
 import MetalKit
 import simd
 
-extension Lily.Stage
+extension Lily.Stage.Playground
 {
     public enum BufferFormats
     {
