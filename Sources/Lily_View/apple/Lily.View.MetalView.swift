@@ -86,6 +86,7 @@ extension Lily.View
             metalLayer.frame = self.bounds
             metalLayer.isOpaque = false
 #if os(macOS)
+            self.backgroundColor = .clear
             self.addSublayer( metalLayer )
 #else
             self.layer.addSublayer( metalLayer )

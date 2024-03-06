@@ -70,7 +70,7 @@ extension Lily.Stage.Playground
             let encoder = commandBuffer.makeRenderCommandEncoder( descriptor:pass.passDesc! )
             
             encoder?
-            .label( "Playground 2D SRGB Render" )
+            .label( "Playground SRGB Render" )
             .cullMode( .none )
             .frontFacing( .counterClockwise )
             .viewports( viewports )

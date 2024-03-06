@@ -23,7 +23,7 @@ extension Lily.Stage.Playground
             self.device = device
            
             let desc = MTLRenderPipelineDescriptor()
-            desc.label = "Playground 2D convert sRGB"
+            desc.label = "Playground convert sRGB"
             
             if environment == .metallib {
                 let library = try! Lily.Stage.metalLibrary( of:device )

@@ -19,6 +19,9 @@ extension Lily.View
     {        
         public private(set) var already:Bool = false
         private var _display_link:CADisplayLink?
+        private var lastFrameTimestamp: CFTimeInterval = 0
+        lazy var frameRate: Double = 60.0
+        lazy var frameInterval: Double = 1.0 / frameRate
         
         /// コンストラクタ
         required public init?( coder aDecoder: NSCoder ) { super.init( coder:aDecoder ) }
@@ -62,7 +65,27 @@ extension Lily.View
         @objc
         private func _viewLoop( _ displayLink:CADisplayLink ) { 
             if !self.already { return }
-            loop()
+            
+            func now() -> Double {
+                var now_time = timeval()
+                var tzp = timezone()
+                gettimeofday( &now_time, &tzp )
+                return Double( LLInt64( now_time.tv_sec * 1_000_000 ) + LLInt64( now_time.tv_usec ) ) / 1_000_000.0
+            }
+            
+            while true {
+                let currentTimestamp = now()
+                let elapsedTime = currentTimestamp - lastFrameTimestamp
+
+                if elapsedTime >= frameInterval { 
+                    lastFrameTimestamp = currentTimestamp
+                    break
+                }
+                
+                Thread.sleep( forTimeInterval: 1.0 / 10_000.0 )
+            }
+            
+            loop() 
         }
         
         open func loop() {}
@@ -79,7 +102,7 @@ extension Lily.View
             )
         
             _display_link?.preferredFramesPerSecond = 60
-            _display_link?.add( to: RunLoop.current, forMode: RunLoop.Mode.common )
+            _display_link?.add( to: .current, forMode: .default )
         }
 
         open func pauseLooping() {
@@ -89,7 +112,7 @@ extension Lily.View
         
         open func endLooping() {
             if _display_link == nil { return }
-            _display_link?.remove( from: RunLoop.current, forMode:RunLoop.Mode.common )
+            _display_link?.remove( from:.current, forMode:.default )
             _display_link = nil
         }
         
