@@ -31,9 +31,9 @@ extension Lily.Stage.Playground.Billboard
                 desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Billboard_Fs" ) )
             }
             else if environment == .string {
-                let stringShader = Lily.Stage.Playground.Billboard.BBShaderString.shared( device:device )
-                desc.vertexShader( stringShader.PlaygroundBillboardVertexShader )
-                desc.fragmentShader( stringShader.PlaygroundBillboardFragmentShader )            
+                let sMetal = Lily.Stage.Playground.Billboard.SMetal.shared( device:device )
+                desc.vertexShader( sMetal.vertexShader )
+                desc.fragmentShader( sMetal.fragmentShader )            
             }
             
             desc.rasterSampleCount = Lily.Stage.Playground.BufferFormats.sampleCount

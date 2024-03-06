@@ -49,9 +49,9 @@ extension Lily.Stage.Playground.Model
                 desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Lighting_Fs" ) )
             }
             else if environment == .string {
-                let stringShader = Lily.Stage.Playground.Model.ModelLightingShaderString.shared( device:device )
-                desc.vertexShader( stringShader.PlaygroundModelLightingVertexShader )
-                desc.fragmentShader( stringShader.PlaygroundModelLightingFragmentShader )            
+                let sMetal = Lily.Stage.Playground.Model.LightingSMetal.shared( device:device )
+                desc.vertexShader( sMetal.PlaygroundModelLightingVertexShader )
+                desc.fragmentShader( sMetal.PlaygroundModelLightingFragmentShader )            
             }
             
             desc.rasterSampleCount = Lily.Stage.Playground.BufferFormats.sampleCount

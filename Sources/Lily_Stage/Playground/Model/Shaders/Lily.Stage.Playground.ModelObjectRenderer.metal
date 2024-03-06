@@ -11,14 +11,13 @@
 #import <metal_stdlib>
 #import <TargetConditionals.h>
 
-#import "../../Lily.Stage.Playground.GlobalUniform.metal"
-
 #import "../../../Standard/Shaders/Lily.Stage.MemoryLess.h"
 #import "../../../Standard/Shaders/Lily.Stage.MathMatrix.metal"
-
 #import "../../../Standard/Shaders/Lily.Stage.Model.Obj.metal"
 
-#import "Lily.Stage.Playground.Model.util.metal"
+#import "../../Utils/Shaders/Lily.Stage.Playground.GlobalUniform.metal"
+
+#import "Lily.Stage.Playground.Model.util.h"
 
 using namespace metal;
 using namespace Lily::Stage::Model;

@@ -12,7 +12,7 @@
 #import <TargetConditionals.h>
 
 #import "../../../Standard/Shaders/Lily.Stage.MemoryLess.h"
-#import "../../Lily.Stage.Playground.GlobalUniform.metal"
+#import "../../Utils/Shaders/Lily.Stage.Playground.GlobalUniform.metal"
 
 using namespace metal;
 using namespace Lily::Stage::Playground;

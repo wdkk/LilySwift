@@ -13,15 +13,13 @@ import simd
 
 extension Lily.Stage.Playground
 {   
-    open class ShaderString 
+    open class SMetal 
     {
-        static var importsCode:String { """
+        static var header:String { """
         #import <metal_stdlib>
         #import <TargetConditionals.h>
         
         using namespace metal;
-
-        #import <simd/simd.h>
         
         //-- Lily.Stage.Macro.metal --//
         \(Lily.Stage.Macro_SMetal)
@@ -37,64 +35,16 @@ extension Lily.Stage.Playground
         
         //-- Lily.Stage.GlobalUniform.metal --//
         \(Lily.Stage.Playground.GlobalUniform_SMetal)
-        
-        //-- Lily.Stage.Playground.Model.util.metal --//
-        
+
+        using namespace metal;
         using namespace Lily::Stage;
-        using namespace Lily::Stage::Shared;
-        
-        // G-BufferのFragmentの出力構造体
-        struct GBufferFOut 
-        {
-            float4 GBuffer0 [[ color(0) ]];
-            float4 GBuffer1 [[ color(1) ]];
-            float4 GBuffer2 [[ color(2) ]];
-            float  GBufferDepth [[ color(3) ]];
-        };
-        
-        // BRDF: Bidirectional Reflectance Distribution Function (双方向反射率分布関数)
-        // 不透明な表面で光がどのように反射するかを定義
-        struct BRDFSet 
-        {
-            float3 albedo;
-            float3 normal;
-            float specIntensity;
-            float specPower;
-            float ao;
-            float shadow;
-        };
-        
-        inline GBufferFOut BRDFToGBuffers( thread BRDFSet &brdf ) {
-            GBufferFOut fout;
-            
-            fout.GBuffer0 = float4( brdf.albedo, 0.0 );
-            fout.GBuffer1 = float4( brdf.normal, 0.0 );
-            fout.GBuffer2 = float4( brdf.specIntensity, brdf.specPower, brdf.shadow, brdf.ao );
-            
-            return fout;
-        };
-        
-        inline BRDFSet GBuffersToBRDF( float4 GBuffer0, float4 GBuffer1, float4 GBuffer2 ) {
-            BRDFSet brdf;
-            
-            brdf.albedo = GBuffer0.xyz;
-            brdf.normal = GBuffer1.xyz;
-            brdf.specIntensity = GBuffer2.x;
-            brdf.specPower = GBuffer2.y;
-            brdf.shadow = GBuffer2.z;
-            brdf.ao = GBuffer2.w;
-            
-            return brdf;
-        };
-        
-        """ }
-        
-        static var definesCode:String { """
+        using namespace Lily::Stage::Playground;
+
         //// マクロ定義 ////
         #define TOO_FAR 999999.0
         #define Z_INDEX_MIN 0.0
         #define Z_INDEX_MAX 99999.0
-        
+
         //// 列挙子 ////
         enum CompositeType : uint
         {
@@ -174,9 +124,10 @@ extension Lily.Stage.Playground
         {
             float4 planeTexture [[ color(0) ]];
         };
+
         """ }
         
-        static var computeShaderCode:String { """
+        static var ComDelta:String { """
         kernel void Lily_Stage_Playground_Plane_Com_Delta
         (
          constant GlobalUniformArray& uniformArray [[ buffer(0) ]],
@@ -196,7 +147,7 @@ extension Lily.Stage.Playground
         }        
         """ }
         
-        static var vertexShaderCode:String { """
+        static var Vs:String { """
         
         vertex PlaneVOut Lily_Stage_Playground_Plane_Vs
         (
@@ -260,7 +211,7 @@ extension Lily.Stage.Playground
         
         """ }
         
-        static var fragmentShaderCode:String { """
+        static var Fs:String { """
         namespace Lily
         {
             namespace Stage 
@@ -351,35 +302,34 @@ extension Lily.Stage.Playground
         }
         """ }
 
-        public let PlaygroundComputeShader:Lily.Metal.Shader
+        public let comDeltaShader:Lily.Metal.Shader
+        public let vertexShader:Lily.Metal.Shader
+        public let fragmentShader:Lily.Metal.Shader
         
-        public let PlaygroundVertexShader:Lily.Metal.Shader
-        public let PlaygroundFragmentShader:Lily.Metal.Shader
-        
-        public static func shared( device:MTLDevice ) -> ShaderString {
+        private static var instance:SMetal?
+        public static func shared( device:MTLDevice ) -> SMetal {
             if instance == nil { instance = .init( device:device ) }
             return instance!
         }
-        
-        private static var instance:ShaderString?
+
         private init( device:MTLDevice ) {
             LLLog( "文字列からシェーダを生成しています." )
 
-            self.PlaygroundComputeShader = .init(
+            self.comDeltaShader = .init(
                 device:device, 
-                code: Self.importsCode + Self.definesCode + Self.computeShaderCode,
+                code: Self.header + Self.ComDelta,
                 shaderName:"Lily_Stage_Playground_Plane_Com_Delta" 
             )
             
-            self.PlaygroundVertexShader = .init(
+            self.vertexShader = .init(
                 device:device, 
-                code: Self.importsCode + Self.definesCode + Self.vertexShaderCode,
+                code: Self.header + Self.Vs,
                 shaderName:"Lily_Stage_Playground_Plane_Vs" 
             )
             
-            self.PlaygroundFragmentShader = .init(
+            self.fragmentShader = .init(
                 device:device,
-                code: Self.importsCode + Self.definesCode + Self.fragmentShaderCode,
+                code: Self.header + Self.Fs,
                 shaderName:"Lily_Stage_Playground_Plane_Fs" 
             )
         }

@@ -13,15 +13,23 @@ import simd
 
 extension Lily.Stage.Playground.Model
 {   
-    open class ModelObjectShaderString
+    open class ObjectSMetal
     {
-        static var importsCode:String { """
+        static var header:String { """
         #import <metal_stdlib>
         #import <TargetConditionals.h>
+        #import <simd/simd.h>
         
         using namespace metal;
-
-        #import <simd/simd.h>
+                        
+        //-- Lily.Stage.MemoryLess.metal --//
+        \(Lily.Stage.MemoryLess_SMetal)
+        
+        //-- Lily.Stage.MathMatrix.metal --//
+        \(Lily.Stage.MathMatrix_SMetal)
+        
+        //-- Lily.Stage.Model.Obj.metal --//
+        \(Lily.Stage.Model.Obj_SMetal)
 
         //-- Lily.Stage.CameraUniform.metal --//
         \(Lily.Stage.Playground.CameraUniform_SMetal)
@@ -31,18 +39,11 @@ extension Lily.Stage.Playground.Model
         
         //-- Lily.Stage.Macro.metal --//
         \(Lily.Stage.Macro_SMetal)
-        
-        //-- Lily.Stage.MemoryLess.metal --//
-        \(Lily.Stage.MemoryLess_SMetal)
-        
-        //-- Lily.Stage.Model.Obj.metal --//
-        \(Lily.Stage.Model.Obj_SMetal)
-        
-        //-- Lily.Stage.Playground.Model.util.metal --//
-        
+
+          
         using namespace Lily::Stage;
-        using namespace Lily::Stage::Shared;
         using namespace Lily::Stage::Model;
+        using namespace Lily::Stage::Playground;
 
         namespace Lily
         {
@@ -101,12 +102,7 @@ extension Lily.Stage.Playground.Model
                 };
             };
         };
-        
-        using namespace Lily::Stage::Playground;
-        
-        """ }
-        
-        static var definesCode:String { """
+                
         
         //// マクロ定義 ////
         #define TOO_FAR 999999.0
@@ -139,7 +135,7 @@ extension Lily.Stage.Playground.Model
         };
         """ }
         
-        static var vertexShaderCode:String { """
+        static var Vs:String { """
         
         vertex ModelVOut Lily_Stage_Playground_Model_Object_Vs
         (
@@ -189,7 +185,7 @@ extension Lily.Stage.Playground.Model
         
         """ }
         
-        static var fragmentShaderCode:String { """
+        static var Fs:String { """
         // フラグメントシェーダ
         fragment GBufferFOut Lily_Stage_Playground_Model_Object_Fs
         (
@@ -211,7 +207,7 @@ extension Lily.Stage.Playground.Model
         """ }
         
         
-        static var shadowVertexShaderCode:String { """
+        static var shadowVs:String { """
         
         vertex ModelVOut Lily_Stage_Playground_Model_Object_Shadow_Vs
         (
@@ -257,34 +253,34 @@ extension Lily.Stage.Playground.Model
         
         """ }
         
-        public let PlaygroundModelVertexShader:Lily.Metal.Shader
-        public let PlaygroundModelFragmentShader:Lily.Metal.Shader
-        public let PlaygroundModelShadowVertexShader:Lily.Metal.Shader
+        public let vertexShader:Lily.Metal.Shader
+        public let fragmentShader:Lily.Metal.Shader
+        public let shadowVertexShader:Lily.Metal.Shader
 
-        public static func shared( device:MTLDevice ) -> ModelObjectShaderString {
+        private static var instance:ObjectSMetal?
+        public static func shared( device:MTLDevice ) -> ObjectSMetal {
             if instance == nil { instance = .init( device:device ) }
             return instance!
         }
         
-        private static var instance:ModelObjectShaderString?
         private init( device:MTLDevice ) {
             LLLog( "文字列からシェーダを生成しています." )
             
-            self.PlaygroundModelVertexShader = .init(
+            self.vertexShader = .init(
                 device:device, 
-                code: Self.importsCode + Self.definesCode + Self.vertexShaderCode,
+                code: Self.header + Self.Vs,
                 shaderName:"Lily_Stage_Playground_Model_Object_Vs" 
             )
             
-            self.PlaygroundModelFragmentShader = .init(
+            self.fragmentShader = .init(
                 device:device,
-                code: Self.importsCode + Self.definesCode + Self.fragmentShaderCode,
+                code: Self.header + Self.Fs,
                 shaderName:"Lily_Stage_Playground_Model_Object_Fs" 
             )
             
-            self.PlaygroundModelShadowVertexShader = .init(
+            self.shadowVertexShader = .init(
                 device:device, 
-                code: Self.importsCode + Self.definesCode + Self.shadowVertexShaderCode,
+                code: Self.header + Self.shadowVs,
                 shaderName:"Lily_Stage_Playground_Model_Object_Shadow_Vs" 
             )
             

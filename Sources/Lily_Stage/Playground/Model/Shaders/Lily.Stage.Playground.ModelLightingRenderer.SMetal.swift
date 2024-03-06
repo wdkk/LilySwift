@@ -13,9 +13,9 @@ import simd
 
 extension Lily.Stage.Playground.Model
 {   
-    open class ModelLightingShaderString
+    open class LightingSMetal
     {
-        static var importsCode:String { """
+        static var header:String { """
         #import <metal_stdlib>
         #import <TargetConditionals.h>
         
@@ -29,6 +29,9 @@ extension Lily.Stage.Playground.Model
         //-- Lily.Stage.MemoryLess.metal --//
         \(Lily.Stage.MemoryLess_SMetal)
         
+        //-- Lily.Stage.MathMatrix.metal --//
+        \(Lily.Stage.MathMatrix_SMetal)
+        
         //-- Lily.Stage.Model.Obj.metal --//
         \(Lily.Stage.Model.Obj_SMetal)
         
@@ -38,11 +41,9 @@ extension Lily.Stage.Playground.Model
         //-- Lily.Stage.GlobalUniform.metal --//
         \(Lily.Stage.Playground.GlobalUniform_SMetal)
         
-        //-- Lily.Stage.Playground.Model.util.metal --//
-        
         using namespace Lily::Stage;
-        using namespace Lily::Stage::Shared;
         using namespace Lily::Stage::Model;
+        using namespace Lily::Stage::Playground;
 
         namespace Lily
         {
@@ -102,11 +103,6 @@ extension Lily.Stage.Playground.Model
             };
         };
         
-        """ }
-        
-        static var definesCode:String { """
-        
-        using namespace Lily::Stage::Playground;
         
         static float3 getWorldPositionAndViewDirectionFromDepth
         (
@@ -201,7 +197,7 @@ extension Lily.Stage.Playground.Model
 
         """ }
         
-        static var vertexShaderCode:String { """
+        static var Vs:String { """
         vertex LightingVOut Lily_Stage_Playground_Model_Lighting_Vs
         ( 
          uint vid [[vertex_id]],
@@ -221,7 +217,7 @@ extension Lily.Stage.Playground.Model
         }
         """ }
         
-        static var fragmentShaderCode:String { """
+        static var Fs:String { """
         fragment LightingFOut Lily_Stage_Playground_Model_Lighting_Fs
         (
             LightingVOut             in          [[ stage_in ]],
@@ -300,24 +296,24 @@ extension Lily.Stage.Playground.Model
         public let PlaygroundModelLightingVertexShader:Lily.Metal.Shader
         public let PlaygroundModelLightingFragmentShader:Lily.Metal.Shader
 
-        public static func shared( device:MTLDevice ) -> ModelLightingShaderString {
+        private static var instance:LightingSMetal?
+        public static func shared( device:MTLDevice ) -> LightingSMetal {
             if instance == nil { instance = .init( device:device ) }
             return instance!
         }
-        
-        private static var instance:ModelLightingShaderString?
+
         private init( device:MTLDevice ) {
             LLLog( "文字列からシェーダを生成しています." )
             
             self.PlaygroundModelLightingVertexShader = .init(
                 device:device, 
-                code: Self.importsCode + Self.definesCode + Self.vertexShaderCode,
+                code: Self.header + Self.Vs,
                 shaderName:"Lily_Stage_Playground_Model_Lighting_Vs" 
             )
             
             self.PlaygroundModelLightingFragmentShader = .init(
                 device:device,
-                code: Self.importsCode + Self.definesCode + Self.fragmentShaderCode,
+                code: Self.header + Self.Fs,
                 shaderName:"Lily_Stage_Playground_Model_Lighting_Fs" 
             )
         }

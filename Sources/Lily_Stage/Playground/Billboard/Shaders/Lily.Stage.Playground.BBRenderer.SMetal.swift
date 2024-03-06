@@ -13,15 +13,11 @@ import simd
 
 extension Lily.Stage.Playground.Billboard
 {   
-    open class BBShaderString
+    open class SMetal
     {
-        static var importsCode:String { """
+        static var header:String { """
         #import <metal_stdlib>
         #import <TargetConditionals.h>
-        
-        using namespace metal;
-
-        #import <simd/simd.h>
                 
         //-- Lily.Stage.CameraUniform.metal --//
         \(Lily.Stage.Playground.CameraUniform_SMetal)
@@ -38,13 +34,10 @@ extension Lily.Stage.Playground.Billboard
         //-- Lily.Stage.MemoryLess.metal --//
         \(Lily.Stage.MemoryLess_SMetal)
         
-        """ }
-        
-        static var definesCode:String { """
         using namespace metal;
         using namespace Lily::Stage;
-        using namespace Lily::Stage::Shared;
-        
+        using namespace Lily::Stage::Playground;
+
         //// マクロ定義 ////
         #define TOO_FAR 999999.0
 
@@ -129,7 +122,7 @@ extension Lily.Stage.Playground.Billboard
         
         """ }
         
-        static var vertexShaderCode:String { """
+        static var Vs:String { """
         
         vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
             const device BBVIn* in [[ buffer(0) ]],
@@ -236,7 +229,7 @@ extension Lily.Stage.Playground.Billboard
         
         """ }
         
-        static var fragmentShaderCode:String { """
+        static var Fs:String { """
 
         namespace Lily
         {
@@ -331,27 +324,27 @@ extension Lily.Stage.Playground.Billboard
 
         """ }
         
-        public let PlaygroundBillboardVertexShader:Lily.Metal.Shader
-        public let PlaygroundBillboardFragmentShader:Lily.Metal.Shader
+        public let vertexShader:Lily.Metal.Shader
+        public let fragmentShader:Lily.Metal.Shader
 
-        public static func shared( device:MTLDevice ) -> BBShaderString {
+        private static var instance:SMetal?
+        public static func shared( device:MTLDevice ) -> SMetal {
             if instance == nil { instance = .init( device:device ) }
             return instance!
         }
         
-        private static var instance:BBShaderString?
         private init( device:MTLDevice ) {
             LLLog( "文字列からシェーダを生成しています." )
             
-            self.PlaygroundBillboardVertexShader = .init(
+            self.vertexShader = .init(
                 device:device, 
-                code: Self.importsCode + Self.definesCode + Self.vertexShaderCode,
+                code: Self.header + Self.Vs,
                 shaderName:"Lily_Stage_Playground_Billboard_Vs" 
             )
             
-            self.PlaygroundBillboardFragmentShader = .init(
+            self.fragmentShader = .init(
                 device:device,
-                code: Self.importsCode + Self.definesCode + Self.fragmentShaderCode,
+                code: Self.header + Self.Fs,
                 shaderName:"Lily_Stage_Playground_Billboard_Fs" 
             )
         }

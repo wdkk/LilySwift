@@ -13,17 +13,14 @@ import simd
 
 extension Lily.Stage.Playground
 {   
-    open class SRGBShaderString
+    open class SRGBSMetal
     {
-        static var importsCode:String { """
+        static var header:String { """
         #import <metal_stdlib>
         #import <TargetConditionals.h>
-        
+
         using namespace metal;
-        
-        """ }
-        
-        static var definesCode:String { """
+
         struct SRGBVOut
         {
             float4 position [[ position ]];
@@ -36,7 +33,7 @@ extension Lily.Stage.Playground
         };
         """ }
         
-        static var sRGBVertexShaderCode:String { """
+        static var Vs:String { """
         vertex SRGBVOut Lily_Stage_Playground_SRGB_Vs
         ( 
          uint vid [[vertex_id]],
@@ -56,7 +53,7 @@ extension Lily.Stage.Playground
         }
         """ }
         
-        static var sRGBFragmentShaderCode:String { """
+        static var Fs:String { """
         fragment SRGBFOut Lily_Stage_Playground_SRGB_Fs(
             SRGBVOut         in                  [[ stage_in ]],
             texture2d_array<float> resultTexture [[ texture(0) ]]
@@ -74,27 +71,27 @@ extension Lily.Stage.Playground
         }
         """ }
 
-        public let sRGBVertexShader:Lily.Metal.Shader
-        public let sRGBFragmentShader:Lily.Metal.Shader
-        
-        public static func shared( device:MTLDevice ) -> SRGBShaderString {
+        public let vertexShader:Lily.Metal.Shader
+        public let fragmentShader:Lily.Metal.Shader
+
+        private static var instance:SRGBSMetal?        
+        public static func shared( device:MTLDevice ) -> SRGBSMetal {
             if instance == nil { instance = .init( device:device ) }
             return instance!
         }
         
-        private static var instance:SRGBShaderString?
         private init( device:MTLDevice ) {
             LLLog( "文字列からシェーダを生成しています." )
             
-            self.sRGBVertexShader = .init(
+            self.vertexShader = .init(
                 device:device, 
-                code: Self.importsCode + Self.definesCode + Self.sRGBVertexShaderCode,
+                code: Self.header + Self.Vs,
                 shaderName:"Lily_Stage_Playground_SRGB_Vs" 
             )
             
-            self.sRGBFragmentShader = .init(
+            self.fragmentShader = .init(
                 device:device,
-                code: Self.importsCode + Self.definesCode + Self.sRGBFragmentShaderCode,
+                code: Self.header + Self.Fs,
                 shaderName:"Lily_Stage_Playground_SRGB_Fs" 
             )
         }

@@ -52,7 +52,7 @@ class DevViewController
         
         pgScreen = PGScreen(
             device:device,
-            environment:.metallib,
+            environment:.string, //.metallib,
             planeStorage:planeStorage,
             bbStorage:bbStorage,
             modelStorage:modelStorage
@@ -93,7 +93,6 @@ func design( screen:PGScreen ) {
     screen.camera.position = .init( 0, 400, 400 )
     screen.camera.direction = .init( 0.0, -0.8, -1.0 )
     
-    /*
     for _ in 0 ..< 10 {
         let size = (40.0 ... 80.0).randomize
         let speed = size / 80.0
@@ -140,7 +139,6 @@ func design( screen:PGScreen ) {
             }
         }
     }
-    */
     
     /*
     PGAddCircle()
