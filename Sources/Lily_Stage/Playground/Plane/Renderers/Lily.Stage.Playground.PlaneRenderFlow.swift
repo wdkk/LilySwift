@@ -14,7 +14,7 @@ import MetalKit
 extension Lily.Stage.Playground.Plane
 {
     open class PlaneRenderFlow
-    : Lily.Stage.BaseRenderFlow
+    : Lily.Stage.Playground.BaseRenderFlow
     {
         var pass:PlanePass?
         weak var mediumTexture:Lily.Stage.Playground.MediumTexture?
@@ -82,7 +82,7 @@ extension Lily.Stage.Playground.Plane
             viewCount:Int,
             destinationTexture:MTLTexture?,
             depthTexture:MTLTexture?,
-            uniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>
+            uniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>
         )
         {
             guard let pass = self.pass else { return }

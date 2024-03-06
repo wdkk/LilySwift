@@ -1,9 +1,36 @@
 //
-//  Lily.Stage.Macro.SMetal.swift
-//  LilySwift
+// LilySwift Library Project
 //
-//  Created by Kengo Watanabe on 2024/03/06.
-//  Copyright © 2024 Watanabe-Denki, Inc. All rights reserved.
+// Copyright (c) Watanabe-Denki, Inc. and Kengo Watanabe.
+//   https://wdkk.co.jp/
+//
+// This software is released under the MIT License.
+//   https://opensource.org/licenses/mit-license.php
 //
 
-import Foundation
+import Metal
+import simd
+
+extension Lily.Stage
+{   
+    public static var Macro_SMetal:String { """
+        #import <TargetConditionals.h>
+
+        using namespace metal;
+
+        #if ( !TARGET_OS_SIMULATOR || TARGET_OS_MACCATALYST )
+        #define LILY_MEMORY_LESS 1
+        #endif
+
+        #if LILY_MEMORY_LESS
+        #define lily_memory(i)      color(i) 
+        #define lily_memory_float4  float4
+        #define lily_memory_depth   float
+        #else
+        #define lily_memory(i)      texture(i)
+        #define lily_memory_float4  texture2d<float>
+        #define lily_memory_depth   depth2d<float>
+        #endif
+        """
+    }
+}

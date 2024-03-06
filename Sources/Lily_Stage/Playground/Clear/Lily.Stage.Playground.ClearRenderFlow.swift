@@ -78,7 +78,7 @@ extension Lily.Stage.Playground
     }
     
     open class ClearRenderFlow
-    : Lily.Stage.BaseRenderFlow
+    : BaseRenderFlow
     {
         var pass:Lily.Stage.Playground.ClearPass?
         weak var modelRenderTextures:Lily.Stage.Playground.Model.ModelRenderTextures?
@@ -115,7 +115,7 @@ extension Lily.Stage.Playground
             viewCount:Int,
             destinationTexture:MTLTexture?,
             depthTexture:MTLTexture?,
-            uniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>
+            uniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>
         )
         {
             guard let pass = self.pass else { return }

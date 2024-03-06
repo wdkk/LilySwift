@@ -16,16 +16,18 @@ extension Lily.Stage.Playground
 {    
     open class BaseRenderEngine
     { 
+        public var screenSize:LLSizeFloat = .zero
+        
         // グローバルUniformの基本情報を作る
         public func makeGlobalUniform( 
             onFrame:UInt,
-            cameraUniform:Shared.CameraUniform,
+            cameraUniform:CameraUniform,
             sunDirection:LLFloatv3,
             screenSize:LLSizeFloat
         ) 
-        -> Shared.GlobalUniform 
+        -> GlobalUniform 
         {
-            var guni = Shared.GlobalUniform()
+            var guni = GlobalUniform()
             
             guni.cameraUniform = cameraUniform
             guni.frameTime = max( 0.001, onFrame.f * (1.0 / 60.0) )
@@ -48,7 +50,7 @@ extension Lily.Stage.Playground
             let sine_half_angle = sinf( half_angle )
             
             // カスケードシャドウマップの3つの距離を大きさから計算
-            var dists = [Float]( repeating:0.0, count:Shared.Const.shadowCascadesCount )
+            var dists = [Float]( repeating:0.0, count:shadowCascadesCount )
             // シャドウ0(近距離)
             dists[0] = 2 * sizes[0] * (1.0 - sine_half_angle * sine_half_angle)
             // シャドウ1(中距離)

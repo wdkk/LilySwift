@@ -36,13 +36,13 @@ extension Lily.Stage.Playground.Plane
                 desc.fragmentShader( stringShader.PlaygroundFragmentShader )            
             }
             
-            desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
+            desc.rasterSampleCount = Lily.Stage.Playground.BufferFormats.sampleCount
             
-            desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.linearSRGBBuffer
+            desc.colorAttachments[0].pixelFormat = Lily.Stage.Playground.BufferFormats.linearSRGBBuffer
             desc.colorAttachments[0].composite( type:.alphaBlend )
-            desc.colorAttachments[1].pixelFormat = Lily.Stage.BufferFormats.backBuffer
+            desc.colorAttachments[1].pixelFormat = Lily.Stage.Playground.BufferFormats.backBuffer
             desc.colorAttachments[1].composite( type:.alphaBlend )
-            desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
+            desc.depthAttachmentPixelFormat = Lily.Stage.Playground.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
             }
@@ -52,7 +52,7 @@ extension Lily.Stage.Playground.Plane
         
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
-            globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
+            globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
             storage:PlaneStorage,
             screenSize:CGSize
@@ -83,7 +83,7 @@ extension Lily.Stage.Playground.Plane
         
         public func drawTriangle( 
             with renderEncoder:MTLRenderCommandEncoder?,
-            globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
+            globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
             storage:PlaneStorage,
             screenSize:CGSize

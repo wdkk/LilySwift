@@ -44,6 +44,7 @@ typealias PGSubMask = PG.Plane.PGSubMask
 typealias BBStorage = PG.Billboard.BBStorage
 typealias BBPool = PG.Billboard.BBPool
 typealias BBActor = PG.Billboard.BBActor
+typealias BBEmpty = PG.Billboard.BBEmpty
 typealias BBRectangle = PG.Billboard.BBRectangle
 typealias BBAddRectangle = PG.Billboard.BBAddRectangle
 typealias BBSubRectangle = PG.Billboard.BBSubRectangle

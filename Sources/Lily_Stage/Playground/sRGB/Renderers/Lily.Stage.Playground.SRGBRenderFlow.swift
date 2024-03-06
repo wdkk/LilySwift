@@ -14,7 +14,7 @@ import MetalKit
 extension Lily.Stage.Playground
 {
     open class SRGBRenderFlow
-    : Lily.Stage.BaseRenderFlow
+    : Lily.Stage.Playground.BaseRenderFlow
     {
         var pass:Lily.Stage.Playground.SRGBPass?
         
@@ -52,7 +52,7 @@ extension Lily.Stage.Playground
             viewCount:Int,
             destinationTexture:MTLTexture?,
             depthTexture:MTLTexture?,
-            uniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>
+            uniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>
         )
         {
             guard let pass = self.pass else { return }

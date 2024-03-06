@@ -11,14 +11,14 @@
 #import <metal_stdlib>
 #import <TargetConditionals.h>
 
-#import "../../../Standard/Shared/Lily.Stage.Shared.GlobalUniform.metal"
+#import "../../Lily.Stage.Playground.GlobalUniform.metal"
 
-#import "../../../Standard/Shaders/Lily.Stage.MemoryLess.h.metal"
-#import "../../../Standard/Shaders/Lily.Stage.StageRenderer.util.metal"
+#import "../../../Standard/Shaders/Lily.Stage.MemoryLess.h"
+#import "../../../Standard/Shaders/Lily.Stage.MathMatrix.metal"
 
 using namespace metal;
 using namespace Lily::Stage;
-using namespace Lily::Stage::Shared;
+using namespace Lily::Stage::Playground;
 
 //// マクロ定義 ////
 #define TOO_FAR 999999.0
@@ -151,7 +151,7 @@ vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
     float3 t  = us.position;
     
     // ビルボードのモデル行列
-    float4x4 modelMatrix = affineTransform( t, sc, ro );
+    float4x4 modelMatrix = us.matrix;
     float4x4 vpMatrix = camera.viewProjectionMatrix;
     float4x4 pMatrix = camera.projectionMatrix;
     float4x4 vMatrix = camera.viewMatrix;

@@ -14,7 +14,7 @@ import MetalKit
 extension Lily.Stage.Playground.Model
 {   
     open class ModelRenderFlow
-    : Lily.Stage.BaseRenderFlow
+    : Lily.Stage.Playground.BaseRenderFlow
     {
         weak var modelRenderTextures:ModelRenderTextures?
         weak var mediumTexture:Lily.Stage.Playground.MediumTexture?
@@ -62,7 +62,7 @@ extension Lily.Stage.Playground.Model
             viewCount:Int,
             destinationTexture:MTLTexture?,
             depthTexture:MTLTexture?,
-            uniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>
+            uniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>
         )
         {
             guard let modelPass = modelPass else { return }
@@ -85,7 +85,7 @@ extension Lily.Stage.Playground.Model
             )
             
             // カスケードシャドウマップ
-            for c_idx in 0 ..< Lily.Stage.Shared.Const.shadowCascadesCount {
+            for c_idx in 0 ..< Lily.Stage.Playground.shadowCascadesCount {
                 modelPass.shadowPassDesc?.depthAttachment.slice = c_idx
                 
                 let shadow_encoder = commandBuffer.makeRenderCommandEncoder( descriptor:modelPass.shadowPassDesc! ) 

@@ -102,7 +102,7 @@ struct VisionApp
         .windowStyle( .volumetric )
         
         ImmersiveSpace( id:"LilyImmersiveSpace" ) {
-            CompositorLayer( configuration:Lily.Stage.VisionFullyRenderConfiguration() ) { layerRenderer in
+            CompositorLayer( configuration:Lily.Stage.Playground.VisionFullyRenderConfiguration() ) { layerRenderer in
                 let device = layerRenderer.device
                 
                 fullyScreen = PGVisionFullyScreen(

@@ -38,7 +38,7 @@ extension Lily.Stage.Playground.Model
             self.device = device
             // レンダパスディスクリプタを同じテクスチャポインタで揃えるためシャドウ・マップを事前に作成
             shadowMap = createShadowMap( 
-                size:LLSizeIntMake( 1024, 1024 ), arrayLength:Lily.Stage.Shared.Const.shadowCascadesCount
+                size:LLSizeIntMake( 1024, 1024 ), arrayLength:Lily.Stage.Playground.shadowCascadesCount
             )
         }
         
@@ -54,7 +54,7 @@ extension Lily.Stage.Playground.Model
                 mipmapped:false 
             )
             
-            tex_desc.sampleCount = Lily.Stage.BufferFormats.sampleCount
+            tex_desc.sampleCount = Lily.Stage.Playground.BufferFormats.sampleCount
             #if !targetEnvironment(simulator)
             if #available( macCatalyst 14.0, * ) { tex_desc.storageMode = .memoryless }
             else { tex_desc.storageMode = .private }
@@ -68,23 +68,23 @@ extension Lily.Stage.Playground.Model
             tex_desc.usage = [ tex_desc.usage, .renderTarget ]
             
             // GBuffer0の再生成
-            tex_desc.pixelFormat = Lily.Stage.BufferFormats.GBuffer0
+            tex_desc.pixelFormat = Lily.Stage.Playground.BufferFormats.GBuffer0
             GBuffer0 = device.makeTexture( descriptor:tex_desc )
             GBuffer0?.label = "GBuffer0"
             
             // GBuffer1の再生成
-            tex_desc.pixelFormat = Lily.Stage.BufferFormats.GBuffer1
+            tex_desc.pixelFormat = Lily.Stage.Playground.BufferFormats.GBuffer1
             GBuffer1 = device.makeTexture( descriptor:tex_desc )
             GBuffer1?.label = "GBuffer1"
             
             // GBuffer2の再生成
-            tex_desc.pixelFormat = Lily.Stage.BufferFormats.GBuffer2
+            tex_desc.pixelFormat = Lily.Stage.Playground.BufferFormats.GBuffer2
             GBuffer2 = device.makeTexture( descriptor:tex_desc )
             GBuffer2?.label = "GBuffer2"
             
             // GDepthの再生成
             tex_desc.storageMode = .private
-            tex_desc.pixelFormat = Lily.Stage.BufferFormats.GBufferDepth
+            tex_desc.pixelFormat = Lily.Stage.Playground.BufferFormats.GBufferDepth
             GBufferDepth = device.makeTexture( descriptor:tex_desc )
             GBufferDepth?.label = "GBufferDepth"
             
@@ -94,7 +94,7 @@ extension Lily.Stage.Playground.Model
         // シャドウマップテクスチャの作成
         public func createShadowMap( size:LLSizeInt, arrayLength:Int ) -> MTLTexture? {
             let desc = MTLTextureDescriptor.texture2DDescriptor(
-                pixelFormat: Lily.Stage.BufferFormats.shadowDepth,
+                pixelFormat: Lily.Stage.Playground.BufferFormats.shadowDepth,
                 width: size.width, 
                 height: size.height,
                 mipmapped: false 

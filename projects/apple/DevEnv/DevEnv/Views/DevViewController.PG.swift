@@ -52,7 +52,7 @@ class DevViewController
         
         pgScreen = PGScreen(
             device:device,
-            environment:.string,//.metallib,
+            environment:.metallib,
             planeStorage:planeStorage,
             bbStorage:bbStorage,
             modelStorage:modelStorage
@@ -189,8 +189,12 @@ func design( screen:PGScreen ) {
     .position( cx:0.0, cy:0.0, cz:0.0 )
     .scale( equal:1000.0 )
     
+    let p = BBEmpty()
+    .deltaRotate(rx: 0, ry: -0.01, rz:0 )
+    
     for _ in 0 ..< 160 {
         BBAddBlurryCircle()
+        .parent( p )
         .color( LLColor( 0.25, 0.8, 1.0, 1.0 ) )
         .position(
             cx:(-200.0 ... 200.0).randomize,

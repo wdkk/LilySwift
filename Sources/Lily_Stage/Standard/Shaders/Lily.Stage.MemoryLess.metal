@@ -10,7 +10,7 @@
 
 #import <metal_stdlib>
 #import <TargetConditionals.h>
-#import "Lily.Stage.MemoryLess.h.metal"
+#import "Lily.Stage.MemoryLess.h"
 
 using namespace metal;
 

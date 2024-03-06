@@ -36,9 +36,9 @@ extension Lily.Stage.Playground
                 desc.fragmentShader( stringShader.sRGBFragmentShader )            
             }
 
-            desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
+            desc.rasterSampleCount = BufferFormats.sampleCount
             
-            desc.colorAttachments[0].pixelFormat = Lily.Stage.BufferFormats.backBuffer
+            desc.colorAttachments[0].pixelFormat = BufferFormats.backBuffer
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
             }

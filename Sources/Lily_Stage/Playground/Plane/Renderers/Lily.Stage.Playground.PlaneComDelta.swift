@@ -45,7 +45,7 @@ extension Lily.Stage.Playground.Plane
         
         public func updateMatrices( 
             with commandBuffer:MTLCommandBuffer?,
-            globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
+            globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
             storage:PlaneStorage
         )
         {

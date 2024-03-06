@@ -193,7 +193,7 @@ public extension LLMatrix4x4
         let rotation_x = LLMatrix4x4.rotateX( byAngle: angle.x )
         let rotation_y = LLMatrix4x4.rotateY( byAngle: angle.y )
         let rotation_z = LLMatrix4x4.rotateZ( byAngle: angle.z )
-        return rotation_x * rotation_y * rotation_z
+        return rotation_z * rotation_y * rotation_x
     }
     
     // 回転(三軸同時)
@@ -270,6 +270,10 @@ public extension LLMatrix4x4
          .init(           0,            0, 1, 0 ),
          .init(         t.x,          t.y, 0, 1 )
         );
+    }
+    
+    static func affine3D( scale sc:LLFloatv3, rotate ro:LLFloatv3, translate t:LLFloatv3 ) -> Self {
+        return translate( vector: t ) * rotate( vector: ro ) * scale( vector: sc );
     }
     
     // ピクセル座標系変換行列

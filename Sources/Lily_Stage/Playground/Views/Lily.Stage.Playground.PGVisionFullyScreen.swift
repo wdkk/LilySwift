@@ -19,7 +19,7 @@ extension Lily.Stage.Playground
     {        
         // MARK: システム
         var device:MTLDevice        
-        public var renderEngine:Lily.Stage.VisionFullyRenderEngine
+        public var renderEngine:VisionFullyRenderEngine
         public private(set) var environment:Lily.Stage.ShaderEnvironment
         
         // MARK: 描画テクスチャ
@@ -45,7 +45,7 @@ extension Lily.Stage.Playground
             didSet { modelStorage?.setCubeMap(device:device, assetName:cubeMap ) }
         }
         
-        public var camera:Lily.Stage.Camera {
+        public var camera:Camera {
             get { renderEngine.camera }
             set { renderEngine.camera = newValue }
         }

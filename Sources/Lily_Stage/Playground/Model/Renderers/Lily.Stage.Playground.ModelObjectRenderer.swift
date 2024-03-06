@@ -41,14 +41,14 @@ extension Lily.Stage.Playground.Model
                 desc.fragmentShader( stringShader.PlaygroundModelFragmentShader )            
             }
         
-            desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
+            desc.rasterSampleCount = Lily.Stage.Playground.BufferFormats.sampleCount
             
-            desc.colorAttachments[IDX_GBUFFER_0].pixelFormat = Lily.Stage.BufferFormats.GBuffer0
-            desc.colorAttachments[IDX_GBUFFER_1].pixelFormat = Lily.Stage.BufferFormats.GBuffer1
-            desc.colorAttachments[IDX_GBUFFER_2].pixelFormat = Lily.Stage.BufferFormats.GBuffer2
-            desc.colorAttachments[IDX_GBUFFER_DEPTH].pixelFormat = Lily.Stage.BufferFormats.GBufferDepth
-            desc.colorAttachments[IDX_OUTPUT].pixelFormat = Lily.Stage.BufferFormats.linearSRGBBuffer
-            desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
+            desc.colorAttachments[IDX_GBUFFER_0].pixelFormat = Lily.Stage.Playground.BufferFormats.GBuffer0
+            desc.colorAttachments[IDX_GBUFFER_1].pixelFormat = Lily.Stage.Playground.BufferFormats.GBuffer1
+            desc.colorAttachments[IDX_GBUFFER_2].pixelFormat = Lily.Stage.Playground.BufferFormats.GBuffer2
+            desc.colorAttachments[IDX_GBUFFER_DEPTH].pixelFormat = Lily.Stage.Playground.BufferFormats.GBufferDepth
+            desc.colorAttachments[IDX_OUTPUT].pixelFormat = Lily.Stage.Playground.BufferFormats.linearSRGBBuffer
+            desc.depthAttachmentPixelFormat = Lily.Stage.Playground.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
             }
@@ -66,14 +66,14 @@ extension Lily.Stage.Playground.Model
                 desc.fragmentFunction = nil          
             }
 
-            desc.rasterSampleCount = Lily.Stage.BufferFormats.sampleCount
+            desc.rasterSampleCount = Lily.Stage.Playground.BufferFormats.sampleCount
             
             desc.colorAttachments[IDX_GBUFFER_0].pixelFormat = .invalid
             desc.colorAttachments[IDX_GBUFFER_1].pixelFormat = .invalid
             desc.colorAttachments[IDX_GBUFFER_2].pixelFormat = .invalid
             desc.colorAttachments[IDX_GBUFFER_DEPTH].pixelFormat = .invalid
             desc.colorAttachments[IDX_OUTPUT].pixelFormat = .invalid
-            desc.depthAttachmentPixelFormat = Lily.Stage.BufferFormats.depth
+            desc.depthAttachmentPixelFormat = Lily.Stage.Playground.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
             }
@@ -82,7 +82,7 @@ extension Lily.Stage.Playground.Model
         
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
-            globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
+            globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
             storage:ModelStorage
         )
         {
@@ -111,7 +111,7 @@ extension Lily.Stage.Playground.Model
         
         public func drawShadows(
             with renderEncoder:MTLRenderCommandEncoder?, 
-            globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>?,
+            globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
             shadowCamVPMatrices:[LLMatrix4x4],
             storage:ModelStorage,
             cascadeIndex:Int 

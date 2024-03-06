@@ -24,12 +24,11 @@ extension Lily.Stage.Playground
         var commandQueue:MTLCommandQueue?
         var onFrame:UInt = 0
         
-        var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
-        public var screenSize:LLSizeFloat = .zero
+        var uniforms:Lily.Metal.RingBuffer<GlobalUniformArray>
         
         var renderFlows:[BaseRenderFlow?] = []
                 
-        public var camera:Lily.Stage.Camera = .init(
+        public var camera:Camera = .init(
             perspectiveWith: .init( 0.0, 260, 500.0 ),
             direction: .init( 0.0, -0.5, -1.0 ), 
             up: LLFloatv3( 0, 1, 0 ), 
@@ -55,24 +54,24 @@ extension Lily.Stage.Playground
             onFrame += 1
             
             let viewCount = 1
-                        
+                               
             uniforms.update { uni in
                 for view_idx in 0 ..< viewCount {
                     // ビューマトリックスの更新
-                    let vM = camera.calcViewMatrix()
+                    let vM = self.camera.calcViewMatrix()
                     
-                    let projM = camera.calcProjectionMatrix()
+                    let projM = self.camera.calcProjectionMatrix()
                     
-                    let orientationM = camera.calcOrientationMatrix()
+                    let orientationM = self.camera.calcOrientationMatrix()
                     
-                    let camera_uniform = Shared.CameraUniform(
+                    let camera_uniform = CameraUniform(
                         viewMatrix:vM, 
                         projectionMatrix:projM,
                         orientationMatrix:orientationM,
-                        position:camera.position,
-                        up:normalize( camera.up ),
-                        right:normalize( camera.right ),
-                        direction:normalize( camera.direction )
+                        position:self.camera.position,
+                        up:normalize( self.camera.up ),
+                        right:normalize( self.camera.right ),
+                        direction:normalize( self.camera.direction )
                     )
 
                     uni[view_idx] = makeGlobalUniform(
@@ -86,7 +85,7 @@ extension Lily.Stage.Playground
                     let cascade_distances = makeCascadeDistances( sizes:cascade_sizes, viewAngle:camera.viewAngle )
                     
                     // カスケードシャドウのカメラユニフォームを作成
-                    for c_idx in 0 ..< Shared.Const.shadowCascadesCount {
+                    for c_idx in 0 ..< shadowCascadesCount {
                         let center = camera.position + camera.direction * cascade_distances[c_idx]
                         let size = cascade_sizes[c_idx]
 

@@ -14,7 +14,7 @@ import MetalKit
 extension Lily.Stage.Playground.Billboard
 {
     open class BBRenderFlow
-    : Lily.Stage.BaseRenderFlow
+    : Lily.Stage.Playground.BaseRenderFlow
     {
         var pass:Lily.Stage.Playground.Billboard.BBPass?
         
@@ -74,7 +74,7 @@ extension Lily.Stage.Playground.Billboard
             viewCount:Int,
             destinationTexture:MTLTexture?,
             depthTexture:MTLTexture?,
-            uniforms:Lily.Metal.RingBuffer<Lily.Stage.Shared.GlobalUniformArray>
+            uniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>
         )
         {
             guard let pass = self.pass else { return }
@@ -82,6 +82,33 @@ extension Lily.Stage.Playground.Billboard
             guard let mediumTexture = self.mediumTexture else { LLLog( "mediumTextureが設定されていません" ); return }
             
             guard let storage = self.storage else { return }
+            
+            // TODO: 最適化したい
+            storage.statuses.update { acc, _ in
+                // 各オブジェクトのマトリクス計算
+                for i in 0 ..< acc.count - 1 {
+                    let TOO_FAR:Float = 999999.0
+                    if acc[i].enabled == false || acc[i].state == .trush { continue }
+                    
+                    let enabled_k:Float = acc[i].states[0]
+                    let state_k:Float = acc[i].states[1]
+                    let alpha:Float = acc[i].color[3]
+                    let visibility_z:Float = state_k * enabled_k * alpha > 0.00001 ? 0.0 : TOO_FAR
+                    
+                    let sc = LLFloatv3( acc[i].scale, 2.0 ) * 0.5
+                    let ro = acc[i].rotate
+                    var t = acc[i].position
+                    t.z += visibility_z
+                    acc[i].matrix = LLMatrix4x4.affine3D( scale:sc, rotate:ro, translate:t )
+                }
+                
+                // 親子関係含めた計算
+                let sorted_shapes = BBPool.shared.shapes( on:storage ).sorted { s0, s1 in s0.childDepth <= s1.childDepth }
+                for shape in sorted_shapes {
+                    guard let parent = shape.parent else { continue }
+                    shape.matrix = parent.matrix * shape.matrix
+                }
+            }
                         
             // 共通処理
             pass.updatePass( 

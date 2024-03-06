@@ -14,6 +14,8 @@ import simd
 
 extension Lily.Stage.Playground
 {
+    public static let shadowCascadesCount:Int = 3
+    
     public enum BufferFormats
     {
         public static let backBuffer:MTLPixelFormat = .bgra8Unorm_srgb

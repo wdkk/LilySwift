@@ -33,13 +33,13 @@ extension Lily.Stage.Playground
             
             // テクスチャ再生成の作業
             let tex_desc = MTLTextureDescriptor.texture2DDescriptor( 
-                pixelFormat:Lily.Stage.BufferFormats.linearSRGBBuffer,
+                pixelFormat:BufferFormats.linearSRGBBuffer,
                 width:size.width.i!,
                 height:size.height.i!,
                 mipmapped:false 
             )
             
-            tex_desc.sampleCount = Lily.Stage.BufferFormats.sampleCount
+            tex_desc.sampleCount = BufferFormats.sampleCount
             tex_desc.storageMode = .private
             tex_desc.textureType = .type2DArray
             tex_desc.arrayLength = viewCount
@@ -55,7 +55,7 @@ extension Lily.Stage.Playground
         // シャドウマップテクスチャの作成
         public func createShadowMap( size:LLSizeInt, arrayLength:Int ) -> MTLTexture? {
             let desc = MTLTextureDescriptor.texture2DDescriptor(
-                pixelFormat: Lily.Stage.BufferFormats.shadowDepth,
+                pixelFormat: BufferFormats.shadowDepth,
                 width: size.width, 
                 height: size.height,
                 mipmapped: false 

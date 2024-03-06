@@ -58,11 +58,11 @@ extension Lily.Stage.Playground
         
         var viewCount:Int = 0
         
-        var uniforms:Lily.Metal.RingBuffer<Shared.GlobalUniformArray>
+        var uniforms:Lily.Metal.RingBuffer<GlobalUniformArray>
     
         var renderFlows:[BaseRenderFlow?] = []
         
-        public var camera:Lily.Stage.Camera = .init(
+        public var camera:Camera = .init(
             perspectiveWith:.init( 0, 1.5, 50.0 ),
             direction: .init( 0.0, 0.0, -1.0 ), 
             up: .init( 0, 1, 0 ), 
@@ -207,30 +207,29 @@ extension Lily.Stage.Playground
                     let anchor_vM = self.calcViewMatrix( drawable:drawable, deviceAnchor:deviceAnchor, viewIndex:view_idx )
                     camera.convertParameters( from:anchor_vM )
                     
-                    let vM = camera.calcViewMatrix()
-                    
-                    
+                    let vM = self.camera.calcViewMatrix()
+                
                     let anchor_projM = self.calcProjectionMatrix(
                         drawable:drawable,
                         deviceAnchor:deviceAnchor,
-                        near: camera.near.d,
-                        far: camera.far.d,
+                        near: self.camera.near.d,
+                        far: self.camera.far.d,
                         viewIndex:view_idx
                     )
                     let projM = anchor_projM
                     
                     //let projM = camera.calcProjectionMatrix()
                     
-                    let orientationM = camera.calcOrientationMatrix()
+                    let orientationM = self.camera.calcOrientationMatrix()
                     
-                    let camera_uniform = Shared.CameraUniform(
+                    let camera_uniform = CameraUniform(
                         viewMatrix:vM, 
                         projectionMatrix:projM,
                         orientationMatrix:orientationM,
-                        position:camera.position,
-                        up:camera.up,
-                        right:camera.right,
-                        direction:camera.direction
+                        position:self.camera.position,
+                        up:self.camera.up,
+                        right:self.camera.right,
+                        direction:self.camera.direction
                     )
                     
                     uni[view_idx] = makeGlobalUniform( 
@@ -241,10 +240,10 @@ extension Lily.Stage.Playground
                     )
                     
                     let cascade_sizes:[Float] = [ 0.1, 20.0, 100.0 ]
-                    let cascade_distances = makeCascadeDistances( sizes:cascade_sizes, viewAngle:camera.viewAngle )
+                    let cascade_distances = self.makeCascadeDistances( sizes:cascade_sizes, viewAngle:camera.viewAngle )
                     
                     // カスケードシャドウのカメラユニフォームを作成
-                    for c_idx in 0 ..< Shared.Const.shadowCascadesCount {
+                    for c_idx in 0 ..< shadowCascadesCount {
                         let center = camera.position + camera.direction * cascade_distances[c_idx]
                         let size = cascade_sizes[c_idx]
 
