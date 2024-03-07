@@ -8,15 +8,15 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#import "Lily.Stage.Playground.ModelObject.h"
+#import "Lily.Stage.Playground.Model.Object.h"
 
 // フラグメントシェーダ
-fragment GBufferFOut Lily_Stage_Playground_Model_Object_Fs
+fragment Model::GBufferFOut Lily_Stage_Playground_Model_Object_Fs
 (
-    const ModelVOut in [[ stage_in ]]
+    const Model::Object::VOut in [[ stage_in ]]
 )
 {
-    BRDFSet brdf;
+    Model::BRDFSet brdf;
     brdf.albedo = saturate( in.color );
     brdf.normal = in.normal;
     brdf.specIntensity = 1.f;
@@ -24,7 +24,7 @@ fragment GBufferFOut Lily_Stage_Playground_Model_Object_Fs
     brdf.ao = 0.f;
     brdf.shadow = 0.f;
 
-    GBufferFOut output = BRDFToGBuffers( brdf );
+    auto output = Model::BRDFToGBuffers( brdf );
     output.GBufferDepth = in.position.z;
     return output;
 }

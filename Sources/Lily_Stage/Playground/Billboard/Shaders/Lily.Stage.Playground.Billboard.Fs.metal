@@ -16,86 +16,89 @@ namespace Lily
     {
         namespace Playground
         {
-            float4 drawPlane( BBVOut in ) {
-                return in.color;
+            namespace Billboard
+            {
+                float4 drawPlane( Billboard::VOut in ) {
+                    return in.color;
+                }
+                
+                float4 drawCircle( Billboard::VOut in ) {
+                    float x = in.xy.x;
+                    float y = in.xy.y;
+                    float r = x * x + y * y;
+                    if( r > 1.0 ) { discard_fragment(); }
+                    return in.color;
+                } 
+                
+                float4 drawBlurryCircle( Billboard::VOut in ) {
+                    float x = in.xy.x;
+                    float y = in.xy.y;
+                    float r = sqrt( x * x + y * y );
+                    if( r > 1.0 ) { discard_fragment(); }
+                    
+                    float4 c = in.color;
+                    c[3] *= (1.0 + cos( r * M_PI_F )) * 0.5;
+                    
+                    return c;
+                } 
+                
+                float4 drawPicture( Billboard::VOut in, texture2d<float> tex ) {
+                    constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
+                    
+                    if( is_null_texture( tex ) ) { discard_fragment(); }
+                    
+                    float4 tex_c = tex.sample( sampler, in.texUV );
+                    float4 c = in.color;
+                    tex_c[3] *= c[3];
+                    return tex_c;
+                } 
+                
+                float4 drawMask( Billboard::VOut in, texture2d<float> tex ) {
+                    constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
+                    
+                    if( is_null_texture( tex ) ) { discard_fragment(); }
+                    
+                    float4 tex_c = tex.sample( sampler, in.texUV );
+                    float4 c = in.color;
+                    c[3] *= tex_c[0];
+                    return c;
+                } 
             }
-            
-            float4 drawCircle( BBVOut in ) {
-                float x = in.xy.x;
-                float y = in.xy.y;
-                float r = x * x + y * y;
-                if( r > 1.0 ) { discard_fragment(); }
-                return in.color;
-            } 
-            
-            float4 drawBlurryCircle( BBVOut in ) {
-                float x = in.xy.x;
-                float y = in.xy.y;
-                float r = sqrt( x * x + y * y );
-                if( r > 1.0 ) { discard_fragment(); }
-                
-                float4 c = in.color;
-                c[3] *= (1.0 + cos( r * M_PI_F )) * 0.5;
-
-                return c;
-            } 
-            
-            float4 drawPicture( BBVOut in, texture2d<float> tex ) {
-                constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
-                
-                if( is_null_texture( tex ) ) { discard_fragment(); }
-                
-                float4 tex_c = tex.sample( sampler, in.texUV );
-                float4 c = in.color;
-                tex_c[3] *= c[3];
-                return tex_c;
-            } 
-            
-            float4 drawMask( BBVOut in, texture2d<float> tex ) {
-                constexpr sampler sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest );
-                
-                if( is_null_texture( tex ) ) { discard_fragment(); }
-                
-                float4 tex_c = tex.sample( sampler, in.texUV );
-                float4 c = in.color;
-                c[3] *= tex_c[0];
-                return c;
-            } 
         }
     }
 }
 
-fragment BBResult Lily_Stage_Playground_Billboard_Fs(
-    const BBVOut in [[ stage_in ]],
+fragment Billboard::Result Lily_Stage_Playground_Billboard_Fs(
+    const Billboard::VOut in [[ stage_in ]],
     texture2d<float> tex [[ texture(1) ]]
 )
 {
-    ShapeType type = ShapeType( in.shapeType );
+    auto type = Billboard::ShapeType( in.shapeType );
     float4 color = float4( 0 );
     switch( type ) {
-        case rectangle:
-            color = Lily::Stage::Playground::drawPlane( in );
+        case Billboard::rectangle:
+            color = Billboard::drawPlane( in );
             break;
-        case triangle:
-            color = Lily::Stage::Playground::drawPlane( in );
+        case Billboard::triangle:
+            color = Billboard::drawPlane( in );
             break;
-        case circle:
-            color = Lily::Stage::Playground::drawCircle( in );
+        case Billboard::circle:
+            color = Billboard::drawCircle( in );
             break;
-        case blurryCircle:
-            color = Lily::Stage::Playground::drawBlurryCircle( in );
+        case Billboard::blurryCircle:
+            color = Billboard::drawBlurryCircle( in );
             break;
-        case picture:
-            color = Lily::Stage::Playground::drawPicture( in, tex );
+        case Billboard::picture:
+            color = Billboard::drawPicture( in, tex );
             break;
-        case mask:
-            color = Lily::Stage::Playground::drawMask( in, tex );
+        case Billboard::mask:
+            color = Billboard::drawMask( in, tex );
             break;
         default:
             discard_fragment();
     }
     
-    BBResult result;
+    Billboard::Result result;
     result.billboardTexture = color;
     result.backBuffer = color;
     return result;

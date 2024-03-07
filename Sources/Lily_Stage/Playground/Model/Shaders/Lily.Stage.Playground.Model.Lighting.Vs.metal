@@ -8,9 +8,9 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#import "Lily.Stage.Playground.ModelLighting.h"
+#import "Lily.Stage.Playground.Model.Lighting.h"
 
-vertex LightingVOut Lily_Stage_Playground_Model_Lighting_Vs
+vertex Model::Lighting::VOut Lily_Stage_Playground_Model_Lighting_Vs
 ( 
  uint vid [[vertex_id]],
  ushort amp_id [[ amplification_id ]]
@@ -22,7 +22,7 @@ vertex LightingVOut Lily_Stage_Playground_Model_Lighting_Vs
         float2(-1,  3)
     };
 
-    LightingVOut out;
+    Model::Lighting::VOut out;
     out.position = float4( vertices[vid], 1.0, 1.0 );
     out.ampID = amp_id;
     return out;

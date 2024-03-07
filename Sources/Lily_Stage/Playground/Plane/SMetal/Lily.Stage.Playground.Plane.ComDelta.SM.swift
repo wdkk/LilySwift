@@ -11,24 +11,23 @@
 import Metal
 import simd
 
-extension Lily.Stage.Playground.Billboard
+extension Lily.Stage.Playground.Plane
 {
     public static var ComDelta_SMetal:String { """
-    //#import "Lily.Stage.Playground.Billboard.h"
-    \(Lily.Stage.Playground.Billboard.h_SMetal)
+    //#import "Lily.Stage.Playground.Plane.h"
+    \(Lily.Stage.Playground.Plane.h_SMetal)
     
-    kernel void Lily_Stage_Playground_Billboard_Com_Delta
+    kernel void Lily_Stage_Playground_Plane_Com_Delta
     (
      constant GlobalUniformArray& uniformArray [[ buffer(0) ]],
-     device BBUnitStatus* statuses [[ buffer(1) ]],
+     device Plane::UnitStatus* statuses [[ buffer(1) ]],
      uint gid [[thread_position_in_grid]]
     )
     {
         auto us = statuses[gid];
-        
+            
         us.position += us.deltaPosition;
         us.scale += us.deltaScale;
-        us.rotation += us.deltaRotation;
         us.angle += us.deltaAngle;
         us.color += us.deltaColor;
         us.life += us.deltaLife;

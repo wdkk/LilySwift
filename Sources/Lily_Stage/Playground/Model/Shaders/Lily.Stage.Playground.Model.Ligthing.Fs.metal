@@ -8,7 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#import "Lily.Stage.Playground.ModelLighting.h"
+#import "Lily.Stage.Playground.Model.Lighting.h"
 
 static float3 getWorldPositionAndViewDirectionFromDepth
 (
@@ -90,15 +90,15 @@ static float evaluateShadow
     return shadow;
 }
 
-fragment LightingFOut Lily_Stage_Playground_Model_Lighting_Fs
+fragment Model::Lighting::FOut Lily_Stage_Playground_Model_Lighting_Fs
 (
-    LightingVOut             in          [[ stage_in ]],
-    lily_memory_float4       GBuffer0Mem [[ lily_memory(IDX_GBUFFER_0) ]],
-    lily_memory_float4       GBuffer1Mem [[ lily_memory(IDX_GBUFFER_1) ]],
-    lily_memory_float4       GBuffer2Mem [[ lily_memory(IDX_GBUFFER_2) ]],
-    lily_memory_depth        depthMem    [[ lily_memory(IDX_GBUFFER_DEPTH) ]],
-    depth2d_array <float>    shadowMap   [[ texture(IDX_SHADOW_MAP) ]],
-    texturecube <float>      cubeMap     [[ texture(IDX_CUBE_MAP) ]],
+    Model::Lighting::VOut    in          [[ stage_in ]],
+    lily_memory_float4       GBuffer0Mem [[ lily_memory(Model::IDX_GBUFFER_0) ]],
+    lily_memory_float4       GBuffer1Mem [[ lily_memory(Model::IDX_GBUFFER_1) ]],
+    lily_memory_float4       GBuffer2Mem [[ lily_memory(Model::IDX_GBUFFER_2) ]],
+    lily_memory_depth        depthMem    [[ lily_memory(Model::IDX_GBUFFER_DEPTH) ]],
+    depth2d_array <float>    shadowMap   [[ texture(Model::IDX_SHADOW_MAP) ]],
+    texturecube <float>      cubeMap     [[ texture(Model::IDX_CUBE_MAP) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(0) ]],
     const device float4& clearColor [[ buffer(1) ]]
 )
@@ -117,7 +117,7 @@ fragment LightingFOut Lily_Stage_Playground_Model_Lighting_Fs
     // デプス = 1の時はキューブマップから値をとって適用
     if( depth == 1 ) {
         float4 cubeMapColor = is_null_texture( cubeMap ) ? clearColor : float4( cubeMap.sample( colorSampler, viewDirection, level(0) ).xyz, 1 );
-        LightingFOut res;
+        Model::Lighting::FOut res;
         res.backBuffer = cubeMapColor;
         return res;
     }
@@ -126,7 +126,7 @@ fragment LightingFOut Lily_Stage_Playground_Model_Lighting_Fs
     const float4 GBuffer1 = MemoryLess::float4OfPos( pixelPos, GBuffer1Mem );
     const float4 GBuffer2 = MemoryLess::float4OfPos( pixelPos, GBuffer2Mem );
     
-    BRDFSet brdf = GBuffersToBRDF( GBuffer0, GBuffer1, GBuffer2 );
+    auto brdf = Model::GBuffersToBRDF( GBuffer0, GBuffer1, GBuffer2 );
     
     // 影の量
     const float shadowAmount = evaluateShadow( uniform, worldPosition, depth, shadowMap );
@@ -158,7 +158,7 @@ fragment LightingFOut Lily_Stage_Playground_Model_Lighting_Fs
     const float3 hazeColor = saturate( hazeMapColor * 3.0 + 0.1) ;
     color = mix(color, hazeColor, float3(hazeAmount));
 
-    LightingFOut res;
+    Model::Lighting::FOut res;
     res.backBuffer = float4( color, 1 );
     return res;
 }

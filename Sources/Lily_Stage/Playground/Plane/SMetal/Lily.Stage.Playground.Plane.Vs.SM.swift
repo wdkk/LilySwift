@@ -17,12 +17,12 @@ extension Lily.Stage.Playground.Plane
     //#import "Lily.Stage.Playground.Plane.h"
     \(Lily.Stage.Playground.Plane.h_SMetal)
     
-    vertex PlaneVOut Lily_Stage_Playground_Plane_Vs
+    vertex Plane::VOut Lily_Stage_Playground_Plane_Vs
     (
-        const device PlaneVIn* in [[ buffer(0) ]],
+        const device Plane::VIn* in [[ buffer(0) ]],
         constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
-        constant LocalUniform &localUniform [[ buffer(2) ]],
-        const device PlaneUnitStatus* statuses [[ buffer(3) ]],
+        constant Plane::LocalUniform &localUniform [[ buffer(2) ]],
+        const device Plane::UnitStatus* statuses [[ buffer(3) ]],
         ushort amp_id [[ amplification_id ]],
         uint vid [[ vertex_id ]],
         uint iid [[ instance_id ]]
@@ -31,31 +31,31 @@ extension Lily.Stage.Playground.Plane
         auto us = statuses[iid];
         
         if( us.compositeType != localUniform.shaderCompositeType ) { 
-            PlaneVOut trush_vout;
-            trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
+            Plane::VOut trush_vout;
+            trush_vout.pos = float4( 0, Plane::TOO_FAR, 0.0, 0 );
             return trush_vout;
         }
 
         // 三角形が指定されているが, 描画が三角形でない場合
-        if( us.shapeType == ShapeType::triangle && localUniform.drawingType != DrawingType::triangles ) {
-            PlaneVOut trush_vout;
-            trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
+        if( us.shapeType == Plane::ShapeType::triangle && localUniform.drawingType != Plane::DrawingType::triangles ) {
+            Plane::VOut trush_vout;
+            trush_vout.pos = float4( 0, Plane::TOO_FAR, 0.0, 0 );
             return trush_vout;    
         }
         
         // 三角形以外が指定されているが、描画が三角形である場合
-        if( us.shapeType != ShapeType::triangle && localUniform.drawingType == DrawingType::triangles ) {
-            PlaneVOut trush_vout;
-            trush_vout.pos = float4( 0, TOO_FAR, 0.0, 0 );
+        if( us.shapeType != Plane::ShapeType::triangle && localUniform.drawingType == Plane::DrawingType::triangles ) {
+            Plane::VOut trush_vout;
+            trush_vout.pos = float4( 0, Plane::TOO_FAR, 0.0, 0 );
             return trush_vout;    
         }
             
         //GlobalUniform uniform = uniformArray.uniforms[amp_id];
         
         const int offset = localUniform.drawingOffset;
-        PlaneVIn vin = in[offset + vid];
+        auto vin = in[offset + vid];
         
-        float z = (Z_INDEX_MAX - us.zIndex) / Z_INDEX_MAX;
+        float z = (Plane::Z_INDEX_MAX - us.zIndex) / Plane::Z_INDEX_MAX;
         float4 coord = float4( vin.xy, z, 1 );
         
         float2 local_uv = vin.texUV;
@@ -65,7 +65,7 @@ extension Lily.Stage.Playground.Plane
             atlas_uv[1] * (1.0-local_uv.y) + atlas_uv[3] * local_uv.y
         };
 
-        PlaneVOut vout;
+        Plane::VOut vout;
         vout.pos = localUniform.projectionMatrix * us.matrix * coord;
         vout.xy = vin.xy;
         vout.texUV = tex_uv;

@@ -10,43 +10,43 @@
 
 #import "Lily.Stage.Playground.Billboard.h"
 
-vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
-    const device BBVIn* in [[ buffer(0) ]],
+vertex Billboard::VOut Lily_Stage_Playground_Billboard_Vs(
+    const device Billboard::VIn* in [[ buffer(0) ]],
     constant GlobalUniformArray& uniformArray [[ buffer(1) ]],
-    constant BBLocalUniform &localUniform [[ buffer(2) ]],
-    const device BBUnitStatus* statuses [[ buffer(3) ]],
+    constant Billboard::LocalUniform &localUniform [[ buffer(2) ]],
+    const device Billboard::UnitStatus* statuses [[ buffer(3) ]],
     ushort amp_id [[ amplification_id ]],
     uint vid [[ vertex_id ]],
     uint iid [[ instance_id ]]
 )
 {
-    BBUnitStatus us = statuses[iid];
+    auto us = statuses[iid];
     
     if( us.compositeType != localUniform.shaderCompositeType ) { 
-        BBVOut trush_vout;
-        trush_vout.pos = float4( 0, 0, TOO_FAR, 0 );
+        Billboard::VOut trush_vout;
+        trush_vout.pos = float4( 0, 0, Billboard::TOO_FAR, 0 );
         return trush_vout;
     }
 
     // 三角形が指定されているが, 描画が三角形でない場合
-    if( us.shapeType == ShapeType::triangle && localUniform.drawingType != DrawingType::triangles ) {
-        BBVOut trush_vout;
-        trush_vout.pos = float4( 0, 0, TOO_FAR, 0 );
+    if( us.shapeType == Billboard::ShapeType::triangle && localUniform.drawingType != Billboard::DrawingType::triangles ) {
+        Billboard::VOut trush_vout;
+        trush_vout.pos = float4( 0, 0, Billboard::TOO_FAR, 0 );
         return trush_vout;    
     }
     
     // 三角形以外が指定されているが、描画が三角形である場合
-    if( us.shapeType != ShapeType::triangle && localUniform.drawingType == DrawingType::triangles ) {
-        BBVOut trush_vout;
-        trush_vout.pos = float4( 0, 0, TOO_FAR, 0 );
+    if( us.shapeType != Billboard::ShapeType::triangle && localUniform.drawingType == Billboard::DrawingType::triangles ) {
+        Billboard::VOut trush_vout;
+        trush_vout.pos = float4( 0, 0, Billboard::TOO_FAR, 0 );
         return trush_vout;    
     }
      
-    GlobalUniform uniform = uniformArray.uniforms[amp_id];
-    CameraUniform camera = uniform.cameraUniform;
+    auto uniform = uniformArray.uniforms[amp_id];
+    auto camera = uniform.cameraUniform;
  
     const int offset = localUniform.drawingOffset;
-    BBVIn vin = in[offset + vid];
+    auto vin = in[offset + vid];
     
     // スケーリング
     float3 sc = us.scale;
@@ -105,7 +105,7 @@ vertex BBVOut Lily_Stage_Playground_Billboard_Vs(
         atlas_uv[1] * (1.0-local_uv.y) + atlas_uv[3] * local_uv.y
     };
 
-    BBVOut vout;
+    Billboard::VOut vout;
     vout.pos = billboard_pos;
     vout.xy = vin.xyzw.xy;
     vout.texUV = tex_uv;

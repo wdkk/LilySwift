@@ -13,7 +13,7 @@
 kernel void Lily_Stage_Playground_Billboard_Com_Delta
 (
  constant GlobalUniformArray& uniformArray [[ buffer(0) ]],
- device BBUnitStatus* statuses [[ buffer(1) ]],
+ device Billboard::UnitStatus* statuses [[ buffer(1) ]],
  uint gid [[thread_position_in_grid]]
 )
 {

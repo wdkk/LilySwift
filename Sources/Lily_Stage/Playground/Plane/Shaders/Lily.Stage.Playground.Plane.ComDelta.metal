@@ -13,7 +13,7 @@
 kernel void Lily_Stage_Playground_Plane_Com_Delta
 (
  constant GlobalUniformArray& uniformArray [[ buffer(0) ]],
- device PlaneUnitStatus* statuses [[ buffer(1) ]],
+ device Plane::UnitStatus* statuses [[ buffer(1) ]],
  uint gid [[thread_position_in_grid]]
 )
 {
