@@ -38,7 +38,7 @@ vertex ModelVOut Lily_Stage_Playground_Model_Object_Vs
     
     // アフィン変換の作成
     float3 pos = us.position;
-    float3 ro = us.rotate;
+    float3 ro = us.rotation;
     float3 sc = us.scale;
     
     float4x4 TRS = affineTransform( pos, sc, ro );

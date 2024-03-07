@@ -181,7 +181,7 @@ func design( screen:PGScreen ) {
     ModelObj( assetName:"yukidaruma" )
     .position( cx:0.0, cy:0.0, cz:0.0 )
     .scale( x: 30, y: 30, z:30 )
-    .rotate( rx:0, ry:LLAngle(degrees:-45.0).radians.f, rz:0 )
+    .rotation( rx:0, ry:LLAngle(degrees:-45.0).radians.f, rz:0 )
     
     ModelObj( assetName:"plane" ) 
     .position( cx:0.0, cy:0.0, cz:0.0 )
@@ -193,8 +193,7 @@ func design( screen:PGScreen ) {
     .deltaAngle( degrees:1.0 )
 
     for _ in 0 ..< 160 {
-        //BBAddBlurryCircle()
-        BBRectangle()
+        BBAddBlurryCircle()
         .parent( p )
         .color( LLColor( 0.25, 0.8, 1.0, 1.0 ) )
         .position(

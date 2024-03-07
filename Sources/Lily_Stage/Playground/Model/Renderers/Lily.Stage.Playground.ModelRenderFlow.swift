@@ -152,7 +152,7 @@ extension Lily.Stage.Playground.Model
                     if acc[i].enabled == false || acc[i].state == .trush { continue }
                     acc[i].position += acc[i].deltaPosition
                     acc[i].scale += acc[i].deltaScale
-                    acc[i].rotate += acc[i].deltaRotate
+                    acc[i].rotation += acc[i].deltaRotation
                     acc[i].color += acc[i].deltaColor
                     acc[i].life += acc[i].deltaLife
                 }

@@ -29,11 +29,6 @@ public extension NSImage
         let lcimg = NSImage2LCImage( self )
         if LCImageWidth( lcimg ) == 0 { return nil }
         return LLImage( lcimg )
-        /*
-        guard let cgimg = self.cgImage else { return nil }
-        let lcimg = CGImage2LCImage( cgimg )
-        return LLImage( lcimg )
-        */
     }
     
     func BGRtoRGB() -> NSImage {
@@ -75,7 +70,7 @@ public extension NSImage
         guard let outputTexture = device.makeTexture(descriptor: outputTextureDescriptor) else { return self }
         
         // Create Metal compute pipeline
-        let defaultLibrary = device.makeDefaultLibrary()
+        //let defaultLibrary = device.makeDefaultLibrary()
         let kernelFunction = Lily.Metal.Shader( device:device, code:code, shaderName:"bgraToRgba" )
         
         do {

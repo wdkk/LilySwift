@@ -63,7 +63,7 @@ public extension UIImage
         guard let outputTexture = device.makeTexture(descriptor: outputTextureDescriptor) else { return self }
         
         // Create Metal compute pipeline
-        let defaultLibrary = device.makeDefaultLibrary()
+        //let defaultLibrary = device.makeDefaultLibrary()
         let kernelFunction = Lily.Metal.Shader( device:device, code:code, shaderName:"bgraToRgba" )
         
         do {

@@ -37,8 +37,8 @@ struct ModelUnitStatus
     float3   deltaPosition;
     float3   scale;
     float3   deltaScale;
-    float3   rotate;
-    float3   deltaRotate;
+    float3   rotation;
+    float3   deltaRotation;
     float    life;
     float    deltaLife;
     float    enabled;
