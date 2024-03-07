@@ -14,7 +14,7 @@ import simd
 
 extension Lily.Stage.Playground.Model
 {
-    open class ModelPass
+    open class Pass
     { 
         var device:MTLDevice
         
@@ -24,7 +24,7 @@ extension Lily.Stage.Playground.Model
         public var GBufferPassDesc:MTLRenderPassDescriptor?
         public var GBufferDepthState:MTLDepthStencilState?
         
-        public init( device:MTLDevice, renderTextures:ModelRenderTextures ) {
+        public init( device:MTLDevice, renderTextures:RenderTextures ) {
             self.device = device
             
             // シャドウレンダーパスの準備
@@ -72,7 +72,7 @@ extension Lily.Stage.Playground.Model
         }
         
         public func updatePass( 
-            renderTextures:ModelRenderTextures, 
+            renderTextures:RenderTextures, 
             rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
             renderTargetCount:Int
         ) 

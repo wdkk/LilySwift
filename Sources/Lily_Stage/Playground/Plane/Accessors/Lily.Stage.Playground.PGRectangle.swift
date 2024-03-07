@@ -15,7 +15,7 @@ extension Lily.Stage.Playground.Plane
     public class PGRectangle : PGActor
     {        
         @discardableResult
-        public override init( storage:PlaneStorage? = PlaneStorage.current ) {
+        public override init( storage:Storage? = Storage.current ) {
             super.init( storage:storage )
             status?.shapeType = .rectangle
             status?.compositeType = .alpha
@@ -25,7 +25,7 @@ extension Lily.Stage.Playground.Plane
     public class PGAddRectangle : PGActor
     {        
         @discardableResult
-        public override init( storage:PlaneStorage? = PlaneStorage.current ) {
+        public override init( storage:Storage? = Storage.current ) {
             super.init( storage:storage )
             status?.shapeType = .rectangle
             status?.compositeType = .add
@@ -35,7 +35,7 @@ extension Lily.Stage.Playground.Plane
     public class PGSubRectangle : PGActor
     {        
         @discardableResult
-        public override init( storage:PlaneStorage? = PlaneStorage.current ) {
+        public override init( storage:Storage? = Storage.current ) {
             super.init( storage:storage )
             status?.shapeType = .rectangle
             status?.compositeType = .sub

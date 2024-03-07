@@ -13,7 +13,7 @@ import simd
 
 extension Lily.Stage.Playground.Plane
 {
-    open class PlaneAlphaRenderer
+    open class SubRenderer
     {
         public var device: MTLDevice
         
@@ -21,9 +21,9 @@ extension Lily.Stage.Playground.Plane
         
         public init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
             self.device = device
-            
+           
             let desc = MTLRenderPipelineDescriptor()
-            desc.label = "Playground 2D Geometry(AlphaBlend)"
+            desc.label = "Playground 2D Geometry(SubBlend)"
             
             if environment == .metallib {
                 let library = try! Lily.Stage.metalLibrary( of:device )
@@ -35,13 +35,13 @@ extension Lily.Stage.Playground.Plane
                 desc.vertexShader( sMetal.vertexShader )
                 desc.fragmentShader( sMetal.fragmentShader )            
             }
-            
+
             desc.rasterSampleCount = Lily.Stage.Playground.BufferFormats.sampleCount
             
             desc.colorAttachments[0].pixelFormat = Lily.Stage.Playground.BufferFormats.linearSRGBBuffer
-            desc.colorAttachments[0].composite( type:.alphaBlend )
+            desc.colorAttachments[0].composite( type:.sub )
             desc.colorAttachments[1].pixelFormat = Lily.Stage.Playground.BufferFormats.backBuffer
-            desc.colorAttachments[1].composite( type:.alphaBlend )
+            desc.colorAttachments[1].composite( type:.sub )
             desc.depthAttachmentPixelFormat = Lily.Stage.Playground.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
@@ -54,7 +54,7 @@ extension Lily.Stage.Playground.Plane
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
-            storage:PlaneStorage,
+            storage:Storage,
             screenSize:CGSize
         ) 
         {
@@ -62,15 +62,14 @@ extension Lily.Stage.Playground.Plane
             
             // プロジェクション行列を画面のピクセルサイズ変換に指定
             // シェーダの合成タイプの設定も行う
-            var local_uniform = PlaneLocalUniform( 
+            var local_uniform = LocalUniform( 
                 projectionMatrix:.pixelXYProjection( screenSize ),
-                shaderCompositeType:.alpha,
-                drawingType:.quadrangles
+                shaderCompositeType:.sub
             )
             
             renderEncoder?.setVertexBuffer( storage.particles.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
-            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<PlaneLocalUniform>.stride, index:2 ) 
+            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
@@ -85,7 +84,7 @@ extension Lily.Stage.Playground.Plane
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
-            storage:PlaneStorage,
+            storage:Storage,
             screenSize:CGSize
         ) 
         {
@@ -93,15 +92,15 @@ extension Lily.Stage.Playground.Plane
             
             // プロジェクション行列を画面のピクセルサイズ変換に指定
             // シェーダの合成タイプの設定も行う
-            var local_uniform = PlaneLocalUniform( 
+            var local_uniform = LocalUniform( 
                 projectionMatrix:.pixelXYProjection( screenSize ),
-                shaderCompositeType:.alpha,
+                shaderCompositeType:.sub,
                 drawingType:.triangles
             )
             
             renderEncoder?.setVertexBuffer( storage.particles.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
-            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<PlaneLocalUniform>.stride, index:2 ) 
+            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 

@@ -15,7 +15,7 @@ extension Lily.Stage.Playground.Plane
     public class PGPicture : PGActor
     {        
         @discardableResult
-        public init( storage:PlaneStorage? = PlaneStorage.current, _ assetName:String ) {
+        public init( storage:Storage? = Storage.current, _ assetName:String ) {
             super.init( storage:storage )
             status?.shapeType = .picture
             status?.compositeType = .alpha
@@ -26,7 +26,7 @@ extension Lily.Stage.Playground.Plane
     public class PGAddPicture : PGActor
     {        
         @discardableResult
-        public init( storage:PlaneStorage? = PlaneStorage.current, _ assetName:String ) {
+        public init( storage:Storage? = Storage.current, _ assetName:String ) {
             super.init( storage:storage )
             status?.shapeType = .picture
             status?.compositeType = .add
@@ -37,7 +37,7 @@ extension Lily.Stage.Playground.Plane
     public class PGSubPicture : PGActor
     {        
         @discardableResult
-        public init( storage:PlaneStorage? = PlaneStorage.current, _ assetName:String ) {
+        public init( storage:Storage? = Storage.current, _ assetName:String ) {
             super.init( storage:storage )
             status?.shapeType = .picture
             status?.compositeType = .sub

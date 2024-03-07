@@ -13,7 +13,7 @@ import simd
 
 extension Lily.Stage.Playground.Billboard
 {
-    open class BBAddRenderer
+    open class SubRenderer
     {
         public var device: MTLDevice
         
@@ -23,7 +23,7 @@ extension Lily.Stage.Playground.Billboard
             self.device = device
             
             let desc = MTLRenderPipelineDescriptor()
-            desc.label = "Playground 3D Geometry(Add)"
+            desc.label = "Playground 3D Geometry(Sub)"
             
             if environment == .metallib {
                 let library = try! Lily.Stage.metalLibrary( of:device )
@@ -51,20 +51,20 @@ extension Lily.Stage.Playground.Billboard
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            storage:Lily.Stage.Playground.Billboard.BBStorage
+            storage:Lily.Stage.Playground.Billboard.Storage
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )
             
             // シェーダの合成タイプの設定も行う
-            var local_uniform = BBLocalUniform( 
-                shaderCompositeType:.add,
+            var local_uniform = LocalUniform( 
+                shaderCompositeType:.sub,
                 drawingType:.quadrangles
             )
             
             renderEncoder?.setVertexBuffer( storage.particles.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
-            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<BBLocalUniform>.stride, index:2 ) 
+            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
@@ -78,20 +78,20 @@ extension Lily.Stage.Playground.Billboard
         public func drawTriangle( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            storage:Lily.Stage.Playground.Billboard.BBStorage
+            storage:Lily.Stage.Playground.Billboard.Storage
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )
             
             // シェーダの合成タイプの設定も行う
-            var local_uniform = BBLocalUniform(
-                shaderCompositeType:.add,
+            var local_uniform = LocalUniform(
+                shaderCompositeType:.sub,
                 drawingType:.triangles
             )
             
             renderEncoder?.setVertexBuffer( storage.particles.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
-            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<BBLocalUniform>.stride, index:2 ) 
+            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 

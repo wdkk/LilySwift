@@ -11,22 +11,19 @@
 import Metal
 import simd
 
-extension Lily.Stage.Playground.Plane
+extension Lily.Stage.Playground.Billboard
 {    
-    public struct PlaneLocalUniform
+    public struct LocalUniform
     {        
-        var projectionMatrix:LLMatrix4x4
         var shaderCompositeType:LLUInt32
         var drawingType:LLUInt32
         var drawingOffset:LLInt32
         
         public init(
-            projectionMatrix: LLMatrix4x4 = .identity,
-            shaderCompositeType:CompositeType = .none,
+            shaderCompositeType: CompositeType = .none,
             drawingType:DrawingType = .quadrangles
         ) 
         {
-            self.projectionMatrix = projectionMatrix
             self.shaderCompositeType = shaderCompositeType.rawValue
             self.drawingType = drawingType.rawValue
             self.drawingOffset = drawingType == .quadrangles ? 0 : 4

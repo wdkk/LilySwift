@@ -18,19 +18,19 @@ public protocol Lily_Stage_Playground_PGSceneProtocol
     typealias PG = Lily.Stage.Playground
     
     // MARK: 描画テクスチャ
-    var modelRenderTextures:PG.Model.ModelRenderTextures { get set }
+    var modelRenderTextures:PG.Model.RenderTextures { get set }
     var mediumTexture:PG.MediumTexture { get set }
     
     // MARK: ストレージ
-    var planeStorage:PG.Plane.PlaneStorage? { get set }
-    var modelStorage:PG.Model.ModelStorage? { get set }
-    var bbStorage:PG.Billboard.BBStorage? { get set }
+    var planeStorage:PG.Plane.Storage? { get set }
+    var modelStorage:PG.Model.Storage? { get set }
+    var bbStorage:PG.Billboard.Storage? { get set }
     
     // MARK: レンダーフロー
     var clearRenderFlow:PG.ClearRenderFlow? { get set }
     var planeRenderFlow:PG.Plane.PlaneRenderFlow? { get set }
-    var modelRenderFlow:PG.Model.ModelRenderFlow? { get set }
-    var bbRenderFlow:PG.Billboard.BBRenderFlow? { get set }
+    var modelRenderFlow:PG.Model.RenderFlow? { get set }
+    var bbRenderFlow:PG.Billboard.RenderFlow? { get set }
     var sRGBRenderFlow:PG.SRGBRenderFlow? { get set }
     
     // MARK: - 背景色情報
@@ -87,9 +87,9 @@ extension Lily_Stage_Playground_PGSceneProtocol
     }
         
     public func setCurrentStorage() {
-        PG.Plane.PlaneStorage.current = self.planeStorage
-        PG.Billboard.BBStorage.current = self.bbStorage
-        PG.Model.ModelStorage.current = self.modelStorage
+        PG.Plane.Storage.current = self.planeStorage
+        PG.Billboard.Storage.current = self.bbStorage
+        PG.Model.Storage.current = self.modelStorage
     }
             
     public func checkPlanesStatus() {
@@ -189,9 +189,9 @@ extension Lily_Stage_Playground_PGSceneProtocol
     }
     
     public mutating func changeStorages(
-        planeStorage:PG.Plane.PlaneStorage?,
-        bbStorage:PG.Billboard.BBStorage?,
-        modelStorage:PG.Model.ModelStorage?,
+        planeStorage:PG.Plane.Storage?,
+        bbStorage:PG.Billboard.Storage?,
+        modelStorage:PG.Model.Storage?,
         design:(( Self )->Void)?,
         update:(( Self )->Void)?,
         resize:(( Self )->Void)?

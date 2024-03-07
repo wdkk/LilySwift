@@ -18,7 +18,7 @@ import UIKit
 
 extension Lily.Stage.Playground.Model
 {   
-    open class ModelObjectRenderer
+    open class ObjectRenderer
     {
         public var device: MTLDevice
         
@@ -83,7 +83,7 @@ extension Lily.Stage.Playground.Model
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            storage:ModelStorage
+            storage:Storage
         )
         {
             guard let obj_pp = objectPipeline else { return }
@@ -113,7 +113,7 @@ extension Lily.Stage.Playground.Model
             with renderEncoder:MTLRenderCommandEncoder?, 
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
             shadowCamVPMatrices:[LLMatrix4x4],
-            storage:ModelStorage,
+            storage:Storage,
             cascadeIndex:Int 
         )
         {

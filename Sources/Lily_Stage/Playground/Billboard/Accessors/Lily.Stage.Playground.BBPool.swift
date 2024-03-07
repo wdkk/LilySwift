@@ -18,24 +18,24 @@ extension Lily.Stage.Playground.Billboard
         public static var shared:BBPool = .init()
         private init() {}
         
-        private var actorGroup:[BBStorage:Set<BBActor>] = [:]
+        private var actorGroup:[Storage:Set<BBActor>] = [:]
         
-        public func shapes( on storage:BBStorage? ) -> Set<BBActor> { 
+        public func shapes( on storage:Storage? ) -> Set<BBActor> { 
             guard let storage = storage else { return [] }
             return actorGroup[storage] ?? [] 
         }
         
-        public func insert( shape:BBActor, to storage:BBStorage? ) {
+        public func insert( shape:BBActor, to storage:Storage? ) {
             guard let storage = storage else { return }
             if actorGroup[storage] == nil { actorGroup[storage] = [] }
             actorGroup[storage]?.insert( shape ) 
         }
-        public func remove( shape:BBActor, to storage:BBStorage? ) {
+        public func remove( shape:BBActor, to storage:Storage? ) {
             guard let storage = storage else { return }
             actorGroup[storage]?.remove( shape )
         }
         
-        public func removeAllShapes( on storage:BBStorage? ) { 
+        public func removeAllShapes( on storage:Storage? ) { 
             guard let storage = storage else { return }
             actorGroup[storage]?.forEach { $0.trush() } 
         }

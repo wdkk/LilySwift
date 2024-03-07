@@ -10,49 +10,49 @@
 
 import Metal
 
-extension Lily.Stage.Playground.Plane
+extension Lily.Stage.Playground.Billboard
 {
-    public struct PlaneVIn
+    public struct VIn
     {
-        var xy = LLFloatv2()    // -1.0 ~ 1.0, 中央が0.0のローカル座標系
-        var uv = LLFloatv2()    // 0.0 ~ 1.0, 左上が0.0のラスタ座標系
-        var texUV = LLFloatv2() // 0.0 ~ 1.0 テクスチャのuv座標
+        var xyzw  = LLFloatv4()    // -1.0 ~ 1.0, 中央が0.0のローカル座標系
+        var uv    = LLFloatv2()    // 0.0 ~ 1.0, 左上が0.0のラスタ座標系
+        var texUV = LLFloatv2()    // 0.0 ~ 1.0 テクスチャのuv座標
         
-        public init( xy:LLFloatv2, uv:LLFloatv2, texUV:LLFloatv2 ) {
-            self.xy = xy
-            self.uv = uv
+        public init( xyz:LLFloatv3, uv:LLFloatv2, texUV:LLFloatv2 ) {
+            self.xyzw  = LLFloatv4( xyz, 1.0 )
+            self.uv    = uv
             self.texUV = texUV
         }
     }
     
-    open class PlaneStorage : Hashable
+    open class Storage : Hashable
     {
         // Hashableの実装
-        public static func == ( lhs:PlaneStorage, rhs:PlaneStorage ) -> Bool { lhs === rhs }
+        public static func == ( lhs:Storage, rhs:Storage ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
         
-        public static var current:PlaneStorage? = nil
+        public static var current:Storage? = nil
         
-        public var particles:Lily.Stage.Model.Quadrangles<PlaneVIn>
-        public var statuses:Lily.Metal.Buffer<PlaneUnitStatus>
+        public var particles:Lily.Stage.Model.Quadrangles<VIn>
+        public var statuses:Lily.Metal.Buffer<UnitStatus>
         public var reuseIndice:[Int]
         
         public var textureAtlas:Lily.Metal.TextureAtlas
         
         public var capacity:Int
         
-        static let defaultQuadrangleVertice = LLQuad<PlaneVIn>(
-            .init( xy:.init( -1.0,  1.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) ),
-            .init( xy:.init(  1.0,  1.0 ), uv:.init( 1.0, 0.0 ), texUV:.init( 1.0, 0.0 ) ),
-            .init( xy:.init( -1.0, -1.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 1.0 ) ),
-            .init( xy:.init(  1.0, -1.0 ), uv:.init( 1.0, 1.0 ), texUV:.init( 1.0, 1.0 ) )
+        static let defaultQuadrangleVertice = LLQuad<VIn>(
+            .init( xyz:.init( -1.0,  1.0, 0.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) ),
+            .init( xyz:.init(  1.0,  1.0, 0.0 ), uv:.init( 1.0, 0.0 ), texUV:.init( 1.0, 0.0 ) ),
+            .init( xyz:.init( -1.0, -1.0, 0.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 1.0 ) ),
+            .init( xyz:.init(  1.0, -1.0, 0.0 ), uv:.init( 1.0, 1.0 ), texUV:.init( 1.0, 1.0 ) )
         )
         
-        static let defaultTriangleVertice = LLQuad<PlaneVIn>(
-            .init( xy:.init(  0.0,  1.15470053838 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 0.0 ) ),
-            .init( xy:.init( -1.0, -0.57735026919 ), uv:.init(-1.0, 1.0 ), texUV:.init( 1.0, 0.0 ) ),
-            .init( xy:.init(  1.0, -0.57735026919 ), uv:.init( 1.0,-1.0 ), texUV:.init( 0.0, 1.0 ) ),
-            .init( xy:.init(  0.0,  0.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) )
+        static let defaultTriangleVertice = LLQuad<VIn>(
+            .init( xyz:.init(  0.0,  1.15470053838, 0.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 0.0 ) ),
+            .init( xyz:.init( -1.0, -0.57735026919, 0.0 ), uv:.init(-1.0, 1.0 ), texUV:.init( 1.0, 0.0 ) ),
+            .init( xyz:.init(  1.0, -0.57735026919, 0.0 ), uv:.init( 1.0,-1.0 ), texUV:.init( 0.0, 1.0 ) ),
+            .init( xyz:.init(  0.0,  0.0, 0.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) )
         )
         
         public static func playgroundDefault( 
@@ -60,7 +60,7 @@ extension Lily.Stage.Playground.Plane
             capacity:Int = 2000,
             appendTextures:[String] = []
         )
-        -> PlaneStorage 
+        -> Storage 
         {
             var texs = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
             texs.append( contentsOf:appendTextures )
@@ -71,7 +71,7 @@ extension Lily.Stage.Playground.Plane
             )
         }
         
-        public init(
+        public init( 
             device:MTLDevice, 
             capacity:Int,
             textures:[String]
@@ -105,7 +105,7 @@ extension Lily.Stage.Playground.Plane
         // パーティクルの確保をリクエストする
         public func request() -> Int {
             guard let idx = reuseIndice.popLast() else { 
-                LLLogWarning( "Playground.Storage: ストレージの容量を超えたリクエストです. インデックス=capacityを返します" )
+                LLLogWarning( "Playground.BBStorage: ストレージの容量を超えたリクエストです. インデックス=capacityを返します" )
                 return capacity
             }
             statuses.accessor?[idx] = .init()
@@ -113,7 +113,7 @@ extension Lily.Stage.Playground.Plane
             return idx
         }
         
-        // パーティクルをデータ的廃棄する
+        // パーティクルをデータ上で廃棄する
         public func trush( index idx:Int ) {
             statuses.update( at:idx ) { us in
                 us.state = .trush

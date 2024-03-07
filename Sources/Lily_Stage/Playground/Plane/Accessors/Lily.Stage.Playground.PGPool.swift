@@ -18,24 +18,24 @@ extension Lily.Stage.Playground.Plane
         public static var shared:PGPool = .init()
         private init() {}
         
-        private var actorGroup:[PlaneStorage:Set<PGActor>] = [:]
+        private var actorGroup:[Storage:Set<PGActor>] = [:]
         
-        public func shapes( on storage:PlaneStorage? ) -> Set<PGActor> { 
+        public func shapes( on storage:Storage? ) -> Set<PGActor> { 
             guard let storage = storage else { return [] }
             return actorGroup[storage] ?? [] 
         }
         
-        public func insert( shape:PGActor, to storage:PlaneStorage? ) {
+        public func insert( shape:PGActor, to storage:Storage? ) {
             guard let storage = storage else { return }
             if actorGroup[storage] == nil { actorGroup[storage] = [] }
             actorGroup[storage]?.insert( shape ) 
         }
-        public func remove( shape:PGActor, to storage:PlaneStorage? ) {
+        public func remove( shape:PGActor, to storage:Storage? ) {
             guard let storage = storage else { return }
             actorGroup[storage]?.remove( shape )
         }
         
-        public func removeAllShapes( on storage:PlaneStorage? ) {
+        public func removeAllShapes( on storage:Storage? ) {
             guard let storage = storage else { return }
             actorGroup[storage]?.forEach { $0.trush() }
         }

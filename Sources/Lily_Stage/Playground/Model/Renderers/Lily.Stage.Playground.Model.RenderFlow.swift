@@ -13,18 +13,18 @@ import MetalKit
 
 extension Lily.Stage.Playground.Model
 {   
-    open class ModelRenderFlow
+    open class RenderFlow
     : Lily.Stage.Playground.BaseRenderFlow
     {
-        weak var modelRenderTextures:ModelRenderTextures?
+        weak var modelRenderTextures:RenderTextures?
         weak var mediumTexture:Lily.Stage.Playground.MediumTexture?
         
-        public var modelPass:ModelPass?
+        public var modelPass:Pass?
         
-        public weak var storage:ModelStorage?
+        public weak var storage:Storage?
         
-        public var modelObjectRenderer:ModelObjectRenderer?
-        public var modelLightingRenderer:ModelLightingRenderer?
+        public var modelObjectRenderer:ObjectRenderer?
+        public var modelLightingRenderer:LightingRenderer?
 
         public let viewCount:Int
         
@@ -32,9 +32,9 @@ extension Lily.Stage.Playground.Model
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment,
             viewCount:Int,
-            renderTextures:ModelRenderTextures,
+            renderTextures:RenderTextures,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
-            storage:ModelStorage?
+            storage:Storage?
         ) 
         {
             self.modelRenderTextures = renderTextures

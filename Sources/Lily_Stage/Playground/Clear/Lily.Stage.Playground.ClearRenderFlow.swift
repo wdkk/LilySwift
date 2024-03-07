@@ -81,7 +81,7 @@ extension Lily.Stage.Playground
     : BaseRenderFlow
     {
         var pass:Lily.Stage.Playground.ClearPass?
-        weak var modelRenderTextures:Lily.Stage.Playground.Model.ModelRenderTextures?
+        weak var modelRenderTextures:Lily.Stage.Playground.Model.RenderTextures?
         weak var mediumTexture:Lily.Stage.Playground.MediumTexture?
         
         public var clearColor:LLColor = .white
@@ -91,7 +91,7 @@ extension Lily.Stage.Playground
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment,
             viewCount:Int,
-            modelRenderTextures:Lily.Stage.Playground.Model.ModelRenderTextures?,
+            modelRenderTextures:Lily.Stage.Playground.Model.RenderTextures?,
             mediumTexture:Lily.Stage.Playground.MediumTexture?
         ) 
         {

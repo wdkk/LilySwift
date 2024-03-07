@@ -13,7 +13,7 @@ import simd
 
 extension Lily.Stage.Playground.Model
 {
-    open class ModelBaseLightingRenderer
+    open class BaseLightingRenderer
     {        
         public var device: MTLDevice
         
@@ -78,8 +78,8 @@ extension Lily.Stage.Playground.Model
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?, 
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            storage:ModelStorage,
-            renderTextures:ModelRenderTextures?
+            storage:Storage,
+            renderTextures:RenderTextures?
         )
         {
             guard let lighting_pp = pipeline else { return }
@@ -101,8 +101,8 @@ extension Lily.Stage.Playground.Model
         }
     }
     
-    open class ModelLightingRenderer
-    : ModelBaseLightingRenderer
+    open class LightingRenderer
+    : BaseLightingRenderer
     {           
         public override init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
             super.init( device:device, environment:environment, viewCount:viewCount )

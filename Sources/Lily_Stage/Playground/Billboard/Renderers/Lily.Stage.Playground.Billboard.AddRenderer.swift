@@ -11,9 +11,9 @@
 import Metal
 import simd
 
-extension Lily.Stage.Playground.Plane
+extension Lily.Stage.Playground.Billboard
 {
-    open class PlaneAddRenderer
+    open class AddRenderer
     {
         public var device: MTLDevice
         
@@ -23,25 +23,23 @@ extension Lily.Stage.Playground.Plane
             self.device = device
             
             let desc = MTLRenderPipelineDescriptor()
-            desc.label = "Playground 2D Geometry(AddBlend)"
+            desc.label = "Playground 3D Geometry(Add)"
             
             if environment == .metallib {
                 let library = try! Lily.Stage.metalLibrary( of:device )
-                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Plane_Vs" ) )
-                desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Plane_Fs" ) )
+                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Billboard_Vs" ) )
+                desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Billboard_Fs" ) )
             }
             else if environment == .string {
-                let sMetal = Lily.Stage.Playground.Plane.SMetal.shared( device:device )
+                let sMetal = Lily.Stage.Playground.Billboard.SMetal.shared( device:device )
                 desc.vertexShader( sMetal.vertexShader )
                 desc.fragmentShader( sMetal.fragmentShader )            
             }
-
+            
             desc.rasterSampleCount = Lily.Stage.Playground.BufferFormats.sampleCount
             
             desc.colorAttachments[0].pixelFormat = Lily.Stage.Playground.BufferFormats.linearSRGBBuffer
             desc.colorAttachments[0].composite( type:.add )
-            desc.colorAttachments[1].pixelFormat = Lily.Stage.Playground.BufferFormats.backBuffer
-            desc.colorAttachments[1].composite( type:.add )
             desc.depthAttachmentPixelFormat = Lily.Stage.Playground.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
@@ -53,23 +51,20 @@ extension Lily.Stage.Playground.Plane
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            mediumTexture:Lily.Stage.Playground.MediumTexture,
-            storage:PlaneStorage,
-            screenSize:CGSize
+            storage:Lily.Stage.Playground.Billboard.Storage
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )
             
-            // プロジェクション行列を画面のピクセルサイズ変換に指定
             // シェーダの合成タイプの設定も行う
-            var local_uniform = PlaneLocalUniform( 
-                projectionMatrix:.pixelXYProjection( screenSize ),
-                shaderCompositeType:.add
+            var local_uniform = LocalUniform( 
+                shaderCompositeType:.add,
+                drawingType:.quadrangles
             )
             
             renderEncoder?.setVertexBuffer( storage.particles.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
-            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<PlaneLocalUniform>.stride, index:2 )  
+            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 
@@ -83,24 +78,20 @@ extension Lily.Stage.Playground.Plane
         public func drawTriangle( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            mediumTexture:Lily.Stage.Playground.MediumTexture,
-            storage:PlaneStorage,
-            screenSize:CGSize
+            storage:Lily.Stage.Playground.Billboard.Storage
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )
             
-            // プロジェクション行列を画面のピクセルサイズ変換に指定
             // シェーダの合成タイプの設定も行う
-            var local_uniform = PlaneLocalUniform( 
-                projectionMatrix:.pixelXYProjection( screenSize ),
+            var local_uniform = LocalUniform(
                 shaderCompositeType:.add,
                 drawingType:.triangles
             )
             
             renderEncoder?.setVertexBuffer( storage.particles.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
-            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<PlaneLocalUniform>.stride, index:2 ) 
+            renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             renderEncoder?.drawPrimitives( 

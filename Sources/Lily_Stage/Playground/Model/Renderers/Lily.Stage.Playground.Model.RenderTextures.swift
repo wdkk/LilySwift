@@ -22,7 +22,7 @@ extension Lily.Stage.Playground.Model
     public static let IDX_SHADOW_MAP = 5
     public static let IDX_CUBE_MAP = 6
     
-    open class ModelRenderTextures
+    open class RenderTextures
     { 
         var device:MTLDevice
         
@@ -112,7 +112,7 @@ extension Lily.Stage.Playground.Model
     }
 }
 
-extension Lily.Stage.Playground.Model.ModelRenderTextures
+extension Lily.Stage.Playground.Model.RenderTextures
 {
     public func shadowViewport() -> MTLViewport {
         return MTLViewport(

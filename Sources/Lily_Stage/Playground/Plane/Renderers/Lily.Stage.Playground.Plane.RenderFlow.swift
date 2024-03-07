@@ -11,38 +11,37 @@
 import Metal
 import MetalKit
 
-extension Lily.Stage.Playground.Billboard
+extension Lily.Stage.Playground.Plane
 {
-    open class BBRenderFlow
+    open class PlaneRenderFlow
     : Lily.Stage.Playground.BaseRenderFlow
     {
-        var pass:Lily.Stage.Playground.Billboard.BBPass?
-        
+        var pass:Pass?
         weak var mediumTexture:Lily.Stage.Playground.MediumTexture?
+        public weak var storage:Storage?
         
-        public weak var storage:BBStorage?
+        var comDelta:PlaneComDelta?
         
-        var comDelta:ComDelta?
-        
-        var alphaRenderer:BBAlphaRenderer?
-        var addRenderer:BBAddRenderer?
-        var subRenderer:BBSubRenderer?
-          
+        var alphaRenderer:AlphaRenderer?
+        var addRenderer:AddRenderer?
+        var subRenderer:SubRenderer?
+    
         public let viewCount:Int
+        
+        public private(set) var screenSize:CGSize = .zero
         
         public init(
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment,
             viewCount:Int,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
-            storage:BBStorage?
+            storage:Storage?
         ) 
         {
-            self.mediumTexture = mediumTexture
-            
             self.pass = .init( device:device )
             self.viewCount = viewCount
             
+            self.mediumTexture = mediumTexture
             self.storage = storage
             
             // レンダラーの作成
@@ -71,7 +70,9 @@ extension Lily.Stage.Playground.Billboard
         }
         
         public override func changeSize( scaledSize:CGSize ) {
-           
+            screenSize = scaledSize
+            screenSize.width /= LLSystem.retinaScale
+            screenSize.height /= LLSystem.retinaScale
         }
         
         public override func render(
@@ -86,10 +87,8 @@ extension Lily.Stage.Playground.Billboard
         {
             guard let pass = self.pass else { return }
             
-            guard let mediumTexture = self.mediumTexture else { LLLog( "mediumTextureが設定されていません" ); return }
-            
             guard let storage = self.storage else { return }
-            
+
             // TODO: 最適化したい
             storage.statuses.update { acc, _ in
                 // 各オブジェクトのマトリクス計算
@@ -100,41 +99,39 @@ extension Lily.Stage.Playground.Billboard
                     
                     let enabled_k:Float = us.states[0]
                     let state_k:Float = us.states[1]
-                    let alpha:Float = acc[i].color[3]
-                    let visibility_z:Float = state_k * enabled_k * alpha > 0.00001 ? 0.0 : TOO_FAR
+                    let alpha:Float = us.color[3]
+                    let visibility_y:Float = state_k * enabled_k * alpha > 0.00001 ? 0.0 : TOO_FAR
                     
-                    let sc = us.scale
-                    let ro = us.rotation
+                    let sc = us.scale * 0.5
+                    let ang = us.angle
                     var t = us.position
-                    t.z += visibility_z
-                    
-                    acc[i].matrix = LLMatrix4x4.affine3D( scale:sc, rotate:ro, translate:t )
-                    acc[i].comboAngle = us.angle * 180.0 / .pi
+                    t.y += visibility_y
+                    acc[i].matrix = LLMatrix4x4.affine2D( scale:sc, angle:ang, translate:t )
                 }
                 
                 // 親子関係含めた計算
-                let sorted_shapes = BBPool.shared.shapes( on:storage ).sorted { s0, s1 in s0.childDepth <= s1.childDepth }
+                let sorted_shapes = PGPool.shared.shapes( on:storage ).sorted { s0, s1 in s0.childDepth <= s1.childDepth }
                 for shape in sorted_shapes {
                     guard let parent = shape.parent else { continue }
                     shape.matrix = parent.matrix * shape.matrix
-                    shape.comboAngle = parent.comboAngle + shape.comboAngle 
                 }
             }
-                        
+            
             // 共通処理
             pass.updatePass( 
+                mediumTexture:mediumTexture!,
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetCount:viewCount        
             )
             
             // フォワードレンダリング : パーティクルの描画の設定
-            pass.setDestination( texture:mediumTexture.resultTexture )
+            pass.setDestination( texture:destinationTexture )
             pass.setDepth( texture:depthTexture )
             
             let encoder = commandBuffer.makeRenderCommandEncoder( descriptor:pass.passDesc! )
             
             encoder?
-            .label( "Playground 3D Render" )
+            .label( "Playground 2D Render" )
             .cullMode( .none )
             .frontFacing( .counterClockwise )
             .depthStencilState( pass.depthState! )
@@ -145,39 +142,51 @@ extension Lily.Stage.Playground.Billboard
             alphaRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
-                storage:storage
+                mediumTexture:mediumTexture!,
+                storage:storage,
+                screenSize:screenSize
             )
             
             alphaRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
-                storage:storage
+                mediumTexture:mediumTexture!,
+                storage:storage,
+                screenSize:screenSize
             )
             
             addRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
-                storage:storage
+                mediumTexture:mediumTexture!,
+                storage:storage,
+                screenSize:screenSize
             )
             
             addRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
-                storage:storage
+                mediumTexture:mediumTexture!,
+                storage:storage,
+                screenSize:screenSize
             )
             
             subRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
-                storage:storage
+                mediumTexture:mediumTexture!,
+                storage:storage,
+                screenSize:screenSize
             )
-
+            
             subRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
-                storage:storage
+                mediumTexture:mediumTexture!,
+                storage:storage,
+                screenSize:screenSize
             )
-
+            
             encoder?.endEncoding()
             
             comDelta?.updateMatrices(

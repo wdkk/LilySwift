@@ -13,7 +13,7 @@ import simd
 
 extension Lily.Stage.Playground.Plane
 {    
-    public struct PlaneUnitStatus
+    public struct UnitStatus
     {
         //-- メモリアラインメント範囲START --//
         // 公開パラメータ

@@ -18,7 +18,7 @@ import UIKit
 
 extension Lily.Stage.Playground.Model
 {
-    open class ModelStorage : Hashable
+    open class Storage : Hashable
     {
         public struct ModelGuide
         {
@@ -27,13 +27,13 @@ extension Lily.Stage.Playground.Model
         }
         
         // Hashableの実装
-        public static func == ( lhs:ModelStorage, rhs:ModelStorage ) -> Bool { lhs === rhs }
+        public static func == ( lhs:Storage, rhs:Storage ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
         
-        public static var current:ModelStorage? = nil
+        public static var current:Storage? = nil
         
         public var models:[String:ModelGuide] = [:]
-        public var statuses:Lily.Metal.Buffer<ModelUnitStatus>
+        public var statuses:Lily.Metal.Buffer<UnitStatus>
         
         public var cubeMap:MTLTexture?
         public var clearColor:LLColor = .white
@@ -50,7 +50,7 @@ extension Lily.Stage.Playground.Model
             modelCapacity:Int = 500,
             appendModelAssets:[String] = []
         )
-        -> ModelStorage 
+        -> Storage 
         {
             var modelAssets = [ "cottonwood1", "acacia1", "plane" ]
             modelAssets.append( contentsOf:appendModelAssets )
@@ -109,7 +109,7 @@ extension Lily.Stage.Playground.Model
                 return capacity
             }
             let model_index = models[assetName]?.modelIndex ?? -1
-            statuses.accessor?[idx] = ModelUnitStatus( modelIndex:model_index )
+            statuses.accessor?[idx] = UnitStatus( modelIndex:model_index )
             return idx
         }
     
