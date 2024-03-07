@@ -11,10 +11,12 @@
 import Metal
 import MetalKit
 
-extension Lily.Stage.Playground.Model
+extension Lily.Stage.Playground.Model.Object
 {
     open class ComDelta
     {
+        public typealias Model = Lily.Stage.Playground.Model
+        
         public var device: MTLDevice
         
         var pipeline: MTLComputePipelineState!
@@ -31,11 +33,11 @@ extension Lily.Stage.Playground.Model
                 desc.computeShader( Lily.Metal.Shader( 
                     device:device,
                     mtllib:library, 
-                    shaderName:"Lily_Stage_Playground_Billboard_Com_Delta" 
+                    shaderName:"Lily_Stage_Playground_Model_Object_Com_Delta" 
                 ) ) 
             }
             else if environment == .string {
-                let sMetal = Lily.Stage.Playground.Billboard.SMetal.shared( device:device )
+                let sMetal = SMetal.shared( device:device )
                 desc.computeShader( sMetal.comDeltaShader )
             }
             
@@ -46,7 +48,7 @@ extension Lily.Stage.Playground.Model
         public func updateMatrices( 
             with commandBuffer:MTLCommandBuffer?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            storage:Storage
+            storage:Model.Storage
         )
         {
             #if !targetEnvironment(simulator)
@@ -66,15 +68,12 @@ extension Lily.Stage.Playground.Model
             #else
             storage.statuses.update { acc, _ in
                 for i in 0 ..< acc.count-1 {
-                    var us = acc[i]
-                    if us.enabled == false || us.state == .trush { continue }
-                    us.position += us.deltaPosition
-                    us.scale += us.deltaScale
-                    us.rotation += us.deltaRotation
-                    us.angle += us.deltaAngle
-                    us.color += us.deltaColor
-                    us.life += us.deltaLife
-                    acc[i] = us
+                    if acc[i].enabled == false || acc[i].state == .trush { continue }
+                    acc[i].position += acc[i].deltaPosition
+                    acc[i].scale += acc[i].deltaScale
+                    acc[i].rotation += acc[i].deltaRotation
+                    acc[i].color += acc[i].deltaColor
+                    acc[i].life += acc[i].deltaLife
                 }
             }
             #endif

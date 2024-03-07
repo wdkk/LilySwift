@@ -20,7 +20,10 @@ extension Lily.Stage
  
         open class Billboard { }
         
-        open class Model { }
+        open class Model { 
+            open class Object { }
+            open class Lighting { }
+        }
         
         open class sRGB { }
     }

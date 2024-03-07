@@ -23,8 +23,10 @@ extension Lily.Stage.Playground.Model
         
         public weak var storage:Storage?
         
-        public var modelObjectRenderer:ObjectRenderer?
-        public var modelLightingRenderer:LightingRenderer?
+        var comDelta:Object.ComDelta?
+        
+        public var modelObjectRenderer:Object.Renderer?
+        public var modelLightingRenderer:Lighting.Renderer?
 
         public let viewCount:Int
         
@@ -45,8 +47,22 @@ extension Lily.Stage.Playground.Model
             self.viewCount = viewCount
 
             // レンダラーの用意
-            modelObjectRenderer = .init( device:device, environment:environment, viewCount:viewCount )
-            modelLightingRenderer = .init( device:device, environment:environment, viewCount:viewCount )
+            modelObjectRenderer = .init(
+                device:device, 
+                environment:environment,
+                viewCount:viewCount 
+            )
+            
+            modelLightingRenderer = .init(
+                device:device,
+                environment:environment, 
+                viewCount:viewCount 
+            )
+            
+            self.comDelta = .init(
+                device: device, 
+                environment: environment
+            )
             
             self.storage = storage
             
@@ -147,16 +163,11 @@ extension Lily.Stage.Playground.Model
 
             deferred_shading_encoder?.endEncoding()
             
-            storage.statuses.update { acc, _ in
-                for i in 0 ..< acc.count-1 {
-                    if acc[i].enabled == false || acc[i].state == .trush { continue }
-                    acc[i].position += acc[i].deltaPosition
-                    acc[i].scale += acc[i].deltaScale
-                    acc[i].rotation += acc[i].deltaRotation
-                    acc[i].color += acc[i].deltaColor
-                    acc[i].life += acc[i].deltaLife
-                }
-            }
+            comDelta?.updateMatrices(
+                with:commandBuffer, 
+                globalUniforms: uniforms,
+                storage: storage
+            )
         }
     }
 }

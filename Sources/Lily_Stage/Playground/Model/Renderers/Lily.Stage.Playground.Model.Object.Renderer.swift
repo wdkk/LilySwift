@@ -16,10 +16,12 @@ import AppKit
 import UIKit
 #endif
 
-extension Lily.Stage.Playground.Model
+extension Lily.Stage.Playground.Model.Object
 {   
-    open class ObjectRenderer
+    open class Renderer
     {
+        public typealias Model = Lily.Stage.Playground.Model
+        
         public var device: MTLDevice
         
         public var objectPipeline: MTLRenderPipelineState?
@@ -36,18 +38,18 @@ extension Lily.Stage.Playground.Model
                 desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Object_Fs" ) )
             }
             else if environment == .string {
-                let sMetal = Lily.Stage.Playground.Model.ObjectSMetal.shared( device:device )
+                let sMetal = Lily.Stage.Playground.Model.Object.SMetal.shared( device:device )
                 desc.vertexShader( sMetal.vertexShader )
                 desc.fragmentShader( sMetal.fragmentShader )            
             }
         
             desc.rasterSampleCount = Lily.Stage.Playground.BufferFormats.sampleCount
             
-            desc.colorAttachments[IDX_GBUFFER_0].pixelFormat = Lily.Stage.Playground.BufferFormats.GBuffer0
-            desc.colorAttachments[IDX_GBUFFER_1].pixelFormat = Lily.Stage.Playground.BufferFormats.GBuffer1
-            desc.colorAttachments[IDX_GBUFFER_2].pixelFormat = Lily.Stage.Playground.BufferFormats.GBuffer2
-            desc.colorAttachments[IDX_GBUFFER_DEPTH].pixelFormat = Lily.Stage.Playground.BufferFormats.GBufferDepth
-            desc.colorAttachments[IDX_OUTPUT].pixelFormat = Lily.Stage.Playground.BufferFormats.linearSRGBBuffer
+            desc.colorAttachments[Model.IDX_GBUFFER_0].pixelFormat = Lily.Stage.Playground.BufferFormats.GBuffer0
+            desc.colorAttachments[Model.IDX_GBUFFER_1].pixelFormat = Lily.Stage.Playground.BufferFormats.GBuffer1
+            desc.colorAttachments[Model.IDX_GBUFFER_2].pixelFormat = Lily.Stage.Playground.BufferFormats.GBuffer2
+            desc.colorAttachments[Model.IDX_GBUFFER_DEPTH].pixelFormat = Lily.Stage.Playground.BufferFormats.GBufferDepth
+            desc.colorAttachments[Model.IDX_OUTPUT].pixelFormat = Lily.Stage.Playground.BufferFormats.linearSRGBBuffer
             desc.depthAttachmentPixelFormat = Lily.Stage.Playground.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
@@ -61,18 +63,18 @@ extension Lily.Stage.Playground.Model
                 desc.fragmentFunction = nil 
             }
             else if environment == .string {
-                let sMetal = Lily.Stage.Playground.Model.ObjectSMetal.shared( device:device )
+                let sMetal = Lily.Stage.Playground.Model.Object.SMetal.shared( device:device )
                 desc.vertexShader( sMetal.shadowVertexShader )
                 desc.fragmentFunction = nil          
             }
 
             desc.rasterSampleCount = Lily.Stage.Playground.BufferFormats.sampleCount
             
-            desc.colorAttachments[IDX_GBUFFER_0].pixelFormat = .invalid
-            desc.colorAttachments[IDX_GBUFFER_1].pixelFormat = .invalid
-            desc.colorAttachments[IDX_GBUFFER_2].pixelFormat = .invalid
-            desc.colorAttachments[IDX_GBUFFER_DEPTH].pixelFormat = .invalid
-            desc.colorAttachments[IDX_OUTPUT].pixelFormat = .invalid
+            desc.colorAttachments[Model.IDX_GBUFFER_0].pixelFormat = .invalid
+            desc.colorAttachments[Model.IDX_GBUFFER_1].pixelFormat = .invalid
+            desc.colorAttachments[Model.IDX_GBUFFER_2].pixelFormat = .invalid
+            desc.colorAttachments[Model.IDX_GBUFFER_DEPTH].pixelFormat = .invalid
+            desc.colorAttachments[Model.IDX_OUTPUT].pixelFormat = .invalid
             desc.depthAttachmentPixelFormat = Lily.Stage.Playground.BufferFormats.depth
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
@@ -83,7 +85,7 @@ extension Lily.Stage.Playground.Model
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            storage:Storage
+            storage:Model.Storage
         )
         {
             guard let obj_pp = objectPipeline else { return }
@@ -113,7 +115,7 @@ extension Lily.Stage.Playground.Model
             with renderEncoder:MTLRenderCommandEncoder?, 
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
             shadowCamVPMatrices:[LLMatrix4x4],
-            storage:Storage,
+            storage:Model.Storage,
             cascadeIndex:Int 
         )
         {

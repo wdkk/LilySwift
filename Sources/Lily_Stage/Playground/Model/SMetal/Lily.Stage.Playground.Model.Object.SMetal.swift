@@ -11,9 +11,9 @@
 import Metal
 import simd
 
-extension Lily.Stage.Playground.Model
+extension Lily.Stage.Playground.Model.Object
 {   
-    open class ObjectSMetal
+    open class SMetal
     {
         static var header:String { """
         #import <metal_stdlib>
@@ -253,18 +253,26 @@ extension Lily.Stage.Playground.Model
         
         """ }
         
+        public let comDeltaShader:Lily.Metal.Shader
         public let vertexShader:Lily.Metal.Shader
         public let fragmentShader:Lily.Metal.Shader
         public let shadowVertexShader:Lily.Metal.Shader
 
-        private static var instance:ObjectSMetal?
-        public static func shared( device:MTLDevice ) -> ObjectSMetal {
+        private static var instance:SMetal?
+        public static func shared( device:MTLDevice ) -> SMetal {
             if instance == nil { instance = .init( device:device ) }
             return instance!
         }
         
         private init( device:MTLDevice ) {
             LLLog( "文字列からシェーダを生成しています." )
+            
+            
+            self.comDeltaShader = .init(
+                device:device, 
+                code:Lily.Stage.Playground.Plane.ComDelta_SMetal,
+                shaderName:"Lily_Stage_Playground_Model_Object_Com_Delta" 
+            )
             
             self.vertexShader = .init(
                 device:device, 
