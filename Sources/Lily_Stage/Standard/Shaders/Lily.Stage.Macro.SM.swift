@@ -14,6 +14,9 @@ import simd
 extension Lily.Stage
 {   
     public static var Macro_SMetal:String { """
+        #ifndef Lily_Stage_Macro_h
+        #define Lily_Stage_Macro_h
+        
         #import <TargetConditionals.h>
 
         using namespace metal;
@@ -30,6 +33,8 @@ extension Lily.Stage
         #define lily_memory(i)      texture(i)
         #define lily_memory_float4  texture2d<float>
         #define lily_memory_depth   depth2d<float>
+        #endif
+        
         #endif
         """
     }

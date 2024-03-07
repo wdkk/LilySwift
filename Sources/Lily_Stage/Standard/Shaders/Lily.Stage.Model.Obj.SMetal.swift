@@ -14,6 +14,9 @@ import simd
 extension Lily.Stage.Model
 {   
     public static var Obj_SMetal:String { """
+        #ifndef Lily_Stage_Model_Obj_h
+        #define Lily_Stage_Model_Obj_h
+        
         #import <simd/simd.h>
 
         namespace Lily
@@ -34,6 +37,8 @@ extension Lily.Stage.Model
                 };
             };
         };
+        
+        #endif
         """
     }
 }

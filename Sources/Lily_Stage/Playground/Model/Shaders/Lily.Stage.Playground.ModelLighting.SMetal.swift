@@ -35,11 +35,11 @@ extension Lily.Stage.Playground.Model
         //-- Lily.Stage.Model.Obj.metal --//
         \(Lily.Stage.Model.Obj_SMetal)
         
-        //-- Lily.Stage.CameraUniform.metal --//
-        \(Lily.Stage.Playground.CameraUniform_SMetal)
+        //-- Lily.Stage.CameraUniform.h --//
+        \(Lily.Stage.Playground.CameraUniform_h_SMetal)
         
-        //-- Lily.Stage.GlobalUniform.metal --//
-        \(Lily.Stage.Playground.GlobalUniform_SMetal)
+        //-- Lily.Stage.GlobalUniform.h --//
+        \(Lily.Stage.Playground.GlobalUniform_h_SMetal)
         
         using namespace Lily::Stage;
         using namespace Lily::Stage::Model;

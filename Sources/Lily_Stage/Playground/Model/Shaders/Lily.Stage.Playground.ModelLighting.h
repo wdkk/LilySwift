@@ -11,7 +11,7 @@
 #import <metal_stdlib>
 #import <TargetConditionals.h>
 #import "../../../Standard/Shaders/Lily.Stage.MemoryLess.h"
-#import "../../Utils/Shaders/Lily.Stage.Playground.GlobalUniform.metal"
+#import "../../Utils/Shaders/Lily.Stage.Playground.GlobalUniform.h"
 
 #import "Lily.Stage.Playground.Model.util.h"
 

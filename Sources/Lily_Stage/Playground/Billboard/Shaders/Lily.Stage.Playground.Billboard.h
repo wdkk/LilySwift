@@ -13,7 +13,7 @@
 
 #import "../../../Standard/Shaders/Lily.Stage.MemoryLess.h"
 #import "../../../Standard/Shaders/Lily.Stage.MathMatrix.metal"
-#import "../../Utils/Shaders/Lily.Stage.Playground.GlobalUniform.metal"
+#import "../../Utils/Shaders/Lily.Stage.Playground.GlobalUniform.h"
 
 using namespace metal;
 using namespace Lily::Stage;

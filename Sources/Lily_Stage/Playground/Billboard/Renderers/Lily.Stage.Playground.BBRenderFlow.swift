@@ -22,6 +22,8 @@ extension Lily.Stage.Playground.Billboard
         
         public weak var storage:BBStorage?
         
+        var comDelta:ComDelta?
+        
         var alphaRenderer:BBAlphaRenderer?
         var addRenderer:BBAddRenderer?
         var subRenderer:BBSubRenderer?
@@ -60,6 +62,11 @@ extension Lily.Stage.Playground.Billboard
                 viewCount:viewCount
             )
             
+            self.comDelta = .init(
+                device: device, 
+                environment: environment
+            )
+            
             super.init( device:device )
         }
         
@@ -88,20 +95,21 @@ extension Lily.Stage.Playground.Billboard
                 // 各オブジェクトのマトリクス計算
                 for i in 0 ..< acc.count - 1 {
                     let TOO_FAR:Float = 999999.0
-                    if acc[i].enabled == false || acc[i].state == .trush { continue }
+                    let us = acc[i]
+                    if us.enabled == false || us.state == .trush { continue }
                     
-                    let enabled_k:Float = acc[i].states[0]
-                    let state_k:Float = acc[i].states[1]
+                    let enabled_k:Float = us.states[0]
+                    let state_k:Float = us.states[1]
                     let alpha:Float = acc[i].color[3]
                     let visibility_z:Float = state_k * enabled_k * alpha > 0.00001 ? 0.0 : TOO_FAR
                     
-                    let sc = acc[i].scale
-                    let ro = acc[i].rotation
-                    var t = acc[i].position
+                    let sc = us.scale
+                    let ro = us.rotation
+                    var t = us.position
                     t.z += visibility_z
                     
                     acc[i].matrix = LLMatrix4x4.affine3D( scale:sc, rotate:ro, translate:t )
-                    acc[i].comboAngle = acc[i].angle * 180.0 / .pi
+                    acc[i].comboAngle = us.angle * 180.0 / .pi
                 }
                 
                 // 親子関係含めた計算
@@ -172,17 +180,11 @@ extension Lily.Stage.Playground.Billboard
 
             encoder?.endEncoding()
             
-            storage.statuses.update { acc, _ in
-                for i in 0 ..< acc.count-1 {
-                    if acc[i].enabled == false || acc[i].state == .trush { continue }
-                    acc[i].position += acc[i].deltaPosition
-                    acc[i].scale += acc[i].deltaScale
-                    acc[i].rotation += acc[i].deltaRotation
-                    acc[i].angle += acc[i].deltaAngle
-                    acc[i].color += acc[i].deltaColor
-                    acc[i].life += acc[i].deltaLife
-                }
-            }
+            comDelta?.updateMatrices(
+                with:commandBuffer, 
+                globalUniforms: uniforms,
+                storage: storage
+            )
         }
     }
 }

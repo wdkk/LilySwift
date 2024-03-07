@@ -88,7 +88,7 @@ extension Lily.View
             metalLayer.framebufferOnly = false
             metalLayer.contentsScale = LLSystem.retinaScale.cgf
             metalLayer.frame = self.bounds
-            self.layerOpaque( false )
+            self.layerOpaque( true )
 #if os(macOS)
             self.backgroundColor = .clear
             self.isOpaque = false

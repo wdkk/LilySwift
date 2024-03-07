@@ -12,7 +12,7 @@
 #define Lily_Stage_Shared_GlobalUniform_h
 
 #import <simd/simd.h>
-#import "Lily.Stage.Playground.CameraUniform.metal"
+#import "Lily.Stage.Playground.CameraUniform.h"
 
 namespace Lily
 {
@@ -42,7 +42,6 @@ namespace Lily
             {
                 GlobalUniform uniforms[2];
             };
-    
         };
     };
 };

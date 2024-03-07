@@ -11,9 +11,9 @@
 import Metal
 import MetalKit
 
-extension Lily.Stage.Playground.Plane
+extension Lily.Stage.Playground.Billboard
 {
-    open class PlaneComDelta
+    open class ComDelta
     {
         public var device: MTLDevice
         
@@ -31,11 +31,11 @@ extension Lily.Stage.Playground.Plane
                 desc.computeShader( Lily.Metal.Shader( 
                     device:device,
                     mtllib:library, 
-                    shaderName:"Lily_Stage_Playground_Plane_Com_Delta" 
+                    shaderName:"Lily_Stage_Playground_Billboard_Com_Delta" 
                 ) ) 
             }
             else if environment == .string {
-                let sMetal = Lily.Stage.Playground.Plane.SMetal.shared( device:device )
+                let sMetal = Lily.Stage.Playground.Billboard.SMetal.shared( device:device )
                 desc.computeShader( sMetal.comDeltaShader )
             }
             
@@ -46,7 +46,7 @@ extension Lily.Stage.Playground.Plane
         public func updateMatrices( 
             with commandBuffer:MTLCommandBuffer?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            storage:PlaneStorage
+            storage:BBStorage
         )
         {
             #if !targetEnvironment(simulator)
@@ -70,6 +70,7 @@ extension Lily.Stage.Playground.Plane
                     if us.enabled == false || us.state == .trush { continue }
                     us.position += us.deltaPosition
                     us.scale += us.deltaScale
+                    us.rotation += us.deltaRotation
                     us.angle += us.deltaAngle
                     us.color += us.deltaColor
                     us.life += us.deltaLife

@@ -20,11 +20,11 @@ extension Lily.Stage.Playground.Plane
         weak var mediumTexture:Lily.Stage.Playground.MediumTexture?
         public weak var storage:PlaneStorage?
         
+        var comDelta:PlaneComDelta?
+        
         var alphaRenderer:PlaneAlphaRenderer?
         var addRenderer:PlaneAddRenderer?
         var subRenderer:PlaneSubRenderer?
-        
-        var comDelta:PlaneComDelta?
     
         public let viewCount:Int
         
@@ -94,16 +94,17 @@ extension Lily.Stage.Playground.Plane
                 // 各オブジェクトのマトリクス計算
                 for i in 0 ..< acc.count - 1 {
                     let TOO_FAR:Float = 999999.0
-                    if acc[i].enabled == false || acc[i].state == .trush { continue }
+                    let us = acc[i]
+                    if us.enabled == false || us.state == .trush { continue }
                     
-                    let enabled_k:Float = acc[i].states[0]
-                    let state_k:Float = acc[i].states[1]
-                    let alpha:Float = acc[i].color[3]
+                    let enabled_k:Float = us.states[0]
+                    let state_k:Float = us.states[1]
+                    let alpha:Float = us.color[3]
                     let visibility_y:Float = state_k * enabled_k * alpha > 0.00001 ? 0.0 : TOO_FAR
                     
-                    let sc = acc[i].scale * 0.5
-                    let ang = acc[i].angle
-                    var t = acc[i].position
+                    let sc = us.scale * 0.5
+                    let ang = us.angle
+                    var t = us.position
                     t.y += visibility_y
                     acc[i].matrix = LLMatrix4x4.affine2D( scale:sc, angle:ang, translate:t )
                 }

@@ -13,7 +13,10 @@ import simd
 
 extension Lily.Stage.Playground
 {   
-    public static var CameraUniform_SMetal:String { """
+    public static var CameraUniform_h_SMetal:String { """
+        #ifndef Lily_Stage_Shared_CameraUniform_h
+        #define Lily_Stage_Shared_CameraUniform_h
+        
         #import <simd/simd.h>
 
         namespace Lily
@@ -41,6 +44,8 @@ extension Lily.Stage.Playground
                 }
             };
         };
+        
+        #endif
         """
     }
 }
