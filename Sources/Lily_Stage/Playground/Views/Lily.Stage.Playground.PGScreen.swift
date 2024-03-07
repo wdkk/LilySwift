@@ -46,7 +46,12 @@ extension Lily.Stage.Playground
         public var sRGBRenderFlow:SRGBRenderFlow?
         
         // MARK: アクセサ - レンダラ関連
-        public var clearColor:LLColor = .white
+        public var clearColor:LLColor = .white { 
+            didSet {
+                // TODO: アルファ値が1.0の時だけ透かしがないようにする. しかしアルファを効かせると合成色が白飛びする問題があるので後日対応したい
+                metalView.layerOpaque( !(clearColor.A < 1.0) )
+            } 
+        }
         
         public var cubeMap:String? = nil {
             didSet { modelStorage?.setCubeMap(device:device, assetName:cubeMap ) }
@@ -221,7 +226,7 @@ extension Lily.Stage.Playground
         open override func setup() {
             super.setup()
             addSubview( metalView )
-            
+            // View自体の背景をclearに
             self.backgroundColor = .clear
             
             self.makeRenderFlows( device:self.device, environment:self.environment, viewCount:1 )

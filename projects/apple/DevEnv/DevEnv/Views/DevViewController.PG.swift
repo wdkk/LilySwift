@@ -87,7 +87,7 @@ class DevViewController
 }
 
 func design( screen:PGScreen ) {
-    screen.clearColor = .darkGrey
+    screen.clearColor = .clear
     screen.cubeMap = "skyCubeMap"
     
     screen.camera.position = .init( 0, 400, 400 )

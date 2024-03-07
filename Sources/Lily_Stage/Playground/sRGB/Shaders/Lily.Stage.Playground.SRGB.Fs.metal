@@ -19,6 +19,7 @@ fragment SRGBFOut Lily_Stage_Playground_SRGB_Fs(
     float4 color = resultTexture.read( pixelPos, in.ampID );
     
     color.xyz = pow( color.xyz, float3( 2.2 ) );
+    //color.w = 1.0;
     
     SRGBFOut out;
     out.backBuffer = color;

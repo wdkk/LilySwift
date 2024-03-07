@@ -50,6 +50,10 @@ extension Lily.View
             } 
         }
         
+        open func layerOpaque( _ torf:Bool ) {
+            metalLayer.isOpaque = torf
+        }
+        
         public init( device:MTLDevice ) {
             self.device = device
             super.init()
@@ -84,9 +88,10 @@ extension Lily.View
             metalLayer.framebufferOnly = false
             metalLayer.contentsScale = LLSystem.retinaScale.cgf
             metalLayer.frame = self.bounds
-            metalLayer.isOpaque = false
+            self.layerOpaque( false )
 #if os(macOS)
             self.backgroundColor = .clear
+            self.isOpaque = false
             self.addSublayer( metalLayer )
 #else
             self.layer.addSublayer( metalLayer )

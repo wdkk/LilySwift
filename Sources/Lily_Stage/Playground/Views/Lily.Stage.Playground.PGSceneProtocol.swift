@@ -93,38 +93,38 @@ extension Lily_Stage_Playground_PGSceneProtocol
     }
             
     public func checkPlanesStatus() {
-        for actor in self.shapes {
-            actor.appearIterate()       // イテレート処理
-            actor.appearInterval()      // インターバル処理
+        self.shapes.forEach {
+            $0.appearIterate()       // イテレート処理
+            $0.appearInterval()      // インターバル処理
             
-            if actor.life <= 0.0 {
-                actor.appearCompletion()    // 完了前処理
-                actor.checkRemove()         // 削除処理
-            }
+            if $0.life > 0.0 { return }
+            
+            $0.appearCompletion()    // 完了前処理
+            $0.checkRemove()         // 削除処理
         }
     }
     
     public func checkBillboardsStatus() {
-        for actor in self.billboards {
-            actor.appearIterate()   // イテレート処理
-            actor.appearInterval()  // インターバル処理
+        self.billboards.forEach {
+            $0.appearIterate()       // イテレート処理
+            $0.appearInterval()      // インターバル処理
             
-            if actor.life <= 0.0 {
-                actor.appearCompletion()    // 完了前処理
-                actor.checkRemove()         // 削除処理
-            }
+            if $0.life > 0.0 { return }
+            
+            $0.appearCompletion()    // 完了前処理
+            $0.checkRemove()         // 削除処理
         }
     }
     
     public func checkModelsStatus() {
-        for actor in self.models {
-            actor.appearIterate()   // イテレート処理
-            actor.appearInterval()  // インターバル処理
+        self.models.forEach {
+            $0.appearIterate()       // イテレート処理
+            $0.appearInterval()      // インターバル処理
             
-            if actor.life <= 0.0 {
-                actor.appearCompletion()    // 完了前処理
-                actor.checkRemove()         // 削除処理
-            }
+            if $0.life > 0.0 { return }
+            
+            $0.appearCompletion()    // 完了前処理
+            $0.checkRemove()         // 削除処理
         }
     }
     
