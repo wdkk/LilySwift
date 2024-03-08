@@ -65,16 +65,9 @@ extension Lily.View
         @objc
         private func _viewLoop( _ displayLink:CADisplayLink ) { 
             if !self.already { return }
-            
-            func now() -> Double {
-                var now_time = timeval()
-                var tzp = timezone()
-                gettimeofday( &now_time, &tzp )
-                return Double( LLInt64( now_time.tv_sec * 1_000_000 ) + LLInt64( now_time.tv_usec ) ) / 1_000_000.0
-            }
-            
+
             while true {
-                let currentTimestamp = now()
+                let currentTimestamp = LLClock.Precision.now
                 let elapsedTime = currentTimestamp - lastFrameTimestamp
 
                 if elapsedTime >= frameInterval { 

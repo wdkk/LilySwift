@@ -23,11 +23,13 @@ public func LCClockNow() -> LLInt64 {
     return LLInt64( now_time.tv_sec * 1000 ) + LLInt64( now_time.tv_usec / 1000 )  
 }
 
-public func LCClockNowMicroSecond() -> Double {
+/// システムの現在時間を秒の小数値で取得(マイクロ秒まで含む)
+/// - Returns: システム現在時間(秒.マイクロ秒)
+public func LCClockPrecisionNow() -> Double {
     var now_time:timeval = timeval()
     var tzp:timezone = timezone()
     gettimeofday( &now_time, &tzp )
-    return Double( now_time.tv_sec ) * 1_000_000 + Double( now_time.tv_usec )  
+    return (Double( now_time.tv_sec ) * 1_000_000 + Double( now_time.tv_usec )) / 1_000_000.0
 }
 
 fileprivate var is_started:Bool = false

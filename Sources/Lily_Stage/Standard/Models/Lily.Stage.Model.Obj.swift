@@ -222,27 +222,58 @@ extension Lily.Stage.Model
                 inputStream.close()
                 
                 #if !targetEnvironment(simulator)
-                let vertex_buffer = device.makeBuffer( bytes:vertices, length: MemoryLayout<Vertex>.stride * vertices.count, options:[.storageModeShared])!
-                let index_buffer =  device.makeBuffer( bytes:indices, length: MemoryLayout<UInt16>.stride * indices.count, options:[.storageModeShared])!
+                let vertex_buffer = device.makeBuffer(
+                    bytes:vertices, 
+                    length: MemoryLayout<Vertex>.stride * vertices.count,
+                    options:[.storageModeShared]
+                )!
+                let index_buffer = device.makeBuffer( 
+                    bytes:indices, 
+                    length: MemoryLayout<UInt16>.stride * indices.count,
+                    options:[.storageModeShared]
+                )!
                 
                 let new_mesh = Mesh(
                     boundingRadius: boundingSphereRadius, 
                     vertexBuffer: vertex_buffer,
                     indexBuffer: index_buffer
                 )
+                
                 #else
-                let vertex_buffer = device.makeBuffer( length:MemoryLayout<Vertex>.stride * vertices.count, options:[.storageModePrivate] )!
-                let index_buffer = device.makeBuffer( length: MemoryLayout<UInt16>.stride * indices.count, options:[.storageModePrivate] )!
+                let vertex_buffer = device.makeBuffer(
+                    length:MemoryLayout<Vertex>.stride * vertices.count,
+                    options:[.storageModePrivate] 
+                )!
+                let index_buffer = device.makeBuffer( 
+                    length: MemoryLayout<UInt16>.stride * indices.count,
+                    options:[.storageModePrivate] 
+                )!
    
                 let blit_vertex_buffer = device.makeBuffer(
-                    bytes: vertices, length: MemoryLayout<Vertex>.stride * vertices.count )!
+                    bytes: vertices, 
+                    length: MemoryLayout<Vertex>.stride * vertices.count
+                )!
                 let blit_index_buffer = device.makeBuffer(
-                    bytes: indices, length: MemoryLayout<UInt16>.stride * indices.count )!
+                    bytes: indices,
+                    length: MemoryLayout<UInt16>.stride * indices.count
+                )!
                 
                 let command_buffer = commandQueue.makeCommandBuffer()
                 let blit_encoder = command_buffer?.makeBlitCommandEncoder()
-                blit_encoder?.copy(from: blit_vertex_buffer, sourceOffset: 0, to: vertex_buffer, destinationOffset: 0, size:MemoryLayout<Vertex>.stride * vertices.count )
-                blit_encoder?.copy(from: blit_index_buffer, sourceOffset: 0, to: index_buffer, destinationOffset: 0, size:MemoryLayout<UInt16>.stride * indices.count )
+                blit_encoder?.copy(
+                    from: blit_vertex_buffer, 
+                    sourceOffset: 0, 
+                    to: vertex_buffer, 
+                    destinationOffset: 0,
+                    size:MemoryLayout<Vertex>.stride * vertices.count
+                )
+                blit_encoder?.copy(
+                    from: blit_index_buffer, 
+                    sourceOffset: 0,
+                    to: index_buffer,
+                    destinationOffset: 0, 
+                    size:MemoryLayout<UInt16>.stride * indices.count
+                )
                 blit_encoder?.endEncoding()
                 
                 command_buffer?.commit()
@@ -300,8 +331,16 @@ extension Lily.Stage.Model
                 inputStream.close()
                 
                 #if !targetEnvironment(simulator)
-                let vertex_buffer = device.makeBuffer( bytes:vertices, length: MemoryLayout<Vertex>.stride * vertices.count, options:[.storageModeShared])!
-                let index_buffer =  device.makeBuffer( bytes:indices, length: MemoryLayout<UInt16>.stride * indices.count, options:[.storageModeShared])!
+                let vertex_buffer = device.makeBuffer(
+                    bytes:vertices,
+                    length: MemoryLayout<Vertex>.stride * vertices.count,
+                    options:[.storageModeShared]
+                )!
+                let index_buffer = device.makeBuffer(
+                    bytes:indices, 
+                    length: MemoryLayout<UInt16>.stride * indices.count,
+                    options:[.storageModeShared]
+                )!
                 
                 let new_mesh = Mesh(
                     boundingRadius: boundingSphereRadius, 
@@ -309,18 +348,40 @@ extension Lily.Stage.Model
                     indexBuffer: index_buffer
                 )
                 #else
-                let vertex_buffer = device.makeBuffer( length:MemoryLayout<Vertex>.stride * vertices.count, options:[.storageModePrivate] )!
-                let index_buffer = device.makeBuffer( length: MemoryLayout<UInt16>.stride * indices.count, options:[.storageModePrivate] )!
+                let vertex_buffer = device.makeBuffer( 
+                    length:MemoryLayout<Vertex>.stride * vertices.count,
+                    options:[.storageModePrivate] 
+                )!
+                let index_buffer = device.makeBuffer( 
+                    length: MemoryLayout<UInt16>.stride * indices.count,
+                    options:[.storageModePrivate] 
+                )!
    
                 let blit_vertex_buffer = device.makeBuffer(
-                    bytes: vertices, length: MemoryLayout<Vertex>.stride * vertices.count )!
+                    bytes: vertices, 
+                    length: MemoryLayout<Vertex>.stride * vertices.count
+                )!
                 let blit_index_buffer = device.makeBuffer(
-                    bytes: indices, length: MemoryLayout<UInt16>.stride * indices.count )!
+                    bytes: indices,
+                    length: MemoryLayout<UInt16>.stride * indices.count 
+                )!
                 
                 let command_buffer = commandQueue.makeCommandBuffer()
                 let blit_encoder = command_buffer?.makeBlitCommandEncoder()
-                blit_encoder?.copy(from: blit_vertex_buffer, sourceOffset: 0, to: vertex_buffer, destinationOffset: 0, size:MemoryLayout<Vertex>.stride * vertices.count )
-                blit_encoder?.copy(from: blit_index_buffer, sourceOffset: 0, to: index_buffer, destinationOffset: 0, size:MemoryLayout<UInt16>.stride * indices.count )
+                blit_encoder?.copy(
+                    from: blit_vertex_buffer, 
+                    sourceOffset: 0,
+                    to: vertex_buffer,
+                    destinationOffset: 0, 
+                    size:MemoryLayout<Vertex>.stride * vertices.count
+                )
+                blit_encoder?.copy(
+                    from: blit_index_buffer, 
+                    sourceOffset: 0, 
+                    to: index_buffer,
+                    destinationOffset: 0,
+                    size:MemoryLayout<UInt16>.stride * indices.count
+                )
                 blit_encoder?.endEncoding()
                 
                 command_buffer?.commit()

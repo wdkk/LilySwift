@@ -58,8 +58,8 @@ class DevViewController
             modelStorage:modelStorage
         )
         
-        pgScreen?.pgDesignHandler = design2
-        pgScreen?.pgUpdateHandler = update2
+        pgScreen?.pgDesignHandler = design
+        pgScreen?.pgUpdateHandler = update
         
         self.addSubview( pgScreen!.view )
     }

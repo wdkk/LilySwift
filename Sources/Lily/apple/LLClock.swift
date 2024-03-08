@@ -14,13 +14,11 @@ import Foundation
 open class LLClock 
 {
     /// 現在時間(ミリ秒)を取得する
-	static public var now:LLInt64 { 
-        return LCClockNow()
-    }
-    
-    /// 現在時間(マイクロ秒)を取得する
-    static public var nowMircoSecond:Double { 
-        return LCClockNowMicroSecond()
+	static public var now:LLInt64 { return LCClockNow() }
+
+    open class Precision {
+        /// 現在時間(秒 & 小数でのマイクロ秒までの値)を取得する
+        static public var now:Double { return LCClockPrecisionNow() }
     }
 
     /// くりかえす呼び出すことでframe per secondをコンソールに出力する
