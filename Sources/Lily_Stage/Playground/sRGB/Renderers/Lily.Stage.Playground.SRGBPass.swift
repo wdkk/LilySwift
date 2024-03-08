@@ -12,9 +12,9 @@ import Metal
 import MetalKit
 import simd
 
-extension Lily.Stage.Playground
+extension Lily.Stage.Playground.sRGB
 {
-    open class SRGBPass
+    open class Pass
     { 
         var device:MTLDevice
  

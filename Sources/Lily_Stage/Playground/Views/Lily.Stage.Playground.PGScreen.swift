@@ -43,7 +43,7 @@ extension Lily.Stage.Playground
         public var planeRenderFlow:Plane.PlaneRenderFlow?
         public var modelRenderFlow:Model.RenderFlow?
         public var bbRenderFlow:Billboard.RenderFlow?
-        public var sRGBRenderFlow:SRGBRenderFlow?
+        public var sRGBRenderFlow:sRGB.RenderFlow?
         
         // MARK: アクセサ - レンダラ関連
         public var clearColor:LLColor = .white { 

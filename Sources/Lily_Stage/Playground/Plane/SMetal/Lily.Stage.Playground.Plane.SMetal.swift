@@ -26,7 +26,7 @@ extension Lily.Stage.Playground.Plane
         }
 
         private init( device:MTLDevice ) {
-            LLLog( "文字列からシェーダを生成しています." )
+            //LLLog( "文字列からシェーダを生成しています." )
 
             self.comDeltaShader = .init(
                 device:device, 

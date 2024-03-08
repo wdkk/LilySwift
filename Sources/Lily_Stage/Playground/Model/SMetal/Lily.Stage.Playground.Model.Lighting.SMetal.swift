@@ -303,7 +303,7 @@ extension Lily.Stage.Playground.Model.Lighting
         }
 
         private init( device:MTLDevice ) {
-            LLLog( "文字列からシェーダを生成しています." )
+            //LLLog( "文字列からシェーダを生成しています." )
             
             self.vertexShader = .init(
                 device:device, 

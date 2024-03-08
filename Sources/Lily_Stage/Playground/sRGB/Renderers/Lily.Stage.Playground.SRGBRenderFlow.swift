@@ -11,16 +11,18 @@
 import Metal
 import MetalKit
 
-extension Lily.Stage.Playground
+extension Lily.Stage.Playground.sRGB
 {
-    open class SRGBRenderFlow
+    open class RenderFlow
     : Lily.Stage.Playground.BaseRenderFlow
     {
-        var pass:Lily.Stage.Playground.SRGBPass?
+        public typealias Playground = Lily.Stage.Playground
         
-        weak var mediumTexture:MediumTexture?
+        var pass:Lily.Stage.Playground.sRGB.Pass?
         
-        var sRGBRenderer:SRGBRenderer?
+        weak var mediumTexture:Playground.MediumTexture?
+        
+        var sRGBRenderer:Renderer?
         
         public let viewCount:Int
         
@@ -28,7 +30,7 @@ extension Lily.Stage.Playground
             device:MTLDevice,
             environment:Lily.Stage.ShaderEnvironment,
             viewCount:Int,
-            mediumTexture:MediumTexture
+            mediumTexture:Playground.MediumTexture
         ) 
         {
             self.pass = .init( device:device )

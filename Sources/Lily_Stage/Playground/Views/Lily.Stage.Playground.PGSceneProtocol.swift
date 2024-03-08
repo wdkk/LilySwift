@@ -31,7 +31,7 @@ public protocol Lily_Stage_Playground_PGSceneProtocol
     var planeRenderFlow:PG.Plane.PlaneRenderFlow? { get set }
     var modelRenderFlow:PG.Model.RenderFlow? { get set }
     var bbRenderFlow:PG.Billboard.RenderFlow? { get set }
-    var sRGBRenderFlow:PG.SRGBRenderFlow? { get set }
+    var sRGBRenderFlow:PG.sRGB.RenderFlow? { get set }
     
     // MARK: - 背景色情報
     var clearColor:LLColor { get set }

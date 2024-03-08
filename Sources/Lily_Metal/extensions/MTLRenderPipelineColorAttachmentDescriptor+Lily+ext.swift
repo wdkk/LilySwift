@@ -43,7 +43,7 @@ extension MTLRenderPipelineColorAttachmentDescriptor
             self.sourceAlphaBlendFactor = .sourceAlpha
             // 合成先データ = 1-α
             self.destinationRGBBlendFactor = .oneMinusSourceAlpha
-            self.destinationAlphaBlendFactor = .oneMinusSourceAlpha
+            self.destinationAlphaBlendFactor = .one
             break
         // 加算合成
         case .add:

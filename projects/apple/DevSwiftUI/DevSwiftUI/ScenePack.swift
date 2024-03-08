@@ -24,7 +24,7 @@ class ScenePack : ObservableObject
         scene.planeStorage = .init(
             device: device,
             capacity: 2000, 
-            textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star", "star" ]
+            textures: ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star" ]
         )
 
         scene.bbStorage = .init(
@@ -44,7 +44,6 @@ class ScenePack : ObservableObject
     }
     
     func design( screen:PGScreen ) {
-        /*
         screen.clearColor = .clear
 
         for _ in 0 ..< 160 {
@@ -82,9 +81,10 @@ class ScenePack : ObservableObject
                 .life( 1.0 )
             }
         }
-        */
         
-        screen.clearColor = .darkGrey
+        
+        /*
+        screen.clearColor = .clear
         screen.cubeMap = "skyCubeMap"
         
         screen.camera.position = .init( 0, 400, 400 )
@@ -105,7 +105,7 @@ class ScenePack : ObservableObject
         ModelObj( assetName:"yukidaruma" )
         .position( cx:0.0, cy:0.0, cz:0.0 )
         .scale( x: 30, y: 30, z:30 )
-        .rotate( rx:0, ry:LLAngle(degrees:-45.0).radians.f, rz:0 )
+        .rotation( rx:0, ry:LLAngle(degrees:-45.0).radians.f, rz:0 )
         
         ModelObj( assetName:"plane" ) 
         .position( cx:0.0, cy:0.0, cz:0.0 )
@@ -149,6 +149,7 @@ class ScenePack : ObservableObject
                 .life( 1.0 )
             }
         }
+        */
     }
     
     func update( screen:PGScreen ) {
