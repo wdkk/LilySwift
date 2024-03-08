@@ -23,6 +23,12 @@ public func LCClockNow() -> LLInt64 {
     return LLInt64( now_time.tv_sec * 1000 ) + LLInt64( now_time.tv_usec / 1000 )  
 }
 
+public func LCClockNowMicroSecond() -> Double {
+    var now_time:timeval = timeval()
+    var tzp:timezone = timezone()
+    gettimeofday( &now_time, &tzp )
+    return Double( now_time.tv_sec ) * 1_000_000 + Double( now_time.tv_usec )  
+}
 
 fileprivate var is_started:Bool = false
 fileprivate var time_span:LLInt64 = 0

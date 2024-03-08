@@ -261,15 +261,9 @@ public extension LLMatrix4x4
     }
     
     static func affine2D( scale sc:LLFloatv2, angle ang:Float, translate t:LLFloatv2 ) -> Self {
-        let cosv:Float = cos( ang )
-        let sinv:Float = sin( ang )
-        // xy座標のアフィン変換
-        return .init(
-         .init( sc.x * cosv, -sinv * sc.y, 0, 0 ),
-         .init( sc.x * sinv,  cosv * sc.y, 0, 0 ),
-         .init(           0,            0, 1, 0 ),
-         .init(         t.x,          t.y, 0, 1 )
-        );
+        let sc3 = LLFloatv3( sc, 1.0 )
+        let t3  = LLFloatv3( t, 0.0 )
+        return translate( vector:t3 ) * rotateZ( byAngle:ang ) * scale( vector: sc3 );
     }
     
     static func affine3D( scale sc:LLFloatv3, rotate ro:LLFloatv3, translate t:LLFloatv3 ) -> Self {

@@ -74,6 +74,7 @@ class DevViewController
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded( touches, with:event )
         
+        /*
         pgScreen?.changeStorages(
             planeStorage:planeStorage2,
             bbStorage:nil,
@@ -82,6 +83,7 @@ class DevViewController
             update:update2,
             resize:nil
         )
+        */
     }
     #endif
 }
@@ -239,7 +241,7 @@ func design2( screen:PGScreen ) {
     screen.clearColor = .darkGray 
     
     let p = PGEmpty()
-    .deltaAngle( degrees:-1.0 )
+    .deltaAngle( degrees:1.0 )
     
     for _ in 0 ..< 160 {
        PGAddMask( "mask-smoke" )

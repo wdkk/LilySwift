@@ -17,6 +17,11 @@ open class LLClock
 	static public var now:LLInt64 { 
         return LCClockNow()
     }
+    
+    /// 現在時間(マイクロ秒)を取得する
+    static public var nowMircoSecond:Double { 
+        return LCClockNowMicroSecond()
+    }
 
     /// くりかえす呼び出すことでframe per secondをコンソールに出力する
 	static public func fps() {
