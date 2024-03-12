@@ -25,13 +25,13 @@ extension Lily.Stage.Playground.Plane
         }
     }
     
-    open class Storage : Hashable
+    open class PlaneStorage : Hashable
     {
         // Hashableの実装
-        public static func == ( lhs:Storage, rhs:Storage ) -> Bool { lhs === rhs }
+        public static func == ( lhs:PlaneStorage, rhs:PlaneStorage ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
         
-        public static var current:Storage? = nil
+        public static var current:PlaneStorage? = nil
         
         public var particles:Lily.Stage.Model.Quadrangles<VIn>
         public var statuses:Lily.Metal.Buffer<UnitStatus>
@@ -60,7 +60,7 @@ extension Lily.Stage.Playground.Plane
             capacity:Int = 2000,
             appendTextures:[String] = []
         )
-        -> Storage 
+        -> PlaneStorage 
         {
             var texs = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
             texs.append( contentsOf:appendTextures )

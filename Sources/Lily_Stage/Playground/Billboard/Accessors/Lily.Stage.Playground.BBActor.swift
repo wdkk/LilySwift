@@ -22,7 +22,7 @@ extension Lily.Stage.Playground.Billboard
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
     
         public private(set) var index:Int
-        public private(set) var storage:Storage?
+        public private(set) var storage:BBStorage?
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<UnitStatus>?
         public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>?
                 
@@ -32,7 +32,7 @@ extension Lily.Stage.Playground.Billboard
         
         public private(set) var parent:BBActor?
         
-        public init( storage:Storage? ) {   
+        public init( storage:BBStorage? ) {   
             self.storage = storage
             
             guard let storage = storage else { 

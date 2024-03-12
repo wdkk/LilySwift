@@ -15,7 +15,7 @@ extension Lily.Stage.Playground.Plane
     public class PGEmpty : PGActor
     {        
         @discardableResult
-        public override init( storage:Storage? = Storage.current ) {
+        public override init( storage:PlaneStorage? = PlaneStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .empty
             status?.compositeType = .none

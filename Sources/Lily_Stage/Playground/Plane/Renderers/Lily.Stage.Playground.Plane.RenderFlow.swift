@@ -18,7 +18,7 @@ extension Lily.Stage.Playground.Plane
     {
         var pass:Pass?
         weak var mediumTexture:Lily.Stage.Playground.MediumTexture?
-        public weak var storage:Storage?
+        public weak var storage:PlaneStorage?
         
         var comDelta:PlaneComDelta?
         
@@ -35,7 +35,7 @@ extension Lily.Stage.Playground.Plane
             environment:Lily.Stage.ShaderEnvironment,
             viewCount:Int,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
-            storage:Storage?
+            storage:PlaneStorage?
         ) 
         {
             self.pass = .init( device:device )

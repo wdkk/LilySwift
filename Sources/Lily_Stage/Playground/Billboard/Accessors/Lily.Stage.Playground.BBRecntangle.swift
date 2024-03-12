@@ -16,7 +16,7 @@ extension Lily.Stage.Playground.Billboard
     public class BBRectangle : BBActor
     {     
         @discardableResult
-        public override init( storage:Storage? = Storage.current ) {
+        public override init( storage:BBStorage? = BBStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .rectangle
             status?.compositeType = .alpha
@@ -26,7 +26,7 @@ extension Lily.Stage.Playground.Billboard
     public class BBAddRectangle : BBActor
     {        
         @discardableResult
-        public override init( storage:Storage? = Storage.current ) {
+        public override init( storage:BBStorage? = BBStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .rectangle
             status?.compositeType = .add
@@ -36,7 +36,7 @@ extension Lily.Stage.Playground.Billboard
     public class BBSubRectangle : BBActor
     {        
         @discardableResult
-        public override init( storage:Storage? = Storage.current ) {
+        public override init( storage:BBStorage? = BBStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .rectangle
             status?.compositeType = .sub

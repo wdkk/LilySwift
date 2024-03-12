@@ -15,7 +15,7 @@ extension Lily.Stage.Playground.Billboard
     public class BBPicture : BBActor
     {          
         @discardableResult
-        public init( storage:Storage? = Storage.current, _ assetName:String ) {
+        public init( storage:BBStorage? = BBStorage.current, _ assetName:String ) {
             super.init( storage:storage )
             status?.shapeType = .picture
             status?.compositeType = .alpha
@@ -26,7 +26,7 @@ extension Lily.Stage.Playground.Billboard
     public class BBAddPicture : BBActor
     {            
         @discardableResult
-        public init( storage:Storage? = Storage.current, _ assetName:String ) {
+        public init( storage:BBStorage? = BBStorage.current, _ assetName:String ) {
             super.init( storage:storage )
             status?.shapeType = .picture
             status?.compositeType = .add
@@ -37,7 +37,7 @@ extension Lily.Stage.Playground.Billboard
     public class BBSubPicture : BBActor
     {         
         @discardableResult
-        public init( storage:Storage? = Storage.current, _ assetName:String ) {
+        public init( storage:BBStorage? = BBStorage.current, _ assetName:String ) {
             super.init( storage:storage )
             status?.shapeType = .picture
             status?.compositeType = .sub

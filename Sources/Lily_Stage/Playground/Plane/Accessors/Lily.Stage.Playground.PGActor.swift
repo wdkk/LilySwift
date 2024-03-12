@@ -25,7 +25,7 @@ extension Lily.Stage.Playground.Plane
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
     
         public private(set) var index:Int
-        public private(set) var storage:Storage?
+        public private(set) var storage:PlaneStorage?
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<UnitStatus>?
         public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>?
                 
@@ -35,7 +35,7 @@ extension Lily.Stage.Playground.Plane
         
         public private(set) var parent:PGActor?
                 
-        public init( storage:Storage? ) {
+        public init( storage:PlaneStorage? ) {
             self.storage = storage
             
             guard let storage = storage else { 

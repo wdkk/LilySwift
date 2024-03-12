@@ -34,9 +34,9 @@ extension Lily.Stage.Playground
         public var mediumTexture:MediumTexture
         
         // MARK: ストレージ
-        public var planeStorage:Plane.Storage?
-        public var modelStorage:Model.Storage?
-        public var bbStorage:Billboard.Storage?
+        public var planeStorage:Plane.PlaneStorage?
+        public var modelStorage:Model.ModelStorage?
+        public var bbStorage:Billboard.BBStorage?
         
         // MARK: レンダーフロー
         public var clearRenderFlow:ClearRenderFlow?
@@ -170,9 +170,9 @@ extension Lily.Stage.Playground
         public init( 
             device:MTLDevice, 
             environment:Lily.Stage.ShaderEnvironment = .metallib,
-            planeStorage:Plane.Storage? = nil,
-            bbStorage:Billboard.Storage? = nil,
-            modelStorage:Model.Storage? = nil
+            planeStorage:Plane.PlaneStorage? = nil,
+            bbStorage:Billboard.BBStorage? = nil,
+            modelStorage:Model.ModelStorage? = nil
         )
         {
             self.device = device

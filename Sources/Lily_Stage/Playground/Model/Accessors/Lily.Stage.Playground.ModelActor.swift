@@ -22,7 +22,7 @@ extension Lily.Stage.Playground.Model
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
     
         public private(set) var index:Int
-        public private(set) var storage:Storage?
+        public private(set) var storage:ModelStorage?
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<UnitStatus>?
         public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>?
                 
@@ -30,7 +30,7 @@ extension Lily.Stage.Playground.Model
         public var intervalField:ActorInterval?
         public var completionField:ModelField<ModelActor, LLEmpty>?
         
-        public init( storage:Storage?, assetName:String ) {   
+        public init( storage:ModelStorage?, assetName:String ) {   
             self.storage = storage
             
             guard let storage = storage else { 

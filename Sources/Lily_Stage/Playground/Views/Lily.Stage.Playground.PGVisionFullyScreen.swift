@@ -27,9 +27,9 @@ extension Lily.Stage.Playground
         public var mediumTexture:MediumTexture
         
         // MARK: ストレージ
-        public var planeStorage:Plane.Storage?
-        public var modelStorage:Model.Storage?
-        public var bbStorage:Billboard.Storage?
+        public var planeStorage:Plane.PlaneStorage?
+        public var modelStorage:Model.PlaneStorage?
+        public var bbStorage:Billboard.PlaneStorage?
         
         // MARK: レンダーフロー
         public var clearRenderFlow:ClearRenderFlow?

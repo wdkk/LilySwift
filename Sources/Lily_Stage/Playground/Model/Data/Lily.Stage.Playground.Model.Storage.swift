@@ -18,21 +18,21 @@ import UIKit
 
 extension Lily.Stage.Playground.Model
 {
-    open class Storage : Hashable
+    open class ModelStorage : Hashable
     {
-        public struct ModelGuide
+        public struct ModelSet
         {
             public var modelIndex:Int32
-            public var meshData:Lily.Stage.Model.Obj?
+            public var objData:Lily.Stage.Model.Obj?
         }
         
         // Hashableの実装
-        public static func == ( lhs:Storage, rhs:Storage ) -> Bool { lhs === rhs }
+        public static func == ( lhs:ModelStorage, rhs:ModelStorage ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
         
-        public static var current:Storage? = nil
+        public static var current:ModelStorage? = nil
         
-        public var models:[String:ModelGuide] = [:]
+        public var models:[String:ModelSet] = [:]
         public var statuses:Lily.Metal.Buffer<UnitStatus>
         
         public var cubeMap:MTLTexture?
@@ -50,7 +50,7 @@ extension Lily.Stage.Playground.Model
             modelCapacity:Int = 500,
             appendModelAssets:[String] = []
         )
-        -> Storage 
+        -> ModelStorage 
         {
             var modelAssets = [ "cottonwood1", "acacia1", "plane" ]
             modelAssets.append( contentsOf:appendModelAssets )
@@ -83,7 +83,7 @@ extension Lily.Stage.Playground.Model
             for i in 0 ..< modelAssets.count {
                 let asset_name = modelAssets[i]
                 let obj = loadObj( device:device, assetName:asset_name )
-                models[asset_name] = ModelGuide( modelIndex:i.i32!, meshData:obj )
+                models[asset_name] = ModelSet( modelIndex:i.i32!, objData:obj )
             }
         }
         

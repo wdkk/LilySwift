@@ -85,14 +85,14 @@ extension Lily.Stage.Playground.Model.Object
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            storage:Model.Storage
+            storage:Model.ModelStorage
         )
         {
             guard let obj_pp = objectPipeline else { return }
             
             renderEncoder?.setRenderPipelineState( obj_pp )
             for (_, v) in storage.models {
-                guard let data = v.meshData, let mesh = data.mesh else { continue }
+                guard let data = v.objData, let mesh = data.mesh else { continue }
                 var model_idx = v.modelIndex
                 
                 renderEncoder?.setVertexBuffer( mesh.vertexBuffer, offset:0, index:0 )
@@ -115,7 +115,7 @@ extension Lily.Stage.Playground.Model.Object
             with renderEncoder:MTLRenderCommandEncoder?, 
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
             shadowCamVPMatrices:[LLMatrix4x4],
-            storage:Model.Storage,
+            storage:Model.ModelStorage,
             cascadeIndex:Int 
         )
         {
@@ -127,7 +127,7 @@ extension Lily.Stage.Playground.Model.Object
             for (k, v) in storage.models {
                 // TODO: 仮にplaneは影描かないようにした
                 if k == "plane" { continue }
-                guard let data = v.meshData, let mesh = data.mesh else { continue }
+                guard let data = v.objData, let mesh = data.mesh else { continue }
                 var model_idx = v.modelIndex
                 
                 renderEncoder?.setVertexBuffer( mesh.vertexBuffer, offset: 0, index: 0 )

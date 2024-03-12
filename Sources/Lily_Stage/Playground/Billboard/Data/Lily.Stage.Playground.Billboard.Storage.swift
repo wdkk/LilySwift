@@ -25,13 +25,13 @@ extension Lily.Stage.Playground.Billboard
         }
     }
     
-    open class Storage : Hashable
+    open class BBStorage : Hashable
     {
         // Hashableの実装
-        public static func == ( lhs:Storage, rhs:Storage ) -> Bool { lhs === rhs }
+        public static func == ( lhs:BBStorage, rhs:BBStorage ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
         
-        public static var current:Storage? = nil
+        public static var current:BBStorage? = nil
         
         public var particles:Lily.Stage.Model.Quadrangles<VIn>
         public var statuses:Lily.Metal.Buffer<UnitStatus>
@@ -60,7 +60,7 @@ extension Lily.Stage.Playground.Billboard
             capacity:Int = 2000,
             appendTextures:[String] = []
         )
-        -> Storage 
+        -> BBStorage 
         {
             var texs = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
             texs.append( contentsOf:appendTextures )

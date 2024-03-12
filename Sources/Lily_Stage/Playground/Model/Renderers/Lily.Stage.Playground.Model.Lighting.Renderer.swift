@@ -80,7 +80,7 @@ extension Lily.Stage.Playground.Model.Lighting
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?, 
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            storage:Model.Storage,
+            storage:Model.ModelStorage,
             renderTextures:Model.RenderTextures?
         )
         {

@@ -51,7 +51,7 @@ extension Lily.Stage.Playground.Billboard
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            storage:Lily.Stage.Playground.Billboard.Storage
+            storage:Lily.Stage.Playground.Billboard.BBStorage
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )
@@ -78,7 +78,7 @@ extension Lily.Stage.Playground.Billboard
         public func drawTriangle( 
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            storage:Lily.Stage.Playground.Billboard.Storage
+            storage:Lily.Stage.Playground.Billboard.BBStorage
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )

@@ -15,7 +15,7 @@ extension Lily.Stage.Playground.Plane
     public class PGBlurryCircle : PGActor
     {        
         @discardableResult
-        public override init( storage:Storage? = Storage.current ) {
+        public override init( storage:PlaneStorage? = PlaneStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .blurryCircle
             status?.compositeType = .alpha
@@ -25,7 +25,7 @@ extension Lily.Stage.Playground.Plane
     public class PGAddBlurryCircle : PGActor
     {        
         @discardableResult
-        public override init( storage:Storage? = Storage.current ) {
+        public override init( storage:PlaneStorage? = PlaneStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .blurryCircle
             status?.compositeType = .add
@@ -35,7 +35,7 @@ extension Lily.Stage.Playground.Plane
     public class PGSubBlurryCircle : PGActor
     {        
         @discardableResult
-        public override init( storage:Storage? = Storage.current ) {
+        public override init( storage:PlaneStorage? = PlaneStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .blurryCircle
             status?.compositeType = .sub

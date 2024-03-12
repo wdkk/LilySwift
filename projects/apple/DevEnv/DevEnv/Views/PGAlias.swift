@@ -19,7 +19,7 @@ typealias PGVisionFullyScreen = PG.PGVisionFullyScreen
 typealias PGVisionScene = PG.PGVisionScene
 #endif
 
-typealias PlaneStorage = PG.Plane.Storage
+typealias PlaneStorage = PG.Plane.PlaneStorage
 typealias PGActor = PG.Plane.PGActor
 typealias PGEmpty = PG.Plane.PGEmpty
 typealias PGRectangle = PG.Plane.PGRectangle
@@ -41,7 +41,7 @@ typealias PGMask = PG.Plane.PGMask
 typealias PGAddMask = PG.Plane.PGAddMask
 typealias PGSubMask = PG.Plane.PGSubMask
 
-typealias BBStorage = PG.Billboard.Storage
+typealias BBStorage = PG.Billboard.BBStorage
 typealias BBPool = PG.Billboard.BBPool
 typealias BBActor = PG.Billboard.BBActor
 typealias BBEmpty = PG.Billboard.BBEmpty
@@ -64,5 +64,5 @@ typealias BBMask = PG.Billboard.BBMask
 typealias BBAddMask = PG.Billboard.BBAddMask
 typealias BBSubMask = PG.Billboard.BBSubMask
 
-typealias ModelStorage = PG.Model.Storage
+typealias ModelStorage = PG.Model.ModelStorage
 typealias ModelObj = PG.Model.ModelObj

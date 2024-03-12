@@ -15,7 +15,7 @@ extension Lily.Stage.Playground.Plane
     public class PGTriangle : PGActor
     {        
         @discardableResult
-        public override init( storage:Storage? = Storage.current ) {
+        public override init( storage:PlaneStorage? = PlaneStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .triangle
             status?.compositeType = .alpha
@@ -25,7 +25,7 @@ extension Lily.Stage.Playground.Plane
     public class PGAddTriangle : PGActor
     {        
         @discardableResult
-        public override init( storage:Storage? = Storage.current ) {
+        public override init( storage:PlaneStorage? = PlaneStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .triangle
             status?.compositeType = .add
@@ -35,7 +35,7 @@ extension Lily.Stage.Playground.Plane
     public class PGSubTriangle : PGActor
     {        
         @discardableResult
-        public override init( storage:Storage? = Storage.current ) {
+        public override init( storage:PlaneStorage? = PlaneStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .triangle
             status?.compositeType = .sub

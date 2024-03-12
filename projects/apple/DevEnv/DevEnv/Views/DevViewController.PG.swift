@@ -92,9 +92,10 @@ func design( screen:PGScreen ) {
     //screen.clearColor = .clear
     screen.cubeMap = "skyCubeMap"
     
-    screen.camera.position = .init( 0, 400, 400 )
-    screen.camera.direction = .init( 0.0, -0.8, -1.0 )
+    screen.camera.position = .init( 0, 450, 400 )
+    screen.camera.direction = .init( 0.0, -0.9, -1.0 )
 
+    /*
     for _ in 0 ..< 10 {
         let size = (40.0 ... 80.0).randomize
         let speed = size / 80.0
@@ -141,6 +142,7 @@ func design( screen:PGScreen ) {
             }
         }
     }
+    */
     
     /*
     PGAddCircle()

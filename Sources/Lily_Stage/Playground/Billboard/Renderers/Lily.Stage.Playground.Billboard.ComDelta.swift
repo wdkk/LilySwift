@@ -46,7 +46,7 @@ extension Lily.Stage.Playground.Billboard
         public func updateMatrices( 
             with commandBuffer:MTLCommandBuffer?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            storage:Storage
+            storage:BBStorage
         )
         {
             #if !targetEnvironment(simulator)

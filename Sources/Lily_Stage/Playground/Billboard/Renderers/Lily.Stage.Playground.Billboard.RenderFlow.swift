@@ -20,7 +20,7 @@ extension Lily.Stage.Playground.Billboard
         
         weak var mediumTexture:Lily.Stage.Playground.MediumTexture?
         
-        public weak var storage:Storage?
+        public weak var storage:BBStorage?
         
         var comDelta:ComDelta?
         
@@ -35,7 +35,7 @@ extension Lily.Stage.Playground.Billboard
             environment:Lily.Stage.ShaderEnvironment,
             viewCount:Int,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
-            storage:Storage?
+            storage:BBStorage?
         ) 
         {
             self.mediumTexture = mediumTexture

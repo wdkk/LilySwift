@@ -15,7 +15,7 @@ extension Lily.Stage.Playground.Billboard
     public class BBEmpty : BBActor
     {        
         @discardableResult
-        public override init( storage:Storage? = Storage.current ) {
+        public override init( storage:BBStorage? = BBStorage.current ) {
             super.init( storage:storage )
             status?.shapeType = .empty
             status?.compositeType = .none

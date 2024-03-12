@@ -20,9 +20,9 @@ extension Lily.Stage.Playground
 {
     public struct PGBaseScene<TScreen>
     {
-        public var planeStorage:Plane.Storage? { didSet { requestRedesign() } }
-        public var bbStorage:Billboard.Storage? { didSet { requestRedesign() } }
-        public var modelStorage:Model.Storage? { didSet { requestRedesign() } }
+        public var planeStorage:Plane.PlaneStorage? { didSet { requestRedesign() } }
+        public var bbStorage:Billboard.BBStorage? { didSet { requestRedesign() } }
+        public var modelStorage:Model.ModelStorage? { didSet { requestRedesign() } }
 
         public var design:(( TScreen )->Void)? { didSet { requestRedesign() } }
         public var update:(( TScreen )->Void)? { didSet { requestRedesign() } }
@@ -35,9 +35,9 @@ extension Lily.Stage.Playground
         public func checkNeedRedesign() -> Bool { return _updated }
         
         public init(
-            planeStorage:Plane.Storage? = nil,
-            bbStorage:Billboard.Storage? = nil,
-            modelStorage:Model.Storage? = nil,
+            planeStorage:Plane.PlaneStorage? = nil,
+            bbStorage:Billboard.BBStorage? = nil,
+            modelStorage:Model.ModelStorage? = nil,
             design:((TScreen) -> Void)? = nil,
             update:((TScreen) -> Void)? = nil,
             resize:((TScreen) -> Void)? = nil

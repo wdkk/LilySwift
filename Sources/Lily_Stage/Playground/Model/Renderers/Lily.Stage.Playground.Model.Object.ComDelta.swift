@@ -48,7 +48,7 @@ extension Lily.Stage.Playground.Model.Object
         public func updateMatrices( 
             with commandBuffer:MTLCommandBuffer?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
-            storage:Model.Storage
+            storage:Model.ModelStorage
         )
         {
             #if !targetEnvironment(simulator)

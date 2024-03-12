@@ -21,7 +21,7 @@ extension Lily.Stage.Playground.Model
         
         public var modelPass:Pass?
         
-        public weak var storage:Storage?
+        public weak var storage:ModelStorage?
         
         var comDelta:Object.ComDelta?
         
@@ -36,7 +36,7 @@ extension Lily.Stage.Playground.Model
             viewCount:Int,
             renderTextures:RenderTextures,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
-            storage:Storage?
+            storage:ModelStorage?
         ) 
         {
             self.modelRenderTextures = renderTextures

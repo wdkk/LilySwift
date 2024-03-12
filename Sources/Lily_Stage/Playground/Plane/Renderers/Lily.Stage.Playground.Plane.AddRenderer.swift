@@ -54,7 +54,7 @@ extension Lily.Stage.Playground.Plane
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
-            storage:Storage,
+            storage:PlaneStorage,
             screenSize:CGSize
         ) 
         {
@@ -84,7 +84,7 @@ extension Lily.Stage.Playground.Plane
             with renderEncoder:MTLRenderCommandEncoder?,
             globalUniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>?,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
-            storage:Storage,
+            storage:PlaneStorage,
             screenSize:CGSize
         ) 
         {
