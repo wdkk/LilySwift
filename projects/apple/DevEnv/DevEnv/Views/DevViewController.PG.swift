@@ -15,6 +15,7 @@ import UIKit
 #endif
 import Metal
 import LilySwift
+import LilySwiftSupport
 
 class DevViewController 
 : Lily.View.ViewController

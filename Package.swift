@@ -15,7 +15,8 @@ let package = Package(
         .library(
             name: "LilySwift",
             targets: [
-                "LilySwift"
+                "LilySwift",
+                "LilySwiftSupport"
             ]
         )
     ],
@@ -24,6 +25,14 @@ let package = Package(
             name: "LilySwift",
             dependencies: [],
             path: "./Sources/",
+            swiftSettings: [
+                .define( "DEBUG", .when( platforms:[.iOS, .macOS, .macCatalyst, .visionOS], configuration:.debug ) )
+            ]
+        ),
+        .target(
+            name: "LilySwiftSupport",
+            dependencies: [ "LilySwift" ],
+            path: "./Supports/",
             swiftSettings: [
                 .define( "DEBUG", .when( platforms:[.iOS, .macOS, .macCatalyst, .visionOS], configuration:.debug ) )
             ]

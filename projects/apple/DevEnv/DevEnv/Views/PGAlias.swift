@@ -8,6 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+/*
 import LilySwift
 
 typealias PG = Lily.Stage.Playground
@@ -66,3 +67,4 @@ typealias BBSubMask = PG.Billboard.BBSubMask
 
 typealias ModelStorage = PG.Model.ModelStorage
 typealias ModelObj = PG.Model.ModelObj
+*/
