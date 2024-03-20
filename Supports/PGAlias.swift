@@ -8,6 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+// LilySwift利用時のサポート(Playgroundリポジトリになるときは置き換わる)
 import LilySwift
 
 public typealias PG = Lily.Stage.Playground
