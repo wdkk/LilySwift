@@ -183,8 +183,8 @@ func design( screen:PGScreen ) {
     .position( cx:0.0, cy:0.0, cz:100.0 )
     .scale( x: 30, y: 30, z:30 )
     
-    ModelObj( assetName:"yukidaruma" )
-    .position( cx:0.0, cy:0.0, cz:0.0 )
+    ModelSphere()
+    .position( cx:0.0, cy:50.0, cz:0.0 )
     .scale( x: 30, y: 30, z:30 )
     .rotation( rx:0, ry:LLAngle(degrees:-45.0).radians.f, rz:0 )
     

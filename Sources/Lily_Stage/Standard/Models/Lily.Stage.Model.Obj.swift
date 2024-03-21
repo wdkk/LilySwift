@@ -25,6 +25,14 @@ extension Lily.Stage.Model
             mesh = Obj.Loader( device:device ).load( data:data )
         }
         
+        private init() {}
+        
+        public static func sphere( device:MTLDevice, segments: Int, rings: Int ) -> Obj {
+            var obj = Obj()
+            obj.mesh = Obj.makeSphere( device:device, segments:segments, rings:rings )
+            return obj
+        }
+        
         public struct Vertex : Equatable, Hashable
         {
             public var position:LLFloatv3
@@ -399,5 +407,141 @@ extension Lily.Stage.Model
             }
         }
     }
+}
 
+extension Lily.Stage.Model.Obj
+{
+    public static func makeSphere( device:MTLDevice, segments: Int, rings: Int) -> Mesh? {
+        
+        func createOrFindVertex(_ vertex:Vertex ) -> UInt32 {
+            if let index = vertexMap[vertex] { return index }  
+            else {
+                vertexMap[vertex] = UInt32(vertices.count)
+                vertices.append(vertex)
+                boundingSphereRadius = max( boundingSphereRadius, simd.length(vertex.position) )
+                return UInt32(vertices.count) - 1
+            }
+        }
+        
+        var boundingSphereRadius: Float = 0.0
+        var vertexMap: [Vertex: UInt32] = [:]
+        var vertices: [Vertex] = []
+        var indices: [UInt16] = []
+        
+        for i in 0...rings {
+             let phi = Float(i) * Float.pi / Float(rings)
+             for j in 0...segments {
+                 let theta = Float(j) * 2.0 * Float.pi / Float(segments)
+                 let x = sin(phi) * cos(theta)
+                 let y = cos(phi)
+                 let z = sin(phi) * sin(theta)
+                 
+                 // 法線は頂点の位置と同じ（単位球の場合）
+                 let nx = x
+                 let ny = y
+                 let nz = z
+                 
+                 // 色を適当に設定（ここでは赤色）
+                 let r: Float = 1.0
+                 let g: Float = 0.0
+                 let b: Float = 0.0
+                 let a: Float = 1.0 // アルファ値
+                 
+                 let position:LLFloatv3 = .init( x, y, z )
+                 let normal:LLFloatv3 = .init( nx, ny, nz )
+                 let color:LLFloatv3 = .init( r, g, b )
+                                  
+                 let vtx = Vertex(
+                     position:position,
+                     normal:normal,
+                     color:color
+                 )
+                 
+                 //indices.append( UInt16( createOrFindVertex(vtx) ) )
+                 _ = createOrFindVertex(vtx)
+             }
+        }
+        
+        for i in 0..<rings {
+            for j in 0..<segments {
+                let a = UInt16(i * (segments + 1) + j)
+                let b = UInt16((i + 1) * (segments + 1) + j)
+                let c = UInt16(i * (segments + 1) + j + 1)
+                let d = UInt16((i + 1) * (segments + 1) + j + 1)
+
+                indices.append(contentsOf: [a, b, c, b, d, c])
+            }
+        }
+
+        
+        print( vertices.count )
+        print( indices.count )
+        
+        
+        #if !targetEnvironment(simulator)
+        let vertex_buffer = device.makeBuffer(
+            bytes:vertices,
+            length: MemoryLayout<Vertex>.stride * vertices.count,
+            options:[.storageModeShared]
+        )!
+        let index_buffer = device.makeBuffer(
+            bytes:indices, 
+            length: MemoryLayout<UInt16>.stride * indices.count,
+            options:[.storageModeShared]
+        )!
+    
+        let new_mesh = Mesh(
+            boundingRadius: boundingSphereRadius, 
+            vertexBuffer: vertex_buffer,
+            indexBuffer: index_buffer
+        )
+        #else
+        let vertex_buffer = device.makeBuffer( 
+            length:MemoryLayout<Vertex>.stride * vertices.count,
+            options:[.storageModePrivate] 
+        )!
+        let index_buffer = device.makeBuffer( 
+            length: MemoryLayout<UInt16>.stride * indices.count,
+            options:[.storageModePrivate] 
+        )!
+
+        let blit_vertex_buffer = device.makeBuffer(
+            bytes: vertices, 
+            length: MemoryLayout<Vertex>.stride * vertices.count
+        )!
+        let blit_index_buffer = device.makeBuffer(
+            bytes: indices,
+            length: MemoryLayout<UInt16>.stride * indices.count 
+        )!
+
+        let command_buffer = commandQueue.makeCommandBuffer()
+        let blit_encoder = command_buffer?.makeBlitCommandEncoder()
+        blit_encoder?.copy(
+            from: blit_vertex_buffer, 
+            sourceOffset: 0,
+            to: vertex_buffer,
+            destinationOffset: 0, 
+            size:MemoryLayout<Vertex>.stride * vertices.count
+        )
+        blit_encoder?.copy(
+            from: blit_index_buffer, 
+            sourceOffset: 0, 
+            to: index_buffer,
+            destinationOffset: 0,
+            size:MemoryLayout<UInt16>.stride * indices.count
+        )
+        blit_encoder?.endEncoding()
+
+        command_buffer?.commit()
+        command_buffer?.waitUntilCompleted()
+
+        let new_mesh = Mesh(
+            boundingRadius: boundingSphereRadius, 
+            vertexBuffer: vertex_buffer,
+            indexBuffer: index_buffer
+        )
+        #endif
+        
+        return new_mesh
+    }
 }

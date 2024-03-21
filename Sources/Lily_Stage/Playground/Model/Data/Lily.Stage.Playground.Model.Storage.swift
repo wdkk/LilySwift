@@ -85,6 +85,10 @@ extension Lily.Stage.Playground.Model
                 let obj = loadObj( device:device, assetName:asset_name )
                 models[asset_name] = ModelSet( modelIndex:i.i32!, objData:obj )
             }
+            
+            // TODO:sphereのテスト追加
+            let obj = Lily.Stage.Model.Obj.sphere(device:device, segments:8, rings:8 )
+            models["sphere"] = ModelSet( modelIndex:modelAssets.count.i32!, objData:obj )
         }
         
         public func loadObj( device:MTLDevice, assetName:String ) -> Lily.Stage.Model.Obj? {
@@ -112,7 +116,7 @@ extension Lily.Stage.Playground.Model
             statuses.accessor?[idx] = UnitStatus( modelIndex:model_index )
             return idx
         }
-    
+        
         public func trush( index idx:Int ) {
             statuses.update( at:idx ) { us in
                 us.state = .trush

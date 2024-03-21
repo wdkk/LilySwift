@@ -19,4 +19,12 @@ extension Lily.Stage.Playground.Model
             super.init( storage:storage, assetName:assetName )
         }
     }
+    
+    public class ModelSphere : ModelActor
+    {
+        @discardableResult
+        public init( storage:ModelStorage? = ModelStorage.current ) {
+            super.init( storage:storage, assetName:"sphere" )
+        }
+    }
 }
