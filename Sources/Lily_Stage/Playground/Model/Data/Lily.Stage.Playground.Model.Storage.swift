@@ -23,7 +23,7 @@ extension Lily.Stage.Playground.Model
         public struct ModelSet
         {
             public var modelIndex:Int32
-            public var objData:Lily.Stage.Model.Obj?
+            public var meshData:Lily.Stage.Model.Mesh?
         }
         
         // Hashableの実装
@@ -82,13 +82,13 @@ extension Lily.Stage.Playground.Model
             
             for i in 0 ..< modelAssets.count {
                 let asset_name = modelAssets[i]
-                let obj = loadObj( device:device, assetName:asset_name )
-                models[asset_name] = ModelSet( modelIndex:i.i32!, objData:obj )
+                guard let obj = loadObj( device:device, assetName:asset_name ) else { continue }
+                models[asset_name] = ModelSet( modelIndex:i.i32!, meshData:obj.mesh )
             }
             
-            // TODO:sphereのテスト追加
-            let obj = Lily.Stage.Model.Obj.sphere(device:device, segments:16, rings:16 )
-            models["sphere"] = ModelSet( modelIndex:modelAssets.count.i32!, objData:obj )
+            // TODO: sphereのテスト追加
+            let obj = Lily.Stage.Model.Sphere( device:device, segments:16, rings:16 )
+            models["sphere"] = ModelSet( modelIndex:modelAssets.count.i32!, meshData:obj.mesh )
         }
         
         public func loadObj( device:MTLDevice, assetName:String ) -> Lily.Stage.Model.Obj? {

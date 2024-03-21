@@ -69,5 +69,5 @@ public typealias BBSubMask = PG.Billboard.BBSubMask
 
 public typealias ModelStorage = PG.Model.ModelStorage
 public typealias ModelObj = PG.Model.ModelObj
-public typealias ModelSphere = PG.Model.ModelSphere
+public typealias Sphere = PG.Model.Sphere
 

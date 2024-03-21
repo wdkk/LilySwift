@@ -20,7 +20,7 @@ extension Lily.Stage.Playground.Model
         }
     }
     
-    public class ModelSphere : ModelActor
+    public class Sphere : ModelActor
     {
         @discardableResult
         public init( storage:ModelStorage? = ModelStorage.current ) {
