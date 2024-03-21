@@ -1588,13 +1588,13 @@
 			path = follows;
 			sourceTree = "<group>";
 		};
-		5D389B4E2BAB5205003164C2 /* Supports */ = {
+		5D389B4E2BAB5205003164C2 /* Aliases */ = {
 			isa = PBXGroup;
 			children = (
 				5D389B532BAB5281003164C2 /* PGAlias.swift */,
 			);
-			name = Supports;
-			path = ../../../Supports;
+			name = Aliases;
+			path = ../../../Aliases;
 			sourceTree = "<group>";
 		};
 		5D4A920C2B4D769F00CD75A8 /* Billboard */ = {
@@ -1952,7 +1952,7 @@
 			isa = PBXGroup;
 			children = (
 				5D2ACA5B2AFA1B8A0099461C /* Package.swift */,
-				5D389B4E2BAB5205003164C2 /* Supports */,
+				5D389B4E2BAB5205003164C2 /* Aliases */,
 				5DDFED0B2781A1710003398B /* Sources */,
 				5DEF50A5239AA36A00ECA038 /* Configures */,
 				5DB7A53B239E526E0050A9B4 /* Tests */,

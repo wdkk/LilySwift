@@ -10,6 +10,7 @@
 
 import SwiftUI
 import LilySwift
+import LilySwiftAlias
 
 class ScenePack : ObservableObject 
 {    

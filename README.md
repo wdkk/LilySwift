@@ -1,7 +1,7 @@
 LilySwift ライブラリ
 =================
 
-update : 2023.12.24
+update : 2024.03.21
 
 渡辺電気株式会社でSwiftに関するコードを整理しているiOS/macOS向けライブラリです。
 よく使う基本モジュール, UIKitのユーティリティ, Metalのユーティリティなどを含みます。
@@ -68,6 +68,12 @@ import LilySwift
 ```
 
 2. LilySwiftのモジュールが利用可能になります。
+
+3. (任意) Lily Playgroundの機能を使う場合, LilySwiftAliasをimportすると使いやすくなります。
+```
+import LilySwift
+import LilySwiftAlias   // ← 追加
+```
 
 ## ライブラリの成り立ち( Library structure )
 

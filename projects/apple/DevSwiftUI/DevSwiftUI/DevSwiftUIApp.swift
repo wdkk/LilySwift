@@ -9,10 +9,12 @@
 //
 
 import SwiftUI
-import LilySwift
 #if os(visionOS)
 import CompositorServices
 #endif
+
+import LilySwift
+import LilySwiftAlias
 
 @main
 struct DevSwiftUIApp: App
