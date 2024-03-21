@@ -94,7 +94,7 @@ func design( screen:PGScreen ) {
     screen.cubeMap = "skyCubeMap"
     
     screen.camera.position = .init( 0, 450, 400 )
-    screen.camera.direction = .init( 0.0, -0.9, -1.0 )
+    screen.camera.direction = .init( 0.0, -0.5, -0.8 )
 
     /*
     for _ in 0 ..< 10 {
@@ -247,7 +247,8 @@ func design2( screen:PGScreen ) {
     .deltaAngle( degrees:1.0 )
     
     for _ in 0 ..< 160 {
-       PGAddMask( "mask-smoke" )
+       //PGAddMask( "mask-smoke" )
+       PGAddTriangle()
        .parent( p )
        .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
        .position(

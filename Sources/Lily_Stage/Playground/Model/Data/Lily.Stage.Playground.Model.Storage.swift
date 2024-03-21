@@ -87,7 +87,7 @@ extension Lily.Stage.Playground.Model
             }
             
             // TODO:sphereのテスト追加
-            let obj = Lily.Stage.Model.Obj.sphere(device:device, segments:8, rings:8 )
+            let obj = Lily.Stage.Model.Obj.sphere(device:device, segments:16, rings:16 )
             models["sphere"] = ModelSet( modelIndex:modelAssets.count.i32!, objData:obj )
         }
         

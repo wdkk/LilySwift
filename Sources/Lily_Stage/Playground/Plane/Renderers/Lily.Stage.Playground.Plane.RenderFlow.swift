@@ -132,8 +132,7 @@ extension Lily.Stage.Playground.Plane
             
             encoder?
             .label( "Playground 2D Render" )
-            .cullMode( .none )
-            .frontFacing( .counterClockwise )
+            .cullMode( .front )
             .depthStencilState( pass.depthState! )
             .viewports( viewports )
             .vertexAmplification( count:viewCount, viewports:viewports )

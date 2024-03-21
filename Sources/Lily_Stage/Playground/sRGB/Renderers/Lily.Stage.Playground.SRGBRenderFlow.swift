@@ -73,8 +73,7 @@ extension Lily.Stage.Playground.sRGB
             
             encoder?
             .label( "Playground SRGB Render" )
-            .cullMode( .none )
-            .frontFacing( .counterClockwise )
+            .cullMode( .front )
             .viewports( viewports )
             .vertexAmplification( count:viewCount, viewports:viewports )
             

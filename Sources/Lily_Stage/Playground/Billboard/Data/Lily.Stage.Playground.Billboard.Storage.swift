@@ -43,8 +43,8 @@ extension Lily.Stage.Playground.Billboard
         
         static let defaultQuadrangleVertice = LLQuad<VIn>(
             .init( xyz:.init( -1.0,  1.0, 0.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) ),
-            .init( xyz:.init(  1.0,  1.0, 0.0 ), uv:.init( 1.0, 0.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xyz:.init( -1.0, -1.0, 0.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 1.0 ) ),
+            .init( xyz:.init(  1.0,  1.0, 0.0 ), uv:.init( 1.0, 0.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xyz:.init(  1.0, -1.0, 0.0 ), uv:.init( 1.0, 1.0 ), texUV:.init( 1.0, 1.0 ) )
         )
         

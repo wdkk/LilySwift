@@ -135,8 +135,7 @@ extension Lily.Stage.Playground.Billboard
             
             encoder?
             .label( "Playground 3D Render" )
-            .cullMode( .none )
-            .frontFacing( .counterClockwise )
+            .cullMode( .front )
             .depthStencilState( pass.depthState! )
             .viewports( viewports )
             .vertexAmplification( count:viewCount, viewports:viewports )
