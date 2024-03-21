@@ -29,19 +29,19 @@ class VisionPlayground
         
         // Playground 3D
         
-        ModelObj( assetName:"cottonwood1" )
+        MDObj( assetName:"cottonwood1" )
         .position( cx:-5.0, cy:-1.5, cz:0.0 )
         .scale( x: 4, y: 4, z: 4 )
         
-        ModelObj( assetName:"cottonwood1" )
+        MDObj( assetName:"cottonwood1" )
         .position( cx:5.0, cy:-1.5, cz:0.0 )
         .scale( x: 8, y: 8, z: 8 )
         
-        ModelObj( assetName:"acacia1" )
+        MDObj( assetName:"acacia1" )
         .position( cx:0.0, cy:-1.5, cz:10.0 )
         .scale( x: 3, y: 3, z:3 )
         
-        ModelObj( assetName:"plane" ) 
+        MDObj( assetName:"plane" ) 
         .position( cx:0.0, cy:-1.5, cz:0.0 )
         .scale( equal:100.0 )
         

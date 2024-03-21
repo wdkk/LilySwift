@@ -91,24 +91,24 @@ class ScenePack : ObservableObject
         screen.camera.position = .init( 0, 400, 400 )
         screen.camera.direction = .init( 0.0, -0.8, -1.0 )
         
-        ModelObj( assetName:"cottonwood1" )
+        MDObj( assetName:"cottonwood1" )
         .position( cx:-50.0, cy:0.0, cz:0.0 )
         .scale( x: 40, y: 40, z: 40 )
         
-        ModelObj( assetName:"cottonwood1" )
+        MDObj( assetName:"cottonwood1" )
         .position( cx:50.0, cy:0.0, cz:0.0 )
         .scale( x: 80, y: 80, z: 80 )
         
-        ModelObj( assetName:"acacia1" )
+        MDObj( assetName:"acacia1" )
         .position( cx:0.0, cy:0.0, cz:100.0 )
         .scale( x: 30, y: 30, z:30 )
         
-        ModelObj( assetName:"yukidaruma" )
+        MDObj( assetName:"yukidaruma" )
         .position( cx:0.0, cy:0.0, cz:0.0 )
         .scale( x: 30, y: 30, z:30 )
         .rotation( rx:0, ry:LLAngle(degrees:-45.0).radians.f, rz:0 )
         
-        ModelObj( assetName:"plane" ) 
+        MDObj( assetName:"plane" ) 
         .position( cx:0.0, cy:0.0, cz:0.0 )
         .scale( equal:1000.0 )
         

@@ -15,7 +15,7 @@ import simd
 
 extension Lily.Stage.Playground.Model
 {   
-    public class ModelField<TMe:AnyObject, TObj>
+    public class MDFIeld<TMe:AnyObject, TObj>
     : LLField
     {    
         public private(set) var relayFunc:((TObj)->Void)?

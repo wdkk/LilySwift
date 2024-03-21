@@ -25,7 +25,7 @@ extension Lily.Stage.Playground.Model
         
         var comDelta:Object.ComDelta?
         
-        public var modelObjectRenderer:Object.Renderer?
+        public var MDObjectRenderer:Object.Renderer?
         public var modelLightingRenderer:Lighting.Renderer?
 
         public let viewCount:Int
@@ -47,7 +47,7 @@ extension Lily.Stage.Playground.Model
             self.viewCount = viewCount
 
             // レンダラーの用意
-            modelObjectRenderer = .init(
+            MDObjectRenderer = .init(
                 device:device, 
                 environment:environment,
                 viewCount:viewCount 
@@ -122,7 +122,7 @@ extension Lily.Stage.Playground.Model
                 }
                 
                 // 陰影の描画
-                modelObjectRenderer?.drawShadows(
+                MDObjectRenderer?.drawShadows(
                     with:shadow_encoder, 
                     globalUniforms:uniforms,
                     shadowCamVPMatrices:shadow_cam_vp_matrices,
@@ -147,7 +147,7 @@ extension Lily.Stage.Playground.Model
             .vertexAmplification( count:viewCount, viewports:viewports )
             
             // オブジェクトの描画
-            modelObjectRenderer?.draw( 
+            MDObjectRenderer?.draw( 
                 with:deferred_shading_encoder, 
                 globalUniforms:uniforms,
                 storage:storage

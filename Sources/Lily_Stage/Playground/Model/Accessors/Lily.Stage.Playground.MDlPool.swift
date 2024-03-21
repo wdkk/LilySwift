@@ -13,24 +13,24 @@ import simd
 
 extension Lily.Stage.Playground.Model
 {   
-    open class ModelPool
+    open class MDPool
     {   
-        public static var shared:ModelPool = .init()
+        public static var shared:MDPool = .init()
         private init() {}
         
-        private var actorGroup:[ModelStorage:Set<ModelActor>] = [:]
+        private var actorGroup:[ModelStorage:Set<MDActor>] = [:]
         
-        public func shapes( on storage:ModelStorage? ) -> Set<ModelActor> {
+        public func shapes( on storage:ModelStorage? ) -> Set<MDActor> {
             guard let storage = storage else { return [] }
             return actorGroup[storage] ?? []
         }
         
-        public func insert( shape:ModelActor, to storage:ModelStorage? ) {
+        public func insert( shape:MDActor, to storage:ModelStorage? ) {
             guard let storage = storage else { return }
             if actorGroup[storage] == nil { actorGroup[storage] = [] }
             actorGroup[storage]?.insert( shape ) 
         }
-        public func remove( shape:ModelActor, to storage:ModelStorage? ) { 
+        public func remove( shape:MDActor, to storage:ModelStorage? ) { 
             guard let storage = storage else { return }
             actorGroup[storage]?.remove( shape ) 
         }

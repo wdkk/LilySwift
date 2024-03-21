@@ -40,7 +40,7 @@ public protocol Lily_Stage_Playground_PGSceneProtocol
     // MARK: - 3Dビルボード情報
     var billboards:Set<PG.Billboard.BBActor> { get }
     // MARK: - 3Dモデル情報
-    var models:Set<PG.Model.ModelActor> { get }
+    var models:Set<PG.Model.MDActor> { get }
     
     var pgDesignHandler:(( Self )->Void)? { get set }
     var pgUpdateHandler:(( Self )->Void)? { get set }
@@ -81,8 +81,8 @@ extension Lily_Stage_Playground_PGSceneProtocol
     }
     
     // MARK: - 3Dモデル情報
-    public var models:Set<PG.Model.ModelActor> { 
-        if let storage = modelStorage { return PG.Model.ModelPool.shared.shapes( on:storage ) }
+    public var models:Set<PG.Model.MDActor> { 
+        if let storage = modelStorage { return PG.Model.MDPool.shared.shapes( on:storage ) }
         return []
     }
         
@@ -131,7 +131,7 @@ extension Lily_Stage_Playground_PGSceneProtocol
     public func removeAllShapes() {
         PG.Plane.PGPool.shared.removeAllShapes( on:planeStorage )
         PG.Billboard.BBPool.shared.removeAllShapes( on:bbStorage )
-        PG.Model.ModelPool.shared.removeAllShapes( on:modelStorage )
+        PG.Model.MDPool.shared.removeAllShapes( on:modelStorage )
     }
     
     public func redesign() {
@@ -168,7 +168,7 @@ extension Lily_Stage_Playground_PGSceneProtocol
             // TODO: ActorTimerも1つにしたい. 時間の更新
             PG.Plane.PGActor.ActorTimer.shared.update()
             PG.Billboard.BBActor.ActorTimer.shared.update()
-            PG.Model.ModelActor.ActorTimer.shared.update()
+            PG.Model.MDActor.ActorTimer.shared.update()
             
             // ハンドラのコール
             vc.pgUpdateHandler?( self )

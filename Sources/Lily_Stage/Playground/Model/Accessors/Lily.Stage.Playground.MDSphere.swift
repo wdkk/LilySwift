@@ -12,15 +12,7 @@ import Metal
 
 extension Lily.Stage.Playground.Model
 {
-    public class ModelObj : ModelActor
-    {
-        @discardableResult
-        public override init( storage:ModelStorage? = ModelStorage.current, assetName:String ) {
-            super.init( storage:storage, assetName:assetName )
-        }
-    }
-    
-    public class Sphere : ModelActor
+    public class MDSphere : MDActor
     {
         @discardableResult
         public init( storage:ModelStorage? = ModelStorage.current ) {

@@ -13,12 +13,12 @@ import simd
 
 extension Lily.Stage.Playground.Model
 {   
-    open class ModelActor : Hashable
+    open class MDActor : Hashable
     {
         public typealias Here = Lily.Stage.Playground.Model
         
         // Hashableの実装
-        public static func == ( lhs:ModelActor, rhs:ModelActor ) -> Bool { lhs === rhs }
+        public static func == ( lhs:MDActor, rhs:MDActor ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
     
         public private(set) var index:Int
@@ -26,9 +26,9 @@ extension Lily.Stage.Playground.Model
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<UnitStatus>?
         public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>?
                 
-        public var iterateField:ModelField<ModelActor, LLEmpty>?
+        public var iterateField:MDFIeld<MDActor, LLEmpty>?
         public var intervalField:ActorInterval?
-        public var completionField:ModelField<ModelActor, LLEmpty>?
+        public var completionField:MDFIeld<MDActor, LLEmpty>?
         
         public init( storage:ModelStorage?, assetName:String ) {   
             self.storage = storage
@@ -51,7 +51,7 @@ extension Lily.Stage.Playground.Model
                 status?.enabled = false
             }
             
-            ModelPool.shared.insert( shape:self, to:storage )
+            MDPool.shared.insert( shape:self, to:storage )
         }
         
         private var checkIndexStatus:Bool {
@@ -65,8 +65,8 @@ extension Lily.Stage.Playground.Model
         }
        
         @discardableResult
-        public func iterate( _ f:@escaping ( ModelActor )->Void ) -> Self {
-            self.iterateField = ModelField( me:self, action:f )
+        public func iterate( _ f:@escaping ( MDActor )->Void ) -> Self {
+            self.iterateField = MDFIeld( me:self, action:f )
             return self
         }
         
@@ -75,11 +75,11 @@ extension Lily.Stage.Playground.Model
         }
         
         @discardableResult
-        public func interval( sec:Double, f:@escaping ( ModelActor )->Void ) -> Self {
+        public func interval( sec:Double, f:@escaping ( MDActor )->Void ) -> Self {
             self.intervalField = ActorInterval(
                 sec:sec,
                 prev:ActorTimer.shared.nowTime,
-                field:ModelField( me:self, action:f )
+                field:MDFIeld( me:self, action:f )
             )
             return self
         }
@@ -101,8 +101,8 @@ extension Lily.Stage.Playground.Model
         }
         
         @discardableResult
-        public func completion( _ f:@escaping ( ModelActor )->Void ) -> Self {
-            self.completionField = ModelField( me:self, action:f )
+        public func completion( _ f:@escaping ( MDActor )->Void ) -> Self {
+            self.completionField = MDFIeld( me:self, action:f )
             return self
         }
         
@@ -122,13 +122,13 @@ extension Lily.Stage.Playground.Model
         
         public func trush() {
             storage?.trush( index:self.index )
-            ModelPool.shared.remove( shape:self, to:storage )
+            MDPool.shared.remove( shape:self, to:storage )
         }
     }
 }
 
 // 内部クラスなど
-extension Lily.Stage.Playground.Model.ModelActor
+extension Lily.Stage.Playground.Model.MDActor
 {
     public class ActorTimer
     {
@@ -154,12 +154,12 @@ extension Lily.Stage.Playground.Model.ModelActor
     {
         var sec:Double = 1.0
         var prev:Double = 0.0
-        var field:Here.ModelField<Here.ModelActor, LLEmpty>
+        var field:Here.MDFIeld<Here.MDActor, LLEmpty>
         
         public init(
             sec:Double,
             prev:Double, 
-            field:Here.ModelField<Here.ModelActor, LLEmpty> 
+            field:Here.MDFIeld<Here.MDActor, LLEmpty> 
         ) 
         {
             self.sec = sec
@@ -170,7 +170,7 @@ extension Lily.Stage.Playground.Model.ModelActor
 }
 
 // プロパティ
-extension Lily.Stage.Playground.Model.ModelActor
+extension Lily.Stage.Playground.Model.MDActor
 {
     public var position:LLFloatv3 { 
         get { return status?.position ?? .zero }
@@ -234,7 +234,7 @@ extension Lily.Stage.Playground.Model.ModelActor
 }
 
 // MARK: - 基本パラメータ情報の各種メソッドチェーンアクセサ
-extension Lily.Stage.Playground.Model.ModelActor
+extension Lily.Stage.Playground.Model.MDActor
 {
     @discardableResult
     public func position( _ p:LLFloatv3 ) -> Self {
