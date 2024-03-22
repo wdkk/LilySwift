@@ -53,13 +53,13 @@ class DevViewController
         
         pgScreen = PGScreen(
             device:device,
-            environment:.string,
+            environment:.metallib,
             planeStorage:planeStorage,
             bbStorage:bbStorage,
             modelStorage:modelStorage
         )
         
-        pgScreen?.pgDesignHandler = design
+        pgScreen?.pgDesignHandler = design2
         pgScreen?.pgUpdateHandler = update
         
         self.addSubview( pgScreen!.view )
@@ -248,7 +248,7 @@ func design2( screen:PGScreen ) {
     
     for _ in 0 ..< 160 {
        //PGAddMask( "mask-smoke" )
-       PGAddTriangle()
+       PGCustom( "mask-smoke" )
        .parent( p )
        .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
        .position(

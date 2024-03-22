@@ -9,7 +9,7 @@
 //
   
 #import "Lily.Stage.Playground.Plane.h"
-    
+
 namespace Lily
 {
     namespace Stage 
@@ -70,7 +70,8 @@ namespace Lily
 
 fragment Plane::Result Lily_Stage_Playground_Plane_Fs(
     const Plane::VOut in [[ stage_in ]],
-    texture2d<float> tex [[ texture(1) ]]
+    texture2d<float> tex [[ texture(1) ]],
+    visible_function_table<float4( Plane::VOut in, texture2d<float> tex )> tableF
 )
 {
     auto type = Plane::ShapeType( in.shapeType );
@@ -93,6 +94,9 @@ fragment Plane::Result Lily_Stage_Playground_Plane_Fs(
             break;
         case Plane::mask:
             color = Plane::drawMask( in, tex );
+            break;
+        case Plane::custom:
+            color = tableF[0]( in, tex );
             break;
         default:
             discard_fragment();

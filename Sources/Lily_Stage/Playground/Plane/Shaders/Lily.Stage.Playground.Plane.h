@@ -49,7 +49,8 @@ namespace Lily
                     circle       = 3,
                     blurryCircle = 4,
                     picture      = 101,
-                    mask         = 102
+                    mask         = 102,
+                    custom       = 201
                 };
 
                 enum DrawingType : uint

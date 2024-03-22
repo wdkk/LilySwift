@@ -43,6 +43,9 @@ public typealias PGSubPicture = PG.Plane.PGSubPicture
 public typealias PGMask = PG.Plane.PGMask
 public typealias PGAddMask = PG.Plane.PGAddMask
 public typealias PGSubMask = PG.Plane.PGSubMask
+public typealias PGCustom = PG.Plane.PGCustom
+public typealias PGAddCustom = PG.Plane.PGAddCustom
+public typealias PGSubCustom = PG.Plane.PGSubCustom
 
 public typealias BBStorage = PG.Billboard.BBStorage
 public typealias BBPool = PG.Billboard.BBPool

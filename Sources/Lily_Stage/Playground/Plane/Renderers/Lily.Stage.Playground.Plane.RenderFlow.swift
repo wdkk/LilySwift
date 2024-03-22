@@ -44,11 +44,21 @@ extension Lily.Stage.Playground.Plane
             self.mediumTexture = mediumTexture
             self.storage = storage
             
+            var pgFunctions:[PGFunction] = []
+            
+            pgFunctions.append(
+                PGFunction(
+                    device:device,
+                    name:"f1",
+                    code:"return float4( 1.0, 1.0, 0.0, 1.0 );"
+                )
+            )
             // レンダラーの作成
             self.alphaRenderer = .init( 
                 device:device,
                 environment:environment,
-                viewCount:viewCount
+                viewCount:viewCount,
+                pgFunctions:pgFunctions
             )
             self.addRenderer = .init( 
                 device:device,
