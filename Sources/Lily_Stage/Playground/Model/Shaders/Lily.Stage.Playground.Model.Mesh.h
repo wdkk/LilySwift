@@ -24,7 +24,7 @@ namespace Lily
         {
             namespace Model
             {       
-                namespace Object
+                namespace Mesh
                 {
                     // vertexからfragmentへ渡す値
                     struct VOut

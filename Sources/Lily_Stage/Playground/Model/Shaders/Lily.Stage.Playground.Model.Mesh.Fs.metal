@@ -8,12 +8,12 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#import "Lily.Stage.Playground.Model.Object.h"
+#import "Lily.Stage.Playground.Model.Mesh.h"
 
 // フラグメントシェーダ
-fragment Model::GBufferFOut Lily_Stage_Playground_Model_Object_Fs
+fragment Model::GBufferFOut Lily_Stage_Playground_Model_Mesh_Fs
 (
-    const Model::Object::VOut in [[ stage_in ]]
+    const Model::Mesh::VOut in [[ stage_in ]]
 )
 {
     Model::BRDFSet brdf;

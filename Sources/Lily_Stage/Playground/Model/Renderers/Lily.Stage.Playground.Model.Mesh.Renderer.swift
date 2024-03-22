@@ -16,7 +16,7 @@ import AppKit
 import UIKit
 #endif
 
-extension Lily.Stage.Playground.Model.Object
+extension Lily.Stage.Playground.Model.Mesh
 {   
     open class Renderer
     {
@@ -24,21 +24,21 @@ extension Lily.Stage.Playground.Model.Object
         
         public var device: MTLDevice
         
-        public var objectPipeline: MTLRenderPipelineState?
+        public var meshPipeline: MTLRenderPipelineState?
         public var shadowPipeline: MTLRenderPipelineState?
         
         public init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
             self.device = device
             let desc = MTLRenderPipelineDescriptor()
     
-            desc.label = "Playground Objects Geometry"
+            desc.label = "Playground Meshes Geometry"
             if environment == .metallib {
                 let library = try! Lily.Stage.metalLibrary( of:device )
-                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Object_Vs" ) )
-                desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Object_Fs" ) )
+                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Mesh_Vs" ) )
+                desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Mesh_Fs" ) )
             }
             else if environment == .string {
-                let sMetal = Lily.Stage.Playground.Model.Object.SMetal.shared( device:device )
+                let sMetal = Lily.Stage.Playground.Model.Mesh.SMetal.shared( device:device )
                 desc.vertexShader( sMetal.vertexShader )
                 desc.fragmentShader( sMetal.fragmentShader )            
             }
@@ -54,16 +54,16 @@ extension Lily.Stage.Playground.Model.Object
             if #available( macCatalyst 13.4, * ) {
                 desc.maxVertexAmplificationCount = viewCount
             }
-            objectPipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
+            meshPipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
             
-            desc.label = "Playground Objects Shadow"
+            desc.label = "Playground Meshs Shadow"
             if environment == .metallib {
                 let library = try! Lily.Stage.metalLibrary( of:device )
-                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Object_Shadow_Vs" ) )
+                desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Mesh_Shadow_Vs" ) )
                 desc.fragmentFunction = nil 
             }
             else if environment == .string {
-                let sMetal = Lily.Stage.Playground.Model.Object.SMetal.shared( device:device )
+                let sMetal = Lily.Stage.Playground.Model.Mesh.SMetal.shared( device:device )
                 desc.vertexShader( sMetal.shadowVertexShader )
                 desc.fragmentFunction = nil          
             }
@@ -88,7 +88,7 @@ extension Lily.Stage.Playground.Model.Object
             storage:Model.ModelStorage
         )
         {
-            guard let obj_pp = objectPipeline else { return }
+            guard let obj_pp = meshPipeline else { return }
             
             renderEncoder?.setRenderPipelineState( obj_pp )
             for (_, v) in storage.models {

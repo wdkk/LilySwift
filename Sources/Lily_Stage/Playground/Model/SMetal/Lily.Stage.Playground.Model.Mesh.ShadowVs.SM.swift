@@ -11,16 +11,16 @@
 import Metal
 import simd
 
-extension Lily.Stage.Playground.Model.Object
+extension Lily.Stage.Playground.Model.Mesh
 {
     public static var ShadowVs_SMetal:String { """
-    //#import "Lily.Stage.Playground.Model.Object.h"
-    \(Lily.Stage.Playground.Model.Object.h_SMetal)
+    //#import "Lily.Stage.Playground.Model.Mesh.h"
+    \(Lily.Stage.Playground.Model.Mesh.h_SMetal)
     
-    vertex Model::Object::VOut Lily_Stage_Playground_Model_Object_Shadow_Vs
+    vertex Model::Mesh::VOut Lily_Stage_Playground_Model_Mesh_Shadow_Vs
     (
         const device Obj::Vertex* in [[ buffer(0) ]],
-        const device Model::Object::UnitStatus* statuses [[ buffer(1) ]],
+        const device Model::Mesh::UnitStatus* statuses [[ buffer(1) ]],
         const device uint& cascadeIndex [[ buffer(2) ]],
         constant int& modelIndex [[ buffer(3) ]],
         constant float4x4& shadowCameraVPMatrix[[ buffer(6) ]],
@@ -35,7 +35,7 @@ extension Lily.Stage.Playground.Model.Object
         
         // 一致しないインスタンスは破棄
         if( us.modelIndex != modelIndex ) { 
-            Model::Object::VOut trush_vout;
+            Model::Mesh::VOut trush_vout;
             trush_vout.position = float4( 0, 0, Model::TOO_FAR, 0 );
             return trush_vout;
         }
@@ -53,7 +53,7 @@ extension Lily.Stage.Playground.Model.Object
         // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
         float visibility_z = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : Model::TOO_FAR;
 
-        Model::Object::VOut out;
+        Model::Mesh::VOut out;
         out.position = shadowCameraVPMatrix * world_pos;
         out.position.z += visibility_z;
         return out;

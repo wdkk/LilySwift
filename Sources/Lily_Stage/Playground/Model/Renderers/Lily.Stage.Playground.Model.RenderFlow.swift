@@ -23,10 +23,10 @@ extension Lily.Stage.Playground.Model
         
         public weak var storage:ModelStorage?
         
-        var comDelta:Object.ComDelta?
+        var comDelta:Mesh.ComDelta?
         
-        public var MDObjectRenderer:Object.Renderer?
-        public var modelLightingRenderer:Lighting.Renderer?
+        public var meshRenderer:Mesh.Renderer?
+        public var lightingRenderer:Lighting.Renderer?
 
         public let viewCount:Int
         
@@ -47,13 +47,13 @@ extension Lily.Stage.Playground.Model
             self.viewCount = viewCount
 
             // レンダラーの用意
-            MDObjectRenderer = .init(
+            meshRenderer = .init(
                 device:device, 
                 environment:environment,
                 viewCount:viewCount 
             )
             
-            modelLightingRenderer = .init(
+            lightingRenderer = .init(
                 device:device,
                 environment:environment, 
                 viewCount:viewCount 
@@ -122,7 +122,7 @@ extension Lily.Stage.Playground.Model
                 }
                 
                 // 陰影の描画
-                MDObjectRenderer?.drawShadows(
+                meshRenderer?.drawShadows(
                     with:shadow_encoder, 
                     globalUniforms:uniforms,
                     shadowCamVPMatrices:shadow_cam_vp_matrices,
@@ -147,14 +147,14 @@ extension Lily.Stage.Playground.Model
             .vertexAmplification( count:viewCount, viewports:viewports )
             
             // オブジェクトの描画
-            MDObjectRenderer?.draw( 
+            meshRenderer?.draw( 
                 with:deferred_shading_encoder, 
                 globalUniforms:uniforms,
                 storage:storage
             )
 
             // ライティングの描画
-            modelLightingRenderer?.draw(
+            lightingRenderer?.draw(
                 with:deferred_shading_encoder, 
                 globalUniforms:uniforms,
                 storage:storage,

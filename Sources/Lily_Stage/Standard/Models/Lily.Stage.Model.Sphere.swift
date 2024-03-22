@@ -17,12 +17,11 @@ extension Lily.Stage.Model
     {  
         public var mesh:Mesh?
         
-        public init( device:MTLDevice, segments: Int, rings: Int ) {
+        public init( device:MTLDevice, segments:Int, rings:Int ) {
             mesh = makeSphere( device:device, segments:segments, rings:rings )
         }
         
         func makeSphere( device:MTLDevice, segments: Int, rings: Int) -> Mesh? {
-            var boundingSphereRadius: Float = 0.0
             var vertices: [Mesh.Vertex] = []
             var indices: [UInt16] = []
             
@@ -56,7 +55,6 @@ extension Lily.Stage.Model
                      )
                      
                      vertices.append(vtx)
-                     boundingSphereRadius = max( boundingSphereRadius, simd.length(vtx.position) )
                  }
             }
             
@@ -73,8 +71,7 @@ extension Lily.Stage.Model
             }
             
             return .init(
-                device:device, 
-                boundingRadius:boundingSphereRadius, 
+                device:device,
                 vertices: vertices,
                 indices: indices
             )

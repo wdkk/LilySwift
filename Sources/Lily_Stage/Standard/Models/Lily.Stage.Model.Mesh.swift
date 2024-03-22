@@ -34,7 +34,6 @@ extension Lily.Stage.Model
             }
         }
         
-        public var boundingRadius:Float
         public var vertexBuffer:MTLBuffer!
         public var indexBuffer:MTLBuffer!
         
@@ -43,14 +42,12 @@ extension Lily.Stage.Model
         public var indexCount: Int { indexBuffer.length / MemoryLayout<UInt16>.stride }
         
         public init( boundingRadius:Float, vertexBuffer: MTLBuffer, indexBuffer: MTLBuffer ) {
-            self.boundingRadius = boundingRadius
             self.vertexBuffer = vertexBuffer
             self.indexBuffer = indexBuffer
         }
         
-        public init( device:MTLDevice, boundingRadius:Float, vertices:[Vertex], indices:[UInt16] ) {
-            self.boundingRadius = boundingRadius
-            
+        public init( device:MTLDevice, vertices:[Vertex], indices:[UInt16] ) {
+   
             #if !targetEnvironment(simulator)
             let vertex_buffer = device.makeBuffer(
                 bytes:vertices, 

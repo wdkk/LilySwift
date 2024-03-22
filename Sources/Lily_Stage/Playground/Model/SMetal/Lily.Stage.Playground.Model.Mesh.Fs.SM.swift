@@ -11,16 +11,16 @@
 import Metal
 import simd
 
-extension Lily.Stage.Playground.Model.Object
+extension Lily.Stage.Playground.Model.Mesh
 {
     public static var Fs_SMetal:String { """
-    //#import "Lily.Stage.Playground.Model.Object.h"
-    \(Lily.Stage.Playground.Model.Object.h_SMetal)
+    //#import "Lily.Stage.Playground.Model.Mesh.h"
+    \(Lily.Stage.Playground.Model.Mesh.h_SMetal)
     
     // フラグメントシェーダ
-    fragment Model::GBufferFOut Lily_Stage_Playground_Model_Object_Fs
+    fragment Model::GBufferFOut Lily_Stage_Playground_Model_Mesh_Fs
     (
-        const Model::Object::VOut in [[ stage_in ]]
+        const Model::Mesh::VOut in [[ stage_in ]]
     )
     {
         Model::BRDFSet brdf;

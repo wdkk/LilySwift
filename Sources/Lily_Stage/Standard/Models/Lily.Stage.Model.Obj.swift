@@ -40,7 +40,6 @@ extension Lily.Stage.Model.Obj
         private var positions: [simd_float3] = []
         private var normals: [simd_float3] = []
         private var colors: [simd_float3] = []
-        private var boundingSphereRadius: Float = 0.0
         private var vertexMap: [Vertex: UInt32] = [:]
         private var vertices: [Vertex] = []
         private var indices: [UInt16] = []
@@ -53,7 +52,6 @@ extension Lily.Stage.Model.Obj
         }
         
         private func clear() {
-            boundingSphereRadius = 0.0
             indices.removeAll()
             vertices.removeAll()
             vertexMap.removeAll()
@@ -67,7 +65,6 @@ extension Lily.Stage.Model.Obj
             else {
                 vertexMap[vertex] = UInt32(vertices.count)
                 vertices.append(vertex)
-                boundingSphereRadius = max( boundingSphereRadius, simd.length(vertex.position) )
                 return UInt32(vertices.count) - 1
             }
         }
@@ -202,7 +199,6 @@ extension Lily.Stage.Model.Obj
             
             let result_mesh = Mesh(
                 device:device, 
-                boundingRadius:boundingSphereRadius, 
                 vertices: vertices,
                 indices: indices
             )

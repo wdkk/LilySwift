@@ -11,7 +11,7 @@
 import Metal
 import MetalKit
 
-extension Lily.Stage.Playground.Model.Object
+extension Lily.Stage.Playground.Model.Mesh
 {
     open class ComDelta
     {
@@ -33,7 +33,7 @@ extension Lily.Stage.Playground.Model.Object
                 desc.computeShader( Lily.Metal.Shader( 
                     device:device,
                     mtllib:library, 
-                    shaderName:"Lily_Stage_Playground_Model_Object_Com_Delta" 
+                    shaderName:"Lily_Stage_Playground_Model_Mesh_Com_Delta" 
                 ) ) 
             }
             else if environment == .string {

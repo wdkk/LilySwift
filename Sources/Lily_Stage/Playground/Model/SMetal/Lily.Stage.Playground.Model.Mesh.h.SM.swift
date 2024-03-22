@@ -11,7 +11,7 @@
 import Metal
 import simd
 
-extension Lily.Stage.Playground.Model.Object
+extension Lily.Stage.Playground.Model.Mesh
 {
     public static var h_SMetal:String { """
     //#import "Lily.Stage.Playground.Model.util.h"
@@ -33,7 +33,7 @@ extension Lily.Stage.Playground.Model.Object
             {
                 namespace Model
                 {       
-                    namespace Object
+                    namespace Mesh
                     {
                         // vertexからfragmentへ渡す値
                         struct VOut

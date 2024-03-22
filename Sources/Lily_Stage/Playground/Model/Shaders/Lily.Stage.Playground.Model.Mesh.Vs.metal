@@ -8,12 +8,12 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#import "Lily.Stage.Playground.Model.Object.h"
+#import "Lily.Stage.Playground.Model.Mesh.h"
 
-vertex Model::Object::VOut Lily_Stage_Playground_Model_Object_Vs
+vertex Model::Mesh::VOut Lily_Stage_Playground_Model_Mesh_Vs
 (
     const device Obj::Vertex* in [[ buffer(0) ]],
-    const device Model::Object::UnitStatus* statuses [[ buffer(1) ]],
+    const device Model::Mesh::UnitStatus* statuses [[ buffer(1) ]],
     constant GlobalUniformArray & uniformArray [[ buffer(2) ]],
     constant int& modelIndex [[ buffer(3) ]],
     ushort amp_id [[ amplification_id ]],
@@ -29,7 +29,7 @@ vertex Model::Object::VOut Lily_Stage_Playground_Model_Object_Vs
     
     // 一致しないインスタンスは破棄
     if( us.modelIndex != modelIndex ) { 
-        Model::Object::VOut trush_vout;
+        Model::Mesh::VOut trush_vout;
         trush_vout.position = float4( 0, 0, Model::TOO_FAR, 0 );
         return trush_vout;
     }
@@ -48,7 +48,7 @@ vertex Model::Object::VOut Lily_Stage_Playground_Model_Object_Vs
     // 表示/非表示の判定( state, enabled, alphaのどれかが非表示を満たしているかを計算. 負の値 = 非表示 )
     float visibility_z = us.state * us.enabled * us.color[3] > 0.00001 ? 0.0 : Model::TOO_FAR;
     
-    Model::Object::VOut out;
+    Model::Mesh::VOut out;
     out.position = uniform.cameraUniform.viewProjectionMatrix * world_pos;
     out.position.z += visibility_z;
     out.color    = pow( in[vid].color, 1.0 / 2.2 );    // sRGB -> linear変換

@@ -11,7 +11,7 @@
 import Metal
 import simd
 
-extension Lily.Stage.Playground.Model.Object
+extension Lily.Stage.Playground.Model.Mesh
 {   
     open class SMetal
     {
@@ -31,26 +31,26 @@ extension Lily.Stage.Playground.Model.Object
             
             self.comDeltaShader = .init(
                 device:device, 
-                code:Lily.Stage.Playground.Model.Object.ComDelta_SMetal,
-                shaderName:"Lily_Stage_Playground_Model_Object_Com_Delta" 
+                code:Lily.Stage.Playground.Model.Mesh.ComDelta_SMetal,
+                shaderName:"Lily_Stage_Playground_Model_Mesh_Com_Delta" 
             )
             
             self.vertexShader = .init(
                 device:device, 
-                code: Lily.Stage.Playground.Model.Object.Vs_SMetal,
-                shaderName:"Lily_Stage_Playground_Model_Object_Vs" 
+                code: Lily.Stage.Playground.Model.Mesh.Vs_SMetal,
+                shaderName:"Lily_Stage_Playground_Model_Mesh_Vs" 
             )
             
             self.fragmentShader = .init(
                 device:device,
-                code: Lily.Stage.Playground.Model.Object.Fs_SMetal,
-                shaderName:"Lily_Stage_Playground_Model_Object_Fs" 
+                code: Lily.Stage.Playground.Model.Mesh.Fs_SMetal,
+                shaderName:"Lily_Stage_Playground_Model_Mesh_Fs" 
             )
             
             self.shadowVertexShader = .init(
                 device:device, 
-                code: Lily.Stage.Playground.Model.Object.ShadowVs_SMetal,
-                shaderName:"Lily_Stage_Playground_Model_Object_Shadow_Vs" 
+                code: Lily.Stage.Playground.Model.Mesh.ShadowVs_SMetal,
+                shaderName:"Lily_Stage_Playground_Model_Mesh_Shadow_Vs" 
             )
             
         }

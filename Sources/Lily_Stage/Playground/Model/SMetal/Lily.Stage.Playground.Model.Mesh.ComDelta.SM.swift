@@ -11,16 +11,16 @@
 import Metal
 import simd
 
-extension Lily.Stage.Playground.Model.Object
+extension Lily.Stage.Playground.Model.Mesh
 {
     public static var ComDelta_SMetal:String { """
-    //#import "Lily.Stage.Playground.Model.Object.h"
-    \(Lily.Stage.Playground.Model.Object.h_SMetal)
+    //#import "Lily.Stage.Playground.Model.Mesh.h"
+    \(Lily.Stage.Playground.Model.Mesh.h_SMetal)
     
-    kernel void Lily_Stage_Playground_Model_Object_Com_Delta
+    kernel void Lily_Stage_Playground_Model_Mesh_Com_Delta
     (
      constant GlobalUniformArray& uniformArray [[ buffer(0) ]],
-     device Model::Object::UnitStatus* statuses [[ buffer(1) ]],
+     device Model::Mesh::UnitStatus* statuses [[ buffer(1) ]],
      uint gid [[thread_position_in_grid]]
     )
     {
