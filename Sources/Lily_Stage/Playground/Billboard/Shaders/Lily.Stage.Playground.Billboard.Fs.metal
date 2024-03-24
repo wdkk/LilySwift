@@ -10,6 +10,22 @@
 
 #import "Lily.Stage.Playground.Billboard.h"
 
+typedef float4 CustomFragmentShaderFunc( 
+    float2 pos, 
+    float2 uv,
+    float4 color, 
+    float4 color2, 
+    float4 color3, 
+    float4 color4,
+    float  alpha,
+    float  alpha2,
+    float  alpha3,
+    float  alpha4,                                        
+    float4 texColor, 
+    float  texAlpha,
+    texture2d<float> tex 
+);
+
 namespace Lily
 {
     namespace Stage 
@@ -63,6 +79,32 @@ namespace Lily
                     c[3] *= tex_c[0];
                     return c;
                 } 
+                
+                float4 drawCustom( 
+                    Billboard::VOut in, 
+                    texture2d<float> tex,
+                    visible_function_table<CustomFragmentShaderFunc> tableFunc
+                )
+                {
+                    constexpr sampler nearest_sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest ); 
+                    float4 texColor = is_null_texture( tex ) ? float4( 0.0, 0.0, 0.0, 0.0 ) : tex.sample( nearest_sampler, in.texUV );
+                    
+                    return tableFunc[in.shaderIndex]( 
+                        in.xy,
+                        in.uv,
+                        in.color,
+                        in.color2,
+                        in.color3,
+                        in.color4,
+                        in.color.w,
+                        in.color2.w,
+                        in.color3.w,
+                        in.color4.w,
+                        texColor,
+                        texColor.w,
+                        tex
+                    );
+                }
             }
         }
     }
@@ -70,15 +112,14 @@ namespace Lily
 
 fragment Billboard::Result Lily_Stage_Playground_Billboard_Fs(
     const Billboard::VOut in [[ stage_in ]],
-    texture2d<float> tex [[ texture(1) ]]
+    texture2d<float> tex [[ texture(1) ]],
+    visible_function_table<CustomFragmentShaderFunc> tableFunc
 )
 {
     auto type = Billboard::ShapeType( in.shapeType );
     float4 color = float4( 0 );
     switch( type ) {
         case Billboard::rectangle:
-            color = Billboard::drawPlane( in );
-            break;
         case Billboard::triangle:
             color = Billboard::drawPlane( in );
             break;
@@ -93,6 +134,10 @@ fragment Billboard::Result Lily_Stage_Playground_Billboard_Fs(
             break;
         case Billboard::mask:
             color = Billboard::drawMask( in, tex );
+            break;
+        case Billboard::shaderRectangle:
+        case Billboard::shaderTriangle:
+            color = Billboard::drawCustom( in, tex, tableFunc );
             break;
         default:
             discard_fragment();

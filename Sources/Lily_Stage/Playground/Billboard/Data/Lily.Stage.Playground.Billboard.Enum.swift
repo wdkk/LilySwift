@@ -42,5 +42,7 @@ extension Lily.Stage.Playground.Billboard
         case blurryCircle = 4
         case picture      = 101
         case mask         = 102
+        case shaderRectangle = 201
+        case shaderTriangle  = 202
     }
 }

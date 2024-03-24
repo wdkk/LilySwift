@@ -11,40 +11,40 @@
 import Metal
 import simd
 
-extension Lily.Stage.Playground.Plane
+extension Lily.Stage.Playground.Billboard
 {  
-    public class PGShader
+    public class BBShader
     {
-        public struct PGFunctionSet
+        public struct BBFunctionSet
         {
-            public var function:PGFunction
+            public var function:BBFunction
             public private(set) var index:LLInt32
             
             static private var sharedIndex:LLInt32 = 0
             
-            public init( function:PGFunction ) {
+            public init( function:BBFunction ) {
                 self.function = function
-                self.index = PGFunctionSet.sharedIndex
-                PGFunctionSet.sharedIndex += 1
+                self.index = BBFunctionSet.sharedIndex
+                BBFunctionSet.sharedIndex += 1
             }
         }
         
-        public static let shared = PGShader()
+        public static let shared = BBShader()
         private init() {}
         
-        public func ready( device:MTLDevice ) { PGShader.shared.make( device:device, name:"PGShaderReadyFunc", code:"return color;" ) }
+        public func ready( device:MTLDevice ) { BBShader.shared.make( device:device, name:"BBShaderReadyFunc", code:"return color;" ) }
         
-        public private(set) var functionSet:[String:PGFunctionSet] = [:]
+        public private(set) var functionSet:[String:BBFunctionSet] = [:]
         
         public func make( device:MTLDevice, name:String, code:String ) {
-            functionSet[name] = .init( function:PGFunction( device:device, name:name, code:code ) )
+            functionSet[name] = .init( function:.init( device:device, name:name, code:code ) )
         }
         
         public func getFuncIndex( name:String ) -> LLInt32 {
             return functionSet[name]?.index ?? -1
         }
         
-        public var functions:[PGFunction] {
+        public var functions:[BBFunction] {
             functionSet
             .sorted { $0.value.index < $1.value.index }
             .map { $0.value.function }

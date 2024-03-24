@@ -18,22 +18,35 @@ extension Lily.Stage.Playground.Plane
         public var device: MTLDevice
         
         var pipeline: MTLRenderPipelineState!
+        var funcTable: MTLVisibleFunctionTable?
         
-        public init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
+        public init( 
+            device:MTLDevice,
+            environment:Lily.Stage.ShaderEnvironment,
+            viewCount:Int,
+            pgFunctions:[PGFunction]
+        )
+        {
             self.device = device
             
             let desc = MTLRenderPipelineDescriptor()
             desc.label = "Playground 2D Geometry(AddBlend)"
             
+            let functions = pgFunctions.metalFunctions
+            let linkedFuncs = MTLLinkedFunctions()
+            linkedFuncs.functions = functions
+            
             if environment == .metallib {
                 let library = try! Lily.Stage.metalLibrary( of:device )
                 desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Plane_Vs" ) )
                 desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Plane_Fs" ) )
+                desc.fragmentLinkedFunctions = linkedFuncs
             }
             else if environment == .string {
                 let sMetal = Lily.Stage.Playground.Plane.SMetal.shared( device:device )
                 desc.vertexShader( sMetal.vertexShader )
-                desc.fragmentShader( sMetal.fragmentShader )            
+                desc.fragmentShader( sMetal.fragmentShader )
+                desc.fragmentLinkedFunctions = linkedFuncs
             }
 
             desc.rasterSampleCount = Lily.Stage.Playground.BufferFormats.sampleCount
@@ -48,6 +61,16 @@ extension Lily.Stage.Playground.Plane
             }
             
             pipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
+            
+            // function tableの作成
+            let funcDescriptor = MTLVisibleFunctionTableDescriptor()
+            funcDescriptor.functionCount = functions.count
+            
+            funcTable = pipeline.makeVisibleFunctionTable( descriptor:funcDescriptor, stage:.fragment )
+            for idx in 0 ..< functions.count {
+                let fs_handle = pipeline.functionHandle(function:functions[idx], stage:.fragment )
+                funcTable?.setFunction( fs_handle, index:idx )
+            }
         }
         
         public func draw( 
@@ -72,6 +95,8 @@ extension Lily.Stage.Playground.Plane
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 )  
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
+            renderEncoder?.setFragmentVisibleFunctionTable( funcTable, bufferIndex:0 )
+
             renderEncoder?.drawPrimitives( 
                 type: .triangleStrip, 
                 vertexStart: 0, 
@@ -103,6 +128,8 @@ extension Lily.Stage.Playground.Plane
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
+            renderEncoder?.setFragmentVisibleFunctionTable( funcTable, bufferIndex:0 )
+
             renderEncoder?.drawPrimitives( 
                 type: .triangle, 
                 vertexStart: 0, 

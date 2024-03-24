@@ -56,7 +56,9 @@ extension Lily.Stage.Playground.Billboard
                         circle       = 3,
                         blurryCircle = 4,
                         picture      = 101,
-                        mask         = 102
+                        mask         = 102,
+                        shaderRectangle = 201,
+                        shaderTriangle  = 202
                     };
 
                     enum DrawingType : uint
@@ -80,6 +82,12 @@ extension Lily.Stage.Playground.Billboard
                         float4 atlasUV;
                         float4 color;
                         float4 deltaColor;
+                        float4 color2;
+                        float4 deltaColor2;
+                        float4 color3;
+                        float4 deltaColor3;
+                        float4 color4;
+                        float4 deltaColor4;
                         float3 position;
                         float3 deltaPosition;
                         float3 scale;
@@ -97,6 +105,7 @@ extension Lily.Stage.Playground.Billboard
                         CompositeType compositeType;
                         ShapeType shapeType;
                         uint  childDepth;
+                        int32_t shaderIndex;
                     };
 
                     struct LocalUniform
@@ -109,11 +118,15 @@ extension Lily.Stage.Playground.Billboard
                     struct VOut
                     {
                         float4 pos [[ position ]];
+                        float4 color;
+                        float4 color2;
+                        float4 color3;
+                        float4 color4;
                         float2 xy;
                         float2 uv;
                         float2 texUV;
-                        float4 color;
-                        float  shapeType;
+                        uint32_t shapeType;
+                        int32_t  shaderIndex;
                     };
 
                     struct Result 

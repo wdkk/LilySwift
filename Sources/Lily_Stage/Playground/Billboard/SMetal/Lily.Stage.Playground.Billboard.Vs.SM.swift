@@ -104,7 +104,6 @@ extension Lily.Stage.Playground.Billboard
         float4 billboard_pos = vpMatrix * bbModelMatrix * angModelMatrix * coord;
         //-----------//
         
-
         float2 local_uv = vin.texUV;
         float4 atlas_uv = us.atlasUV;
         float2 tex_uv = {
@@ -118,7 +117,11 @@ extension Lily.Stage.Playground.Billboard
         vout.texUV = tex_uv;
         vout.uv = vin.uv;
         vout.color = us.color;
-        vout.shapeType = float( us.shapeType );
+        vout.color2 = us.color2;
+        vout.color3 = us.color3;
+        vout.color4 = us.color4;
+        vout.shapeType = uint32_t( us.shapeType );
+        vout.shaderIndex = us.shaderIndex;
 
         return vout;
     }

@@ -45,21 +45,27 @@ extension Lily.Stage.Playground.Billboard
             
             self.storage = storage
             
+            BBShader.shared.ready( device:device )
+            let funcs = BBShader.shared.functions
+            
             // レンダラーの作成
             self.alphaRenderer = .init( 
                 device:device,
                 environment:environment,
-                viewCount:viewCount
+                viewCount:viewCount,
+                bbFunctions:funcs
             )
             self.addRenderer = .init( 
                 device:device,
                 environment:environment,
-                viewCount:viewCount
+                viewCount:viewCount,
+                bbFunctions:funcs
             )
             self.subRenderer = .init( 
                 device:device,
                 environment:environment,
-                viewCount:viewCount
+                viewCount:viewCount,
+                bbFunctions:funcs
             )
             
             self.comDelta = .init(

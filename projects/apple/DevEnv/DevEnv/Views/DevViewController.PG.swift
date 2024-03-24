@@ -53,14 +53,14 @@ class DevViewController
         
         pgScreen = PGScreen(
             device:device,
-            environment:.metallib,
+            environment:.string,
             planeStorage:planeStorage,
             bbStorage:bbStorage,
             modelStorage:modelStorage
         )
         
         pgScreen?.pgReadyHandler = ready
-        pgScreen?.pgDesignHandler = design2
+        pgScreen?.pgDesignHandler = design
         pgScreen?.pgUpdateHandler = update
         
         self.addSubview( pgScreen!.view )
@@ -94,6 +94,24 @@ func ready( screen:PGScreen ) {
     PGShader.shared.make(
         device:device,
         name:"f1",
+        code:"""
+            float4 c = color * (1.0 - uv[0]) + color2 * uv[0];
+            return float4( c.xyz, alpha );
+        """
+    )
+    
+    PGShader.shared.make(
+        device:device,
+        name:"f2",
+        code:"""
+            float4 c = saturate( color + color2 );
+            return float4( c.xyz, alpha );
+        """
+    )
+    
+    BBShader.shared.make(
+        device:device,
+        name:"f3",
         code:"""
             float4 c = color * (1.0 - uv[0]) + color2 * uv[0];
             return float4( c.xyz, alpha );
@@ -136,9 +154,11 @@ func design( screen:PGScreen ) {
     .deltaAngle( degrees:1.0 )
 
     for _ in 0 ..< 160 {
-        BBAddBlurryCircle()
+        //BBAddBlurryCircle()
+        BBShaderRectangle( shaderName:"f3" )
         .parent( p )
-        .color( LLColor( 0.25, 0.8, 1.0, 1.0 ) )
+        .color( LLColor( 0.5, 0.8, 1.0, 1.0 ) )
+        .color2( LLColor( 1.0, 0.8, 0.5, 1.0 ) )
         .position(
             cx:(-100.0 ... 100.0).randomize,
             cy:(0.0 ... 0.0).randomize,
@@ -153,13 +173,15 @@ func design( screen:PGScreen ) {
         .scale( square:5.0 )
         .life( .random )
         .deltaLife( -0.005 )
-        .iterate {
+        .iterate { _ in
+            /*
             if $0.life < 0.5 {
                $0.alpha( $0.life )
             }
             else {
                $0.alpha( (1.0 - $0.life) )
             }
+            */
         }
         .completion {
             $0
@@ -188,7 +210,7 @@ func design2( screen:PGScreen ) {
        //PGAddMask( "mask-smoke" )
        PGShaderRectangle( shaderName:"f1" )
        .parent( p )
-       .color( .red )
+       .color( LLColor( 0.62, 0.32, 0.22, 1.0 ) )
        .color2( .yellow )
        .position(
            cx:(-50 ... 50).randomize,
@@ -225,28 +247,5 @@ func design2( screen:PGScreen ) {
 }
 
 func update2( screen:PGScreen ) {
-    for touch in screen.touches {
-        for _ in 0 ..< 8 {
-            let speed = (2.0...4.0).randomize
-            let rad  = (0.0...2.0 * Double.pi).randomize
-            
-            PGAddBlurryCircle()
-            .color( LLColor( 0.4, 0.6, 0.95, 1.0 ) )
-            .position( touch.xy )
-            .deltaPosition( 
-                dx: speed * cos( rad ),
-                dy: speed * sin( rad ) 
-            )
-            .scale(
-                width:(5.0...40.0).randomize,
-                height:(5.0...40.0).randomize
-            )
-            .angle( .random )
-            .deltaAngle( degrees: (-2.0...2.0).randomize )
-            .life( 1.0 )
-            .deltaLife( -0.016 )
-            .alpha( 1.0 )
-            .deltaAlpha( -0.016 )
-        }
-    }
+
 }

@@ -21,6 +21,12 @@ extension Lily.Stage.Playground.Billboard
         public var atlasUV:LLFloatv4 = .init( 0.0, 0.0, 1.0, 1.0 )
         public var color:LLFloatv4 = LLColor.black.floatv4
         public var deltaColor:LLFloatv4 = .zero
+        public var color2:LLFloatv4 = LLColor.black.floatv4
+        public var deltaColor2:LLFloatv4 = .zero
+        public var color3:LLFloatv4 = LLColor.black.floatv4
+        public var deltaColor3:LLFloatv4 = .zero
+        public var color4:LLFloatv4 = LLColor.black.floatv4
+        public var deltaColor4:LLFloatv4 = .zero
         public var position:LLFloatv3 = .zero
         public var deltaPosition:LLFloatv3 = .zero
         public var scale:LLFloatv3 = .init( 1.0, 1.0, 1.0 )
@@ -45,6 +51,7 @@ extension Lily.Stage.Playground.Billboard
             ShapeType.rectangle.rawValue
         )
         public var childDepth:LLUInt32 = 0
+        public var shaderIndex:LLInt32 = -1
         
         public init() {}
         
