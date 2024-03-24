@@ -15,7 +15,8 @@ extension Lily.Stage.Playground.Model
 {   
     open class MDActor : Hashable
     {
-        public typealias Here = Lily.Stage.Playground.Model
+        public typealias PG = Lily.Stage.Playground
+        public typealias Here = PG.Model
         
         // Hashableの実装
         public static func == ( lhs:MDActor, rhs:MDActor ) -> Bool { lhs === rhs }
@@ -26,9 +27,9 @@ extension Lily.Stage.Playground.Model
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<UnitStatus>?
         public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>?
                 
-        public var iterateField:MDFIeld<MDActor, LLEmpty>?
-        public var intervalField:ActorInterval?
-        public var completionField:MDFIeld<MDActor, LLEmpty>?
+        public var iterateField:MDField<MDActor, LLEmpty>?
+        public var intervalField:PG.ActorInterval<PG.Model.MDField<MDActor, LLEmpty>>?
+        public var completionField:MDField<MDActor, LLEmpty>?
         
         public init( storage:ModelStorage?, assetName:String ) {   
             self.storage = storage
@@ -66,7 +67,7 @@ extension Lily.Stage.Playground.Model
        
         @discardableResult
         public func iterate( _ f:@escaping ( MDActor )->Void ) -> Self {
-            self.iterateField = MDFIeld( me:self, action:f )
+            self.iterateField = MDField( me:self, action:f )
             return self
         }
         
@@ -76,16 +77,16 @@ extension Lily.Stage.Playground.Model
         
         @discardableResult
         public func interval( sec:Double, f:@escaping ( MDActor )->Void ) -> Self {
-            self.intervalField = ActorInterval(
+            self.intervalField = .init(
                 sec:sec,
-                prev:ActorTimer.shared.nowTime,
-                field:MDFIeld( me:self, action:f )
+                prev:PG.ActorTimer.shared.nowTime,
+                field:MDField( me:self, action:f )
             )
             return self
         }
         
         public func appearInterval() {
-            let now = ActorTimer.shared.nowTime
+            let now = PG.ActorTimer.shared.nowTime
             
             guard let intv = self.intervalField else { return }
             if now - intv.prev >= intv.sec {
@@ -102,12 +103,14 @@ extension Lily.Stage.Playground.Model
         
         @discardableResult
         public func completion( _ f:@escaping ( MDActor )->Void ) -> Self {
-            self.completionField = MDFIeld( me:self, action:f )
+            self.completionField = MDField( me:self, action:f )
             return self
         }
         
         public func appearCompletion() {
             self.completionField?.appear()
+            // 完了したのでスタートタイムを元に戻す
+            //self.status?.startTime = LLClock.Precision.now.f
         }
         
         public func checkRemove() {
@@ -123,48 +126,6 @@ extension Lily.Stage.Playground.Model
         public func trush() {
             storage?.trush( index:self.index )
             MDPool.shared.remove( shape:self, to:storage )
-        }
-    }
-}
-
-// 内部クラスなど
-extension Lily.Stage.Playground.Model.MDActor
-{
-    public class ActorTimer
-    {
-        public static let shared = ActorTimer()
-        private init() {}
-        
-        public private(set) var startTime:Double = 0.0
-        public private(set) var nowTime:Double = 0.0
-        
-        public func start() {
-            startTime = LLClock.now.d / 1000.0
-            nowTime = startTime
-        }
-        
-        public func update() {
-            nowTime = LLClock.now.d / 1000.0
-        }
-        
-        public var elapsedTime:Double { nowTime - startTime }
-    }
-
-    public struct ActorInterval
-    {
-        var sec:Double = 1.0
-        var prev:Double = 0.0
-        var field:Here.MDFIeld<Here.MDActor, LLEmpty>
-        
-        public init(
-            sec:Double,
-            prev:Double, 
-            field:Here.MDFIeld<Here.MDActor, LLEmpty> 
-        ) 
-        {
-            self.sec = sec
-            self.prev = prev
-            self.field = field
         }
     }
 }

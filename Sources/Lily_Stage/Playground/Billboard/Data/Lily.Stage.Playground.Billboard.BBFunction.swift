@@ -38,15 +38,18 @@ extension Lily.Stage.Playground.Billboard
                     float4 color2,
                     float4 color3,
                     float4 color4,
-                    float alpha,
-                    float alpha2,
-                    float alpha3,
-                    float alpha4,
                     float4 texColor,
-                    float texAlpha,
+                    float life,
+                    float time,
                     texture2d<float> tex
                 ) 
                 {
+                    float alpha  = color.w;
+                    float alpha2 = color2.w;
+                    float alpha3 = color3.w;
+                    float alpha4 = color4.w;
+                    float texAlpha = texColor.w;
+                    
                     \(code)
                 }
                 

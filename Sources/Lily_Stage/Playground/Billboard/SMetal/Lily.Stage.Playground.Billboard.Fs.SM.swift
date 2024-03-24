@@ -17,19 +17,17 @@ extension Lily.Stage.Playground.Billboard
     //#import "Lily.Stage.Playground.Billboard.h"
     \(Lily.Stage.Playground.Billboard.h_SMetal)
     
-    typedef float4 CustomFragmentShaderFunc( 
+    typedef float4 CustomFragmentShaderFunc
+    ( 
         float2 pos, 
         float2 uv,
         float4 color, 
         float4 color2, 
         float4 color3, 
-        float4 color4,
-        float  alpha,
-        float  alpha2,
-        float  alpha3,
-        float  alpha4,                                        
-        float4 texColor, 
-        float  texAlpha,
+        float4 color4,                                      
+        float4 texColor,
+        float  life,
+        float  time,
         texture2d<float> tex 
     );
 
@@ -103,12 +101,9 @@ extension Lily.Stage.Playground.Billboard
                             in.color2,
                             in.color3,
                             in.color4,
-                            in.color.w,
-                            in.color2.w,
-                            in.color3.w,
-                            in.color4.w,
                             texColor,
-                            texColor.w,
+                            in.life,
+                            in.time,
                             tex
                         );
                     }

@@ -37,6 +37,7 @@ extension Lily.Stage.Playground.Billboard
         public var deltaAngle:LLFloat = 0.0
         public var comboAngle:LLFloat = 0.0
         private var _r1:LLFloat = 0.0
+        
         // 内部パラメータ
         fileprivate var lifes:LLFloatv2 = LLFloatv2(
             1.0,    // life
@@ -52,6 +53,9 @@ extension Lily.Stage.Playground.Billboard
         )
         public var childDepth:LLUInt32 = 0
         public var shaderIndex:LLInt32 = -1
+        
+        public var startTime:LLFloat = LLClock.Precision.now.f
+        public var elapsedTime:LLFloat = 0.0
         
         public init() {}
         

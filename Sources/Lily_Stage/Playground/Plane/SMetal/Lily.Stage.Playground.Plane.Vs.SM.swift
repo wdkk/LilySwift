@@ -80,6 +80,8 @@ extension Lily.Stage.Playground.Plane
         vout.color2 = us.color2;
         vout.color3 = us.color3;
         vout.color4 = us.color4;
+        vout.life   = us.life;
+        vout.time   = us.elapsedTime;
         vout.shapeType = uint32_t( us.shapeType );
         vout.shaderIndex = us.shaderIndex;
 

@@ -15,8 +15,9 @@ extension Lily.Stage.Playground.Plane
 {   
     open class PGActor : Hashable
     {
-        public typealias Here = Lily.Stage.Playground.Plane
-        public typealias PGScreen = Lily.Stage.Playground.PGScreen
+        public typealias PG = Lily.Stage.Playground
+        public typealias Here = PG.Plane
+        public typealias PGScreen = PG.PGScreen
         
         fileprivate static let Z_INDEX_MIN:Float = 0.0
         fileprivate static let Z_INDEX_MAX:Float = 99999.0
@@ -30,10 +31,12 @@ extension Lily.Stage.Playground.Plane
         public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>?
                 
         public var iterateField:PGField<PGActor, LLEmpty>?
-        public var intervalField:ActorInterval?
+        public var intervalField:PG.ActorInterval<PG.Plane.PGField<PGActor, LLEmpty>>?
         public var completionField:PGField<PGActor, LLEmpty>?
         
         public private(set) var parent:PGActor?
+        
+        public var startTime:Float = 0.0
                 
         public init( storage:PlaneStorage? ) {
             self.storage = storage
@@ -83,16 +86,16 @@ extension Lily.Stage.Playground.Plane
         
         @discardableResult
         public func interval( sec:Double, f:@escaping ( PGActor )->Void ) -> Self {
-            self.intervalField = ActorInterval(
+            self.intervalField = .init(
                 sec:sec,
-                prev:ActorTimer.shared.nowTime,
+                prev:PG.ActorTimer.shared.nowTime,
                 field:PGField( me:self, action:f )
             )
             return self
         }
         
         public func appearInterval() {
-            let now = ActorTimer.shared.nowTime
+            let now = PG.ActorTimer.shared.nowTime
             
             guard let intv = self.intervalField else { return }
             if now - intv.prev >= intv.sec {
@@ -128,6 +131,8 @@ extension Lily.Stage.Playground.Plane
         
         public func appearCompletion() {
             self.completionField?.appear()
+            // 完了したのでスタートタイムを元に戻す
+            self.status?.startTime = LLClock.Precision.now.f
         }
         
         public func checkRemove() {
@@ -143,48 +148,6 @@ extension Lily.Stage.Playground.Plane
         public func trush() {
             storage?.trush( index:self.index )
             PGPool.shared.remove( shape:self, to:storage )
-        }
-    }
-}
-
-// 内部クラスなど
-extension Lily.Stage.Playground.Plane.PGActor
-{
-    public class ActorTimer
-    {
-        public static let shared = ActorTimer()
-        private init() {}
-        
-        public private(set) var startTime:Double = 0.0
-        public private(set) var nowTime:Double = 0.0
-        
-        public func start() {
-            startTime = LLClock.now.d / 1000.0
-            nowTime = startTime
-        }
-        
-        public func update() {
-            nowTime = LLClock.now.d / 1000.0
-        }
-        
-        public var elapsedTime:Double { nowTime - startTime }
-    }
-
-    public struct ActorInterval
-    {
-        var sec:Double = 1.0
-        var prev:Double = 0.0
-        var field:Here.PGField<Here.PGActor, LLEmpty>
-        
-        public init(
-            sec:Double,
-            prev:Double, 
-            field:Here.PGField<Here.PGActor, LLEmpty> 
-        ) 
-        {
-            self.sec = sec
-            self.prev = prev
-            self.field = field
         }
     }
 }

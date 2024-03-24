@@ -96,7 +96,10 @@ namespace Lily
                     uint32_t childDepth;
 
                     int32_t shaderIndex;
-                    int32_t _reserved;
+                    int32_t _r;
+                    
+                    float startTime;
+                    float elapsedTime;
                     
                     float enabled;
                     float state;
@@ -123,6 +126,8 @@ namespace Lily
                     float2 xy;
                     float2 uv;
                     float2 texUV;
+                    float  life;
+                    float  time;
                     uint32_t shapeType;
                     int32_t  shaderIndex;
                 };

@@ -97,6 +97,8 @@ namespace Lily
                     ShapeType shapeType;
                     uint  childDepth;
                     int32_t shaderIndex;
+                    float startTime;
+                    float elapsedTime;
                 };
 
                 struct LocalUniform
@@ -116,6 +118,8 @@ namespace Lily
                     float2 xy;
                     float2 uv;
                     float2 texUV;
+                    float  life;
+                    float  time;
                     uint32_t shapeType;
                     int32_t  shaderIndex;
                 };

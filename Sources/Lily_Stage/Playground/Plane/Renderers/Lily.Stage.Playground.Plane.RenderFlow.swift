@@ -97,6 +97,8 @@ extension Lily.Stage.Playground.Plane
 
             // TODO: 最適化したい
             storage.statuses.update { acc, _ in
+                let now = LLClock.Precision.now.f
+                
                 // 各オブジェクトのマトリクス計算
                 for i in 0 ..< acc.count - 1 {
                     let TOO_FAR:Float = 999999.0
@@ -113,6 +115,9 @@ extension Lily.Stage.Playground.Plane
                     var t = us.position
                     t.y += visibility_y
                     acc[i].matrix = LLMatrix4x4.affine2D( scale:sc, angle:ang, translate:t )
+                    
+                    // オブジェクトの経過時間 
+                    acc[i].elapsedTime = now - acc[i].startTime
                 }
                 
                 // 親子関係含めた計算

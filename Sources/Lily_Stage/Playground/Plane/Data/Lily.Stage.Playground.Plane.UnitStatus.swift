@@ -42,7 +42,10 @@ extension Lily.Stage.Playground.Plane
         public var childDepth:LLUInt32 = 0
 
         public var shaderIndex:LLInt32 = -1
-        private var _reserved:LLInt32  = 0
+        public var _r:LLInt32 = -1
+        
+        public var startTime:LLFloat = LLClock.Precision.now.f
+        public var elapsedTime:LLFloat = 0.0
         
         public private(set) var states:LLFloatv2 = LLFloatv2(
             1.0,                       // enabled: 1.0 = true, 0.0 = false

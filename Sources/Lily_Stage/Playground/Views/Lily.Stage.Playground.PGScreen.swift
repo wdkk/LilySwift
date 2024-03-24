@@ -242,9 +242,7 @@ extension Lily.Stage.Playground
             ])
             
             // 時間の初期化
-            Plane.PGActor.ActorTimer.shared.start()
-            Billboard.BBActor.ActorTimer.shared.start()
-            Model.MDActor.ActorTimer.shared.start()
+            PG.ActorTimer.shared.start()
             
             startLooping()          // ループの開始
         }

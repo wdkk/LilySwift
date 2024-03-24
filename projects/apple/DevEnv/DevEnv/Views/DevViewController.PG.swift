@@ -53,7 +53,7 @@ class DevViewController
         
         pgScreen = PGScreen(
             device:device,
-            environment:.string,
+            environment:.metallib,
             planeStorage:planeStorage,
             bbStorage:bbStorage,
             modelStorage:modelStorage

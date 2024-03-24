@@ -15,7 +15,8 @@ extension Lily.Stage.Playground.Billboard
 {   
     open class BBActor : Hashable
     {
-        public typealias Here = Lily.Stage.Playground.Billboard
+        public typealias PG = Lily.Stage.Playground
+        public typealias Here = PG.Billboard
         
         // Hashableの実装
         public static func == ( lhs:BBActor, rhs:BBActor ) -> Bool { lhs === rhs }
@@ -27,7 +28,7 @@ extension Lily.Stage.Playground.Billboard
         public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>?
                 
         public var iterateField:BBField<BBActor, LLEmpty>?
-        public var intervalField:ActorInterval?
+        public var intervalField:PG.ActorInterval<PG.Billboard.BBField<BBActor, LLEmpty>>?
         public var completionField:BBField<BBActor, LLEmpty>?
         
         public private(set) var parent:BBActor?
@@ -93,16 +94,16 @@ extension Lily.Stage.Playground.Billboard
         
         @discardableResult
         public func interval( sec:Double, f:@escaping ( BBActor )->Void ) -> Self {
-            self.intervalField = ActorInterval(
+            self.intervalField = .init(
                 sec:sec,
-                prev:ActorTimer.shared.nowTime,
+                prev:PG.ActorTimer.shared.nowTime,
                 field:BBField( me:self, action:f )
             )
             return self
         }
         
         public func appearInterval() {
-            let now = ActorTimer.shared.nowTime
+            let now = PG.ActorTimer.shared.nowTime
             
             guard let intv = self.intervalField else { return }
             if now - intv.prev >= intv.sec {
@@ -125,6 +126,8 @@ extension Lily.Stage.Playground.Billboard
         
         public func appearCompletion() {
             self.completionField?.appear()
+            // 完了したのでスタートタイムを元に戻す
+            self.status?.startTime = LLClock.Precision.now.f
         }
         
         public func checkRemove() {
@@ -140,48 +143,6 @@ extension Lily.Stage.Playground.Billboard
         public func trush() {
             storage?.trush( index:self.index )
             BBPool.shared.remove( shape:self, to:storage )
-        }
-    }
-}
-
-// 内部クラスなど
-extension Lily.Stage.Playground.Billboard.BBActor
-{
-    public class ActorTimer
-    {
-        public static let shared = ActorTimer()
-        private init() {}
-        
-        public private(set) var startTime:Double = 0.0
-        public private(set) var nowTime:Double = 0.0
-        
-        public func start() {
-            startTime = LLClock.now.d / 1000.0
-            nowTime = startTime
-        }
-        
-        public func update() {
-            nowTime = LLClock.now.d / 1000.0
-        }
-        
-        public var elapsedTime:Double { nowTime - startTime }
-    }
-
-    public struct ActorInterval
-    {
-        var sec:Double = 1.0
-        var prev:Double = 0.0
-        var field:Here.BBField<Here.BBActor, LLEmpty>
-        
-        public init(
-            sec:Double,
-            prev:Double, 
-            field:Here.BBField<Here.BBActor, LLEmpty> 
-        ) 
-        {
-            self.sec = sec
-            self.prev = prev
-            self.field = field
         }
     }
 }
