@@ -17,11 +17,11 @@ import Metal
 import LilySwift
 import LilySwiftAlias
 
+var device = MTLCreateSystemDefaultDevice()!
+
 class DevViewController 
 : Lily.View.ViewController
 {
-    lazy var device = MTLCreateSystemDefaultDevice()!
-
     var pgScreen:PGScreen?
         
     lazy var planeStorage:PlaneStorage = .init(
@@ -59,6 +59,7 @@ class DevViewController
             modelStorage:modelStorage
         )
         
+        pgScreen?.pgReadyHandler = ready
         pgScreen?.pgDesignHandler = design2
         pgScreen?.pgUpdateHandler = update
         
@@ -89,88 +90,25 @@ class DevViewController
     #endif
 }
 
+func ready( screen:PGScreen ) {
+    PGShader.shared.make(
+        device:device,
+        name:"f1",
+        code:"""
+            float4 c = color * (1.0 - uv[0]) + color2 * uv[0];
+            return float4( c.xyz, alpha );
+        """
+    )
+}
+
 func design( screen:PGScreen ) {
     //screen.clearColor = .clear
     screen.cubeMap = "skyCubeMap"
     
     screen.camera.position = .init( 0, 450, 400 )
     screen.camera.direction = .init( 0.0, -0.5, -0.8 )
-
-    /*
-    for _ in 0 ..< 10 {
-        let size = (40.0 ... 80.0).randomize
-        let speed = size / 80.0
-        let c = LLColor( 1.0, 0.8, 0.25, Float( speed ) )
-        
-        PGAddMask( "mask-star" )
-        .color( c )
-        .position( 
-            cx:(screen.minX-200...screen.maxX+200).randomize,
-            cy:(screen.minY...screen.maxY).randomize
-        )
-        .deltaPosition( 
-            dx:(10.0 ... 12.0).randomize * speed,
-            dy:(-1.5 ... 3.5).randomize * speed
-        )
-        .scale( square:size )
-        .angle( .random )
-        .deltaAngle( degrees:-4.0 * speed )
-        .iterate {
-            $0.deltaPosition.y -= 0.05
-                        
-            if Float( screen.maxX + 200.0 ) <= $0.position.x {
-                $0
-                .position( 
-                    cx:screen.minX-200,
-                    cy:(screen.minY...screen.maxY).randomize
-                )
-                .deltaPosition( 
-                    dx:(10.0 ... 12.0).randomize * speed,
-                    dy:(-1.5 ... 3.5).randomize * speed
-                )
-            }
-        }    
-        .interval( sec:0.05 ) {
-            PGAddCircle()
-            .color( c )
-            .position( $0.position )
-            .scale( square:0 )
-            .deltaScale( dw:0.5 * speed, dh:0.5 * speed )
-            .alpha( 0 )
-            .deltaLife( -0.02 )
-            .iterate {
-                $0.alpha( sin( $0.life * Float.pi ) * 0.5 )
-            }
-        }
-    }
-    */
-    
-    /*
-    PGAddCircle()
-    .scale( square:50 )
-    .position( cx: screen.minX + 50, cy: screen.minY + 50 ) 
-    .color( .red )
-    .zIndex( 1 )
-
-    PGAddCircle()
-    .scale( square:50 )
-    .position( cx: screen.maxX - 50, cy: screen.minY + 50 ) 
-    .color( .blue )
-    .zIndex( 2 )
-
-    PGCircle()
-    .scale( square:50 )
-    .position( cx: screen.minX + 50, cy: screen.maxY - 50 ) 
-    .color( .red )
-
-    PGCircle()
-    .scale( square:50 )
-    .position( cx: screen.maxX - 50, cy: screen.maxY - 50 ) 
-    .color( .blue )
-    */
     
     // Playground 3D
-    
     MDObj( assetName:"cottonwood1" )
     .position( cx:-50.0, cy:0.0, cz:0.0 )
     .scale( x: 40, y: 40, z: 40 )
@@ -248,9 +186,10 @@ func design2( screen:PGScreen ) {
     
     for _ in 0 ..< 160 {
        //PGAddMask( "mask-smoke" )
-       PGCustom( "mask-smoke" )
+       PGShaderRectangle( shaderName:"f1" )
        .parent( p )
-       .color( LLColor( 0.9, 0.34, 0.22, 1.0 ) )
+       .color( .red )
+       .color2( .yellow )
        .position(
            cx:(-50 ... 50).randomize,
            cy:(-120 ... -110).randomize

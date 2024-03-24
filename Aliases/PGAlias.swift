@@ -23,6 +23,7 @@ public typealias PGVisionScene = PG.PGVisionScene
 #endif
 
 public typealias PlaneStorage = PG.Plane.PlaneStorage
+public typealias PGShader = PG.Plane.PGShader
 public typealias PGActor = PG.Plane.PGActor
 public typealias PGEmpty = PG.Plane.PGEmpty
 public typealias PGRectangle = PG.Plane.PGRectangle
@@ -43,9 +44,12 @@ public typealias PGSubPicture = PG.Plane.PGSubPicture
 public typealias PGMask = PG.Plane.PGMask
 public typealias PGAddMask = PG.Plane.PGAddMask
 public typealias PGSubMask = PG.Plane.PGSubMask
-public typealias PGCustom = PG.Plane.PGCustom
-public typealias PGAddCustom = PG.Plane.PGAddCustom
-public typealias PGSubCustom = PG.Plane.PGSubCustom
+public typealias PGShaderRectangle = PG.Plane.PGShaderRectangle
+public typealias PGShaderAddRectangle = PG.Plane.PGAddShaderRectangle
+public typealias PGShaderSubRectangle = PG.Plane.PGSubShaderRectangle
+public typealias PGShaderTriangle = PG.Plane.PGShaderTriangle
+public typealias PGShaderAddTriangle = PG.Plane.PGAddShaderTriangle
+public typealias PGShaderSubTriangle = PG.Plane.PGSubShaderTriangle
 
 public typealias BBStorage = PG.Billboard.BBStorage
 public typealias BBPool = PG.Billboard.BBPool

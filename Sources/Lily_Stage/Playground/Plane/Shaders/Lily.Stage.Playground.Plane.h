@@ -33,7 +33,7 @@ namespace Lily
                 constant float Z_INDEX_MAX = 99999.0;
             
                 //// 列挙子 ////
-                enum CompositeType : uint
+                enum CompositeType : uint32_t
                 {
                     none  = 0,
                     alpha = 1,
@@ -41,7 +41,7 @@ namespace Lily
                     sub   = 3
                 };
 
-                enum ShapeType : uint
+                enum ShapeType : uint32_t
                 {
                     empty        = 0,
                     rectangle    = 1,
@@ -50,10 +50,11 @@ namespace Lily
                     blurryCircle = 4,
                     picture      = 101,
                     mask         = 102,
-                    custom       = 201
+                    shaderRectangle = 201,
+                    shaderTriangle  = 202
                 };
 
-                enum DrawingType : uint
+                enum DrawingType : uint32_t
                 {
                     quadrangles = 0,
                     triangles   = 1
@@ -74,18 +75,32 @@ namespace Lily
                     float4 atlasUV;
                     float4 color;
                     float4 deltaColor;
+                    float4 color2;
+                    float4 deltaColor2;
+                    float4 color3;
+                    float4 deltaColor3;
+                    float4 color4;
+                    float4 deltaColor4;
                     float2 position;
                     float2 deltaPosition;
                     float2 scale;
                     float2 deltaScale;
+                    
                     float angle;
                     float deltaAngle;
+                    
                     float life;
                     float deltaLife;
+                    
                     float zIndex;
-                    uint  childDepth;
+                    uint32_t childDepth;
+
+                    int32_t shaderIndex;
+                    int32_t _reserved;
+                    
                     float enabled;
                     float state;
+                    
                     CompositeType compositeType;
                     ShapeType shapeType;
                 };
@@ -101,11 +116,15 @@ namespace Lily
                 struct VOut
                 {
                     float4 pos [[ position ]];
+                    float4 color;
+                    float4 color2;
+                    float4 color3;
+                    float4 color4;
                     float2 xy;
                     float2 uv;
                     float2 texUV;
-                    float4 color;
-                    float  shapeType;
+                    uint32_t shapeType;
+                    int32_t  shaderIndex;
                 };
 
                 struct Result 

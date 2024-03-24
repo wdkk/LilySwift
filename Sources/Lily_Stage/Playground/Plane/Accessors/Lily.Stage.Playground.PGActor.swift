@@ -454,6 +454,69 @@ extension Lily.Stage.Playground.Plane.PGActor
     }
     
     @discardableResult
+    public func color2( _ c:LLColor ) -> Self {
+        status?.color2 = c.floatv4
+        return self
+    }
+    
+    @discardableResult
+    public func color2( red:Float, green:Float, blue:Float, alpha:Float = 1.0 ) -> Self {
+        status?.color2 = LLFloatv4( red, green, blue, alpha )
+        return self
+    }
+    
+    @discardableResult
+    public func color2( red:LLFloatConvertable, green:LLFloatConvertable,
+                blue:LLFloatConvertable, alpha:LLFloatConvertable = 1.0 ) 
+    -> Self
+    {
+        status?.color2 = LLFloatv4( red.f, green.f, blue.f, alpha.f )
+        return self
+    }
+    
+    @discardableResult
+    public func color3( _ c:LLColor ) -> Self {
+        status?.color3 = c.floatv4
+        return self
+    }
+    
+    @discardableResult
+    public func color3( red:Float, green:Float, blue:Float, alpha:Float = 1.0 ) -> Self {
+        status?.color3 = LLFloatv4( red, green, blue, alpha )
+        return self
+    }
+    
+    @discardableResult
+    public func color3( red:LLFloatConvertable, green:LLFloatConvertable,
+                blue:LLFloatConvertable, alpha:LLFloatConvertable = 1.0 ) 
+    -> Self
+    {
+        status?.color3 = LLFloatv4( red.f, green.f, blue.f, alpha.f )
+        return self
+    }
+    
+    @discardableResult
+    public func color4( _ c:LLColor ) -> Self {
+        status?.color = c.floatv4
+        return self
+    }
+    
+    @discardableResult
+    public func color4( red:Float, green:Float, blue:Float, alpha:Float = 1.0 ) -> Self {
+        status?.color = LLFloatv4( red, green, blue, alpha )
+        return self
+    }
+    
+    @discardableResult
+    public func color4( red:LLFloatConvertable, green:LLFloatConvertable,
+                blue:LLFloatConvertable, alpha:LLFloatConvertable = 1.0 ) 
+    -> Self
+    {
+        status?.color4 = LLFloatv4( red.f, green.f, blue.f, alpha.f )
+        return self
+    }
+    
+    @discardableResult
     public func alpha( _ c:Float ) -> Self {
         status?.color.w = c
         return self
@@ -462,6 +525,42 @@ extension Lily.Stage.Playground.Plane.PGActor
     @discardableResult
     public func alpha( _ v:LLFloatConvertable ) -> Self {
         status?.color.w = v.f
+        return self
+    }
+    
+    @discardableResult
+    public func alpha2( _ c:Float ) -> Self {
+        status?.color2.w = c
+        return self
+    }
+    
+    @discardableResult
+    public func alpha2( _ v:LLFloatConvertable ) -> Self {
+        status?.color2.w = v.f
+        return self
+    }
+    
+    @discardableResult
+    public func alpha3( _ c:Float ) -> Self {
+        status?.color3.w = c
+        return self
+    }
+    
+    @discardableResult
+    public func alpha3( _ v:LLFloatConvertable ) -> Self {
+        status?.color3.w = v.f
+        return self
+    }
+    
+    @discardableResult
+    public func alpha4( _ c:Float ) -> Self {
+        status?.color4.w = c
+        return self
+    }
+    
+    @discardableResult
+    public func alpha4( _ v:LLFloatConvertable ) -> Self {
+        status?.color4.w = v.f
         return self
     }
 
@@ -522,14 +621,73 @@ extension Lily.Stage.Playground.Plane.PGActor
     }
     
     @discardableResult
-    public func deltaColor( red:LLFloatConvertable, green:LLFloatConvertable,
-                     blue:LLFloatConvertable, alpha:LLFloatConvertable = 0.0 )
+    public func deltaColor( red:LLFloatConvertable, green:LLFloatConvertable, blue:LLFloatConvertable, alpha:LLFloatConvertable = 0.0 )
     -> Self
     {
         status?.deltaColor = LLFloatv4( red.f, green.f, blue.f, alpha.f )
         return self
     }
+    
+    @discardableResult
+    public func deltaColor2( _ c:LLColor ) -> Self {
+        status?.deltaColor2 = c.floatv4
+        return self
+    }
+        
+    @discardableResult
+    public func deltaColor2( red:Float, green:Float, blue:Float, alpha:Float = 0.0 ) -> Self {
+        status?.deltaColor2 = LLFloatv4( red, green, blue, alpha )
+        return self
+    }
+    
+    @discardableResult
+    public func deltaColor2( red:LLFloatConvertable, green:LLFloatConvertable, blue:LLFloatConvertable, alpha:LLFloatConvertable = 0.0 )
+    -> Self
+    {
+        status?.deltaColor2 = LLFloatv4( red.f, green.f, blue.f, alpha.f )
+        return self
+    }
+    
+    @discardableResult
+    public func deltaColor3( _ c:LLColor ) -> Self {
+        status?.deltaColor3 = c.floatv4
+        return self
+    }
+        
+    @discardableResult
+    public func deltaColor3( red:Float, green:Float, blue:Float, alpha:Float = 0.0 ) -> Self {
+        status?.deltaColor3 = LLFloatv4( red, green, blue, alpha )
+        return self
+    }
+    
+    @discardableResult
+    public func deltaColor3( red:LLFloatConvertable, green:LLFloatConvertable, blue:LLFloatConvertable, alpha:LLFloatConvertable = 0.0 )
+    -> Self
+    {
+        status?.deltaColor3 = LLFloatv4( red.f, green.f, blue.f, alpha.f )
+        return self
+    }
 
+    @discardableResult
+    public func deltaColor4( _ c:LLColor ) -> Self {
+        status?.deltaColor = c.floatv4
+        return self
+    }
+        
+    @discardableResult
+    public func deltaColor4( red:Float, green:Float, blue:Float, alpha:Float = 0.0 ) -> Self {
+        status?.deltaColor = LLFloatv4( red, green, blue, alpha )
+        return self
+    }
+    
+    @discardableResult
+    public func deltaColor4( red:LLFloatConvertable, green:LLFloatConvertable, blue:LLFloatConvertable, alpha:LLFloatConvertable = 0.0 )
+    -> Self
+    {
+        status?.deltaColor = LLFloatv4( red.f, green.f, blue.f, alpha.f )
+        return self
+    }
+    
     
     @discardableResult
     public func deltaAlpha( _ v:Float ) -> Self {
@@ -540,6 +698,42 @@ extension Lily.Stage.Playground.Plane.PGActor
     @discardableResult
     public func deltaAlpha( _ v:LLFloatConvertable ) -> Self {
         status?.deltaColor.w = v.f
+        return self
+    }
+    
+    @discardableResult
+    public func deltaAlpha2( _ v:Float ) -> Self {
+        status?.deltaColor2.w = v
+        return self
+    }
+    
+    @discardableResult
+    public func deltaAlpha2( _ v:LLFloatConvertable ) -> Self {
+        status?.deltaColor2.w = v.f
+        return self
+    }
+    
+    @discardableResult
+    public func deltaAlpha3( _ v:Float ) -> Self {
+        status?.deltaColor2.w = v
+        return self
+    }
+    
+    @discardableResult
+    public func deltaAlpha3( _ v:LLFloatConvertable ) -> Self {
+        status?.deltaColor2.w = v.f
+        return self
+    }
+    
+    @discardableResult
+    public func deltaAlpha4( _ v:Float ) -> Self {
+        status?.deltaColor2.w = v
+        return self
+    }
+    
+    @discardableResult
+    public func deltaAlpha4( _ v:LLFloatConvertable ) -> Self {
+        status?.deltaColor2.w = v.f
         return self
     }
 

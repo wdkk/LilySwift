@@ -21,19 +21,29 @@ extension Lily.Stage.Playground.Plane
         public var atlasUV:LLFloatv4 = .init( 0.0, 0.0, 1.0, 1.0 )
         public var color:LLFloatv4 = LLColor.black.floatv4
         public var deltaColor:LLFloatv4 = .zero
+        public var color2:LLFloatv4 = LLColor.black.floatv4
+        public var deltaColor2:LLFloatv4 = .zero
+        public var color3:LLFloatv4 = LLColor.black.floatv4
+        public var deltaColor3:LLFloatv4 = .zero
+        public var color4:LLFloatv4 = LLColor.black.floatv4
+        public var deltaColor4:LLFloatv4 = .zero
         public var position:LLFloatv2 = .zero
         public var deltaPosition:LLFloatv2 = .zero
         public var scale:LLFloatv2 = .init( 100.0, 100.0 )
         public var deltaScale:LLFloatv2 = .zero
+        
         public var angle:LLFloat = 0.0
         public var deltaAngle:LLFloat = 0.0
-        // 内部パラメータ
-        fileprivate var lifes:LLFloatv2 = LLFloatv2(
-            1.0,    // life
-            0.0     // deltaLife
-        )
+        
+        public var life:LLFloat = 1.0
+        public var deltaLife:LLFloat = 1.0
+
         public var zIndex:LLFloat = 0.0
         public var childDepth:LLUInt32 = 0
+
+        public var shaderIndex:LLInt32 = -1
+        private var _reserved:LLInt32  = 0
+        
         public private(set) var states:LLFloatv2 = LLFloatv2(
             1.0,                       // enabled: 1.0 = true, 0.0 = false
             LifeState.trush.rawValue   // state: .active or .trush    
@@ -48,9 +58,6 @@ extension Lily.Stage.Playground.Plane
         public init() {}
         
         // アクセサ
-        public var life:LLFloat { get { lifes.x } set { lifes.x = newValue } }
-        public var deltaLife:LLFloat { get { lifes.y } set { lifes.y = newValue } }
-
         public var enabled:Bool { get { states.x > 0.0 } set { states.x = newValue ? 1.0 : 0.0 } }
         public var state:LifeState { get { .init( rawValue: states.y )! } set { states.y = newValue.rawValue } }
         

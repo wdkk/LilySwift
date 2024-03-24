@@ -30,10 +30,14 @@ extension Lily.Stage.Playground.Plane
         us.scale += us.deltaScale;
         us.angle += us.deltaAngle;
         us.color += us.deltaColor;
+        us.color2 += us.deltaColor2;
+        us.color3 += us.deltaColor3;
+        us.color4 += us.deltaColor4;
         us.life += us.deltaLife;
         
         statuses[gid] = us;
     }
+
     """
     }
 }

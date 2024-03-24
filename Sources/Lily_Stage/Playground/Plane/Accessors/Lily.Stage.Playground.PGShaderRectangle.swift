@@ -10,37 +10,36 @@
 
 import Metal
 
-// TODO: PGFuncrtions
 extension Lily.Stage.Playground.Plane
 {
-    public class PGCustom : PGActor
+    public class PGShaderRectangle : PGShaderActor
     {        
         @discardableResult
-        public init( storage:PlaneStorage? = PlaneStorage.current, _ assetName:String ) {
-            super.init( storage:storage )
-            status?.shapeType = .custom
+        public init( storage:PlaneStorage? = PlaneStorage.current, assetName:String = "", shaderName:String ) {
+            super.init( storage:storage, shaderName:shaderName )
+            status?.shapeType = .shaderRectangle
             status?.compositeType = .alpha
             status?.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
         }
     }
     
-    public class PGAddCustom : PGActor
+    public class PGAddShaderRectangle : PGShaderActor
     {        
         @discardableResult
-        public init( storage:PlaneStorage? = PlaneStorage.current, _ assetName:String ) {
-            super.init( storage:storage )
-            status?.shapeType = .custom
+        public init( storage:PlaneStorage? = PlaneStorage.current, assetName:String = "", shaderName:String ) {
+            super.init( storage:storage, shaderName:shaderName )
+            status?.shapeType = .shaderRectangle
             status?.compositeType = .add
             status?.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
         }
     }
     
-    public class PGSubCustom : PGActor
+    public class PGSubShaderRectangle : PGShaderActor
     {        
         @discardableResult
-        public init( storage:PlaneStorage? = PlaneStorage.current, _ assetName:String ) {
-            super.init( storage:storage )
-            status?.shapeType = .custom
+        public init( storage:PlaneStorage? = PlaneStorage.current, assetName:String = "", shaderName:String ) {
+            super.init( storage:storage, shaderName:shaderName )
+            status?.shapeType = .shaderRectangle
             status?.compositeType = .sub
             status?.atlasUV = storage?.textureAtlas.parts( assetName ).atlasUV ?? .zero
         }

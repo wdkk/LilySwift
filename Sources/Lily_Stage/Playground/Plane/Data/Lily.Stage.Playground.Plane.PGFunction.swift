@@ -23,7 +23,6 @@ extension Lily.Stage.Playground.Plane
             self.name = name
             self.code = code
             
-            // TODO: PGFuncrtions
             let shader = Lily.Metal.Shader(
                 device:device, 
                 code:"""
@@ -32,7 +31,22 @@ extension Lily.Stage.Playground.Plane
                 \(Lily.Stage.Playground.Plane.h_SMetal)
                 
                 [[visible]]
-                float4 \(name)( Plane::VOut in, texture2d<float> tex ) {
+                float4 \(name)( 
+                    float2 pos,
+                    float2 uv,
+                    float4 color,
+                    float4 color2,
+                    float4 color3,
+                    float4 color4,
+                    float alpha,
+                    float alpha2,
+                    float alpha3,
+                    float alpha4,
+                    float4 texColor,
+                    float texAlpha,
+                    texture2d<float> tex
+                ) 
+                {
                     \(code)
                 }
                 """,
@@ -46,5 +60,5 @@ extension Lily.Stage.Playground.Plane
 
 extension [Lily.Stage.Playground.Plane.PGFunction]
 {  
-    public var functions:[MTLFunction] { self.filter { $0.function != nil }.map { $0.function! } }
+    public var metalFunctions:[MTLFunction] { self.filter { $0.function != nil }.map { $0.function! } }
 }

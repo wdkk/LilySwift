@@ -88,6 +88,7 @@ extension Lily.Stage.Playground
         public var randomPoint:LLPoint { coordRegion.randomPoint }
         
         // MARK: - 外部処理ハンドラ
+        public var pgReadyHandler:(( PGScreen )->Void)?
         public var pgDesignHandler:(( PGScreen )->Void)?
         public var pgUpdateHandler:(( PGScreen )->Void)?
         public var pgResizeHandler:(( PGScreen )->Void)?
@@ -209,6 +210,7 @@ extension Lily.Stage.Playground
             self.modelStorage = scene.modelStorage
             self.bbStorage = scene.bbStorage
             
+            self.pgReadyHandler = scene.ready
             self.pgDesignHandler = scene.design
             self.pgUpdateHandler = scene.update
             self.pgResizeHandler = scene.resize
@@ -268,6 +270,8 @@ extension Lily.Stage.Playground
             viewCount:Int
         )
         {
+            self.pgReadyHandler?( self )
+            
             // レンダーフローの生成
             self.clearRenderFlow = .init(
                 device:device,

@@ -32,8 +32,7 @@ extension Lily.Stage.Playground.Plane
             let desc = MTLRenderPipelineDescriptor()
             desc.label = "Playground 2D Geometry(AlphaBlend)"
             
-            // TODO: PGFuncrtionsの追加
-            let functions = pgFunctions.functions
+            let functions = pgFunctions.metalFunctions
             let linkedFuncs = MTLLinkedFunctions()
             linkedFuncs.functions = functions
             
@@ -41,14 +40,12 @@ extension Lily.Stage.Playground.Plane
                 let library = try! Lily.Stage.metalLibrary( of:device )
                 desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Plane_Vs" ) )
                 desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Plane_Fs" ) )
-                // TODO: PGFuncrtions
                 desc.fragmentLinkedFunctions = linkedFuncs
             }
             else if environment == .string {
                 let sMetal = Lily.Stage.Playground.Plane.SMetal.shared( device:device )
                 desc.vertexShader( sMetal.vertexShader )
                 desc.fragmentShader( sMetal.fragmentShader )
-                // TODO: PGFuncrtions
                 desc.fragmentLinkedFunctions = linkedFuncs
             }
             
@@ -59,13 +56,10 @@ extension Lily.Stage.Playground.Plane
             desc.colorAttachments[1].pixelFormat = Lily.Stage.Playground.BufferFormats.backBuffer
             desc.colorAttachments[1].composite( type:.alphaBlend )
             desc.depthAttachmentPixelFormat = Lily.Stage.Playground.BufferFormats.depth
-            if #available( macCatalyst 13.4, * ) {
-                desc.maxVertexAmplificationCount = viewCount
-            }
+            if #available( macCatalyst 13.4, * ) { desc.maxVertexAmplificationCount = viewCount }
             
             pipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
             
-            // TODO: PGFuncrtions
             // function tableの作成
             let funcDescriptor = MTLVisibleFunctionTableDescriptor()
             funcDescriptor.functionCount = functions.count
@@ -127,7 +121,7 @@ extension Lily.Stage.Playground.Plane
                 shaderCompositeType:.alpha,
                 drawingType:.triangles
             )
-            
+                        
             renderEncoder?.setVertexBuffer( storage.particles.metalBuffer, offset:0, index:0 )
             renderEncoder?.setVertexBuffer( globalUniforms?.metalBuffer, offset:0, index:1 )
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 

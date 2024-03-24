@@ -42,6 +42,7 @@ extension Lily.Stage.Playground.Plane
         case blurryCircle = 4
         case picture      = 101
         case mask         = 102
-        case custom       = 201
+        case shaderRectangle = 201
+        case shaderTriangle  = 202
     }
 }

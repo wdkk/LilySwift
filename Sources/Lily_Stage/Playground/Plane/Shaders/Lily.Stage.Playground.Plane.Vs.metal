@@ -30,14 +30,20 @@ vertex Plane::VOut Lily_Stage_Playground_Plane_Vs
     }
 
     // 三角形が指定されているが, 描画が三角形でない場合
-    if( us.shapeType == Plane::ShapeType::triangle && localUniform.drawingType != Plane::DrawingType::triangles ) {
+    if( (us.shapeType == Plane::ShapeType::triangle || us.shapeType == Plane::ShapeType::shaderTriangle ) 
+       && localUniform.drawingType != Plane::DrawingType::triangles 
+    ) 
+    {
         Plane::VOut trush_vout;
         trush_vout.pos = float4( 0, Plane::TOO_FAR, 0.0, 0 );
         return trush_vout;    
     }
     
     // 三角形以外が指定されているが、描画が三角形である場合
-    if( us.shapeType != Plane::ShapeType::triangle && localUniform.drawingType == Plane::DrawingType::triangles ) {
+    if( (us.shapeType != Plane::ShapeType::triangle && us.shapeType != Plane::ShapeType::shaderTriangle )
+       && localUniform.drawingType == Plane::DrawingType::triangles 
+    ) 
+    {
         Plane::VOut trush_vout;
         trush_vout.pos = float4( 0, Plane::TOO_FAR, 0.0, 0 );
         return trush_vout;    
@@ -64,7 +70,11 @@ vertex Plane::VOut Lily_Stage_Playground_Plane_Vs
     vout.texUV = tex_uv;
     vout.uv = vin.uv;
     vout.color = us.color;
-    vout.shapeType = float( us.shapeType );
+    vout.color2 = us.color2;
+    vout.color3 = us.color3;
+    vout.color4 = us.color4;
+    vout.shapeType = uint32_t( us.shapeType );
+    vout.shaderIndex = us.shaderIndex;
 
     return vout;
 }
