@@ -43,15 +43,11 @@ extension Lily.Stage.Playground
         private init() {}
     
         lazy var engine = AVAudioEngine()
-        lazy var flows  = [PGAudioFlow]()
+        public lazy var flows  = [PGAudioFlow]()
         
         public func setup() {
-            flows = .init( repeating:.init( engine:engine ), count:1 )
-            
-            /*
-            let audioFile = load( bundleName:"amenokoibitotachi.mp3" )
-            flows[0].set( audioFile:audioFile! )
-            
+            flows = .init( repeating:.init( engine:engine ), count:4 )
+                        
             for i in 0 ..< flows.count {
                 let flow = flows[i]
                 engine.connect( 
@@ -70,23 +66,24 @@ extension Lily.Stage.Playground
                 to: engine.outputNode,
                 format: output_format
             )
-            */
         }
         
         public func start() {
-            if !engine.isRunning {
-                do {
-                    try engine.start()
-                    
-                    flows[0].play()
-                }
-                catch {
-                    LLLog( "AudioEngineを開始できませんでした: \(error)")
-                }
+            if engine.isRunning { return }
+            
+            do {
+                try engine.start()
+            }
+            catch {
+                LLLog( "AudioEngineを開始できませんでした: \(error)")
             }
         }
+        
+        public func stop() {
+            engine.stop()
+        }
     
-        public func load( bundleName:String ) -> AVAudioFile? {
+        private func load( bundleName:String ) -> AVAudioFile? {
             guard let file = Bundle.main.url(forResource: bundleName, withExtension: nil)
             else {
                 LLLog( "\(bundleName)がバンドルにありません" )
@@ -98,8 +95,25 @@ extension Lily.Stage.Playground
             } 
             catch {
                 LLLog( "\(bundleName)がバンドルから読み込めませんでした: \(error)" )
+                return nil
             }
-            return nil
+        }
+        
+        public func setAudio( bundleName:String, index:Int ) {
+            let audioFile = load( bundleName:bundleName )
+            flows[index].set( audioFile:audioFile! )
+        }
+        
+        public func play( index:Int ) {
+            if index < flows.count { flows[index].play() }
+        }
+        
+        public func pause( index:Int ) {
+            if index < flows.count { flows[index].pause() }
+        }
+        
+        public func stop( index:Int ) {
+            if index < flows.count { flows[index].stop() }
         }
     }
 }

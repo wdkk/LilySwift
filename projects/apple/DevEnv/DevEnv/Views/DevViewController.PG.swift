@@ -94,6 +94,9 @@ func ready( screen:PGScreen ) {
     PGAudio.shared.setup()
     PGAudio.shared.start()
     
+    PGAudio.shared.setAudio( bundleName:"amenokoibitotachi.mp3", index:0 )
+    PGAudio.shared.play( index:0 )
+    
     PGShader.shared.make(
         device:device,
         name:"f1",
