@@ -199,6 +199,7 @@ extension Lily.Stage.Model.Obj
             
             let result_mesh = Mesh(
                 device:device, 
+                commandQueue:commandQueue,
                 vertices: vertices,
                 indices: indices
             )

@@ -46,7 +46,7 @@ extension Lily.Stage.Model
             self.indexBuffer = indexBuffer
         }
         
-        public init( device:MTLDevice, vertices:[Vertex], indices:[UInt16] ) {
+        public init( device:MTLDevice, commandQueue:MTLCommandQueue, vertices:[Vertex], indices:[UInt16] ) {
    
             #if !targetEnvironment(simulator)
             let vertex_buffer = device.makeBuffer(

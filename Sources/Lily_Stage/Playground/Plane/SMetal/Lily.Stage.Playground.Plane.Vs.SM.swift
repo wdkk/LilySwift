@@ -56,7 +56,7 @@ extension Lily.Stage.Playground.Plane
             return trush_vout;    
         }
             
-        //GlobalUniform uniform = uniformArray.uniforms[amp_id];
+        GlobalUniform uniform = uniformArray.uniforms[amp_id];
         
         const int offset = localUniform.drawingOffset;
         auto vin = in[offset + vid];

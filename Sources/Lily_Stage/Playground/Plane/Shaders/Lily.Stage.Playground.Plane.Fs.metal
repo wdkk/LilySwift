@@ -10,19 +10,7 @@
   
 #import "Lily.Stage.Playground.Plane.h"
 
-typedef float4 CustomFragmentShaderFunc
-( 
-    float2 pos, 
-    float2 uv,
-    float4 color, 
-    float4 color2, 
-    float4 color3, 
-    float4 color4,                                       
-    float4 texColor,
-    float  life,
-    float  time,
-    texture2d<float> tex 
-);
+typedef float4 CustomFragmentShaderFunc( Plane::CustomShaderParam );
 
 namespace Lily
 {
@@ -87,18 +75,30 @@ namespace Lily
                     constexpr sampler nearest_sampler( mip_filter::nearest, mag_filter::nearest, min_filter::nearest ); 
                     float4 texColor = is_null_texture( tex ) ? float4( 0.0, 0.0, 0.0, 0.0 ) : tex.sample( nearest_sampler, in.texUV );
                     
-                    return tableFunc[in.shaderIndex]( 
+                    CustomShaderParam param = {
+                        in.life,
+                        in.time,
                         in.xy,
                         in.uv,
                         in.color,
                         in.color2,
                         in.color3,
                         in.color4,
+                        in.color.w,
+                        in.color2.w,
+                        in.color3.w,
+                        in.color4.w,
+                        in.texUV,
                         texColor,
-                        in.life,
-                        in.time,
+                        texColor.w,
                         tex
-                    );
+                    };
+                    
+                    #if ( !TARGET_OS_SIMULATOR || TARGET_OS_MACCATALYST )
+                    return tableFunc[in.shaderIndex]( param );
+                    #else
+                    return float4( 0, 0, 0, 0 );
+                    #endif
                 }
             }
         }

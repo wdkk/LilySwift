@@ -70,8 +70,11 @@ extension Lily.Stage.Model
                 }
             }
             
+            let commandQueue = device.makeCommandQueue()!
+            
             return .init(
                 device:device,
+                commandQueue:commandQueue,
                 vertices: vertices,
                 indices: indices
             )

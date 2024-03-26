@@ -397,6 +397,9 @@
 		5D71DA5D2B15DC1D009DF66F /* Lily.Stage.Playground.Plane.Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D71DA5C2B15DC1D009DF66F /* Lily.Stage.Playground.Plane.Enum.swift */; };
 		5D71DA5E2B15DC1D009DF66F /* Lily.Stage.Playground.Plane.Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D71DA5C2B15DC1D009DF66F /* Lily.Stage.Playground.Plane.Enum.swift */; };
 		5D71DA5F2B15DC1D009DF66F /* Lily.Stage.Playground.Plane.Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D71DA5C2B15DC1D009DF66F /* Lily.Stage.Playground.Plane.Enum.swift */; };
+		5D7C78F52BB2B1510093E3A9 /* Lily.Stage.Playground.PGAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7C78F42BB2B1510093E3A9 /* Lily.Stage.Playground.PGAudio.swift */; };
+		5D7C78FA2BB2CA750093E3A9 /* Lily.Stage.Playground.PGAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7C78F42BB2B1510093E3A9 /* Lily.Stage.Playground.PGAudio.swift */; };
+		5D7C78FB2BB2CA750093E3A9 /* Lily.Stage.Playground.PGAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7C78F42BB2B1510093E3A9 /* Lily.Stage.Playground.PGAudio.swift */; };
 		5D7F461E2ABD577F0061C6D2 /* Lily.Field.ViewEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F461D2ABD577F0061C6D2 /* Lily.Field.ViewEvent.swift */; };
 		5D7F461F2ABD577F0061C6D2 /* Lily.Field.ViewEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F461D2ABD577F0061C6D2 /* Lily.Field.ViewEvent.swift */; };
 		5D7F46202ABD577F0061C6D2 /* Lily.Field.ViewEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7F461D2ABD577F0061C6D2 /* Lily.Field.ViewEvent.swift */; };
@@ -1248,6 +1251,7 @@
 		5D67952A2783693700DF430C /* LCImage.rgbaf.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCImage.rgbaf.swift; sourceTree = "<group>"; };
 		5D67952B2783693700DF430C /* LCTextAttribute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCTextAttribute.swift; sourceTree = "<group>"; };
 		5D71DA5C2B15DC1D009DF66F /* Lily.Stage.Playground.Plane.Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lily.Stage.Playground.Plane.Enum.swift; sourceTree = "<group>"; };
+		5D7C78F42BB2B1510093E3A9 /* Lily.Stage.Playground.PGAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lily.Stage.Playground.PGAudio.swift; sourceTree = "<group>"; };
 		5D7F461D2ABD577F0061C6D2 /* Lily.Field.ViewEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lily.Field.ViewEvent.swift; sourceTree = "<group>"; };
 		5D7FA2E12B7A961700C4A0BB /* Lily.Stage.Playground.ClearRenderFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lily.Stage.Playground.ClearRenderFlow.swift; sourceTree = "<group>"; };
 		5D812B812B8F16BF001051D1 /* Lily.Stage.Playground.PGEmpty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lily.Stage.Playground.PGEmpty.swift; sourceTree = "<group>"; };
@@ -1997,6 +2001,14 @@
 			path = extensions;
 			sourceTree = "<group>";
 		};
+		5D7C78F32BB2B1150093E3A9 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				5D7C78F42BB2B1510093E3A9 /* Lily.Stage.Playground.PGAudio.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
 		5D7FA2E02B7A95E000C4A0BB /* Clear */ = {
 			isa = PBXGroup;
 			children = (
@@ -2204,6 +2216,7 @@
 				5DA222792B848AE900C95C0D /* Lily.Stage.Playground.PGScene.swift */,
 				5DEBE1332B9863E000308ADF /* Utils */,
 				5D6254502B110C7D00B57EE0 /* Engines */,
+				5D7C78F32BB2B1150093E3A9 /* Audio */,
 				5D333D882B222FAF00E9F4A2 /* UI */,
 				5D093DCD2B1DB4AC00F9283B /* Views */,
 				5D7FA2E02B7A95E000C4A0BB /* Clear */,
@@ -2770,6 +2783,7 @@
 				5DDA33432AFC11A6004427C9 /* LLTextAttribute.swift in Sources */,
 				5DDA33422AFC11A6004427C9 /* LLFile.swift in Sources */,
 				5DE0A8962B86743700E3764C /* Lily.Stage.Playground.Model.Lighting.Vs.metal in Sources */,
+				5D7C78FA2BB2CA750093E3A9 /* Lily.Stage.Playground.PGAudio.swift in Sources */,
 				5DDA334D2AFC11A6004427C9 /* LLPath.swift in Sources */,
 				5DE0A8922B86742A00E3764C /* Lily.Stage.Playground.Model.Lighting.Renderer.swift in Sources */,
 				5DDA32CF2AFC1191004427C9 /* LCImage.grey16.swift in Sources */,
@@ -3203,6 +3217,7 @@
 				5DDA32BD2AFC1191004427C9 /* LCImage.swift in Sources */,
 				5DDA32A12AFC1191004427C9 /* LCImageLoader.internal.tga.swift in Sources */,
 				5DEBE11F2B9852B000308ADF /* Lily.Stage.Macro.SM.swift in Sources */,
+				5D7C78F52BB2B1510093E3A9 /* Lily.Stage.Playground.PGAudio.swift in Sources */,
 				5D3036992B0D054600F57D1E /* Lily.Stage.Playground.Plane.AlphaRenderer.swift in Sources */,
 				5DCAC8552B56D7550088F126 /* Lily.Stage.Playground.Model.Enum.swift in Sources */,
 				5DDA329B2AFC1191004427C9 /* LLError.swift in Sources */,
@@ -3506,6 +3521,7 @@
 				5DDA33562AFC11A6004427C9 /* LLFileWriter.swift in Sources */,
 				5DF6D0322AA726170064E38F /* MTLTexture+Lily+ext.swift in Sources */,
 				5DE0A88F2B866F1A00E3764C /* Lily.Stage.Playground.PGVisionFullyScreen.swift in Sources */,
+				5D7C78FB2BB2CA750093E3A9 /* Lily.Stage.Playground.PGAudio.swift in Sources */,
 				5DDA33262AFC1192004427C9 /* LCImageSaver.internal.tga.swift in Sources */,
 				5D855B072B9B429F00C0A7C7 /* Lily.Stage.Playground.Model.Mesh.h.SM.swift in Sources */,
 				5DDA32F72AFC1192004427C9 /* LDImageSaver.internal.mac.swift in Sources */,
@@ -3811,7 +3827,6 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -3879,7 +3894,6 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

@@ -32,7 +32,7 @@ extension Lily.Stage.Playground.Plane
         public static let shared = PGShader()
         private init() {}
         
-        public func ready( device:MTLDevice ) { PGShader.shared.make( device:device, name:"PGShaderReadyFunc", code:"return color;" ) }
+        public func ready( device:MTLDevice ) { PGShader.shared.make( device:device, name:"PGShaderReadyFunc", code:"return p.color;" ) }
         
         public private(set) var functionSet:[String:PGFunctionSet] = [:]
         

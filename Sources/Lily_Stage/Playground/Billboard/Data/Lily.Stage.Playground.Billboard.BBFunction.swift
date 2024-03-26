@@ -32,27 +32,11 @@ extension Lily.Stage.Playground.Billboard
                 
                 [[visible]]
                 float4 \(name)( 
-                    float2 pos,
-                    float2 uv,
-                    float4 color,
-                    float4 color2,
-                    float4 color3,
-                    float4 color4,
-                    float4 texColor,
-                    float life,
-                    float time,
-                    texture2d<float> tex
+                    Billboard::CustomShaderParam p
                 ) 
-                {
-                    float alpha  = color.w;
-                    float alpha2 = color2.w;
-                    float alpha3 = color3.w;
-                    float alpha4 = color4.w;
-                    float texAlpha = texColor.w;
-                    
+                {     
                     \(code)
                 }
-                
                 """,
                 shaderName:name
             )

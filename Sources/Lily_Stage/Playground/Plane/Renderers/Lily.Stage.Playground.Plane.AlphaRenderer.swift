@@ -32,22 +32,25 @@ extension Lily.Stage.Playground.Plane
             let desc = MTLRenderPipelineDescriptor()
             desc.label = "Playground 2D Geometry(AlphaBlend)"
             
+            #if !targetEnvironment(simulator)
             let functions = pgFunctions.metalFunctions
             let linkedFuncs = MTLLinkedFunctions()
             linkedFuncs.functions = functions
+            #endif
             
             if environment == .metallib {
                 let library = try! Lily.Stage.metalLibrary( of:device )
                 desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Plane_Vs" ) )
                 desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Plane_Fs" ) )
-                desc.fragmentLinkedFunctions = linkedFuncs
             }
             else if environment == .string {
                 let sMetal = Lily.Stage.Playground.Plane.SMetal.shared( device:device )
                 desc.vertexShader( sMetal.vertexShader )
                 desc.fragmentShader( sMetal.fragmentShader )
-                desc.fragmentLinkedFunctions = linkedFuncs
             }
+            #if !targetEnvironment(simulator)
+            desc.fragmentLinkedFunctions = linkedFuncs
+            #endif
             
             desc.rasterSampleCount = Lily.Stage.Playground.BufferFormats.sampleCount
             
@@ -60,6 +63,7 @@ extension Lily.Stage.Playground.Plane
             
             pipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
             
+            #if !targetEnvironment(simulator)
             // function tableの作成
             let funcDescriptor = MTLVisibleFunctionTableDescriptor()
             funcDescriptor.functionCount = functions.count
@@ -69,6 +73,7 @@ extension Lily.Stage.Playground.Plane
                 let fs_handle = pipeline.functionHandle(function:functions[idx], stage:.fragment )
                 funcTable?.setFunction( fs_handle, index:idx )
             }
+            #endif
         }
         
         public func draw( 
@@ -94,7 +99,9 @@ extension Lily.Stage.Playground.Plane
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
+            #if !targetEnvironment(simulator)
             renderEncoder?.setFragmentVisibleFunctionTable( funcTable, bufferIndex:0 )
+            #endif
 
             renderEncoder?.drawPrimitives( 
                 type: .triangleStrip, 
@@ -127,8 +134,10 @@ extension Lily.Stage.Playground.Plane
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
+            #if !targetEnvironment(simulator)
             renderEncoder?.setFragmentVisibleFunctionTable( funcTable, bufferIndex:0 )
-
+            #endif
+            
             renderEncoder?.drawPrimitives( 
                 type: .triangle, 
                 vertexStart: 0, 

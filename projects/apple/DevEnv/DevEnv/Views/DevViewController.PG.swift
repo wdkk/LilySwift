@@ -53,14 +53,14 @@ class DevViewController
         
         pgScreen = PGScreen(
             device:device,
-            environment:.metallib,
+            environment:.string,
             planeStorage:planeStorage,
             bbStorage:bbStorage,
             modelStorage:modelStorage
         )
         
         pgScreen?.pgReadyHandler = ready
-        pgScreen?.pgDesignHandler = design
+        pgScreen?.pgDesignHandler = design2
         pgScreen?.pgUpdateHandler = update
         
         self.addSubview( pgScreen!.view )
@@ -91,12 +91,15 @@ class DevViewController
 }
 
 func ready( screen:PGScreen ) {
+    PGAudio.shared.setup()
+    PGAudio.shared.start()
+    
     PGShader.shared.make(
         device:device,
         name:"f1",
         code:"""
-            float4 c = color * (1.0 - uv[0]) + color2 * uv[0];
-            return float4( c.xyz, alpha );
+            float4 c = p.color * (1.0 - p.uv[0]) + p.color2 * p.uv[0];
+            return float4( c.xyz, p.alpha );
         """
     )
     
@@ -104,8 +107,8 @@ func ready( screen:PGScreen ) {
         device:device,
         name:"f2",
         code:"""
-            float4 c = saturate( color + color2 );
-            return float4( c.xyz, alpha );
+            float4 c = saturate( p.color + p.color2 );
+            return float4( c.xyz, p.alpha );
         """
     )
     
@@ -113,8 +116,8 @@ func ready( screen:PGScreen ) {
         device:device,
         name:"f3",
         code:"""
-            float4 c = color * (1.0 - uv[0]) + color2 * uv[0];
-            return float4( c.xyz, alpha );
+            float4 c = p.color * (1.0 - p.uv[0]) + p.color2 * p.uv[0];
+            return float4( c.xyz, p.alpha );
         """
     )
 }
@@ -200,7 +203,7 @@ func update( screen:PGScreen ) {
     LLClock.fps()
 }
 
-func design2( screen:PGScreen ) {
+func design2( screen:PGScreen ) {    
     screen.clearColor = .darkGray 
     
     let p = PGEmpty()

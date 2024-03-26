@@ -133,6 +133,26 @@ extension Lily.Stage.Playground.Billboard
                         int32_t  shaderIndex;
                     };
 
+                    struct CustomShaderParam
+                    {
+                        float  life;
+                        float  time;
+                        float2 pos;
+                        float2 uv;
+                        float4 color;
+                        float4 color2;
+                        float4 color3;
+                        float4 color4;
+                        float  alpha;
+                        float  alpha2;
+                        float  alpha3;
+                        float  alpha4;
+                        float2 texUV;
+                        float4 texColor;
+                        float  texAlpha;
+                        texture2d<float> tex;
+                    };
+                
                     struct Result 
                     {
                         float4 billboardTexture [[ color(0) ]];
