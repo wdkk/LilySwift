@@ -17,9 +17,6 @@
 		5D3681B42B79185F00C20F6B /* DevViewController.PG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA1230D2B47299600FA0A04 /* DevViewController.PG.swift */; };
 		5D3681B52B79185F00C20F6B /* DevViewController.PG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA1230D2B47299600FA0A04 /* DevViewController.PG.swift */; };
 		5D69BA7C2AE5152200D9323C /* VisionContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD583E12AA771BF00B5E6AE /* VisionContentView.swift */; };
-		5D7C79052BB2E5410093E3A9 /* amenokoibitotachi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5D7C79042BB2E5410093E3A9 /* amenokoibitotachi.mp3 */; };
-		5D7C79062BB2E5410093E3A9 /* amenokoibitotachi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5D7C79042BB2E5410093E3A9 /* amenokoibitotachi.mp3 */; };
-		5D7C79072BB2E5410093E3A9 /* amenokoibitotachi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5D7C79042BB2E5410093E3A9 /* amenokoibitotachi.mp3 */; };
 		5D84561D2AFA81B7004E48B3 /* LilySwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5D84561C2AFA81B7004E48B3 /* LilySwift */; };
 		5D84561F2AFA81DB004E48B3 /* LilySwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5D84561E2AFA81DB004E48B3 /* LilySwift */; };
 		5D8456212AFA81F9004E48B3 /* LilySwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5D8456202AFA81F9004E48B3 /* LilySwift */; };
@@ -70,7 +67,6 @@
 		5D2337E92A4882480065BB61 /* DevEnv(macOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DevEnv(macOS).entitlements"; sourceTree = "<group>"; };
 		5D2338052A4884D90065BB61 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5D2338192A488F1D0065BB61 /* InfoMac.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoMac.plist; sourceTree = "<group>"; };
-		5D7C79042BB2E5410093E3A9 /* amenokoibitotachi.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = amenokoibitotachi.mp3; sourceTree = "<group>"; };
 		5D8EA04D263D5CD400DCD404 /* DevEnv-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DevEnv-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D8EA06F263D5D0500DCD404 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D8EA071263D5D0500DCD404 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -176,7 +172,6 @@
 		5D8F3B72235B946B00BB9805 = {
 			isa = PBXGroup;
 			children = (
-				5D7C79042BB2E5410093E3A9 /* amenokoibitotachi.mp3 */,
 				5D8EA06D263D5D0500DCD404 /* DevEnv */,
 				5D8F3B7D235B946B00BB9805 /* Products */,
 				5DACEE94235C7167001143BF /* Frameworks */,
@@ -340,7 +335,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D3681B32B7914F700C20F6B /* Assets.xcassets in Resources */,
-				5D7C79062BB2E5410093E3A9 /* amenokoibitotachi.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,7 +344,6 @@
 			files = (
 				5D3681B22B7914F700C20F6B /* Assets.xcassets in Resources */,
 				5D21E9712A46DBCB0097A819 /* LaunchScreen.storyboard in Resources */,
-				5D7C79052BB2E5410093E3A9 /* amenokoibitotachi.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,7 +352,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D3681B12B7914F300C20F6B /* Assets.xcassets in Resources */,
-				5D7C79072BB2E5410093E3A9 /* amenokoibitotachi.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

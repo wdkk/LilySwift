@@ -1,4 +1,6 @@
 *.mp3
+*.m4a
+*.wav
 
 .DS_Store
 

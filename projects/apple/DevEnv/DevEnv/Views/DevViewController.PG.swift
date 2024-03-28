@@ -70,9 +70,17 @@ class DevViewController
         super.buildup()
         pgScreen?.rect = self.rect
     }
-    
+        
     #if os(macOS)
     #else
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        print( "touches began" )
+        PGAudio.shared.stop( index:0 )
+        PGAudio.shared.setAudio( assetName:"mag!c number", index:0 )
+        PGAudio.shared.play( index:0 )
+    }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded( touches, with:event )
         
@@ -94,7 +102,7 @@ func ready( screen:PGScreen ) {
     PGAudio.shared.setup()
     PGAudio.shared.start()
     
-    PGAudio.shared.setAudio( bundleName:"amenokoibitotachi.mp3", index:0 )
+    PGAudio.shared.setAudio( assetName:"amenokoibitotachi", index:0 )
     PGAudio.shared.play( index:0 )
     
     PGShader.shared.make(
