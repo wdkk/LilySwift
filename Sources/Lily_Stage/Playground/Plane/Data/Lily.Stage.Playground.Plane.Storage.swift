@@ -86,13 +86,13 @@ extension Lily.Stage.Playground.Plane
             }
             
             self.statuses = .init( device:device, count:capacity + 1 )  // 1つ余分に確保
+            
             self.statuses.update( range:0..<capacity+1 ) { us, _ in
                 us.state = .trush
                 us.enabled = false
             }
-            
             self.reuseIndice = .init( (0..<capacity).reversed() )
-            
+
             self.textureAtlas = .init( device:device )
             addTextures( textures )
         }
@@ -120,6 +120,15 @@ extension Lily.Stage.Playground.Plane
                 us.enabled = false
             }
             reuseIndice.append( idx )
+        }
+        
+        public func clear() {
+            self.statuses.update( range:0..<capacity+1 ) { us, _ in
+                us.state = .trush
+                us.enabled = false
+            }
+            
+            self.reuseIndice = .init( (0..<capacity).reversed() )
         }
     }
 }

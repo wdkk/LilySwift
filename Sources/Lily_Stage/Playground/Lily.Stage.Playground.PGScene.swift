@@ -23,6 +23,7 @@ extension Lily.Stage.Playground
         public var planeStorage:Plane.PlaneStorage? { didSet { requestRedesign() } }
         public var bbStorage:Billboard.BBStorage? { didSet { requestRedesign() } }
         public var modelStorage:Model.ModelStorage? { didSet { requestRedesign() } }
+        public var audioStorage:PGAudioStorage? { didSet { requestRedesign() } }
 
         public var ready:(( TScreen )->Void)? { didSet { requestRedesign() } }
         public var design:(( TScreen )->Void)? { didSet { requestRedesign() } }
@@ -39,6 +40,7 @@ extension Lily.Stage.Playground
             planeStorage:Plane.PlaneStorage? = nil,
             bbStorage:Billboard.BBStorage? = nil,
             modelStorage:Model.ModelStorage? = nil,
+            audioStorage:PGAudioStorage? = nil,
             ready:((TScreen) -> Void)? = nil,
             design:((TScreen) -> Void)? = nil,
             update:((TScreen) -> Void)? = nil,
@@ -48,6 +50,7 @@ extension Lily.Stage.Playground
             self.planeStorage = planeStorage
             self.bbStorage = bbStorage
             self.modelStorage = modelStorage
+            self.audioStorage = audioStorage
             self.ready = ready
             self.design = design
             self.update = update

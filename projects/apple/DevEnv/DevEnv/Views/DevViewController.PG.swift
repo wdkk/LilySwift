@@ -48,6 +48,10 @@ class DevViewController
         textures: [ "mask-smoke" ]
     )
     
+    lazy var audioStorage:PGAudioStorage = .init(
+        assetNames:[ "amenokoibitotachi", "mag!c number" ]
+    )
+    
     override func setup() {
         super.setup()
         
@@ -56,11 +60,12 @@ class DevViewController
             environment:.string,
             planeStorage:planeStorage,
             bbStorage:bbStorage,
-            modelStorage:modelStorage
+            modelStorage:modelStorage,
+            audioStorage:audioStorage
         )
         
         pgScreen?.pgReadyHandler = ready
-        pgScreen?.pgDesignHandler = design2
+        pgScreen?.pgDesignHandler = design
         pgScreen?.pgUpdateHandler = update
         
         self.addSubview( pgScreen!.view )
@@ -75,36 +80,35 @@ class DevViewController
     #else
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        print( "touches began" )
-        PGAudio.shared.stop( index:0 )
-        PGAudio.shared.setAudio( assetName:"mag!c number", index:0 )
-        PGAudio.shared.play( index:0 )
+
+        //PGSound( name:"sound2", assetName:"mag!c number" )
+        //.play()
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded( touches, with:event )
         
-        /*
+        planeStorage2.clear()
+        
         pgScreen?.changeStorages(
             planeStorage:planeStorage2,
             bbStorage:nil,
             modelStorage:nil,
+            audioStorage:audioStorage,
+            ready:nil,
             design:design2,
-            update:update2,
+            update:update,
             resize:nil
         )
-        */
     }
     #endif
 }
 
 func ready( screen:PGScreen ) {
-    PGAudio.shared.setup()
-    PGAudio.shared.start()
-    
-    PGAudio.shared.setAudio( assetName:"amenokoibitotachi", index:0 )
-    PGAudio.shared.play( index:0 )
-    
+
+    PGSound( name:"sound1", assetName:"mag!c number" )
+    .play()
+
     PGShader.shared.make(
         device:device,
         name:"f1",

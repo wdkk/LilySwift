@@ -88,7 +88,9 @@ namespace Lily
                     float angle;
                     float deltaAngle;
                     float comboAngle;
-                    float _r1;
+                    int32_t _r1;
+                    int32_t _r2;
+                    int32_t _r3;
                     float life;
                     float deltaLife;
                     float enabled;

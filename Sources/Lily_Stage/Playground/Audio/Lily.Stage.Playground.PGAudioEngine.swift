@@ -42,17 +42,16 @@ extension Lily.Stage.Playground
         public func stop() { player.stop() }
     }
     
-    open class PGAudio
+    open class PGAudioEngine
     {
-        public static let shared = PGAudio()
-        private init() {}
-    
         lazy var engine = AVAudioEngine()
-        public lazy var flows  = [PGAudioFlow]()
+        public lazy var flows = [PGAudioFlow]()
         
-        public func setup() {
-            flows = .init( repeating:.init( engine:engine ), count:4 )
-                        
+        public var channelCount:Int { flows.count }
+        
+        public func setup( channels:Int ) {
+            for i in 0 ..< channels { flows.append( .init( engine:engine ) ) }
+            
             for i in 0 ..< flows.count {
                 let flow = flows[i]
                 engine.connect( 
@@ -80,18 +79,33 @@ extension Lily.Stage.Playground
         }
         
         public func stop() {
+            if !engine.isRunning { return }
             engine.stop()
         }
             
         public func setAudio( bundleName:String, index:Int ) {
-            let audioFile = load( bundleName:bundleName )
-            flows[index].set( audioFile:audioFile! )
+            guard let audioFile = AVAudioFile.load( bundleName:bundleName ) else { 
+                LLLog( "\(bundleName) のオーディオ生成に失敗しました" )
+                return
+            }
+            flows[index].set( audioFile:audioFile )
         }
         
         public func setAudio( assetName:String, index:Int ) {
-            let audioFile = load( assetName:assetName )
-            flows[index].set( audioFile:audioFile! )
+            guard let audioFile = AVAudioFile.load( assetName:assetName ) else {
+                LLLog( "\(assetName) のオーディオ生成に失敗しました" )
+                return
+            }
+            flows[index].set( audioFile:audioFile )
         }
+        
+        public func setAudio( audioFile:AVAudioFile?, index:Int ) {
+            guard let audioFile = audioFile else {
+                LLLog( "\(index) に指定したオーディオの生成に失敗しました" )
+                return
+            }
+            flows[index].set( audioFile:audioFile )
+        }        
         
         public func play( index:Int ) {
             if index < flows.count { flows[index].play() }
@@ -104,47 +118,20 @@ extension Lily.Stage.Playground
         public func stop( index:Int ) {
             if index < flows.count { flows[index].stop() }
         }
-    }
-}
-
-extension Lily.Stage.Playground.PGAudio
-{
-    private func load( bundleName:String ) -> AVAudioFile? {
-        guard let file = Bundle.main.url(forResource: bundleName, withExtension: nil)
-        else {
-            LLLog( "\(bundleName) がバンドルにありません" )
-            return nil
-        }
         
-        do { return try AVAudioFile(forReading: file) }
-        catch {
-            LLLog( "\(bundleName) の読み込みに失敗しました: \(error)" )
-            return nil
-        }
-    }
-    
-    private func load( assetName:String ) -> AVAudioFile? {
-        guard let asset = NSDataAsset( name:assetName ) else {
-            LLLog( "\(assetName) がアセットにありません" )
-            return nil
-        }
-
-        let temp_url = FileManager.default.temporaryDirectory.appendingPathComponent( "\(assetName)" )
-
-        do { try asset.data.write( to:temp_url ) }
-        catch {
-            LLLog( "\(assetName) の一時ファイル書き出しができませんでした" )
-            return nil
-        }
-
-        do {
-            let audio_file = try AVAudioFile( forReading:temp_url )
-            try FileManager.default.removeItem( at:temp_url )
-            return audio_file
-        } catch {
-            LLLog( "\(assetName) の読み込みに失敗しました: \(error)" )
-            try? FileManager.default.removeItem( at:temp_url )
-            return nil
+        public func clear() {
+            Task {
+                let fade_time:Float = 1.0
+                var vol = engine.mainMixerNode.outputVolume
+                let d_vol = vol / 1000.0 / fade_time
+                while true {
+                    if vol <= 0.0 { break } 
+                    vol -= d_vol
+                    engine.mainMixerNode.outputVolume = vol
+                    LLSystem.sleep(1)
+                }
+                engine.stop()
+            }
         }
     }
 }

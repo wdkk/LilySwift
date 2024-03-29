@@ -85,4 +85,6 @@ public typealias ModelStorage = PG.Model.ModelStorage
 public typealias MDObj = PG.Model.MDObj
 public typealias MDSphere = PG.Model.MDSphere
 
-public typealias PGAudio = PG.PGAudio
+public typealias PGAudioEngine = PG.PGAudioEngine
+public typealias PGAudioStorage = PG.PGAudioStorage
+public typealias PGSound = PG.PGSound

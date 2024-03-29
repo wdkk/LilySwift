@@ -25,6 +25,7 @@ public protocol Lily_Stage_Playground_PGSceneProtocol
     var planeStorage:PG.Plane.PlaneStorage? { get set }
     var modelStorage:PG.Model.ModelStorage? { get set }
     var bbStorage:PG.Billboard.BBStorage? { get set }
+    var audioStorage:PG.PGAudioStorage? { get set }
     
     // MARK: レンダーフロー
     var clearRenderFlow:PG.ClearRenderFlow? { get set }
@@ -42,6 +43,7 @@ public protocol Lily_Stage_Playground_PGSceneProtocol
     // MARK: - 3Dモデル情報
     var models:Set<PG.Model.MDActor> { get }
     
+    var pgReadyHandler:(( Self )->Void)? { get set }
     var pgDesignHandler:(( Self )->Void)? { get set }
     var pgUpdateHandler:(( Self )->Void)? { get set }
     var pgResizeHandler:(( Self )->Void)? { get set }
@@ -90,6 +92,7 @@ extension Lily_Stage_Playground_PGSceneProtocol
         PG.Plane.PlaneStorage.current = self.planeStorage
         PG.Billboard.BBStorage.current = self.bbStorage
         PG.Model.ModelStorage.current = self.modelStorage
+        PG.PGAudioStorage.current = self.audioStorage
     }
             
     public func checkPlanesStatus() {
@@ -186,25 +189,32 @@ extension Lily_Stage_Playground_PGSceneProtocol
     }
     
     public mutating func changeStorages(
-        planeStorage:PG.Plane.PlaneStorage?,
-        bbStorage:PG.Billboard.BBStorage?,
-        modelStorage:PG.Model.ModelStorage?,
-        design:(( Self )->Void)?,
-        update:(( Self )->Void)?,
-        resize:(( Self )->Void)?
+        planeStorage:PG.Plane.PlaneStorage? = nil,
+        bbStorage:PG.Billboard.BBStorage? = nil,
+        modelStorage:PG.Model.ModelStorage? = nil,
+        audioStorage:PG.PGAudioStorage? = nil,
+        ready:(( Self )->Void)? = nil,
+        design:(( Self )->Void)? = nil,
+        update:(( Self )->Void)? = nil,
+        resize:(( Self )->Void)? = nil
     )
     {
         self.planeStorage = planeStorage
         self.bbStorage = bbStorage
         self.modelStorage = modelStorage
+        self.audioStorage = audioStorage
         
         self.planeRenderFlow?.storage = self.planeStorage
         self.bbRenderFlow?.storage = self.bbStorage
         self.modelRenderFlow?.storage = self.modelStorage
         
+        self.pgReadyHandler = ready
         self.pgDesignHandler = design
         self.pgUpdateHandler = update
         self.pgResizeHandler = resize
+        
+        // readyはここで動作させる
+        self.pgResizeHandler?( self )
         
         self.designProc( vc:self, force:true )
     }

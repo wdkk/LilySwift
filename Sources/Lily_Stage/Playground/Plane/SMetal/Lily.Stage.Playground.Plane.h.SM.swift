@@ -106,6 +106,8 @@ extension Lily.Stage.Playground.Plane
 
                         int32_t shaderIndex;
                         int32_t _r;
+                        int32_t _r2;
+                        int32_t _r3;
                         
                         float startTime;
                         float elapsedTime;

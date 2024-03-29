@@ -37,6 +37,7 @@ extension Lily.Stage.Playground
         public var planeStorage:Plane.PlaneStorage?
         public var modelStorage:Model.ModelStorage?
         public var bbStorage:Billboard.BBStorage?
+        public var audioStorage:PGAudioStorage?
         
         // MARK: レンダーフロー
         public var clearRenderFlow:ClearRenderFlow?
@@ -173,7 +174,8 @@ extension Lily.Stage.Playground
             environment:Lily.Stage.ShaderEnvironment = .metallib,
             planeStorage:Plane.PlaneStorage? = nil,
             bbStorage:Billboard.BBStorage? = nil,
-            modelStorage:Model.ModelStorage? = nil
+            modelStorage:Model.ModelStorage? = nil,
+            audioStorage:PGAudioStorage? = nil
         )
         {
             self.device = device
@@ -186,6 +188,7 @@ extension Lily.Stage.Playground
             self.planeStorage = planeStorage
             self.modelStorage = modelStorage
             self.bbStorage = bbStorage
+            self.audioStorage = audioStorage
             
             // レンダーエンジンの初期化
             self.renderEngine = .init( device:self.device, buffersInFlight:1 )
@@ -209,6 +212,7 @@ extension Lily.Stage.Playground
             self.planeStorage = scene.planeStorage
             self.modelStorage = scene.modelStorage
             self.bbStorage = scene.bbStorage
+            self.audioStorage = scene.audioStorage
             
             self.pgReadyHandler = scene.ready
             self.pgDesignHandler = scene.design
@@ -268,6 +272,7 @@ extension Lily.Stage.Playground
             viewCount:Int
         )
         {
+            self.setCurrentStorage()
             self.pgReadyHandler?( self )
             
             // レンダーフローの生成

@@ -124,5 +124,14 @@ extension Lily.Stage.Playground.Model
             }
             reuseIndice.append( idx )
         }
+        
+        public func clear() {
+            self.statuses.update( range:0..<capacity+1 ) { us, _ in
+                us.state = .trush
+                us.enabled = false
+            }
+            
+            self.reuseIndice = .init( (0..<capacity).reversed() )
+        }
     }
 }

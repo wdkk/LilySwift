@@ -17,20 +17,20 @@ extension Lily.Stage.Playground.Plane
     {
         //-- メモリアラインメント範囲START --//
         // 公開パラメータ
-        public var matrix:LLMatrix4x4 = .identity
-        public var atlasUV:LLFloatv4 = .init( 0.0, 0.0, 1.0, 1.0 )
-        public var color:LLFloatv4 = LLColor.black.floatv4
-        public var deltaColor:LLFloatv4 = .zero
-        public var color2:LLFloatv4 = LLColor.black.floatv4
-        public var deltaColor2:LLFloatv4 = .zero
-        public var color3:LLFloatv4 = LLColor.black.floatv4
-        public var deltaColor3:LLFloatv4 = .zero
-        public var color4:LLFloatv4 = LLColor.black.floatv4
-        public var deltaColor4:LLFloatv4 = .zero
-        public var position:LLFloatv2 = .zero
-        public var deltaPosition:LLFloatv2 = .zero
-        public var scale:LLFloatv2 = .init( 100.0, 100.0 )
-        public var deltaScale:LLFloatv2 = .zero
+        public var matrix:LLMatrix4x4 = .identity                   
+        public var atlasUV:LLFloatv4 = .init( 0.0, 0.0, 1.0, 1.0 ) 
+        public var color:LLFloatv4 = LLColor.black.floatv4         
+        public var deltaColor:LLFloatv4 = .zero                     
+        public var color2:LLFloatv4 = LLColor.black.floatv4  
+        public var deltaColor2:LLFloatv4 = .zero               
+        public var color3:LLFloatv4 = LLColor.black.floatv4     
+        public var deltaColor3:LLFloatv4 = .zero                 
+        public var color4:LLFloatv4 = LLColor.black.floatv4 
+        public var deltaColor4:LLFloatv4 = .zero                    
+        public var position:LLFloatv2 = .zero               
+        public var deltaPosition:LLFloatv2 = .zero          
+        public var scale:LLFloatv2 = .init( 100.0, 100.0 )   
+        public var deltaScale:LLFloatv2 = .zero         
         
         public var angle:LLFloat = 0.0
         public var deltaAngle:LLFloat = 0.0
@@ -43,6 +43,8 @@ extension Lily.Stage.Playground.Plane
 
         public var shaderIndex:LLInt32 = -1
         public var _r:LLInt32 = -1
+        public var _r2:LLInt32 = -1
+        public var _r3:LLInt32 = -1
         
         public var startTime:LLFloat = LLClock.Precision.now.f
         public var elapsedTime:LLFloat = 0.0
@@ -55,7 +57,7 @@ extension Lily.Stage.Playground.Plane
             CompositeType.alpha.rawValue,
             ShapeType.rectangle.rawValue
         )
-        
+                
         //-- メモリアラインメント範囲END --//
         
         public init() {}
