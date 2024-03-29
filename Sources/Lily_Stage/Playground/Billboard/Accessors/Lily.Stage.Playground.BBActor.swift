@@ -27,9 +27,9 @@ extension Lily.Stage.Playground.Billboard
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<UnitStatus>?
         public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>?
                 
-        public var iterateField:BBField<BBActor, LLEmpty>?
-        public var intervalField:PG.ActorInterval<PG.Billboard.BBField<BBActor, LLEmpty>>?
-        public var completionField:BBField<BBActor, LLEmpty>?
+        public var iterateField:PG.PGField<BBActor, LLEmpty>?
+        public var intervalField:PG.ActorInterval<PG.PGField<BBActor, LLEmpty>>?
+        public var completionField:PG.PGField<BBActor, LLEmpty>?
         
         public private(set) var parent:BBActor?
         
@@ -84,7 +84,7 @@ extension Lily.Stage.Playground.Billboard
        
         @discardableResult
         public func iterate( _ f:@escaping ( BBActor )->Void ) -> Self {
-            self.iterateField = BBField( me:self, action:f )
+            self.iterateField = PG.PGField( me:self, action:f )
             return self
         }
         
@@ -97,7 +97,7 @@ extension Lily.Stage.Playground.Billboard
             self.intervalField = .init(
                 sec:sec,
                 prev:PG.ActorTimer.shared.nowTime,
-                field:BBField( me:self, action:f )
+                field:PG.PGField( me:self, action:f )
             )
             return self
         }
@@ -120,7 +120,7 @@ extension Lily.Stage.Playground.Billboard
         
         @discardableResult
         public func completion( _ f:@escaping ( BBActor )->Void ) -> Self {
-            self.completionField = BBField( me:self, action:f )
+            self.completionField = PG.PGField( me:self, action:f )
             return self
         }
         

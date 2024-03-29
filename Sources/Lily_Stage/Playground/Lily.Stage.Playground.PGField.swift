@@ -13,9 +13,9 @@
 import Metal
 import simd
 
-extension Lily.Stage.Playground.Billboard
+extension Lily.Stage.Playground
 {   
-    public class BBField<TMe:AnyObject, TObj>
+    public class PGField<TMe:AnyObject, TObj>
     : LLField
     {    
         public private(set) var relayFunc:((TObj)->Void)?

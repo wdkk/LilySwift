@@ -17,8 +17,11 @@ import AVFoundation
 
 extension Lily.Stage.Playground
 {
-    public class PGAudioStorage
+    public class PGAudioStorage : Hashable
     {
+        public static func == ( lhs:PGAudioStorage, rhs:PGAudioStorage ) -> Bool { lhs === rhs }
+        public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
+        
         public static var current:PGAudioStorage?
         
         public var engine:PGAudioEngine
@@ -48,10 +51,10 @@ extension Lily.Stage.Playground
             }
             
             guard let audio = audios[assetName] else {
-                LLLogWarning( "\(assetName): オーディオデータがありません" )
+                LLLogWarning( "\(assetName): Assetにオーディオデータがありません" )
                 return channels
             }
-                
+            
             engine.flows[idx].stop()
             engine.flows[idx].set( audioFile:audio )
            
@@ -70,54 +73,9 @@ extension Lily.Stage.Playground
             return idx
         }
         
-        
         public func trush( index idx:Int ) {
             engine.flows[idx].stop()
             reuseIndice.append( idx )
-        }
-    }
-    
-    public class PGSound
-    {
-        public static var soundMap:[String:PGSound] = [:]
-        public static subscript( name:String ) -> PGSound? { 
-            get{ Self.soundMap[name] }
-            set{ Self.soundMap[name] = newValue }
-        }
-        
-        public let storage:PGAudioStorage?
-        public private(set) var audioIndex:Int
-        public let name:String
-        
-        @discardableResult
-        public init( storage:PGAudioStorage? = .current, name:String = "", assetName:String ) {
-            self.storage = storage
-            self.name = name.isEmpty ? assetName : name
-            if let s = PGSound[name] {
-                self.audioIndex = storage?.request( overwriteIndex:s.audioIndex, assetName:assetName ) ?? -1
-            }
-            else {
-                self.audioIndex = storage?.request( assetName:assetName ) ?? -1
-            }
-            
-            PGSound[name] = self
-        }
-        
-        public func play() {
-            if audioIndex == -1 { return }
-            storage?.engine.flows[audioIndex].play()
-        }
-        
-        public func pause() {
-            if audioIndex == -1 { return }
-            storage?.engine.flows[audioIndex].pause()
-        }
-        
-        public func stop() {
-            if audioIndex == -1 { return }
-            storage?.engine.flows[audioIndex].stop()
-            storage?.trush( index:audioIndex )
-            audioIndex = -1
         }
     }
 }

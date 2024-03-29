@@ -30,7 +30,7 @@ extension Lily.Stage.Playground
         public func set( audioFile:AVAudioFile ) {
             player.scheduleFile( audioFile, at:nil )
         }
-
+        
         deinit {
             self.engine?.detach( player )
         }
@@ -40,6 +40,12 @@ extension Lily.Stage.Playground
         public func pause() { player.pause() }
         
         public func stop() { player.stop() }
+        
+        public var volume:Float { player.volume }
+        
+        public func volume( _ v:Float ) {
+            player.volume = LLWithin(min: 0.0, v, max: 1.0)
+        }
     }
     
     open class PGAudioEngine

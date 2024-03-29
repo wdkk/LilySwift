@@ -27,9 +27,9 @@ extension Lily.Stage.Playground.Model
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<UnitStatus>?
         public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>?
                 
-        public var iterateField:MDField<MDActor, LLEmpty>?
-        public var intervalField:PG.ActorInterval<PG.Model.MDField<MDActor, LLEmpty>>?
-        public var completionField:MDField<MDActor, LLEmpty>?
+        public var iterateField:PG.PGField<MDActor, LLEmpty>?
+        public var intervalField:PG.ActorInterval<PG.PGField<MDActor, LLEmpty>>?
+        public var completionField:PG.PGField<MDActor, LLEmpty>?
         
         public init( storage:ModelStorage?, assetName:String ) {   
             self.storage = storage
@@ -67,7 +67,7 @@ extension Lily.Stage.Playground.Model
        
         @discardableResult
         public func iterate( _ f:@escaping ( MDActor )->Void ) -> Self {
-            self.iterateField = MDField( me:self, action:f )
+            self.iterateField = .init( me:self, action:f )
             return self
         }
         
@@ -80,7 +80,7 @@ extension Lily.Stage.Playground.Model
             self.intervalField = .init(
                 sec:sec,
                 prev:PG.ActorTimer.shared.nowTime,
-                field:MDField( me:self, action:f )
+                field:.init( me:self, action:f )
             )
             return self
         }
@@ -103,7 +103,7 @@ extension Lily.Stage.Playground.Model
         
         @discardableResult
         public func completion( _ f:@escaping ( MDActor )->Void ) -> Self {
-            self.completionField = MDField( me:self, action:f )
+            self.completionField = .init( me:self, action:f )
             return self
         }
         

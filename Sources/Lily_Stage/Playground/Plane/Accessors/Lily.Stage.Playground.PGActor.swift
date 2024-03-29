@@ -30,9 +30,9 @@ extension Lily.Stage.Playground.Plane
         public private(set) var statusAccessor:UnsafeMutableBufferPointer<UnitStatus>?
         public private(set) var currentPointer:UnsafeMutablePointer<UnitStatus>?
                 
-        public var iterateField:PGField<PGActor, LLEmpty>?
-        public var intervalField:PG.ActorInterval<PG.Plane.PGField<PGActor, LLEmpty>>?
-        public var completionField:PGField<PGActor, LLEmpty>?
+        public var iterateField:PG.PGField<PGActor, LLEmpty>?
+        public var intervalField:PG.ActorInterval<PG.PGField<PGActor, LLEmpty>>?
+        public var completionField:PG.PGField<PGActor, LLEmpty>?
         
         public private(set) var parent:PGActor?
         
@@ -76,7 +76,7 @@ extension Lily.Stage.Playground.Plane
        
         @discardableResult
         public func iterate( _ f:@escaping ( PGActor )->Void ) -> Self {
-            self.iterateField = PGField( me:self, action:f )
+            self.iterateField = .init( me:self, action:f )
             return self
         }
         
@@ -89,7 +89,7 @@ extension Lily.Stage.Playground.Plane
             self.intervalField = .init(
                 sec:sec,
                 prev:PG.ActorTimer.shared.nowTime,
-                field:PGField( me:self, action:f )
+                field:.init( me:self, action:f )
             )
             return self
         }
@@ -112,7 +112,7 @@ extension Lily.Stage.Playground.Plane
         
         @discardableResult
         public func completion( _ f:@escaping ( PGActor )->Void ) -> Self {
-            self.completionField = PGField( me:self, action:f )
+            self.completionField = .init( me:self, action:f )
             return self
         }
 

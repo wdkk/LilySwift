@@ -16,7 +16,7 @@ extension Lily.Stage.Playground
 { 
     open class PGVisionFullyScreen
     : Lily_Stage_Playground_PGSceneProtocol
-    {        
+    {
         // MARK: システム
         var device:MTLDevice        
         public var renderEngine:VisionFullyRenderEngine
@@ -28,15 +28,16 @@ extension Lily.Stage.Playground
         
         // MARK: ストレージ
         public var planeStorage:Plane.PlaneStorage?
-        public var modelStorage:Model.PlaneStorage?
-        public var bbStorage:Billboard.PlaneStorage?
+        public var modelStorage:Model.ModelStorage?
+        public var bbStorage:Billboard.BBStorage?
+        public var audioStorage:PGAudioStorage?
         
         // MARK: レンダーフロー
         public var clearRenderFlow:ClearRenderFlow?
         public var planeRenderFlow:Plane.PlaneRenderFlow?
         public var modelRenderFlow:Model.RenderFlow?
         public var bbRenderFlow:Billboard.RenderFlow?
-        public var sRGBRenderFlow:SRGBRenderFlow?
+        public var sRGBRenderFlow:sRGB.RenderFlow?
         
         // MARK: アクセサ - レンダラ関連
         public var clearColor:LLColor = .white
@@ -76,7 +77,7 @@ extension Lily.Stage.Playground
         public var randomPoint:LLPoint { coordRegion.randomPoint }
         
         // MARK: - 外部処理ハンドラ
-        public var pgReadyHandler:(( PGScreen )->Void)?
+        public var pgReadyHandler: (( PGVisionFullyScreen ) -> Void)?
         public var pgDesignHandler:(( PGVisionFullyScreen )->Void)?
         public var pgUpdateHandler:(( PGVisionFullyScreen )->Void)?
         public var pgResizeHandler:(( PGVisionFullyScreen )->Void)?
@@ -102,6 +103,7 @@ extension Lily.Stage.Playground
             self.planeStorage = scene.planeStorage
             self.modelStorage = scene.modelStorage
             self.bbStorage = scene.bbStorage
+            self.audioStorage = scene.audioStorage
             
             self.pgReadyHandler = scene.ready
             self.pgDesignHandler = scene.design
@@ -111,9 +113,7 @@ extension Lily.Stage.Playground
             self.renderEngine = .init( layerRenderer, buffersInFlight:3 )
             
             // 時間の初期化
-            Plane.PGActor.ActorTimer.shared.start()
-            Billboard.BBActor.ActorTimer.shared.start()
-            Model.MDActor.ActorTimer.shared.start()
+            PG.ActorTimer.shared.start()
             
             self.renderEngine.setupHandler = {
                 self.makeRenderFlows(
@@ -154,6 +154,7 @@ extension Lily.Stage.Playground
             viewCount:Int
         )
         {
+            self.setCurrentStorage()
             self.pgReadyHandler?( self )
             
             // レンダーフローの生成

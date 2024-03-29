@@ -81,8 +81,8 @@ class DevViewController
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
 
-        //PGSound( name:"sound2", assetName:"mag!c number" )
-        //.play()
+        PGSound( name:"sound1", assetName:"amenokoibitotachi" )
+        .play()
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -105,9 +105,6 @@ class DevViewController
 }
 
 func ready( screen:PGScreen ) {
-
-    PGSound( name:"sound1", assetName:"mag!c number" )
-    .play()
 
     PGShader.shared.make(
         device:device,
@@ -138,6 +135,14 @@ func ready( screen:PGScreen ) {
 }
 
 func design( screen:PGScreen ) {
+    PGSound( name:"sound1", assetName:"mag!c number" )
+    .volume( 0.0 )
+    .iterate {
+        if $0.volume >= 1.0 { return }
+        $0.volume( $0.volume + 0.005 )
+    }
+    .play()
+    
     //screen.clearColor = .clear
     screen.cubeMap = "skyCubeMap"
     
@@ -172,8 +177,8 @@ func design( screen:PGScreen ) {
     .deltaAngle( degrees:1.0 )
 
     for _ in 0 ..< 160 {
-        //BBAddBlurryCircle()
-        BBShaderRectangle( shaderName:"f3" )
+        BBAddBlurryCircle()
+        //BBShaderRectangle( shaderName:"f3" )
         .parent( p )
         .color( LLColor( 0.5, 0.8, 1.0, 1.0 ) )
         .color2( LLColor( 1.0, 0.8, 0.5, 1.0 ) )
@@ -191,15 +196,13 @@ func design( screen:PGScreen ) {
         .scale( square:5.0 )
         .life( .random )
         .deltaLife( -0.005 )
-        .iterate { _ in
-            /*
+        .iterate {
             if $0.life < 0.5 {
                $0.alpha( $0.life )
             }
             else {
                $0.alpha( (1.0 - $0.life) )
             }
-            */
         }
         .completion {
             $0

@@ -10,6 +10,7 @@
 
 import SwiftUI
 import LilySwift
+import LilySwiftAlias
 
 class ScenePack : ObservableObject 
 {    
@@ -17,13 +18,19 @@ class ScenePack : ObservableObject
     
     init( device:MTLDevice ) {
         scene = .init(
-            planeStorage:.playgroundDefault( device:device )
+            planeStorage:.playgroundDefault( device:device ),
+            audioStorage:.init(
+                assetNames:[ "amenokoibitotachi", "mag!c number" ]
+            )
         )
         scene.design = design
         scene.update = update
     }
     
     func design( screen:PGScreen ) {
+        PGSound( name:"sound1", assetName:"mag!c number" )
+        .play()
+        
         screen.clearColor = .darkGrey
 
         for _ in 0 ..< 160 {

@@ -42,6 +42,8 @@ public protocol Lily_Stage_Playground_PGSceneProtocol
     var billboards:Set<PG.Billboard.BBActor> { get }
     // MARK: - 3Dモデル情報
     var models:Set<PG.Model.MDActor> { get }
+    // MARK: - オーディオ情報
+    var sounds:Set<PG.PGSound> { get }
     
     var pgReadyHandler:(( Self )->Void)? { get set }
     var pgDesignHandler:(( Self )->Void)? { get set }
@@ -55,6 +57,8 @@ public protocol Lily_Stage_Playground_PGSceneProtocol
     func checkBillboardsStatus() 
     
     func checkModelsStatus()
+    
+    func checkSoundsStatus()
     
     func removeAllShapes()
 
@@ -85,6 +89,12 @@ extension Lily_Stage_Playground_PGSceneProtocol
     // MARK: - 3Dモデル情報
     public var models:Set<PG.Model.MDActor> { 
         if let storage = modelStorage { return PG.Model.MDPool.shared.shapes( on:storage ) }
+        return []
+    }
+    
+    // MARK: - オーディオ情報
+    public var sounds:Set<PG.PGSound> { 
+        if let storage = audioStorage { return PG.PGAudioPool.shared.sounds( on:storage ) }
         return []
     }
         
@@ -131,6 +141,17 @@ extension Lily_Stage_Playground_PGSceneProtocol
         }
     }
     
+    public func checkSoundsStatus() {
+        self.sounds.forEach {
+            $0.appearIterate()         // イテレート処理
+            
+            //if $0.life > 0.0 { return }
+            
+            //$0.appearCompletion()    // 完了前処理
+            //$0.checkRemove()         // 削除処理
+        }
+    }
+    
     public func removeAllShapes() {
         PG.Plane.PGPool.shared.removeAllShapes( on:planeStorage )
         PG.Billboard.BBPool.shared.removeAllShapes( on:bbStorage )
@@ -170,6 +191,8 @@ extension Lily_Stage_Playground_PGSceneProtocol
             
             PG.ActorTimer.shared.update()
             
+            //// グラフィックの処理 ////
+            
             // ハンドラのコール
             vc.pgUpdateHandler?( self )
             // 変更の確定
@@ -185,6 +208,10 @@ extension Lily_Stage_Playground_PGSceneProtocol
             vc.checkPlanesStatus()
             vc.checkBillboardsStatus()
             vc.checkModelsStatus()
+            
+            
+            //// オーディオの処理 ////
+            vc.checkSoundsStatus()
         }
     }
     

@@ -11,6 +11,7 @@
 import SwiftUI
 import CompositorServices
 import LilySwift
+import LilySwiftAlias
 
 func design( screen:PGVisionFullyScreen ) {
     screen.clearColor = .grey
