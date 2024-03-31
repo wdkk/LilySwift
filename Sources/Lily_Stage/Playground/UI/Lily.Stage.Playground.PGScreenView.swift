@@ -61,6 +61,8 @@ extension Lily.Stage.Playground
             vc.planeStorage    = scene.wrappedValue.planeStorage
             vc.bbStorage       = scene.wrappedValue.bbStorage
             vc.modelStorage    = scene.wrappedValue.modelStorage
+            vc.audioStorage    = scene.wrappedValue.audioStorage
+            vc.pgReadyHandler  = scene.wrappedValue.ready
             vc.pgDesignHandler = scene.wrappedValue.design
             vc.pgUpdateHandler = scene.wrappedValue.update
             vc.pgResizeHandler = scene.wrappedValue.resize

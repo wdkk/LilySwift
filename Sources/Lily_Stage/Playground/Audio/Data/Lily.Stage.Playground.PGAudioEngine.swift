@@ -16,38 +16,7 @@ import UIKit
 import AVFoundation
 
 extension Lily.Stage.Playground
-{
-    public class PGAudioFlow
-    {
-        weak var engine:AVAudioEngine?
-        public var player = AVAudioPlayerNode()
-        
-        public init( engine:AVAudioEngine ) {
-            self.engine = engine
-            self.engine?.attach( player )
-        }
-        
-        public func set( audioFile:AVAudioFile ) {
-            player.scheduleFile( audioFile, at:nil )
-        }
-        
-        deinit {
-            self.engine?.detach( player )
-        }
-        
-        public func play() { player.play() }
-        
-        public func pause() { player.pause() }
-        
-        public func stop() { player.stop() }
-        
-        public var volume:Float { player.volume }
-        
-        public func volume( _ v:Float ) {
-            player.volume = LLWithin(min: 0.0, v, max: 1.0)
-        }
-    }
-    
+{    
     open class PGAudioEngine
     {
         lazy var engine = AVAudioEngine()

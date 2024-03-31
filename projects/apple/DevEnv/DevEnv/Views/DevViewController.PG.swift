@@ -81,7 +81,8 @@ class DevViewController
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
 
-        PGSound( name:"sound1", assetName:"amenokoibitotachi" )
+        PGSound( "sound1" ) 
+        .set( assetName:"amenokoibitotachi" )
         .play()
     }
     
@@ -135,12 +136,13 @@ func ready( screen:PGScreen ) {
 }
 
 func design( screen:PGScreen ) {
-    PGSound( name:"sound1", assetName:"mag!c number" )
-    .volume( 0.0 )
-    .iterate {
-        if $0.volume >= 1.0 { return }
-        $0.volume( $0.volume + 0.005 )
-    }
+    PGSound( "sound1" )
+    .set(
+        assetName:"mag!c number",
+        startTime:3.0,
+        endTime:5.0
+    )
+    .repeat( true )
     .play()
     
     //screen.clearColor = .clear

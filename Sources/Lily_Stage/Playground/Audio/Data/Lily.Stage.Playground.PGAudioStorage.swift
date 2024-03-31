@@ -30,6 +30,8 @@ extension Lily.Stage.Playground
         
         public var audios:[String:AVAudioFile] = [:]
         
+        public var accessors:[String:Int] = [:]
+        
         public init( assetNames:[String] ) {
             self.channels = 8
             
@@ -44,33 +46,38 @@ extension Lily.Stage.Playground
         
         deinit { engine.clear() }
         
-        public func request( assetName:String ) -> Int {
-            guard let idx = reuseIndice.popLast() else { 
-                LLLogWarning( "サウンドチャンネルの空きがありません" )
-                return channels
+        public func request( 
+            name:String,
+            assetName:String,
+            startTime:Double? = nil,
+            endTime:Double? = nil
+        ) 
+        -> Int
+        {
+            var target_idx = -1
+            if let using_idx = accessors[name] {
+                target_idx = using_idx
             }
+            else {
+                guard let idx = reuseIndice.popLast() else { 
+                    LLLogWarning( "サウンドチャンネルの空きがありません" )
+                    return -1
+                }
+                target_idx = idx
+            }
+            
+            accessors[name] = target_idx
             
             guard let audio = audios[assetName] else {
                 LLLogWarning( "\(assetName): Assetにオーディオデータがありません" )
-                return channels
+                return -1
             }
+         
+            engine.flows[target_idx].repeat( false )
+            engine.flows[target_idx].stop()
+            engine.flows[target_idx].set( audioFile:audio, from:startTime, to:endTime )
             
-            engine.flows[idx].stop()
-            engine.flows[idx].set( audioFile:audio )
-           
-            return idx
-        }
-        
-        public func request( overwriteIndex idx:Int, assetName:String ) -> Int {
-            guard let audio = audios[assetName] else {
-                LLLogWarning( "\(assetName): オーディオデータがありません" )
-                return idx
-            }
-                
-            engine.flows[idx].stop()
-            engine.flows[idx].set( audioFile:audio )
-           
-            return idx
+            return target_idx
         }
         
         public func trush( index idx:Int ) {

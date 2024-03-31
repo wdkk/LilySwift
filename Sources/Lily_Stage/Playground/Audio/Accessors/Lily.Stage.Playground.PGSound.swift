@@ -21,31 +21,21 @@ extension Lily.Stage.Playground
     {
         public static func == ( lhs:PGSound, rhs:PGSound ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
-    
-        public static var soundMap:[String:PGSound] = [:]
-        public static subscript( name:String ) -> PGSound? { 
-            get{ Self.soundMap[name] }
-            set{ Self.soundMap[name] = newValue }
-        }
-        
+            
         public let storage:PGAudioStorage?
-        public private(set) var audioIndex:Int
+        public private(set) var audioIndex:Int = -1
         public let name:String
         
         public var iterateField:PGField<PGSound, LLEmpty>?
         
         @discardableResult
-        public init( storage:PGAudioStorage? = .current, name:String, assetName:String ) {
+        public init( 
+            storage:PGAudioStorage? = .current,
+            _ name:String
+        )
+        {
             self.storage = storage
             self.name = name
-            if let s = PGSound[name] {
-                self.audioIndex = storage?.request( overwriteIndex:s.audioIndex, assetName:assetName ) ?? -1
-            }
-            else {
-                self.audioIndex = storage?.request( assetName:assetName ) ?? -1
-            }
-            
-            PGSound[name] = self
             
             PGAudioPool.shared.insert( sound:self, to:storage )
         }
@@ -58,6 +48,22 @@ extension Lily.Stage.Playground
             return flows[audioIndex]
         }
         
+        public func set(
+            assetName:String,
+            startTime:Double? = nil,
+            endTime:Double? = nil
+        ) -> Self
+        {
+            self.audioIndex = storage?.request(
+                name:name,
+                assetName:assetName,
+                startTime:startTime,
+                endTime:endTime
+            ) ?? -1
+            
+            return self
+        }
+        
         public func play() {
             flow?.play()
         }
@@ -68,13 +74,24 @@ extension Lily.Stage.Playground
         
         public func stop() {
             flow?.stop()
-            trush()
         }
         
         public func trush() {
             storage?.trush( index:audioIndex )
             iterateField = nil
             PGAudioPool.shared.remove( sound:self, to:storage )
+        }
+        
+        ////
+        
+        @discardableResult
+        public func iterate( _ f:@escaping ( PGSound )->Void ) -> Self {
+            self.iterateField = .init( me:self, action:f )
+            return self
+        }
+        
+        public func appearIterate() {
+            self.iterateField?.appear()
         }
         
         ////
@@ -87,14 +104,13 @@ extension Lily.Stage.Playground
             return self
         }        
         
-        @discardableResult
-        public func iterate( _ f:@escaping ( PGSound )->Void ) -> Self {
-            self.iterateField = .init( me:self, action:f )
-            return self
-        }
+        public var `repeat`:Bool { flow?.isRepeating ?? false }
         
-        public func appearIterate() {
-            self.iterateField?.appear()
-        }
+        @discardableResult
+        public func `repeat`( _ v:Bool ) -> Self {
+            flow?.repeat( v )
+            return self
+        }        
+                
     }
 }
