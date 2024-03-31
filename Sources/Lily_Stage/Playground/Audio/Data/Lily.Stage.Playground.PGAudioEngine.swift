@@ -20,6 +20,9 @@ extension Lily.Stage.Playground
     open class PGAudioEngine
     {
         lazy var engine = AVAudioEngine()
+        
+        public let environment = AVAudioEnvironmentNode()
+        
         public lazy var flows = [PGAudioFlow]()
         
         public var channelCount:Int { flows.count }
@@ -27,11 +30,25 @@ extension Lily.Stage.Playground
         public func setup( channels:Int ) {
             for i in 0 ..< channels { flows.append( .init( engine:engine ) ) }
             
+            engine.attach( environment )
+            
+            engine.connect(
+                environment,
+                to:engine.mainMixerNode,
+                format:nil
+            )
+
+            environment.listenerPosition = .init(x: 0, y: 0, z: 0)
+            environment.listenerAngularOrientation = .init(yaw: 0.0, pitch: 0, roll: 0)
+            //environment.reverbParameters.enable = true
+            //environment.reverbParameters.loadFactoryReverbPreset( .largeHall)
+            
             for i in 0 ..< flows.count {
                 let flow = flows[i]
+                
                 engine.connect( 
-                    flow.player, 
-                    to:engine.mainMixerNode,
+                    flow.output, 
+                    to:environment,
                     fromBus: 0,
                     toBus: i,
                     format:nil
@@ -45,6 +62,8 @@ extension Lily.Stage.Playground
                 to: engine.outputNode,
                 format: output_format
             )
+            
+            engine.prepare()
         }
         
         public func start() {

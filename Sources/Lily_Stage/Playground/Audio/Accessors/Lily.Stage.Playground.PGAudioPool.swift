@@ -32,9 +32,13 @@ extension Lily.Stage.Playground
         public func insert( sound:PGSound, to storage:PGAudioStorage? ) {
             guard let storage = storage else { return }
             if soundGroup[storage] == nil { soundGroup[storage] = [] }
-            if let previous_sound = soundGroup[storage]!.filter({ $0.name == sound.name }).first {
+            
+            if sound.channel == -1 { return }
+            
+            if let previous_sound = soundGroup[storage]!.filter({ $0.channel == sound.channel }).first {
                 soundGroup[storage]?.remove( previous_sound )
             }
+            
             soundGroup[storage]?.insert( sound ) 
         }
         

@@ -20,13 +20,20 @@ extension Lily.Stage.Playground
     open class PGAudioFlow
     {
         weak var engine:AVAudioEngine?
-        public var player = AVAudioPlayerNode()
+        public let player = AVAudioPlayerNode()
+        
+        public var output:AVAudioNode { player }
         
         public private(set) var isRepeating = false
         
         public init( engine:AVAudioEngine ) {
             self.engine = engine
             self.engine?.attach( player )
+            
+            player.reverbBlend = 0.5
+            player.renderingAlgorithm = .HRTF
+            player.sourceMode = .pointSource
+            player.pointSourceInHeadMode = .mono
         }
         
         public func set( 
@@ -80,15 +87,24 @@ extension Lily.Stage.Playground
         public func reset() { player.reset() }
         
         ////
-        
-        public var volume:Float { player.volume }
-        
-        public func volume( _ v:Float ) {
-            player.volume = LLWithin(min: 0.0, v, max: 1.0)
-        }
-        
+
         public func `repeat`( _ torf:Bool ) {
             isRepeating = torf
+        }
+        
+        public var volume:Float { 
+            get { player.volume }
+            set { player.volume = LLWithin(min: 0.0, newValue, max: 1.0) }
+        }
+        
+        public var pan:Float {
+            get { player.pan }
+            set { player.pan = LLWithin( min:-1.0, newValue, max:1.0 ) }
+        }
+        
+        public var position:AVAudio3DPoint {
+            get { player.position }
+            set { player.position = newValue }
         }
     }
 }

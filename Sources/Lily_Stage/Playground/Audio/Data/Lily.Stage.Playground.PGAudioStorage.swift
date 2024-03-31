@@ -25,13 +25,10 @@ extension Lily.Stage.Playground
         public static var current:PGAudioStorage?
         
         public var engine:PGAudioEngine
-        public var reuseIndice:[Int]
         public let channels:Int
         
         public var audios:[String:AVAudioFile] = [:]
-        
-        public var accessors:[String:Int] = [:]
-        
+                
         public init( assetNames:[String] ) {
             self.channels = 8
             
@@ -39,50 +36,38 @@ extension Lily.Stage.Playground
             engine.setup( channels:channels )
             engine.start()
             
-            reuseIndice = (0..<channels).map { $0 }.reversed()
-            
             assetNames.forEach { audios[$0] = AVAudioFile.load( assetName:$0 ) }
         }
         
         deinit { engine.clear() }
         
         public func request( 
-            name:String,
+            channel:Int,
             assetName:String,
             startTime:Double? = nil,
             endTime:Double? = nil
         ) 
         -> Int
         {
-            var target_idx = -1
-            if let using_idx = accessors[name] {
-                target_idx = using_idx
+            if channel >= engine.flows.count { 
+                LLLogWarning( "サウンドチャンネルがありません: \(channel)" )
+                return -1
             }
-            else {
-                guard let idx = reuseIndice.popLast() else { 
-                    LLLogWarning( "サウンドチャンネルの空きがありません" )
-                    return -1
-                }
-                target_idx = idx
-            }
-            
-            accessors[name] = target_idx
             
             guard let audio = audios[assetName] else {
-                LLLogWarning( "\(assetName): Assetにオーディオデータがありません" )
+                LLLogWarning( "Assetにオーディオデータがありません: \(assetName)" )
                 return -1
             }
          
-            engine.flows[target_idx].repeat( false )
-            engine.flows[target_idx].stop()
-            engine.flows[target_idx].set( audioFile:audio, from:startTime, to:endTime )
+            engine.flows[channel].repeat( false )
+            engine.flows[channel].stop()
+            engine.flows[channel].set( audioFile:audio, from:startTime, to:endTime )
             
-            return target_idx
+            return channel
         }
         
         public func trush( index idx:Int ) {
             engine.flows[idx].stop()
-            reuseIndice.append( idx )
         }
     }
 }

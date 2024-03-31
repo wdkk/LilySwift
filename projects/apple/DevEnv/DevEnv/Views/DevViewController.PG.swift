@@ -81,7 +81,7 @@ class DevViewController
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
 
-        PGSound( "sound1" ) 
+        PGSound( channel:0 ) 
         .set( assetName:"amenokoibitotachi" )
         .play()
     }
@@ -136,14 +136,32 @@ func ready( screen:PGScreen ) {
 }
 
 func design( screen:PGScreen ) {
-    PGSound( "sound1" )
+    var cnt:Float = 0.0
+    PGSound( channel:0 )
     .set(
-        assetName:"mag!c number",
-        startTime:3.0,
-        endTime:5.0
+        assetName:"mag!c number"
     )
+    .pan( -1.0 )
+    .position( x:0, y:0, z:-10 )
+    .iterate {
+        let x = cos( cnt ) * 10.0
+        let z = sin( cnt ) * 10.0
+        $0.position(x:x, y:0, z:z )
+        cnt += 0.02
+    }
     .repeat( true )
     .play()
+    
+    /*
+    PGSound( channel:1 )
+    .set(
+        assetName:"amenokoibitotachi"
+    )
+    .pan( 1.0 )
+    .position(x:10, y:0, z:20 )
+    .repeat( true )
+    .play()
+    */
     
     //screen.clearColor = .clear
     screen.cubeMap = "skyCubeMap"

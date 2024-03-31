@@ -1,8 +1,9 @@
 {
   "data" : [
     {
-      "filename" : "amenokoibitotachi.mp3",
-      "idiom" : "universal"
+      "filename" : "amenokoibitotachi_mono.mp3",
+      "idiom" : "universal",
+      "universal-type-identifier" : "public.mp3"
     }
   ],
   "info" : {
