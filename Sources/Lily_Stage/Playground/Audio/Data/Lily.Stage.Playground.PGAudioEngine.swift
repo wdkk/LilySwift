@@ -28,7 +28,7 @@ extension Lily.Stage.Playground
         public var channelCount:Int { flows.count }
         
         public func setup( channels:Int ) {
-            for i in 0 ..< channels { flows.append( .init( engine:engine ) ) }
+            for _ in 0 ..< channels { flows.append( .init( engine:engine ) ) }
             
             engine.attach( environment )
             

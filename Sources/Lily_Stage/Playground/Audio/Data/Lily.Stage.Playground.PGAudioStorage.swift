@@ -36,7 +36,16 @@ extension Lily.Stage.Playground
             engine.setup( channels:channels )
             engine.start()
             
-            assetNames.forEach { audios[$0] = AVAudioFile.load( assetName:$0 ) }
+            assetNames.forEach {
+                let asset_file = AVAudioFile.load( assetName:$0 )
+                if asset_file != nil {
+                    audios[$0] = asset_file 
+                    return
+                }
+                
+                let bundle_file = AVAudioFile.load( bundleName:$0 )
+                audios[$0] = bundle_file
+            }
         }
         
         deinit { engine.clear() }
