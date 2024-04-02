@@ -32,10 +32,6 @@ extension Lily.Stage.Playground.Billboard
             let desc = MTLRenderPipelineDescriptor()
             desc.label = "Playground 3D Geometry(AlphaBlend)"
             
-            let functions = bbFunctions.metalFunctions
-            let linkedFuncs = MTLLinkedFunctions()
-            linkedFuncs.functions = functions
-            
             if environment == .metallib {
                 let library = try! Lily.Stage.metalLibrary( of:device )
                 desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Billboard_Vs" ) )
@@ -49,7 +45,12 @@ extension Lily.Stage.Playground.Billboard
             }
             
             #if !targetEnvironment(simulator)
-            desc.fragmentLinkedFunctions = linkedFuncs
+            let functions = bbFunctions.metalFunctions
+            if device.supportsFamily(.apple6) {
+                let linkedFuncs = MTLLinkedFunctions()
+                linkedFuncs.functions = functions
+                desc.fragmentLinkedFunctions = linkedFuncs
+            }
             #endif
             
             desc.rasterSampleCount = Lily.Stage.Playground.BufferFormats.sampleCount
@@ -64,15 +65,17 @@ extension Lily.Stage.Playground.Billboard
             pipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
             
             #if !targetEnvironment(simulator)
-            // function tableの作成
-            let funcDescriptor = MTLVisibleFunctionTableDescriptor()
-            funcDescriptor.functionCount = functions.count
-            
-            funcTable = pipeline.makeVisibleFunctionTable( descriptor:funcDescriptor, stage:.fragment )
-            for idx in 0 ..< functions.count {
-                let fs_handle = pipeline.functionHandle(function:functions[idx], stage:.fragment )
-                funcTable?.setFunction( fs_handle, index:idx )
-            }
+            if device.supportsFamily(.apple6) {
+                // function tableの作成
+                let funcDescriptor = MTLVisibleFunctionTableDescriptor()
+                funcDescriptor.functionCount = functions.count
+                
+                funcTable = pipeline.makeVisibleFunctionTable( descriptor:funcDescriptor, stage:.fragment )
+                for idx in 0 ..< functions.count {
+                    let fs_handle = pipeline.functionHandle(function:functions[idx], stage:.fragment )
+                    funcTable?.setFunction( fs_handle, index:idx )
+                }
+            } 
             #endif
         }
         
@@ -96,7 +99,9 @@ extension Lily.Stage.Playground.Billboard
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             #if !targetEnvironment(simulator)
-            renderEncoder?.setFragmentVisibleFunctionTable( funcTable, bufferIndex:0 )
+            if device.supportsFamily(.apple6) {
+                renderEncoder?.setFragmentVisibleFunctionTable( funcTable, bufferIndex:0 )
+            }
             #endif
             
             renderEncoder?.drawPrimitives( 
@@ -127,9 +132,11 @@ extension Lily.Stage.Playground.Billboard
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
             #if !targetEnvironment(simulator)
-            renderEncoder?.setFragmentVisibleFunctionTable( funcTable, bufferIndex:0 )
+            if device.supportsFamily(.apple6) {
+                renderEncoder?.setFragmentVisibleFunctionTable( funcTable, bufferIndex:0 )
+            }
             #endif
-            
+                        
             renderEncoder?.drawPrimitives( 
                 type: .triangle, 
                 vertexStart: 0, 

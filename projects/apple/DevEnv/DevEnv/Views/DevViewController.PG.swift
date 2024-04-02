@@ -191,8 +191,8 @@ func design( screen:PGScreen ) {
     .deltaAngle( degrees:1.0 )
 
     for _ in 0 ..< 160 {
-        BBAddBlurryCircle()
-        //BBShaderRectangle( shaderName:"f3" )
+        //BBAddBlurryCircle()
+        BBAddShaderRectangle( shaderName:"f3" )
         .parent( p )
         .color( LLColor( 0.5, 0.8, 1.0, 1.0 ) )
         .color2( LLColor( 1.0, 0.8, 0.5, 1.0 ) )
