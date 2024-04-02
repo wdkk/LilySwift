@@ -34,8 +34,7 @@ namespace Lily
                 simd::float3   right;
                 simd::float3   direction;
             };
-     
-        }
+        };
     };
 };
 

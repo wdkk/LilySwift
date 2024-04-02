@@ -37,11 +37,6 @@ extension Lily.Stage.Playground
                 to:engine.mainMixerNode,
                 format:nil
             )
-
-            environment.listenerPosition = .init(x: 0, y: 0, z: 0)
-            environment.listenerAngularOrientation = .init(yaw: 0.0, pitch: 0, roll: 0)
-            //environment.reverbParameters.enable = true
-            //environment.reverbParameters.loadFactoryReverbPreset( .largeHall)
             
             for i in 0 ..< flows.count {
                 let flow = flows[i]
@@ -126,6 +121,22 @@ extension Lily.Stage.Playground
                 }
                 engine.stop()
             }
+        }
+        
+        public func listenerPosition( _ pos:AVAudio3DPoint ) {
+            environment.listenerPosition = pos
+        }
+        
+        public func listenerAngle( _ orientation:AVAudio3DAngularOrientation ) {
+            environment.listenerAngularOrientation = orientation
+        }
+        
+        public func environmentReverb( _ torf:Bool ) {
+            environment.reverbParameters.enable = torf
+        }
+        
+        public func environmentReverbPreset( _ preset:AVAudioUnitReverbPreset ) {
+            environment.reverbParameters.loadFactoryReverbPreset( preset )  
         }
     }
 }

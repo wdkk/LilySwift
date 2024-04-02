@@ -30,10 +30,8 @@ extension Lily.Stage.Playground
             self.engine = engine
             self.engine?.attach( player )
             
-            player.reverbBlend = 0.5
-            player.renderingAlgorithm = .HRTF
-            player.sourceMode = .pointSource
-            player.pointSourceInHeadMode = .mono
+            //player.sourceMode = .pointSource
+            //player.pointSourceInHeadMode = .mono
         }
         
         public func set( 
@@ -105,6 +103,26 @@ extension Lily.Stage.Playground
         public var position:AVAudio3DPoint {
             get { player.position }
             set { player.position = newValue }
+        }
+        
+        public var renderingAlgorithm:AVAudio3DMixingRenderingAlgorithm {
+            get { player.renderingAlgorithm }
+            set { player.renderingAlgorithm = newValue }
+        }
+        
+        public var reverbBlend:Float {
+            get { player.reverbBlend }
+            set { player.reverbBlend = newValue }
+        }
+        
+        public var sourceMode:AVAudio3DMixingSourceMode {
+            get { player.sourceMode }
+            set { player.sourceMode = newValue }
+        }
+        
+        public var pointSourceInHeadMode:AVAudio3DMixingPointSourceInHeadMode {
+            get { player.pointSourceInHeadMode }
+            set { player.pointSourceInHeadMode = newValue }
         }
     }
 }

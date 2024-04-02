@@ -344,6 +344,12 @@
 		5D5AAABB2B99C2410021739D /* Lily.Stage.Playground.Model.Mesh.ComDelta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AAABA2B99C2410021739D /* Lily.Stage.Playground.Model.Mesh.ComDelta.swift */; };
 		5D5AAABC2B99C2410021739D /* Lily.Stage.Playground.Model.Mesh.ComDelta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AAABA2B99C2410021739D /* Lily.Stage.Playground.Model.Mesh.ComDelta.swift */; };
 		5D5AAABD2B99C2410021739D /* Lily.Stage.Playground.Model.Mesh.ComDelta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5AAABA2B99C2410021739D /* Lily.Stage.Playground.Model.Mesh.ComDelta.swift */; };
+		5D5E410F2BBBDB0F00B14818 /* Lily.Stage.Playground.CameraUniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEC51A52AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.h */; };
+		5D5E41102BBBDB1000B14818 /* Lily.Stage.Playground.CameraUniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEC51A52AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.h */; };
+		5D5E41112BBBDB1100B14818 /* Lily.Stage.Playground.CameraUniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEC51A52AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.h */; };
+		5D5E41122BBBDB1500B14818 /* Lily.Stage.Playground.GlobalUniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEC51A12AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.h */; };
+		5D5E41132BBBDB1500B14818 /* Lily.Stage.Playground.GlobalUniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEC51A12AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.h */; };
+		5D5E41142BBBDB1600B14818 /* Lily.Stage.Playground.GlobalUniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEC51A12AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.h */; };
 		5D6503092BAE790400621BB7 /* Lily.Stage.Playground.PGShaderTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6503082BAE790400621BB7 /* Lily.Stage.Playground.PGShaderTriangle.swift */; };
 		5D65030A2BAE790400621BB7 /* Lily.Stage.Playground.PGShaderTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6503082BAE790400621BB7 /* Lily.Stage.Playground.PGShaderTriangle.swift */; };
 		5D65030B2BAE790400621BB7 /* Lily.Stage.Playground.PGShaderTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6503082BAE790400621BB7 /* Lily.Stage.Playground.PGShaderTriangle.swift */; };
@@ -895,18 +901,12 @@
 		5DEC51DD2AF8E9B900D13197 /* Lily.Stage.Playground.BaseRenderFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC519E2AF8E9B900D13197 /* Lily.Stage.Playground.BaseRenderFlow.swift */; };
 		5DEC51DE2AF8E9B900D13197 /* Lily.Stage.Playground.BaseRenderFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC519E2AF8E9B900D13197 /* Lily.Stage.Playground.BaseRenderFlow.swift */; };
 		5DEC51DF2AF8E9B900D13197 /* Lily.Stage.Playground.BaseRenderFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC519E2AF8E9B900D13197 /* Lily.Stage.Playground.BaseRenderFlow.swift */; };
-		5DEC51E32AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEC51A12AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DEC51E42AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEC51A12AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DEC51E52AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEC51A12AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEC51E62AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51A22AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.swift */; };
 		5DEC51E72AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51A22AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.swift */; };
 		5DEC51E82AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51A22AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.swift */; };
 		5DEC51EC2AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51A42AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.swift */; };
 		5DEC51ED2AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51A42AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.swift */; };
 		5DEC51EE2AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51A42AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.swift */; };
-		5DEC51EF2AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEC51A52AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DEC51F02AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEC51A52AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5DEC51F12AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.h in Headers */ = {isa = PBXBuildFile; fileRef = 5DEC51A52AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5DEC51F22AF8E9B900D13197 /* Lily.Stage.Model.Triangles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51A72AF8E9B900D13197 /* Lily.Stage.Model.Triangles.swift */; };
 		5DEC51F32AF8E9B900D13197 /* Lily.Stage.Model.Triangles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51A72AF8E9B900D13197 /* Lily.Stage.Model.Triangles.swift */; };
 		5DEC51F42AF8E9B900D13197 /* Lily.Stage.Model.Triangles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEC51A72AF8E9B900D13197 /* Lily.Stage.Model.Triangles.swift */; };
@@ -2397,11 +2397,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D1B8A2E2B98952D009680BB /* Lily.Stage.Playground.Model.Mesh.h in Headers */,
-				5DEC51F02AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.h in Headers */,
+				5D5E41132BBBDB1500B14818 /* Lily.Stage.Playground.GlobalUniform.h in Headers */,
 				5DEBE1422B9869C400308ADF /* Lily.Stage.Playground.Billboard.h in Headers */,
 				5DEBE14A2B986DF200308ADF /* Lily.Stage.Playground.SRGB.h in Headers */,
 				5DEC52152AF8F00500D13197 /* Lily.Stage.Macro.metal in Headers */,
-				5DEC51E42AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.h in Headers */,
+				5D5E41102BBBDB1000B14818 /* Lily.Stage.Playground.CameraUniform.h in Headers */,
 				5DEC51FF2AF8E9B900D13197 /* Lily.Stage.Model.Obj.metal in Headers */,
 				5D1B8A362B989AF7009680BB /* Lily.Stage.Playground.Model.Lighting.h in Headers */,
 			);
@@ -2412,11 +2412,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D1B8A2D2B98952D009680BB /* Lily.Stage.Playground.Model.Mesh.h in Headers */,
-				5DEC51EF2AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.h in Headers */,
+				5D5E41122BBBDB1500B14818 /* Lily.Stage.Playground.GlobalUniform.h in Headers */,
 				5DEBE1412B9869C400308ADF /* Lily.Stage.Playground.Billboard.h in Headers */,
 				5DEBE1492B986DF200308ADF /* Lily.Stage.Playground.SRGB.h in Headers */,
 				5DEC52162AF8F00500D13197 /* Lily.Stage.Macro.metal in Headers */,
-				5DEC51E32AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.h in Headers */,
+				5D5E410F2BBBDB0F00B14818 /* Lily.Stage.Playground.CameraUniform.h in Headers */,
 				5DEC51FE2AF8E9B900D13197 /* Lily.Stage.Model.Obj.metal in Headers */,
 				5D1B8A352B989AF7009680BB /* Lily.Stage.Playground.Model.Lighting.h in Headers */,
 			);
@@ -2427,11 +2427,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D1B8A2F2B98952D009680BB /* Lily.Stage.Playground.Model.Mesh.h in Headers */,
-				5DEC51F12AF8E9B900D13197 /* Lily.Stage.Playground.CameraUniform.h in Headers */,
+				5D5E41142BBBDB1600B14818 /* Lily.Stage.Playground.GlobalUniform.h in Headers */,
 				5DEBE1432B9869C400308ADF /* Lily.Stage.Playground.Billboard.h in Headers */,
 				5DEBE14B2B986DF200308ADF /* Lily.Stage.Playground.SRGB.h in Headers */,
 				5DEC52142AF8F00400D13197 /* Lily.Stage.Macro.metal in Headers */,
-				5DEC51E52AF8E9B900D13197 /* Lily.Stage.Playground.GlobalUniform.h in Headers */,
+				5D5E41112BBBDB1100B14818 /* Lily.Stage.Playground.CameraUniform.h in Headers */,
 				5DEC52002AF8E9B900D13197 /* Lily.Stage.Model.Obj.metal in Headers */,
 				5D1B8A372B989AF7009680BB /* Lily.Stage.Playground.Model.Lighting.h in Headers */,
 			);
