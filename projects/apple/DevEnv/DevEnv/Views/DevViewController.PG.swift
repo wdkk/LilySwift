@@ -82,7 +82,7 @@ class DevViewController
         super.touchesBegan(touches, with: event)
 
         PGSound( channel:0 ) 
-        .set( assetName:"amenokoibitotachi" )
+        .set( name:"amenokoibitotachi" )
         .play()
     }
     
@@ -139,7 +139,7 @@ func design( screen:PGScreen ) {
     var cnt:Float = 0.0
     PGSound( channel:0 )
     .set(
-        assetName:"mag!c number"
+        name:"mag!c number"
     )
     .pan( -1.0 )
     .position( x:0, y:0, z:-10 )

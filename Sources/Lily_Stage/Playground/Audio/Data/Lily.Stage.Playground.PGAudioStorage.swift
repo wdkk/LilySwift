@@ -43,7 +43,8 @@ extension Lily.Stage.Playground
                     return
                 }
                 
-                let bundle_file = AVAudioFile.load( bundleName:$0 )
+                let bundle_path = LLPath.bundle( $0 )
+                let bundle_file = AVAudioFile.load( bundleName:bundle_path )
                 audios[$0] = bundle_file
             }
         }
@@ -52,7 +53,7 @@ extension Lily.Stage.Playground
         
         public func request( 
             channel:Int,
-            assetName:String,
+            name:String,
             startTime:Double? = nil,
             endTime:Double? = nil
         ) 
@@ -63,8 +64,8 @@ extension Lily.Stage.Playground
                 return -1
             }
             
-            guard let audio = audios[assetName] else {
-                LLLogWarning( "Assetにオーディオデータがありません: \(assetName)" )
+            guard let audio = audios[name] else {
+                LLLogWarning( "ストレージにオーディオデータがありません: \(name)" )
                 return -1
             }
          

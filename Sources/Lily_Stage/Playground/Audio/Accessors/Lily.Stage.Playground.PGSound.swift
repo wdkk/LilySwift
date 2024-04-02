@@ -47,14 +47,14 @@ extension Lily.Stage.Playground
         }
         
         public func set(
-            assetName:String,
+            name:String,
             startTime:Double? = nil,
             endTime:Double? = nil
         ) -> Self
         {
             self.channel = storage?.request(
                 channel:channel,
-                assetName:assetName,
+                name:name,
                 startTime:startTime,
                 endTime:endTime
             ) ?? -1
