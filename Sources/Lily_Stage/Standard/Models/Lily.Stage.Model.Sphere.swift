@@ -42,7 +42,7 @@ extension Lily.Stage.Model
                      let r: Float = 1.0
                      let g: Float = 0.0
                      let b: Float = 0.0
-                     let a: Float = 1.0 // アルファ値
+                     //let a: Float = 1.0 // アルファ値
                      
                      let position:LLFloatv3 = .init( x, y, z )
                      let normal:LLFloatv3 = .init( nx, ny, nz )

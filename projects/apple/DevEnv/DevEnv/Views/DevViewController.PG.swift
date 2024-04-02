@@ -139,31 +139,24 @@ func design( screen:PGScreen ) {
     var cnt:Float = 0.0
     PGSound( channel:0 )
     .set(
-        //name:"mag!c number"
-        name:"monad.m4a"
+        name:"monad.m4a",
+        startTime:0.0,
+        endTime:10.0
     )
-    .pan( -1.0 )
-    .position( x:0, y:0, z:-10 )
+    //.pan( -1.0 )
+    //.position( x:0, y:0, z:-10 )
     .iterate {
         let x = cos( cnt ) * 10.0
         let z = sin( cnt ) * 10.0
         $0.position(x:x, y:0, z:z )
         cnt += 0.02
     }
-    .repeat( true )
+    .completion { _ in
+        print( "monad.m4a 終了" )
+    }
+    //.repeat( true )
     .play()
-    
-    /*
-    PGSound( channel:1 )
-    .set(
-        assetName:"amenokoibitotachi"
-    )
-    .pan( 1.0 )
-    .position(x:10, y:0, z:20 )
-    .repeat( true )
-    .play()
-    */
-    
+
     //screen.clearColor = .clear
     screen.cubeMap = "skyCubeMap"
     
@@ -239,7 +232,7 @@ func design( screen:PGScreen ) {
 }
  
 func update( screen:PGScreen ) {
-    LLClock.fps()
+    //LLClock.fps()
 }
 
 func design2( screen:PGScreen ) {    

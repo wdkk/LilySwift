@@ -25,20 +25,19 @@ extension Lily.Stage.Playground
         public var output:AVAudioNode { player }
         
         public private(set) var isRepeating = false
+        public private(set) var isPlaying   = false
         
         public init( engine:AVAudioEngine ) {
             self.engine = engine
             self.engine?.attach( player )
-            
-            //player.sourceMode = .pointSource
-            //player.pointSourceInHeadMode = .mono
         }
         
         public func set( 
             audioFile:AVAudioFile, 
             from:Double? = nil,
             to:Double? = nil, 
-            completion:(()->())? = nil ) 
+            completion:(()->())? = nil 
+        ) 
         {
             let rate = audioFile.processingFormat.sampleRate
             
@@ -64,9 +63,14 @@ extension Lily.Stage.Playground
             )
             { [weak self] in
                 if let isRepeating = self?.isRepeating, isRepeating {
+                    // リピート処理
                     self?.schedule( audioFile:audioFile, startFrame:startFrame, frameCount:frameCount )
                 }
-                completion?()
+                else {
+                    self?.isPlaying = false
+                    // リピートしない場合終了処理を入れる
+                    completion?()
+                }
             }
         }
         
@@ -76,13 +80,26 @@ extension Lily.Stage.Playground
         
         ////
         
-        public func play() { player.play() }
+        public func play() { 
+            if isPlaying { return } 
+            player.play()
+            isPlaying = true
+        }
         
-        public func pause() { player.pause() }
+        public func pause() { 
+            if !isPlaying { return } 
+            player.pause()
+        }
     
-        public func stop() { player.stop() }
+        public func stop() { 
+            if !isPlaying { return } 
+            player.stop() 
+            isPlaying = false
+        }
     
-        public func reset() { player.reset() }
+        public func reset() { 
+            player.reset()
+        }
         
         ////
 

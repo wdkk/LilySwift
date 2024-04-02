@@ -26,6 +26,7 @@ extension Lily.Stage.Playground
         public private(set) var channel:Int = -1
         
         public var iterateField:PGField<PGSound, LLEmpty>?
+        public var completionField:PGField<PGSound, LLEmpty>?
         
         @discardableResult
         public init( 
@@ -50,13 +51,24 @@ extension Lily.Stage.Playground
             name:String,
             startTime:Double? = nil,
             endTime:Double? = nil
-        ) -> Self
+        ) 
+        -> Self
         {
+            if let flow = flow, flow.player.isPlaying {
+                // 同じチャンネルのものが動作中の場合completionを呼ぶ
+                self.appearCompletion()
+                self.trush()
+            }
+            
             self.channel = storage?.request(
                 channel:channel,
                 name:name,
                 startTime:startTime,
-                endTime:endTime
+                endTime:endTime,
+                completion: { [weak self] in
+                    self?.appearCompletion()
+                    self?.trush()
+                }
             ) ?? -1
             
             return self
@@ -68,9 +80,14 @@ extension Lily.Stage.Playground
         
         public func stop() { flow?.stop() }
         
+        public func checkRemove() {
+            trush()
+        }
+        
         public func trush() {
             storage?.trush( index:channel )
             iterateField = nil
+            completionField = nil
             PGAudioPool.shared.remove( sound:self, to:storage )
         }
         
@@ -84,6 +101,16 @@ extension Lily.Stage.Playground
         
         public func appearIterate() {
             self.iterateField?.appear()
+        }
+        
+        @discardableResult
+        public func completion( _ f:@escaping ( PGSound )->Void ) -> Self {
+            self.completionField = .init( me:self, action:f )
+            return self
+        }
+        
+        public func appearCompletion() {
+            self.completionField?.appear()
         }
         
         ////

@@ -145,10 +145,7 @@ extension Lily_Stage_Playground_PGSceneProtocol
         self.sounds.forEach {
             $0.appearIterate()         // イテレート処理
             
-            //if $0.life > 0.0 { return }
-            
-            //$0.appearCompletion()    // 完了前処理
-            //$0.checkRemove()         // 削除処理
+            // ※完了前処理と削除処理はPGAudioFlowのスケジュール側で処理する
         }
     }
     
