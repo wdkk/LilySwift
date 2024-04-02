@@ -49,7 +49,7 @@ class DevViewController
     )
     
     lazy var audioStorage:PGAudioStorage = .init(
-        assetNames:[ "amenokoibitotachi", "mag!c number" ]
+        assetNames:[ "amenokoibitotachi", "mag!c number", "monad.m4a" ]
     )
     
     override func setup() {
@@ -139,7 +139,8 @@ func design( screen:PGScreen ) {
     var cnt:Float = 0.0
     PGSound( channel:0 )
     .set(
-        name:"mag!c number"
+        //name:"mag!c number"
+        name:"monad.m4a"
     )
     .pan( -1.0 )
     .position( x:0, y:0, z:-10 )

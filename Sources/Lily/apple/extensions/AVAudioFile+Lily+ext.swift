@@ -18,6 +18,20 @@ import AVFoundation
 extension AVAudioFile
 {
     // バンドルファイルの読み込み
+    public static func load( path:String ) -> AVAudioFile? {
+        if !LLFile.exists( path ) {
+            LLLog( "\(path) のファイルが見つかりません" )
+            return nil
+        }
+        
+        do { return try AVAudioFile(forReading:path.fileUrl) }
+        catch {
+            LLLog( "\(path) の読み込みに失敗しました: \(error)" )
+            return nil
+        }
+    }
+    
+    // バンドルファイルの読み込み
     public static func load( bundleName:String ) -> AVAudioFile? {
         guard let file = Bundle.main.url(forResource: bundleName, withExtension: nil)
         else {

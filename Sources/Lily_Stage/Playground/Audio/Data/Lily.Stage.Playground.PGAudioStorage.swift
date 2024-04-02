@@ -37,6 +37,10 @@ extension Lily.Stage.Playground
             engine.start()
             
             assetNames.forEach {
+                let log_type = LLLogGetEnableType()
+                defer { LLLogSetEnableType( log_type ) }
+               
+                LLLogSetEnableType( .none )
                 let asset_file = AVAudioFile.load( assetName:$0 )
                 if asset_file != nil {
                     audios[$0] = asset_file 
@@ -44,7 +48,12 @@ extension Lily.Stage.Playground
                 }
                 
                 let bundle_path = LLPath.bundle( $0 )
-                let bundle_file = AVAudioFile.load( bundleName:bundle_path )
+                let bundle_file = AVAudioFile.load( path:bundle_path )
+                if bundle_file == nil {
+                    LLLogSetEnableType( log_type )
+                    LLLog( "\($0): アセットとバンドルにファイルが見つかりません" )
+                }
+                
                 audios[$0] = bundle_file
             }
         }

@@ -35,6 +35,10 @@ public func LLLogForceEnabled() -> Bool {
     return (__LLLog_enable_type.rawValue & LLLogEnableType.force.rawValue) > 0
 }
 
-public func LLLogSetEnableType( _ type: LLLogEnableType ) {
+public func LLLogSetEnableType( _ type:LLLogEnableType ) {
     __LLLog_enable_type = type
+}
+
+public func LLLogGetEnableType() -> LLLogEnableType {
+    return __LLLog_enable_type
 }
