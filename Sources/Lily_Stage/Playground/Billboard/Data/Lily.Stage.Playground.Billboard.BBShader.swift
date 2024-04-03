@@ -32,11 +32,17 @@ extension Lily.Stage.Playground.Billboard
         public static let shared = BBShader()
         private init() {}
         
+        private(set) var logged = false
+        
         public func ready( device:MTLDevice ) { BBShader.shared.make( device:device, name:"BBShaderReadyFunc", code:"return p.color;" ) }
         
         public private(set) var functionSet:[String:BBFunctionSet] = [:]
         
         public func make( device:MTLDevice, name:String, code:String ) {
+            if !device.supportsFamily( .apple6 ) {
+                if logged == false { LLLog( "このデバイスはBBShader~~~に対応していないため描画されません" ); logged = true }
+            }
+                        
             functionSet[name] = .init( function:.init( device:device, name:name, code:code ) )
         }
         

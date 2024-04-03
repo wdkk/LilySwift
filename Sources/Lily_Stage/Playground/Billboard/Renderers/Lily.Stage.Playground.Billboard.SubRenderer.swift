@@ -43,14 +43,12 @@ extension Lily.Stage.Playground.Billboard
                 desc.fragmentShader( sMetal.fragmentShader )
             }
             
-            #if !targetEnvironment(simulator)
             let functions = bbFunctions.metalFunctions
-            if device.supportsFamily(.apple6) {
+            if device.supportsFamily( .apple6 ) {
                 let linkedFuncs = MTLLinkedFunctions()
                 linkedFuncs.functions = functions
                 desc.fragmentLinkedFunctions = linkedFuncs
             }
-            #endif
             
             desc.rasterSampleCount = Lily.Stage.Playground.BufferFormats.sampleCount
             
@@ -63,8 +61,7 @@ extension Lily.Stage.Playground.Billboard
             
             pipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
             
-            #if !targetEnvironment(simulator)
-            if device.supportsFamily(.apple6) {
+            if device.supportsFamily( .apple6 ) {
                 // function tableの作成
                 let funcDescriptor = MTLVisibleFunctionTableDescriptor()
                 funcDescriptor.functionCount = functions.count
@@ -75,7 +72,6 @@ extension Lily.Stage.Playground.Billboard
                     funcTable?.setFunction( fs_handle, index:idx )
                 }
             } 
-            #endif
         }
         
         public func draw( 
@@ -97,12 +93,10 @@ extension Lily.Stage.Playground.Billboard
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
-            #if !targetEnvironment(simulator)
-            if device.supportsFamily(.apple6) {
+            if device.supportsFamily( .apple6 ) {
                 renderEncoder?.setFragmentVisibleFunctionTable( funcTable, bufferIndex:0 )
             }
-            #endif
-            
+
             renderEncoder?.drawPrimitives( 
                 type: .triangleStrip, 
                 vertexStart: 0, 
@@ -130,11 +124,9 @@ extension Lily.Stage.Playground.Billboard
             renderEncoder?.setVertexBytes( &local_uniform, length:MemoryLayout<LocalUniform>.stride, index:2 ) 
             renderEncoder?.setVertexBuffer( storage.statuses.metalBuffer, offset:0, index:3 )
             renderEncoder?.setFragmentTexture( storage.textureAtlas.metalTexture, index:1 )
-            #if !targetEnvironment(simulator)
-            if device.supportsFamily(.apple6) {
+            if device.supportsFamily( .apple6 ) {
                 renderEncoder?.setFragmentVisibleFunctionTable( funcTable, bufferIndex:0 )
             }
-            #endif
             
             renderEncoder?.drawPrimitives( 
                 type: .triangle, 
