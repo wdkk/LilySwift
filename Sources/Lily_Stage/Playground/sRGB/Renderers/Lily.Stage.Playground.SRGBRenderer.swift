@@ -27,12 +27,12 @@ extension Lily.Stage.Playground.sRGB
             let desc = MTLRenderPipelineDescriptor()
             desc.label = "Playground convert sRGB"
             
-            if environment == .metallib {
+            if environment == .metallib && device.supportsFamily( .apple6 ) {
                 let library = try! Lily.Stage.metalLibrary( of:device )
                 desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_SRGB_Vs" ) )
                 desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_SRGB_Fs" ) )
             }
-            else if environment == .string {
+            else {
                 let sMetal = Lily.Stage.Playground.sRGB.SMetal.shared( device:device )
                 desc.vertexShader( sMetal.vertexShader )
                 desc.fragmentShader( sMetal.fragmentShader )            

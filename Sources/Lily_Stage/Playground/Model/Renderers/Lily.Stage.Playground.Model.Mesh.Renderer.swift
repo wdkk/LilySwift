@@ -32,12 +32,12 @@ extension Lily.Stage.Playground.Model.Mesh
             let desc = MTLRenderPipelineDescriptor()
     
             desc.label = "Playground Meshes Geometry"
-            if environment == .metallib {
+            if environment == .metallib && device.supportsFamily( .apple6 ) {
                 let library = try! Lily.Stage.metalLibrary( of:device )
                 desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Mesh_Vs" ) )
                 desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Mesh_Fs" ) )
             }
-            else if environment == .string {
+            else {
                 let sMetal = Lily.Stage.Playground.Model.Mesh.SMetal.shared( device:device )
                 desc.vertexShader( sMetal.vertexShader )
                 desc.fragmentShader( sMetal.fragmentShader )            
@@ -57,12 +57,12 @@ extension Lily.Stage.Playground.Model.Mesh
             meshPipeline = try! device.makeRenderPipelineState(descriptor: desc, options: [], reflection: nil)
             
             desc.label = "Playground Meshs Shadow"
-            if environment == .metallib {
+            if environment == .metallib && device.supportsFamily( .apple6 ) {
                 let library = try! Lily.Stage.metalLibrary( of:device )
                 desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Model_Mesh_Shadow_Vs" ) )
                 desc.fragmentFunction = nil 
             }
-            else if environment == .string {
+            else {
                 let sMetal = Lily.Stage.Playground.Model.Mesh.SMetal.shared( device:device )
                 desc.vertexShader( sMetal.shadowVertexShader )
                 desc.fragmentFunction = nil          

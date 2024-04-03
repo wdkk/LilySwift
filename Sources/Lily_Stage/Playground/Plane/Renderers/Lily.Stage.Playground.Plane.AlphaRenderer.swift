@@ -32,12 +32,12 @@ extension Lily.Stage.Playground.Plane
             let desc = MTLRenderPipelineDescriptor()
             desc.label = "Playground 2D Geometry(AlphaBlend)"
 
-            if environment == .metallib {
+            if environment == .metallib && device.supportsFamily( .apple6 ) {
                 let library = try! Lily.Stage.metalLibrary( of:device )
                 desc.vertexShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Plane_Vs" ) )
                 desc.fragmentShader( .init( device:device, mtllib:library, shaderName:"Lily_Stage_Playground_Plane_Fs" ) )
             }
-            else if environment == .string {
+            else {
                 let sMetal = Lily.Stage.Playground.Plane.SMetal.shared( device:device )
                 desc.vertexShader( sMetal.vertexShader )
                 desc.fragmentShader( sMetal.fragmentShader )

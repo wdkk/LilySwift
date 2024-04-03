@@ -66,6 +66,7 @@ namespace Lily
                     return c;
                 } 
                 
+                //-apple6-earlier-comment-start
                 float4 drawCustom( 
                     Plane::VOut in, 
                     texture2d<float> tex,
@@ -94,12 +95,9 @@ namespace Lily
                         tex
                     };
                     
-                    #if ( !TARGET_OS_SIMULATOR || TARGET_OS_MACCATALYST )
                     return tableFunc[in.shaderIndex]( param );
-                    #else
-                    return float4( 0, 0, 0, 0 );
-                    #endif
                 }
+                //-apple6-earlier-comment-end
             }
         }
     }
@@ -107,8 +105,10 @@ namespace Lily
 
 fragment Plane::Result Lily_Stage_Playground_Plane_Fs(
     const Plane::VOut in [[ stage_in ]],
-    texture2d<float> tex [[ texture(1) ]],
-    visible_function_table<CustomFragmentShaderFunc> tableFunc
+    texture2d<float> tex [[ texture(1) ]]
+    //-apple6-earlier-comment-start
+    ,visible_function_table<CustomFragmentShaderFunc> tableFunc
+    //-apple6-earlier-comment-end
 )
 {  
     auto type = Plane::ShapeType( in.shapeType );
@@ -132,7 +132,10 @@ fragment Plane::Result Lily_Stage_Playground_Plane_Fs(
             break;
         case Plane::shaderRectangle:
         case Plane::shaderTriangle:
+            //-apple6-earlier-comment-start
             color = Plane::drawCustom( in, tex, tableFunc );
+            //-apple6-earlier-comment-end
+            //-apple6-earlier-active: color = Plane::drawPlane( in );
             break;
         default:
             discard_fragment();

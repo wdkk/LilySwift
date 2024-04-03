@@ -66,6 +66,7 @@ namespace Lily
                     return c;
                 } 
                 
+                //-apple6-earlier-comment-start
                 float4 drawCustom( 
                     Billboard::VOut in, 
                     texture2d<float> tex,
@@ -94,12 +95,9 @@ namespace Lily
                         tex
                     };
                     
-                    #if ( !TARGET_OS_SIMULATOR || TARGET_OS_MACCATALYST )
                     return tableFunc[in.shaderIndex]( param );
-                    #else
-                    return float4( 0, 0, 0, 0 );
-                    #endif
                 }
+                //-apple6-earlier-comment-end
             }
         }
     }
@@ -107,8 +105,10 @@ namespace Lily
 
 fragment Billboard::Result Lily_Stage_Playground_Billboard_Fs(
     const Billboard::VOut in [[ stage_in ]],
-    texture2d<float> tex [[ texture(1) ]],
-    visible_function_table<CustomFragmentShaderFunc> tableFunc
+    texture2d<float> tex [[ texture(1) ]]
+    //-apple6-earlier-comment-start
+    ,visible_function_table<CustomFragmentShaderFunc> tableFunc
+    //-apple6-earlier-comment-end
 )
 {
     auto type = Billboard::ShapeType( in.shapeType );
@@ -132,7 +132,10 @@ fragment Billboard::Result Lily_Stage_Playground_Billboard_Fs(
             break;
         case Billboard::shaderRectangle:
         case Billboard::shaderTriangle:
+            //-apple6-earlier-comment-start
             color = Billboard::drawCustom( in, tex, tableFunc );
+            //-apple6-earlier-comment-end
+            //-apple6-earlier-active: color = Billboard::drawPlane( in );
             break;
         default:
             discard_fragment();

@@ -24,25 +24,33 @@ extension Lily.Stage.Playground.Plane
             if instance == nil { instance = .init( device:device ) }
             return instance!
         }
+        
+        private static func convertFamily( device:MTLDevice, code:String ) -> String {
+            if device.supportsFamily( .apple6 ) { return code }
+            return code
+            .replacingOccurrences( of:"//-apple6-earlier-comment-end", with:"*/" )
+            .replacingOccurrences( of:"//-apple6-earlier-comment-start", with:"/*" )
+            .replacingOccurrences( of:"//-apple6-earlier-active:", with:"" )
+        }
 
         private init( device:MTLDevice ) {
             //LLLog( "文字列からシェーダを生成しています." )
 
             self.comDeltaShader = .init(
                 device:device, 
-                code:Lily.Stage.Playground.Plane.ComDelta_SMetal,
+                code:Self.convertFamily( device:device, code:Lily.Stage.Playground.Plane.ComDelta_SMetal ),
                 shaderName:"Lily_Stage_Playground_Plane_Com_Delta" 
             )
             
             self.vertexShader = .init(
                 device:device, 
-                code:Lily.Stage.Playground.Plane.Vs_SMetal,
+                code:Self.convertFamily( device:device, code:Lily.Stage.Playground.Plane.Vs_SMetal ),
                 shaderName:"Lily_Stage_Playground_Plane_Vs" 
             )
             
             self.fragmentShader = .init(
                 device:device,
-                code:Lily.Stage.Playground.Plane.Fs_SMetal,
+                code:Self.convertFamily( device:device, code:Lily.Stage.Playground.Plane.Fs_SMetal ),
                 shaderName:"Lily_Stage_Playground_Plane_Fs" 
             )
         }

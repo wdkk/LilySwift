@@ -26,7 +26,7 @@ extension Lily.Stage.Playground.Plane
             let desc = MTLComputePipelineDescriptor()
             desc.threadGroupSizeIsMultipleOfThreadExecutionWidth = true
             
-            if environment == .metallib {
+            if environment == .metallib && device.supportsFamily( .apple6 ) {
                 let library = try! Lily.Stage.metalLibrary( of:device )
                 desc.computeShader( Lily.Metal.Shader( 
                     device:device,
@@ -34,7 +34,7 @@ extension Lily.Stage.Playground.Plane
                     shaderName:"Lily_Stage_Playground_Plane_Com_Delta" 
                 ) ) 
             }
-            else if environment == .string {
+            else {
                 let sMetal = Lily.Stage.Playground.Plane.SMetal.shared( device:device )
                 desc.computeShader( sMetal.comDeltaShader )
             }
