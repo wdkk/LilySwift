@@ -11,6 +11,7 @@
 #if os(visionOS)
 import Foundation
 import LilySwift
+import LilySwiftAlias
 
 class VisionPlayground
 {

@@ -34,7 +34,10 @@ extension Lily.Stage.Playground.Plane
         
         private(set) var logged = false
         
-        public func ready( device:MTLDevice ) { PGShader.shared.make( device:device, name:"PGShaderReadyFunc", code:"return p.color;" ) }
+        public func ready( device:MTLDevice ) { 
+            if !device.supportsFamily( .apple6 ) { return }
+            PGShader.shared.make( device:device, name:"PGShaderReadyFunc", code:"return p.color;" ) 
+        }
         
         public private(set) var functionSet:[String:PGFunctionSet] = [:]
         

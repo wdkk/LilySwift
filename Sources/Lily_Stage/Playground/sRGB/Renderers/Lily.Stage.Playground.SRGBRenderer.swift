@@ -50,12 +50,16 @@ extension Lily.Stage.Playground.sRGB
         
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
-            mediumTexture:Lily.Stage.Playground.MediumTexture
+            mediumTexture:Lily.Stage.Playground.MediumTexture,
+            alphaPremultiply:Bool
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )
+            
+            var alpha_premul = alphaPremultiply
         
             renderEncoder?.setFragmentTexture( mediumTexture.resultTexture, index:0 )
+            renderEncoder?.setFragmentBytes( &alpha_premul, length:MemoryLayout<Bool>.stride, index:0 ) 
             renderEncoder?.drawPrimitives( type:.triangle, vertexStart:0, vertexCount:3 )
         }
     }

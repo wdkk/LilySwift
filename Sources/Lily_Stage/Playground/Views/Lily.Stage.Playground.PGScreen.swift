@@ -115,6 +115,9 @@ extension Lily.Stage.Playground
                 vc.renderEngine.changeScreenSize( size:me.scaledBounds.size )
             }
             
+            // 背景処理が.clearの場合alpha Premultiを有効にする
+            vc.sRGBRenderFlow?.alphaPremultiply = (vc.clearColor == .clear)
+            
             // リサイズ処理の受け入れハンドラ
             if vc._metal_view_size != me.size.cgSize {
                 vc.pgResizeHandler?( vc )
@@ -124,6 +127,9 @@ extension Lily.Stage.Playground
             vc.designProc( vc:vc )
         }
         .draw( caller:self ) { me, vc, status in
+            // 背景処理が.clearの場合alpha Premultiを有効にする
+            vc.sRGBRenderFlow?.alphaPremultiply = (vc.clearColor == .clear)
+            
             vc.updateProc( vc:vc )
             
             vc.renderEngine.update(

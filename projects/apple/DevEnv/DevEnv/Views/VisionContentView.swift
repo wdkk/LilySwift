@@ -27,10 +27,7 @@ class ScenePack : ObservableObject
         scene.update = update
     }
     
-    func design( screen:PGScreen ) {
-        PGSound( name:"sound1", assetName:"mag!c number" )
-        .play()
-        
+    func design( screen:PGScreen ) {        
         screen.clearColor = .darkGrey
 
         for _ in 0 ..< 160 {

@@ -106,7 +106,7 @@ class DevViewController
 }
 
 func ready( screen:PGScreen ) {
-
+/*
     PGShader.shared.make(
         device:device,
         name:"f1",
@@ -133,15 +133,14 @@ func ready( screen:PGScreen ) {
             return float4( c.xyz, p.alpha );
         """
     )
+*/
 }
 
 func design( screen:PGScreen ) {
     var cnt:Float = 0.0
     PGSound( channel:0 )
     .set(
-        name:"monad.m4a",
-        startTime:0.0,
-        endTime:10.0
+        name:"monad.m4a"
     )
     //.pan( -1.0 )
     //.position( x:0, y:0, z:-10 )
@@ -160,8 +159,8 @@ func design( screen:PGScreen ) {
     //screen.clearColor = .clear
     screen.cubeMap = "skyCubeMap"
     
-    screen.camera.position = .init( 0, 450, 400 )
-    screen.camera.direction = .init( 0.0, -0.5, -0.8 )
+    screen.camera.position = .init( 0, 450, 600 )
+    screen.camera.direction = .init( 0.0, -0.4, -0.8 )
     
     // Playground 3D
     MDObj( assetName:"cottonwood1" )
@@ -242,8 +241,8 @@ func design2( screen:PGScreen ) {
     .deltaAngle( degrees:1.0 )
     
     for _ in 0 ..< 160 {
-       //PGAddMask( "mask-smoke" )
-       PGShaderRectangle( shaderName:"f1" )
+       PGAddMask( "mask-smoke" )
+       //PGShaderRectangle( shaderName:"f1" )
        .parent( p )
        .color( LLColor( 0.62, 0.32, 0.22, 1.0 ) )
        .color2( .yellow )

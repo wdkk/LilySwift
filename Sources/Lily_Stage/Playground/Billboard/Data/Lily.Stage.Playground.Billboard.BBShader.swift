@@ -34,7 +34,10 @@ extension Lily.Stage.Playground.Billboard
         
         private(set) var logged = false
         
-        public func ready( device:MTLDevice ) { BBShader.shared.make( device:device, name:"BBShaderReadyFunc", code:"return p.color;" ) }
+        public func ready( device:MTLDevice ) { 
+            if !device.supportsFamily( .apple6 ) { return }
+            BBShader.shared.make( device:device, name:"BBShaderReadyFunc", code:"return p.color;" )
+        }
         
         public private(set) var functionSet:[String:BBFunctionSet] = [:]
         
