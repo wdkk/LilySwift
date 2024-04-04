@@ -25,7 +25,6 @@ extension Lily.Stage.Playground.sRGB
         var sRGBRenderer:Renderer?
         
         public let viewCount:Int
-        public var alphaPremultiply:Bool = false
         
         public init(
             device:MTLDevice,
@@ -80,8 +79,7 @@ extension Lily.Stage.Playground.sRGB
             // sRGB変換
             sRGBRenderer?.draw(
                 with:encoder,
-                mediumTexture:mediumTexture,
-                alphaPremultiply:self.alphaPremultiply
+                mediumTexture:mediumTexture
             )
 
             encoder?.endEncoding()

@@ -35,11 +35,13 @@ struct ContentView: View
             
             GeometryReader { geo in
                 ZStack {
+                    /*
                     LLColor( "#44DDFF" ).swiftuiColor
                     
                     Image( "lily" )
                     .resizable()
                     .frame( width: geo.size.height / 3.0, height: geo.size.height / 3.0 )
+                    */
                     
                     PGScreenView(
                         device:scenePack.device,
