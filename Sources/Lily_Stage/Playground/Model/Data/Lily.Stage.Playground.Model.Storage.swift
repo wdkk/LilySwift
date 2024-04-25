@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 import Metal
 import simd
 #if os(macOS)
@@ -135,3 +137,5 @@ extension Lily.Stage.Playground.Model
         }
     }
 }
+
+#endif

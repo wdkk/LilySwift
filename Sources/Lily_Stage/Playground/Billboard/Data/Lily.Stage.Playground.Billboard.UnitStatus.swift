@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 import Metal
 import simd
 
@@ -71,3 +73,5 @@ extension Lily.Stage.Playground.Billboard
         public var shapeType:ShapeType { get { .init( rawValue:types.1 )! } set { types.1 = newValue.rawValue } }
     }
 }
+
+#endif

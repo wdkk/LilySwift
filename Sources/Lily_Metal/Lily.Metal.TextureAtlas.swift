@@ -11,6 +11,8 @@
 // 参考: https://blackpawn.com/texts/lightmaps/default.html
 // 参考: https://tyfkda.github.io/blog/2013/10/05/texture-pakcer.html
 
+#if !os(watchOS)
+
 import MetalKit
 #if os(macOS)
 import AppKit
@@ -342,3 +344,5 @@ extension Lily.Metal
         var atlasUV:LLFloatv4
     }
 }
+
+#endif

@@ -8,7 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-import Metal
+#if !os(watchOS)
+
 import MetalKit
 import QuartzCore
 
@@ -163,3 +164,5 @@ extension Lily.Metal
         }
     }
 }
+
+#endif

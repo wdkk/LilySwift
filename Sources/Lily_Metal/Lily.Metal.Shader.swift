@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 /// コメント未済
 
 import Foundation
@@ -162,3 +164,4 @@ extension Lily.Metal
     }
 }
 
+#endif

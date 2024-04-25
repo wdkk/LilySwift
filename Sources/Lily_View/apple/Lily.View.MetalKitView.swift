@@ -8,9 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if !os(visionOS)
+#if !os(visionOS) && !os(watchOS)
 
-import Metal
 import MetalKit
 
 extension Lily.View
@@ -19,9 +18,9 @@ extension Lily.View
     : MTKView
     , LLUILifeEvent
     {
-#if os(macOS)
+        #if os(macOS)
         public var isUserInteractionEnabled:Bool = true
-#endif
+        #endif
         
         public var setupField:(any LLField)?
         public var buildupField:(any LLField)?

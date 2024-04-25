@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 import Metal
 import simd
 
@@ -50,3 +52,5 @@ extension [Lily.Stage.Playground.Billboard.BBFunction]
 {  
     public var metalFunctions:[MTLFunction] { self.filter { $0.function != nil }.map { $0.function! } }
 }
+
+#endif

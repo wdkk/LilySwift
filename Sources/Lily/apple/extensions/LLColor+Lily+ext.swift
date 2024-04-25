@@ -16,8 +16,16 @@ import AppKit
 import UIKit
 #endif
 
-import QuartzCore
+#if canImport(Metal)
 import Metal
+#endif
+
+#if canImport(QuartzCore)
+import QuartzCore
+#endif
+
+import CoreGraphics
+
 import SwiftUI
 
 public extension LLColor8
@@ -44,9 +52,9 @@ public extension LLColor8
     var hsvi:LLHSVi { return LLColor8toHSVi( self ) }
 
     var cgColor:CGColor { return self.rgbaf.cgColor }    
-    
+    #if canImport(Metal)
     var metalColor:MTLClearColor { return self.rgbaf.metalColor }
-    
+    #endif
     var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
     
     var floatv4:LLFloatv4 { 
@@ -86,9 +94,9 @@ public extension LLColor16
     var hsvi:LLHSVi { return LLColor16toHSVi( self ) }
     
     var cgColor:CGColor { return self.rgbaf.cgColor }    
-    
+    #if canImport(Metal)
     var metalColor:MTLClearColor { return self.rgbaf.metalColor }
-    
+    #endif
     var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
     
     var floatv4:LLFloatv4 { 
@@ -126,17 +134,20 @@ public extension LLColor
     var hsvf:LLHSVf { return LLColorftoHSVf( self ) }
     
     var hsvi:LLHSVi { return LLColorftoHSVi( self ) }
-        
+    
     var cgColor:CGColor {
         #if os(macOS)
         return NSColor( self.R.cgf, self.G.cgf, self.B.cgf, self.A.cgf ).cgColor        
+        #elseif os(watchOS)
+        return UIColor( red:self.R.cgf, green:self.G.cgf, blue:self.B.cgf, alpha:self.A.cgf ).cgColor
         #else
         return UIColor( self.R.cgf, self.G.cgf, self.B.cgf, self.A.cgf ).cgColor
         #endif
     }
     
+    #if canImport(Metal)
     var metalColor:MTLClearColor { return .init(red: self.R.d, green: self.G.d, blue: self.B.d, alpha: self.A.d ) }
-
+    #endif
     var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
     
     var floatv4:LLFloatv4 { return .init( self.R, self.G, self.B, self.A ) }
@@ -172,9 +183,9 @@ public extension LLHSVf
     var hsvi:LLHSVi { return LLHSVftoi( self ) }
 
     var cgColor:CGColor { return self.rgbaf.cgColor }    
-    
+    #if canImport(Metal)
     var metalColor:MTLClearColor { return self.rgbaf.metalColor }
-    
+    #endif
     var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
     
     var floatv4:LLFloatv4 { 
@@ -209,9 +220,9 @@ public extension LLHSVi
     var hsvf:LLHSVf { return LLHSVitof( self ) }
     
     var cgColor:CGColor { return self.rgbaf.cgColor }    
-    
+    #if canImport(Metal)
     var metalColor:MTLClearColor { return self.rgbaf.metalColor }
-    
+    #endif
     var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
     
     var floatv4:LLFloatv4 { 
@@ -221,4 +232,3 @@ public extension LLHSVi
     
     static var random:LLHSVi { return LLColor.random.hsvi }
 }
-

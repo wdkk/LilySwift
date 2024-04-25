@@ -8,9 +8,10 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 /// コメント未済
 
-import Metal
 import MetalKit
 import QuartzCore
 
@@ -72,3 +73,5 @@ extension MTLTexture
         return cgimg
     }
 }
+
+#endif

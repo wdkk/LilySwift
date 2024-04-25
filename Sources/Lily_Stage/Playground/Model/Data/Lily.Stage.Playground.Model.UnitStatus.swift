@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 import Metal
 import simd
 
@@ -50,3 +52,5 @@ extension Lily.Stage.Playground.Model
         public var state:LifeState { get { .init( rawValue: states.y )! } set { states.y = newValue.rawValue } }
     }
 }
+
+#endif

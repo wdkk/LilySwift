@@ -9,8 +9,11 @@
 //
 
 import Foundation
+#if canImport(QuartzCore)
 import QuartzCore
+#endif
 
+#if canImport(QuartzCore)
 public extension CATransaction
 {
     static func stop( _ f: ()->() ) {
@@ -22,3 +25,4 @@ public extension CATransaction
         CATransaction.commit()
     }
 }
+#endif

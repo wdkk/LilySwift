@@ -10,6 +10,8 @@
 
 /// コメント未済
 
+#if !os(watchOS)
+
 import Foundation
 #if os(iOS) || os(visionOS) || targetEnvironment(macCatalyst)
 import UIKit
@@ -60,3 +62,5 @@ extension Lily.Stage.Playground
         }
     }
 }
+
+#endif

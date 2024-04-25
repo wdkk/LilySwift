@@ -10,10 +10,10 @@
 
 import Foundation
 
-#if os(iOS) || os(visionOS)
-import UIKit
-#elseif os(macOS)
+#if os(macOS)
 import AppKit
+#else
+import UIKit
 #endif
 
 /// LilyCore文字列モジュール
@@ -488,10 +488,10 @@ public func LCStringPixelSize( _ src_:LCStringSmPtr, _ attr_:LCTextAttributeSmPt
     let family = String( LCTextAttributeFace( attr_ ) )
     let str = String( src_ )
 
-    #if os(iOS) || os(visionOS)
-    let f = UIFont(name: family, size: LCTextAttributeSize( attr_ ).cgf )
-    #else
+    #if os(macOS)
     let f = NSFont(name: family, size: LCTextAttributeSize( attr_ ).cgf )
+    #else
+    let f = UIFont(name: family, size: LCTextAttributeSize( attr_ ).cgf )
     #endif
     let attributes:[NSAttributedString.Key: Any] = [.font: f as Any] 
 

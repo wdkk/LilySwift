@@ -10,7 +10,7 @@
 
 import Foundation
 
-#if os(iOS) || os(visionOS)
+#if os(iOS) || os(watchOS) || os(visionOS)
 
 import UIKit
 

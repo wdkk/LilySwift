@@ -8,6 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
 // LilySwift利用時のエイリアスサポートをする
 // PlaygroundリポジトリではLilySwiftForPlayground置き換わる
 // Booksではimportが消えて同一モジュールとなる
@@ -88,3 +89,5 @@ public typealias MDSphere = PG.Model.MDSphere
 public typealias PGAudioEngine = PG.PGAudioEngine
 public typealias PGAudioStorage = PG.PGAudioStorage
 public typealias PGSound = PG.PGSound
+
+#endif

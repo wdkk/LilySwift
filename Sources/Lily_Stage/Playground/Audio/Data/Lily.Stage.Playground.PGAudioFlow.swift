@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 #if os(macOS)
 import AppKit
 #else
@@ -143,3 +145,5 @@ extension Lily.Stage.Playground
         }
     }
 }
+
+#endif

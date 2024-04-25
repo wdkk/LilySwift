@@ -10,7 +10,6 @@
 
 #if os(visionOS)
 
-import Metal
 import MetalKit
 import simd
 import SwiftUI

@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 import simd
 import Metal
 
@@ -81,3 +83,5 @@ extension Lily.Stage.Model
         }
     }
 }
+
+#endif

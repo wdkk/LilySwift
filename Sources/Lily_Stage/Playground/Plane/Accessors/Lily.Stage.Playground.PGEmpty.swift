@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 import Metal
 
 extension Lily.Stage.Playground.Plane
@@ -23,3 +25,5 @@ extension Lily.Stage.Playground.Plane
         }
     }
 }
+
+#endif

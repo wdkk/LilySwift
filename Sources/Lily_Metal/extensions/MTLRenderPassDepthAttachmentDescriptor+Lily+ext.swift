@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 import Foundation
 import Metal
 
@@ -38,3 +40,5 @@ extension MTLRenderPassDepthAttachmentDescriptor
         return self
     }
 }
+
+#endif

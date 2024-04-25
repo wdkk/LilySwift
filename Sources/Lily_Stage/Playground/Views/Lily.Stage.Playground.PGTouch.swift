@@ -10,6 +10,8 @@
 
 /// コメント未済
 
+#if !os(watchOS)
+
 import Foundation
 
 extension Lily.Stage.Playground
@@ -62,3 +64,5 @@ extension Lily.Stage.Playground
     }
     #endif
 }
+
+#endif

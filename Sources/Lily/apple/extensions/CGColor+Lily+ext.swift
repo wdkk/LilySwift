@@ -10,10 +10,10 @@
 
 /// コメント未済
 
-#if os(iOS) || os(visionOS)
-import UIKit
-#elseif os(macOS)
+#if os(macOS)
 import AppKit
+#else
+import UIKit
 #endif
 
 import CoreGraphics
@@ -26,12 +26,11 @@ public extension CGColor
         var B:CGFloat = 0.0
         var A:CGFloat = 0.0
         
-        #if os(iOS) || os(visionOS)
-        UIColor( cgColor:self ).getRed( &R, green:&G, blue:&B, alpha: &A )
-        return LLColor( R: R.f, G: G.f, B: B.f, A: A.f )    
-        #elseif os(macOS)
+        #if os(macOS)
         NSColor( cgColor:self )?.getRed( &R, green:&G, blue:&B, alpha: &A )
-        return LLColor( R: R.f, G: G.f, B: B.f, A: A.f )
+        #else
+        UIColor( cgColor:self ).getRed( &R, green:&G, blue:&B, alpha: &A )        
         #endif
+        return LLColor( R: R.f, G: G.f, B: B.f, A: A.f )
     }
 }

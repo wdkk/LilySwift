@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 import Foundation
 import Metal
 
@@ -22,3 +24,5 @@ extension Lily.Stage
         return try device.makeDefaultLibrary( bundle:bundle )
     }
 }
+
+#endif

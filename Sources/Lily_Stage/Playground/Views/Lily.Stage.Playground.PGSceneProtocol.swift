@@ -10,6 +10,8 @@
 
 /// コメント未済
 
+#if !os(watchOS)
+
 import Foundation
 import Metal
 
@@ -243,3 +245,5 @@ extension Lily_Stage_Playground_PGSceneProtocol
         self.designProc( vc:self, force:true )
     }
 }
+
+#endif

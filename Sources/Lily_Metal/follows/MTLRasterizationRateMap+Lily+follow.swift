@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 import Foundation
 import Metal
 
@@ -22,4 +24,6 @@ extension Lily.Metal
 {
     public typealias RasterizationRateMap = MTLRasterizationRateMap
 }
+#endif
+
 #endif

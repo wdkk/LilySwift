@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 import SwiftUI
 import Metal
 #if os(macOS)
@@ -91,3 +93,5 @@ extension Lily.UI
     }
     #endif
 }
+
+#endif

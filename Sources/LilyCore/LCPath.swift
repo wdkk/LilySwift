@@ -28,11 +28,11 @@ public func LCPathGetBundle( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
 /// - Returns: 起動位置のパス文字列
 /// - Description: 最後にスラッシュがつく. filenameはその最後尾に付与される
 public func LCPathGetLaunching( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
-    #if os(iOS) || os(visionOS)
-    return LCStringMakeWithCChars( (NSHomeDirectory() + "/" + String( filename )).cChar )
-    #elseif os(macOS)
+    #if os(macOS)
     let dir = LCStringMakeWithCChars( Bundle.main.bundlePath.fileUrl.deletingLastPathComponent().relativePath.cChar )
     return LCStringJoin( dir, LCStringJoin( LCStringMakeWithCChars( "/" ), filename ) )
+    #else
+    return LCStringMakeWithCChars( (NSHomeDirectory() + "/" + String( filename )).cChar )
     #endif    
 }
 
@@ -41,11 +41,11 @@ public func LCPathGetLaunching( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
 /// - Returns: ドキュメントディレクトリパス文字列
 /// - Description: 最後にスラッシュがつく. filenameはその最後尾に付与される
 public func LCPathGetDocuments( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
-    #if os(iOS) || os(visionOS)
-    let path = "\(NSHomeDirectory())/Documents/\(String(filename))"
-    #elseif os(macOS)
+    #if os(macOS)
     let paths = NSSearchPathForDirectoriesInDomains( .documentDirectory, .userDomainMask, true )
     let path = "\(paths[0])/\(String(filename))"
+    #else
+    let path = "\(NSHomeDirectory())/Documents/\(String(filename))"
     #endif
     
     return LCStringMakeWithCChars( path.cChar )
@@ -56,10 +56,10 @@ public func LCPathGetDocuments( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
 /// - Returns: 一時保存ディレクトリパス文字列
 /// - Description: 最後にスラッシュがつく. filenameはその最後尾に付与される
 public func LCPathGetTemp( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
-    #if os(iOS) || os(visionOS)
-    let path = "\(NSHomeDirectory())/tmp/\(String(filename))"
-    #elseif os(macOS)
+    #if os(macOS)
     let path = "\(NSTemporaryDirectory())\(String(filename))"
+    #else
+    let path = "\(NSHomeDirectory())/tmp/\(String(filename))"
     #endif
     
     return LCStringMakeWithCChars( path.cChar )
@@ -70,11 +70,11 @@ public func LCPathGetTemp( _ filename:LCStringSmPtr ) -> LCStringSmPtr {
 /// - Returns: キャッシュディレクトリパス文字列
 /// - Description: 最後にスラッシュがつく. filenameはその最後尾に付与される
 public func LCPathGetCache( _ filename:LCStringSmPtr ) -> LCStringSmPtr { 
-    #if os(iOS) || os(visionOS)
-    let path = "\(NSHomeDirectory())/Library/Caches/\(String(filename))"
-    #elseif os(macOS)
+    #if os(macOS)
     let paths = NSSearchPathForDirectoriesInDomains( .cachesDirectory, .userDomainMask, true )
     let path = "\(paths[0])/\(String(filename))"
+    #else
+    let path = "\(NSHomeDirectory())/Library/Caches/\(String(filename))"
     #endif
     
     return LCStringMakeWithCChars( path.cChar )

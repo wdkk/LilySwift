@@ -67,7 +67,7 @@ public func LCSystemGetRetinaScale() -> LLDouble {
     // TODO: メインスレッド以外で呼ぶと問題があるため修正必要
     guard let scale = NSScreen.main?.backingScaleFactor else { return 1.0 }
     return LLDouble( scale )
-    #elseif os(visionOS)
+    #else
     return 1.0
     #endif
 }

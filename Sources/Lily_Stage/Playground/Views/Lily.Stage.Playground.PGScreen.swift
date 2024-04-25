@@ -10,6 +10,8 @@
 
 /// コメント未済
 
+#if !os(watchOS)
+
 import Metal
 
 #if os(macOS)
@@ -398,4 +400,6 @@ extension Lily.Stage.Playground.PGScreen
         self.touchManager.units[0].startPos = self.touchManager.starts[0].xy
     }
 }
+#endif
+
 #endif

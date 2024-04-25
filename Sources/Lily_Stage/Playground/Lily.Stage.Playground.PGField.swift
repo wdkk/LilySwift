@@ -10,7 +10,8 @@
 
 /// コメント未済
 
-import Metal
+#if !os(watchOS)
+
 import simd
 
 extension Lily.Stage.Playground
@@ -44,3 +45,5 @@ extension Lily.Stage.Playground
         }
     }
 }
+
+#endif

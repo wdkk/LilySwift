@@ -8,7 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if os(iOS) || os(visionOS)
+#if os(iOS) || os(watchOS) || os(visionOS)
 
 import UIKit
 

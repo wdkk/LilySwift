@@ -10,9 +10,8 @@
 
 /// コメント未済
 
-import CoreGraphics
-import Metal
 import simd
+import CoreGraphics
 
 // MARK: - 値セット
 public struct LLDual<T> {
@@ -288,9 +287,11 @@ public extension LLMatrix4x4
         return pixelUVProjection( wid: Int(wid), hgt: Int(hgt) )
     }
     
+    #if canImport(QuartzCore)
     static func pixelUVProjection( _ size:CGSize ) -> Self {
         return pixelUVProjection( wid: Int(size.width), hgt: Int(size.height) )
     }
+    #endif
     
     static func pixelUVProjection( _ size:LLSize ) -> Self {
         return pixelUVProjection( wid: Int(size.width), hgt: Int(size.height) )
@@ -311,10 +312,11 @@ public extension LLMatrix4x4
         return pixelXYProjection( wid: Int(wid), hgt: Int(hgt) )
     }
     
+    #if canImport(QuartzCore)
     static func pixelXYProjection( _ size:CGSize ) -> Self {
         return pixelXYProjection( wid: Int(size.width), hgt: Int(size.height) )
     }
-    
+    #endif
     static func pixelXYProjection( _ size:LLSize ) -> Self {
         return pixelXYProjection( wid: Int(size.width), hgt: Int(size.height) )
     }

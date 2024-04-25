@@ -10,10 +10,13 @@
 
 /// コメント未済
 
-#if os(iOS) || os(visionOS)
+#if os(iOS) || os(watchOS) || os(visionOS)
 
 import UIKit
+#if canImport(Metal)
+import Metal
 import MetalKit
+#endif
 
 public extension UIImage
 {    
@@ -22,6 +25,7 @@ public extension UIImage
         return LLImage( lcimg )
     }
     
+    #if !os(watchOS)
     func BGRtoRGB() -> UIImage {
         let code = """
         #include <metal_stdlib>
@@ -110,6 +114,28 @@ public extension UIImage
             return self
         }
     }
+    #else
+    // watchOS版. 変換に失敗した場合は変換せずに返す
+    func BGRtoRGB() -> UIImage {
+        var llimg = self.llImage
+        let type = llimg.type
+        llimg.convertType(to:.rgbaf )
+        
+        let width = llimg.width
+        let height = llimg.height
+        guard let mat = llimg.rgbafMatrix else { return self }
+        
+        for y in 0 ..< height {
+            for x in 0 ..< width {
+                let swap = mat[y][x].R
+                mat[y][x].R = mat[y][x].B
+                mat[y][x].B = swap
+            }
+        }
+        
+        return llimg.uiImage ?? self
+    }
+    #endif
 }
 
 #endif

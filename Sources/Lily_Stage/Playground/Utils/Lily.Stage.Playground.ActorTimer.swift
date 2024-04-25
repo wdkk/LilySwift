@@ -8,7 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-import MetalKit
+#if !os(watchOS)
+
 import simd
 
 extension Lily.Stage.Playground
@@ -33,3 +34,5 @@ extension Lily.Stage.Playground
         public var elapsedTime:Double { nowTime - startTime }
     }
 }
+
+#endif

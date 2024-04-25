@@ -9,7 +9,9 @@
 //
 
 import Foundation
+#if canImport(QuartzCore)
 import QuartzCore
+#endif
 
 public func LCImageRawTreat( _ lcimg_:LCImageSmPtr, _ wid_:Int, _ hgt_:Int, _ type_:LLImageType ) {
     switch type_ {
@@ -256,7 +258,7 @@ public func LCImageCheckSaveTypeByExtension(_ option_:LLImageSaveOption, _ ext_:
 }
 
 
-#if os(iOS) || os(visionOS)
+#if os(iOS) || os(watchOS) || os(visionOS)
 
 import UIKit
 

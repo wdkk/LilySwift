@@ -10,6 +10,8 @@
 
 /// コメント未済
 
+#if !os(watchOS)
+
 import Foundation
 import Metal
 
@@ -41,3 +43,5 @@ extension Lily.Metal
         }
     }
 }
+
+#endif

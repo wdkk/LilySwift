@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 import Metal
 
 extension Lily.Stage.Playground.Model
@@ -20,3 +22,5 @@ extension Lily.Stage.Playground.Model
         }
     }
 }
+
+#endif

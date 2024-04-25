@@ -8,6 +8,8 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if !os(watchOS)
+
 import Metal
 import QuartzCore
  
@@ -89,13 +91,13 @@ extension Lily.View
             metalLayer.contentsScale = LLSystem.retinaScale.cgf
             metalLayer.frame = self.bounds
             self.layerOpaque( true )
-#if os(macOS)
+            #if os(macOS)
             self.backgroundColor = .clear
             self.isOpaque = false
             self.addSublayer( metalLayer )
-#else
+            #else
             self.layer.addSublayer( metalLayer )
-#endif
+            #endif
         }
         
         open var drawable:CAMetalDrawable? {
@@ -200,3 +202,4 @@ extension Lily.View.MetalView
     }
 }
   
+#endif

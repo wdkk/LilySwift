@@ -8,8 +8,11 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
+#if canImport(QuartzCore)
 import QuartzCore
+#endif
 
+#if canImport(QuartzCore)
 extension CALayer 
 : LLUIRectControllable
 {
@@ -23,3 +26,4 @@ extension CALayer
         set { self.bounds = newValue }
     }
 }
+#endif

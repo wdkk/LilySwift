@@ -10,14 +10,19 @@
 
 /// コメント未済
 
-#if os(iOS) || os(visionOS)
+#if os(iOS) || os(watchOS) || os(visionOS)
 import UIKit
 #elseif os(macOS)
 import AppKit
 #endif
 
+#if canImport(QuartzCore)
 import QuartzCore
+#endif
+
+#if canImport(Metal)
 import Metal
+#endif
 
 open class LLImage
 {
@@ -45,11 +50,12 @@ open class LLImage
     public init( _ imgptr:LCImageSmPtr ) {
         _imgc = LCImageClone( imgptr ) 
     }
-    
+
     public init( _ cgImage:CGImage ) {
         _imgc = CGImage2LCImage( cgImage )
     }
     
+    #if canImport(Metal)
     public convenience init?( _ texture:MTLTexture ) {
         // TODO: もう少しテクスチャのパターンに対応したい
         if texture.pixelFormat == .rgba16Unorm {
@@ -76,7 +82,8 @@ open class LLImage
             mipmapLevel: 0
         )
     }
-
+    #endif
+    
     open var available:Bool { return LCImageGetType( _imgc ) != .none }
     
     open var lcImage:LCImageSmPtr { return self._imgc }
@@ -140,6 +147,7 @@ open class LLImage
     }
 }
 
+#if canImport(QuartzCore)
 public extension LLImage
 {
     /// CoreVideo用バッファ
@@ -189,3 +197,4 @@ public extension LLImage
         return result_buffer
     }
 }
+#endif
