@@ -124,17 +124,20 @@ extension Lily.Metal
         private func copy( dst:MTLBuffer, buf:UnsafeRawPointer?, length:Int ) {
             if buf == nil || length == 0 { return }
             
-            let blit_buffer = device!.makeBuffer( bytes: buf!, length:length )!
-            
-            let commandQueue = device?.makeCommandQueue()!
-            let command_buffer = commandQueue?.makeCommandBuffer()
-            let blit_encoder = command_buffer?.makeBlitCommandEncoder()
-            
+            guard let device = device,
+            let commandQueue = device.makeCommandQueue(), 
+            let command_buffer = commandQueue.makeCommandBuffer()
+            else { return }
+        
+            let blit_encoder = command_buffer.makeBlitCommandEncoder()
+           
+            let blit_buffer = device.makeBuffer( bytes: buf!, length:length )!
             blit_encoder?.copy(from: blit_buffer, sourceOffset: 0, to:dst, destinationOffset: 0, size:length )
+            
             blit_encoder?.endEncoding()
             
-            command_buffer?.commit()
-            command_buffer?.waitUntilCompleted()
+            command_buffer.commit()
+            command_buffer.waitUntilCompleted()
         }
         
         /// メモリ確保
