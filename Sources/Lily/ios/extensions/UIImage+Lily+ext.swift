@@ -117,23 +117,20 @@ public extension UIImage
     #else
     // watchOS版. 変換に失敗した場合は変換せずに返す
     func BGRtoRGB() -> UIImage {
-        var llimg = self.llImage
-        let type = llimg.type
-        llimg.convertType(to:.rgbaf )
+        var img = self.llImage
+        img.convertType( to:.rgbaf )
         
-        let width = llimg.width
-        let height = llimg.height
-        guard let mat = llimg.rgbafMatrix else { return self }
+        let width = img.width
+        let height = img.height
+        guard let mat = img.rgbafMatrix else { return self }
         
         for y in 0 ..< height {
             for x in 0 ..< width {
-                let swap = mat[y][x].R
-                mat[y][x].R = mat[y][x].B
-                mat[y][x].B = swap
+                LLSwap(&mat[y][x].R, &mat[y][x].B)
             }
         }
         
-        return llimg.uiImage ?? self
+        return img.uiImage ?? self
     }
     #endif
 }
