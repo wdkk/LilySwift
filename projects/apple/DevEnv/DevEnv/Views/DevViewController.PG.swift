@@ -235,7 +235,7 @@ func update( screen:PGScreen ) {
 }
 
 func design2( screen:PGScreen ) {    
-    screen.clearColor = .darkGray 
+    screen.clearColor = .clear //.darkGray 
     
     let p = PGEmpty()
     .deltaAngle( degrees:1.0 )

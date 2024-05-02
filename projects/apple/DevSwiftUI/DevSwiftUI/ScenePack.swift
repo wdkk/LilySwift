@@ -45,7 +45,7 @@ class ScenePack : ObservableObject
     }
     
     func design( screen:PGScreen ) {
-        screen.clearColor = .clear
+        screen.clearColor = .init( 0.05, 0.05, 0.05, 0 ) //.clear
         //screen.clearColor = .darkGray
         
         for _ in 0 ..< 160 {

@@ -28,7 +28,7 @@ class ScenePack : ObservableObject
     }
     
     func design( screen:PGScreen ) {        
-        screen.clearColor = .darkGrey
+        screen.clearColor = .init( 0.02, 0.02, 0.02, 0.0 ) //.clear //.darkGrey
 
         for _ in 0 ..< 160 {
             PGAddMask( "mask-smoke" )

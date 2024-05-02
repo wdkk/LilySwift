@@ -71,7 +71,6 @@ extension Lily.View
             
             let render_pass_descriptor = makeRenderPassDescriptor(
                 drawable: drawable,
-                color: .white,
                 depthTexture: depthTexture
             )
             
@@ -122,8 +121,14 @@ extension Lily.View
             let r_pass_desc = MTLRenderPassDescriptor()
             // カラーアタッチメントの設定
             r_pass_desc.colorAttachments[0].texture = drawable.texture
-            r_pass_desc.colorAttachments[0].loadAction = (color != .clear) ? .clear : .load
-            if color != .clear { r_pass_desc.colorAttachments[0].clearColor = color.metalColor }
+            //r_pass_desc.colorAttachments[0].loadAction = (color != .clear) ? .clear : .load
+            if color.A > 0.0 { 
+                r_pass_desc.colorAttachments[0].loadAction = .clear
+                r_pass_desc.colorAttachments[0].clearColor = color.metalColor
+            }
+            else {
+                r_pass_desc.colorAttachments[0].loadAction = .load
+            }
             r_pass_desc.colorAttachments[0].storeAction = .store
             
             // デプスの設定
