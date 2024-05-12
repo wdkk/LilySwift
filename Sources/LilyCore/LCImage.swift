@@ -258,7 +258,7 @@ public func LCImageCheckSaveTypeByExtension(_ option_:LLImageSaveOption, _ ext_:
 }
 
 
-#if os(iOS) || os(watchOS) || os(visionOS)
+#if os(iOS) || os(watchOS) || os(tvOS) || os(visionOS)
 
 import UIKit
 

@@ -10,10 +10,10 @@
 
 /// コメント未済
 
-#if os(iOS) || os(watchOS) || os(visionOS)
-import UIKit
-#elseif os(macOS)
+#if os(macOS)
 import AppKit
+#else
+import UIKit
 #endif
 
 #if canImport(QuartzCore)

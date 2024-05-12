@@ -13,7 +13,7 @@
 #if !os(watchOS)
 
 import Foundation
-#if os(iOS) || os(visionOS) || targetEnvironment(macCatalyst)
+#if os(iOS) || os(tvOS) || os(visionOS) || targetEnvironment(macCatalyst)
 import UIKit
 #endif
 
@@ -21,7 +21,7 @@ extension Lily.Stage.Playground
 { 
     public class PGTouchManager
     {
-#if os(iOS) || os(visionOS) || targetEnvironment(macCatalyst)
+#if os(iOS) || os(tvOS) || os(visionOS) || targetEnvironment(macCatalyst)
         public var allTouches = [UITouch]()
 #endif
         public var units = [PGTouch]( repeating: .init(), count:20 )

@@ -8,7 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if os(iOS) || os(visionOS)
+#if os(iOS) || os(tvOS) || os(visionOS)
 
 import UIKit
 
@@ -44,9 +44,11 @@ extension Lily.View
 // MARK: - ステータスバー
 public extension Lily.View.VCManager
 {
-    override var prefersStatusBarHidden:Bool {
-        return !statusBarVisible
-    }
+    #if !os(tvOS)
+    override var prefersStatusBarHidden:Bool { return !statusBarVisible }
+    #else
+    var prefersStatusBarHidden:Bool { return true }
+    #endif
     
     var statusBarVisible:Bool { 
         get {
@@ -66,16 +68,17 @@ public extension Lily.View.VCManager
 // MARK: - オリエンテーション
 public extension Lily.View.VCManager
 {
+    #if !os(tvOS)
     override var supportedInterfaceOrientations : UIInterfaceOrientationMask { return .all }
+    #endif
     
     func readyNotificationByOrientation() {
-        // visionOS無効対応
-#if os(iOS)
+        #if os(iOS)
         NotificationCenter.default.addObserver( self, 
                                                 selector: #selector( Self.changeOrientation(notification:) ),
                                                 name: UIDevice.orientationDidChangeNotification,
                                                 object: nil )
-#endif
+        #endif
     }
     
     @objc func changeOrientation( notification: NSNotification ) {
@@ -86,7 +89,11 @@ public extension Lily.View.VCManager
 // MARK: - デバイス回転制御
 public extension Lily.View.VCManager
 {
+    #if !os(tvOS)
     override var shouldAutorotate:Bool { return _autorotated }
+    #else
+    var shouldAutorotate:Bool { return false }
+    #endif
     
     private var _autorotated:Bool {
         get {

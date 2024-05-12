@@ -12,10 +12,10 @@
 
 import Foundation
 
-#if os(iOS) || os(visionOS)
-import UIKit
-#elseif os(macOS)
+#if os(macOS)
 import AppKit
+#else
+import UIKit
 #endif
 
 public extension String 

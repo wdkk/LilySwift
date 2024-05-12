@@ -10,7 +10,7 @@
 
 /// コメント未済
 
-#if os(iOS) || os(visionOS)
+#if os(iOS) || os(tvOS) || os(visionOS)
 
 import UIKit
 

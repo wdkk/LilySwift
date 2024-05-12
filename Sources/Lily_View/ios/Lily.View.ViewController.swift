@@ -8,7 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if os(iOS) || os(visionOS)
+#if os(iOS) || os(tvOS) || os(visionOS)
 
 import UIKit
 
@@ -95,7 +95,7 @@ extension Lily.View
                 selector: #selector( ViewController._viewLoop(_:) ) 
             )
         
-            _display_link?.preferredFramesPerSecond = 60
+            _display_link?.preferredFramesPerSecond = frameRate.i!
             _display_link?.add( to: .current, forMode: .default )
         }
 

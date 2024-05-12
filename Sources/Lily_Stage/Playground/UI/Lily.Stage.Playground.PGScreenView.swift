@@ -133,7 +133,7 @@ extension Lily.Stage.Playground
                 .onAppear { visibled = true }
                 .onDisappear { visibled = false }
                 // 画面表示状態に対して反応させるためのonChange
-                if #available( iOS 17.0, * ), #available( macOS 14.0, *) {
+                if #available( iOS 17.0, * ), #available( macOS 14.0, *), #available( tvOS 17.0, * ) {
                     v.onChange( of:visibled, initial:false ) { _, _ in }
                 } 
                 else {

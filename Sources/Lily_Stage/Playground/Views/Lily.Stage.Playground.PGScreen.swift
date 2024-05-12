@@ -108,7 +108,9 @@ extension Lily.Stage.Playground
         public lazy var metalView = Lily.View.MetalView( device:device )
         .setup( caller:self ) { me, vc in
             me.bgColor( .clear )
+            #if !os(tvOS)
             me.isMultipleTouchEnabled = true
+            #endif
             vc.designOnce( false )
         }
         .buildup( caller:self ) { me, vc in
@@ -321,7 +323,7 @@ extension Lily.Stage.Playground
     }
 }
 
-#if os(iOS) || os(visionOS)
+#if os(iOS) || os(tvOS) || os(visionOS)
 extension Lily.Stage.Playground.PGScreen
 {
     public func recogizeTouches( touches allTouches:[UITouch] ) {

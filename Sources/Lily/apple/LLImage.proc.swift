@@ -9,10 +9,11 @@
 //
 
 /// コメント未済
-#if os(iOS) || os(visionOS)
-import UIKit
-#elseif os(macOS)
+
+#if os(macOS)
 import AppKit
+#else
+import UIKit
 #endif
 
 open class LLImageProc

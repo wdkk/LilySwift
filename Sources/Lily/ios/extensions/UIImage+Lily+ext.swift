@@ -10,7 +10,7 @@
 
 /// コメント未済
 
-#if os(iOS) || os(watchOS) || os(visionOS)
+#if os(iOS) || os(watchOS) || os(tvOS) || os(visionOS)
 
 import UIKit
 #if canImport(Metal)

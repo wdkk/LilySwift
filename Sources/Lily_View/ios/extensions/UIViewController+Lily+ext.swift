@@ -8,7 +8,7 @@
 //   https://opensource.org/licenses/mit-license.php
 //
 
-#if os(iOS) || os(visionOS)
+#if os(iOS) || os(tvOS) || os(visionOS)
 
 import UIKit
 
@@ -56,13 +56,19 @@ public extension UIViewController
 // MARK: - デバイスオリエンテーション情報
 public extension UIViewController
 { 
+    #if !os(tvOS)
     var deviceOrientation:UIInterfaceOrientation {
         guard let win_scene = windowScene else { return .unknown }
         return win_scene.interfaceOrientation
     }
+    #endif
     
     var isPortrait:Bool {
+        #if !os(tvOS)
         return deviceOrientation.isPortrait
+        #else
+        return true
+        #endif
     }
 }
 
@@ -71,8 +77,11 @@ public extension UIViewController
 { 
     /// ステータスバー領域情報
     var statusBarFrame:LLRect {
+        #if !os(tvOS)
         guard let manager = windowScene?.statusBarManager else { return .zero }
         return manager.statusBarFrame.llRect
+        #endif
+        return .zero
     }
     
     /// デバイスの状況に合わせたステータスバーの高さ
