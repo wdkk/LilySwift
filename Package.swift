@@ -6,11 +6,12 @@ import PackageDescription
 let package = Package(
     name: "LilySwift",
     platforms: [
-        .iOS(.v16),
-        .macOS(.v13),
-        .macCatalyst(.v16),
+        .iOS( .v16 ),
+        .macOS( .v13 ),
+        .macCatalyst( .v16 ),
         .watchOS( .v9 ),
-        .visionOS(.v1)
+        .tvOS( .v16 ),
+        .visionOS( .v1 )
     ],
     products: [
         .library(
@@ -27,7 +28,7 @@ let package = Package(
             dependencies: [],
             path: "./Sources/",
             swiftSettings: [
-                .define( "DEBUG", .when( platforms:[.iOS, .macOS, .macCatalyst, .watchOS, .visionOS], configuration:.debug ) )
+                .define( "DEBUG", .when( platforms:[.iOS, .macOS, .macCatalyst, .watchOS, .tvOS, .visionOS], configuration:.debug ) )
             ]
         ),
         .target(
@@ -35,7 +36,7 @@ let package = Package(
             dependencies: [ "LilySwift" ],
             path: "./Aliases/",
             swiftSettings: [
-                .define( "DEBUG", .when( platforms:[.iOS, .macOS, .macCatalyst, .watchOS, .visionOS], configuration:.debug ) )
+                .define( "DEBUG", .when( platforms:[.iOS, .macOS, .macCatalyst, .watchOS, .tvOS, .visionOS], configuration:.debug ) )
             ]
         )
     ]
