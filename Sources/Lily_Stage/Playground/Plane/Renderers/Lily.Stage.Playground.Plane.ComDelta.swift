@@ -50,6 +50,7 @@ extension Lily.Stage.Playground.Plane
             storage:PlaneStorage
         )
         {
+            /*
             #if !targetEnvironment(simulator)
             let computeEncoder = commandBuffer?.makeComputeCommandEncoder()
             
@@ -65,6 +66,7 @@ extension Lily.Stage.Playground.Plane
             
             computeEncoder?.endEncoding()
             #else
+            */
             storage.statuses.update { acc, _ in
                 for i in 0 ..< acc.count-1 {
                     var us = acc[i]
@@ -80,7 +82,9 @@ extension Lily.Stage.Playground.Plane
                     acc[i] = us
                 }
             }
+            /*
             #endif
+            */
         }
     }
 }

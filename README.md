@@ -1,9 +1,9 @@
 LilySwift ライブラリ
 =================
 
-update : 2024.03.21
+update : 2024.05.13
 
-渡辺電気株式会社でSwiftに関するコードを整理しているiOS/macOS向けライブラリです。
+渡辺電気株式会社でSwiftに関するコードを整理しているiOS,macOS,tvOS,visionOS向けライブラリです。
 よく使う基本モジュール, UIKitのユーティリティ, Metalのユーティリティなどを含みます。
 主にグラフィックプログラミング、ビジュアルエフェクト、2D画像処理のコーディングを目的として開発・整理しています。
 
@@ -28,11 +28,19 @@ update : 2024.03.21
 * **Lily_UI**
   - Lily_ViewのSwiftUI向けモジュールです。
 
-## 検証している環境 ( Environment )
+## 動作環境 ( Environment )
 
-* XCode 15.2
-* iOS 17.3
-* macOS 14.3 (with macCatalyst)
+* MacbookPro(Apple Silicon版)
+* XCode 15.3
+
+## 対象OS ( Target OS )
+
+* iOS 16.0 later
+* mac Catalyst 16.0 later
+* macOS 13.0 later
+* tvOS 16.0 later
+* watchOS 9.0 later
+* visionOS 1.0 later
 
 ## 利用手順( Usage )
 

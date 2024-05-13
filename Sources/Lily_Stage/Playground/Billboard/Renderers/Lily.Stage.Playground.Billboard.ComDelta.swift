@@ -50,6 +50,7 @@ extension Lily.Stage.Playground.Billboard
             storage:BBStorage
         )
         {
+            /*
             #if !targetEnvironment(simulator)
             let computeEncoder = commandBuffer?.makeComputeCommandEncoder()
             
@@ -65,6 +66,7 @@ extension Lily.Stage.Playground.Billboard
             
             computeEncoder?.endEncoding()
             #else
+            */
             storage.statuses.update { acc, _ in
                 for i in 0 ..< acc.count-1 {
                     var us = acc[i]
@@ -81,7 +83,9 @@ extension Lily.Stage.Playground.Billboard
                     acc[i] = us
                 }
             }
+            /*
             #endif
+            */
         }
     }
 }
