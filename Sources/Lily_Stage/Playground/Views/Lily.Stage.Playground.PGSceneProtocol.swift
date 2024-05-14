@@ -109,37 +109,40 @@ extension Lily_Stage_Playground_PGSceneProtocol
             
     public func checkPlanesStatus() {
         self.shapes.forEach {
+            if $0.life <= 0.0 {
+                $0.appearCompletion()    // 完了前処理
+                $0.checkRemove()         // 削除処理
+                return 
+            }
+            
             $0.appearIterate()       // イテレート処理
             $0.appearInterval()      // インターバル処理
-            
-            if $0.life > 0.0 { return }
-            
-            $0.appearCompletion()    // 完了前処理
-            $0.checkRemove()         // 削除処理
         }
     }
     
     public func checkBillboardsStatus() {
         self.billboards.forEach {
+            if $0.life <= 0.0 {
+                $0.appearCompletion()    // 完了前処理
+                $0.checkRemove()         // 削除処理
+                return 
+            }
+            
             $0.appearIterate()       // イテレート処理
             $0.appearInterval()      // インターバル処理
-            
-            if $0.life > 0.0 { return }
-            
-            $0.appearCompletion()    // 完了前処理
-            $0.checkRemove()         // 削除処理
         }
     }
     
     public func checkModelsStatus() {
         self.models.forEach {
+            if $0.life <= 0.0 {
+                $0.appearCompletion()    // 完了前処理
+                $0.checkRemove()         // 削除処理
+                return 
+            }
+            
             $0.appearIterate()       // イテレート処理
             $0.appearInterval()      // インターバル処理
-            
-            if $0.life > 0.0 { return }
-            
-            $0.appearCompletion()    // 完了前処理
-            $0.checkRemove()         // 削除処理
         }
     }
     

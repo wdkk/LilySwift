@@ -52,7 +52,6 @@ extension Lily.Stage.Playground.Model.Mesh
             storage:Model.ModelStorage
         )
         {
-            /*
             #if !targetEnvironment(simulator)
             let computeEncoder = commandBuffer?.makeComputeCommandEncoder()
             
@@ -68,7 +67,6 @@ extension Lily.Stage.Playground.Model.Mesh
             
             computeEncoder?.endEncoding()
             #else
-            */
             storage.statuses.update { acc, _ in
                 for i in 0 ..< acc.count-1 {
                     if acc[i].enabled == false || acc[i].state == .trush { continue }
@@ -79,9 +77,7 @@ extension Lily.Stage.Playground.Model.Mesh
                     acc[i].life += acc[i].deltaLife
                 }
             }
-            /*
             #endif
-            */
         }
     }
 }
