@@ -101,7 +101,9 @@ extension Lily.Stage.Playground
     
     public struct PGScreenView : View
     {
+        @Environment(\.scenePhase) private var scenePhase
         @State private var visibled:Bool = false
+        
         var scene:Binding<PGScene>
         
         var device:MTLDevice
@@ -134,11 +136,21 @@ extension Lily.Stage.Playground
                 .onDisappear { visibled = false }
                 // 画面表示状態に対して反応させるためのonChange
                 if #available( iOS 17.0, * ), #available( macOS 14.0, *), #available( tvOS 17.0, * ) {
-                    v.onChange( of:visibled, initial:false ) { _, _ in }
+                    v
+                    .onChange( of:visibled, initial:false ) { _, _ in }
+                    .onChange(of: scenePhase) { oldPhase, newPhase in
+                        if newPhase == .background { visibled = false }
+                        if newPhase == .active { visibled = true }
+                    }
                 } 
                 else {
                     v.onChange( of:visibled ) { _ in }
+                    .onChange( of:scenePhase ) { phase in
+                        if phase == .background { visibled = false }
+                        if phase == .active { visibled = true }
+                    }
                 }
+
             }
         }
     }
