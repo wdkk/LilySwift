@@ -124,7 +124,7 @@ extension Lily.Stage.Playground.Model
                 us.state = .trush
                 us.enabled = false
             }
-            reuseIndice.append( idx )
+            reuseIndice.insert( idx, at:0 )
         }
         
         public func clear() {

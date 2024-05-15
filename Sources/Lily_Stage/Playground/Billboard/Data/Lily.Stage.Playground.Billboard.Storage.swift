@@ -110,6 +110,7 @@ extension Lily.Stage.Playground.Billboard
                 LLLogWarning( "Playground.BBStorage: ストレージの容量を超えたリクエストです. インデックス=capacityを返します" )
                 return capacity
             }
+            
             statuses.accessor?[idx] = .init()
             
             return idx
@@ -121,7 +122,7 @@ extension Lily.Stage.Playground.Billboard
                 us.state = .trush
                 us.enabled = false
             }
-            reuseIndice.append( idx )
+            reuseIndice.insert( idx, at:0 )
         }
         
         public func clear() {
