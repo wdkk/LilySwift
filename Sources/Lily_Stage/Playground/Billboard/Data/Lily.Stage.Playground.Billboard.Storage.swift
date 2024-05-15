@@ -111,7 +111,9 @@ extension Lily.Stage.Playground.Billboard
                 return capacity
             }
             
-            statuses.accessor?[idx] = .init()
+            statuses.update( at:idx ) { us in
+                us = .init()
+            }
             
             return idx
         }
@@ -122,7 +124,7 @@ extension Lily.Stage.Playground.Billboard
                 us.state = .trush
                 us.enabled = false
             }
-            reuseIndice.insert( idx, at:0 )
+            reuseIndice.append( idx )
         }
         
         public func clear() {

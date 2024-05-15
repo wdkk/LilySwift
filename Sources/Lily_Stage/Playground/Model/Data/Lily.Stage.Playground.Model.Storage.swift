@@ -115,7 +115,10 @@ extension Lily.Stage.Playground.Model
                 return capacity
             }
             let model_index = models[assetName]?.modelIndex ?? -1
-            statuses.accessor?[idx] = UnitStatus( modelIndex:model_index )
+            statuses.update( at:idx ) { us in
+                us = .init( modelIndex:model_index )
+            }
+            
             return idx
         }
         
@@ -124,7 +127,7 @@ extension Lily.Stage.Playground.Model
                 us.state = .trush
                 us.enabled = false
             }
-            reuseIndice.insert( idx, at:0 )
+            reuseIndice.append( idx )
         }
         
         public func clear() {

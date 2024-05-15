@@ -110,7 +110,10 @@ extension Lily.Stage.Playground.Plane
                 LLLogWarning( "Playground.Storage: ストレージの容量を超えたリクエストです. インデックス=capacityを返します" )
                 return capacity
             }
-            statuses.accessor?[idx] = .init()
+            
+            statuses.update( at:idx ) { us in
+                us = .init()
+            }
             
             return idx
         }
@@ -121,7 +124,7 @@ extension Lily.Stage.Playground.Plane
                 us.state = .trush
                 us.enabled = false
             }
-            reuseIndice.insert( idx, at:0 )
+            reuseIndice.append( idx )
         }
         
         public func clear() {
