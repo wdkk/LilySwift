@@ -32,7 +32,7 @@ extension Lily.Stage.Playground
         public var audios:[String:AVAudioFile] = [:]
                 
         public init( assetNames:[String] ) {
-            self.channels = 16
+            self.channels = 8
             
             engine = PGAudioEngine()
             engine.setup( channels:channels )
