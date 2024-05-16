@@ -23,7 +23,7 @@ extension Lily.Stage.Playground
     {
         lazy var engine = AVAudioEngine()
         
-        //public let environment = AVAudioEnvironmentNode()
+        public let environment = AVAudioEnvironmentNode()
         
         public lazy var flows = [PGAudioFlow]()
         
@@ -37,7 +37,6 @@ extension Lily.Stage.Playground
         public func setup( channels:Int ) {
             for _ in 0 ..< channels { flows.append( .init( engine:engine ) ) }
             
-            /*
             engine.attach( environment )
             
             engine.connect(
@@ -65,29 +64,7 @@ extension Lily.Stage.Playground
                 to: engine.outputNode,
                 format: output_format
             )
-            */
-            
-            
-            for i in 0 ..< flows.count {
-                let flow = flows[i]
-                
-                engine.connect( 
-                    flow.output, 
-                    to:engine.mainMixerNode,
-                    fromBus: 0,
-                    toBus: i,
-                    format:nil
-                )
-            }
-            
-            let output_format = engine.mainMixerNode.outputFormat( forBus:0 )
-            
-            engine.connect( 
-                engine.mainMixerNode,
-                to: engine.outputNode,
-                format: output_format
-            )
-            
+      
             engine.prepare()
         }
         
@@ -153,7 +130,6 @@ extension Lily.Stage.Playground
             }
         }
         
-        /*
         public func listenerPosition( _ pos:AVAudio3DPoint ) {
             environment.listenerPosition = pos
         }
@@ -169,7 +145,6 @@ extension Lily.Stage.Playground
         public func environmentReverbPreset( _ preset:AVAudioUnitReverbPreset ) {
             environment.reverbParameters.loadFactoryReverbPreset( preset )  
         }
-        */
     }
 }
 
