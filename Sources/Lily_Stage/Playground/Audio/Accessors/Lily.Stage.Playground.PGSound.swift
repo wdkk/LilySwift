@@ -73,8 +73,6 @@ extension Lily.Stage.Playground
                 }
             ) ?? -1
             
-            self.storage?.engine.volume = 1.0
-            
             return self
         }
         
@@ -101,8 +99,6 @@ extension Lily.Stage.Playground
                     self?.trush()
                 }
             ) ?? -1
-            
-            self.storage?.engine.volume = 1.0
                         
             return self
         }

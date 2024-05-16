@@ -37,8 +37,6 @@ extension Lily.Stage.Playground
         public func setup( channels:Int ) {
             for _ in 0 ..< channels { flows.append( .init( engine:engine ) ) }
             
-            environment.outputVolume = 0.0
-            
             engine.attach( environment )
             
             engine.connect(
