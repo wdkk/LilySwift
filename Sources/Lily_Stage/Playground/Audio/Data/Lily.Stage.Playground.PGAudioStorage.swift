@@ -90,6 +90,37 @@ extension Lily.Stage.Playground
             return channel
         }
         
+        public func request( 
+            channel:Int,
+            systemSound:String,
+            startTime:Double? = nil,
+            endTime:Double? = nil,
+            completion:(()->())? = nil
+        ) 
+        -> Int
+        {
+            if channel >= engine.flows.count { 
+                LLLog( "チャンネルがありません: \(channel)" )
+                return -1
+            }
+         
+            #if os(macOS) || targetEnvironment(macCatalyst)
+            let bundle_path = "/System/Library/Sounds/" + systemSound
+            #else
+            let bundle_path = systemSound
+            #endif
+            guard let system_sound = AVAudioFile.load(path:bundle_path ) else {
+                LLLog( "システムサウンドが見つかりません: \(systemSound)" )
+                return -1
+            }
+            
+            engine.flows[channel].repeat( false )
+            engine.flows[channel].stop()
+            engine.flows[channel].set( audioFile:system_sound, from:startTime, to:endTime, completion:completion )
+            
+            return channel
+        }
+        
         public func trush( index idx:Int ) {
             engine.flows[idx].stop()
         }
