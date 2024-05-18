@@ -18,6 +18,11 @@ extension Lily.View
     : UIViewController
     {        
         public private(set) var already:Bool = false
+        
+        private var bgThread:Thread?
+        private var shouldKeepRunning = true
+        private var run_loop:RunLoop?
+        
         private var _display_link:CADisplayLink?
         private var lastFrameTimestamp: CFTimeInterval = 0
         lazy var frameRate: Double = 60.0
@@ -31,6 +36,8 @@ extension Lily.View
         
         /// デストラクタ
         deinit {
+            shouldKeepRunning = false
+            bgThread?.cancel()
             already = false
             self.view = nil
         }
@@ -66,21 +73,19 @@ extension Lily.View
         private func _viewLoop( _ displayLink:CADisplayLink ) { 
             if !self.already { return }
 
-            LLTask.Async.sub {
-                while true {
-                    let currentTimestamp = LLClock.Precision.now
-                    let elapsedTime = currentTimestamp - self.lastFrameTimestamp
+            while true {
+                let currentTimestamp = LLClock.Precision.now
+                let elapsedTime = currentTimestamp - lastFrameTimestamp
 
-                    if elapsedTime >= self.frameInterval { 
-                        self.lastFrameTimestamp = currentTimestamp
-                        break
-                    }
-                    
-                    Thread.sleep( forTimeInterval: 1.0 / 10_000.0 )
+                if elapsedTime >= frameInterval { 
+                    lastFrameTimestamp = currentTimestamp
+                    break
                 }
                 
-                self .loop()
+                Thread.sleep( forTimeInterval: 1.0 / 10_000.0 )
             }
+            
+            loop() 
         }
         
         open func loop() {}
@@ -91,13 +96,21 @@ extension Lily.View
                 return
             }
             
-            _display_link = CADisplayLink(
-                target: self, 
-                selector: #selector( ViewController._viewLoop(_:) ) 
-            )
-        
-            _display_link?.preferredFramesPerSecond = frameRate.i!
-            _display_link?.add( to: .current, forMode: .default )
+            bgThread = Thread {
+                self.run_loop = RunLoop.current
+                
+                self._display_link = CADisplayLink(
+                    target: self, 
+                    selector: #selector( ViewController._viewLoop(_:) ) 
+                )
+                
+                self._display_link?.preferredFramesPerSecond = self.frameRate.i!
+                self._display_link?.add( to: self.run_loop!, forMode: .default )
+                
+                while self.shouldKeepRunning && self.run_loop!.run(mode: .default, before: .distantFuture ) {}
+            }
+            
+            bgThread?.start()
         }
 
         open func pauseLooping() {
@@ -107,8 +120,9 @@ extension Lily.View
         
         open func endLooping() {
             if _display_link == nil { return }
-            _display_link?.remove( from:.current, forMode:.default )
+            _display_link?.remove( from: run_loop!, forMode:.default )
             _display_link = nil
+            bgThread?.cancel()
         }
         
         private var _mutex = RecursiveMutex()
