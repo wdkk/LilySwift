@@ -138,7 +138,7 @@ extension Lily.Stage.Playground
                 if #available( iOS 17.0, * ), #available( macOS 14.0, *), #available( tvOS 17.0, * ) {
                     v
                     .onChange( of:visibled, initial:false ) { _, _ in }
-                    .onChange(of: scenePhase) { oldPhase, newPhase in
+                    .onChange( of:scenePhase ) { oldPhase, newPhase in
                         if newPhase == .background { visibled = false }
                         if newPhase == .active { visibled = true }
                     }

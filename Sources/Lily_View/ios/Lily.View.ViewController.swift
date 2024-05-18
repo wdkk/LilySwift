@@ -96,7 +96,8 @@ extension Lily.View
             )
         
             _display_link?.preferredFramesPerSecond = frameRate.i!
-            _display_link?.add( to: .current, forMode: .default )
+            //_display_link?.add( to: .current, forMode: .default )
+            _display_link?.add( to: .current, forMode: .common )
         }
 
         open func pauseLooping() {
