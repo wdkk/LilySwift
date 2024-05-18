@@ -66,20 +66,21 @@ extension Lily.View
         private func _viewLoop( _ displayLink:CADisplayLink ) { 
             if !self.already { return }
 
-            while true {
-                let currentTimestamp = LLClock.Precision.now
-                let elapsedTime = currentTimestamp - lastFrameTimestamp
+            LLTask.Async.sub {
+                while true {
+                    let currentTimestamp = LLClock.Precision.now
+                    let elapsedTime = currentTimestamp - self.lastFrameTimestamp
 
-                if elapsedTime >= frameInterval { 
-                    lastFrameTimestamp = currentTimestamp
-                    break
+                    if elapsedTime >= self.frameInterval { 
+                        self.lastFrameTimestamp = currentTimestamp
+                        break
+                    }
+                    
+                    Thread.sleep( forTimeInterval: 1.0 / 10_000.0 )
                 }
                 
-                Thread.sleep( forTimeInterval: 1.0 / 10_000.0 )
+                self .loop()
             }
-                
-            
-            loop() 
         }
         
         open func loop() {}
