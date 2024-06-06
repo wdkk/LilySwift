@@ -294,13 +294,16 @@ public func LCImage2UIImage( _ img_:LCImageSmPtr ) -> UIImage? {
 }
 
 public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {    
-    let wid:Int = img_.size.width.i!
-    let hgt:Int = img_.size.height.i!
+    // UIImageのオリエンテーションをupに統一
+    guard let fixed_img = img_.fixedOrientation() else { return LCImageSmPtr() }
+    
+    let wid:Int = fixed_img.size.width.i!
+    let hgt:Int = fixed_img.size.height.i!
     let rect = CGRect( 0, 0, wid, hgt )
     
     let lcimg:LCImageSmPtr = LCImageMake( wid, hgt, .rgbaf )
     
-    guard let input_image_ref:CGImage = img_.cgImage else { return LCImageSmPtr() } 
+    guard let input_image_ref:CGImage = fixed_img.cgImage else { return LCImageSmPtr() } 
     
     let color_space = CGColorSpaceCreateDeviceRGB()
 

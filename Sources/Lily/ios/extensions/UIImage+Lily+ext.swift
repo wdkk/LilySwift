@@ -133,6 +133,69 @@ public extension UIImage
         return img.uiImage ?? self
     }
     #endif
+    
+    func fixedOrientation() -> UIImage? {
+        guard let cgImage = self.cgImage else { return nil }
+        guard let colorSpace = cgImage.colorSpace else { return nil }
+        
+        if self.imageOrientation == .up { return self }
+
+        var transform = CGAffineTransform.identity
+
+        // 回転の修正
+        switch self.imageOrientation {
+        case .down, .downMirrored:
+            transform = transform.translatedBy(x: self.size.width, y: self.size.height)
+            transform = transform.rotated(by: .pi)
+        case .left, .leftMirrored:
+            transform = transform.translatedBy(x: self.size.width, y: 0)
+            transform = transform.rotated(by: .pi / 2)
+        case .right, .rightMirrored:
+            transform = transform.translatedBy(x: 0, y: self.size.height)
+            transform = transform.rotated(by: -.pi / 2)
+        case .up, .upMirrored:
+            break
+        @unknown default:
+            break
+        }
+
+        // 反転の修正
+        switch self.imageOrientation {
+        case .upMirrored, .downMirrored:
+            transform = transform.translatedBy(x: self.size.width, y: 0)
+            transform = transform.scaledBy(x: -1, y: 1)
+        case .leftMirrored, .rightMirrored:
+            transform = transform.translatedBy(x: self.size.height, y: 0)
+            transform = transform.scaledBy(x: -1, y: 1)
+        default:
+            break
+        }
+        
+        guard let context = CGContext(
+            data: nil,
+            width: Int(self.size.width),
+            height: Int(self.size.height),
+            bitsPerComponent: cgImage.bitsPerComponent,
+            bytesPerRow: 0,
+            space: colorSpace,
+            bitmapInfo: cgImage.bitmapInfo.rawValue
+        ) else {
+            return nil
+        }
+
+        context.concatenate(transform)
+
+        switch self.imageOrientation {
+        case .left, .leftMirrored, .right, .rightMirrored:
+            context.draw(cgImage, in: CGRect(x: 0, y: 0, width: self.size.height, height: self.size.width))
+        default:
+            context.draw(cgImage, in: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+        }
+
+        guard let newCgImage = context.makeImage() else { return nil }
+
+        return UIImage(cgImage: newCgImage)
+    }
 }
 
 #endif
