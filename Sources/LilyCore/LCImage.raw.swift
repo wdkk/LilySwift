@@ -174,7 +174,8 @@ public class LCImageGenericRaw<TColor> : LCImageRaw
             let funcTo:LCImageRGBA8.ConvertToFunc = img_dst.requestFunctionOfConvertRawColorTo()!
             for y:Int in 0 ..< hgt {
                 for x:Int in 0 ..< wid {
-                    let medium = funcFrom( mat_src[y][x] )
+                    let src = mat_src[y][x]
+                    let medium = funcFrom( src )
                     mat_dst[y][x] = funcTo( medium )
                 }
             }
@@ -186,7 +187,8 @@ public class LCImageGenericRaw<TColor> : LCImageRaw
             let funcTo:LCImageRGBA16.ConvertToFunc = img_dst.requestFunctionOfConvertRawColorTo()!
             for y:Int in 0 ..< hgt {
                 for x:Int in 0 ..< wid {
-                    let medium = funcFrom( mat_src[y][x] )
+                    let src = mat_src[y][x]
+                    let medium = funcFrom( src )
                     mat_dst[y][x] = funcTo( medium )
                 }
             }
@@ -198,7 +200,8 @@ public class LCImageGenericRaw<TColor> : LCImageRaw
             let funcTo:LCImageRGBAf.ConvertToFunc = img_dst.requestFunctionOfConvertRawColorTo()!
             for y:Int in 0 ..< hgt {
                 for x:Int in 0 ..< wid {
-                    let medium = funcFrom( mat_src[y][x] )
+                    let src = mat_src[y][x]
+                    let medium = funcFrom( src )
                     mat_dst[y][x] = funcTo( medium )
                 }
             }
@@ -210,7 +213,8 @@ public class LCImageGenericRaw<TColor> : LCImageRaw
             let funcTo:LCImageGrey8.ConvertToFunc = img_dst.requestFunctionOfConvertRawColorTo()!
             for y:Int in 0 ..< hgt {
                 for x:Int in 0 ..< wid {
-                    let medium = funcFrom( mat_src[y][x] )
+                    let src = mat_src[y][x]
+                    let medium = funcFrom( src )
                     mat_dst[y][x] = funcTo( medium )
                 }
             }
@@ -222,7 +226,8 @@ public class LCImageGenericRaw<TColor> : LCImageRaw
             let funcTo:LCImageGrey16.ConvertToFunc = img_dst.requestFunctionOfConvertRawColorTo()!
             for y:Int in 0 ..< hgt {
                 for x:Int in 0 ..< wid {
-                    let medium = funcFrom( mat_src[y][x] )
+                    let src = mat_src[y][x]
+                    let medium = funcFrom( src )
                     mat_dst[y][x] = funcTo( medium )
                 }
             }
@@ -234,7 +239,8 @@ public class LCImageGenericRaw<TColor> : LCImageRaw
             let funcTo:LCImageGreyf.ConvertToFunc = img_dst.requestFunctionOfConvertRawColorTo()!
             for y:Int in 0 ..< hgt {
                 for x:Int in 0 ..< wid {
-                    let medium = funcFrom( mat_src[y][x] )
+                    let src = mat_src[y][x]
+                    let medium = funcFrom( src )
                     mat_dst[y][x] = funcTo( medium )
                 }
             }
