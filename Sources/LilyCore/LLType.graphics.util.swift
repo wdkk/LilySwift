@@ -123,7 +123,7 @@ public func LLColorfto16( _ color:LLColor ) -> LLColor16 {
 }
 
 public func LLColorftof( _ color:LLColor ) -> LLColor {
-    return color   // スルーパス
+    return LLColor( color.R, color.G, color.B, color.A )
 }
 
 public func LLColor8Equal( _ c1:LLColor8, _ c2:LLColor8 ) -> Bool {
