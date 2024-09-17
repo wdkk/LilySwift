@@ -63,7 +63,7 @@ public func LCStringMakeWithCChars( _ text:LLConstCCharsPtr ) -> LCStringSmPtr {
 /// - Returns: 1文字のLilyCore文字列
 public func LCStringMakeWithChar( _ chr:LLInt8 ) -> LCStringSmPtr {
     let cstr = LCStringSmPtr()
-    cstr.s = String( cString: [chr] )
+    cstr.s = "\(chr)"
     return cstr
 }
 

@@ -80,8 +80,9 @@ public extension UIViewController
         #if !os(tvOS)
         guard let manager = windowScene?.statusBarManager else { return .zero }
         return manager.statusBarFrame.llRect
-        #endif
+        #else
         return .zero
+        #endif
     }
     
     /// デバイスの状況に合わせたステータスバーの高さ
