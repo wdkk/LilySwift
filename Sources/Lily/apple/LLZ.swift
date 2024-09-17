@@ -16,7 +16,7 @@ open class LLZ
     /// zlibのアルゴリズムでデータを伸長する
     /// - Parameter data: 圧縮されたデータオブジェクト
     /// - Returns: 伸長後のデータオブジェクト(失敗時サイズ0のデータオブジェクトを返す)
-    static public func inflate( _ data:Data )
+    public static func inflate( _ data:Data )
     -> Data { 
         return data.withUnsafeBytes { 
             guard let ptr:OpaquePointer = OpaquePointer( $0.baseAddress ) else { return Data() }
@@ -31,7 +31,7 @@ open class LLZ
         }
     }
     
-	static public func deflate( _ data:Data, type:LLZCompressionType = .default_compression )
+	public static func deflate( _ data:Data, type:LLZCompressionType = .default_compression )
     -> Data {
         return data.withUnsafeBytes { 
             guard let ptr:OpaquePointer = OpaquePointer( $0.baseAddress ) else { return Data() }

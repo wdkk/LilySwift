@@ -17,7 +17,7 @@ extension Lily.Stage.Playground
 {
     open class Serial
     {
-        public static let shared:Serial = Serial()
+        nonisolated(unsafe) public static let shared = Serial()
         private init() { }
         
         private var semaphore = DispatchSemaphore( value:1 )

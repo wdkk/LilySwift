@@ -33,7 +33,7 @@ extension Lily.Stage.Playground.Plane
         public static func == ( lhs:PlaneStorage, rhs:PlaneStorage ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
         
-        public static var current:PlaneStorage? = nil
+        nonisolated(unsafe) public static var current:PlaneStorage? = nil
         
         public var particles:Lily.Stage.Model.Quadrangles<VIn>
         public var statuses:Lily.Metal.Buffer<UnitStatus>
@@ -43,14 +43,14 @@ extension Lily.Stage.Playground.Plane
         
         public var capacity:Int
         
-        static let defaultQuadrangleVertice = LLQuad<VIn>(
+        nonisolated(unsafe) static let defaultQuadrangleVertice = LLQuad<VIn>(
             .init( xy:.init( -1.0,  1.0 ), uv:.init( 0.0, 0.0 ), texUV:.init( 0.0, 0.0 ) ),
             .init( xy:.init( -1.0, -1.0 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 1.0 ) ),
             .init( xy:.init(  1.0,  1.0 ), uv:.init( 1.0, 0.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xy:.init(  1.0, -1.0 ), uv:.init( 1.0, 1.0 ), texUV:.init( 1.0, 1.0 ) )
         )
         
-        static let defaultTriangleVertice = LLQuad<VIn>(
+        nonisolated(unsafe) static let defaultTriangleVertice = LLQuad<VIn>(
             .init( xy:.init(  0.0,  1.15470053838 ), uv:.init( 0.0, 1.0 ), texUV:.init( 0.0, 0.0 ) ),
             .init( xy:.init( -1.0, -0.57735026919 ), uv:.init(-1.0, 1.0 ), texUV:.init( 1.0, 0.0 ) ),
             .init( xy:.init(  1.0, -0.57735026919 ), uv:.init( 1.0,-1.0 ), texUV:.init( 0.0, 1.0 ) ),

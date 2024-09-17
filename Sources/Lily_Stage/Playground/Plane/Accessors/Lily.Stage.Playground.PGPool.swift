@@ -17,7 +17,7 @@ extension Lily.Stage.Playground.Plane
 {   
     open class PGPool
     {   
-        public static var shared:PGPool = .init()
+        nonisolated(unsafe) public static let shared:PGPool = .init()
         private init() {}
         
         private var actorGroup:[PlaneStorage:Set<PGActor>] = [:]

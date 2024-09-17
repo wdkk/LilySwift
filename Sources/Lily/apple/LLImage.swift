@@ -32,6 +32,7 @@ open class LLImage
         _imgc = LCImageMake( wid, hgt, type )
     }
     
+    @MainActor
     public init( _ path:LLString ) { 
         _imgc = LCImageMakeWithFile( path.lcStr )
     }

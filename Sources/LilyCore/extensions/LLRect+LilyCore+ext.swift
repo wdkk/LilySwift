@@ -14,7 +14,7 @@ import CoreGraphics
 public extension LLRect
 {
     /// x=0, y=0, width=0, height=0の矩形を返す
-    static var zero:LLRect = { return LLRect( x:0, y:0, width:0, height:0 ) }()
+    static let zero:LLRect = { return LLRect( x:0, y:0, width:0, height:0 ) }()
     
     /// CGRectを用いた実体化
     /// - Parameter rec: 矩形情報

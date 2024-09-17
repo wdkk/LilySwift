@@ -22,7 +22,7 @@ extension Lily.Stage.Playground.Model.Mesh
         public let fragmentShader:Lily.Metal.Shader
         public let shadowVertexShader:Lily.Metal.Shader
 
-        private static var instance:SMetal?
+        nonisolated(unsafe) private static var instance:SMetal?
         public static func shared( device:MTLDevice ) -> SMetal {
             if instance == nil { instance = .init( device:device ) }
             return instance!

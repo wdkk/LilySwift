@@ -220,8 +220,6 @@
 		5D37A3152B284ECD00E1762F /* MTLRasterizationRateMap+Lily+follow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D37A3142B284ECD00E1762F /* MTLRasterizationRateMap+Lily+follow.swift */; };
 		5D37A3162B284ECD00E1762F /* MTLRasterizationRateMap+Lily+follow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D37A3142B284ECD00E1762F /* MTLRasterizationRateMap+Lily+follow.swift */; };
 		5D37A3172B284ECD00E1762F /* MTLRasterizationRateMap+Lily+follow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D37A3142B284ECD00E1762F /* MTLRasterizationRateMap+Lily+follow.swift */; };
-		5D389B542BAB5281003164C2 /* PGAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D389B532BAB5281003164C2 /* PGAlias.swift */; };
-		5D389B552BAB5281003164C2 /* PGAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D389B532BAB5281003164C2 /* PGAlias.swift */; };
 		5D389B562BAB5281003164C2 /* PGAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D389B532BAB5281003164C2 /* PGAlias.swift */; };
 		5D3EB0A42B150E1200441252 /* Lily.Stage.Playground.Plane.LocalUniform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3EB0A32B150E1200441252 /* Lily.Stage.Playground.Plane.LocalUniform.swift */; };
 		5D3EB0A52B150E1200441252 /* Lily.Stage.Playground.Plane.LocalUniform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3EB0A32B150E1200441252 /* Lily.Stage.Playground.Plane.LocalUniform.swift */; };
@@ -2538,7 +2536,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1600;
 				ORGANIZATIONNAME = "Watanabe-Denki, Inc.";
 				TargetAttributes = {
 					5D2605A4236FF5890078B63A = {
@@ -2949,7 +2947,6 @@
 				5D37A3162B284ECD00E1762F /* MTLRasterizationRateMap+Lily+follow.swift in Sources */,
 				5DDA33472AFC11A6004427C9 /* LLFileWriter.swift in Sources */,
 				5D9E0A022BADF7B70068844C /* Lily.Stage.Playground.PGShaderRectangle.swift in Sources */,
-				5D389B552BAB5281003164C2 /* PGAlias.swift in Sources */,
 				5DDCB1C22B179A7D006C08B1 /* Lily.Stage.Playground.PGMask.swift in Sources */,
 				5DBD1A0F2B123EFE004CA92A /* Lily.Metal.Texture.swift in Sources */,
 				5DDA32F62AFC1192004427C9 /* LDImage.apl.swift in Sources */,
@@ -3005,7 +3002,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D088AA72AFC07BF00DA4F01 /* LLField.swift in Sources */,
-				5D389B542BAB5281003164C2 /* PGAlias.swift in Sources */,
 				5DDA335D2AFC11AE004427C9 /* CVPixelBuffer+Lily+ext.swift in Sources */,
 				5D6503112BB00E0A00621BB7 /* Lily.Stage.Playground.PGShaderActor.swift in Sources */,
 				5DDA32B12AFC1191004427C9 /* LCImage.grey8.swift in Sources */,
@@ -3736,7 +3732,6 @@
 				PRODUCT_NAME = LilySwift;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
 				SYMROOT = ../../../build/macDev/;
 			};
 			name = Debug;
@@ -3771,7 +3766,6 @@
 				PRODUCT_NAME = LilySwift;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
 				SYMROOT = ../../../build/macDev/;
 			};
 			name = Release;
@@ -3878,6 +3872,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				SYMROOT = ../../../build/;
 				TVOS_DEPLOYMENT_TARGET = 16.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -3947,6 +3942,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
 				SYMROOT = ../../../build/;
 				TVOS_DEPLOYMENT_TARGET = 16.0;
 				VALIDATE_PRODUCT = YES;
@@ -3999,7 +3995,6 @@
 				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator watchos watchsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
 				SYMROOT = ../../../build/iOSdev/;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4,6";
 				TVOS_DEPLOYMENT_TARGET = 16.0;
@@ -4042,7 +4037,6 @@
 				SKIP_INSTALL = NO;
 				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator watchos watchsimulator";
 				SUPPORTS_MACCATALYST = YES;
-				SWIFT_VERSION = 5.0;
 				SYMROOT = ../../../build/iOSdev/;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4,6";
 				TVOS_DEPLOYMENT_TARGET = 16.0;
@@ -4052,7 +4046,6 @@
 		5DB7A524239E50CA0050A9B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
@@ -4073,7 +4066,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -4081,7 +4073,6 @@
 		5DB7A525239E50CA0050A9B4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
@@ -4097,7 +4088,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -4105,7 +4095,6 @@
 		5DB7A534239E51780050A9B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -4125,14 +4114,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwiftMacTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		5DB7A535239E51780050A9B4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -4147,7 +4134,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.wdkk.LilySwiftMacTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -4190,7 +4176,6 @@
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
 				SYMROOT = ../../../build/visionDev/;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 1.0;
@@ -4231,7 +4216,6 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
 				SYMROOT = ../../../build/visionDev/;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 1.0;

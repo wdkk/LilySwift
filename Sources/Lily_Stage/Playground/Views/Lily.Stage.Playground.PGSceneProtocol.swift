@@ -15,6 +15,7 @@
 import Foundation
 import Metal
 
+@MainActor
 public protocol Lily_Stage_Playground_PGSceneProtocol
 {
     typealias PG = Lily.Stage.Playground

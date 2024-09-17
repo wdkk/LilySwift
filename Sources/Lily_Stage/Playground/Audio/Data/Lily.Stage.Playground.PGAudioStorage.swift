@@ -24,7 +24,7 @@ extension Lily.Stage.Playground
         public static func == ( lhs:PGAudioStorage, rhs:PGAudioStorage ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
         
-        public static var current:PGAudioStorage?
+        nonisolated(unsafe) public static var current:PGAudioStorage?
         
         public var engine:PGAudioEngine
         public let channels:Int

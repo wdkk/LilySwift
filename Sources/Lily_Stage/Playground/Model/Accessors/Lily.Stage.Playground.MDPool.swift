@@ -17,7 +17,7 @@ extension Lily.Stage.Playground.Model
 {   
     open class MDPool
     {   
-        public static var shared:MDPool = .init()
+        nonisolated(unsafe) public static var shared:MDPool = .init()
         private init() {}
         
         private var actorGroup:[ModelStorage:Set<MDActor>] = [:]

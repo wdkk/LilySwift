@@ -12,7 +12,7 @@
 
 import AppKit
 
-private var __toolbaritem_callback = [NSToolbarItem:NSToolbarItem.Callback]()
+nonisolated(unsafe) private var __toolbaritem_callback = [NSToolbarItem:NSToolbarItem.Callback]()
 
 public extension NSToolbarItem
 {

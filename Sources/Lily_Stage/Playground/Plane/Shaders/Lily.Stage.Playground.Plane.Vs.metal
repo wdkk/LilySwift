@@ -49,7 +49,7 @@ vertex Plane::VOut Lily_Stage_Playground_Plane_Vs
         return trush_vout;    
     }
         
-    GlobalUniform uniform = uniformArray.uniforms[amp_id];
+    //GlobalUniform uniform = uniformArray.uniforms[amp_id];
     
     const int offset = localUniform.drawingOffset;
     auto vin = in[offset + vid];

@@ -112,6 +112,7 @@ extension Lily.Stage.Playground
             }
         }
         
+        @MainActor
         public func changeScreenSize( size:CGSize ) {            
             screenSize = size.llSizeFloat
             renderFlows.forEach { $0?.changeSize( scaledSize:size ) }
@@ -122,6 +123,7 @@ extension Lily.Stage.Playground
             self.renderFlows = flows
         }
 
+        @MainActor
         public func update( 
             with drawable:MTLDrawable,
             renderPassDescriptor:MTLRenderPassDescriptor,

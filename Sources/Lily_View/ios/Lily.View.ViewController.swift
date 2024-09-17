@@ -32,7 +32,7 @@ extension Lily.View
         /// デストラクタ
         deinit {
             already = false
-            self.view = nil
+            //self.view = nil
         }
         
         open override func viewDidLoad() {

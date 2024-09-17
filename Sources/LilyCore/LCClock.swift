@@ -32,13 +32,13 @@ public func LCClockPrecisionNow() -> Double {
     return (Double( now_time.tv_sec ) * 1_000_000 + Double( now_time.tv_usec )) / 1_000_000.0
 }
 
-fileprivate var is_started:Bool = false
-fileprivate var time_span:LLInt64 = 0
-fileprivate var fps:Int = 0
+@MainActor fileprivate var is_started:Bool = false
+@MainActor fileprivate var time_span:LLInt64 = 0
+@MainActor fileprivate var fps:Int = 0
 
 /// FPSをコンソール出力する
 /// - Description: アプリケーションループ内で繰り返し呼びだして用いる. 1秒に何回呼ばれたかを蓄積し、1秒毎に出力する
-public func LCClockFPS() {
+@MainActor public func LCClockFPS() {
     if !is_started {
         is_started = true
         time_span = LCClockNow()

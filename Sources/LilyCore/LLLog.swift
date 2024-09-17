@@ -21,24 +21,24 @@ public enum LLLogEnableType : Int
 }
 
 /// 内部変数: 有効なLLLogを示すタイプの状態変数
-fileprivate var __LLLog_enable_type:LLLogEnableType = .all
+nonisolated(unsafe) fileprivate var __LLLog_enable_type:LLLogEnableType = .all
 
-public func LLLogEnabled() -> Bool {
+nonisolated(unsafe) public func LLLogEnabled() -> Bool {
     return (__LLLog_enable_type.rawValue & LLLogEnableType.all.rawValue) > 0
 }
 
-public func LLLogWarningEnabled() -> Bool {
+nonisolated(unsafe) public func LLLogWarningEnabled() -> Bool {
     return (__LLLog_enable_type.rawValue & LLLogEnableType.warning.rawValue) > 0
 }
 
-public func LLLogForceEnabled() -> Bool {
+nonisolated(unsafe) public func LLLogForceEnabled() -> Bool {
     return (__LLLog_enable_type.rawValue & LLLogEnableType.force.rawValue) > 0
 }
 
-public func LLLogSetEnableType( _ type:LLLogEnableType ) {
+nonisolated(unsafe) public func LLLogSetEnableType( _ type:LLLogEnableType ) {
     __LLLog_enable_type = type
 }
 
-public func LLLogGetEnableType() -> LLLogEnableType {
+nonisolated(unsafe) public func LLLogGetEnableType() -> LLLogEnableType {
     return __LLLog_enable_type
 }

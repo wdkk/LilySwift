@@ -32,7 +32,7 @@ extension Lily.Stage.Playground.Model
         public static func == ( lhs:ModelStorage, rhs:ModelStorage ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
         
-        public static var current:ModelStorage? = nil
+        nonisolated(unsafe) public static var current:ModelStorage? = nil
         
         public var models:[String:ModelSet] = [:]
         public var statuses:Lily.Metal.Buffer<UnitStatus>

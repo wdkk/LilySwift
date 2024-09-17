@@ -21,7 +21,7 @@ extension Lily.Stage.Playground
 {
     public class PGAudioPool
     {
-        public static var shared:PGAudioPool = .init()
+        nonisolated(unsafe) public static let shared:PGAudioPool = .init()
         private init() {}
         
         private var soundGroup:[PGAudioStorage:Set<PGSound>] = [:]

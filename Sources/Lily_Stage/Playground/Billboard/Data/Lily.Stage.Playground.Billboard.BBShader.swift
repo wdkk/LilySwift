@@ -22,7 +22,7 @@ extension Lily.Stage.Playground.Billboard
             public var function:BBFunction
             public private(set) var index:LLInt32
             
-            static private var sharedIndex:LLInt32 = 0
+            nonisolated(unsafe) private static var sharedIndex:LLInt32 = 0
             
             public init( function:BBFunction ) {
                 self.function = function
@@ -31,7 +31,7 @@ extension Lily.Stage.Playground.Billboard
             }
         }
         
-        public static let shared = BBShader()
+        nonisolated(unsafe) public static let shared = BBShader()
         private init() {}
         
         private(set) var logged = false

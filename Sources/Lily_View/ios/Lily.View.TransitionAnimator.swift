@@ -17,7 +17,7 @@ extension Lily.View
     public typealias TransitionFunction = (_ from:UIViewController, _ to:UIViewController )->Void
     
     public struct TransitionSet {
-        var start:TransitionFunction
+        var start:TransitionFunction 
         var end:TransitionFunction
         var completion:TransitionFunction
     }
@@ -48,6 +48,7 @@ extension Lily.View
 
 public extension Lily.View.TransitionSet
 {
+    @MainActor
     static var slideRight:Self {
         return .init(
             start:
@@ -67,6 +68,7 @@ public extension Lily.View.TransitionSet
         )
     }
     
+    @MainActor
     static var slideLeft:Self {
         return .init(
             start:
@@ -86,6 +88,7 @@ public extension Lily.View.TransitionSet
         )
     }
     
+    @MainActor
     static var overUp:Self {
         return .init(
             start:
@@ -103,6 +106,7 @@ public extension Lily.View.TransitionSet
         )
     }
     
+    @MainActor
     static var overDown:Self {
         return .init(
             start:
@@ -120,6 +124,7 @@ public extension Lily.View.TransitionSet
         )
     }
     
+    @MainActor
     static var disolveRight:Self {
         return .init(
             start:
@@ -144,6 +149,7 @@ public extension Lily.View.TransitionSet
         )
     }
     
+    @MainActor
     static var disolveLeft:Self {
         return .init(
             start:
@@ -168,6 +174,7 @@ public extension Lily.View.TransitionSet
         )
     }
     
+    @MainActor
     static var disolveUp:Self {
         return .init(
             start:
@@ -192,6 +199,7 @@ public extension Lily.View.TransitionSet
         )
     }
     
+    @MainActor
     static var disolveDown:Self {
         return .init(
             start:
@@ -216,6 +224,7 @@ public extension Lily.View.TransitionSet
         )
     }
     
+    @MainActor
     static var fade:Self {
         return .init(
             start:

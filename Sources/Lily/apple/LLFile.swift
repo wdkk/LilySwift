@@ -16,21 +16,21 @@ open class LLFile
     /// ファイルの存在を確認する
     /// - Parameter path: 確認するファイルパス
     /// - Returns: 存在する = true, 存在しない = false
-    static public func exists( _ path:LLString ) -> Bool {
+    public static func exists( _ path:LLString ) -> Bool {
         return LCFileExists( path.lcStr ) 
     }
 
     /// ディレクトリであるか否かを確認する
     /// - Parameter path: 確認するディレクトリパス
     /// - Returns: ディレクトリ = true, それ以外 = false
-    static public func isDirectory( _ path:LLString ) -> Bool { 
+    public static func isDirectory( _ path:LLString ) -> Bool { 
         return LCFileIsDirectory( path.lcStr )
     }
     
     /// ファイルのサイズを取得する
     /// - Parameter path: 確認するファイルパス
     /// - Returns: ファイルサイズ(バイト)
-    static public func size( of path:LLString ) -> LLInt64 { 
+    public static func size( of path:LLString ) -> LLInt64 { 
         return LCFileGetSize( path.lcStr )
     }
     
@@ -38,7 +38,7 @@ open class LLFile
     /// - Parameter path: 削除するファイルのパス
     /// - Returns: 成功 = true, 失敗 = false
     @discardableResult
-    static public func removeFile( _ path:LLString ) -> Bool {
+    public static func removeFile( _ path:LLString ) -> Bool {
         return LCFileRemove( path.lcStr ) 
     }
      
@@ -48,7 +48,7 @@ open class LLFile
     ///   - to_path: 移動先ファイルパス
     /// - Returns: 成功 = true, 失敗 = false
     @discardableResult
-    static public func moveFile( _ from_path:LLString, to_path:LLString ) -> Bool {
+    public static func moveFile( _ from_path:LLString, to_path:LLString ) -> Bool {
         return LCFileMove( from_path.lcStr, to_path.lcStr ) 
     }
     
@@ -58,7 +58,7 @@ open class LLFile
     ///   - to_path: コピー先ファイルパス
     /// - Returns: 成功 = true, 失敗 = false
     @discardableResult
-    static public func copyFile( _ from_path:LLString, to_path:LLString ) -> Bool {
+    public static func copyFile( _ from_path:LLString, to_path:LLString ) -> Bool {
         return LCFileCopy(from_path.lcStr, to_path.lcStr)
     }
     
@@ -66,7 +66,7 @@ open class LLFile
     /// - Parameter path: 作成するディレクトリパス
     /// - Returns: 成功 = true, 失敗 = false
     @discardableResult
-    static public func createDirectory( _ path:LLString ) -> Bool { 
+    public static func createDirectory( _ path:LLString ) -> Bool { 
         return LCFileCreateDirectory( path.lcStr ) 
     }
 
@@ -74,7 +74,7 @@ open class LLFile
     /// - Parameter path: 削除対象のディレクトリパス
     /// - Returns: 成功 = true, 失敗 = false
     @discardableResult
-    static public func removeDirectory( _ path:LLString ) -> Bool { 
+    public static func removeDirectory( _ path:LLString ) -> Bool { 
         return LCFileRemoveDirectory( path.lcStr )
     }
     
@@ -84,7 +84,7 @@ open class LLFile
     ///   - to_path: 移動先ディレクトリパス
     /// - Returns: 成功 = true, 失敗 = false
     @discardableResult
-    static public func moveDirectory( from from_path:LLString, to to_path:LLString ) -> Bool {
+    public static func moveDirectory( from from_path:LLString, to to_path:LLString ) -> Bool {
         return LCFileMoveDirectory( from_path.lcStr, to_path.lcStr )
     }
 
@@ -94,7 +94,7 @@ open class LLFile
     ///   - to_path: コピー先ディレクトリパス
     /// - Returns: 成功 = true, 失敗 = false
     @discardableResult
-    static public func copyDirectory( from from_path:LLString, to to_path:LLString ) -> Bool {
+    public static func copyDirectory( from from_path:LLString, to to_path:LLString ) -> Bool {
         return LCFileCopyDirectory( from_path.lcStr, to_path.lcStr )
     }
 }

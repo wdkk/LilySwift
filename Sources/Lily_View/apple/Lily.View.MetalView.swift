@@ -29,26 +29,30 @@ extension Lily.View
         open override var bounds:CGRect { 
             didSet {
                 if bounds.width == 0 || bounds.height == 0 { return }
-                metalLayer.drawableSize = self.scaledBounds.size
-                metalLayer.frame = self.bounds
-                updateDepthTexture(
-                    device: device, 
-                    width: self.scaledBounds.width.i!,
-                    height: self.scaledBounds.height.i! 
-                )
+                Task { @MainActor in
+                    metalLayer.drawableSize = self.scaledBounds.size
+                    metalLayer.frame = self.bounds
+                    updateDepthTexture(
+                        device: device, 
+                        width: self.scaledBounds.width.i!,
+                        height: self.scaledBounds.height.i! 
+                    )
+                }
             }
         }
         
         open override var frame:CGRect { 
             didSet {
                 if bounds.width == 0 || bounds.height == 0 { return }
-                metalLayer.drawableSize = self.scaledBounds.size
-                metalLayer.frame = self.bounds
-                updateDepthTexture(
-                    device: device, 
-                    width: self.scaledBounds.width.i!,
-                    height: self.scaledBounds.height.i! 
-                )
+                Task { @MainActor in
+                    metalLayer.drawableSize = self.scaledBounds.size
+                    metalLayer.frame = self.bounds
+                    updateDepthTexture(
+                        device: device, 
+                        width: self.scaledBounds.width.i!,
+                        height: self.scaledBounds.height.i! 
+                    )
+                }
             } 
         }
         

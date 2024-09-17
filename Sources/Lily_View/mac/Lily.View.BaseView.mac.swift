@@ -65,10 +65,13 @@ extension Lily.View
         public var touchesEndedInsideField:TouchField?
         public var touchesCancelledField:TouchField?
         
+        nonisolated(unsafe)
         func initViewAttributes() {
-            self.anchorPoint = CGPoint( x:0.5, y:0.5 )
-            self.masksToBounds = false
-            self.contentsScale = LLSystem.retinaScale.cgf
+            Task { @MainActor in
+                self.anchorPoint = CGPoint( x:0.5, y:0.5 )
+                self.masksToBounds = false
+                self.contentsScale = LLSystem.retinaScale.cgf
+            }
         }
         
         open var alpha:CGFloat {
@@ -87,6 +90,7 @@ extension Lily.View
         }
         
         required public init?(coder decoder: NSCoder) { super.init(coder:decoder) }
+        
         public override init() {
             super.init()
             self.initViewAttributes()

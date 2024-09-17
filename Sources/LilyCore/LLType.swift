@@ -120,50 +120,66 @@ public typealias LLFloatMatrix = UnsafeMutablePointer<LLNonNullFloatPtr>
 public typealias LLDoubleMatrix = UnsafeMutablePointer<LLNonNullDoublePtr>
 
 /// 2次座標構造体( x, y )
-public struct LLPoint {
+public struct LLPoint
+: Sendable
+{
     public var x:Double
     public var y:Double
 }
 
 /// 2次整数座標構造体( x, y )
-public struct LLPointInt { 
+public struct LLPointInt
+: Sendable
+{ 
     public var x:Int
     public var y:Int
 }
 
 /// 2次座標構造体( x, y )
-public struct LLPointFloat {
+public struct LLPointFloat
+: Sendable
+{
     public var x:Float
     public var y:Float
 }
 
 /// 3次座標構造体( x, y, z )
-public struct LLCoord {
+public struct LLCoord
+: Sendable
+{
     public var x:Double
     public var y:Double
     public var z:Double
 }
 
 /// 2次サイズ構造体( width, height )
-public struct LLSize {
+public struct LLSize 
+: Sendable
+{
     public var width:Double
     public var height:Double
 }
 
 /// 2次整数サイズ構造体( width, height )
-public struct LLSizeInt {
+public struct LLSizeInt
+: Sendable
+{
     public var width:Int
     public var height:Int
 }
 
 /// 2次サイズ構造体( width, height )
-public struct LLSizeFloat {
+public struct LLSizeFloat
+: Sendable
+{
     public var width:Float
     public var height:Float
 }
 
 /// 矩形構造体( x, y, width, height )
-public struct LLRect { 
+public struct LLRect 
+: Sendable
+{ 
     public var x:Double
     public var y:Double
     public var width:Double
@@ -197,7 +213,9 @@ public struct LLRange {
 }
 
 /// 領域構造体( left, top, right, bottom )
-public struct LLRegion { 
+public struct LLRegion
+: Sendable
+{ 
     public var left:Double
     public var top:Double
     public var right:Double

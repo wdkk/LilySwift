@@ -22,7 +22,7 @@ extension Lily.Stage.Playground.Plane
             public var function:PGFunction
             public private(set) var index:LLInt32
             
-            static private var sharedIndex:LLInt32 = 0
+            nonisolated(unsafe) private static var sharedIndex:LLInt32 = 0
             
             public init( function:PGFunction ) {
                 self.function = function
@@ -31,7 +31,7 @@ extension Lily.Stage.Playground.Plane
             }
         }
         
-        public static let shared = PGShader()
+        nonisolated(unsafe) public static let shared = PGShader()
         private init() {}
         
         private(set) var logged = false

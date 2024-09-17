@@ -16,7 +16,8 @@ extension Lily.View
 {
     open class Tablet
     {
-        static var _state = LLTabletState( x: 0.0, y: 0.0, z: 0.0, twist: 0.0, altitude: 0.0, azimuth: 0.0, pressure: 1.0 )
+        nonisolated(unsafe) static var _state =
+            LLTabletState( x: 0.0, y: 0.0, z: 0.0, twist: 0.0, altitude: 0.0, azimuth: 0.0, pressure: 1.0 )
         
         static func updateState( event:NSEvent ) {
             _state.x = event.absoluteX.f
@@ -28,7 +29,7 @@ extension Lily.View
             _state.azimuth = 0.0
         }
         
-        static public func currentState() -> LLTabletState {
+        public static func currentState() -> LLTabletState {
             return _state
         }
     }

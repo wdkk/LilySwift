@@ -10,9 +10,9 @@
 
 import Foundation
 
-public class LLEmpty
+public final class LLEmpty : Sendable
 {
-    static public let none = LLEmpty()
+    public static let none = LLEmpty()
 }
 
 public protocol LLField

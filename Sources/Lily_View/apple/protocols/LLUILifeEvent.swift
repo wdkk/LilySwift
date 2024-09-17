@@ -10,6 +10,7 @@
 
 import Foundation
 
+@MainActor
 public protocol LLUILifeEvent 
 : AnyObject
 {

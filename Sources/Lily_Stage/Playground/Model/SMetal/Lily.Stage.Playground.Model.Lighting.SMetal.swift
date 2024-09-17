@@ -298,7 +298,7 @@ extension Lily.Stage.Playground.Model.Lighting
         public let vertexShader:Lily.Metal.Shader
         public let fragmentShader:Lily.Metal.Shader
 
-        private static var instance:SMetal?
+        nonisolated(unsafe) private static var instance:SMetal?
         public static func shared( device:MTLDevice ) -> SMetal {
             if instance == nil { instance = .init( device:device ) }
             return instance!

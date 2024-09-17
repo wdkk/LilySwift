@@ -17,7 +17,7 @@ extension Lily.Stage.Playground.Billboard
 {   
     open class BBPool
     {   
-        public static var shared:BBPool = .init()
+        nonisolated(unsafe) public static var shared:BBPool = .init()
         private init() {}
         
         private var actorGroup:[BBStorage:Set<BBActor>] = [:]

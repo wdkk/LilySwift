@@ -14,7 +14,7 @@ import Foundation
 
 public extension String 
 {
-    func pixelSize( attr textAttr:LLTextAttribute ) -> LLSize { 
-        return self.pixelSize( attr: textAttr.lcAttr )
+    func pixelSize( attr textAttr:LLTextAttribute ) async -> LLSize { 
+        return await self.pixelSize( attr: textAttr.lcAttr )
    }   
 }

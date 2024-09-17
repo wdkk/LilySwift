@@ -12,7 +12,7 @@
 
 import AppKit
 
-private var __menuitem_callback = [NSMenuItem:NSMenuItem.Callback]()
+nonisolated(unsafe) private var __menuitem_callback = [NSMenuItem:NSMenuItem.Callback]()
 
 public extension NSMenuItem
 {

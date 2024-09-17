@@ -116,18 +116,16 @@ extension Lily.Stage.Playground
         }
         
         public func clear() {
-            Task {
-                let fade_time:Float = 1.0
-                var vol = engine.mainMixerNode.outputVolume
-                let d_vol = vol / 1000.0 / fade_time
-                while true {
-                    if vol <= 0.0 { break } 
-                    vol -= d_vol
-                    engine.mainMixerNode.outputVolume = vol
-                    LLSystem.sleep(1)
-                }
-                engine.stop()
+            let fade_time:Float = 1.0
+            var vol = engine.mainMixerNode.outputVolume
+            let d_vol = vol / 1000.0 / fade_time
+            while true {
+                if vol <= 0.0 { break } 
+                vol -= d_vol
+                engine.mainMixerNode.outputVolume = vol
+                LLSystem.sleep(1)
             }
+            engine.stop()
         }
         
         public func listenerPosition( _ pos:AVAudio3DPoint ) {

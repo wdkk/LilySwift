@@ -22,7 +22,7 @@ extension Lily.Stage.Playground
             self.device = device
         }
         
-        // TODO: おいおいプロトコルにしたい
+        @MainActor
         open func changeSize( scaledSize:CGSize ) { }
         
         open func render(

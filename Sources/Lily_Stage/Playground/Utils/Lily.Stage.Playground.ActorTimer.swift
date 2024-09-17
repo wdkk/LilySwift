@@ -16,7 +16,7 @@ extension Lily.Stage.Playground
 {
     public class ActorTimer
     {
-        public static let shared = ActorTimer()
+        nonisolated(unsafe) public static let shared = ActorTimer()
         private init() {}
         
         public private(set) var startTime:Double = 0.0

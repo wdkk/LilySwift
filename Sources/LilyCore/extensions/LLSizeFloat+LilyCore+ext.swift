@@ -14,7 +14,7 @@ import CoreGraphics
 public extension LLSizeFloat
 {
     /// サイズゼロのサイズ構造体を返す
-    static var zero:LLSizeFloat = { return LLSizeFloat( 0, 0 ) }()
+    static let zero:LLSizeFloat = { return LLSizeFloat( 0, 0 ) }()
     
     /// CGFloatを用いた実体化
     /// - Parameters:

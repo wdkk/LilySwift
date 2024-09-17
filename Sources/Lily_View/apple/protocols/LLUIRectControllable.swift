@@ -11,6 +11,7 @@
 import Foundation
 import CoreGraphics
 
+@MainActor
 public protocol LLUIRectControllable
 : AnyObject
 {
@@ -27,6 +28,18 @@ public protocol LLUIRectControllable
     var width:LLDouble { get set }
 
     var height:LLDouble { get set }
+    
+    var scaledX:CGFloat { get }
+    
+    var scaledY:CGFloat { get }
+    
+    var scaledWidth:CGFloat { get }
+    
+    var scaledHeight:CGFloat { get }
+    
+    var scaledFrame:CGRect { get }
+    
+    var scaledBounds:CGRect { get }
 }
 
 public extension LLUIRectControllable

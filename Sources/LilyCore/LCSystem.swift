@@ -16,6 +16,8 @@ import AppKit
 import UIKit
 #endif
 
+@preconcurrency import Darwin
+
 /// iOS/macOSのシステム属性へのアクセス
 private var systemAttributes: [FileAttributeKey: Any]? {
     return try? FileManager.default.attributesOfFileSystem(forPath: NSHomeDirectory())
@@ -61,6 +63,7 @@ public func LCSystemGetFreeStorage( _ root_path:LLConstCharPtr ) -> LLDouble {
 
 /// Retinaスケールを返す
 /// - Returns: 解像度倍率
+@MainActor
 public func LCSystemGetRetinaScale() -> LLDouble {
     #if os(iOS)
     return LLDouble( UIScreen.main.scale )
@@ -76,6 +79,7 @@ public func LCSystemGetRetinaScale() -> LLDouble {
 /// Dpi倍率を返す
 /// - Returns: Dpi倍率サイズ
 /// - Description: iOS/macOSではRetinaスケールと同様
+@MainActor
 public func LCSystemGetDpiScale() -> LLSize {
     return LLSizeMake( LCSystemGetRetinaScale(), LCSystemGetRetinaScale() )
 }

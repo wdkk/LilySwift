@@ -10,6 +10,7 @@
 
 import Foundation
 
+@MainActor
 public func LDImageLoadFileWithOption( _ file_path_:LCStringSmPtr, _ option_:LLImageLoadOption ) -> LCImageSmPtr {
     if !LCFileExists( file_path_ )  {
         LLLogWarning( "ファイルが見つかりません.:\(String( file_path_ ))" )
@@ -64,6 +65,7 @@ public func LDImageLoadFileWithOption( _ file_path_:LCStringSmPtr, _ option_:LLI
     let loader:LCImageLoaderSmPtr = LCImageLoaderMake()
     let result:LCImageSmPtr = LCImageLoaderLoadWithOption( loader, new_path, opt )
     if LCImageGetType( result ) != .none { LCImageChangeScale( result, scale.f ) }
+    
     return result
 }
 

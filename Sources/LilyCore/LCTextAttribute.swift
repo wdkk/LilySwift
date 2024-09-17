@@ -21,7 +21,7 @@ fileprivate struct LCTextAttributeInternal
 {
     var face:LCStringSmPtr = LCStringZero() /// フォント名(フォントファミリー)
     var size:LLInt32 = 0                    /// フォントサイズ
-    var color:LLColor = LLColor_Black       /// テキスト色
+    var color:LLColor = .black              /// テキスト色
     var weight:LLFontWeight = .normal       /// フォントの太さ
 }
 

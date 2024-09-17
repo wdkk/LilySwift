@@ -26,7 +26,7 @@ extension Lily.View
             case positionFixed
         }
         
-        private var _draw_layer = CALayer()
+        nonisolated(unsafe) private var _draw_layer = CALayer()
         
         open var image:Any? {
             didSet {

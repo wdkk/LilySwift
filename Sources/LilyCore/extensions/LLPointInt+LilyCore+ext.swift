@@ -14,7 +14,7 @@ import CoreGraphics
 public extension LLPointInt
 {
     /// 位置(0,0)の実体を返す
-    static var zero:LLPointInt = { return LLPointInt( 0, 0 ) }()
+    static let zero:LLPointInt = { return LLPointInt( 0, 0 ) }()
 
     /// CGFloatを用いた実体化
     /// - Parameters:

@@ -23,7 +23,9 @@ public extension String
     /// LilyCore文字列から生成する
     /// - Parameter lcStr: 元文字列
     init( _ lcStr:LCStringSmPtr ) {
-        self.init( cString: LCStringToCChars( lcStr ) )
+        // self.init( cString: LCStringToCChars( lcStr ) )
+        self.init()
+        self = lcStr.s
     }
     
     /// Cポインタを返す(UTF8)
@@ -73,8 +75,7 @@ public extension String
     /// CGFloatへ変換
     var cgf:CGFloat? { return self.d != nil ? CGFloat( self.d! ) : nil }
     
-    
-    func pixelSize( attr textAttr:LCTextAttributeSmPtr ) -> LLSize { 
-        return LCStringPixelSize( self.lcStr, textAttr )
+    func pixelSize( attr textAttr:LCTextAttributeSmPtr ) async -> LLSize {
+        return await LCStringPixelSize( self.lcStr, textAttr )
     }
 }

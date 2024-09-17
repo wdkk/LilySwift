@@ -56,10 +56,12 @@ public func LCImageMake( _ wid_:Int, _ hgt_:Int, _ type_:LLImageType ) -> LCImag
     return lcimg
 }
 
+@MainActor
 public func LCImageMakeWithFile( _ file_path_:LCStringSmPtr ) -> LCImageSmPtr {
     return LDImageLoadFileWithOption( file_path_, LLImageLoadOptionDefault() )
 }
 
+@MainActor
 public func LCImageMakeWithFileAndOption( _ file_path_:LCStringSmPtr, _ option_:LLImageLoadOption ) -> LCImageSmPtr {
     return LDImageLoadFileWithOption( file_path_, option_ )
 }

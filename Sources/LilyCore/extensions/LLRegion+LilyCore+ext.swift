@@ -14,7 +14,7 @@ import CoreGraphics
 public extension LLRegion
 {
     /// x=0, y=0, width=0, height=0の矩形を返す
-    static var zero:LLRegion = { return LLRegionZero() }()
+    static let zero:LLRegion = { return LLRegionZero() }()
     
     /// 整数型を用いた実体化
     /// - Parameters:

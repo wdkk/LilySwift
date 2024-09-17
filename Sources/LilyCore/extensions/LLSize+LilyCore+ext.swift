@@ -14,7 +14,7 @@ import CoreGraphics
 public extension LLSize
 {
     /// サイズゼロのサイズ構造体を返す
-    static var zero:LLSize = { return LLSize( 0, 0 ) }()
+    static let zero:LLSize = { return LLSize( 0, 0 ) }()
     
     /// CGFloatを用いた実体化
     /// - Parameters:
@@ -70,7 +70,7 @@ public extension LLSize
 public extension LLSizeInt
 {
     /// サイズゼロのサイズ構造体を返す
-    static var zero:Self = { return LLSizeInt( 0, 0 ) }()
+    static let zero:Self = { return LLSizeInt( 0, 0 ) }()
     
     /// Intを用いた実体化
     /// - Parameters:
