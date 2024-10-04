@@ -11,16 +11,13 @@
       location = "group:LICENSE"
       name = "LICENSES">
       <FileRef
-         location = "group:/Users/kengo/core/wd/dev/LilySwift/Projects/apple/LICENSE/Apple.txt">
+         location = "group:LICENSE/Apple.txt">
       </FileRef>
    </Group>
    <FileRef
       location = "group:../../README.md">
    </FileRef>
    <FileRef
-      location = "group:../../../LilySwiftDevEnv/DevEnv/DevEnv.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:../../../LilySwiftDevEnv/DevSwiftUI/DevSwiftUI.xcodeproj">
+      location = "group:../../../LilySwiftDevEnv/DevMetalDraw/DevMetalDraw.xcodeproj">
    </FileRef>
 </Workspace>

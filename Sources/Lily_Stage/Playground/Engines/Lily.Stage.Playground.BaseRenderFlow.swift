@@ -32,7 +32,7 @@ extension Lily.Stage.Playground
             viewCount:Int,
             destinationTexture:MTLTexture?,
             depthTexture:MTLTexture?,
-            uniforms:Lily.Metal.RingBuffer<Lily.Stage.Playground.GlobalUniformArray>
+            uniforms:Lily.Metal.RingBuffer<GlobalUniformArray>
         )
         {
             LLLog( "overrideしてください" )
