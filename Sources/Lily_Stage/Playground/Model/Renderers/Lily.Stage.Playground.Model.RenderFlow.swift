@@ -33,7 +33,7 @@ extension Lily.Stage.Playground.Model
         
         public init(
             device:MTLDevice,
-            environment:Lily.Stage.ShaderEnvironment,
+            environment:Lily.Metal.ShaderEnvironment,
             viewCount:Int,
             renderTextures:RenderTextures,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
@@ -98,7 +98,7 @@ extension Lily.Stage.Playground.Model
             modelPass.updatePass( 
                 renderTextures:modelRenderTextures,
                 rasterizationRateMap:rasterizationRateMap,
-                renderTargetCount:viewCount
+                renderTargetViewIndex:viewCount
             )
             
             // カスケードシャドウマップ
@@ -145,7 +145,7 @@ extension Lily.Stage.Playground.Model
             .cullMode( .front )
             .depthStencilState( modelPass.GBufferDepthState! )
             .viewports( viewports )
-            .vertexAmplification( count:viewCount, viewports:viewports )
+            .vertexAmplification( viewports:viewports )
             
             // オブジェクトの描画
             meshRenderer?.draw( 

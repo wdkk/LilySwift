@@ -29,7 +29,7 @@ extension Lily.Stage.Playground
     public struct PGScreenCoreView : ViewControllerRepresentable
     {
         var device:MTLDevice
-        var environment:Lily.Stage.ShaderEnvironment
+        var environment:Lily.Metal.ShaderEnvironment
 
         var visibled:Binding<Bool>
         var scene:Binding<PGScene>
@@ -38,7 +38,7 @@ extension Lily.Stage.Playground
             device:MTLDevice,
             visibled:Binding<Bool>,
             scene:Binding<PGScene>,
-            environment:Lily.Stage.ShaderEnvironment
+            environment:Lily.Metal.ShaderEnvironment
         )
         {
             self.device = device
@@ -107,12 +107,12 @@ extension Lily.Stage.Playground
         var scene:Binding<PGScene>
         
         var device:MTLDevice
-        var environment:Lily.Stage.ShaderEnvironment
+        var environment:Lily.Metal.ShaderEnvironment
         
         public init
         ( 
             device:MTLDevice,
-            environment:Lily.Stage.ShaderEnvironment = .string,
+            environment:Lily.Metal.ShaderEnvironment = .string,
             scene:Binding<PGScene>
         )
         {

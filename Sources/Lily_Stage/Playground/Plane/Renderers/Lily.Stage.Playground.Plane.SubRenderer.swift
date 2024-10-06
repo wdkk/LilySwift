@@ -24,7 +24,7 @@ extension Lily.Stage.Playground.Plane
         
         public init(
             device:MTLDevice, 
-            environment:Lily.Stage.ShaderEnvironment, 
+            environment:Lily.Metal.ShaderEnvironment, 
             viewCount:Int,
             pgFunctions:[PGFunction]
         ) 

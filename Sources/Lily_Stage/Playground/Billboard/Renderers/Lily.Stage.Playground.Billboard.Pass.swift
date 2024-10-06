@@ -42,14 +42,14 @@ extension Lily.Stage.Playground.Billboard
         
         public func updatePass(
             rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
-            renderTargetCount:Int
+            renderTargetViewIndex:Int
         )
         {
             #if !targetEnvironment(macCatalyst)
             passDesc?.rasterizationRateMap = rasterizationRateMap
             #endif
             #if os(visionOS)
-            passDesc?.renderTargetArrayLength = renderTargetCount
+            passDesc?.renderTargetArrayLength = renderTargetViewIndex
             #endif
         }
         

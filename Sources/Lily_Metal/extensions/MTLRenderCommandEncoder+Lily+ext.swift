@@ -112,10 +112,10 @@ extension MTLRenderCommandEncoder
     }
     
     @discardableResult
-    public func vertexAmplification( count:Int, viewports:[MTLViewport] ) -> Self {
+    public func vertexAmplification( viewports:[MTLViewport] ) -> Self {
         #if os(visionOS)
-        if count > 1 {
-            var viewMappings = (0..<count).map {
+        if viewports.count > 1 {
+            var viewMappings = (0..<viewports.count).map {
                 MTLVertexAmplificationViewMapping(
                     viewportArrayIndexOffset: UInt32($0),
                     renderTargetArrayIndexOffset: UInt32($0)

@@ -46,7 +46,7 @@ extension Lily.Stage.Playground.Plane
         public func updatePass(
             mediumTexture:Lily.Stage.Playground.MediumTexture,
             rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
-            renderTargetCount:Int
+            renderTargetViewIndex:Int
         )
         {
             passDesc?.colorAttachments[0].texture = mediumTexture.resultTexture
@@ -54,7 +54,7 @@ extension Lily.Stage.Playground.Plane
             passDesc?.rasterizationRateMap = rasterizationRateMap
             #endif
             #if os(visionOS)
-            passDesc?.renderTargetArrayLength = renderTargetCount
+            passDesc?.renderTargetArrayLength = renderTargetViewIndex
             #endif
         }
         

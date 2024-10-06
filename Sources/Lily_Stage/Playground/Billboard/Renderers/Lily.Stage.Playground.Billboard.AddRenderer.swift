@@ -24,7 +24,7 @@ extension Lily.Stage.Playground.Billboard
         
         public init( 
             device:MTLDevice, 
-            environment:Lily.Stage.ShaderEnvironment, 
+            environment:Lily.Metal.ShaderEnvironment, 
             viewCount:Int,
             bbFunctions:[BBFunction]
         ) 

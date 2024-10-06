@@ -29,7 +29,7 @@ extension Lily.Stage.Playground.sRGB
         
         public init(
             device:MTLDevice,
-            environment:Lily.Stage.ShaderEnvironment,
+            environment:Lily.Metal.ShaderEnvironment,
             viewCount:Int,
             mediumTexture:Playground.MediumTexture
         ) 
@@ -64,7 +64,7 @@ extension Lily.Stage.Playground.sRGB
             // 共通処理
             pass.updatePass( 
                 rasterizationRateMap:rasterizationRateMap,
-                renderTargetCount:viewCount        
+                renderTargetViewIndex:viewCount        
             )
             
             pass.setDestination( texture:destinationTexture )
@@ -75,7 +75,7 @@ extension Lily.Stage.Playground.sRGB
             .label( "Playground SRGB Render" )
             .cullMode( .front )
             .viewports( viewports )
-            .vertexAmplification( count:viewCount, viewports:viewports )
+            .vertexAmplification( viewports:viewports )
             
             // sRGB変換
             sRGBRenderer?.draw(

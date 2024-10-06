@@ -75,7 +75,7 @@ extension Lily.Stage.Playground.Model
         public func updatePass( 
             renderTextures:RenderTextures, 
             rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
-            renderTargetCount:Int
+            renderTargetViewIndex:Int
         ) 
         {            
             // テクスチャの差し替え
@@ -87,7 +87,7 @@ extension Lily.Stage.Playground.Model
             GBufferPassDesc?.rasterizationRateMap = rasterizationRateMap
             #endif
             #if os(visionOS)
-            GBufferPassDesc?.renderTargetArrayLength = renderTargetCount
+            GBufferPassDesc?.renderTargetArrayLength = renderTargetViewIndex
             #endif
         }
                         

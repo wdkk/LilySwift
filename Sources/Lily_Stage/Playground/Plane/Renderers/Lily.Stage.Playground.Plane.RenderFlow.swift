@@ -33,7 +33,7 @@ extension Lily.Stage.Playground.Plane
         
         public init(
             device:MTLDevice,
-            environment:Lily.Stage.ShaderEnvironment,
+            environment:Lily.Metal.ShaderEnvironment,
             viewCount:Int,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
             storage:PlaneStorage?
@@ -135,7 +135,7 @@ extension Lily.Stage.Playground.Plane
             pass.updatePass( 
                 mediumTexture:mediumTexture!,
                 rasterizationRateMap:rasterizationRateMap,
-                renderTargetCount:viewCount        
+                renderTargetViewIndex:viewCount        
             )
             
             // フォワードレンダリング : パーティクルの描画の設定
@@ -149,7 +149,7 @@ extension Lily.Stage.Playground.Plane
             .cullMode( .front )
             .depthStencilState( pass.depthState! )
             .viewports( viewports )
-            .vertexAmplification( count:viewCount, viewports:viewports )
+            .vertexAmplification( viewports:viewports )
             
             // Playgroundレンダー描画
             alphaRenderer?.draw(

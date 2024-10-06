@@ -22,7 +22,7 @@ extension Lily.Stage.Playground
         // MARK: システム
         var device:MTLDevice        
         public var renderEngine:VisionFullyRenderEngine
-        public private(set) var environment:Lily.Stage.ShaderEnvironment
+        public private(set) var environment:Lily.Metal.ShaderEnvironment
         
         // MARK: 描画テクスチャ
         public var modelRenderTextures:Model.RenderTextures
@@ -91,7 +91,7 @@ extension Lily.Stage.Playground
                 
         public init( 
             layerRenderer:LayerRenderer,
-            environment:Lily.Stage.ShaderEnvironment = .metallib,
+            environment:Lily.Metal.ShaderEnvironment = .metallib,
             scene:PGVisionScene
         )
         {
@@ -152,7 +152,7 @@ extension Lily.Stage.Playground
         
         func makeRenderFlows( 
             device:MTLDevice,
-            environment:Lily.Stage.ShaderEnvironment,
+            environment:Lily.Metal.ShaderEnvironment,
             viewCount:Int
         )
         {

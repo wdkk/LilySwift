@@ -20,7 +20,7 @@ extension Lily.Stage.Playground.Plane
         
         var pipeline: MTLComputePipelineState!
         
-        public init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment ) {
+        public init( device:MTLDevice, environment:Lily.Metal.ShaderEnvironment ) {
             self.device = device
             
             #if !targetEnvironment(simulator)

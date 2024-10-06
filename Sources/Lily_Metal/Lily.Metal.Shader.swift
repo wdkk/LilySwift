@@ -17,6 +17,12 @@ import Metal
 
 extension Lily.Metal 
 {
+    public enum ShaderEnvironment
+    {
+        case metallib
+        case string
+    }
+    
     /// シェーダオブジェクトクラス
     open class Shader
     {

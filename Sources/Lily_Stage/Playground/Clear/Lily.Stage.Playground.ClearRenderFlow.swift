@@ -42,14 +42,14 @@ extension Lily.Stage.Playground
         // 公開ファンクション
         public func updatePass(
             rasterizationRateMap:Lily.Metal.RasterizationRateMap?,
-            renderTargetCount:Int
+            renderTargetViewIndex:Int
         )
         {
             #if !targetEnvironment(macCatalyst)
             passDesc?.rasterizationRateMap = rasterizationRateMap
             #endif
             #if os(visionOS)
-            passDesc?.renderTargetArrayLength = renderTargetCount
+            passDesc?.renderTargetArrayLength = renderTargetViewIndex
             #endif
         }
         
@@ -90,7 +90,7 @@ extension Lily.Stage.Playground
         
         public init(
             device:MTLDevice,
-            environment:Lily.Stage.ShaderEnvironment,
+            environment:Lily.Metal.ShaderEnvironment,
             viewCount:Int,
             modelRenderTextures:Lily.Stage.Playground.Model.RenderTextures?,
             mediumTexture:Lily.Stage.Playground.MediumTexture?
@@ -124,7 +124,7 @@ extension Lily.Stage.Playground
             // 共通処理
             pass.updatePass(
                 rasterizationRateMap:rasterizationRateMap,
-                renderTargetCount:viewCount        
+                renderTargetViewIndex:viewCount        
             )
             
             pass.setDestination( texture:mediumTexture?.resultTexture )

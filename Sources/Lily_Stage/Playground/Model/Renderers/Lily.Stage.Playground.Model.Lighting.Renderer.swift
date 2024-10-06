@@ -24,7 +24,7 @@ extension Lily.Stage.Playground.Model.Lighting
         public var pipeline:MTLRenderPipelineState?
         public var depthState:MTLDepthStencilState?
         
-        public init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
+        public init( device:MTLDevice, environment:Lily.Metal.ShaderEnvironment, viewCount:Int ) {
             self.device = device
 
             pipeline = try! makeLightingRenderPipelineState( environment:environment, viewCount:viewCount )
@@ -38,7 +38,7 @@ extension Lily.Stage.Playground.Model.Lighting
         }
         
         public func makeLightingRenderPipelineState( 
-            environment:Lily.Stage.ShaderEnvironment, 
+            environment:Lily.Metal.ShaderEnvironment, 
             viewCount:Int 
         )
         throws
@@ -108,7 +108,7 @@ extension Lily.Stage.Playground.Model.Lighting
     open class Renderer
     : BaseRenderer
     {           
-        public override init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
+        public override init( device:MTLDevice, environment:Lily.Metal.ShaderEnvironment, viewCount:Int ) {
             super.init( device:device, environment:environment, viewCount:viewCount )
         }
     }

@@ -29,7 +29,7 @@ extension Lily.Stage.Playground.Model.Mesh
         public var meshPipeline: MTLRenderPipelineState?
         public var shadowPipeline: MTLRenderPipelineState?
         
-        public init( device:MTLDevice, environment:Lily.Stage.ShaderEnvironment, viewCount:Int ) {
+        public init( device:MTLDevice, environment:Lily.Metal.ShaderEnvironment, viewCount:Int ) {
             self.device = device
             let desc = MTLRenderPipelineDescriptor()
     

@@ -33,7 +33,7 @@ extension Lily.Stage.Playground.Billboard
         
         public init(
             device:MTLDevice,
-            environment:Lily.Stage.ShaderEnvironment,
+            environment:Lily.Metal.ShaderEnvironment,
             viewCount:Int,
             mediumTexture:Lily.Stage.Playground.MediumTexture,
             storage:BBStorage?
@@ -136,7 +136,7 @@ extension Lily.Stage.Playground.Billboard
             // 共通処理
             pass.updatePass( 
                 rasterizationRateMap:rasterizationRateMap,
-                renderTargetCount:viewCount        
+                renderTargetViewIndex:viewCount        
             )
             
             // フォワードレンダリング : パーティクルの描画の設定
@@ -150,7 +150,7 @@ extension Lily.Stage.Playground.Billboard
             .cullMode( .front )
             .depthStencilState( pass.depthState! )
             .viewports( viewports )
-            .vertexAmplification( count:viewCount, viewports:viewports )
+            .vertexAmplification( viewports:viewports )
             
             // Playgroundレンダー描画
             alphaRenderer?.draw(
