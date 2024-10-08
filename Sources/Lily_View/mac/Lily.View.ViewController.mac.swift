@@ -129,7 +129,10 @@ extension Lily.View
                     Thread.sleep( forTimeInterval: 1.0 / 10_000.0 )
                 }
                 
-                loop() 
+                // 非同期の中でloopはMainActor管理で処理する必要がある
+                Task { @MainActor in
+                    self.loop() 
+                }
             }
         }
         

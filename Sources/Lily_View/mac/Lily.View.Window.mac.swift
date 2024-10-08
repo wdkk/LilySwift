@@ -30,9 +30,10 @@ extension Lily.View
             
             let frame = NSRect( 0, 0, 300, 200 )
             
-            super.init(contentRect: frame,
-                       styleMask: NSWindow.StyleMask( [.resizable, .miniaturizable, .closable, .titled] ),
-                       backing: NSWindow.BackingStoreType.buffered, defer: false 
+            super.init(
+                contentRect: frame,
+                styleMask: NSWindow.StyleMask( [.resizable, .miniaturizable, .closable, .titled] ),
+                backing: NSWindow.BackingStoreType.buffered, defer: false 
             )
             
             LLSystem.currentWindow = self

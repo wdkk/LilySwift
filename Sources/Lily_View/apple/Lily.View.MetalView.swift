@@ -64,7 +64,7 @@ extension Lily.View
             self.device = device
             super.init()
         }
-        
+
         required public init?(coder decoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
