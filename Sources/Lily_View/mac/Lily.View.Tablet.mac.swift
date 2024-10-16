@@ -19,7 +19,7 @@ extension Lily.View
         nonisolated(unsafe) static var _state =
             LLTabletState( x: 0.0, y: 0.0, z: 0.0, twist: 0.0, altitude: 0.0, azimuth: 0.0, pressure: 1.0 )
         
-        static func updateState( event:NSEvent ) {
+        public static func updateState( event:NSEvent ) {
             _state.x = event.absoluteX.f
             _state.y = event.absoluteY.f
             _state.z = event.absoluteZ.f

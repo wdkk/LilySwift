@@ -140,25 +140,25 @@ extension Lily.Stage.Playground
         }        
         #if os(macOS)
         .mouseLeftDown( caller:self ) { me, caller, args in
-            caller.recogizeMouse( pos:args.position, phase:.began, event:args.event )
+            caller.recognizeMouse( pos:args.position, phase:.began, event:args.event )
         }
         .mouseLeftDragged( caller:self ) { me, caller, args in
-            caller.recogizeMouse( pos:args.position, phase:.moved, event:args.event )
+            caller.recognizeMouse( pos:args.position, phase:.moved, event:args.event )
         }
         .mouseLeftUp( caller:self ) { me, caller, args in
-            caller.recogizeMouse( pos:args.position, phase:.ended, event:args.event )
+            caller.recognizeMouse( pos:args.position, phase:.ended, event:args.event )
         }
         #else
         .touchesBegan( caller:self ) { me, vc, args in
             vc.touchManager.allTouches.removeAll()
             args.event?.allTouches?.forEach { vc.touchManager.allTouches.append( $0 ) }
-            vc.recogizeTouches( touches:vc.touchManager.allTouches )
+            vc.recognizeTouches( touches:vc.touchManager.allTouches )
         }
         .touchesMoved( caller:self ) { me, vc, args in
-            vc.recogizeTouches( touches:vc.touchManager.allTouches )
+            vc.recognizeTouches( touches:vc.touchManager.allTouches )
         }
         .touchesEnded( caller:self ) { me, vc, args in
-            vc.recogizeTouches( touches:vc.touchManager.allTouches )
+            vc.recognizeTouches( touches:vc.touchManager.allTouches )
             
             for i in (0 ..< vc.touchManager.allTouches.count).reversed() {
                 args.event?.allTouches?
@@ -167,7 +167,7 @@ extension Lily.Stage.Playground
             }
         }
         .touchesCancelled( caller:self ) { me, vc, args in
-            vc.recogizeTouches( touches:vc.touchManager.allTouches )
+            vc.recognizeTouches( touches:vc.touchManager.allTouches )
         }
         #endif
         
@@ -329,7 +329,7 @@ extension Lily.Stage.Playground
 #if os(iOS) || os(tvOS) || os(visionOS)
 extension Lily.Stage.Playground.PGScreen
 {
-    public func recogizeTouches( touches allTouches:[UITouch] ) {
+    public func recognizeTouches( touches allTouches:[UITouch] ) {
         // タッチ情報の配列をリセット
         self.touchManager.clear()
         
@@ -375,7 +375,7 @@ extension Lily.Stage.Playground.PGScreen
 #if os(macOS)
 extension Lily.Stage.Playground.PGScreen
 {
-    public func recogizeMouse( pos:LLPoint, phase:Lily.Stage.Playground.MacOSMousePhase, event:NSEvent? ) {
+    public func recognizeMouse( pos:LLPoint, phase:Lily.Stage.Playground.MacOSMousePhase, event:NSEvent? ) {
         // タッチ情報の配列をリセット
         self.touchManager.clear()
         
