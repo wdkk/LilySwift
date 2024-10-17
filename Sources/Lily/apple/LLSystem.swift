@@ -39,15 +39,17 @@ open class LLSystem
     #endif
     
     /// デバイスのretinaスケール(2.0, 3.0など)
+    #if os(macOS)
+    public static var retinaScale:Double {
+        return _retinaScale
+    }
+    #else
     @MainActor
     public static var retinaScale:Double {
-        #if os(macOS)
-        return _retinaScale
-        #else
         return LCSystemGetRetinaScale()
-        #endif
     }
-    
+    #endif
+        
     /// 指定したミリ秒だけ処理を停止する(待機時間が長い場合, wait()を使う)
     /// - Parameter ms: 待機時間(ミリ秒)
 	public static func sleep( _ ms:Int ) { 

@@ -65,12 +65,6 @@ extension Lily.View
         public var touchesEndedInsideField:TouchField?
         public var touchesCancelledField:TouchField?
         
-        func initViewAttributes() {
-            self.anchorPoint = CGPoint( x:0.5, y:0.5 )
-            self.masksToBounds = false
-            self.contentsScale = LLSystem.retinaScale.cgf
-        }
-        
         open var alpha:CGFloat {
             get { return self.opacity.cgf }
             set { self.opacity = newValue.f }
@@ -90,16 +84,22 @@ extension Lily.View
         
         public override init() {
             super.init()
-            self.initViewAttributes()
+            self.anchorPoint = CGPoint( x:0.5, y:0.5 )
+            self.masksToBounds = false
             self.minificationFilter = .nearest
             self.magnificationFilter = .nearest
+            
+            self.contentsScale = LLSystem.retinaScale.cgf
         }
         
-        public override init( layer: Any ) {
+        public override init( layer:Any ) {
             super.init(layer:layer)
-            self.initViewAttributes()
+            self.anchorPoint = CGPoint( x:0.5, y:0.5 )
+            self.masksToBounds = false
             self.minificationFilter = .nearest
             self.magnificationFilter = .nearest
+            
+            self.contentsScale = LLSystem.retinaScale.cgf
         }
         
         // Viewのピック処理. ignitionの発火はLLViewControllerViewで全管理しているのでお任せ
