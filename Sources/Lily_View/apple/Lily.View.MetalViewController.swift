@@ -54,7 +54,7 @@ extension Lily.View
         
         public override func loop() {
             super.loop()
-            mv.drawMetal()
+            mv.execute()
         }
         
         public override func teardown() {

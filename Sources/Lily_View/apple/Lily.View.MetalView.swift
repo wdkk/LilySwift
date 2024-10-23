@@ -69,7 +69,7 @@ extension Lily.View
             fatalError("init(coder:) has not been implemented")
         }
         
-        public func drawMetal() {
+        public func execute() {
             guard let drawable = drawable,
                   let depthTexture = depthTexture else { return }
             

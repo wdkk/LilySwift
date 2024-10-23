@@ -265,7 +265,7 @@ extension Lily.Stage.Playground
         
         open override func loop() {
             super.loop()
-            metalView.drawMetal()   // Metal描画
+            metalView.execute()   // Metal描画
         }
         
         open override func teardown() {
