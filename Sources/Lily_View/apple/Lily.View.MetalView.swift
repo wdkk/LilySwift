@@ -69,9 +69,14 @@ extension Lily.View
             fatalError("init(coder:) has not been implemented")
         }
         
-        public func execute() {
+        @discardableResult
+        public func execute() -> Bool {
             guard let drawable = drawable,
-                  let depthTexture = depthTexture else { return }
+                  let depthTexture = depthTexture 
+            else {
+                LLLog( "drawable or depthTexture is nil" )
+                return false
+            }
             
             let render_pass_descriptor = makeRenderPassDescriptor(
                 drawable: drawable,
@@ -79,6 +84,8 @@ extension Lily.View
             )
             
             drawMetalField?.appear( .init( drawable:drawable, renderPassDesc:render_pass_descriptor ) )
+            
+            return true
         }
         
         public override func setup() {
