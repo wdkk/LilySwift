@@ -31,9 +31,9 @@ extension Lily.View
         public var setupField:(any LLField)?
         public var buildupField:(any LLField)?
         public var teardownField:(any LLField)?
-        public func setup() {}
-        public func buildup() {}
-        public func teardown() {}
+        open func setup() {}
+        open func buildup() {}
+        open func teardown() {}
         
         public var touchesBeganField:TouchField?
         public var touchesMovedField:TouchField?
