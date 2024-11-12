@@ -82,7 +82,7 @@ extension NSView
 
 extension NSView
 {
-    var backgroundColor:LLColor? { 
+    public var backgroundColor:LLColor? { 
         get {
             guard let layer = layer, let backgroundColor = layer.backgroundColor else { return nil }
             return backgroundColor.llColor
@@ -93,7 +93,7 @@ extension NSView
         }
     }
     
-    var borderColor:LLColor? { 
+    public var borderColor:LLColor? { 
         get {
             guard let layer = layer, let borderColor = layer.borderColor else { return nil }
             return borderColor.llColor
@@ -104,7 +104,7 @@ extension NSView
         }
     }
     
-    var borderWidth:Float { 
+    public var borderWidth:Float { 
         get {
             guard let layer = layer else { return 0.0 }
             return layer.borderWidth.f
@@ -115,7 +115,7 @@ extension NSView
         }
     }
     
-    var cornerRadius:Float { 
+    public var cornerRadius:Float { 
         get {
             guard let layer = layer else { return 0.0 }
             return layer.cornerRadius.f

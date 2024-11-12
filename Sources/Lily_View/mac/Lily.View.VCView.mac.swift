@@ -42,9 +42,9 @@ extension Lily.View
         public var setupField:(any LLField)?
         public var buildupField:(any LLField)?
         public var teardownField:(any LLField)?
-        public func setup() {}
-        public func buildup() {}
-        public func teardown() {}
+        open func setup() {}
+        open func buildup() {}
+        open func teardown() {}
         
         public var mouseMovedField:MouseField?
         public var mouseLeftDownField:MouseField?
@@ -89,7 +89,6 @@ extension Lily.View
         public var _mutex = Lily.View.RecursiveMutex()
         
         private func addEvents() {
-
             NSEvent.addLocalMonitorForEvents( 
                 matching: [.mouseMoved], 
                 handler: eventMouseMoved(event:) 
