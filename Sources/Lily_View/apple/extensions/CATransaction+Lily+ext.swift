@@ -18,7 +18,8 @@ public extension CATransaction
 {
     static func stop( _ f: ()->() ) {
         CATransaction.begin()
-        CATransaction.setValue( kCFBooleanTrue, forKey: kCATransactionDisableActions )
+        //CATransaction.setValue( kCFBooleanTrue, forKey: kCATransactionDisableActions )
+        CATransaction.setDisableActions( true )
         
         f()
         

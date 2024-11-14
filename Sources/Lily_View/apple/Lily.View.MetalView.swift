@@ -30,13 +30,15 @@ extension Lily.View
             didSet {
                 if bounds.width == 0 || bounds.height == 0 { return }
                 Task { @MainActor in
-                    metalLayer.drawableSize = self.scaledBounds.size
-                    metalLayer.frame = self.bounds
-                    updateDepthTexture(
-                        device: device, 
-                        width: self.scaledBounds.width.i!,
-                        height: self.scaledBounds.height.i! 
-                    )
+                    CATransaction.stop {
+                        metalLayer.drawableSize = self.scaledBounds.size
+                        metalLayer.frame = self.bounds
+                        updateDepthTexture(
+                            device: device, 
+                            width: self.scaledBounds.width.i!,
+                            height: self.scaledBounds.height.i! 
+                        )
+                    }
                 }
             }
         }
@@ -45,13 +47,15 @@ extension Lily.View
             didSet {
                 if bounds.width == 0 || bounds.height == 0 { return }
                 Task { @MainActor in
-                    metalLayer.drawableSize = self.scaledBounds.size
-                    metalLayer.frame = self.bounds
-                    updateDepthTexture(
-                        device: device, 
-                        width: self.scaledBounds.width.i!,
-                        height: self.scaledBounds.height.i! 
-                    )
+                    CATransaction.stop {
+                        metalLayer.drawableSize = self.scaledBounds.size
+                        metalLayer.frame = self.bounds
+                        updateDepthTexture(
+                            device: device, 
+                            width: self.scaledBounds.width.i!,
+                            height: self.scaledBounds.height.i! 
+                        )
+                    }
                 }
             } 
         }
