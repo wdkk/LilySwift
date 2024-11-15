@@ -83,7 +83,7 @@ extension Lily.Stage.Playground
     {
         var pass:Lily.Stage.Playground.ClearPass?
         weak var modelRenderTextures:Lily.Stage.Playground.Model.RenderTextures?
-        weak var mediumTexture:Lily.Stage.Playground.MediumTexture?
+        weak var mediumResource:Lily.Stage.Playground.MediumResource?
         
         public var clearColor:LLColor = .white
         public let viewCount:Int
@@ -93,20 +93,20 @@ extension Lily.Stage.Playground
             environment:Lily.Metal.ShaderEnvironment,
             viewCount:Int,
             modelRenderTextures:Lily.Stage.Playground.Model.RenderTextures?,
-            mediumTexture:Lily.Stage.Playground.MediumTexture?
+            mediumResource:Lily.Stage.Playground.MediumResource?
         ) 
         {
             self.pass = .init( device:device )
             self.viewCount = viewCount
             self.modelRenderTextures = modelRenderTextures
-            self.mediumTexture = mediumTexture
+            self.mediumResource = mediumResource
             
             super.init( device:device )
         }
         
         public override func changeSize( scaledSize:CGSize ) {
             self.modelRenderTextures?.updateBuffers( size:scaledSize, viewCount:self.viewCount )
-            self.mediumTexture?.updateBuffers( size:scaledSize, viewCount:self.viewCount )
+            self.mediumResource?.updateBuffers( size:scaledSize, viewCount:self.viewCount )
         }
           
         public override func render(
@@ -127,7 +127,7 @@ extension Lily.Stage.Playground
                 renderTargetViewIndex:viewCount        
             )
             
-            pass.setDestination( texture:mediumTexture?.resultTexture )
+            pass.setDestination( texture:mediumResource?.resultTexture )
             pass.setDepth( texture:depthTexture )
             pass.setClearColor( self.clearColor )
 

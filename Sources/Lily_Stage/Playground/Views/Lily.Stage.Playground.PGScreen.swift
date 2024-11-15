@@ -33,7 +33,7 @@ extension Lily.Stage.Playground
         
         // MARK: 描画テクスチャ
         public var modelRenderTextures:Model.RenderTextures
-        public var mediumTexture:MediumTexture
+        public var mediumResource:MediumResource
         
         // MARK: ストレージ
         public var planeStorage:Plane.PlaneStorage?
@@ -185,7 +185,7 @@ extension Lily.Stage.Playground
             self.environment = environment
 
             self.modelRenderTextures = .init( device:device )            
-            self.mediumTexture = .init( device:device )
+            self.mediumResource = .init( device:device )
             
             // ストレージの生成
             self.planeStorage = planeStorage
@@ -209,7 +209,7 @@ extension Lily.Stage.Playground
             self.environment = environment
 
             self.modelRenderTextures = .init( device:device )            
-            self.mediumTexture = .init( device:device )
+            self.mediumResource = .init( device:device )
             
             // ストレージの生成
             self.planeStorage = scene.planeStorage
@@ -288,7 +288,7 @@ extension Lily.Stage.Playground
                 environment:environment,
                 viewCount:viewCount,
                 modelRenderTextures:self.modelRenderTextures,
-                mediumTexture:self.mediumTexture
+                mediumResource:self.mediumResource
             )
             
             self.modelRenderFlow = .init(
@@ -296,7 +296,7 @@ extension Lily.Stage.Playground
                 environment:environment,
                 viewCount:viewCount,
                 renderTextures:self.modelRenderTextures,
-                mediumTexture:self.mediumTexture,
+                mediumResource:self.mediumResource,
                 storage:self.modelStorage
             )
                                     
@@ -304,7 +304,7 @@ extension Lily.Stage.Playground
                 device:device,
                 environment:environment,
                 viewCount:viewCount,
-                mediumTexture:mediumTexture,
+                mediumResource:mediumResource,
                 storage:self.bbStorage
             )
             
@@ -312,7 +312,7 @@ extension Lily.Stage.Playground
                 device:device,
                 environment:environment,
                 viewCount:viewCount,
-                mediumTexture:self.mediumTexture,
+                mediumResource:self.mediumResource,
                 storage:self.planeStorage
             )
             
@@ -320,7 +320,7 @@ extension Lily.Stage.Playground
                 device:device, 
                 environment:environment,
                 viewCount:viewCount,
-                mediumTexture:self.mediumTexture
+                mediumResource:self.mediumResource
             )
         }
     }

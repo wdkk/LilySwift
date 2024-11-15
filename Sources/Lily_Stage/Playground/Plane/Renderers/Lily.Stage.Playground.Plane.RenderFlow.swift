@@ -18,7 +18,7 @@ extension Lily.Stage.Playground.Plane
     : Lily.Stage.Playground.BaseRenderFlow
     {
         var pass:Pass?
-        weak var mediumTexture:Lily.Stage.Playground.MediumTexture?
+        weak var mediumResource:Lily.Stage.Playground.MediumResource?
         public weak var storage:PlaneStorage?
         
         var comDelta:PlaneComDelta?
@@ -35,14 +35,14 @@ extension Lily.Stage.Playground.Plane
             device:MTLDevice,
             environment:Lily.Metal.ShaderEnvironment,
             viewCount:Int,
-            mediumTexture:Lily.Stage.Playground.MediumTexture,
+            mediumResource:Lily.Stage.Playground.MediumResource,
             storage:PlaneStorage?
         ) 
         {
             self.pass = .init( device:device )
             self.viewCount = viewCount
             
-            self.mediumTexture = mediumTexture
+            self.mediumResource = mediumResource
             self.storage = storage
             
             PGShader.shared.ready( device:device )
@@ -133,7 +133,7 @@ extension Lily.Stage.Playground.Plane
             
             // 共通処理
             pass.updatePass( 
-                mediumTexture:mediumTexture!,
+                mediumResource:mediumResource!,
                 rasterizationRateMap:rasterizationRateMap,
                 renderTargetViewIndex:viewCount        
             )
@@ -155,7 +155,7 @@ extension Lily.Stage.Playground.Plane
             alphaRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
-                mediumTexture:mediumTexture!,
+                mediumResource:mediumResource!,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -163,7 +163,7 @@ extension Lily.Stage.Playground.Plane
             alphaRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
-                mediumTexture:mediumTexture!,
+                mediumResource:mediumResource!,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -171,7 +171,7 @@ extension Lily.Stage.Playground.Plane
             addRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
-                mediumTexture:mediumTexture!,
+                mediumResource:mediumResource!,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -179,7 +179,7 @@ extension Lily.Stage.Playground.Plane
             addRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
-                mediumTexture:mediumTexture!,
+                mediumResource:mediumResource!,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -187,7 +187,7 @@ extension Lily.Stage.Playground.Plane
             subRenderer?.draw(
                 with:encoder,
                 globalUniforms:uniforms,
-                mediumTexture:mediumTexture!,
+                mediumResource:mediumResource!,
                 storage:storage,
                 screenSize:screenSize
             )
@@ -195,7 +195,7 @@ extension Lily.Stage.Playground.Plane
             subRenderer?.drawTriangle(
                 with:encoder,
                 globalUniforms:uniforms,
-                mediumTexture:mediumTexture!,
+                mediumResource:mediumResource!,
                 storage:storage,
                 screenSize:screenSize
             )

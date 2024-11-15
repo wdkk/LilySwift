@@ -21,7 +21,7 @@ extension Lily.Stage.Playground.sRGB
         
         var pass:Lily.Stage.Playground.sRGB.Pass?
         
-        weak var mediumTexture:Playground.MediumTexture?
+        weak var mediumResource:Playground.MediumResource?
         
         var sRGBRenderer:Renderer?
         
@@ -31,12 +31,12 @@ extension Lily.Stage.Playground.sRGB
             device:MTLDevice,
             environment:Lily.Metal.ShaderEnvironment,
             viewCount:Int,
-            mediumTexture:Playground.MediumTexture
+            mediumResource:Playground.MediumResource
         ) 
         {
             self.pass = .init( device:device )
             self.viewCount = viewCount
-            self.mediumTexture = mediumTexture
+            self.mediumResource = mediumResource
             
             self.sRGBRenderer = .init( 
                 device:device,
@@ -59,7 +59,7 @@ extension Lily.Stage.Playground.sRGB
         {
             guard let pass = self.pass else { return }
             
-            guard let mediumTexture = mediumTexture else { LLLog( "mediumTextureが設定されていません" ); return }
+            guard let mediumResource = mediumResource else { LLLog( "mediumResourceが設定されていません" ); return }
             
             // 共通処理
             pass.updatePass( 
@@ -80,7 +80,7 @@ extension Lily.Stage.Playground.sRGB
             // sRGB変換
             sRGBRenderer?.draw(
                 with:encoder,
-                mediumTexture:mediumTexture
+                mediumResource:mediumResource
             )
 
             encoder?.endEncoding()

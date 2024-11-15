@@ -52,12 +52,12 @@ extension Lily.Stage.Playground.sRGB
         
         public func draw( 
             with renderEncoder:MTLRenderCommandEncoder?,
-            mediumTexture:Lily.Stage.Playground.MediumTexture
+            mediumResource:Lily.Stage.Playground.MediumResource
         ) 
         {
             renderEncoder?.setRenderPipelineState( pipeline )
                     
-            renderEncoder?.setFragmentTexture( mediumTexture.resultTexture, index:0 )
+            renderEncoder?.setFragmentTexture( mediumResource.resultTexture, index:0 )
             renderEncoder?.drawPrimitives( type:.triangle, vertexStart:0, vertexCount:3 )
         }
     }

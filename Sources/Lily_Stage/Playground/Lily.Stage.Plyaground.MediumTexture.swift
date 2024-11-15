@@ -15,7 +15,7 @@ import simd
 
 extension Lily.Stage.Playground
 {    
-    open class MediumTexture
+    open class MediumResource
     { 
         var device:MTLDevice
         
@@ -48,7 +48,7 @@ extension Lily.Stage.Playground
             
             // planeTextureの再生成
             resultTexture = device.makeTexture( descriptor:tex_desc )
-            resultTexture?.label = "MediumTexture.resultTexture"
+            resultTexture?.label = "MediumResource.resultTexture"
             
             return true
         }

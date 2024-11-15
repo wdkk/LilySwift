@@ -19,7 +19,7 @@ extension Lily.Stage.Playground.Billboard
     {
         var pass:Lily.Stage.Playground.Billboard.Pass?
         
-        weak var mediumTexture:Lily.Stage.Playground.MediumTexture?
+        weak var mediumResource:Lily.Stage.Playground.MediumResource?
         
         public weak var storage:BBStorage?
         
@@ -35,11 +35,11 @@ extension Lily.Stage.Playground.Billboard
             device:MTLDevice,
             environment:Lily.Metal.ShaderEnvironment,
             viewCount:Int,
-            mediumTexture:Lily.Stage.Playground.MediumTexture,
+            mediumResource:Lily.Stage.Playground.MediumResource,
             storage:BBStorage?
         ) 
         {
-            self.mediumTexture = mediumTexture
+            self.mediumResource = mediumResource
             
             self.pass = .init( device:device )
             self.viewCount = viewCount
@@ -93,7 +93,7 @@ extension Lily.Stage.Playground.Billboard
         {
             guard let pass = self.pass else { return }
             
-            guard let mediumTexture = self.mediumTexture else { LLLog( "mediumTextureが設定されていません" ); return }
+            guard let mediumResource = self.mediumResource else { LLLog( "mediumResourceが設定されていません" ); return }
             
             guard let storage = self.storage else { return }
             
@@ -140,7 +140,7 @@ extension Lily.Stage.Playground.Billboard
             )
             
             // フォワードレンダリング : パーティクルの描画の設定
-            pass.setDestination( texture:mediumTexture.resultTexture )
+            pass.setDestination( texture:mediumResource.resultTexture )
             pass.setDepth( texture:depthTexture )
             
             let encoder = commandBuffer.makeRenderCommandEncoder( descriptor:pass.passDesc! )

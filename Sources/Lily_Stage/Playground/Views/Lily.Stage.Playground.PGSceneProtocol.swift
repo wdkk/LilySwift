@@ -22,7 +22,7 @@ public protocol Lily_Stage_Playground_PGSceneProtocol
     
     // MARK: 描画テクスチャ
     var modelRenderTextures:PG.Model.RenderTextures { get set }
-    var mediumTexture:PG.MediumTexture { get set }
+    var mediumResource:PG.MediumResource { get set }
     
     // MARK: ストレージ
     var planeStorage:PG.Plane.PlaneStorage? { get set }
