@@ -120,9 +120,19 @@ public struct LLTabletState
     public var pressure:LLFloat = 0.0  /// 筆圧( 0.0 ~ 1.0 )
 }
 
+
+public protocol LLColorType
+{
+    associatedtype Unit
+    var R:Unit { get set }
+    var G:Unit { get set }
+    var B:Unit { get set }
+    var A:Unit { get set }
+}
 /// 8bit色情報構造体
 /// - 1チャンネルあたり8bitのRGBA色情報をもつ構造体
 public struct LLColor8
+: LLColorType
 {
     public typealias Unit = LLUInt8
     public var R:Unit = 0 /// R値 (min:0 ~ max:255)
@@ -145,6 +155,7 @@ public typealias LLColor8Matrix = UnsafeMutablePointer<LLColor8Ptr>
 /// 16bit色情報構造体
 /// - 1チャンネルあたり16bitのRGBA色情報をもつ構造体
 public struct LLColor16
+: LLColorType
 {
     public typealias Unit = LLUInt16
     public var R:Unit = 0 /// R値 (min:0 ~ max:65535)
@@ -167,6 +178,7 @@ public typealias LLColor16Matrix = UnsafeMutablePointer<LLColor16Ptr>
 /// 32bit色情報構造体
 /// - 1チャンネルあたり32bitのRGBA色情報をもつ構造体
 public struct LLColor32
+: LLColorType
 {
     public typealias Unit = LLInt32
     public var R:Unit = 0 /// R値 ( min:-2147483648 ~ max:2147483647 )
@@ -189,6 +201,7 @@ public typealias LLColor32Matrix = UnsafeMutablePointer<LLColor32Ptr>
 /// 64bit色情報構造体
 /// - 1チャンネルあたり64bitのRGBA色情報をもつ構造体
 public struct LLColor64
+: LLColorType
 {
     public typealias Unit = LLInt64
     public var R:LLInt64 = 0  /// R値 ( min:-9223372036854775808 ~ max:9223372036854775807 )
@@ -211,6 +224,7 @@ public typealias LLColor64Matrix = UnsafeMutablePointer<LLColor64Ptr>
 /// Float型色情報構造体
 /// - 1チャンネルあたり32bitFloatのRGBA色情報をもつ構造体
 public struct LLColor
+: LLColorType
 {
     public typealias Unit = LLFloat
     public var R:Unit = 0.0  /// R値 ( min:0.0 ~ max:1,0 )
@@ -233,6 +247,7 @@ public typealias LLColorMatrix = UnsafeMutablePointer<LLColorPtr>
 /// Double型色情報構造体
 /// - 1チャンネルあたり32bitFloatのRGBA色情報をもつ構造体
 public struct LLColorD
+: LLColorType
 {
     public typealias Unit = LLDouble
     public var R:Unit = 0.0  /// R値 ( min:0.0 ~ max:1,0 )
@@ -255,6 +270,7 @@ public typealias LLColorDMatrix = UnsafeMutablePointer<LLColorDPtr>
 /// BGRA8bit色情報構造体
 /// - 1チャンネルあたり8bitのBGRA色情報をもつ構造体
 public struct LLBGRA8
+: LLColorType
 {
     public typealias Unit = LLUInt8
     public var B:Unit  /// B値 (min:0 ~ max:255)
@@ -277,6 +293,7 @@ public typealias LLBGRA8Matrix = UnsafeMutablePointer<LLBGRA8Ptr>
 /// BGRA16bit色情報構造体
 /// - 1チャンネルあたり16bitのBGRA色情報をもつ構造体
 public struct LLBGRA16
+: LLColorType
 {
     public typealias Unit = LLUInt16
     public var B:Unit = 0 /// B値 (min:0 ~ max:65535)
@@ -299,6 +316,7 @@ public typealias LLBGRA16Matrix = UnsafeMutablePointer<LLBGRA16Ptr>
 /// BGRA float型色情報構造体
 /// - 1チャンネルあたり32bitFloatのBGRA色情報をもつ構造体
 public struct LLBGRAf
+: LLColorType
 {
     public typealias Unit = LLFloat
     public var B:Unit = 0.0 /// B値 (min:0.0 ~ max:1.0)

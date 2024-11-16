@@ -8,35 +8,6 @@
 
 import Foundation
 
-public func LCImageProcScaleNearest(
-    _ img_src_:LCImageSmPtr, 
-    _ img_dst_:LCImageSmPtr,
-    _ width:Int,
-    _ height:Int 
-) 
-{
-    // TODO: 未実装
-}
-
-public func LCImageProcScaleBiLinear(
-    _ img_src_:LCImageSmPtr, 
-    _ img_dst_:LCImageSmPtr,
-    _ width:Int, 
-    _ height:Int ) 
-{
-    // TODO: 未実装
-}
-
-public func LCImageProcScaleSmooth(
-    _ img_src_:LCImageSmPtr, 
-    _ img_dst_:LCImageSmPtr,
-    _ width:Int, 
-    _ height:Int 
-) 
-{
-    // TODO: 未実装
-}
-
 public func LCImageProcRotateNearest(     
     _ img_src_:LCImageSmPtr, 
     _ img_dst_:LCImageSmPtr, 
