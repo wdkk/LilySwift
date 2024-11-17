@@ -33,6 +33,7 @@ public extension FixedWidthInteger
 
 public protocol LLFloatConvertable
 {
+    init( _ f:Float )
     var f:Float { get }
 }
 
@@ -344,7 +345,7 @@ extension UInt64 : LLFloatConvertable
 }
 
 /// Float拡張
-extension Float
+extension Float : LLFloatConvertable
 {    
     /// Intへの変換
     public var i:Int? { return Int.optionalCast( self ) } 
@@ -366,6 +367,8 @@ extension Float
     public var u32:UInt32? { return UInt32.optionalCast( self ) }
     /// UInt64への変換
     public var u64:UInt64? { return UInt64.optionalCast( self ) }
+    /// Floatへの変換
+    public var f:Float { return self }
     /// Doubleへの変換
     public var d:Double { return Double( self ) }
     /// CGFloatへの変換

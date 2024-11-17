@@ -90,8 +90,8 @@ class __LCImageProcScaleNearest<TType, TColor> {
         let sc_x = Double(wid) / Double(new_wid)
         let sc_y = Double(hgt) / Double(new_hgt)
         
-        mat_src.withMemoryRebound(to: UnsafeMutablePointer<TType>.self, capacity: 1) { psrc in
-            mat_dst.withMemoryRebound(to: UnsafeMutablePointer<TType>.self, capacity: 1) { pdst in
+        mat_src.withMemoryRebound(to: UnsafeMutablePointer<TColor>.self, capacity: 1) { psrc in
+            mat_dst.withMemoryRebound(to: UnsafeMutablePointer<TColor>.self, capacity: 1) { pdst in
                 for y in 0 ..< new_hgt {
                     for x in 0 ..< new_wid {
                         let xx = Int(Double(x) * sc_x)

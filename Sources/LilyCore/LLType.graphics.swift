@@ -123,7 +123,8 @@ public struct LLTabletState
 
 public protocol LLColorType
 {
-    associatedtype Unit
+    associatedtype Unit:LLFloatConvertable
+    init( R:Unit, G:Unit, B:Unit, A:Unit )
     var R:Unit { get set }
     var G:Unit { get set }
     var B:Unit { get set }
@@ -270,7 +271,6 @@ public typealias LLColorDMatrix = UnsafeMutablePointer<LLColorDPtr>
 /// BGRA8bit色情報構造体
 /// - 1チャンネルあたり8bitのBGRA色情報をもつ構造体
 public struct LLBGRA8
-: LLColorType
 {
     public typealias Unit = LLUInt8
     public var B:Unit  /// B値 (min:0 ~ max:255)
@@ -293,7 +293,6 @@ public typealias LLBGRA8Matrix = UnsafeMutablePointer<LLBGRA8Ptr>
 /// BGRA16bit色情報構造体
 /// - 1チャンネルあたり16bitのBGRA色情報をもつ構造体
 public struct LLBGRA16
-: LLColorType
 {
     public typealias Unit = LLUInt16
     public var B:Unit = 0 /// B値 (min:0 ~ max:65535)
@@ -316,7 +315,6 @@ public typealias LLBGRA16Matrix = UnsafeMutablePointer<LLBGRA16Ptr>
 /// BGRA float型色情報構造体
 /// - 1チャンネルあたり32bitFloatのBGRA色情報をもつ構造体
 public struct LLBGRAf
-: LLColorType
 {
     public typealias Unit = LLFloat
     public var B:Unit = 0.0 /// B値 (min:0.0 ~ max:1.0)
