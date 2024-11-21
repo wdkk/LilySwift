@@ -125,11 +125,11 @@ class __LCImageProcScaleBiCubic<TType, TColor> where TColor: LLFloatConvertable 
                 
                 let weight = cubicKernel(dx) * cubicKernel(dy)
                 weightSum += weight
-                sum += weight * Double(psrc[py][px].f)
+                sum += weight * psrc[py][px].d
             }
         }
 
-        pdst[y][x] = .init(sum.f / weightSum.f)
+        pdst[y][x] = .init(sum / weightSum)
     }
 }
 
@@ -193,7 +193,8 @@ class __LCImageProcScaleBiCubicColor<TType, TColor> where TColor: LLColorType, T
         _ sc_y: Double,
         _ wid: Int,
         _ hgt: Int
-    ) {
+    )
+    {
         let fx = Double(x) * sc_x
         let fy = Double(y) * sc_y
         
@@ -218,24 +219,24 @@ class __LCImageProcScaleBiCubicColor<TType, TColor> where TColor: LLColorType, T
                 weightSum += weight
                 
                 let color = psrc[py][px]
-                R += weight * Double(color.R.f)
-                G += weight * Double(color.G.f)
-                B += weight * Double(color.B.f)
-                A += weight * Double(color.A.f)
+                R += weight * color.R.d
+                G += weight * color.G.d
+                B += weight * color.B.d
+                A += weight * color.A.d
             }
         }
         
         // 正規化して値を設定
-        if weightSum > 0 {
+        if weightSum > 0.0 {
             pdst[y][x] = .init(
-                R: TColor.Unit(R.f / weightSum.f),
-                G: TColor.Unit(G.f / weightSum.f),
-                B: TColor.Unit(B.f / weightSum.f),
-                A: TColor.Unit(A.f / weightSum.f)
+                R: LLWithin( min:TColor.min, TColor.Unit(R / weightSum), max:TColor.max ),
+                G: LLWithin( min:TColor.min, TColor.Unit(G / weightSum), max:TColor.max ),
+                B: LLWithin( min:TColor.min, TColor.Unit(B / weightSum), max:TColor.max ),
+                A: LLWithin( min:TColor.min, TColor.Unit(A / weightSum), max:TColor.max )
             )
         } else {
             // 重みがない場合のデフォルト値
-            pdst[y][x] = .init(R: TColor.Unit(0), G: TColor.Unit(0), B: TColor.Unit(0), A: TColor.Unit(0))
+            pdst[y][x] = .init(R: TColor.Unit(0.d), G: TColor.Unit(0.d), B: TColor.Unit(0.d), A: TColor.Unit(0.d))
         }
     }
 }
