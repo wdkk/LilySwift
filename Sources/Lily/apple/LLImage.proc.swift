@@ -42,6 +42,14 @@ open class LLImageProc
         return img_dst
     }
     
+    public static func scaleAreaAverage( imgSrc:LLImage, width:Int, height:Int ) 
+    -> LLImage
+    {
+        let img_dst = imgSrc.clone()
+        LCImageProcScaleAreaAverage( imgSrc.lcImage, img_dst.lcImage, width, height )
+        return img_dst
+    }
+    
     public static func rotateNearest( imgSrc:LLImage, degree:LLFloat, resizing:Bool ) 
     -> LLImage
     {

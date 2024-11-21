@@ -1,11 +1,12 @@
 //
-//  LCImage.proc.scaleBiCubic.swift
-//  LilySwift
+// Lily Library Project
 //
-//  Created by Kengo Watanabe on 2024/11/17.
-//  Copyright © 2024 Watanabe-Denki, Inc. All rights reserved.
+// Copyright (c) Watanabe-Denki, Inc. and Kengo Watanabe.
+//   https://wdkk.co.jp/
 //
-
+// This software is released under the MIT License.
+//   https://opensource.org/licenses/mit-license.php
+//
 import Foundation
 
 public func LCImageProcScaleBiCubic(
@@ -38,6 +39,18 @@ public func LCImageProcScaleBiCubic(
     case .rgbaf:
         let module = __LCImageProcScaleBiCubicColor<LLFloat, LLColor>(LCImageRGBAfMatrix)
         module.convert(img_src_, img_dst_, width, height)
+        break
+    case .hsvf:
+        let img_conv = LCImageClone(img_src_)
+        LCImageConvertType(img_conv, .rgbaf)
+        LCImageProcScaleBiCubic(img_conv, img_dst_, width, height)
+        LCImageConvertType(img_dst_, .hsvf)
+        break
+    case .hsvi:
+        let img_conv = LCImageClone(img_src_)
+        LCImageConvertType(img_conv, .rgbaf)
+        LCImageProcScaleBiCubic(img_conv, img_dst_, width, height)
+        LCImageConvertType(img_dst_, .hsvi)
         break
     default:
         LLLogForce("unsupported this image type.")

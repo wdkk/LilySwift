@@ -1,11 +1,12 @@
 //
-//  LCImage.proc.scaleBiLinear.swift
-//  LilySwift
+// Lily Library Project
 //
-//  Created by Kengo Watanabe on 2024/11/17.
-//  Copyright © 2024 Watanabe-Denki, Inc. All rights reserved.
+// Copyright (c) Watanabe-Denki, Inc. and Kengo Watanabe.
+//   https://wdkk.co.jp/
 //
-
+// This software is released under the MIT License.
+//   https://opensource.org/licenses/mit-license.php
+//
 import Foundation
 
 public func LCImageProcScaleBiLinear(

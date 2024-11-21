@@ -369,7 +369,7 @@ public func LCImage2NSImage( _ img_:LCImageSmPtr ) -> NSImage {
 public func NSImage2LCImage( _ img_:NSImage ) -> LCImageSmPtr {
     let wid = img_.size.width.i!
     let hgt = img_.size.height.i!
-    var nsimage_rect:CGRect = CGRect( 0, 0, wid, hgt )
+    let nsimage_rect:CGRect = CGRect( 0, 0, wid, hgt )
     
     let color_space = CGColorSpaceCreateDeviceRGB()
 
