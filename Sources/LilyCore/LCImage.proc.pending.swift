@@ -7,27 +7,8 @@
 // This software is released under the MIT License.
 //   https://opensource.org/licenses/mit-license.php
 //
+
 import Foundation
-
-public func LCImageProcRotateNearest(     
-    _ img_src_:LCImageSmPtr, 
-    _ img_dst_:LCImageSmPtr, 
-    _ degree:LLFloat, 
-    _ resizing:Bool 
-) 
-{
-    // TODO: 未実装
-}
-
-public func LCImageProcRotateBiLinear( 
-    _ img_src_:LCImageSmPtr, 
-    _ img_dst_:LCImageSmPtr, 
-    _ degree:LLFloat, 
-    _ resizing:Bool
-)
-{
-    // TODO: 未実装
-}
 
 public func LCImageProcAffineTransformNearest( 
     _ img_src_:LCImageSmPtr, 

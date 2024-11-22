@@ -50,6 +50,14 @@ open class LLImageProc
         return img_dst
     }
     
+    public static func scaleSmooth( imgSrc:LLImage, width:Int, height:Int ) 
+    -> LLImage
+    {
+        let img_dst = imgSrc.clone()
+        LCImageProcScaleSmooth( imgSrc.lcImage, img_dst.lcImage, width, height )
+        return img_dst
+    }
+    
     public static func rotateNearest( imgSrc:LLImage, degree:LLFloat, resizing:Bool ) 
     -> LLImage
     {

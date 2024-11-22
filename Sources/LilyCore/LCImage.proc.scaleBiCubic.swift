@@ -102,9 +102,11 @@ class __LCImageProcScaleBiCubic<TType, TColor> where TColor: LLFloatConvertable 
         let absX = abs(x)
         if absX <= 1.0 {
             return (1.5 * absX - 2.5) * absX * absX + 1.0
-        } else if absX < 2.0 {
+        } 
+        else if absX < 2.0 {
             return ((-0.5 * absX + 2.5) * absX - 4.0) * absX + 2.0
-        } else {
+        } 
+        else {
             return 0.0
         }
     }
@@ -148,7 +150,6 @@ class __LCImageProcScaleBiCubic<TType, TColor> where TColor: LLFloatConvertable 
 
 class __LCImageProcScaleBiCubicColor<TType, TColor> where TColor: LLColorType, TType: LLFloatConvertable {
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
-    typealias TPointer = UnsafeMutablePointer<UnsafeMutablePointer<UnsafeMutablePointer<TType>>>
     
     var matrix_getter: (LCImageSmPtr) -> TMatrix?
     
@@ -190,9 +191,11 @@ class __LCImageProcScaleBiCubicColor<TType, TColor> where TColor: LLColorType, T
         let absX = abs(x)
         if absX <= 1.0 {
             return (1.5 * absX - 2.5) * absX * absX + 1.0
-        } else if absX < 2.0 {
+        } 
+        else if absX < 2.0 {
             return ((-0.5 * absX + 2.5) * absX - 4.0) * absX + 2.0
-        } else {
+        } 
+        else {
             return 0.0
         }
     }
@@ -247,9 +250,11 @@ class __LCImageProcScaleBiCubicColor<TType, TColor> where TColor: LLColorType, T
                 B: LLWithin( min:TColor.min, TColor.Unit(B / weightSum), max:TColor.max ),
                 A: LLWithin( min:TColor.min, TColor.Unit(A / weightSum), max:TColor.max )
             )
-        } else {
+        } 
+        else {
             // 重みがない場合のデフォルト値
             pdst[y][x] = .init(R: TColor.Unit(0.d), G: TColor.Unit(0.d), B: TColor.Unit(0.d), A: TColor.Unit(0.d))
         }
     }
 }
+

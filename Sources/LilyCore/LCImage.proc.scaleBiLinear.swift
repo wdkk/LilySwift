@@ -147,7 +147,6 @@ class __LCImageProcScaleBiLinear<TType, TColor> where TColor:LLFloatConvertable
 class __LCImageProcScaleBiLinearColor<TType, TColor> where TColor:LLColorType, TType:LLFloatConvertable
 {
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
-    typealias TPointer = UnsafeMutablePointer<UnsafeMutablePointer<UnsafeMutablePointer<TType>>>
     
     var matrix_getter: (LCImageSmPtr) -> TMatrix?
     
