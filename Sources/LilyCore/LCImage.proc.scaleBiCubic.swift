@@ -58,9 +58,10 @@ public func LCImageProcScaleBiCubic(
     }
 }
 
-class __LCImageProcScaleBiCubic<TType, TColor> where TColor: LLFloatConvertable {
+class __LCImageProcScaleBiCubic<TType, TColor> 
+where TColor: LLFloatConvertable & Comparable
+{
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
-    typealias TPointer = UnsafeMutablePointer<UnsafeMutablePointer<UnsafeMutablePointer<TType>>>
     
     var matrix_getter: (LCImageSmPtr) -> TMatrix?
     
@@ -112,8 +113,8 @@ class __LCImageProcScaleBiCubic<TType, TColor> where TColor: LLFloatConvertable 
     }
     
     func interpolateBiCubic(
-        _ psrc: UnsafeMutablePointer<UnsafeMutablePointer<TColor>>,
-        _ pdst: UnsafeMutablePointer<UnsafeMutablePointer<TColor>>,
+        _ psrc:TMatrix,
+        _ pdst:TMatrix,
         _ x: Int,
         _ y: Int,
         _ sc_x: Double,
@@ -144,11 +145,13 @@ class __LCImageProcScaleBiCubic<TType, TColor> where TColor: LLFloatConvertable 
             }
         }
 
-        pdst[y][x] = .init(sum / weightSum)
+        pdst[y][x] = LLWithin(min: TColor.colorRangeMinValue, .init(sum / weightSum), max: TColor.colorRangeMaxValue ) 
     }
 }
 
-class __LCImageProcScaleBiCubicColor<TType, TColor> where TColor: LLColorType, TType: LLFloatConvertable {
+class __LCImageProcScaleBiCubicColor<TType, TColor> 
+where TColor: LLColorType, TType: LLFloatConvertable 
+{
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
     
     var matrix_getter: (LCImageSmPtr) -> TMatrix?
@@ -201,8 +204,8 @@ class __LCImageProcScaleBiCubicColor<TType, TColor> where TColor: LLColorType, T
     }
     
     func interpolateBiCubic(
-        _ psrc: UnsafeMutablePointer<UnsafeMutablePointer<TColor>>,
-        _ pdst: UnsafeMutablePointer<UnsafeMutablePointer<TColor>>,
+        _ psrc:TMatrix,
+        _ pdst:TMatrix,
         _ x: Int,
         _ y: Int,
         _ sc_x: Double,

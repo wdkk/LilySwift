@@ -41,6 +41,18 @@ public func LCImageProcRotateBiLinear(
         let module = __LCImageProcRotateBiLinearColor<LLFloat, LLColor>(LCImageRGBAfMatrix)
         module.convert(img_src_, img_dst_, degree, resizing)
         break
+    case .hsvf:
+        let img_conv = LCImageClone(img_src_)
+        LCImageConvertType(img_conv, .rgbaf)
+        LCImageProcRotateBiLinear(img_conv, img_dst_, degree, resizing)
+        LCImageConvertType(img_dst_, .hsvf)
+        break
+    case .hsvi:
+        let img_conv = LCImageClone(img_src_)
+        LCImageConvertType(img_conv, .rgbaf)
+        LCImageProcRotateBiLinear(img_conv, img_dst_, degree, resizing)
+        LCImageConvertType(img_dst_, .hsvi)
+        break
     default:
         LLLogForce("unsupported this image type.")
         break
@@ -155,8 +167,8 @@ where TColor: LLFloatConvertable
     }
     
     func interpolateBiLinear(
-        _ psrc: UnsafeMutablePointer<UnsafeMutablePointer<TColor>>,
-        _ pdst: UnsafeMutablePointer<UnsafeMutablePointer<TColor>>,
+        _ psrc:TMatrix,
+        _ pdst:TMatrix,
         _ x: Int,
         _ y: Int,
         _ srcWidth: Int,
@@ -313,8 +325,8 @@ where TColor: LLColorType, TType: LLFloatConvertable
     }
     
     func interpolateBiLinear(
-        _ psrc: UnsafeMutablePointer<UnsafeMutablePointer<TColor>>,
-        _ pdst: UnsafeMutablePointer<UnsafeMutablePointer<TColor>>,
+        _ psrc:TMatrix,
+        _ pdst:TMatrix,
         _ x: Int,
         _ y: Int,
         _ srcWidth: Int,

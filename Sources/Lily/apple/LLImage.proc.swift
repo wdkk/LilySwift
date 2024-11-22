@@ -74,6 +74,22 @@ open class LLImageProc
         return img_dst
     }
     
+    public static func rotateBiCubic( imgSrc:LLImage, degree:LLFloat, resizing:Bool )
+    -> LLImage
+    {
+        let img_dst = imgSrc.clone()
+        LCImageProcRotateBiCubic( imgSrc.lcImage, img_dst.lcImage, degree, resizing )
+        return img_dst
+    }
+
+    public static func affineTransformNearest( imgSrc:LLImage, transform:LL2DAffine, isResize:Bool = false ) 
+    -> LLImage
+    {
+        let img_dst = imgSrc.clone()
+        LCImageProcAffineTransformNearest( imgSrc.lcImage, img_dst.lcImage, transform, isResize )
+        return img_dst
+    }
+    
     public static func affineTransformNearest( imgSrc:LLImage, width:Int, height:Int, degree:Float, isResize:Bool = false ) 
     -> LLImage
     {

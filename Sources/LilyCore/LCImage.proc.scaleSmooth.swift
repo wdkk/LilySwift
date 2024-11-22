@@ -59,7 +59,8 @@ public func LCImageProcScaleSmooth(
     }
 }
 
-class __LCImageProcScaleSmooth<TType, TColor> where TColor: LLFloatConvertable 
+class __LCImageProcScaleSmooth<TType, TColor>
+where TColor: LLFloatConvertable 
 {
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
     
@@ -245,7 +246,9 @@ class __LCImageProcScaleSmooth<TType, TColor> where TColor: LLFloatConvertable
     }
 }
 
-class __LCImageProcScaleSmoothColor<TType, TColor> where TColor: LLColorType, TType: LLFloatConvertable {
+class __LCImageProcScaleSmoothColor<TType, TColor> 
+where TColor: LLColorType, TType: LLFloatConvertable 
+{
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
     
     var matrix_getter: (LCImageSmPtr) -> TMatrix?

@@ -59,7 +59,8 @@ public func LCImageProcScaleBiLinear(
 }
 
 
-class __LCImageProcScaleBiLinear<TType, TColor> where TColor:LLFloatConvertable
+class __LCImageProcScaleBiLinear<TType, TColor> 
+where TColor:LLFloatConvertable
 {
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
     typealias TPointer = UnsafeMutablePointer<UnsafeMutablePointer<UnsafeMutablePointer<TType>>>
@@ -102,8 +103,8 @@ class __LCImageProcScaleBiLinear<TType, TColor> where TColor:LLFloatConvertable
     }
     
     func interpolateBiLinear(
-        _ psrc: UnsafeMutablePointer<UnsafeMutablePointer<TColor>>,
-        _ pdst: UnsafeMutablePointer<UnsafeMutablePointer<TColor>>,
+        _ psrc: TMatrix,
+        _ pdst: TMatrix,
         _ x: Int,
         _ y: Int,
         _ sc_x: Double,
@@ -144,7 +145,8 @@ class __LCImageProcScaleBiLinear<TType, TColor> where TColor:LLFloatConvertable
     }
 }
 
-class __LCImageProcScaleBiLinearColor<TType, TColor> where TColor:LLColorType, TType:LLFloatConvertable
+class __LCImageProcScaleBiLinearColor<TType, TColor>
+where TColor:LLColorType, TType:LLFloatConvertable
 {
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
     
@@ -186,8 +188,8 @@ class __LCImageProcScaleBiLinearColor<TType, TColor> where TColor:LLColorType, T
     }
     
     func interpolateBiLinear(
-        _ psrc: UnsafeMutablePointer<UnsafeMutablePointer<TColor>>,
-        _ pdst: UnsafeMutablePointer<UnsafeMutablePointer<TColor>>,
+        _ psrc:TMatrix,
+        _ pdst:TMatrix,
         _ x: Int,
         _ y: Int,
         _ sc_x: Double,

@@ -60,7 +60,9 @@ public func LCImageProcScaleAreaAverage(
     }
 }
 
-class __LCImageProcScaleAreaAverage<TType, TColor> where TColor: LLFloatConvertable {
+class __LCImageProcScaleAreaAverage<TType, TColor>
+where TColor: LLFloatConvertable
+{
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
     
     var matrix_getter: (LCImageSmPtr) -> TMatrix?
@@ -111,7 +113,9 @@ class __LCImageProcScaleAreaAverage<TType, TColor> where TColor: LLFloatConverta
     }
 }
 
-class __LCImageProcScaleAreaAverageColor<TType, TColor> where TColor: LLColorType, TType: LLFloatConvertable {
+class __LCImageProcScaleAreaAverageColor<TType, TColor> 
+where TColor: LLColorType, TType: LLFloatConvertable 
+{
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
     
     var matrix_getter: (LCImageSmPtr) -> TMatrix?

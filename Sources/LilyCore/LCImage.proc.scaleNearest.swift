@@ -60,9 +60,9 @@ public func LCImageProcScaleNearest(
     }
 }
 
-class __LCImageProcScaleNearest<TType, TColor> {
+class __LCImageProcScaleNearest<TType, TColor> 
+{
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
-    typealias TPointer = UnsafeMutablePointer<UnsafeMutablePointer<UnsafeMutablePointer<TType>>>
     
     var matrix_getter: (LCImageSmPtr) -> TMatrix?
     
