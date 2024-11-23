@@ -10,18 +10,6 @@
 
 import Foundation
 
-public func LCImageProcAffineTransformBiLinear( 
-    _ img_src_:LCImageSmPtr, 
-    _ img_dst_:LCImageSmPtr,
-    _ width:Int,
-    _ height:Int,
-    _ degree:Float,
-    _ isResize:Bool
-) 
-{
-    // TODO: 未実装
-}
-
 public func LCImageProcBilateralFilter(
     _ img_src_:LCImageSmPtr, 
     _ img_dst_:LCImageSmPtr,

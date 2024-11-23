@@ -10,7 +10,7 @@
 
 import Foundation
 
-public func LCImageProcAffineTransformNearest( 
+public func LCImageProcAffineTransformBiLinear( 
     _ img_src_: LCImageSmPtr, 
     _ img_dst_: LCImageSmPtr, 
     _ transform: LL2DAffine,
@@ -19,33 +19,33 @@ public func LCImageProcAffineTransformNearest(
 {
     switch LCImageGetType(img_src_) {
     case .grey8:
-        let module = __LCImageProcAffineTransformNearest<LLUInt8, LLUInt8>(LCImageGrey8Matrix)
+        let module = __LCImageProcAffineTransformBiLinear<LLUInt8, LLUInt8>(LCImageGrey8Matrix)
         module.convert(img_src_, img_dst_, transform, resizing)
     case .grey16:
-        let module = __LCImageProcAffineTransformNearest<LLUInt16, LLUInt16>(LCImageGrey16Matrix)
+        let module = __LCImageProcAffineTransformBiLinear<LLUInt16, LLUInt16>(LCImageGrey16Matrix)
         module.convert(img_src_, img_dst_, transform, resizing)
     case .greyf:
-        let module = __LCImageProcAffineTransformNearest<LLFloat, LLFloat>(LCImageGreyfMatrix)
+        let module = __LCImageProcAffineTransformBiLinear<LLFloat, LLFloat>(LCImageGreyfMatrix)
         module.convert(img_src_, img_dst_, transform, resizing)
     case .rgba8:
-        let module = __LCImageProcAffineTransformNearestColor<LLUInt8, LLColor8>(LCImageRGBA8Matrix)
+        let module = __LCImageProcAffineTransformBiLinearColor<LLUInt8, LLColor8>(LCImageRGBA8Matrix)
         module.convert(img_src_, img_dst_, transform, resizing)
     case .rgba16:
-        let module = __LCImageProcAffineTransformNearestColor<LLUInt16, LLColor16>(LCImageRGBA16Matrix)
+        let module = __LCImageProcAffineTransformBiLinearColor<LLUInt16, LLColor16>(LCImageRGBA16Matrix)
         module.convert(img_src_, img_dst_, transform, resizing)
     case .rgbaf:
-        let module = __LCImageProcAffineTransformNearestColor<LLFloat, LLColor>(LCImageRGBAfMatrix)
+        let module = __LCImageProcAffineTransformBiLinearColor<LLFloat, LLColor>(LCImageRGBAfMatrix)
         module.convert(img_src_, img_dst_, transform, resizing)
     case .hsvf:
         let img_conv = LCImageClone(img_src_)
         LCImageConvertType(img_conv, .rgbaf)
-        LCImageProcAffineTransformNearest(img_conv, img_dst_, transform, resizing)
+        LCImageProcAffineTransformBiLinear(img_conv, img_dst_, transform, resizing)
         LCImageConvertType(img_dst_, .hsvf)
         break
     case .hsvi:
         let img_conv = LCImageClone(img_src_)
         LCImageConvertType(img_conv, .rgbaf)
-        LCImageProcAffineTransformNearest(img_conv, img_dst_, transform, resizing)
+        LCImageProcAffineTransformBiLinear(img_conv, img_dst_, transform, resizing)
         LCImageConvertType(img_dst_, .hsvi)
         break
     default:
@@ -53,7 +53,7 @@ public func LCImageProcAffineTransformNearest(
     }
 }
 
-public func LCImageProcAffineTransformNearest( 
+public func LCImageProcAffineTransformBiLinear( 
     _ img_src_:LCImageSmPtr, 
     _ img_dst_:LCImageSmPtr, 
     _ width:Int, 
@@ -112,35 +112,10 @@ public func LCImageProcAffineTransformNearest(
     let tf = LL2DAffineMultiply( new_scale_tf, new_rotate_tf )
 
     // アフィン変換を適用して画像を変形
-    LCImageProcAffineTransformNearest( img_src_, img_dst_, tf, resizing )
+    LCImageProcAffineTransformBiLinear( img_src_, img_dst_, tf, resizing )
 }
 
-func __calculateBoundingBoxForAffine(
-    _ srcWidth: Int,
-    _ srcHeight: Int,
-    _ transform: LL2DAffine
-) 
--> (Int, Int)
-{
-    // 画像4頂点
-    let corners = [ (x: 0.0, y: 0.0), (x: srcWidth.d, y: 0.0), (x: srcWidth.d, y: srcHeight.d), (x: 0.0, y: srcHeight.d) ]
-    // 4頂点をアフィン変換
-    let transformedCorners = corners.map { corner in
-        let tx = transform.a * corner.x + transform.b * corner.y + transform.c
-        let ty = transform.d * corner.x + transform.e * corner.y + transform.f
-        return (x: tx, y: ty)
-    }
-    
-    // 外接矩形の幅と高さを計算
-    let minX = transformedCorners.map { $0.x }.min()!
-    let maxX = transformedCorners.map { $0.x }.max()!
-    let minY = transformedCorners.map { $0.y }.min()!
-    let maxY = transformedCorners.map { $0.y }.max()!
-    
-    return ( Int(ceil(maxX - minX)), Int(ceil(maxY - minY)) )
-}
-
-class __LCImageProcAffineTransformNearest<TType, TColor> 
+class __LCImageProcAffineTransformBiLinear<TType, TColor> 
 where TColor: LLFloatConvertable 
 {
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
@@ -189,8 +164,6 @@ where TColor: LLFloatConvertable
                             y: y,
                             srcWidth: srcWidth,
                             srcHeight: srcHeight,
-                            dstWidth: dstWidth,
-                            dstHeight: dstHeight,
                             transform: transform
                         )
                     }
@@ -206,10 +179,9 @@ where TColor: LLFloatConvertable
         y: Int,
         srcWidth: Int,
         srcHeight: Int,
-        dstWidth: Int,
-        dstHeight: Int,
         transform: LL2DAffine
-    ) {
+    )
+    {
         // 逆アフィン変換を計算
         let inverseTransform = LL2DAffineInverse(transform)
         
@@ -217,23 +189,42 @@ where TColor: LLFloatConvertable
         let srcX = inverseTransform.a * Double(x) + inverseTransform.b * Double(y) + inverseTransform.c
         let srcY = inverseTransform.d * Double(x) + inverseTransform.e * Double(y) + inverseTransform.f
 
-        // 最近傍補間のために整数座標に丸める
-        let srcXInt = Int(round(srcX))
-        let srcYInt = Int(round(srcY))
-
         // 範囲外チェック
-        if srcXInt >= 0 && srcXInt < srcWidth && srcYInt >= 0 && srcYInt < srcHeight {
-            // 元画像から対応するピクセルを取得
-            pdst[y][x] = psrc[srcYInt][srcXInt]
-        } 
-        else {
-            // 範囲外の場合はデフォルト値を設定
+        if srcX < 0.0 || srcX >= Double(srcWidth - 1) || srcY < 0.0 || srcY >= Double(srcHeight - 1) {
             pdst[y][x] = .init(0.0) // 黒
+            return
         }
+
+        // 整数部分と小数部分を分離
+        let x0 = Int(floor(srcX))
+        let y0 = Int(floor(srcY))
+        let x1 = x0 + 1
+        let y1 = y0 + 1
+        let dx = srcX - Double(x0)
+        let dy = srcY - Double(y0)
+
+        // 4隅のピクセル値を取得
+        let p00 = psrc[y0][x0].d
+        let p01 = psrc[y0][x1].d
+        let p10 = psrc[y1][x0].d
+        let p11 = psrc[y1][x1].d
+
+        // BiLinear補間
+        let d00 = (1 - dx) * (1 - dy)
+        let d01 = dx * (1 - dy)
+        let d10 = (1 - dx) * dy
+        let d11 = dx * dy
+        
+        var v = d00 * p00
+        v += d01 * p01
+        v += d10 * p10
+        v += d11 * p11
+        
+        pdst[y][x] = .init( v )
     }
 }
 
-class __LCImageProcAffineTransformNearestColor<TType, TColor> 
+class __LCImageProcAffineTransformBiLinearColor<TType, TColor> 
 where TColor: LLColorType, TType: LLFloatConvertable 
 {
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
@@ -249,7 +240,8 @@ where TColor: LLColorType, TType: LLFloatConvertable
         _ img_dst_: LCImageSmPtr,
         _ transform: LL2DAffine,
         _ resizing: Bool
-    ) {
+    )
+    {
         let srcWidth = LCImageWidth(img_src_)
         let srcHeight = LCImageHeight(img_src_)
         
@@ -266,10 +258,10 @@ where TColor: LLColorType, TType: LLFloatConvertable
         // 出力画像のリサイズ
         let type = LCImageGetType(img_src_)
         LCImageResizeWithType(img_dst_, dstWidth, dstHeight, type)
-
+        
         let mat_src = matrix_getter(img_src_)!
         let mat_dst = matrix_getter(img_dst_)!
-
+        
         mat_src.withMemoryRebound(to: UnsafeMutablePointer<TColor>.self, capacity: 1) { psrc in
             mat_dst.withMemoryRebound(to: UnsafeMutablePointer<TColor>.self, capacity: 1) { pdst in
                 for y in 0..<dstHeight {
@@ -281,8 +273,6 @@ where TColor: LLColorType, TType: LLFloatConvertable
                             y: y,
                             srcWidth: srcWidth,
                             srcHeight: srcHeight,
-                            dstWidth: dstWidth,
-                            dstHeight: dstHeight,
                             transform: transform
                         )
                     }
@@ -290,7 +280,7 @@ where TColor: LLColorType, TType: LLFloatConvertable
             }
         }
     }
-        
+ 
     func processPixel(
         psrc: TMatrix,
         pdst: TMatrix,
@@ -298,10 +288,8 @@ where TColor: LLColorType, TType: LLFloatConvertable
         y: Int,
         srcWidth: Int,
         srcHeight: Int,
-        dstWidth: Int,
-        dstHeight: Int,
         transform: LL2DAffine
-    )
+    ) 
     {
         // 逆アフィン変換を計算
         let inverseTransform = LL2DAffineInverse(transform)
@@ -310,23 +298,64 @@ where TColor: LLColorType, TType: LLFloatConvertable
         let srcX = inverseTransform.a * Double(x) + inverseTransform.b * Double(y) + inverseTransform.c
         let srcY = inverseTransform.d * Double(x) + inverseTransform.e * Double(y) + inverseTransform.f
 
-        // 最近傍補間のために整数座標に丸める
-        let srcXInt = Int(round(srcX))
-        let srcYInt = Int(round(srcY))
-
         // 範囲外チェック
-        if srcXInt >= 0 && srcXInt < srcWidth && srcYInt >= 0 && srcYInt < srcHeight {
-            // 元画像から対応するピクセルを取得
-            pdst[y][x] = psrc[srcYInt][srcXInt]
-        } 
-        else {
-            // 範囲外の場合は透明
+        if srcX < 0.0 || srcX >= Double(srcWidth - 1) || srcY < 0.0 || srcY >= Double(srcHeight - 1) {
+            // 透明
             pdst[y][x] = .init(
                 R: TColor.Unit(0.0),
                 G: TColor.Unit(0.0),
                 B: TColor.Unit(0.0),
                 A: TColor.Unit(0.0)
-            )
+            ) 
+            return
         }
+
+        // 整数部分と小数部分を分離
+        let x0 = Int(floor(srcX))
+        let y0 = Int(floor(srcY))
+        let x1 = x0 + 1
+        let y1 = y0 + 1
+        let dx = srcX - Double(x0)
+        let dy = srcY - Double(y0)
+
+        // 4隅のピクセル値を取得
+        let p00 = psrc[y0][x0]
+        let p01 = psrc[y0][x1]
+        let p10 = psrc[y1][x0]
+        let p11 = psrc[y1][x1]
+        
+        let d00 = (1 - dx) * (1 - dy)
+        let d01 = dx * (1 - dy)
+        let d10 = (1 - dx) * dy
+        let d11 = dx * dy
+
+        // BiLinear補間 (R, G, B, A 各成分ごとに計算)
+        let interpolatedR = d00 * p00.R.d +
+                            d01 * p01.R.d +
+                            d10 * p10.R.d +
+                            d11 * p11.R.d
+
+        let interpolatedG = d00 * p00.G.d +
+                            d01 * p01.G.d +
+                            d10 * p10.G.d +
+                            d11 * p11.G.d
+
+        let interpolatedB = d00 * p00.B.d +
+                            d01 * p01.B.d +
+                            d10 * p10.B.d +
+                            d11 * p11.B.d
+
+        let interpolatedA = d00 * p00.A.d +
+                            d01 * p01.A.d +
+                            d10 * p10.A.d +
+                            d11 * p11.A.d
+
+        // 補間結果を出力ピクセルに設定
+        pdst[y][x] = .init(
+            R: TColor.Unit(interpolatedR),
+            G: TColor.Unit(interpolatedG),
+            B: TColor.Unit(interpolatedB),
+            A: TColor.Unit(interpolatedA)
+        )
     }
 }

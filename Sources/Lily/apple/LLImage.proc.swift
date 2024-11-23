@@ -82,27 +82,35 @@ open class LLImageProc
         return img_dst
     }
 
-    public static func affineTransformNearest( imgSrc:LLImage, transform:LL2DAffine, isResize:Bool = false ) 
+    public static func affineTransformNearest( imgSrc:LLImage, transform:LL2DAffine, resizing:Bool = false ) 
     -> LLImage
     {
         let img_dst = imgSrc.clone()
-        LCImageProcAffineTransformNearest( imgSrc.lcImage, img_dst.lcImage, transform, isResize )
+        LCImageProcAffineTransformNearest( imgSrc.lcImage, img_dst.lcImage, transform, resizing )
         return img_dst
     }
     
-    public static func affineTransformNearest( imgSrc:LLImage, width:Int, height:Int, degree:Float, isResize:Bool = false ) 
+    public static func affineTransformNearest( imgSrc:LLImage, width:Int, height:Int, degree:Float, resizing:Bool = false ) 
     -> LLImage
     {
         let img_dst = imgSrc.clone()
-        LCImageProcAffineTransformNearest( imgSrc.lcImage, img_dst.lcImage, width, height, degree, isResize )
+        LCImageProcAffineTransformNearest( imgSrc.lcImage, img_dst.lcImage, width, height, degree, resizing )
         return img_dst
     }
     
-    public static func affineTransformBiLinear( imgSrc:LLImage, width:Int, height:Int, degree:Float, isResize:Bool = false ) 
+    public static func affineTransformBiLinear( imgSrc:LLImage, transform:LL2DAffine, resizing:Bool = false ) 
     -> LLImage
     {
         let img_dst = imgSrc.clone()
-        LCImageProcAffineTransformBiLinear( imgSrc.lcImage, img_dst.lcImage, width, height, degree, isResize )
+        LCImageProcAffineTransformBiLinear( imgSrc.lcImage, img_dst.lcImage, transform, resizing )
+        return img_dst
+    }
+    
+    public static func affineTransformBiLinear( imgSrc:LLImage, width:Int, height:Int, degree:Float, resizing:Bool = false ) 
+    -> LLImage
+    {
+        let img_dst = imgSrc.clone()
+        LCImageProcAffineTransformBiLinear( imgSrc.lcImage, img_dst.lcImage, width, height, degree, resizing )
         return img_dst
     }
     
