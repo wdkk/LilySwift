@@ -215,10 +215,7 @@ where TColor: LLFloatConvertable
         let d10 = (1 - dx) * dy
         let d11 = dx * dy
         
-        var v = d00 * p00
-        v += d01 * p01
-        v += d10 * p10
-        v += d11 * p11
+        let v = d00 * p00 + d01 * p01 + d10 * p10 + d11 * p11
         
         pdst[y][x] = .init( v )
     }
