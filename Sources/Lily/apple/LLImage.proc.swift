@@ -114,6 +114,22 @@ open class LLImageProc
         return img_dst
     }
     
+    public static func affineTransformBiCubic( imgSrc:LLImage, transform:LL2DAffine, resizing:Bool = false ) 
+    -> LLImage
+    {
+        let img_dst = imgSrc.clone()
+        LCImageProcAffineTransformBiCubic( imgSrc.lcImage, img_dst.lcImage, transform, resizing )
+        return img_dst
+    }
+    
+    public static func affineTransformBiCubic( imgSrc:LLImage, width:Int, height:Int, degree:Float, resizing:Bool = false ) 
+    -> LLImage
+    {
+        let img_dst = imgSrc.clone()
+        LCImageProcAffineTransformBiCubic( imgSrc.lcImage, img_dst.lcImage, width, height, degree, resizing )
+        return img_dst
+    }
+    
     public static func bilateral( imgSrc:LLImage, kernel:Int, dist:Double, lumi:Double )
     -> LLImage
     {

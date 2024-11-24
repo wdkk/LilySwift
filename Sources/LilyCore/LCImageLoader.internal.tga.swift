@@ -81,9 +81,9 @@ public extension LCImageLoaderInternal
     
         // 対応しているTARGA形式のチェック
         if( !( image_type == 2 ) &&    // フルカラー
-            !( image_type == 10 ) &&    // フルカラー圧縮
+            !( image_type == 10 ) &&   // フルカラー圧縮
             !( image_type == 1 && color_entry_length != 0 && color_entry_depth != 0 )    // 256色
-            ) 
+        ) 
         {
             return LCImageZero()        
         }
