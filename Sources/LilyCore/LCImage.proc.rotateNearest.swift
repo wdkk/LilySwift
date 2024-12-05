@@ -295,7 +295,7 @@ where TColor: LLColorType, TType: LLFloatConvertable
         ]
         
         // 回転後の4頂点の座標を計算
-        var rotated_corners = corners.map { corner in
+        let rotated_corners = corners.map { corner in
             let rotatedX = corner.x * cosTheta - corner.y * sinTheta
             let rotatedY = corner.x * sinTheta + corner.y * cosTheta
             return (x: rotatedX, y: rotatedY)
