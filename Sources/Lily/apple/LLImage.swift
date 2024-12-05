@@ -83,6 +83,8 @@ open class LLImage
             mipmapLevel: 0
         )
     }
+    
+
     #endif
     
     open var available:Bool { return LCImageGetType( _imgc ) != .none }

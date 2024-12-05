@@ -36,10 +36,10 @@ extension Lily.Stage.Playground
         public var mediumResource:MediumResource
         
         // MARK: ストレージ
-        public var planeStorage:Plane.PlaneStorage?
-        public var modelStorage:Model.ModelStorage?
-        public var bbStorage:Billboard.BBStorage?
-        public var audioStorage:PGAudioStorage?
+        nonisolated(unsafe) public var planeStorage:Plane.PlaneStorage?
+        nonisolated(unsafe) public var modelStorage:Model.ModelStorage?
+        nonisolated(unsafe) public var bbStorage:Billboard.BBStorage?
+        nonisolated(unsafe) public var audioStorage:PGAudioStorage?
         
         // MARK: レンダーフロー
         public var clearRenderFlow:ClearRenderFlow?
@@ -91,10 +91,10 @@ extension Lily.Stage.Playground
         public var randomPoint:LLPoint { coordRegion.randomPoint }
         
         // MARK: - 外部処理ハンドラ
-        public var pgReadyHandler:(( PGScreen )->Void)?
-        public var pgDesignHandler:(( PGScreen )->Void)?
-        public var pgUpdateHandler:(( PGScreen )->Void)?
-        public var pgResizeHandler:(( PGScreen )->Void)?
+        nonisolated(unsafe) public var pgReadyHandler:(( PGScreen )->Void)?
+        nonisolated(unsafe) public var pgDesignHandler:(( PGScreen )->Void)?
+        nonisolated(unsafe) public var pgUpdateHandler:(( PGScreen )->Void)?
+        nonisolated(unsafe) public var pgResizeHandler:(( PGScreen )->Void)?
        
         public var _design_mutex = Lily.View.RecursiveMutex()
         private var _design_once = false        
