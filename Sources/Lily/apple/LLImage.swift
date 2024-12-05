@@ -55,38 +55,7 @@ open class LLImage
     public init( _ cgImage:CGImage ) {
         _imgc = CGImage2LCImage( cgImage )
     }
-    
-    #if canImport(Metal)
-    public convenience init?( _ texture:MTLTexture ) {
-        // TODO: もう少しテクスチャのパターンに対応したい
-        if texture.pixelFormat == .rgba16Unorm {
-            self.init( wid: texture.width, hgt: texture.height, type: .rgba16 )
-        }
-        else if texture.pixelFormat == .rgba32Float {
-            self.init( wid: texture.width, hgt: texture.height, type: .rgbaf )
-        }
-        else if texture.pixelFormat == .rgba8Unorm {
-            self.init( wid: texture.width, hgt: texture.height, type: .rgba8 )
-        }
-        else if texture.pixelFormat == .rgba8Unorm_srgb {
-            self.init( wid: texture.width, hgt: texture.height, type: .rgba8 )
-        }
-        else { return nil }
         
-        guard let nonnull_memory:LLBytePtr = memory else { return nil }
-        guard let opaque_memory:OpaquePointer = OpaquePointer( nonnull_memory ) else { return nil }
-    
-        texture.getBytes(
-            UnsafeMutableRawPointer( opaque_memory ),
-            bytesPerRow: rowBytes,
-            from: MTLRegionMake2D(0, 0, texture.width, texture.height),
-            mipmapLevel: 0
-        )
-    }
-    
-
-    #endif
-    
     open var available:Bool { return LCImageGetType( _imgc ) != .none }
     
     open var lcImage:LCImageSmPtr { return self._imgc }
@@ -201,3 +170,163 @@ public extension LLImage
     }
 }
 #endif
+
+#if canImport(Metal)
+extension LLImage 
+{
+    public convenience init?( _ texture:MTLTexture ) {
+        // TODO: もう少しテクスチャのパターンに対応したい
+        if texture.pixelFormat == .rgba16Unorm {
+            self.init( wid: texture.width, hgt: texture.height, type: .rgba16 )
+        }
+        else if texture.pixelFormat == .rgba32Float {
+            self.init( wid: texture.width, hgt: texture.height, type: .rgbaf )
+        }
+        else if texture.pixelFormat == .rgba8Unorm {
+            self.init( wid: texture.width, hgt: texture.height, type: .rgba8 )
+        }
+        else if texture.pixelFormat == .rgba8Unorm_srgb {
+            self.init( wid: texture.width, hgt: texture.height, type: .rgba8 )
+        }
+        else { return nil }
+        
+        guard let nonnull_memory:LLBytePtr = memory else { return nil }
+        guard let opaque_memory:OpaquePointer = OpaquePointer( nonnull_memory ) else { return nil }
+        
+        texture.getBytes(
+            UnsafeMutableRawPointer( opaque_memory ),
+            bytesPerRow: rowBytes,
+            from: MTLRegionMake2D(0, 0, texture.width, texture.height),
+            mipmapLevel: 0
+        )
+    }
+    
+    public func metalTexture( device:MTLDevice ) -> MTLTexture? {
+        guard let memory = self.memory else { return nil }
+        
+        // Metalテクスチャのフォーマットを決定
+        let pixelFormat: MTLPixelFormat
+        switch self.type {
+            case .rgba8:  pixelFormat = .rgba8Unorm
+            case .rgba16: pixelFormat = .rgba16Unorm
+            case .rgbaf:  pixelFormat = .rgba32Float
+            default:
+                LLLog( "Unsupported image type." )
+                return nil
+        }
+        
+        let descriptor = MTLTextureDescriptor()
+        descriptor.pixelFormat = pixelFormat
+        descriptor.width = self.width
+        descriptor.height = self.height
+        descriptor.usage = [.shaderRead, .shaderWrite]
+        
+        // テクスチャを生成
+        guard let texture = device.makeTexture(descriptor: descriptor) else { return nil }
+        
+        // テクスチャにデータをコピー
+        texture.replace(
+            region: MTLRegionMake2D(0, 0, width, height),
+            mipmapLevel: 0,
+            withBytes: memory,
+            bytesPerRow: self.rowBytes
+        )
+        
+        return texture
+    }
+    
+    public func metalBuffer( device:MTLDevice ) -> MTLBuffer? {
+        guard let memory = self.memory else { return nil }
+        
+        // MTLBufferを生成
+        guard let buffer = device.makeBuffer(
+            bytes: memory,
+            length: self.memoryLength,
+            options: .storageModeShared
+        ) 
+        else {
+            LLLog( "Failed to create Metal buffer." )
+            return nil
+        }
+        
+        return buffer
+    }
+    
+    public func metalBufferNoCopy( device:MTLDevice ) -> MTLBuffer? {
+        guard let memory = self.memory else { return nil }
+        
+        // MTLBufferを生成
+        guard let buffer = device.makeBuffer(
+            bytesNoCopy: memory,
+            length: self.memoryLength,
+            options: .storageModeShared
+        ) 
+        else {
+            LLLog( "Failed to create Metal buffer." )
+            return nil
+        }
+        
+        return buffer
+    }
+}
+#endif
+
+
+extension LLImage : @unchecked Sendable
+{
+    public func edit( 
+        region:LLRegion? = nil,
+        iterate:@escaping @Sendable ( LLPointInt, LLSizeInt, LLColor, (Int,Int) -> LLColor ) -> LLColor
+    )
+    -> LLImage
+    {        
+        let wid = self.width
+        let hgt = self.height
+        let sz  = LLSizeInt( wid, hgt ) 
+
+        // 範囲指定
+        var sx = LLWithin( min:0, region?.left.i ?? 0, max: wid )
+        var ex = LLWithin( min:0, region?.right.i ?? wid, max: wid )
+        var sy = LLWithin( min:0, region?.top.i ?? 0, max: hgt )
+        var ey = LLWithin( min:0, region?.bottom.i ?? hgt, max: hgt )
+        
+        if ex - sx < 1 || ey - sy < 1 { return self }
+        
+        let xrange = sx ..< ex
+        let yrange = sy ..< ey
+        
+        let dst_img = self.clone()
+        dst_img.convertType( to:.rgbaf )
+        let ref_img = dst_img.clone()
+        
+        @Sendable func refPixel( x:Int, y:Int ) -> LLColor {
+            if x < 0 || y < 0 || x >= wid || y >= hgt { return .init(0,0,0,0) }
+            let ref_mat = ref_img.rgbafMatrix!
+            return ref_mat[y][x]
+        }
+        
+        let operationQueue = OperationQueue()
+        operationQueue.maxConcurrentOperationCount = ProcessInfo.processInfo.activeProcessorCount
+                
+        for y in yrange {
+            // 並列化
+            operationQueue.addOperation {
+                // y方向ライン先頭ポインタ
+                let dst_mat = dst_img.rgbafMatrix!
+                let dst_line = dst_mat[y]
+                
+                for x in xrange {
+                    let color = dst_line[x]
+                    dst_line[x] = iterate( .init(x, y), sz, color, refPixel )
+                }
+            }
+        }
+        
+        // 全ての操作が終了するのを待機
+        operationQueue.waitUntilAllOperationsAreFinished()
+        // 元の型形式に変換し直す
+        dst_img.convertType( to:self.type )
+        
+        return dst_img
+    }
+}
