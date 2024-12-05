@@ -148,17 +148,17 @@ where TColor: LLFloatConvertable & Comparable
         ]
         
         // 回転後の4頂点の座標を計算
-        var rotatedCorners = corners.map { corner in
+        let rotated_corners = corners.map { corner in
             let rotatedX = corner.x * cosTheta - corner.y * sinTheta
             let rotatedY = corner.x * sinTheta + corner.y * cosTheta
             return (x: rotatedX, y: rotatedY)
         }
         
         // 外接矩形の範囲を計算
-        let minX = rotatedCorners.map { $0.x }.min()!
-        let maxX = rotatedCorners.map { $0.x }.max()!
-        let minY = rotatedCorners.map { $0.y }.min()!
-        let maxY = rotatedCorners.map { $0.y }.max()!
+        let minX = rotated_corners.map { $0.x }.min()!
+        let maxX = rotated_corners.map { $0.x }.max()!
+        let minY = rotated_corners.map { $0.y }.min()!
+        let maxY = rotated_corners.map { $0.y }.max()!
         
         let newWidth = Int(ceil(maxX - minX))
         let newHeight = Int(ceil(maxY - minY))
@@ -219,8 +219,8 @@ where TColor: LLFloatConvertable & Comparable
             }
             
             // 横方向の補間
-            let finalValue = cubicInterpolate(columnResults[0], columnResults[1], columnResults[2], columnResults[3], dy_frac)
-            pdst[y][x] = LLWithin(min: TColor.colorRangeMinValue, .init( finalValue ), max:TColor.colorRangeMaxValue ) 
+            let final_value = cubicInterpolate(columnResults[0], columnResults[1], columnResults[2], columnResults[3], dy_frac)
+            pdst[y][x] = LLWithin(min: TColor.colorRangeMinValue, .init( final_value ), max:TColor.colorRangeMaxValue ) 
         } 
         else {
             pdst[y][x] = TColor(0.0) // 範囲外はデフォルト値
@@ -318,17 +318,17 @@ where TColor: LLColorType, TType: LLFloatConvertable
         ]
         
         // 回転後の4頂点の座標を計算
-        var rotatedCorners = corners.map { corner in
+        let rotated_corners = corners.map { corner in
             let rotatedX = corner.x * cosTheta - corner.y * sinTheta
             let rotatedY = corner.x * sinTheta + corner.y * cosTheta
             return (x: rotatedX, y: rotatedY)
         }
         
         // 外接矩形の範囲を計算
-        let minX = rotatedCorners.map { $0.x }.min()!
-        let maxX = rotatedCorners.map { $0.x }.max()!
-        let minY = rotatedCorners.map { $0.y }.min()!
-        let maxY = rotatedCorners.map { $0.y }.max()!
+        let minX = rotated_corners.map { $0.x }.min()!
+        let maxX = rotated_corners.map { $0.x }.max()!
+        let minY = rotated_corners.map { $0.y }.min()!
+        let maxY = rotated_corners.map { $0.y }.max()!
         
         let newWidth = Int(ceil(maxX - minX))
         let newHeight = Int(ceil(maxY - minY))

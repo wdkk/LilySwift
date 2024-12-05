@@ -70,7 +70,11 @@ extension Lily.Stage.Playground
             vc.pgResizeHandler = scene.wrappedValue.resize
             
             // redesignが必要かを確認してtrueだった場合redesignを呼ぶ
-            if scene.wrappedValue.checkNeedRedesign() { vc.redesign() }
+            if scene.wrappedValue.checkNeedRedesign() {
+                Task { @MainActor in
+                    vc.redesign()
+                }
+            }
         
             // 画面の切り替えによる表示/非表示での処理
             if visibled.wrappedValue {
