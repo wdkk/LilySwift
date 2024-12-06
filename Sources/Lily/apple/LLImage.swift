@@ -201,6 +201,18 @@ extension LLImage
         )
     }
     
+    public convenience init?( _ metalBuffer:MTLBuffer, width:Int, height:Int, type:LLImageType ) {
+        // TODO: もう少しテクスチャのパターンに対応したい
+        if type == .rgbaf {
+            self.init( wid:width, hgt:height, type: .rgbaf )
+        }
+        else { return nil }
+        
+        guard let nonnull_memory:LLBytePtr = memory else { return nil }
+        
+        memcpy( nonnull_memory, metalBuffer.contents(), Int( width * height * MemoryLayout<Float>.stride * 4 ) )
+    }
+    
     public func metalTexture( device:MTLDevice ) -> MTLTexture? {
         guard let memory = self.memory else { return nil }
         
