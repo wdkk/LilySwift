@@ -48,7 +48,7 @@ open class LLFile
     ///   - to_path: 移動先ファイルパス
     /// - Returns: 成功 = true, 失敗 = false
     @discardableResult
-    public static func moveFile( _ from_path:LLString, to_path:LLString ) -> Bool {
+    public static func moveFile( from from_path:LLString, to to_path:LLString ) -> Bool {
         return LCFileMove( from_path.lcStr, to_path.lcStr ) 
     }
     
@@ -58,7 +58,7 @@ open class LLFile
     ///   - to_path: コピー先ファイルパス
     /// - Returns: 成功 = true, 失敗 = false
     @discardableResult
-    public static func copyFile( _ from_path:LLString, to_path:LLString ) -> Bool {
+    public static func copyFile( from from_path:LLString, to to_path:LLString ) -> Bool {
         return LCFileCopy(from_path.lcStr, to_path.lcStr)
     }
     
@@ -96,5 +96,53 @@ open class LLFile
     @discardableResult
     public static func copyDirectory( from from_path:LLString, to to_path:LLString ) -> Bool {
         return LCFileCopyDirectory( from_path.lcStr, to_path.lcStr )
+    }
+    
+    /// 指定したパスの作成日を取得する
+    /// - Parameters:
+    ///   - path: 対象のパス
+    /// - Returns: 日付Date型. 失敗時 = nil
+    public static func getCreationDate( path:LLString ) -> Date? {
+        let fileURL = URL( fileURLWithPath:path )
+        do {
+            // ファイルの属性を取得
+            let resourceValues = try fileURL.resourceValues(forKeys: [.creationDateKey, .contentModificationDateKey])
+            
+            // CreateDate
+            if let creationDate = resourceValues.creationDate {
+                return creationDate
+            } 
+            else {
+                LLLogWarning("作成日を取得できませんでした. \(path)")
+            }
+        }
+        catch {
+            LLLogWarning( "ファイルの属性を取得できませんでした. \(path)" )
+        }
+        
+        return nil
+    }
+    
+    /// 指定したパスの編集日を取得する
+    /// - Parameters:
+    ///   - path: 対象のパス
+    /// - Returns: 日付Date型. 失敗時 = nil
+    public static func getModifiedDate( path:LLString ) -> Date? {
+        let fileURL = URL( fileURLWithPath:path )
+        do {
+            // ファイルの属性を取得
+            let resourceValues = try fileURL.resourceValues(forKeys: [.creationDateKey, .contentModificationDateKey])
+            if let modifiedDate = resourceValues.contentModificationDate {
+                return modifiedDate
+            } 
+            else {
+                LLLogWarning("編集日を取得できませんでした. \(path)")
+            }
+        }
+        catch {
+            LLLogWarning( "ファイルの属性を取得できませんでした. \(path)" )
+        }
+        
+        return nil
     }
 }
