@@ -15,16 +15,24 @@ import Foundation
 /// - Returns: true = 存在する, false = 存在しない
 @discardableResult
 public func LCFileExists( _ path:LCStringSmPtr ) -> Bool {
-    return FileManager.default.fileExists( atPath: String( path ) )
+    // ディレクトリの場合
+    if LCFileIsDirectory( path ) {
+        return true
+    }
+    // ファイルの場合
+    else {
+        return FileManager.default.fileExists( atPath:String( path ) )
+    }
 }
 
 /// 指定したパスがディレクトリか否かを確認する
+/// macOSのディレクトリは大文字小文字を区別しないため,A/aの違いはあってもtrueを返す
 /// - Parameter path: 確認するファイルパス
 /// - Returns: true = ディレクトリ, false = ディレクトリ以外 or 存在しない
 @discardableResult
 public func LCFileIsDirectory( _ path:LCStringSmPtr ) -> Bool {
     var is_dir:ObjCBool = false
-    let _ = FileManager.default.fileExists(atPath: String( path ), isDirectory: &is_dir )
+    let _ = FileManager.default.fileExists( atPath:String( path ), isDirectory:&is_dir )
     return is_dir.boolValue
 }
 
