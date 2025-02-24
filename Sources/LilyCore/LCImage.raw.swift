@@ -47,7 +47,7 @@ public protocol LCImageRawConvartable
 }
 
 /// 画像データモジュール
-public final class LCImageSmPtr : Sendable
+public final class LCImageSmPtr : @unchecked Sendable
 {
     /// 内部オブジェクト
     var rawimg:LCImageRaw?
