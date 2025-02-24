@@ -55,11 +55,14 @@ public extension LCImageLoaderInternal
         }
     }
     
-    func loadTarga( _ file_path_:LCStringSmPtr, _ option_:LLImageLoadOption = LLImageLoadOptionDefault() ) -> LCImageSmPtr {
+    func loadTarga( _ file_path_:LCStringSmPtr, _ option_:LLImageLoadOption = LLImageLoadOptionDefault() ) 
+    async 
+    -> LCImageSmPtr 
+    {
         let HEADER_SIZE:Int = 18
         
         let fr:LCFileReaderSmPtr = LCFileReaderMake( file_path_ )
-        if !LCFileReaderIsActive( fr ) { return LCImageZero() }
+        if !LCFileReaderIsActive( fr ) { return await LCImageZero() }
         
         // ヘッダの読み込み
         let header:UnsafeMutablePointer<LLUInt8> = UnsafeMutablePointer<LLUInt8>.allocate( capacity: HEADER_SIZE )
@@ -85,12 +88,12 @@ public extension LCImageLoaderInternal
             !( image_type == 1 && color_entry_length != 0 && color_entry_depth != 0 )    // 256色
         ) 
         {
-            return LCImageZero()        
+            return await LCImageZero()        
         }
         
         // 画像メモリのリサイズ
-        let img:LCImageSmPtr = LCImageMake( wid, hgt, .rgba8 )
-        guard let mat:LLColor8Matrix = LCImageRGBA8Matrix( img ) else { return LCImageZero() }
+        let img:LCImageSmPtr = await LCImageMake( wid, hgt, .rgba8 )
+        guard let mat:LLColor8Matrix = await LCImageRGBA8Matrix( img ) else { return await LCImageZero() }
         
         // オリジンのチェック
         let x_origin:Int = ( style >> 4 & 0x01 ) == 0 ?  1 : -1

@@ -73,7 +73,7 @@ public extension CVPixelBuffer
         return result_buffer
     }
     
-    func cropToLLImage( rect cropRect:CGRect ) -> LLImage? {
+    func cropToLLImage( rect cropRect:CGRect ) async -> LLImage? {
         let flags = CVPixelBufferLockFlags( rawValue:0 )
         if CVPixelBufferLockBaseAddress( self, flags ) != kCVReturnSuccess { return nil }
         
@@ -90,8 +90,8 @@ public extension CVPixelBuffer
         
         let src_row_bytes = CVPixelBufferGetBytesPerRow( self )
         
-        let dst_img = LLImage( wid: wid, hgt: hgt, type: .rgba8 )
-        let dst_mat = dst_img.rgba8Matrix!
+        let dst_img = await LLImage( wid: wid, hgt: hgt, type: .rgba8 )
+        let dst_mat = await dst_img.rgba8Matrix()!
         
         let src_ptr = UnsafeMutablePointer<LLUInt8>( OpaquePointer( src_addr ) )
         
@@ -108,7 +108,7 @@ public extension CVPixelBuffer
         return dst_img
     }
     
-    var llImage:LLImage? {
+    func llImage() async -> LLImage? {
         let flags = CVPixelBufferLockFlags( rawValue:0 )
         if CVPixelBufferLockBaseAddress( self, flags ) != kCVReturnSuccess { return nil }
         
@@ -123,8 +123,8 @@ public extension CVPixelBuffer
 
         let src_row_bytes = CVPixelBufferGetBytesPerRow( self )
         
-        let dst_img = LLImage( wid: wid, hgt: hgt, type: .rgba8 )
-        let dst_mat = dst_img.rgba8Matrix!
+        let dst_img = await LLImage( wid: wid, hgt: hgt, type: .rgba8 )
+        let dst_mat = await dst_img.rgba8Matrix()!
         
         let src_ptr = UnsafeMutablePointer<LLUInt8>( OpaquePointer( src_addr ) )
         

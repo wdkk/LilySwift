@@ -97,8 +97,8 @@ extension Lily.Metal
         }
         
         @discardableResult
-        public func pack( imageUnits:[ImagePosUnit] ) -> LLSizeInt {
-            var size = calcInitialRect( imageUnits: imageUnits )
+        public func pack( imageUnits:[ImagePosUnit] ) async -> LLSizeInt {
+            var size = await calcInitialRect( imageUnits: imageUnits )
             while true {
                 let root = Node( unit: ImagePosUnit( x: 0, y: 0, width: size.width, height: size.height ) )
                 if insertImageToRoot( imageUnits:imageUnits, root:root ) {
@@ -115,8 +115,8 @@ extension Lily.Metal
             return true
         }
         
-        private func calcInitialRect( imageUnits:[ImagePosUnit] ) -> LLSizeInt {
-            let total_pixel = calcTotalPixel( imageUnits: imageUnits )
+        private func calcInitialRect( imageUnits:[ImagePosUnit] ) async -> LLSizeInt {
+            let total_pixel = await calcTotalPixel( imageUnits: imageUnits )
             var w = pow2(x: sqrt( total_pixel.d ).i! ) / 2
             var h = w
             while w * h < total_pixel {
@@ -125,9 +125,9 @@ extension Lily.Metal
             return LLSizeIntMake( w, h )
         }
         
-        private func calcTotalPixel( imageUnits:[ImagePosUnit] ) -> Int {
+        private func calcTotalPixel( imageUnits:[ImagePosUnit] ) async -> Int {
             var count:Int = 0
-            for rc in imageUnits { count += (rc.image!.width * rc.image!.height) }
+            for rc in imageUnits { await count += (rc.image!.width() * rc.image!.height() ) }
             return count
         }
         
@@ -178,7 +178,7 @@ extension Lily.Metal
         #endif
         
         @discardableResult
-        public func commit() -> Self { 
+        public func commit() async -> Self { 
             typealias ImagePosUnit = Lily.Metal.TextureTree.ImagePosUnit
             
             var image_rects:[ImagePosUnit] = []
@@ -190,19 +190,21 @@ extension Lily.Metal
                 // nnvの中身の種類によって登録方法を変えていく
                 if nnv is String {
                     let path = nnv as! String
-                    let img = LLImage( assetName:path )
+                    let img = await LLImage( assetName:path )
                     // 有効な画像でなければスキップ
-                    if !img.available { 
+                    if await !img.available() { 
                         LLLog( "アセットが見つかりません: \(label)" )
                         continue 
                     }
                     // 画像サイズがなければスキップ
-                    if img.width == 0 || img.height == 0 {
+                    let wid = await img.width()
+                    let hgt = await img.height()
+                    if wid == 0 || hgt == 0 {
                         LLLog( "アセットが見つかりません: \(label)" )
                         continue
                     }
                     
-                    let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
+                    let rc = await ImagePosUnit( x:0, y:0, width:img.width(), height:img.height() )
                     rc.image = img
                     rc.label = label
                     
@@ -211,9 +213,9 @@ extension Lily.Metal
                 }
                 if nnv is LLImage {
                     let img = nnv as! LLImage
-                    if !img.available { continue }
+                    if await !img.available() { continue }
                     
-                    let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
+                    let rc = await ImagePosUnit( x:0, y:0, width:img.width(), height:img.height() )
                     rc.image = img
                     rc.label = label
                     
@@ -223,22 +225,24 @@ extension Lily.Metal
                 #if os(macOS)
                 if nnv is NSImage {
                     let uiimg = nnv as! NSImage
-                    guard let img = uiimg.llImage else {
+                    guard let img = await uiimg.llImage() else {
                         LLLog( "NSImageが見つかりません: \(label)" )
                         continue
                     }
                     // 有効な画像でなければスキップ
-                    if !img.available { 
+                    if await !img.available() { 
                         LLLog( "NSImageが無効です: \(label)" )
                         continue
                     }
                     // 画像サイズがなければスキップ
-                    if img.width == 0 || img.height == 0 {
+                    let wid = await img.width()
+                    let hgt = await img.height()
+                    if wid == 0 || hgt == 0 {
                         LLLog( "NSImageが無効です: \(label)" )
                         continue 
                     }
                     
-                    let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
+                    let rc = await ImagePosUnit( x:0, y:0, width:img.width(), height:img.height() )
                     rc.image = img
                     rc.label = label
 
@@ -248,19 +252,21 @@ extension Lily.Metal
                 #else
                 if nnv is UIImage {
                     let uiimg = nnv as! UIImage
-                    let img = uiimg.llImage
+                    let img = await uiimg.llImage()
                     // 有効な画像でなければスキップ
-                    if !img.available { 
+                    if await !img.available() { 
                         LLLog( "UIImageが無効です: \(label)" )
                         continue
                     }
                     // 画像サイズがなければスキップ
-                    if img.width == 0 || img.height == 0 {
+                    let wid = await img.width()
+                    let hgt = await img.height()
+                    if wid == 0 || hgt == 0 {
                         LLLog( "UIImageが無効です: \(label)" )
                         continue 
                     }
                     
-                    let rc = ImagePosUnit( x:0, y:0, width:img.width, height:img.height )
+                    let rc = await ImagePosUnit( x:0, y:0, width:img.width(), height:img.height() )
                     rc.image = img
                     rc.label = label
                     
@@ -282,10 +288,10 @@ extension Lily.Metal
             }
             
             let tree = TextureTree()
-            let all_size = tree.pack( imageUnits:image_rects )
+            let all_size = await tree.pack( imageUnits:image_rects )
             
             if all_size.width == 0 || all_size.height == 0 {
-                self.metalTexture = try! Lily.Metal.Texture.create( device:device!, llImage:LLImage( wid:64, hgt:64 ) )
+                self.metalTexture = try! await Lily.Metal.Texture.create( device:device!, llImage:LLImage( wid:64, hgt:64 ) )
                 self.width = 64
                 self.height = 64
                 return self
@@ -307,17 +313,22 @@ extension Lily.Metal
             for imgrc in image_rects {
                 guard let img = imgrc.image else { continue }
                 
-                img.convertType( to:.rgba8 )
+                await img.convertType( to:.rgba8 )
                 
                 let label = imgrc.label
                 let px = imgrc.x
                 let py = imgrc.y
-                let wid = img.width
-                let hgt = img.height
+                let wid = await img.width()
+                let hgt = await img.height()
                 
                 let dst_reg = MTLRegionMake2D( px, py, wid, hgt )
                 
-                metalTexture?.replace(region:dst_reg, mipmapLevel:0, withBytes:img.memory!, bytesPerRow:img.rowBytes )
+                await metalTexture?.replace(
+                    region:dst_reg, 
+                    mipmapLevel:0, 
+                    withBytes:img.memory()!, 
+                    bytesPerRow:img.rowBytes() 
+                )
                                 
                 let left  = px.d / all_size.width.d
                 let top   = py.d / all_size.height.d

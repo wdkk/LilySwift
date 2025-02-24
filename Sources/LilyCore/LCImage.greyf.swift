@@ -10,7 +10,7 @@
 
 import Foundation
 
-public class LCImageGreyf : LCImageGenericRaw<LLFloat>
+public class LCImageGreyf : LCImageGenericRaw<LLFloat>, @unchecked Sendable
 {    
     public override func requestFunctionOfConvertRawColorFrom() -> ConvertFromFunc? { return LLGreyftoColorf }
     public override func requestFunctionOfConvertRawColorTo() -> ConvertToFunc? { return LLColorftoGreyf }

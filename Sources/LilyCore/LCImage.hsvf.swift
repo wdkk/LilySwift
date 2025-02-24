@@ -10,7 +10,7 @@
 
 import Foundation
 
-public class LCImageHSVf : LCImageGenericRaw<LLHSVf>
+public class LCImageHSVf : LCImageGenericRaw<LLHSVf>, @unchecked Sendable
 {    
     public override func requestFunctionOfConvertRawColorFrom() -> ConvertFromFunc? { return LLHSVftoColorf }
     public override func requestFunctionOfConvertRawColorTo() -> ConvertToFunc? { return LLColorftoHSVf }

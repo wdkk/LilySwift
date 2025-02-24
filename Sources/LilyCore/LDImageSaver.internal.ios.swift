@@ -15,18 +15,22 @@ import UIKit
 public extension LCImageSaverInternal
 {
     func save( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr, _ option_:LLImageSaveOption = LLImageSaveOptionDefault() ) 
+    async
     -> Bool {
-        autoreleasepool {
-            let wid    = LCImageWidth( img_ )
-            let hgt    = LCImageHeight( img_ )
-            let type   = LCImageGetType( img_ )
+        let filePath = String( file_path_ )
+        
+        let rslt = await Task {
+            let wid    = await LCImageWidth( img_ )
+            let hgt    = await LCImageHeight( img_ )
+            let type   = await LCImageGetType( img_ )
+
             let row    = wid * 4
             let sz     = row * hgt
             let buffer = UnsafeMutablePointer<LLUInt8>.allocate( capacity: sz )
             defer { buffer.deallocate() }
-                        
+
             if type == .rgba8 {
-                guard let mat8 = LCImageRGBA8Matrix( img_ ) else { return false }
+                guard let mat8 = await LCImageRGBA8Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         // CGBitmapコンテクストでpremultiになるため、あらかじめ掛け算しておく
@@ -40,7 +44,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .rgba16 {
-                guard let mat16 = LCImageRGBA16Matrix( img_ ) else { return false }
+                guard let mat16 = await LCImageRGBA16Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         // CGBitmapコンテクストでpremultiになるため、あらかじめ掛け算しておく
@@ -54,7 +58,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .rgbaf {
-                guard let matf = LCImageRGBAfMatrix( img_ ) else { return false }
+                guard let matf = await LCImageRGBAfMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         // CGBitmapコンテクストでpremultiになるため、あらかじめ掛け算しておく
@@ -68,7 +72,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .grey8 {
-                guard let mat_g8 = LCImageGrey8Matrix( img_ ) else { return false }
+                guard let mat_g8 = await LCImageGrey8Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let g8 = mat_g8[y][x]
@@ -80,7 +84,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .grey16 {
-                guard let mat_g16 = LCImageGrey16Matrix( img_ ) else { return false }
+                guard let mat_g16 = await LCImageGrey16Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let g8 = LLGrey16to8( mat_g16[y][x] )
@@ -92,7 +96,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .greyf {
-                guard let mat_gf = LCImageGreyfMatrix( img_ ) else { return false }
+                guard let mat_gf = await LCImageGreyfMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let g8 = LLGreyfto8( mat_gf[y][x] )
@@ -104,7 +108,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .hsvf {
-                guard let mat_hsvf = LCImageHSVfMatrix( img_ ) else { return false }
+                guard let mat_hsvf = await LCImageHSVfMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         // CGBitmapコンテクストでpremultiになるため、あらかじめ掛け算しておく
@@ -118,7 +122,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .hsvi {
-                guard let mat_hsvi = LCImageHSViMatrix( img_ ) else { return false }
+                guard let mat_hsvi = await LCImageHSViMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         // CGBitmapコンテクストでpremultiになるため、あらかじめ掛け算しておく
@@ -145,37 +149,39 @@ public extension LCImageSaverInternal
                                         bytesPerRow: wid * 4,
                                         space: color_space,
                                         bitmapInfo: bitmap_info.rawValue )
-    
+            
             guard let nonnull_cg_context = cg_context else { return false } 
             guard let cg_img = nonnull_cg_context.makeImage() else { return false }
             
             let ui_img = UIImage(cgImage: cg_img )
-            let path = String( file_path_ )
+            let path = filePath
             let url = URL( fileURLWithPath: path )
             
             switch option_.type {
-            case .png:
-                do {
-                    guard let data = ui_img.pngData() else { return false }
-                    try data.write( to: url )
-                    return true
-                }
-                catch {
+                case .png:
+                    do {
+                        guard let data = ui_img.pngData() else { return false }
+                        try data.write( to: url )
+                        return true
+                    }
+                    catch {
+                        return false
+                    }
+                case .jpeg:
+                    do {
+                        guard let data = ui_img.jpegData( compressionQuality: option_.jpeg_quality.cgf ) else { return false }
+                        try data.write( to: url )
+                        return true
+                    }
+                    catch {
+                        return false 
+                    }
+                default:
                     return false
-                }
-            case .jpeg:
-                do {
-                    guard let data = ui_img.jpegData( compressionQuality: option_.jpeg_quality.cgf ) else { return false }
-                    try data.write( to: url )
-                    return true
-                }
-                catch {
-                    return false 
-                }
-            default:
-                return false
             }
-        }
+        }.result
+            
+        return rslt.get()
     }
 }
 

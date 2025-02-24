@@ -25,10 +25,10 @@ public extension NSImage
         return image
     }
     
-    var llImage:LLImage? {
-        let lcimg = NSImage2LCImage( self )
-        if LCImageWidth( lcimg ) == 0 { return nil }
-        return LLImage( lcimg )
+    func llImage() async -> LLImage? {
+        let lcimg = await NSImage2LCImage( self )
+        if await LCImageWidth( lcimg ) == 0 { return nil }
+        return await LLImage( lcimg )
     }
     
     func BGRtoRGB() -> NSImage {

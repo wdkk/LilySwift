@@ -10,7 +10,7 @@
 
 import Foundation
 
-public class LCImageRGBAf : LCImageGenericRaw<LLColor>
+public class LCImageRGBAf : LCImageGenericRaw<LLColor>, @unchecked Sendable
 {    
     public override func requestFunctionOfConvertRawColorFrom() -> ConvertFromFunc? { return LLColorftof }
     public override func requestFunctionOfConvertRawColorTo() -> ConvertToFunc? { return LLColorftof }

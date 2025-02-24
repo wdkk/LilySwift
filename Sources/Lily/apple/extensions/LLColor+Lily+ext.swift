@@ -25,8 +25,13 @@ import QuartzCore
 #endif
 
 import CoreGraphics
-
 import SwiftUI
+
+#if os(macOS)
+public typealias OSColor = NSColor
+#else
+public typealias OSColor = UIColor
+#endif
 
 public extension LLColor8
 {
@@ -56,6 +61,14 @@ public extension LLColor8
     var metalColor:MTLClearColor { return self.rgbaf.metalColor }
     #endif
     var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
+    
+    var osColor:OSColor {
+        #if os(macOS)
+        self.nsColor
+        #else
+        self.uiColor
+        #endif
+    }
     
     var floatv4:LLFloatv4 { 
         let cf = self.rgbaf
@@ -98,6 +111,14 @@ public extension LLColor16
     var metalColor:MTLClearColor { return self.rgbaf.metalColor }
     #endif
     var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
+    
+    var osColor:OSColor {
+        #if os(macOS)
+        self.nsColor
+        #else
+        self.uiColor
+        #endif
+    }
     
     var floatv4:LLFloatv4 { 
         let cf = self.rgbaf
@@ -150,6 +171,14 @@ public extension LLColor
     #endif
     var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
     
+    var osColor:OSColor {
+        #if os(macOS)
+        self.nsColor
+        #else
+        self.uiColor
+        #endif
+    }
+    
     var floatv4:LLFloatv4 { return .init( self.R, self.G, self.B, self.A ) }
     
     static var random:LLColor { return LLColor( LLRandom(), LLRandom(), LLRandom(), 1.0 ) }
@@ -188,6 +217,14 @@ public extension LLHSVf
     #endif
     var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
     
+    var osColor:OSColor {
+        #if os(macOS)
+        self.rgbaf.nsColor
+        #else
+        self.rgbaf.uiColor
+        #endif
+    }
+    
     var floatv4:LLFloatv4 { 
         let cf = self.rgbaf
         return LLFloatv4( cf.R, cf.G, cf.B, cf.A )
@@ -224,6 +261,14 @@ public extension LLHSVi
     var metalColor:MTLClearColor { return self.rgbaf.metalColor }
     #endif
     var swiftuiColor:SwiftUI.Color { return .init( cgColor:self.cgColor ) }
+    
+    var osColor:OSColor {
+        #if os(macOS)
+        self.rgbaf.nsColor
+        #else
+        self.rgbaf.uiColor
+        #endif
+    }
     
     var floatv4:LLFloatv4 { 
         let cf = self.rgbaf

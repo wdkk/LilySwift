@@ -76,7 +76,6 @@ extension Lily.Stage.Playground.Plane
             super.init( device:device )
         }
         
-        
         @MainActor
         public override func changeSize( scaledSize:CGSize ) {
             screenSize = scaledSize

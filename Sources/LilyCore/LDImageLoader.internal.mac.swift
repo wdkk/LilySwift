@@ -16,16 +16,16 @@ import AppKit
 
 public extension LCImageLoaderInternal
 {
-    func load( _ file_path_:LCStringSmPtr, _ option:LLImageLoadOption = LLImageLoadOptionDefault() ) -> LCImageSmPtr {
-        if !LCFileExists( file_path_ ) {
+    func load( _ file_path_:String, _ option:LLImageLoadOption = LLImageLoadOptionDefault() ) async -> LCImageSmPtr {
+        if !LCFileExists( file_path_.lcStr ) {
             LLLogWarning( "ファイルが見つかりません.:\( String( file_path_ ) )" )
-            return LCImageZero()
+            return await LCImageZero()
         }
         
-        let path = String( file_path_ )
+        let path = file_path_
         let ns_img = NSImage(contentsOfFile: path )
-        guard let tiff_presen = ns_img?.tiffRepresentation else { return LCImageZero() }
-        guard let bmp_rep = NSBitmapImageRep( data: tiff_presen ) else { return LCImageZero() }
+        guard let tiff_presen = ns_img?.tiffRepresentation else { return await LCImageZero() }
+        guard let bmp_rep = NSBitmapImageRep( data: tiff_presen ) else { return await LCImageZero() }
     
         let wid = bmp_rep.pixelsWide
         let hgt = bmp_rep.pixelsHigh
@@ -34,12 +34,12 @@ public extension LCImageLoaderInternal
         let samples = bytes_per_row / wid
         let has_alpha = bmp_rep.hasAlpha
 
-        let img = LCImageMake( wid, hgt, .rgba8 )
+        let img = await LCImageMake( wid, hgt, .rgba8 )
         
         if depth == 8 {
-            LCImageResizeWithType( img, wid, hgt, .rgba8 )
-            guard let mat = LCImageRGBA8Matrix( img ) else { return LCImageZero() }
-            guard let buffer = bmp_rep.bitmapData else { return LCImageZero() }
+            await LCImageResizeWithType( img, wid, hgt, .rgba8 )
+            guard let mat = await LCImageRGBA8Matrix( img ) else { return await LCImageZero() }
+            guard let buffer = bmp_rep.bitmapData else { return await LCImageZero() }
             
             let xstride = samples
             let row = bytes_per_row
@@ -70,11 +70,11 @@ public extension LCImageLoaderInternal
             }
         }
         else if depth == 16 {
-            LCImageResizeWithType( img, wid, hgt, .rgba16 )
-            guard let mat16 = LCImageRGBA16Matrix( img ) else { return LCImageZero() }
-            guard let buffer = bmp_rep.bitmapData else { return LCImageZero() }
+            await LCImageResizeWithType( img, wid, hgt, .rgba16 )
+            guard let mat16 = await LCImageRGBA16Matrix( img ) else { return await LCImageZero() }
+            guard let buffer = bmp_rep.bitmapData else { return await LCImageZero() }
             guard let buffer16 = UnsafePointer<LLUInt16>( OpaquePointer( UnsafeRawPointer( buffer ) ) )
-            else { return LCImageZero() }
+            else { return await LCImageZero() }
             
             let xstride = samples / 2
             let row = bytes_per_row / 2

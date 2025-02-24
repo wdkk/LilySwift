@@ -62,11 +62,12 @@ extension Lily.Stage.Playground.Billboard
             capacity:Int = 2000,
             appendTextures:[String] = []
         )
+        async
         -> BBStorage 
         {
             var texs = ["lily", "mask-sparkle", "mask-snow", "mask-smoke", "mask-star"]
             texs.append( contentsOf:appendTextures )
-            return .init( 
+            return await .init( 
                 device:device, 
                 capacity:capacity,
                 textures:texs
@@ -78,6 +79,7 @@ extension Lily.Stage.Playground.Billboard
             capacity:Int,
             textures:[String]
         )
+        async
         {
             self.capacity = capacity
             
@@ -96,12 +98,12 @@ extension Lily.Stage.Playground.Billboard
             self.reuseIndice = .init( (0..<capacity).reversed() )
             
             self.textureAtlas = .init( device:device )
-            addTextures( textures )
+            await addTextures( textures )
         }
         
-        public func addTextures( _ textures:[String] ) {
+        public func addTextures( _ textures:[String] ) async {
             textures.forEach { self.textureAtlas.reserve( $0, $0 ) }
-            self.textureAtlas.commit()
+            await self.textureAtlas.commit()
         }
         
         // パーティクルの確保をリクエストする

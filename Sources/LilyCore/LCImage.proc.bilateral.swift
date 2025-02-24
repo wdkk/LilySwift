@@ -16,37 +16,39 @@ public func LCImageProcBilateralFilter(
     _ kernel: Int,
     _ dist: Double,
     _ lumi: Double
-) {
-    switch LCImageGetType(img_src_) {
+) 
+async
+{
+    switch await LCImageGetType(img_src_) {
     case .grey8:
         let module = __LCImageProcBilateralFilter<LLUInt8, LLUInt8>(LCImageGrey8Matrix)
-        module.apply(img_src_, img_dst_, kernel, dist, lumi)
+        await module.apply(img_src_, img_dst_, kernel, dist, lumi)
     case .grey16:
         let module = __LCImageProcBilateralFilter<LLUInt16, LLUInt16>(LCImageGrey16Matrix)
-        module.apply(img_src_, img_dst_, kernel, dist, lumi)
+        await module.apply(img_src_, img_dst_, kernel, dist, lumi)
     case .greyf:
         let module = __LCImageProcBilateralFilter<LLFloat, LLFloat>(LCImageGreyfMatrix)
-        module.apply(img_src_, img_dst_, kernel, dist, lumi)
+        await module.apply(img_src_, img_dst_, kernel, dist, lumi)
     case .rgba8:
         let module = __LCImageProcBilateralFilterColor<LLUInt8, LLColor8>(LCImageRGBA8Matrix)
-        module.apply(img_src_, img_dst_, kernel, dist, lumi)
+        await module.apply(img_src_, img_dst_, kernel, dist, lumi)
     case .rgba16:
         let module = __LCImageProcBilateralFilterColor<LLUInt16, LLColor16>(LCImageRGBA16Matrix)
-        module.apply(img_src_, img_dst_, kernel, dist, lumi)
+        await module.apply(img_src_, img_dst_, kernel, dist, lumi)
     case .rgbaf:
         let module = __LCImageProcBilateralFilterColor<LLFloat, LLColor>(LCImageRGBAfMatrix)
-        module.apply(img_src_, img_dst_, kernel, dist, lumi)
+        await module.apply(img_src_, img_dst_, kernel, dist, lumi)
     case .hsvf:
-        let img_conv = LCImageClone(img_src_)
-        LCImageConvertType(img_conv, .rgbaf)
-        LCImageProcBilateralFilter( img_src_, img_dst_, kernel, dist, lumi )
-        LCImageConvertType(img_dst_, .hsvf)
+        let img_conv = await LCImageClone(img_src_)
+        await LCImageConvertType(img_conv, .rgbaf)
+        await LCImageProcBilateralFilter( img_src_, img_dst_, kernel, dist, lumi )
+        await LCImageConvertType(img_dst_, .hsvf)
         break
     case .hsvi:
-        let img_conv = LCImageClone(img_src_)
-        LCImageConvertType(img_conv, .rgbaf)
-        LCImageProcBilateralFilter( img_src_, img_dst_, kernel, dist, lumi )
-        LCImageConvertType(img_dst_, .hsvi)
+        let img_conv = await LCImageClone(img_src_)
+        await LCImageConvertType(img_conv, .rgbaf)
+        await LCImageProcBilateralFilter( img_src_, img_dst_, kernel, dist, lumi )
+        await LCImageConvertType(img_dst_, .hsvi)
         break
     default:
         LLLogForce("unsupported this image type.")
@@ -58,9 +60,9 @@ where TColor: LLFloatConvertable & Comparable
 {
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
     
-    var matrix_getter: (LCImageSmPtr) -> TMatrix?
+    var matrix_getter: (LCImageSmPtr) async -> TMatrix?
     
-    init(_ mgetter: @escaping (LCImageSmPtr) -> TMatrix?) { self.matrix_getter = mgetter }
+    init(_ mgetter: @escaping (LCImageSmPtr) async -> TMatrix?) { self.matrix_getter = mgetter }
     
     func apply(
         _ img_src_: LCImageSmPtr,
@@ -68,13 +70,15 @@ where TColor: LLFloatConvertable & Comparable
         _ kernel: Int,
         _ dist: Double,
         _ lumi: Double
-    ) {
-        let wid = LCImageWidth(img_src_)
-        let hgt = LCImageHeight(img_src_)
-        LCImageResizeWithType(img_dst_, wid, hgt, LCImageGetType(img_src_))
+    )
+    async
+    {
+        let wid = await LCImageWidth(img_src_)
+        let hgt = await LCImageHeight(img_src_)
+        await LCImageResizeWithType(img_dst_, wid, hgt, LCImageGetType(img_src_))
 
-        let mat_src = matrix_getter(img_src_)!
-        let mat_dst = matrix_getter(img_dst_)!
+        let mat_src = await matrix_getter(img_src_)!
+        let mat_dst = await matrix_getter(img_dst_)!
         let radius = kernel / 2
         let distFactor = -1.0 / (2.0 * dist * dist)
         let lumiFactor = -1.0 / (2.0 * lumi * lumi)
@@ -140,9 +144,9 @@ class __LCImageProcBilateralFilterColor<TType, TColor>
 where TColor: LLColorType, TType: LLFloatConvertable {
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
     
-    var matrix_getter: (LCImageSmPtr) -> TMatrix?
+    var matrix_getter: (LCImageSmPtr) async -> TMatrix?
     
-    init(_ mgetter: @escaping (LCImageSmPtr) -> TMatrix?) {
+    init(_ mgetter: @escaping (LCImageSmPtr) async -> TMatrix?) {
         self.matrix_getter = mgetter
     }
     
@@ -152,13 +156,15 @@ where TColor: LLColorType, TType: LLFloatConvertable {
         _ kernel: Int,
         _ dist: Double,
         _ lumi: Double
-    ) {
-        let wid = LCImageWidth(img_src_)
-        let hgt = LCImageHeight(img_src_)
-        LCImageResizeWithType(img_dst_, wid, hgt, LCImageGetType(img_src_))
+    ) 
+    async
+    {
+        let wid = await LCImageWidth(img_src_)
+        let hgt = await LCImageHeight(img_src_)
+        await LCImageResizeWithType(img_dst_, wid, hgt, LCImageGetType(img_src_))
 
-        let mat_src = matrix_getter(img_src_)!
-        let mat_dst = matrix_getter(img_dst_)!
+        let mat_src = await matrix_getter(img_src_)!
+        let mat_dst = await matrix_getter(img_dst_)!
         let radius = kernel / 2
         let distFactor = -1.0 / (2.0 * dist * dist)
         let lumiFactor = -1.0 / (2.0 * lumi * lumi)

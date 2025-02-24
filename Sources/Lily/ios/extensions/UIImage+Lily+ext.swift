@@ -20,9 +20,9 @@ import MetalKit
 
 public extension UIImage
 {    
-    var llImage:LLImage {
-        let lcimg = UIImage2LCImage( self )
-        return LLImage( lcimg )
+    func llImage() async -> LLImage {
+        let lcimg = await UIImage2LCImage( self )
+        return await LLImage( lcimg )
     }
     
     #if !os(watchOS)

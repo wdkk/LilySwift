@@ -13,196 +13,210 @@ import Foundation
 import QuartzCore
 #endif
 
-public func LCImageRawTreat( _ lcimg_:LCImageSmPtr, _ wid_:Int, _ hgt_:Int, _ type_:LLImageType ) {
+public func LCImageRawTreat( _ lcimg_:LCImageSmPtr, _ wid_:Int, _ hgt_:Int, _ type_:LLImageType ) async {
     switch type_ {
     case .rgba8:
-        lcimg_.rawimg = LCImageRGBA8( wid_, hgt_ )
+        await lcimg_.setRawImage( LCImageRGBA8( wid_, hgt_ ) )
         break
     case .rgba16:
-        lcimg_.rawimg = LCImageRGBA16( wid_, hgt_ )
+        await lcimg_.setRawImage( LCImageRGBA16( wid_, hgt_ ) )
         break
     case .rgbaf:
-        lcimg_.rawimg = LCImageRGBAf( wid_, hgt_ )
+        await lcimg_.setRawImage( LCImageRGBAf( wid_, hgt_ ) )
         break
     case .grey8:
-        lcimg_.rawimg = LCImageGrey8( wid_, hgt_ )
+        await lcimg_.setRawImage( LCImageGrey8( wid_, hgt_ ) )
         break
     case .grey16:
-        lcimg_.rawimg = LCImageGrey16( wid_, hgt_ )
+        await lcimg_.setRawImage( LCImageGrey16( wid_, hgt_ ) )
         break
     case .greyf:
-        lcimg_.rawimg = LCImageGreyf( wid_, hgt_ )
+        await lcimg_.setRawImage( LCImageGreyf( wid_, hgt_ ) )
         break
     case .hsvf:
-        lcimg_.rawimg = LCImageHSVf( wid_, hgt_ )
+        await lcimg_.setRawImage( LCImageHSVf( wid_, hgt_ ) )
         break
     case .hsvi:
-        lcimg_.rawimg = LCImageHSVi( wid_, hgt_ )
+        await lcimg_.setRawImage( LCImageHSVi( wid_, hgt_ ) )
         break
     default:
         break
     }
 }
 
-public func LCImageZero() -> LCImageSmPtr {
+public func LCImageZero() async -> LCImageSmPtr {
     let lcimg:LCImageSmPtr = LCImageSmPtr()
-    LCImageRawTreat( lcimg, 0, 0, .none )
+    await LCImageRawTreat( lcimg, 0, 0, .none )
     return lcimg
 }
 
-public func LCImageMake( _ wid_:Int, _ hgt_:Int, _ type_:LLImageType ) -> LCImageSmPtr {
+public func LCImageMake( _ wid_:Int, _ hgt_:Int, _ type_:LLImageType ) async -> LCImageSmPtr {
     let lcimg:LCImageSmPtr = LCImageSmPtr()
-    LCImageRawTreat( lcimg, wid_, hgt_, type_ )
+    await LCImageRawTreat( lcimg, wid_, hgt_, type_ )
     return lcimg
 }
 
 @MainActor
-public func LCImageMakeWithFile( _ file_path_:LCStringSmPtr ) -> LCImageSmPtr {
-    return LDImageLoadFileWithOption( file_path_, LLImageLoadOptionDefault() )
+public func LCImageMakeWithFile( _ file_path_:LCStringSmPtr ) async -> LCImageSmPtr {
+    return await LDImageLoadFileWithOption( file_path_, LLImageLoadOptionDefault() )
 }
 
 @MainActor
-public func LCImageMakeWithFileAndOption( _ file_path_:LCStringSmPtr, _ option_:LLImageLoadOption ) -> LCImageSmPtr {
-    return LDImageLoadFileWithOption( file_path_, option_ )
+public func LCImageMakeWithFileAndOption( _ file_path_:LCStringSmPtr, _ option_:LLImageLoadOption ) 
+async -> LCImageSmPtr {
+    return await LDImageLoadFileWithOption( file_path_, option_ )
 }
 
-public func LCImageSaveFile( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr ) -> Bool {
-    return LDImageSaveFileWithOption( img_, file_path_, LLImageSaveOptionDefault() )
+public func LCImageSaveFile( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr ) async -> Bool {
+    return await LDImageSaveFileWithOption( img_, file_path_, LLImageSaveOptionDefault() )
 }
 
-public func LCImageSaveFileWithOption( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr,
-                                       _ option_:LLImageSaveOption ) -> Bool {
-    return LDImageSaveFileWithOption( img_, file_path_, option_ )
+public func LCImageSaveFileWithOption( 
+    _ img_:LCImageSmPtr,
+    _ file_path_:LCStringSmPtr,
+    _ option_:LLImageSaveOption 
+)
+async
+-> Bool 
+{
+    return await LDImageSaveFileWithOption( img_, file_path_, option_ )
 }
 
-public func LCImageClone( _ img_src_:LCImageSmPtr ) -> LCImageSmPtr {
+public func LCImageClone( _ img_src_:LCImageSmPtr ) async -> LCImageSmPtr {
     let lcimg:LCImageSmPtr = LCImageSmPtr()
-    lcimg.rawimg = img_src_.rawimg?.clone()
+    let clnimg = await img_src_.getRawImage()?.clone()
+    await lcimg.setRawImage( clnimg )
     return lcimg
 }
 
-public func LCImageClonePremultipliedAlpha( _ img_src_:LCImageSmPtr ) -> LCImageSmPtr {  
+public func LCImageClonePremultipliedAlpha( _ img_src_:LCImageSmPtr ) async -> LCImageSmPtr {  
     let lcimg:LCImageSmPtr = LCImageSmPtr()
-    lcimg.rawimg = img_src_.rawimg?.clonePremultipliedAlpha()
+    let clnimg = await img_src_.getRawImage()?.clonePremultipliedAlpha()
+    await lcimg.setRawImage( clnimg )
     return lcimg
 }
 
-public func LCImageRawMatrix( _ img_:LCImageSmPtr ) -> LLVoidMatrix? {
-    guard let rawimg:LCImageRaw = img_.rawimg else { return nil }
+public func LCImageRawMatrix( _ img_:LCImageSmPtr ) async -> LLVoidMatrix? {
+    guard let rawimg:LCImageRaw = await img_.getRawImage() else { return nil }
     return rawimg.getRawMatrix()
 }
 
-public func LCImageRGBA8Matrix( _ img_:LCImageSmPtr ) -> LLColor8Matrix? {
-    guard let raw_matrix:LLVoidMatrix = img_.rawimg?.getRawMatrix() else { return nil }
-    if LCImageGetType( img_ ) != .rgba8 { return nil }
+public func LCImageRGBA8Matrix( _ img_:LCImageSmPtr ) async -> LLColor8Matrix? {
+    guard let raw_matrix:LLVoidMatrix = await img_.getRawImage()?.getRawMatrix() else { return nil }
+    if await LCImageGetType( img_ ) != .rgba8 { return nil }
     return LLColor8Matrix( OpaquePointer( UnsafeRawPointer( raw_matrix ) ) )
 }
 
-public func LCImageRGBA16Matrix( _ img_:LCImageSmPtr ) -> LLColor16Matrix? {
-    guard let raw_matrix:LLVoidMatrix = img_.rawimg?.getRawMatrix() else { return nil }
-    if LCImageGetType( img_ ) != .rgba16 { return nil }
+public func LCImageRGBA16Matrix( _ img_:LCImageSmPtr ) async -> LLColor16Matrix? {
+    guard let raw_matrix:LLVoidMatrix = await img_.getRawImage()?.getRawMatrix() else { return nil }
+    if await LCImageGetType( img_ ) != .rgba16 { return nil }
     return LLColor16Matrix( OpaquePointer( UnsafeRawPointer( raw_matrix ) ) )
 }
 
-public func LCImageRGBAfMatrix( _ img_:LCImageSmPtr ) -> LLColorMatrix? {
-    guard let raw_matrix:LLVoidMatrix = img_.rawimg?.getRawMatrix() else { return nil }
-    if LCImageGetType( img_ ) != .rgbaf { return nil }
+public func LCImageRGBAfMatrix( _ img_:LCImageSmPtr ) async -> LLColorMatrix? {
+    guard let raw_matrix:LLVoidMatrix = await img_.getRawImage()?.getRawMatrix() else { return nil }
+    if await LCImageGetType( img_ ) != .rgbaf { return nil }
     return LLColorMatrix( OpaquePointer( UnsafeRawPointer( raw_matrix ) ) )
 }
 
-public func LCImageGrey8Matrix( _ img_:LCImageSmPtr ) -> LLUInt8Matrix? {
-    guard let raw_matrix:LLVoidMatrix = img_.rawimg?.getRawMatrix() else { return nil }
-    if LCImageGetType( img_ ) != .grey8 { return nil }
+public func LCImageGrey8Matrix( _ img_:LCImageSmPtr ) async -> LLUInt8Matrix? {
+    guard let raw_matrix:LLVoidMatrix = await img_.getRawImage()?.getRawMatrix() else { return nil }
+    if await LCImageGetType( img_ ) != .grey8 { return nil }
     return LLUInt8Matrix( OpaquePointer( UnsafeRawPointer( raw_matrix ) ) )
 }
 
-public func LCImageGrey16Matrix( _ img_:LCImageSmPtr ) -> LLUInt16Matrix? {
-    guard let raw_matrix:LLVoidMatrix = img_.rawimg?.getRawMatrix() else { return nil }
-    if LCImageGetType( img_ ) != .grey16 { return nil }
+public func LCImageGrey16Matrix( _ img_:LCImageSmPtr ) async -> LLUInt16Matrix? {
+    guard let raw_matrix:LLVoidMatrix = await img_.getRawImage()?.getRawMatrix() else { return nil }
+    if await LCImageGetType( img_ ) != .grey16 { return nil }
     return LLUInt16Matrix( OpaquePointer( UnsafeRawPointer( raw_matrix ) ) )
 }
 
-public func LCImageGreyfMatrix( _ img_:LCImageSmPtr ) -> LLFloatMatrix? {
-    guard let raw_matrix:LLVoidMatrix = img_.rawimg?.getRawMatrix() else { return nil }
-    if LCImageGetType( img_ ) != .greyf { return nil }
+public func LCImageGreyfMatrix( _ img_:LCImageSmPtr ) async -> LLFloatMatrix? {
+    guard let raw_matrix:LLVoidMatrix = await img_.getRawImage()?.getRawMatrix() else { return nil }
+    if await LCImageGetType( img_ ) != .greyf { return nil }
     return LLFloatMatrix( OpaquePointer( UnsafeRawPointer( raw_matrix ) ) )
 }
 
-public func LCImageHSViMatrix( _ img_:LCImageSmPtr ) -> LLHSViMatrix? {
-    guard let raw_matrix:LLVoidMatrix = img_.rawimg?.getRawMatrix() else { return nil }
-    if LCImageGetType( img_ ) != .hsvi { return nil }
+public func LCImageHSViMatrix( _ img_:LCImageSmPtr ) async -> LLHSViMatrix? {
+    guard let raw_matrix:LLVoidMatrix = await img_.getRawImage()?.getRawMatrix() else { return nil }
+    if await LCImageGetType( img_ ) != .hsvi { return nil }
     return LLHSViMatrix( OpaquePointer( UnsafeRawPointer( raw_matrix ) ) )
 }
 
-public func LCImageHSVfMatrix( _ img_:LCImageSmPtr ) -> LLHSVfMatrix? {
-    guard let raw_matrix:LLVoidMatrix = img_.rawimg?.getRawMatrix() else { return nil }
-    if LCImageGetType( img_ ) != .hsvf { return nil }
+public func LCImageHSVfMatrix( _ img_:LCImageSmPtr ) async -> LLHSVfMatrix? {
+    guard let raw_matrix:LLVoidMatrix = await img_.getRawImage()?.getRawMatrix() else { return nil }
+    if await LCImageGetType( img_ ) != .hsvf { return nil }
     return LLHSVfMatrix( OpaquePointer( UnsafeRawPointer( raw_matrix ) ) )
 }
 
-public func LCImageRawMemory( _ img_:LCImageSmPtr ) -> LLBytePtr? {
-    guard let rawimg:LCImageRaw = img_.rawimg else { return nil }
+public func LCImageRawMemory( _ img_:LCImageSmPtr ) async -> LLBytePtr? {
+    guard let rawimg:LCImageRaw = await img_.getRawImage() else { return nil }
     return rawimg.getRawMemory()
 }
 
-public func LCImageWidth( _ img_:LCImageSmPtr ) -> Int {
-    guard let rawimg:LCImageRaw = img_.rawimg else { return 0 }
+public func LCImageWidth( _ img_:LCImageSmPtr ) async -> Int {
+    guard let rawimg:LCImageRaw = await img_.getRawImage() else { return 0 }
     return rawimg.getWidth()
 }
 
-public func LCImageHeight( _ img_:LCImageSmPtr ) -> Int {
-    guard let rawimg:LCImageRaw = img_.rawimg else { return 0 }
+public func LCImageHeight( _ img_:LCImageSmPtr ) async -> Int {
+    guard let rawimg:LCImageRaw = await img_.getRawImage() else { return 0 }
     return rawimg.getHeight()
 }
 
-public func LCImageRowBytes( _ img_:LCImageSmPtr ) -> Int {
-    guard let rawimg:LCImageRaw = img_.rawimg else { return 0 }
+public func LCImageRowBytes( _ img_:LCImageSmPtr ) async -> Int {
+    guard let rawimg:LCImageRaw = await img_.getRawImage() else { return 0 }
     return rawimg.getRowBytes()
 }
 
-public func LCImageMemoryLength( _ img_:LCImageSmPtr ) -> Int {
-    guard let rawimg:LCImageRaw = img_.rawimg else { return 0 }
+public func LCImageMemoryLength( _ img_:LCImageSmPtr ) async -> Int {
+    guard let rawimg:LCImageRaw = await img_.getRawImage() else { return 0 }
     return rawimg.getMemoryLength()
 }
 
-public func LCImageGetType( _ img_:LCImageSmPtr ) -> LLImageType {
-    guard let rawimg:LCImageRaw = img_.rawimg else { return .none }
+public func LCImageGetType( _ img_:LCImageSmPtr ) async -> LLImageType {
+    guard let rawimg:LCImageRaw = await img_.getRawImage() else { return .none }
     return rawimg.getImageType()
 }
 
-public func LCImageScale( _ img_:LCImageSmPtr ) -> LLFloat {
-    guard let rawimg:LCImageRaw = img_.rawimg else { return 0.0 }
+public func LCImageScale( _ img_:LCImageSmPtr ) async -> LLFloat {
+    guard let rawimg:LCImageRaw = await img_.getRawImage() else { return 0.0 }
     return rawimg.getScale()
 }
 
-public func LCImageChangeScale( _ img_:LCImageSmPtr, _ sc_:LLFloat ) {
-    guard let rawimg:LCImageRaw = img_.rawimg else { return }
+public func LCImageChangeScale( _ img_:LCImageSmPtr, _ sc_:LLFloat ) async {
+    guard let rawimg:LCImageRaw = await img_.getRawImage() else { return }
     rawimg.setScale( sc_ )
 }
 
 // resize image
-public func LCImageResize( _ img_:LCImageSmPtr, _ wid_:Int, _ hgt_:Int ) {
-    LCImageResizeWithType( img_, wid_, hgt_, LCImageGetType( img_ ) )
+public func LCImageResize( _ img_:LCImageSmPtr, _ wid_:Int, _ hgt_:Int ) async {
+    await LCImageResizeWithType( img_, wid_, hgt_, LCImageGetType( img_ ) )
 }
 
-public func LCImageCopy( _ img_src_:LCImageSmPtr, _ img_dst_:LCImageSmPtr ) {
-    img_dst_.rawimg = img_src_.rawimg?.clone()
+public func LCImageCopy( _ img_src_:LCImageSmPtr, _ img_dst_:LCImageSmPtr ) async {
+    let clnimg = await img_src_.getRawImage()?.clone()
+    await img_dst_.setRawImage( clnimg )
 }
 
 // resize image contained depth
-public func LCImageResizeWithType( _ img_:LCImageSmPtr, _ wid_:Int, _ hgt_:Int, _ type_:LLImageType ) {
+public func LCImageResizeWithType( _ img_:LCImageSmPtr, _ wid_:Int, _ hgt_:Int, _ type_:LLImageType ) async {
     if type_ == .none { return }
 
-    if LCImageWidth( img_ ) == wid_ && LCImageHeight( img_ ) == hgt_ && LCImageGetType( img_ ) == type_ { return }
+    let width = await LCImageWidth(img_)
+    let height = await LCImageHeight(img_)
+    let type = await LCImageGetType(img_)
+
+    if width == wid_ && height == hgt_ && type == type_ { return }
     
-    LCImageRawTreat( img_, wid_, hgt_, type_ )
+    await LCImageRawTreat( img_, wid_, hgt_, type_ )
 }
 
-public func LCImageConvertType( _ img_:LCImageSmPtr, _ type_:LLImageType ) {
-    if LCImageGetType( img_ ) == type_ { return }
-    guard let rawimg:LCImageRaw = img_.rawimg else { return }
+public func LCImageConvertType( _ img_:LCImageSmPtr, _ type_:LLImageType ) async {
+    if await LCImageGetType( img_ ) == type_ { return }
+    guard let rawimg:LCImageRaw = await img_.getRawImage() else { return }
     
-    img_.rawimg = rawimg.convert( type_ )
+    await img_.setRawImage( rawimg.convert( type_ ) )
 }
 
 public func LCImageCheckLoadTypeByExtension( _ option_:LLImageLoadOption, _ ext_:LCStringSmPtr ) -> LLImageLoadType {
@@ -265,18 +279,18 @@ public func LCImageCheckSaveTypeByExtension(_ option_:LLImageSaveOption, _ ext_:
 import UIKit
 
 // iPhone only
-public func LCImage2UIImage( _ img_:LCImageSmPtr ) -> UIImage? {    
-    let wid:Int = LCImageWidth( img_ )
-    let hgt:Int = LCImageHeight( img_ )
+public func LCImage2UIImage( _ img_:LCImageSmPtr ) async -> UIImage? {    
+    let wid:Int = await LCImageWidth( img_ )
+    let hgt:Int = await LCImageHeight( img_ )
     
     // 乗算済みアルファをCGImageへ
-    let lcimg:LCImageSmPtr = LCImageClonePremultipliedAlpha( img_ )
+    let lcimg:LCImageSmPtr = await LCImageClonePremultipliedAlpha( img_ )
     // rgba8bitに変換
-    LCImageConvertType( lcimg, .rgba8 )
+    await LCImageConvertType( lcimg, .rgba8 )
     
     let color_space = CGColorSpaceCreateDeviceRGB()
         
-    guard let memory:LLBytePtr = LCImageRawMemory( lcimg ) else { return nil }
+    guard let memory:LLBytePtr = await LCImageRawMemory( lcimg ) else { return nil }
     let cg_context:CGContext? = CGContext(
         data: memory, width: wid, height: hgt,
         bitsPerComponent: 8, 
@@ -290,12 +304,12 @@ public func LCImage2UIImage( _ img_:LCImageSmPtr ) -> UIImage? {
     guard let nonnull_cg_context:CGContext = cg_context else { return nil } 
     guard let cg_img:CGImage = nonnull_cg_context.makeImage() else { return nil }
     
-    let ui_img:UIImage = UIImage(cgImage: cg_img, scale: LCImageScale( lcimg ).cgf, orientation: .up )
+    let ui_img:UIImage = await UIImage(cgImage: cg_img, scale: LCImageScale( lcimg ).cgf, orientation: .up )
     
     return ui_img
 }
 
-public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {    
+public func UIImage2LCImage( _ img_:UIImage ) async -> LCImageSmPtr {    
     // UIImageのオリエンテーションをupに統一
     guard let fixed_img = img_.fixedOrientation() else { return LCImageSmPtr() }
     
@@ -303,7 +317,7 @@ public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {
     let hgt:Int = fixed_img.size.height.i!
     let rect = CGRect( 0, 0, wid, hgt )
     
-    let lcimg:LCImageSmPtr = LCImageMake( wid, hgt, .rgbaf )
+    let lcimg:LCImageSmPtr = await LCImageMake( wid, hgt, .rgbaf )
     
     guard let input_image_ref:CGImage = fixed_img.cgImage else { return LCImageSmPtr() } 
     
@@ -331,7 +345,7 @@ public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {
     let row:Int = conv_img.bytesPerRow
     
     guard let pixel_data:UnsafePointer<UInt8> = CFDataGetBytePtr( input_data ) else { return LCImageSmPtr() }
-    guard let mat:LLColorMatrix = LCImageRGBAfMatrix( lcimg ) else { return LCImageSmPtr() }
+    guard let mat:LLColorMatrix = await LCImageRGBAfMatrix( lcimg ) else { return LCImageSmPtr() }
 
     for y in 0 ..< hgt {
         for x in 0 ..< wid {
@@ -346,7 +360,7 @@ public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {
         }
     }
 
-    LCImageChangeScale( lcimg, img_.scale.f )
+    await LCImageChangeScale( lcimg, img_.scale.f )
     
     return lcimg
 }
@@ -355,18 +369,18 @@ public func UIImage2LCImage( _ img_:UIImage ) -> LCImageSmPtr {
 
 import AppKit
 
-public func LCImage2NSImage( _ img_:LCImageSmPtr ) -> NSImage {
-    guard let cg_img = LCImage2CGImage( img_ ) else { 
-        return NSImage(size: CGSize( LCImageWidth( img_ ), LCImageHeight( img_ ) ) )
+public func LCImage2NSImage( _ img_:LCImageSmPtr ) async -> NSImage {
+    guard let cg_img = await LCImage2CGImage( img_ ) else { 
+        return NSImage(size: CGSize( await LCImageWidth( img_ ), await LCImageHeight( img_ ) ) )
     }
     
-    return NSImage(
+    return await NSImage(
         cgImage: cg_img.takeUnretainedValue(), 
         size: CGSize( LCImageWidth( img_ ), LCImageHeight( img_ ) )
     )
 }
 
-public func NSImage2LCImage( _ img_:NSImage ) -> LCImageSmPtr {
+public func NSImage2LCImage( _ img_:NSImage ) async -> LCImageSmPtr {
     let wid = img_.size.width.i!
     let hgt = img_.size.height.i!
     let nsimage_rect:CGRect = CGRect( 0, 0, wid, hgt )
@@ -398,10 +412,10 @@ public func NSImage2LCImage( _ img_:NSImage ) -> LCImageSmPtr {
     let input_data:CFData? = provider.data
     let row:Int = conv_img.bytesPerRow
 
-    let lcimg:LCImageSmPtr = LCImageMake( wid, hgt, .rgbaf )
+    let lcimg:LCImageSmPtr = await LCImageMake( wid, hgt, .rgbaf )
     
     guard let pixel_data:UnsafePointer<UInt8> = CFDataGetBytePtr( input_data ) else { return LCImageSmPtr() }
-    guard let mat:LLColorMatrix = LCImageRGBAfMatrix( lcimg ) else { return LCImageSmPtr() }
+    guard let mat:LLColorMatrix = await LCImageRGBAfMatrix( lcimg ) else { return LCImageSmPtr() }
 
     for y in 0 ..< hgt {
         for x in 0 ..< wid {
@@ -420,15 +434,15 @@ public func NSImage2LCImage( _ img_:NSImage ) -> LCImageSmPtr {
 }
 #endif
 
-public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> Unmanaged<CGImage>? {  
-    let wid:Int = LCImageWidth( img_ )
-    let hgt:Int = LCImageHeight( img_ )
+public func LCImage2CGImage( _ img_:LCImageSmPtr ) async -> Unmanaged<CGImage>? {  
+    let wid:Int = await LCImageWidth( img_ )
+    let hgt:Int = await LCImageHeight( img_ )
     
     // 乗算済みアルファを作成しCGImage化
-    let lcimg:LCImageSmPtr = LCImageClonePremultipliedAlpha( img_ )
-    LCImageConvertType( lcimg, .rgba8 )
+    let lcimg:LCImageSmPtr = await LCImageClonePremultipliedAlpha( img_ )
+    await LCImageConvertType( lcimg, .rgba8 )
     
-    guard let memory:LLBytePtr = LCImageRawMemory( lcimg ) else { return nil }
+    guard let memory:LLBytePtr = await LCImageRawMemory( lcimg ) else { return nil }
     
     let bitmap_info:CGBitmapInfo = CGBitmapInfo( 
         rawValue:
@@ -454,15 +468,14 @@ public func LCImage2CGImage( _ img_:LCImageSmPtr ) -> Unmanaged<CGImage>? {
     return unmanaged_cg_img.autorelease()
 }
 
-public func CGImage2LCImage( _ img_:CGImage ) -> LCImageSmPtr {
-
+public func CGImage2LCImage( _ img_:CGImage ) async -> LCImageSmPtr {
     let data:CFData? = img_.dataProvider?.data
     let width:Int = img_.width
     let height:Int = img_.height
     let length:CFIndex = CFDataGetLength( data )
     
-    let lcimg:LCImageSmPtr = LCImageMake( width, height, .rgba8 )
-    let memory:LLBytePtr? = LCImageRawMemory( lcimg )
+    let lcimg:LCImageSmPtr = await LCImageMake( width, height, .rgba8 )
+    let memory:LLBytePtr? = await LCImageRawMemory( lcimg )
     CFDataGetBytes( data, CFRangeMake( 0, length ), memory )
     
     return lcimg

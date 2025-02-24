@@ -15,43 +15,45 @@ public func LCImageProcRotateBiLinear(
     _ img_dst_: LCImageSmPtr,
     _ degree: LLFloat,
     _ resizing: Bool
-) {
-    switch LCImageGetType(img_src_) {
+) 
+async
+{
+    switch await LCImageGetType(img_src_) {
     case .grey8:
         let module = __LCImageProcRotateBiLinear<LLUInt8, LLUInt8>(LCImageGrey8Matrix)
-        module.convert(img_src_, img_dst_, degree, resizing)
+        await module.convert(img_src_, img_dst_, degree, resizing)
         break
     case .grey16:
         let module = __LCImageProcRotateBiLinear<LLUInt16, LLUInt16>(LCImageGrey16Matrix)
-        module.convert(img_src_, img_dst_, degree, resizing)
+        await module.convert(img_src_, img_dst_, degree, resizing)
         break
     case .greyf:
         let module = __LCImageProcRotateBiLinear<LLFloat, LLFloat>(LCImageGreyfMatrix)
-        module.convert(img_src_, img_dst_, degree, resizing)
+        await module.convert(img_src_, img_dst_, degree, resizing)
         break
     case .rgba8:
         let module = __LCImageProcRotateBiLinearColor<LLUInt8, LLColor8>(LCImageRGBA8Matrix)
-        module.convert(img_src_, img_dst_, degree, resizing)
+        await module.convert(img_src_, img_dst_, degree, resizing)
         break
     case .rgba16:
         let module = __LCImageProcRotateBiLinearColor<LLUInt16, LLColor16>(LCImageRGBA16Matrix)
-        module.convert(img_src_, img_dst_, degree, resizing)
+        await module.convert(img_src_, img_dst_, degree, resizing)
         break
     case .rgbaf:
         let module = __LCImageProcRotateBiLinearColor<LLFloat, LLColor>(LCImageRGBAfMatrix)
-        module.convert(img_src_, img_dst_, degree, resizing)
+        await module.convert(img_src_, img_dst_, degree, resizing)
         break
     case .hsvf:
-        let img_conv = LCImageClone(img_src_)
-        LCImageConvertType(img_conv, .rgbaf)
-        LCImageProcRotateBiLinear(img_conv, img_dst_, degree, resizing)
-        LCImageConvertType(img_dst_, .hsvf)
+        let img_conv = await LCImageClone(img_src_)
+        await LCImageConvertType(img_conv, .rgbaf)
+        await LCImageProcRotateBiLinear(img_conv, img_dst_, degree, resizing)
+        await LCImageConvertType(img_dst_, .hsvf)
         break
     case .hsvi:
-        let img_conv = LCImageClone(img_src_)
-        LCImageConvertType(img_conv, .rgbaf)
-        LCImageProcRotateBiLinear(img_conv, img_dst_, degree, resizing)
-        LCImageConvertType(img_dst_, .hsvi)
+        let img_conv = await LCImageClone(img_src_)
+        await LCImageConvertType(img_conv, .rgbaf)
+        await LCImageProcRotateBiLinear(img_conv, img_dst_, degree, resizing)
+        await LCImageConvertType(img_dst_, .hsvi)
         break
     default:
         LLLogForce("unsupported this image type.")
@@ -64,9 +66,9 @@ where TColor: LLFloatConvertable
 {
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
     
-    var matrix_getter: (LCImageSmPtr) -> TMatrix?
+    var matrix_getter: (LCImageSmPtr) async -> TMatrix?
     
-    init(_ mgetter: @escaping (LCImageSmPtr) -> TMatrix?) {
+    init(_ mgetter: @escaping (LCImageSmPtr) async -> TMatrix?) {
         matrix_getter = mgetter
     }
     
@@ -75,13 +77,15 @@ where TColor: LLFloatConvertable
         _ img_dst_: LCImageSmPtr,
         _ degree: LLFloat,
         _ resizing: Bool
-    ) {
+    )
+    async
+    {
         let radian = degree.d * .pi / 180.0
         let cosTheta = cos(radian)
         let sinTheta = sin(radian)
         
-        let srcWidth = LCImageWidth(img_src_)
-        let srcHeight = LCImageHeight(img_src_)
+        let srcWidth = await LCImageWidth(img_src_)
+        let srcHeight = await LCImageHeight(img_src_)
         
         let centerX = Double(srcWidth) / 2.0
         let centerY = Double(srcHeight) / 2.0
@@ -96,14 +100,14 @@ where TColor: LLFloatConvertable
         }
         
         // 出力画像のリサイズ
-        let type = LCImageGetType(img_src_)
-        LCImageResizeWithType(img_dst_, dstWidth, dstHeight, type)
+        let type = await LCImageGetType(img_src_)
+        await LCImageResizeWithType(img_dst_, dstWidth, dstHeight, type)
 
         let dstCenterX = Double(dstWidth) / 2.0
         let dstCenterY = Double(dstHeight) / 2.0
 
-        let mat_src = matrix_getter(img_src_)!
-        let mat_dst = matrix_getter(img_dst_)!
+        let mat_src = await matrix_getter(img_src_)!
+        let mat_dst = await matrix_getter(img_dst_)!
 
         mat_src.withMemoryRebound(to: UnsafeMutablePointer<TColor>.self, capacity: 1) { psrc in
             mat_dst.withMemoryRebound(to: UnsafeMutablePointer<TColor>.self, capacity: 1) { pdst in
@@ -221,9 +225,9 @@ where TColor: LLColorType, TType: LLFloatConvertable
 {
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
     
-    var matrix_getter: (LCImageSmPtr) -> TMatrix?
+    var matrix_getter: (LCImageSmPtr) async -> TMatrix?
     
-    init(_ mgetter: @escaping (LCImageSmPtr) -> TMatrix?) {
+    init(_ mgetter: @escaping (LCImageSmPtr) async -> TMatrix?) {
         matrix_getter = mgetter
     }
     
@@ -233,13 +237,14 @@ where TColor: LLColorType, TType: LLFloatConvertable
         _ degree: LLFloat,
         _ resizing: Bool
     )
+    async
     {
         let radian = degree.d * .pi / 180.0
         let cosTheta = cos(radian)
         let sinTheta = sin(radian)
         
-        let srcWidth = LCImageWidth(img_src_)
-        let srcHeight = LCImageHeight(img_src_)
+        let srcWidth = await LCImageWidth(img_src_)
+        let srcHeight = await LCImageHeight(img_src_)
         
         let centerX = Double(srcWidth) / 2.0
         let centerY = Double(srcHeight) / 2.0
@@ -254,14 +259,14 @@ where TColor: LLColorType, TType: LLFloatConvertable
         }
                 
         // 出力画像のリサイズ
-        let type = LCImageGetType(img_src_)
-        LCImageResizeWithType(img_dst_, dstWidth, dstHeight, type)
+        let type = await LCImageGetType(img_src_)
+        await LCImageResizeWithType(img_dst_, dstWidth, dstHeight, type)
 
         let dstCenterX = Double(dstWidth) / 2.0
         let dstCenterY = Double(dstHeight) / 2.0
 
-        let mat_src = matrix_getter(img_src_)!
-        let mat_dst = matrix_getter(img_dst_)!
+        let mat_src = await matrix_getter(img_src_)!
+        let mat_dst = await matrix_getter(img_dst_)!
 
         mat_src.withMemoryRebound(to: UnsafeMutablePointer<TColor>.self, capacity: 1) { psrc in
             mat_dst.withMemoryRebound(to: UnsafeMutablePointer<TColor>.self, capacity: 1) { pdst in

@@ -94,6 +94,7 @@ extension Lily.Stage.Playground
             environment:Lily.Metal.ShaderEnvironment = .metallib,
             scene:PGVisionScene
         )
+        async
         {
             self.device = layerRenderer.device
             self.environment = environment
@@ -147,7 +148,7 @@ extension Lily.Stage.Playground
                 ) 
             }
             
-            self.renderEngine.startRenderLoop()
+            await self.renderEngine.startRenderLoop()
         }
         
         func makeRenderFlows( 

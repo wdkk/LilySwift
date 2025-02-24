@@ -11,7 +11,7 @@
 import Foundation
 
 /// 画像データの内部実装クラス
-public protocol LCImageRaw
+public protocol LCImageRaw : Sendable
 {  
     func getImageType() -> LLImageType
     
@@ -47,16 +47,25 @@ public protocol LCImageRawConvartable
 }
 
 /// 画像データモジュール
-public final class LCImageSmPtr : Sendable
+public actor LCImageSmPtr : Sendable
 {
     /// 内部オブジェクト
     var rawimg:LCImageRaw?
     
     /// 初期化
     init() {}
+    
+    func getRawImage() -> LCImageRaw? {
+        return rawimg
+    }
+        
+    func setRawImage(_ newImage:LCImageRaw? ) {
+        rawimg = newImage
+    }
 }
 
-public class LCImageGenericRaw<TColor> : LCImageRaw
+
+public class LCImageGenericRaw<TColor> : LCImageRaw, @unchecked Sendable
 {
     public typealias SelfColorPtr = UnsafeMutablePointer<TColor>
     public typealias SelfColorMatrix = UnsafeMutablePointer<SelfColorPtr>

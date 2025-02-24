@@ -10,7 +10,7 @@
 
 import Foundation
 
-public class LCImageGrey8 : LCImageGenericRaw<LLUInt8>
+public class LCImageGrey8 : LCImageGenericRaw<LLUInt8>, @unchecked Sendable
 {    
     public override func requestFunctionOfConvertRawColorFrom() -> ConvertFromFunc? { return LLGrey8toColorf }
     public override func requestFunctionOfConvertRawColorTo() -> ConvertToFunc? { return LLColorftoGrey8 }

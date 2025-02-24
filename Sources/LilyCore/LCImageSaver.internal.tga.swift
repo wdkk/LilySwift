@@ -12,13 +12,14 @@ import Foundation
 
 public extension LCImageSaverInternal
 {
-    func saveTarga( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr, _ option_:LLImageSaveOption ) -> Bool {
+    static func saveTarga( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr, _ option_:LLImageSaveOption ) async -> Bool 
+    {
         // TODO: RLE圧縮の対応
         let HEADER_SIZE:Int = 18
 
-        let wid = LCImageWidth( img_ )
-        let hgt = LCImageHeight( img_ )
-        let type = LCImageGetType( img_ )
+        let wid = await LCImageWidth( img_ )
+        let hgt = await LCImageHeight( img_ )
+        let type = await LCImageGetType( img_ )
         
         var channel = 3
         switch option_.targa_info {
@@ -69,7 +70,7 @@ public extension LCImageSaverInternal
             let tga_ptr = tga_mem
             // 8bitデータ
             if type == .rgba8 {
-                guard let mat8 = LCImageRGBA8Matrix( img_ ) else { return false }
+                guard let mat8 = await LCImageRGBA8Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {
@@ -85,7 +86,7 @@ public extension LCImageSaverInternal
             }
             // 16bitデータ
             else if type == .rgba16 {
-                guard let mat16 = LCImageRGBA16Matrix( img_ ) else { return false }
+                guard let mat16 = await LCImageRGBA16Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {
@@ -101,7 +102,7 @@ public extension LCImageSaverInternal
             }
             // 32bitデータ
             else if type == .rgbaf {
-                guard let matf = LCImageRGBAfMatrix( img_ ) else { return false }
+                guard let matf = await LCImageRGBAfMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {            
@@ -117,7 +118,7 @@ public extension LCImageSaverInternal
             }
             // グレー8ビット
             else if type == .grey8 {
-                guard let mat_g8 = LCImageGrey8Matrix( img_ ) else { return false }
+                guard let mat_g8 = await LCImageGrey8Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {
@@ -134,7 +135,7 @@ public extension LCImageSaverInternal
             }
             // グレー16ビット
             else if type == .grey16 {
-                guard let mat_g16 = LCImageGrey16Matrix( img_ ) else { return false }
+                guard let mat_g16 = await LCImageGrey16Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {
@@ -151,7 +152,7 @@ public extension LCImageSaverInternal
             }
             // グレーfloat
             else if type == .greyf {
-                guard let mat_gf = LCImageGreyfMatrix( img_ ) else { return false }
+                guard let mat_gf = await LCImageGreyfMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {
@@ -168,7 +169,7 @@ public extension LCImageSaverInternal
             }
             // hsv(float)データ
             else if type == .hsvf {
-                guard let mat_hsvf = LCImageHSVfMatrix( img_ ) else { return false }
+                guard let mat_hsvf = await LCImageHSVfMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {
@@ -185,7 +186,7 @@ public extension LCImageSaverInternal
             }
             // hsv(16,8,8)データ
             else if type == .hsvi {
-                guard let mat_hsvi = LCImageHSViMatrix( img_ ) else { return false }
+                guard let mat_hsvi = await LCImageHSViMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {
@@ -211,7 +212,7 @@ public extension LCImageSaverInternal
             let tga_ptr = tga_mem
             // 8bitデータ
             if type == .rgba8 {
-                guard let mat8 = LCImageRGBA8Matrix( img_ ) else { return false }
+                guard let mat8 = await LCImageRGBA8Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {
@@ -226,7 +227,7 @@ public extension LCImageSaverInternal
             }
             // 16bitデータ
             else if type == .rgba16 {
-                guard let mat16 = LCImageRGBA16Matrix( img_ ) else { return false }
+                guard let mat16 = await LCImageRGBA16Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {
@@ -241,7 +242,7 @@ public extension LCImageSaverInternal
             }
             // 32bitデータ
             else if type == .rgbaf {
-                guard let matf = LCImageRGBAfMatrix( img_ ) else { return false }
+                guard let matf = await LCImageRGBAfMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {            
@@ -256,7 +257,7 @@ public extension LCImageSaverInternal
             }
             // グレー8ビット
             else if type == .grey8 {
-                guard let mat_g8 = LCImageGrey8Matrix( img_ ) else { return false }
+                guard let mat_g8 = await LCImageGrey8Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {
@@ -272,7 +273,7 @@ public extension LCImageSaverInternal
             }
             // グレー16ビット
             else if type == .grey16 {
-                guard let mat_g16 = LCImageGrey16Matrix( img_ ) else { return false }
+                guard let mat_g16 = await LCImageGrey16Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {
@@ -288,7 +289,7 @@ public extension LCImageSaverInternal
             }
             // グレーfloat
             else if type == .greyf {
-                guard let mat_gf = LCImageGreyfMatrix( img_ ) else { return false }
+                guard let mat_gf = await LCImageGreyfMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {
@@ -304,7 +305,7 @@ public extension LCImageSaverInternal
             }
             // HSV(float)データ
             else if type == .hsvf {
-                guard let mat_hsvf = LCImageHSVfMatrix( img_ ) else { return false }
+                guard let mat_hsvf = await LCImageHSVfMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {
@@ -320,7 +321,7 @@ public extension LCImageSaverInternal
             }
             // HSV(float)データ
             else if type == .hsvi {
-                guard let mat_hsvi = LCImageHSViMatrix( img_ ) else { return false }
+                guard let mat_hsvi = await LCImageHSViMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     tga_x = tga_xs
                     for x in 0 ..< wid {

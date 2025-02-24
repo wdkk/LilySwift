@@ -41,18 +41,16 @@ extension Lily.View
         
         open var imageFixSize:CGSize = CGSize( width:40, height:40 ) { didSet { blt() } }
         
-        open var imageOriginalSize:CGSize {
-            get {
-                if image is UIImage {
-                    let uiimg:UIImage = image as! UIImage
-                    return uiimg.size
-                }
-                else if image is LLImage {
-                    let llimg:LLImage = image as! LLImage
-                    return CGSize( llimg.width, llimg.height )
-                }
-                return .zero
+        open func imageOriginalSize() async -> CGSize {            
+            if image is UIImage {
+                let uiimg:UIImage = image as! UIImage
+                return uiimg.size
             }
+            else if image is LLImage {
+                let llimg:LLImage = image as! LLImage
+                return await CGSize( llimg.width(), llimg.height() )
+            }
+            return .zero
         }
         
         open var drawStyle:DrawStyle = .stretchFull {
@@ -83,36 +81,38 @@ extension Lily.View
         }
         
         open func blt() {
-            if image == nil {
-                _draw_layer.contents = nil
-            }
-            else if image is UIImage {
-                let uiimg:UIImage = self.image as! UIImage
-                let cgimg:CGImage? = uiimg.cgImage
-                
-                // check CGImage
-                guard let nn_cgimg = cgimg else {
+            Task {
+                if image == nil {
                     _draw_layer.contents = nil
-                    return
                 }
-                
-                drawCGImage( nn_cgimg )
-            }
-            else if image is LLImage {
-                let img = self.image as! LLImage
-                
-                // check LLImage
-                if !img.available { _draw_layer.contents = nil; return }
-                
-                guard let nn_cgimg = img.cgImage else {
+                else if image is UIImage {
+                    let uiimg:UIImage = self.image as! UIImage
+                    let cgimg:CGImage? = uiimg.cgImage
+                    
+                    // check CGImage
+                    guard let nn_cgimg = cgimg else {
+                        _draw_layer.contents = nil
+                        return
+                    }
+                    
+                    drawCGImage( nn_cgimg )
+                }
+                else if image is LLImage {
+                    let img = self.image as! LLImage
+                    
+                    // check LLImage
+                    if await !img.available() { _draw_layer.contents = nil; return }
+                    
+                    guard let nn_cgimg = await img.cgImage() else {
+                        _draw_layer.contents = nil
+                        return
+                    }
+                    
+                    drawCGImage( nn_cgimg )
+                }
+                else {
                     _draw_layer.contents = nil
-                    return
                 }
-                
-                drawCGImage( nn_cgimg )
-            }
-            else {
-                _draw_layer.contents = nil
             }
         }
         

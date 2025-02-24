@@ -14,25 +14,30 @@ import AppKit
 
 public extension LCImageSaverInternal
 {
-    func save( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr, _ option_:LLImageSaveOption = LLImageSaveOptionDefault() ) 
-    -> Bool {
-        autoreleasepool {
+    func save( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr, _ option_:LLImageSaveOption = LLImageSaveOptionDefault() )
+    async 
+    -> Bool 
+    {
+        let filePath = String(file_path_)
+        
+        // Targa
+        if option_.type == .targa {
+            // 自作関数に任せる
+            return await Self.saveTarga( img_, filePath.lcStr, option_ )
+        }
+        // Bitmap
+        else if option_.type == .bitmap {
+            // 自作関数に任せる
+            return await Self.saveBitmap( img_, filePath.lcStr, option_ )
+        }
+        
+        let rslt = await Task {
             var properties = [NSBitmapImageRep.PropertyKey:Any]()
             var file_type:NSBitmapImageRep.FileType = .png
             var sample_bit:Int = 32
             
-            // Targa
-            if option_.type == .targa {
-                // 自作関数に任せる
-                return saveTarga( img_, file_path_, option_ )
-            }
-            // Bitmap
-            else if option_.type == .bitmap {
-                // 自作関数に任せる
-                return saveBitmap( img_, file_path_, option_ )
-            }
             // PNG
-            else if option_.type == .png {
+            if option_.type == .png {
                 sample_bit = 32
                 file_type = .png
                 properties[ .compressionFactor ] = NSNumber(value: option_.png_compress )
@@ -55,9 +60,9 @@ public extension LCImageSaverInternal
                 properties[ .compressionFactor ] = NSNumber(value: 0.0 )
             }
             
-            let wid = LCImageWidth( img_ )
-            let hgt = LCImageHeight( img_ )
-            let type = LCImageGetType( img_ )
+            let wid = await LCImageWidth( img_ )
+            let hgt = await LCImageHeight( img_ )
+            let type = await LCImageGetType( img_ )
             var bmp_rep:NSBitmapImageRep? = nil
           
             // [32bit]
@@ -68,7 +73,7 @@ public extension LCImageSaverInternal
                 defer { buffer.deallocate() }
                 
                 if type == .rgba8 {
-                    guard let mat8 = LCImageRGBA8Matrix( img_ ) else { return false }
+                    guard let mat8 = await LCImageRGBA8Matrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = mat8[y][x]
@@ -81,7 +86,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if type == .rgba16 {
-                    guard let mat16 = LCImageRGBA16Matrix( img_ ) else { return false }
+                    guard let mat16 = await LCImageRGBA16Matrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLColor16to8( mat16[y][x] )
@@ -94,7 +99,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if type == .rgbaf {
-                    guard let matf = LCImageRGBAfMatrix( img_ ) else { return false }
+                    guard let matf = await LCImageRGBAfMatrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLColorfto8( matf[y][x] )
@@ -107,7 +112,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if type == .grey8 {
-                    guard let mat_g8 = LCImageGrey8Matrix( img_ ) else { return false }
+                    guard let mat_g8 = await LCImageGrey8Matrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLGrey8toColor8( mat_g8[y][x] )
@@ -120,7 +125,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if type == .grey16 {
-                    guard let mat_g16 = LCImageGrey16Matrix( img_ ) else { return false }
+                    guard let mat_g16 = await LCImageGrey16Matrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLGrey16toColor8( mat_g16[y][x] )
@@ -133,7 +138,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if( type == .greyf ) {
-                    guard let mat_gf = LCImageGreyfMatrix( img_ ) else { return false }
+                    guard let mat_gf = await LCImageGreyfMatrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLGreyftoColor8( mat_gf[y][x] )
@@ -146,7 +151,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if type == .hsvf {
-                    guard let mat_hsvf = LCImageHSVfMatrix( img_ ) else { return false }
+                    guard let mat_hsvf = await LCImageHSVfMatrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLHSVftoColor8( mat_hsvf[y][x] )
@@ -159,7 +164,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if type == .hsvi {
-                    guard let mat_hsvi = LCImageHSViMatrix( img_ ) else { return false }
+                    guard let mat_hsvi = await LCImageHSViMatrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLHSVitoColor8( mat_hsvi[y][x] )
@@ -197,7 +202,7 @@ public extension LCImageSaverInternal
                 defer { buffer.deallocate() }
                 
                 if type == .rgba8 {
-                    guard let mat8 = LCImageRGBA8Matrix( img_ ) else { return false }
+                    guard let mat8 = await LCImageRGBA8Matrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = mat8[y][x]
@@ -209,7 +214,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if type == .rgba16 {
-                    guard let mat16 = LCImageRGBA16Matrix( img_ ) else { return false }
+                    guard let mat16 = await LCImageRGBA16Matrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLColor16to8( mat16[y][x] )
@@ -221,7 +226,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if type == .rgbaf {
-                    guard let matf = LCImageRGBAfMatrix( img_ ) else { return false }
+                    guard let matf = await LCImageRGBAfMatrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLColorfto8( matf[y][x] )
@@ -233,7 +238,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if type == .grey8 {
-                    guard let mat_g8 = LCImageGrey8Matrix( img_ ) else { return false }
+                    guard let mat_g8 = await LCImageGrey8Matrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLGrey8toColor8( mat_g8[y][x] )
@@ -245,7 +250,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if type == .grey16 {
-                    guard let mat_g16 = LCImageGrey16Matrix( img_ ) else { return false }
+                    guard let mat_g16 = await LCImageGrey16Matrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLGrey16toColor8( mat_g16[y][x] )
@@ -257,7 +262,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if type == .greyf {
-                    guard let mat_gf = LCImageGreyfMatrix( img_ ) else { return false }
+                    guard let mat_gf = await LCImageGreyfMatrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLGreyftoColor8( mat_gf[y][x] )
@@ -269,7 +274,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if type == .hsvf {
-                    guard let mat_hsvf = LCImageHSVfMatrix( img_ ) else { return false }
+                    guard let mat_hsvf = await LCImageHSVfMatrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLHSVftoColor8( mat_hsvf[y][x] )
@@ -281,7 +286,7 @@ public extension LCImageSaverInternal
                     }
                 }
                 else if type == .hsvi {
-                    guard let mat_hsvi = LCImageHSViMatrix( img_ ) else { return false }
+                    guard let mat_hsvi = await LCImageHSViMatrix( img_ ) else { return false }
                     for y in 0 ..< hgt {
                         for x in 0 ..< wid {
                             let c = LLHSVitoColor8( mat_hsvi[y][x] )
@@ -318,14 +323,15 @@ public extension LCImageSaverInternal
         
             // 書き込み
             do {
-                try data.write(to: URL(fileURLWithPath: String( file_path_ ) ) )
+                try data.write(to: URL(fileURLWithPath: filePath ) )
                 return true
             }
             catch {
                 return false
             }
-        }
+        }.value
         
+        return rslt
     }
 }
 

@@ -10,51 +10,51 @@
 
 import Foundation
 
-public func LCImageProcWhiteBalanceAutomatically( _ img_src_:LCImageSmPtr, _ img_dst_:LCImageSmPtr ) {
-    switch LCImageGetType( img_src_ ) {
+public func LCImageProcWhiteBalanceAutomatically( _ img_src_:LCImageSmPtr, _ img_dst_:LCImageSmPtr ) async {
+    switch await LCImageGetType( img_src_ ) {
     case .grey8:
         let module = __LCImageProcWhiteBalanceAutomatically<LLUInt8, LLUInt8>( LCImageGrey8Matrix )
-        module.setup( img_src_, img_dst_, 0.05, 1, 256, LLColor8_MaxValue.d )
-        module.procGrey()
+        await module.setup( img_src_, img_dst_, 0.05, 1, 256, LLColor8_MaxValue.d )
+        await module.procGrey()
         break
     case .grey16:
         let module = __LCImageProcWhiteBalanceAutomatically<LLUInt16, LLUInt16>( LCImageGrey16Matrix )
-        module.setup( img_src_, img_dst_, 0.05, 1, 65536, LLColor16_MaxValue.d )
-        module.procGrey()
+        await module.setup( img_src_, img_dst_, 0.05, 1, 65536, LLColor16_MaxValue.d )
+        await module.procGrey()
         break
     case .greyf:
-        let img_conv = LCImageClone( img_src_ )
-        LCImageConvertType( img_conv, .grey16 )
-        LCImageProcWhiteBalanceAutomatically( img_conv, img_dst_ )
-        LCImageConvertType( img_dst_, .greyf )
+        let img_conv = await LCImageClone( img_src_ )
+        await LCImageConvertType( img_conv, .grey16 )
+        await LCImageProcWhiteBalanceAutomatically( img_conv, img_dst_ )
+        await LCImageConvertType( img_dst_, .greyf )
         break
     case .rgba8:
         let module = __LCImageProcWhiteBalanceAutomatically<LLUInt8, LLColor8>( LCImageRGBA8Matrix )
-        module.setup( img_src_, img_dst_, 0.05, 3, 256, LLColor8_MaxValue.d )
-        module.procChannel3()
+        await module.setup( img_src_, img_dst_, 0.05, 3, 256, LLColor8_MaxValue.d )
+        await module.procChannel3()
         break
     case .rgba16:
         let module = __LCImageProcWhiteBalanceAutomatically<LLUInt16, LLColor16>( LCImageRGBA16Matrix )
-        module.setup( img_src_, img_dst_, 0.05, 3, 65536, LLColor16_MaxValue.d )
-        module.procChannel3()
+        await module.setup( img_src_, img_dst_, 0.05, 3, 65536, LLColor16_MaxValue.d )
+        await module.procChannel3()
         break
     case .rgbaf:
-        let img_conv = LCImageClone( img_src_ )
-        LCImageConvertType( img_conv, .rgba16 )
-        LCImageProcWhiteBalanceAutomatically( img_conv, img_dst_ )
-        LCImageConvertType( img_dst_, .rgbaf )
+        let img_conv = await LCImageClone( img_src_ )
+        await LCImageConvertType( img_conv, .rgba16 )
+        await LCImageProcWhiteBalanceAutomatically( img_conv, img_dst_ )
+        await LCImageConvertType( img_dst_, .rgbaf )
         break
     case .hsvf:
-        let img_conv = LCImageClone( img_src_ )
-        LCImageConvertType( img_conv, .rgba16 )
-        LCImageProcWhiteBalanceAutomatically( img_conv, img_dst_ )
-        LCImageConvertType( img_dst_, .hsvf )
+        let img_conv = await LCImageClone( img_src_ )
+        await LCImageConvertType( img_conv, .rgba16 )
+        await LCImageProcWhiteBalanceAutomatically( img_conv, img_dst_ )
+        await LCImageConvertType( img_dst_, .hsvf )
         break
     case .hsvi:
-        let img_conv = LCImageClone( img_src_ )
-        LCImageConvertType( img_conv, .rgba16 )
-        LCImageProcWhiteBalanceAutomatically( img_conv, img_dst_ )
-        LCImageConvertType( img_dst_, .hsvi )
+        let img_conv = await LCImageClone( img_src_ )
+        await LCImageConvertType( img_conv, .rgba16 )
+        await LCImageProcWhiteBalanceAutomatically( img_conv, img_dst_ )
+        await LCImageConvertType( img_dst_, .hsvi )
         break
     default:
         LLLogForce( "unsupported this image type." )
@@ -76,9 +76,9 @@ class __LCImageProcWhiteBalanceAutomatically<TType: BinaryInteger, TColor> {
     }
     
     var param = Param()
-    var matrix_getter: (LCImageSmPtr) -> TMatrix?
+    var matrix_getter: (LCImageSmPtr) async -> TMatrix?
     
-    init(_ mgetter: @escaping (LCImageSmPtr) -> TMatrix?) {
+    init(_ mgetter: @escaping (LCImageSmPtr) async -> TMatrix?) {
         matrix_getter = mgetter
     }
     
@@ -89,7 +89,9 @@ class __LCImageProcWhiteBalanceAutomatically<TType: BinaryInteger, TColor> {
         _ hist_dimension_: Int,
         _ hist_sample_: Int,
         _ max_value_: Double
-    ) {
+    ) 
+    async
+    {
         param.img_src = img_src_
         param.img_dst = img_dst_
         param.max_value = max_value_
@@ -101,10 +103,10 @@ class __LCImageProcWhiteBalanceAutomatically<TType: BinaryInteger, TColor> {
             }
         }
 
-        let wid = LCImageWidth(img_src_)
-        let hgt = LCImageHeight(img_src_)
-        LCImageResizeWithType(img_dst_, wid, hgt, LCImageGetType(img_src_))
-        let mat_src = matrix_getter(img_src_)
+        let wid = await LCImageWidth(img_src_)
+        let hgt = await LCImageHeight(img_src_)
+        await LCImageResizeWithType(img_dst_, wid, hgt, LCImageGetType(img_src_))
+        let mat_src = await matrix_getter(img_src_)
         
         if hist_dimension_ == 1 {
             createHistGrey(wid, hgt, mat_src!)
@@ -157,13 +159,13 @@ class __LCImageProcWhiteBalanceAutomatically<TType: BinaryInteger, TColor> {
         }
     }
 
-    func procGrey() {
+    func procGrey() async {
         let vmin = param.vmin
         let vmax = param.vmax
-        let wid = LCImageWidth(param.img_src!)
-        let hgt = LCImageHeight(param.img_src!)
-        let mat_src = matrix_getter(param.img_src!)!
-        let mat_dst = matrix_getter(param.img_dst!)!
+        let wid = await LCImageWidth(param.img_src!)
+        let hgt = await LCImageHeight(param.img_src!)
+        let mat_src = await matrix_getter(param.img_src!)!
+        let mat_dst = await matrix_getter(param.img_dst!)!
         let max_value = param.max_value
         
         mat_src.withMemoryRebound(to: UnsafeMutablePointer<TType>.self, capacity: 1) { psrc in
@@ -179,13 +181,13 @@ class __LCImageProcWhiteBalanceAutomatically<TType: BinaryInteger, TColor> {
         }
     }
 
-    func procChannel3() {
+    func procChannel3() async {
         let vmin = param.vmin
         let vmax = param.vmax
-        let wid = LCImageWidth(param.img_src!)
-        let hgt = LCImageHeight(param.img_src!)
-        let mat_src = matrix_getter(param.img_src!)!
-        let mat_dst = matrix_getter(param.img_dst!)!
+        let wid = await LCImageWidth(param.img_src!)
+        let hgt = await LCImageHeight(param.img_src!)
+        let mat_src = await matrix_getter(param.img_src!)!
+        let mat_dst = await matrix_getter(param.img_dst!)!
         let max_value = param.max_value
         
         mat_src.withMemoryRebound(to: UnsafeMutablePointer<TType>.self, capacity: 1) { psrc in

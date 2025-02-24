@@ -11,10 +11,10 @@
 import Foundation
 
 @MainActor
-public func LDImageLoadFileWithOption( _ file_path_:LCStringSmPtr, _ option_:LLImageLoadOption ) -> LCImageSmPtr {
+public func LDImageLoadFileWithOption( _ file_path_:LCStringSmPtr, _ option_:LLImageLoadOption ) async -> LCImageSmPtr {
     if !LCFileExists( file_path_ )  {
         LLLogWarning( "ファイルが見つかりません.:\(String( file_path_ ))" )
-        return LCImageZero()
+        return await LCImageZero()
     }
     
     var opt:LLImageLoadOption = option_
@@ -22,7 +22,7 @@ public func LDImageLoadFileWithOption( _ file_path_:LCStringSmPtr, _ option_:LLI
     let splits:LCStringArraySmPtr = LCStringSplit( file_path_, LCStringMakeWithCChars( "." ) )
     let split_count:Int = LCStringArrayCount( splits )
     
-    if split_count <= 1 { return LCImageZero() }
+    if split_count <= 1 { return await LCImageZero() }
     
     // extract extension
     let ext:LCStringSmPtr = LCStringArrayAt( splits, split_count-1 )
@@ -63,15 +63,18 @@ public func LDImageLoadFileWithOption( _ file_path_:LCStringSmPtr, _ option_:LLI
     }
     
     let loader:LCImageLoaderSmPtr = LCImageLoaderMake()
-    let result:LCImageSmPtr = LCImageLoaderLoadWithOption( loader, new_path, opt )
-    if LCImageGetType( result ) != .none { LCImageChangeScale( result, scale.f ) }
+    let result:LCImageSmPtr = await LCImageLoaderLoadWithOption( loader, String(new_path), opt )
+    let type = await LCImageGetType( result )
+    if type != .none { await LCImageChangeScale( result, scale.f ) }
     
     return result
 }
 
 
 public func LDImageSaveFileWithOption( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr, _ option_:LLImageSaveOption ) 
--> Bool {
+async
+-> Bool 
+{
     if LCFileExists( file_path_ ) {
          LLLogWarning( "すでにファイルが存在します.:\(String( file_path_ ))" );
          return false
@@ -85,5 +88,5 @@ public func LDImageSaveFileWithOption( _ img_:LCImageSmPtr, _ file_path_:LCStrin
     }
     
     let saver:LCImageSaverSmPtr = LCImageSaverMake()
-    return LCImageSaverSaveWithOption( saver, img_, file_path_, opt )
+    return await LCImageSaverSaveWithOption( saver, img_, file_path_, opt )
 }

@@ -16,20 +16,23 @@ import UIKit
 
 public extension LCImageLoaderInternal
 {
-    func load( _ file_path_:LCStringSmPtr, _ option_:LLImageLoadOption = LLImageLoadOptionDefault() ) -> LCImageSmPtr {
-        if !LCFileExists( file_path_ ) {
+    func load( _ file_path_:String, _ option_:LLImageLoadOption = LLImageLoadOptionDefault() )
+    async
+    -> LCImageSmPtr 
+    {
+        if !LCFileExists( file_path_.lcStr ) {
             LLLog( "ファイルが見つかりません.:\( String( file_path_ ) )" )
-            return LCImageZero()
+            return await LCImageZero()
         }
         
         // Targaの場合別途処理
         if option_.type == .targa {
-            return loadTarga( file_path_, option_ )
+            return await loadTarga( file_path_.lcStr, option_ )
         }
         
         let path = String( file_path_ ) 
-        guard let ui_img = UIImage(contentsOfFile: path ) else { return LCImageZero() }
-        guard let cg_img = ui_img.cgImage else { return LCImageZero() }
+        guard let ui_img = UIImage(contentsOfFile: path ) else { return await LCImageZero() }
+        guard let cg_img = ui_img.cgImage else { return await LCImageZero() }
         let wid = cg_img.width
         let hgt = cg_img.height
         let bytes_per_row = cg_img.bytesPerRow
@@ -65,18 +68,18 @@ public extension LCImageLoaderInternal
                 channel = 4
                 break
             default:
-                return LCImageZero()
+                return await LCImageZero()
         }
         
-        guard let prov = cg_img.dataProvider else { return LCImageZero() }
-        guard let cf_data = prov.data else { return LCImageZero() }
+        guard let prov = cg_img.dataProvider else { return await LCImageZero() }
+        guard let cf_data = prov.data else { return await LCImageZero() }
 
-        let img = LCImageMake( wid, hgt, .rgba8 )
+        let img = await LCImageMake( wid, hgt, .rgba8 )
         
         if depth == 8 {
-            LCImageResizeWithType( img, wid, hgt, .rgba8 )
-            guard let mat = LCImageRGBA8Matrix( img ) else { return LCImageZero() }
-            guard let buffer = CFDataGetBytePtr( cf_data ) else { return LCImageZero() }
+            await LCImageResizeWithType( img, wid, hgt, .rgba8 )
+            guard let mat = await LCImageRGBA8Matrix( img ) else { return await LCImageZero() }
+            guard let buffer = CFDataGetBytePtr( cf_data ) else { return await LCImageZero() }
             
             let xstride = samples
             let row = bytes_per_row
@@ -117,15 +120,15 @@ public extension LCImageLoaderInternal
                 }
                 break
             default:
-                return LCImageZero()
+                return await LCImageZero()
             }
         }
         else if depth == 16 {
-            LCImageResizeWithType( img, wid, hgt, .rgba16 )
-            guard let mat16 = LCImageRGBA16Matrix( img ) else { return LCImageZero() }
-            guard let buffer = CFDataGetBytePtr( cf_data ) else { return LCImageZero() }
+            await LCImageResizeWithType( img, wid, hgt, .rgba16 )
+            guard let mat16 = await LCImageRGBA16Matrix( img ) else { return await LCImageZero() }
+            guard let buffer = CFDataGetBytePtr( cf_data ) else { return await LCImageZero() }
             guard let buffer16 = UnsafePointer<LLUInt16>( OpaquePointer( UnsafeRawPointer( buffer ) ) )
-            else { return LCImageZero() }
+            else { return await LCImageZero() }
             
             let xstride = samples / 2
             let row = bytes_per_row / 2
@@ -165,7 +168,7 @@ public extension LCImageLoaderInternal
                 }
                 break
             default:
-                return LCImageZero()
+                return await LCImageZero()
             }
         }
         

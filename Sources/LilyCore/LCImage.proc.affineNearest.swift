@@ -16,37 +16,38 @@ public func LCImageProcAffineTransformNearest(
     _ transform: LL2DAffine,
     _ resizing: Bool
 ) 
+async
 {
-    switch LCImageGetType(img_src_) {
+    switch await LCImageGetType(img_src_) {
     case .grey8:
         let module = __LCImageProcAffineTransformNearest<LLUInt8, LLUInt8>(LCImageGrey8Matrix)
-        module.convert(img_src_, img_dst_, transform, resizing)
+        await module.convert(img_src_, img_dst_, transform, resizing)
     case .grey16:
         let module = __LCImageProcAffineTransformNearest<LLUInt16, LLUInt16>(LCImageGrey16Matrix)
-        module.convert(img_src_, img_dst_, transform, resizing)
+        await module.convert(img_src_, img_dst_, transform, resizing)
     case .greyf:
         let module = __LCImageProcAffineTransformNearest<LLFloat, LLFloat>(LCImageGreyfMatrix)
-        module.convert(img_src_, img_dst_, transform, resizing)
+        await module.convert(img_src_, img_dst_, transform, resizing)
     case .rgba8:
         let module = __LCImageProcAffineTransformNearestColor<LLUInt8, LLColor8>(LCImageRGBA8Matrix)
-        module.convert(img_src_, img_dst_, transform, resizing)
+        await module.convert(img_src_, img_dst_, transform, resizing)
     case .rgba16:
         let module = __LCImageProcAffineTransformNearestColor<LLUInt16, LLColor16>(LCImageRGBA16Matrix)
-        module.convert(img_src_, img_dst_, transform, resizing)
+        await module.convert(img_src_, img_dst_, transform, resizing)
     case .rgbaf:
         let module = __LCImageProcAffineTransformNearestColor<LLFloat, LLColor>(LCImageRGBAfMatrix)
-        module.convert(img_src_, img_dst_, transform, resizing)
+        await module.convert(img_src_, img_dst_, transform, resizing)
     case .hsvf:
-        let img_conv = LCImageClone(img_src_)
-        LCImageConvertType(img_conv, .rgbaf)
-        LCImageProcAffineTransformNearest(img_conv, img_dst_, transform, resizing)
-        LCImageConvertType(img_dst_, .hsvf)
+        let img_conv = await LCImageClone(img_src_)
+        await LCImageConvertType(img_conv, .rgbaf)
+        await LCImageProcAffineTransformNearest(img_conv, img_dst_, transform, resizing)
+        await LCImageConvertType(img_dst_, .hsvf)
         break
     case .hsvi:
-        let img_conv = LCImageClone(img_src_)
-        LCImageConvertType(img_conv, .rgbaf)
-        LCImageProcAffineTransformNearest(img_conv, img_dst_, transform, resizing)
-        LCImageConvertType(img_dst_, .hsvi)
+        let img_conv = await LCImageClone(img_src_)
+        await LCImageConvertType(img_conv, .rgbaf)
+        await LCImageProcAffineTransformNearest(img_conv, img_dst_, transform, resizing)
+        await LCImageConvertType(img_dst_, .hsvi)
         break
     default:
         LLLogForce("unsupported this image type.")
@@ -61,10 +62,11 @@ public func LCImageProcAffineTransformNearest(
     _ degree:Float,
     _ resizing:Bool
 ) 
+async
 {    
     // 入力画像の幅と高さを取得
-    let src_wid = LCImageWidth(img_src_)
-    let src_hgt = LCImageHeight(img_src_)
+    let src_wid = await LCImageWidth(img_src_)
+    let src_hgt = await LCImageHeight(img_src_)
     
     let scale_x = Double(width) / Double(src_wid)
     let scale_y = Double(height) / Double(src_hgt)
@@ -112,7 +114,7 @@ public func LCImageProcAffineTransformNearest(
     let tf = LL2DAffineMultiply( new_scale_tf, new_rotate_tf )
 
     // アフィン変換を適用して画像を変形
-    LCImageProcAffineTransformNearest( img_src_, img_dst_, tf, resizing )
+    await LCImageProcAffineTransformNearest( img_src_, img_dst_, tf, resizing )
 }
 
 func __calculateBoundingBoxForAffine(
@@ -145,9 +147,9 @@ where TColor: LLFloatConvertable
 {
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
     
-    var matrix_getter: (LCImageSmPtr) -> TMatrix?
+    var matrix_getter: (LCImageSmPtr) async -> TMatrix?
     
-    init(_ mgetter: @escaping (LCImageSmPtr) -> TMatrix?) {
+    init(_ mgetter: @escaping (LCImageSmPtr) async -> TMatrix?) {
         matrix_getter = mgetter
     }
     
@@ -157,9 +159,10 @@ where TColor: LLFloatConvertable
         _ transform: LL2DAffine,
         _ resizing: Bool
     )
+    async
     {
-        let srcWidth = LCImageWidth(img_src_)
-        let srcHeight = LCImageHeight(img_src_)
+        let srcWidth = await LCImageWidth(img_src_)
+        let srcHeight = await LCImageHeight(img_src_)
         
         var dstWidth = srcWidth
         var dstHeight = srcHeight
@@ -172,11 +175,11 @@ where TColor: LLFloatConvertable
         }
         
         // 出力画像のリサイズ
-        let type = LCImageGetType(img_src_)
-        LCImageResizeWithType(img_dst_, dstWidth, dstHeight, type)
+        let type = await LCImageGetType(img_src_)
+        await LCImageResizeWithType(img_dst_, dstWidth, dstHeight, type)
 
-        let mat_src = matrix_getter(img_src_)!
-        let mat_dst = matrix_getter(img_dst_)!
+        let mat_src = await matrix_getter(img_src_)!
+        let mat_dst = await matrix_getter(img_dst_)!
 
         mat_src.withMemoryRebound(to: UnsafeMutablePointer<TColor>.self, capacity: 1) { psrc in
             mat_dst.withMemoryRebound(to: UnsafeMutablePointer<TColor>.self, capacity: 1) { pdst in
@@ -238,9 +241,9 @@ where TColor: LLColorType, TType: LLFloatConvertable
 {
     typealias TMatrix = UnsafeMutablePointer<UnsafeMutablePointer<TColor>>
     
-    var matrix_getter: (LCImageSmPtr) -> TMatrix?
+    var matrix_getter: (LCImageSmPtr) async -> TMatrix?
     
-    init(_ mgetter: @escaping (LCImageSmPtr) -> TMatrix?) {
+    init(_ mgetter: @escaping (LCImageSmPtr) async -> TMatrix?) {
         matrix_getter = mgetter
     }
     
@@ -249,9 +252,11 @@ where TColor: LLColorType, TType: LLFloatConvertable
         _ img_dst_: LCImageSmPtr,
         _ transform: LL2DAffine,
         _ resizing: Bool
-    ) {
-        let srcWidth = LCImageWidth(img_src_)
-        let srcHeight = LCImageHeight(img_src_)
+    )
+    async
+    {
+        let srcWidth = await LCImageWidth(img_src_)
+        let srcHeight = await LCImageHeight(img_src_)
         
         var dstWidth = srcWidth
         var dstHeight = srcHeight
@@ -264,11 +269,11 @@ where TColor: LLColorType, TType: LLFloatConvertable
         }
         
         // 出力画像のリサイズ
-        let type = LCImageGetType(img_src_)
-        LCImageResizeWithType(img_dst_, dstWidth, dstHeight, type)
+        let type = await LCImageGetType(img_src_)
+        await LCImageResizeWithType(img_dst_, dstWidth, dstHeight, type)
 
-        let mat_src = matrix_getter(img_src_)!
-        let mat_dst = matrix_getter(img_dst_)!
+        let mat_src = await matrix_getter(img_src_)!
+        let mat_dst = await matrix_getter(img_dst_)!
 
         mat_src.withMemoryRebound(to: UnsafeMutablePointer<TColor>.self, capacity: 1) { psrc in
             mat_dst.withMemoryRebound(to: UnsafeMutablePointer<TColor>.self, capacity: 1) { pdst in

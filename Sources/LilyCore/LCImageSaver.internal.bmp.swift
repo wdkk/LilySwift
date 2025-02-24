@@ -23,10 +23,10 @@ struct LLBitmapInfo
 
 public extension LCImageSaverInternal
 {
-    fileprivate func LCImageSaverBitmapHeader( _ img_:LCImageSmPtr, _ bmp_type_:LLImageBitmapInfo ) -> LLBitmapInfo {
+    fileprivate static func LCImageSaverBitmapHeader( _ img_:LCImageSmPtr, _ bmp_type_:LLImageBitmapInfo ) async -> LLBitmapInfo {
         var info = LLBitmapInfo()
-        info.width  = LCImageWidth( img_ )
-        info.height = LCImageHeight( img_ )
+        info.width  = await LCImageWidth( img_ )
+        info.height = await LCImageHeight( img_ )
         
         if bmp_type_ == .bit24 {
             info.mod = (info.width * 3) % 4 != 0 ? 4 - ( (info.width * 3) % 4) : 0
@@ -86,11 +86,11 @@ public extension LCImageSaverInternal
         return info
     }
     
-    func saveBitmap( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr, _ option_:LLImageSaveOption ) -> Bool {
-        let type = LCImageGetType( img_ )
+    static func saveBitmap( _ img_:LCImageSmPtr, _ file_path_:LCStringSmPtr, _ option_:LLImageSaveOption ) async -> Bool {
+        let type = await LCImageGetType( img_ )
 
         // ヘッダデータの内挿とBitmap情報の返却
-        let info = LCImageSaverBitmapHeader( img_, option_.bitmap_info )
+        let info = await LCImageSaverBitmapHeader( img_, option_.bitmap_info )
         // メモリオーバーラン防止のための余剰分確保(CGImageなどとの取り合わせ)
         let buf_offset = info.row_byte * 8    
         let buffer = UnsafeMutablePointer<LLUInt8>.allocate(capacity: info.file_size + buf_offset )
@@ -108,7 +108,7 @@ public extension LCImageSaverInternal
         // 24bit
         if option_.bitmap_info == .bit24 {
             if type == .rgba8 {
-                guard let mat8 = LCImageRGBA8Matrix( img_ ) else { return false }
+                guard let mat8 = await LCImageRGBA8Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let c8 = mat8[y][x]
@@ -120,7 +120,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .rgba16 {
-                guard let mat16 = LCImageRGBA16Matrix( img_ ) else { return false }
+                guard let mat16 = await LCImageRGBA16Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let c8 = LLColor16to8( mat16[y][x] )
@@ -132,7 +132,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .rgbaf {
-                guard let matf = LCImageRGBAfMatrix( img_ ) else { return false }
+                guard let matf = await LCImageRGBAfMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let c8 = LLColorfto8( matf[y][x] )
@@ -144,7 +144,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .grey8 {
-                guard let mat_g8 = LCImageGrey8Matrix( img_ ) else { return false }
+                guard let mat_g8 = await LCImageGrey8Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let c8 = LLGrey8toColor8( mat_g8[y][x] )
@@ -156,7 +156,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .grey16 {
-                guard let mat_g16 = LCImageGrey16Matrix( img_ ) else { return false }
+                guard let mat_g16 = await LCImageGrey16Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let c8 = LLGrey16toColor8( mat_g16[y][x] )
@@ -168,7 +168,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .greyf {
-                guard let mat_gf = LCImageGreyfMatrix( img_ ) else { return false }
+                guard let mat_gf = await LCImageGreyfMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let c8 = LLGreyftoColor8( mat_gf[y][x] )
@@ -180,7 +180,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .hsvf {
-                guard let mat_hsvf = LCImageHSVfMatrix( img_ ) else { return false }
+                guard let mat_hsvf = await LCImageHSVfMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let c8 = LLHSVftoColor8( mat_hsvf[y][x] )
@@ -192,7 +192,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .hsvi {
-                guard let mat_hsvi = LCImageHSViMatrix( img_ ) else { return false }
+                guard let mat_hsvi = await LCImageHSViMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let c8 = LLHSVitoColor8( mat_hsvi[y][x] )
@@ -207,7 +207,7 @@ public extension LCImageSaverInternal
         // 32bit
         else if option_.bitmap_info == .bit32 {
             if type == .rgba8 {
-                guard let mat8 = LCImageRGBA8Matrix( img_ ) else { return false }
+                guard let mat8 = await LCImageRGBA8Matrix( img_ ) else { return false }
                 // 透明部の補完カラー
                 let bc = LLColor8Make( LLColor8_MaxValue, LLColor8_MaxValue, LLColor8_MaxValue, LLColor8_MaxValue )
                 for y in 0 ..< hgt {
@@ -228,7 +228,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .rgba16 {
-                guard let mat16 = LCImageRGBA16Matrix( img_ ) else { return false }
+                guard let mat16 = await LCImageRGBA16Matrix( img_ ) else { return false }
                 // 透明部の補完カラー
                 let bc = LLColor16Make( LLColor16_MaxValue, LLColor16_MaxValue, LLColor16_MaxValue, LLColor16_MaxValue )
                 for y in 0 ..< hgt {
@@ -249,7 +249,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .rgbaf {
-                guard let matf = LCImageRGBAfMatrix( img_ ) else { return false }
+                guard let matf = await LCImageRGBAfMatrix( img_ ) else { return false }
                 // 透明部の補完カラー
                 let bc = LLColorMake( LLColor_MaxValue, LLColor_MaxValue, LLColor_MaxValue, LLColor_MaxValue )
                 for y in 0 ..< hgt {
@@ -270,7 +270,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .grey8 {
-                guard let mat_g8 = LCImageGrey8Matrix( img_ ) else { return false }
+                guard let mat_g8 = await LCImageGrey8Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let pp = p + (x * 4 + (hgt - y - 1) * row)
@@ -283,7 +283,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .grey16 {
-                guard let mat_g16 = LCImageGrey16Matrix( img_ ) else { return false }
+                guard let mat_g16 = await LCImageGrey16Matrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let pp = p + (x * 4 + (hgt - y - 1) * row)
@@ -296,7 +296,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .greyf {
-                guard let mat_gf = LCImageGreyfMatrix( img_ ) else { return false }
+                guard let mat_gf = await LCImageGreyfMatrix( img_ ) else { return false }
                 for y in 0 ..< hgt {
                     for x in 0 ..< wid {
                         let pp = p + (x * 4 + (hgt - y - 1) * row)
@@ -309,7 +309,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .hsvf {
-                guard let mat_hsvf = LCImageHSVfMatrix( img_ ) else { return false }
+                guard let mat_hsvf = await LCImageHSVfMatrix( img_ ) else { return false }
                 // 透明部の補完カラー
                 let bc = LLColorMake( LLColor_MaxValue, LLColor_MaxValue, LLColor_MaxValue, LLColor_MaxValue )
                 for y in 0 ..< hgt {
@@ -330,7 +330,7 @@ public extension LCImageSaverInternal
                 }
             }
             else if type == .hsvi {
-                guard let mat_hsvi = LCImageHSViMatrix( img_ ) else { return false }
+                guard let mat_hsvi = await LCImageHSViMatrix( img_ ) else { return false }
                 // 透明部の補完カラー
                 let bc = LLColorMake( LLColor_MaxValue, LLColor_MaxValue, LLColor_MaxValue, LLColor_MaxValue )
                 for y in 0 ..< hgt {

@@ -89,11 +89,12 @@ extension Lily.Metal
             device:MTLDevice, 
             llImage img:LLImage
         ) 
+        async
         throws
         -> MTLTexture?
         {
-            let reg = MTLRegionMake2D( 0, 0, img.width, img.height )
-            guard let memory = img.memory, 
+            let reg = await MTLRegionMake2D( 0, 0, img.width(), img.height() )
+            guard let memory = await img.memory(), 
                 let pointer = UnsafeRawPointer( memory ) 
             else { 
                 let reason = "メモリが取得できませんでした"
@@ -105,18 +106,22 @@ extension Lily.Metal
                 )
             }
             
-            switch img.type {
+            let wid = await img.width()
+            let hgt = await img.height()
+            let row_bytes = await img.rowBytes()
+            
+            switch await img.type() {
                 case .rgba8:
-                    let tex = allocate( device:device, width:img.width, height:img.height )
-                    tex?.replace( region: reg, mipmapLevel:0, withBytes: pointer, bytesPerRow: img.rowBytes )
+                    let tex = allocate( device:device, width:wid, height:hgt )
+                    tex?.replace( region: reg, mipmapLevel:0, withBytes: pointer, bytesPerRow: row_bytes )
                     return tex
                 case .rgba16:
-                    let tex = allocate( device:device, width:img.width, height:img.height, pixelFormat:.rgba16Unorm )
-                    tex?.replace( region: reg, mipmapLevel:0, withBytes: pointer, bytesPerRow: img.rowBytes )
+                    let tex = allocate( device:device, width:wid, height:hgt, pixelFormat:.rgba16Unorm )
+                    tex?.replace( region: reg, mipmapLevel:0, withBytes: pointer, bytesPerRow: row_bytes )
                     return tex
                 case .rgbaf:
-                    let tex = allocate( device:device, width:img.width, height:img.height, pixelFormat:.rgba32Float )
-                    tex?.replace( region: reg, mipmapLevel:0, withBytes: pointer, bytesPerRow: img.rowBytes )
+                    let tex = allocate( device:device, width:wid, height:hgt, pixelFormat:.rgba32Float )
+                    tex?.replace( region: reg, mipmapLevel:0, withBytes: pointer, bytesPerRow: row_bytes )
                     return tex
                 default:
                     let reason = "未対応のLLImageの形式です." 

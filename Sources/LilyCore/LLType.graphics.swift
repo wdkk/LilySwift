@@ -12,7 +12,7 @@ import Foundation
 
 /// 画像データ形式
 /// - LCImage(LLImage)の画像データ形式を示す列挙子
-public enum LLImageType : Int
+public enum LLImageType : Int, Sendable
 {
     case none = 0    /// 不明な型
     case grey8 = 1   /// グレースケール 1チャンネル x unsigned int 8bit
@@ -27,7 +27,7 @@ public enum LLImageType : Int
 
 /// 画像読み込み形式
 /// - 読み込みを行う画像形式の指定に用いる
-public enum LLImageLoadType : Int
+public enum LLImageLoadType : Int, Sendable
 {
     case auto = 0       /// 自動. 拡張子で判断がなされる
     case png = 1        /// PNG形式
@@ -40,7 +40,7 @@ public enum LLImageLoadType : Int
 
 /// 画像保存形式
 /// - 保存をを行う際の画像形式の指定に用いる
-public enum LLImageSaveType : Int
+public enum LLImageSaveType : Int, Sendable
 {
     case auto = 0       /// 自動. 主にpng形式で保存される
     case png = 1        /// PNG形式
@@ -54,7 +54,7 @@ public enum LLImageSaveType : Int
     
 /// Tiff形式の情報
 /// - Tiff形式に保存を行う時などに用いる設定
-public enum LLImageTiffInfo : Int
+public enum LLImageTiffInfo : Int, Sendable
 {
     case none = 0   /// 無圧縮
     case lzw = 1    /// ランレングス圧縮
@@ -62,7 +62,7 @@ public enum LLImageTiffInfo : Int
 
 /// Bitmap形式の情報
 /// - Bitmap形式に保存を行う時などに用いる設定
-public enum LLImageBitmapInfo : Int
+public enum LLImageBitmapInfo : Int, Sendable
 {
     case bit24 = 0   /// 24bit形式    
     case bit32 = 1   /// 32bit形式
@@ -70,7 +70,7 @@ public enum LLImageBitmapInfo : Int
 
 /// Targa形式の情報
 /// - Targa形式に保存を行う時などに用いる設定
-public enum LLImageTargaInfo : Int
+public enum LLImageTargaInfo : Int, Sendable
 {
     case bit24 = 0    /// 24bit形式
     case bit32 = 1    /// 32bit形式
@@ -78,7 +78,7 @@ public enum LLImageTargaInfo : Int
 
 /// 色深度
 /// - 色深度を表す値
-public enum LLColorDepth : Int
+public enum LLColorDepth : Int, Sendable
 {
     case uint8 = 0    /// 符号無し整数8bit
     case uint16 = 1   /// 符号無し整数16bit
@@ -86,7 +86,7 @@ public enum LLColorDepth : Int
 
 /// 画像読み込み時のオプション
 /// - 画像読み込み時に指定するオプション群
-public struct LLImageLoadOption
+public struct LLImageLoadOption : Sendable
 {
     public var type:LLImageLoadType    /// 読み込み形式
     // TODO: 16bitImageへのメモリマップも視野に
@@ -95,7 +95,7 @@ public struct LLImageLoadOption
     
 /// 画像保存時のオプション
 /// - 画像保存時に指定するオプション群
-public struct LLImageSaveOption
+public struct LLImageSaveOption : Sendable
 {
     public var type:LLImageSaveType = .auto           /// 書き出しする画像形式
     public var jpeg_quality:LLFloat = 0.85            /// JPEG保存時の品質( 低品質:0.0 ~ 最高品質:1.0, 標準:0.85 )

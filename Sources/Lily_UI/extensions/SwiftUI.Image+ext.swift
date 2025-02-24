@@ -10,14 +10,13 @@
 
 import SwiftUI
 
-
 extension SwiftUI.Image
 {
-    public init( llImage:LLImage ) {
+    nonisolated public init( llImage:LLImage ) {
         #if os(macOS)
-        self.init( nsImage:llImage.nsImage! )
+        await self.init( nsImage:llImage.nsImage()! )
         #else
-        self.init( uiImage:llImage.uiImage! )
+        await self.init( uiImage:llImage.uiImage()! )
         #endif
     }
 }

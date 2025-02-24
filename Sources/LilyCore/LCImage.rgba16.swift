@@ -10,7 +10,7 @@
 
 import Foundation
 
-public class LCImageRGBA16 : LCImageGenericRaw<LLColor16>
+public class LCImageRGBA16 : LCImageGenericRaw<LLColor16>, @unchecked Sendable
 {    
     public override func requestFunctionOfConvertRawColorFrom() -> ConvertFromFunc? { return LLColor16tof }
     public override func requestFunctionOfConvertRawColorTo() -> ConvertToFunc? { return LLColorfto16 }

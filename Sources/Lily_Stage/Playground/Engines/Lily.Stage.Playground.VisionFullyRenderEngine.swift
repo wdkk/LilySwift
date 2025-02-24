@@ -42,7 +42,7 @@ extension Lily.Stage.Playground
     }
     
     open class VisionFullyRenderEngine 
-    : BaseRenderEngine
+    : BaseRenderEngine, @unchecked Sendable
     {
         let maxBuffersInFlight:Int
         lazy var inFlightSemaphore = DispatchSemaphore( value:maxBuffersInFlight )
@@ -92,24 +92,26 @@ extension Lily.Stage.Playground
         
         private var _setup_once = false
         
-        public func startRenderLoop() {
-            Task {
-                do {
-                    try await arSession.run( [worldTracking] )
-                } 
-                catch {
-                    fatalError("Failed to initialize ARSession")
-                }
-                
-                let renderThread = Thread {
-                    self._setup_once = false
-                    self.renderLoop() 
-                }
-                renderThread.name = "Render Thread"
-                renderThread.start()
+        public func startRenderLoop() async {
+            do {
+                try await arSession.run( [worldTracking] )
+            } 
+            catch {
+                fatalError("Failed to initialize ARSession")
             }
+            
+            let renderThread = Thread { [weak self] in
+                self?._setup_once = false
+                Task { @MainActor in
+                    self?.renderLoop() 
+                }
+            }
+            renderThread.name = "Render Thread"
+            renderThread.start()
+        
         }
         
+        @MainActor
         public func renderLoop() {
             while true {
                 if layerRenderer.state == .invalidated {
@@ -138,6 +140,7 @@ extension Lily.Stage.Playground
             }
         }
         
+        @MainActor
         public func changeScreenSize( size:CGSize ) {
             screenSize = size.llSizeFloat
             renderFlows.forEach { $0?.changeSize( scaledSize:size ) }
@@ -268,6 +271,7 @@ extension Lily.Stage.Playground
             }
         }
         
+        @MainActor
         public func prepare() {
             guard let frame = layerRenderer.queryNextFrame() else { return }
             
@@ -288,7 +292,7 @@ extension Lily.Stage.Playground
             frame.endSubmission()
         }
         
-        public func update(
+        @MainActor public func update(
             completion:(( MTLCommandBuffer? ) -> ())? = nil
         )
         {
