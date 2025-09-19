@@ -134,7 +134,10 @@ extension Lily.Stage.Playground
             
             guard let commandBuffer = commandQueue?.makeCommandBuffer() else { return }
             commandBuffer.label = "Frame Command Buffer"
-            commandBuffer.addCompletedHandler { [weak self] _ in self?.inFlightSemaphore.signal() }
+            let semaphore = inFlightSemaphore
+            commandBuffer.addCompletedHandler { [semaphore] _ in
+                semaphore.signal()
+            }
             
             // 今の画面サイズで再生成する
             changeScreenSize( size:screenSize.cgSize )
@@ -184,3 +187,4 @@ extension Lily.Stage.Playground
 }    
 
 #endif
+

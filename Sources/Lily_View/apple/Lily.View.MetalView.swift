@@ -18,7 +18,7 @@ extension Lily.View
     open class MetalView
     : BaseView
     {
-        public private(set) lazy var metalLayer = CAMetalLayer()
+        nonisolated(unsafe) public let metalLayer = CAMetalLayer()
         
         public let device:MTLDevice
         public private(set) var lastDrawable:CAMetalDrawable?
@@ -26,37 +26,31 @@ extension Lily.View
         
         public var drawMetalField:DrawField?
         
+        private func redraw() {
+            Task { @MainActor in
+                CATransaction.stop {
+                    metalLayer.drawableSize = self.scaledBounds.size
+                    metalLayer.frame = self.bounds
+                    updateDepthTexture(
+                        device: device,
+                        width: self.scaledBounds.width.i!,
+                        height: self.scaledBounds.height.i!
+                    )
+                }
+            }
+        }
+        
         open override var bounds:CGRect { 
             didSet {
                 if bounds.width == 0 || bounds.height == 0 { return }
-                Task { @MainActor in
-                    CATransaction.stop {
-                        metalLayer.drawableSize = self.scaledBounds.size
-                        metalLayer.frame = self.bounds
-                        updateDepthTexture(
-                            device: device, 
-                            width: self.scaledBounds.width.i!,
-                            height: self.scaledBounds.height.i! 
-                        )
-                    }
-                }
+                redraw()
             }
         }
         
         open override var frame:CGRect { 
             didSet {
                 if bounds.width == 0 || bounds.height == 0 { return }
-                Task { @MainActor in
-                    CATransaction.stop {
-                        metalLayer.drawableSize = self.scaledBounds.size
-                        metalLayer.frame = self.bounds
-                        updateDepthTexture(
-                            device: device, 
-                            width: self.scaledBounds.width.i!,
-                            height: self.scaledBounds.height.i! 
-                        )
-                    }
-                }
+                redraw()
             } 
         }
         
@@ -223,3 +217,4 @@ extension Lily.View.MetalView
 }
   
 #endif
+

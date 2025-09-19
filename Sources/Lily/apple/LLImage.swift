@@ -297,10 +297,10 @@ extension LLImage : @unchecked Sendable
         let sz  = LLSizeInt( wid, hgt ) 
 
         // 範囲指定
-        var sx = LLWithin( min:0, region?.left.i ?? 0, max: wid )
-        var ex = LLWithin( min:0, region?.right.i ?? wid, max: wid )
-        var sy = LLWithin( min:0, region?.top.i ?? 0, max: hgt )
-        var ey = LLWithin( min:0, region?.bottom.i ?? hgt, max: hgt )
+        let sx = LLWithin( min:0, region?.left.i ?? 0, max: wid )
+        let ex = LLWithin( min:0, region?.right.i ?? wid, max: wid )
+        let sy = LLWithin( min:0, region?.top.i ?? 0, max: hgt )
+        let ey = LLWithin( min:0, region?.bottom.i ?? hgt, max: hgt )
         
         if ex - sx < 1 || ey - sy < 1 { return self }
         

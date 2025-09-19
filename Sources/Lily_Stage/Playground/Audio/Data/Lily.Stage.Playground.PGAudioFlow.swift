@@ -19,7 +19,7 @@ import AVFoundation
 
 extension Lily.Stage.Playground
 {
-    open class PGAudioFlow
+    open class PGAudioFlow : @unchecked Sendable
     {
         weak var engine:AVAudioEngine?
         public let player = AVAudioPlayerNode()
@@ -38,7 +38,7 @@ extension Lily.Stage.Playground
             audioFile:AVAudioFile, 
             from:Double? = nil,
             to:Double? = nil, 
-            completion:(()->())? = nil 
+            completion:@Sendable @escaping ()->() = {}
         ) 
         {
             let rate = audioFile.processingFormat.sampleRate
@@ -54,7 +54,7 @@ extension Lily.Stage.Playground
             audioFile:AVAudioFile, 
             startFrame: AVAudioFramePosition,
             frameCount: AVAudioFrameCount,
-            completion:(()->())? = nil
+            completion: @Sendable @escaping ()->() = {}
         ) 
         {
             player.scheduleSegment( 
@@ -71,7 +71,7 @@ extension Lily.Stage.Playground
                 else {
                     self?.isPlaying = false
                     // リピートしない場合終了処理を入れる
-                    completion?()
+                    completion()
                 }
             }
         }

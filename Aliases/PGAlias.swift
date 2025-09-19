@@ -12,7 +12,9 @@
 // LilySwift利用時のエイリアスサポートをする
 // PlaygroundリポジトリではLilySwiftForPlayground置き換わる
 // Booksではimportが消えて同一モジュールとなる
+#if !os(visionOS)
 import LilySwift
+#endif
 
 public typealias PG = Lily.Stage.Playground
 public typealias PGScreen = PG.PGScreen

@@ -92,6 +92,7 @@ extension Lily.Stage.Playground
         
         private var _setup_once = false
         
+        @MainActor
         public func startRenderLoop() {
             Task {
                 do {
@@ -110,6 +111,7 @@ extension Lily.Stage.Playground
             }
         }
         
+        @MainActor
         public func renderLoop() {
             while true {
                 if layerRenderer.state == .invalidated {
@@ -138,6 +140,7 @@ extension Lily.Stage.Playground
             }
         }
         
+        @MainActor
         public func changeScreenSize( size:CGSize ) {
             screenSize = size.llSizeFloat
             renderFlows.forEach { $0?.changeSize( scaledSize:size ) }
@@ -268,6 +271,7 @@ extension Lily.Stage.Playground
             }
         }
         
+        @MainActor
         public func prepare() {
             guard let frame = layerRenderer.queryNextFrame() else { return }
             
@@ -288,6 +292,7 @@ extension Lily.Stage.Playground
             frame.endSubmission()
         }
         
+        @MainActor
         public func update(
             completion:(( MTLCommandBuffer? ) -> ())? = nil
         )

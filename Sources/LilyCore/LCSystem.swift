@@ -68,7 +68,6 @@ public func LCSystemGetRetinaScale() -> LLDouble {
     #if os(iOS)
     return LLDouble( UIScreen.main.scale )
     #elseif os(macOS)
-    // TODO: メインスレッド以外で呼ぶと問題があるため修正必要
     guard let scale = NSScreen.main?.backingScaleFactor else { return 1.0 }
     return LLDouble( scale )
     #else
@@ -100,3 +99,4 @@ public func LCSystemWait( _ milli_second:Int ) {
     let t = LCClockNow()
     while LCClockNow() - t < wait_time { LCSystemSleep( 1 ) }
 }
+

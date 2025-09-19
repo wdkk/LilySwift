@@ -19,9 +19,9 @@ import AVFoundation
 
 extension Lily.Stage.Playground
 {
-    public class PGAudioPool
+    @MainActor public class PGAudioPool
     {
-        nonisolated(unsafe) public static let shared:PGAudioPool = .init()
+        public static var shared: PGAudioPool = PGAudioPool()
         private init() {}
         
         private var soundGroup:[PGAudioStorage:Set<PGSound>] = [:]
@@ -57,3 +57,4 @@ extension Lily.Stage.Playground
 }
 
 #endif
+

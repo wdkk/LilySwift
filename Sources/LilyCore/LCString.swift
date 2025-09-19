@@ -484,7 +484,7 @@ public func LCStringUppercased( _ src_:LCStringSmPtr ) -> LCStringSmPtr {
 ///   - src_: 対象の文字列
 ///   - attr_: フォント属性
 /// - Returns: ピクセルサイズ
-nonisolated(unsafe)
+nonisolated
 public func LCStringPixelSize( _ src_:LCStringSmPtr, _ attr_:LCTextAttributeSmPtr ) async -> LLSize {
     let family = String( LCTextAttributeFace( attr_ ) )
     let str = String( src_ )

@@ -69,7 +69,7 @@ extension Lily.Stage.Playground
             name:String,
             startTime:Double? = nil,
             endTime:Double? = nil,
-            completion:(()->())? = nil
+            completion:(@escaping @Sendable ()->()) = {}
         ) 
         -> Int
         {
@@ -95,7 +95,7 @@ extension Lily.Stage.Playground
             systemSound:String,
             startTime:Double? = nil,
             endTime:Double? = nil,
-            completion:(()->())? = nil
+            completion:(@escaping @Sendable ()->()) = {}
         ) 
         -> Int
         {

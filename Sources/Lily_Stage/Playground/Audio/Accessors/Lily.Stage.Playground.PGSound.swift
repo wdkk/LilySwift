@@ -19,7 +19,7 @@ import AVFoundation
 
 extension Lily.Stage.Playground
 {
-    public class PGSound : Hashable
+    @MainActor public class PGSound :@MainActor Hashable
     {
         public static func == ( lhs:PGSound, rhs:PGSound ) -> Bool { lhs === rhs }
         public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
@@ -68,8 +68,9 @@ extension Lily.Stage.Playground
                 startTime:startTime,
                 endTime:endTime,
                 completion: { [weak self] in
-                    self?.appearCompletion()
-                    self?.trush()
+                    guard let strongSelf = self else { return }
+                    strongSelf.appearCompletionNonisolated()
+                    strongSelf.trushNonisolated()
                 }
             ) ?? -1
             
@@ -95,8 +96,9 @@ extension Lily.Stage.Playground
                 startTime:startTime,
                 endTime:endTime,
                 completion: { [weak self] in
-                    self?.appearCompletion()
-                    self?.trush()
+                    guard let strongSelf = self else { return }
+                    strongSelf.appearCompletionNonisolated()
+                    strongSelf.trushNonisolated()
                 }
             ) ?? -1
                         
@@ -142,6 +144,19 @@ extension Lily.Stage.Playground
             self.completionField?.appear()
         }
         
+        // Nonisolated helpers to be used from @Sendable closures
+        nonisolated func appearCompletionNonisolated() {
+            Task { @MainActor [weak self] in
+                self?.appearCompletion()
+            }
+        }
+        
+        nonisolated func trushNonisolated() {
+            Task { @MainActor [weak self] in
+                self?.trush()
+            }
+        }
+        
         ////
         
         public var isRepeating:Bool { flow?.isRepeating ?? false }
@@ -185,3 +200,4 @@ extension Lily.Stage.Playground
 }
 
 #endif
+

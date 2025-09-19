@@ -42,6 +42,7 @@ public protocol LLUIRectControllable
     var scaledBounds:CGRect { get }
 }
 
+@MainActor
 public extension LLUIRectControllable
 {
     var rect:LLRect {

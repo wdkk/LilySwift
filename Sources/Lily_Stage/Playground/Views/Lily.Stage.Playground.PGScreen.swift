@@ -22,6 +22,7 @@ import UIKit
 
 extension Lily.Stage.Playground
 { 
+    @MainActor
     open class PGScreen
     : Lily.View.ViewController
     , Lily_Stage_Playground_PGSceneProtocol
