@@ -19,11 +19,10 @@ import AVFoundation
 
 extension Lily.Stage.Playground
 {
-    @MainActor public class PGSound :@MainActor Hashable
+    @MainActor 
+    public class PGSound
     {
-        public static func == ( lhs:PGSound, rhs:PGSound ) -> Bool { lhs === rhs }
-        public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
-            
+        public let id = UUID()
         public let storage:PGAudioStorage?
         public private(set) var channel:Int = -1
         
@@ -198,6 +197,17 @@ extension Lily.Stage.Playground
         }         
     }
 }
+
+extension Lily.Stage.Playground.PGSound : Equatable {
+    nonisolated public static func == ( 
+        lhs:Lily.Stage.Playground.PGSound, rhs:Lily.Stage.Playground.PGSound
+    ) -> Bool { lhs.id == rhs.id }
+}
+
+extension Lily.Stage.Playground.PGSound : Hashable {
+    nonisolated public func hash(into hasher: inout Hasher) { ObjectIdentifier( self ).hash( into: &hasher ) }
+}
+
 
 #endif
 
